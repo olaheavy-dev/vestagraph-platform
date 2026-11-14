@@ -171,3 +171,55 @@ def test_validate_instance_sample_priorities_non_ascii_digit_limit_is_rejected()
 
     problems = validate_instance({"priorities": [priority]}, schema, schema_directory())
     assert mentions(problems, "value")
+
+
+# Flood risk by postcode is published counts per likelihood category and property type, never a
+# single verdict (DA-16, final review item 3).
+def _flood_risk_item() -> Json:
+    item = _valid_item()
+    item["id"] = "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1"
+    item["topic"] = "flood-risk-postcode"
+    item["value"] = {
+        "source": "Rivers and sea (synthetic example)",
+        "counts": [
+            {
+                "category": "Medium (to confirm from the download)",
+                "propertyType": "residential (to confirm from the download)",
+                "properties": 6,
+            }
+        ],
+    }
+    item["level"] = {"kind": "postcode"}
+    return item
+
+
+def test_validate_instance_postcode_area_flood_risk_counts_are_accepted() -> None:
+    assert _problems(_flood_risk_item()) == []
+
+
+def test_validate_instance_postcode_area_flood_risk_yes_no_field_is_rejected() -> None:
+    item = _flood_risk_item()
+    item["value"]["inAreaAtRisk"] = True
+
+    assert mentions(_problems(item), "inAreaAtRisk")
+
+
+def test_validate_instance_postcode_area_flood_risk_single_band_is_rejected() -> None:
+    item = _flood_risk_item()
+    item["value"]["publishedBand"] = "Medium"
+
+    assert mentions(_problems(item), "publishedBand")
+
+
+def test_validate_instance_postcode_area_flood_risk_without_counts_is_rejected() -> None:
+    item = _flood_risk_item()
+    del item["value"]["counts"]
+
+    assert mentions(_problems(item), "counts")
+
+
+def test_validate_instance_postcode_area_flood_risk_decimal_count_is_rejected() -> None:
+    item = _flood_risk_item()
+    item["value"]["counts"][0]["properties"] = 6.5
+
+    assert mentions(_problems(item), "properties")

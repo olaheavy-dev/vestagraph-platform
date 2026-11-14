@@ -878,24 +878,44 @@
       "postcode": "NB1 4XY",
       "topic": "flood-risk-postcode",
       "status": "recorded",
-      "label": "Postcode in an area at flood risk: rivers and sea (synthetic)",
+      "label": "Properties by flood risk category, this postcode (synthetic)",
       "value": {
         "source": "Rivers and sea (synthetic example)",
-        "inAreaAtRisk": true,
-        "publishedBand": "Medium (to confirm from the download)"
+        "counts": [
+          {
+            "category": "Medium (to confirm from the download)",
+            "propertyType": "residential (to confirm from the download)",
+            "properties": 6
+          },
+          {
+            "category": "Low (to confirm from the download)",
+            "propertyType": "residential (to confirm from the download)",
+            "properties": 11
+          },
+          {
+            "category": "Low (to confirm from the download)",
+            "propertyType": "non-residential (to confirm from the download)",
+            "properties": 2
+          },
+          {
+            "category": "Very low (to confirm from the download)",
+            "propertyType": "residential (to confirm from the download)",
+            "properties": 4
+          }
+        ]
       },
       "level": {
         "kind": "postcode"
       },
       "coverage": "England only",
-      "doesNotEstablish": "A postcode list is not a property-level result. It does not establish whether this home floods, and each flood type is kept separate.",
+      "doesNotEstablish": "Published counts of properties per likelihood category are not a property-level result and not one verdict for the postcode. They do not establish whether this home floods, and each flood type is kept separate.",
       "source": {
         "origin": "official-dataset",
         "label": "Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download",
         "date": "2026-10-23",
         "synthetic": true
       },
-      "note": "The band name is to be confirmed from the real download before any live use."
+      "note": "The category and property type names are to be confirmed from the real download before any live use."
     },
     {
       "id": "NB1-4XY-AREA-DEPRIVATION-RANK-1",

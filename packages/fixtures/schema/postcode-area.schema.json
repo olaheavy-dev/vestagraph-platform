@@ -887,10 +887,10 @@
     },
     "floodRiskPostcodeValue": {
       "type": "object",
-      "description": "Whether the postcode appears in the published postcodes-in-areas-at-risk dataset, with the published band. A postcode list is not a property-level result.",
+      "description": "The published counts of properties in this postcode at risk of flooding from one source, by likelihood category and property type (DA-16), shown as published and never as a single verdict or a yes/no. Category and property type names are as published (to confirm from the download). A postcode breakdown is not a property-level result.",
       "required": [
         "source",
-        "inAreaAtRisk"
+        "counts"
       ],
       "additionalProperties": false,
       "properties": {
@@ -899,34 +899,37 @@
           "minLength": 1,
           "description": "Which flood source the dataset row is for, as published."
         },
-        "inAreaAtRisk": {
-          "type": "boolean"
-        },
-        "publishedBand": {
-          "type": "string",
-          "minLength": 1,
-          "description": "The band name as published; only when inAreaAtRisk is true."
-        }
-      },
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "inAreaAtRisk": {
-                "const": false
-              }
-            },
+        "counts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
             "required": [
-              "inAreaAtRisk"
-            ]
-          },
-          "then": {
+              "category",
+              "propertyType",
+              "properties"
+            ],
+            "additionalProperties": false,
             "properties": {
-              "publishedBand": false
+              "category": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The likelihood category as published."
+              },
+              "propertyType": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The property type as published."
+              },
+              "properties": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "The published number of properties: an input, never calculated."
+              }
             }
           }
         }
-      ]
+      }
     },
     "schoolDemandValue": {
       "type": "object",
