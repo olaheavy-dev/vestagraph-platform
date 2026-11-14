@@ -42,7 +42,7 @@
           },
           {
             "topicKey": "everyday-places",
-            "text": "Ask the place directly whether it is accepting new registrations."
+            "text": "If you need a GP surgery, dentist or childcare provider, ask whether it is taking new registrations."
           },
           {
             "topicKey": "places-of-worship",
@@ -134,19 +134,15 @@
           },
           {
             "topicKey": "council-tax-by-band",
-            "text": "Ask for the latest council tax bill for the home."
-          },
-          {
-            "topicKey": "council-tax-by-band",
-            "text": "Check the band on the official council tax band page for the address."
+            "text": "Look at the council's own council tax page for this year's charge for each band, including any parish or town council charge."
           },
           {
             "topicKey": "housing-affordability",
-            "text": "Compare a few listings on the same street and nearby streets."
+            "text": "Compare the home's monthly cost with your own income."
           },
           {
             "topicKey": "housing-affordability",
-            "text": "Ask the agent how long similar homes have been for sale."
+            "text": "Look at what similar homes nearby cost to buy or rent."
           },
           {
             "topicKey": "deprivation",
@@ -517,7 +513,7 @@
           },
           {
             "recordId": "NB7-1RR-AREA-AFFORDABILITY-1",
-            "text": "How does the price of the home compare with similar homes sold recently?"
+            "text": "How do house prices here compare with what people earn locally, and how has that changed?"
           },
           {
             "recordId": "NB7-1RR-AREA-TRANSPORT-CONNECTIVITY-1",
@@ -551,7 +547,7 @@
           },
           {
             "topicKey": "everyday-places",
-            "text": "Ask the place directly whether it is accepting new registrations."
+            "text": "If you need a GP surgery, dentist or childcare provider, ask whether it is taking new registrations."
           },
           {
             "topicKey": "places-of-worship",
@@ -643,19 +639,15 @@
           },
           {
             "topicKey": "council-tax-by-band",
-            "text": "Ask for the latest council tax bill for the home."
-          },
-          {
-            "topicKey": "council-tax-by-band",
-            "text": "Check the band on the official council tax band page for the address."
+            "text": "Look at the council's own council tax page for this year's charge for each band, including any parish or town council charge."
           },
           {
             "topicKey": "housing-affordability",
-            "text": "Compare a few listings on the same street and nearby streets."
+            "text": "Compare the home's monthly cost with your own income."
           },
           {
             "topicKey": "housing-affordability",
-            "text": "Ask the agent how long similar homes have been for sale."
+            "text": "Look at what similar homes nearby cost to buy or rent."
           },
           {
             "topicKey": "deprivation",

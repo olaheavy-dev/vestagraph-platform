@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://vestagraph.invalid/schema/pilot-topics.schema.json",
   "title": "Pilot topic registry (data/pilot-topics.json)",
-  "description": "The pilot's area topics in display order: how each reads the postcode records, its draft gap-question template and check-in-person list. Each record belongs to exactly one counted topic; a grouping that reuses other topics' records has counted false and is never in the counts. Templates and lists are drafts until the founder reviews them. No figures live here.",
+  "description": "The pilot's area topics in display order: how each reads the postcode records, its gap-question template and check-in-person list, each with a reviewStatus. Each record belongs to exactly one counted topic; a grouping that reuses other topics' records has counted false and is never in the counts. Templates and lists stay draft until the founder reviews them (all reviewed on 14 Nov 2026, FE-39). No figures live here.",
   "type": "object",
   "required": [
     "nation",
@@ -105,7 +105,7 @@
         },
         "checkInPerson": {
           "type": "array",
-          "minItems": 2,
+          "minItems": 1,
           "maxItems": 4,
           "items": {
             "type": "string",
