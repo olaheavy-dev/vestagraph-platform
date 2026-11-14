@@ -97,8 +97,8 @@ Feature: Landing
 
   # Added 14 Nov 2026 (FE-34, FE-36): the showcase's fourth callout points to the page-level section.
   # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)"): the callout points to the short note at the bottom of every result, with the full method and limits on About the data.
-  @ui
   # Approved 14 Nov 2026: the founder kept the callout 4 wording (prompt window: "Keep it (Recommended)").
+  @ui
   Scenario: LAND-13 the "How to read a result" showcase explains where "How we got this" is
     Given the user is not signed in
     When the user views "How to read a result"

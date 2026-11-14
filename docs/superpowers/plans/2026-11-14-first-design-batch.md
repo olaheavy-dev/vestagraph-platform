@@ -161,6 +161,7 @@ Board values come only from `area-result.json` and `postcode-area.json` (quote, 
 
 ### Task 10: Canvas, priorities and topic boards (light)
 - [ ] Priorities sheet (phone) and panel (desktop, FE-26 one at a time): ready-made limits with editable numbers and units, validation message example, the three outcomes from `area-result.json` priorities, "Checking your priorities…", "Couldn't check this · Try again", "Not known beyond 5 km".
+  - *As drawn and decided, 14 Nov 2026: the visitor sees "Not known beyond 3.1 miles" (founder: "Use miles (Recommended)", FE-40); the stored limit stays 5,000 m. The engine outcome `not-known-beyond-search` is unchanged.*
 - [ ] Topic sheet (phone) and panel (desktop) for Schools, Recorded crime, Deprivation, Flood, in the anatomy order of the spec; Flood has no map (FE-25); deprivation text in the fact's own words (DA-17); Escape and focus notes on the board.
 
 ### Task 11: Canvas, How we got this, About the data, states, display (light)
