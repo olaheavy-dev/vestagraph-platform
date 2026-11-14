@@ -10,7 +10,9 @@ Feature: Priorities (what matters to you, on an area result)
     is listed on its own as meets, misses, not known or not known beyond the search (FE-22, FE-40). The
     result works fully without priorities; they are never a step before it (FE-40).
   Rule 2: no distance, time or count is typed in a scenario; the page quotes the nearest recorded distance
-    and the search limit from `area-result.json` and the tested distance rule (FE-27), and the data
+    from `area-result.json`; the search limit is `SEARCH_LIMIT_METRES` in
+    `packages/vestagraph-area/src/vestagraph_area/priorities.py`, shown in the display unit by
+    `vestagraph_area.distance.display_distance` (FE-27, FE-40); and the data
     scenarios check outcomes by postcode, priority ID and record ID.
   Rule 7: a gap is never a miss. A source that says "no record in this source" gives Not known; only a
     place that is recorded but beyond the limit gives Misses, and a missing walking time gives Not known,
@@ -27,7 +29,8 @@ Feature: Priorities (what matters to you, on an area result)
     invalid limit, empty or not a number -> PRIO-07
     the ready-made limits and one panel at a time -> PRIO-06, PRIO-13
     no total, count or ranking -> PRIO-08
-    privacy of the limits -> PRIO-12, PRIO-15, PRIO-16
+    not known on the page, never a miss -> PRIO-18
+    privacy of the limits -> PRIO-12, PRIO-15, PRIO-16, PRIO-17, PRIO-19
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY)
   Scenario: PRIO-01 the GP limit is met in the normal sample postcode
@@ -91,7 +94,7 @@ Feature: Priorities (what matters to you, on an area result)
   Scenario: PRIO-10 a limit past the search says so
     Given the visitor sets a limit beyond the search distance
     When the result is shown
-    Then it reads "Not known beyond 3.1 miles"
+    Then it reads "Not known beyond 3.1 miles" (the label FE-40 fixes; the distance is `SEARCH_LIMIT_METRES` shown by `display_distance`, never typed on the page)
     And it does not read as a miss or as met (FE-40)
 
   @ui
@@ -122,13 +125,32 @@ Feature: Priorities (what matters to you, on an area result)
     And it is never shown as a miss
 
   @ui
-  Scenario: PRIO-15 remembering limits stays in the browser and is off by default
+  Scenario: PRIO-15 remembering limits is off by default
     Given the priorities sheet is open
     Then "Remember these on this device" is off by default
-    And when turned on, the limits are kept in the browser only
+
+  @ui
+  Scenario: PRIO-19 remembered limits come back from the browser only
+    Given the visitor turns on "Remember these on this device"
+    When the visitor returns on a later visit
+    Then the limits come back from the browser
+    And they were not sent to be stored (0053)
 
   @ui
   Scenario: PRIO-16 a shared link never carries limits
     Given the visitor has set limits
     When the visitor shares the result link
     Then the link does not carry the limits
+
+  @ui
+  Scenario: PRIO-17 limits travel only in the request body
+    Given the visitor has set limits
+    When the limits are sent to be checked
+    Then they are in the request body only, never in a query string or an address that reaches a log (0053)
+
+  @ui
+  Scenario: PRIO-18 a priority that is not known reads Not known, never a miss
+    Given a priority whose topic has "no record in this source"
+    When the result is shown
+    Then it reads "Not known"
+    And it never reads "Misses your limit" (FE-40, rule 7)

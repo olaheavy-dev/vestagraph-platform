@@ -6,8 +6,9 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     (NB1 4XY normal, NB7 1RR sparse and failed flood); distances and walking times come from
     `packages/fixtures/generated/area-result.json` (the tested `vestagraph_area` package, FE-38);
     figures: none typed here.
-  What it is: one anatomy for four kinds of topic (found with places, found without places, a gap, and
-    route-only). A phone shows it as a bottom sheet, desktop as a panel beside the list in place of the
+  What it is: one anatomy for four kinds of topic (a list of places, figures for an area, an
+    official ranking or standard, and a warning; design spec, "The four kinds"); route-only topics show
+    "Not yet covered" (TOPIC-12). A phone shows it as a bottom sheet, desktop as a panel beside the list in place of the
     map, one at a time (FE-26). Every topic opens in the same order (B29).
   Scenarios are grouped by topic, so IDs are not in numeric order.
   Rule 2: no distance, time, count or date is typed in a scenario; the page quotes values from the records
@@ -17,8 +18,8 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   Required states (design docs/superpowers/specs/2026-11-14-first-design-batch-design.md;
     AGENTS.md rules 2, 4 and 7):
     gap, "no record in this source" with its search distance -> TOPIC-09, TOPIC-10
-    stale record, the date is the fact and stays shown -> TOPIC-05
-    failed copy, copying a topic's link fails -> TOPIC-20
+    stale record, the date is the fact and stays shown, no status word -> TOPIC-05, TOPIC-23
+    failed copy, our stored copy of a source is missing or failed (AREA-07, FE-38) -> TOPIC-25 (TOPIC-20 is withdrawn)
     no map, topics with no places or never mapped -> TOPIC-06, TOPIC-08, TOPIC-19, TOPIC-21, TOPIC-12
     the shared order of every topic -> TOPIC-01
     phone sheet and desktop panel behaviour -> TOPIC-02, TOPIC-03, TOPIC-15, TOPIC-16
@@ -51,14 +52,24 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   @ui
   Scenario: TOPIC-16 the open topic has its own link
     Given a topic is open
-    Then the address of the page names that topic, so the link opens the result with that topic open (B14)
+    Then the "#" part of the address names that topic, as it does the postcode (AREA-03), so the link opens the result with that topic open (B14)
 
-  @ui
+  # Withdrawn: it read "failed copy" as copying a link to the clipboard, which no decision or board designs.
+  # The real state, our stored copy of a source failing, is TOPIC-25. The ID is kept and never reused.
+  @ui @withdrawn
   Scenario: TOPIC-20 a failed copy of the topic link says so
     Given a topic is open
     When the visitor copies the topic's link and the copy fails
     Then a message says the link could not be copied
     And the link is still shown so the visitor can copy it by hand
+
+  @ui
+  Scenario: TOPIC-25 a topic whose stored source copy failed reads Not known right now
+    Given the result for "NB7 1RR" is open
+    When the visitor opens "Flood"
+    Then the facts read "Not known right now"
+    And it says this is not the same as no warning (DA-12)
+    And no warning status from an old copy is shown (AREA-07, FE-38)
 
   @ui
   Scenario: TOPIC-03 on desktop a topic opens as a panel in place of the map
@@ -96,7 +107,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Given the result for "NB1 4XY" is open
     When the visitor opens "Schools"
     Then the inspection date of record "NB1-4XY-AREA-SCHOOL-INSPECTION-1" stays shown as the fact
-    And the record is labelled as stale, not hidden
+    And no status word or badge (such as Old or stale) is shown beside it; the source's date is on About the data (FE-33, FE-35)
 
   @ui
   Scenario: TOPIC-06 Recorded crime shows counts by month and category
@@ -145,10 +156,10 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Then the properties-by-likelihood counts are quoted from record "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1"
 
   @ui
-  Scenario: TOPIC-19 Flood is never shown on a map
+  Scenario: TOPIC-19 Flood shows no map until flood outlines are recorded
     Given the result for "NB1 4XY" is open
     When the visitor opens "Flood"
-    Then no map is shown for the topic (FE-25)
+    Then no map is shown for the topic until flood outlines are recorded (FE-25)
 
   @ui
   Scenario: TOPIC-09 a "no record in this source" gap shows its search distance

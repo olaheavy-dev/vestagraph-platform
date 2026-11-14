@@ -7,7 +7,7 @@ The prototype specification lives here (decision [0043](../decisions/0043-specif
 |---|---|---|
 | `screens/NN-<screen>.feature` | One feature per screen in doc 03 §5, numbered in that order (for example `05-real-costs.feature`); 14 screens, with Check an area (decision 0046) appended as `14-check-an-area.feature` so earlier numbers and IDs never move | #68 |
 | `pilot/<feature>.feature` | The pilot's specifications (stage 5b, decisions 0051 and 0052), for example `area-chat.feature`; checked by the pilot gate | #223 and later pilot specifications |
-| `pilot/area-glance.feature`, `area-priorities.feature`, `area-topics.feature`, `area-display.feature` | The first design batch of the area result: At a glance (GLANCE), priorities (PRIO), the topic sheet and panel (TOPIC) and display settings, theme and text size (DISP); its error and edge states are AREA-28 to AREA-36 in `screens/14-check-an-area.feature` | The first design batch's specifications |
+| `pilot/area-glance.feature`, `area-priorities.feature`, `area-topics.feature`, `area-display.feature`, `area-map.feature` | The first design batch of the area result: At a glance (GLANCE), priorities (PRIO), the topic sheet and panel (TOPIC) and display settings, theme and text size (DISP) and the maps' behaviour (MAP); its error and edge states are AREA-28 to AREA-36 in `screens/14-check-an-area.feature` | — |
 | `stories/buyer.feature`, `stories/renter.feature` | The step-by-step story scripts | #69, #70 |
 | `mcp-tools.feature` | The MCP tool surface for AI assistants | #117 |
 
@@ -20,7 +20,8 @@ The design skills' working notes in `.design/<feature>/` (decision 0031) feed th
    - A scenario that is no longer needed stays in the file, tagged `@withdrawn`.
 3. **Figures are cited by ID, in quotes, never typed** (AGENTS.md rule 2):
    - inputs by evidence ID from `packages/fixtures/data/`;
-   - calculated values by figure ID from `packages/fixtures/generated/costs.json`.
+   - calculated values by figure ID from `packages/fixtures/generated/costs.json`;
+   - area results by postcode and topic, priority or record ID from `packages/fixtures/generated/area-result.json`; the search distance from `SEARCH_LIMIT_METRES` (`packages/vestagraph-area/src/vestagraph_area/priorities.py`) shown by `vestagraph_area.distance.display_distance`.
 
    A value the engine does not produce is written "not calculated". Missing and partial states are named explicitly, and missing is never shown as £0 (rule 7).
 4. **Required states:** each feature's description maps every required state from doc 03 §5 that applies to it to at least one scenario, for example ambiguous match, not covered, stale, partial answer or source failed.

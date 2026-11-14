@@ -127,3 +127,6 @@
 ### Task 6: Review and pull request
 - [ ] Map every board on canvas version 178 to at least one scenario ID (a table in the pull request).
 - [ ] Fresh-context Opus review with "Code Review Rules"; fix; push one branch `docs/first-design-batch-specs`; `@codex review`; merge when the conditions in AGENTS.md hold.
+
+## As built
+Task 2 has eight steps, not seven. Task 3 ended at PRIO-19 and Task 4 at TOPIC-25 (TOPIC-20 withdrawn), after the final review; the maps' behaviour was added as `area-map.feature` (MAP-01 onwards) from register line FE-42.

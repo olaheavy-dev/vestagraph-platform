@@ -10,7 +10,7 @@ Feature: Display settings (theme and text size on the area check)
     choices are not remembered between visits and nothing is stored.
   Required states (design docs/superpowers/specs/2026-11-14-first-design-batch-design.md, "Theme and text size";
     AGENTS.md rule 7):
-    the Display button, its two choices and their options -> DISP-01
+    the Display button, its two choices and their options -> DISP-01, DISP-06
     the largest text size, one column and no sideways scroll -> DISP-02, DISP-04
     nothing remembered between visits until the PECR check -> DISP-03, DISP-05
 
@@ -18,10 +18,16 @@ Feature: Display settings (theme and text size on the area check)
   Scenario: DISP-01 the Display button opens theme and text size
     Given the user is on Check an area
     When the user chooses "Display"
-    Then a panel opens with Theme (Device, Light, Dark) and Text size (Standard, Large, Larger), reachable and operable by keyboard
+    Then a panel opens with Theme (Device, Light, Dark) and Text size (Standard, Large, Larger)
 
   @ui
-  Scenario: DISP-02 at Larger the result reflows to one column with no sideways scroll
+  Scenario: DISP-06 the Display panel is reachable and operable by keyboard
+    Given the user is on Check an area
+    When the user uses only the keyboard
+    Then the Display button and every choice in its panel can be reached and operated
+
+  @ui
+  Scenario: DISP-02 at Larger the result reflows to one column
     Given the user has checked a complete postcode
     When the user chooses the text size "Larger"
     Then the result reflows to one column

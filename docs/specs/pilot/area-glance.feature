@@ -14,15 +14,16 @@ Feature: At a glance (the first thing on an area result)
   Found means the source answered, including "no record in this source" and "none found within the radius";
     not known means our stored copy failed or is unavailable; topics we only link to, and the family view, are
     left out of the coverage total, as is a topic outside the covered area (FE-38).
-  Questions to ask come from gaps, one per gap, from a reviewed template; "Things to check in person" comes
-    from a fixed, reviewed list per topic (FE-39).
+  Questions to ask come from gaps, one per gap, de-duplicated by topic and text (FE-39 as built), from a
+    reviewed template; "Things to check in person" comes from a fixed, reviewed list per topic from
+    `pilot-topics.json`, except the family view, which keeps its list in its own sheet (FE-39).
   Required states (design docs/superpowers/specs/2026-11-14-first-design-batch-design.md, "At a glance";
     AGENTS.md rules 2, 4 and 7):
     every counted topic found -> GLANCE-01, GLANCE-02
     some topics not known, with a question for the gap -> GLANCE-03, GLANCE-04
     sparse area, topics left out of the coverage total -> GLANCE-05
     the block's order and contents -> GLANCE-06
-    each count opens its items; zero shows "None to list" -> GLANCE-07
+    each count opens its items; a count of zero has nothing to list -> GLANCE-07, GLANCE-10
     check in person, a fixed reviewed list -> GLANCE-08
     narrow phone layout and tap targets -> GLANCE-09
     unknown postcode, never shown as empty topics -> AREA-05 (14-check-an-area.feature)
@@ -60,7 +61,7 @@ Feature: At a glance (the first thing on an area result)
     Then area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-AMENITY-2"
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY, NB7 1RR)
-  Scenario: GLANCE-05 topics we only link to are left out of the coverage total
+  Scenario: GLANCE-05 topics we only link to, the family view and a not-covered topic are left out of the coverage total
     Then area result "NB1 4XY" leaves topic "council-tax-band-home" out of the coverage total
     Then area result "NB1 4XY" leaves topic "mobile-by-network" out of the coverage total
     Then area result "NB1 4XY" leaves topic "noise" out of the coverage total
@@ -90,13 +91,19 @@ Feature: At a glance (the first thing on an area result)
     Given the result for a sample postcode is open
     When the visitor opens a count
     Then the list of that count's items opens, each item opening its topic
-    And a count of zero shows "None to list" and no link
+
+  @ui
+  Scenario: GLANCE-10 a count of zero says there is nothing to list and has no link
+    Given the result for a sample postcode is open
+    When a count is zero
+    Then it says there is nothing to list
+    And it has no link
 
   @ui
   Scenario: GLANCE-08 Things to check in person opens the reviewed list
     Given the result for a sample postcode is open
     When the visitor opens "Things to check in person →"
-    Then the fixed reviewed list per topic from `pilot-topics.json` is shown
+    Then the fixed reviewed list per topic from `pilot-topics.json` is shown, except the family view, which keeps its list in its own sheet (FE-39)
     And the list is the same for every postcode and is not written by AI
 
   @ui
