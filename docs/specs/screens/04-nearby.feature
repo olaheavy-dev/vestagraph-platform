@@ -14,10 +14,10 @@ Feature: Nearby
     a source request that failed, not shown as a clean result -> NEAR-01, NEAR-07
     a source that does not cover the location -> NEAR-04, NEAR-10
     an address in Wales, Scotland or Northern Ireland, "not yet covered" -> NEAR-04, NEAR-10
-    stale information: the row shows no label or source date, About the data does (FE-33); a fact's own date, such as an inspection date, stays -> NEAR-03, NEAR-09
+    stale information: the row shows no label or source date, About the data shows each source's date and no status word (FE-33 amended 14 Nov 2026); a fact's own date, such as an inspection date, stays -> NEAR-03, NEAR-09
     missing never shown as zero or a favourable value -> NEAR-02, NEAR-05, NEAR-08
     narrow and mobile layouts with a list alternative to the map -> NEAR-11
-    the limits inside the page's single closed "How we got this" section, never on a row, at the top of a sheet or under each topic -> NEAR-13
+    the limits on the general About the data page, never on a row, at the top of a sheet or under each topic; the result ends with a short "How we got this" note that links there -> NEAR-13
     basic/paid boundaries -> NEAR-16
   Free and paid (doc 02 §8): the Nearby map and list with straight-line distances are free; routed
     travel times to the household's own destinations are paid (routing is a metered third-party
@@ -51,25 +51,25 @@ Feature: Nearby
     Then one row per topic shows its headline fact, and opening a row opens its sheet or panel, not a new page, in the order of the information architecture: your commute, getting around, everyday places, places of worship, schools, flood, recorded crime, sold nearby, planning nearby and broadband
 
   @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; the "Unavailable" label is on About the data.
+  # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; About the data shows no status word.
   Scenario: NEAR-07 the failed crime topic says it is not known right now
     Given home "R1" is at story step 1
     When the user opens Nearby
     Then the recorded crime topic shows "Not known right now", "Couldn't fetch this time · Try again" and "This doesn't mean there's nothing to report" for "R1-AREA-CRIME-2"
 
   @ui
-  # Changed 14 Nov 2026 (FE-34): the "doesn't tell you" note is no longer a visible line; it sits inside the page's one "How we got this" section.
+  # Changed 14 Nov 2026 (FE-34): the "doesn't tell you" note is no longer a visible line; it sits on the general About the data page (FE-34 amended 14 Nov 2026).
   Scenario: NEAR-08 the flood gap is never a reassuring label
     Given home "B1" is at story step 1
     When the user opens Nearby
-    Then the flood topic shows the label of "B1-AREA-FLOOD-1" as recorded, with its long-term flood risk link, and no "no risk", "low risk" or "clear" label, and the recorded limit note is inside the page's "How we got this" section, not under the flood topic
+    Then the flood topic shows the label of "B1-AREA-FLOOD-1" as recorded, with its long-term flood risk link, and no "no risk", "low risk" or "clear" label, and the recorded limit note is on the general About the data page, not under the flood topic
 
   @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): the "Old" label and the source date move to About the data; the inspection date is the fact itself and stays.
+  # Changed 14 Nov 2026 (FE-33, DA-12): the "Old" label is gone and the source date is on About the data (dates only); the inspection date is the fact itself and stays.
   Scenario: NEAR-09 the stale inspection shows its inspection date and no label
     Given home "B1" is at story step 1
     When the user opens the schools topic
-    Then "B1-AREA-SCHOOL-INSPECTION-1" shows "Inspected <Month Year>" with its framework only inside the page's "How we got this" section (FE-36), and its source stamp shows only the source's icon, name and link, with no "Old" label, no "Older inspection" badge (FE-35) and no source date
+    Then "B1-AREA-SCHOOL-INSPECTION-1" shows "Inspected <Month Year>" with its framework only on the general About the data page (FE-36), and its source stamp shows only the source's icon, name and link, with no "Old" label, no "Older inspection" badge (FE-35) and no source date
 
   @ui
   Scenario: NEAR-10 Wales shows one not yet covered card
@@ -94,12 +94,13 @@ Feature: Nearby
   # Changed 14 Nov 2026 (FE-34, replacing FE-28): the founder removed every visible limit line. The limits
   # live inside the page's one "How we got this" section (FE-24), closed by default, and on About the data.
   # Changed again 14 Nov 2026 (FE-34, one per page): topics no longer carry their own "How we got this".
+  # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)"): the limits live on the general About the data page; the result keeps a short "How we got this" note with a link there.
   # Earlier change (M3, FE-28): the full note on every row made the list long again.
-  Scenario: NEAR-13 what a topic doesn't tell you sits inside the page's one "How we got this"
+  Scenario: NEAR-13 what a topic doesn't tell you sits on the general About the data page
     Given home "B1" is at story step 1
     And the screen is 390 pixels wide
     When the user opens Nearby and then a topic
-    Then no row and no sheet or panel top shows a limit line or a "What this doesn't tell you" note, no topic carries its own "How we got this", the page has one closed "How we got this" section at the bottom of the result (closed by default), and opening it by keyboard lists every topic's method and limits
+    Then no row and no sheet or panel top shows a limit line or a "What this doesn't tell you" note, no topic carries its own "How we got this", the result ends with a short "How we got this" note (one line per topic, with its icon, name and source links) and the link "How each source works and what it can't tell you: About the data →", and on About the data each topic row, opened by keyboard, shows its method, limits and coverage
 
   @ui
   Scenario: NEAR-14 the commute row gives no verdict

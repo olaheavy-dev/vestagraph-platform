@@ -64,7 +64,7 @@ Feature: Landing
     Then the hero map is a static image, and the live map library is not loaded
 
   @ui
-  # Changed 14 Nov 2026 (FE-34): the "can't tell you" line is gone from the cards; limits live in About the data.
+  # Changed 14 Nov 2026 (FE-34): the "can't tell you" line is gone from the cards; each source's limits live on the general About the data page (FE-34 amended 14 Nov 2026).
   Scenario: LAND-08 the source wall names each source and links About the data
     Given the user is not signed in
     When the user opens the landing page
@@ -96,8 +96,9 @@ Feature: Landing
     Then an inline message under the "Postcode" field explains the format, and the page does not move to Check an area
 
   # Added 14 Nov 2026 (FE-34, FE-36): the showcase's fourth callout points to the page-level section.
+  # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)"): the callout points to the short note at the bottom of every result, with the full method and limits on About the data.
   @ui
   Scenario: LAND-13 the "How to read a result" showcase explains where "How we got this" is
     Given the user is not signed in
     When the user views "How to read a result"
-    Then the sample card carries no "How we got this" row, and callout 4 reads "How we got this" with "At the bottom of every result: how each figure was worked out and what the data can't tell you."
+    Then the sample card carries no "How we got this" row, and callout 4 reads "How we got this" with "At the bottom of every result: a short note on how this search was worked out. The full method and what each source can't tell you are on About the data."
