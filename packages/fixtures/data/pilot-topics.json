@@ -336,7 +336,7 @@
         "Note any flight paths, railway lines or busy roads you can hear."
       ],
       "officialRoute": {
-        "label": "Government road and rail noise maps (gov.uk)",
+        "label": "Government road and rail noise mapping (gov.uk)",
         "url": "https://www.gov.uk/government/publications/strategic-noise-mapping-2022"
       },
       "reviewStatus": "reviewed"

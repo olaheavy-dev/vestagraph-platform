@@ -82,7 +82,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- Founder-approved wording for the pilot topics (`fix/pilot-topics-wording`, FE-39): the founder's changes to six topics, every topic `reviewed`, official links for noise and coal mining, check-in-person minimum lowered to 1.
+- Founder-approved wording for the pilot topics (`fix/pilot-topics-wording`, FE-39): the founder's changes to five topics (family view unchanged), every topic `reviewed`, official links for noise and coal mining, check-in-person minimum lowered to 1.
 - City Explorer decision (`docs/city-explorer-decision`): decision 0055 (PD-17), DA-19, the research note, and the knock-on notes on WW-18, PD-12, PD-16, the pilot design and doc 04. Everything else from 14 Nov 2026 is merged (#245 to #248, #250, #252 to #255, #259).
 
 ## Start of the next session
