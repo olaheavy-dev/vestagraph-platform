@@ -25,7 +25,7 @@
         },
         {
           "n": 3,
-          "description": "everyday-places: amenity 1 to 5 recorded (supermarket, park, pharmacy, gp-surgery, police-station), amenity 6 (childcare) is no-record-in-source. Found; the childcare record gets a question."
+          "description": "everyday-places: amenity 1 to 5 recorded (supermarket, park, pharmacy, gp-surgery, police-station) and amenity 10 recorded (a second gp-surgery), amenity 6 (childcare) is no-record-in-source. Found; only the childcare record gets a question, so amenity 10 changes no count."
         },
         {
           "n": 4,

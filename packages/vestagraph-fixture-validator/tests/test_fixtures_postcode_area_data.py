@@ -66,12 +66,22 @@ _NEW_TOPIC_LEVEL_KINDS = {
 }
 
 
+# Records the pilot adds to NB1 4XY with no home-keyed counterpart in area.json: a second GP
+# surgery with a walking time, so the boards show a GP within a 15-minute walk (final review
+# item 11).
+_PILOT_ONLY_IDS = {"NB1-4XY-AREA-AMENITY-10"}
+
+
 def _counterpart_id(b1_id: str) -> str:
     return "NB1-4XY-" + b1_id.removeprefix("B1-")
 
 
 def test_postcode_area_sample_every_allowed_b1_topic_has_a_counterpart_with_equal_values() -> None:
-    by_id = {i["id"]: i for i in _for_postcode("NB1 4XY") if i["topic"] in _ALLOWED_TOPICS}
+    by_id = {
+        i["id"]: i
+        for i in _for_postcode("NB1 4XY")
+        if i["topic"] in _ALLOWED_TOPICS and i["id"] not in _PILOT_ONLY_IDS
+    }
     assert len(by_id) == len(_b1_allowed())
     for b1 in _b1_allowed():
         mine = by_id[_counterpart_id(b1["id"])]
@@ -98,6 +108,17 @@ def test_postcode_area_sample_every_allowed_b1_topic_has_a_counterpart_with_equa
             if "schoolItemId" in expected:
                 expected["schoolItemId"] = _counterpart_id(expected["schoolItemId"])
         assert mine_value == expected, mine["id"]
+
+
+def test_postcode_area_sample_pilot_only_records_are_exactly_the_named_ones() -> None:
+    b1_ids = {_counterpart_id(b1["id"]) for b1 in _b1_allowed()}
+    extra = {
+        i["id"]
+        for i in _for_postcode("NB1 4XY")
+        if i["topic"] in _ALLOWED_TOPICS and i["id"] not in b1_ids
+    }
+
+    assert extra == _PILOT_ONLY_IDS
 
 
 def test_postcode_area_sample_levels_follow_da14_by_topic() -> None:

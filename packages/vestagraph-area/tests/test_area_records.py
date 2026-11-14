@@ -43,7 +43,7 @@ def test_read_postcode_area_committed_data_returns_postcodes_and_records() -> No
 
     assert area.postcodes == ("NB1 4XY", "NB7 1RR")
     assert area.unknown_postcodes == ("NB9 9ZZ",)
-    assert len(area.records) == 56
+    assert len(area.records) == 57
     childcare = next(r for r in area.records if r.id == "NB1-4XY-AREA-AMENITY-6")
     assert (childcare.subtype, childcare.status, childcare.value) == (
         "childcare",

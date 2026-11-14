@@ -296,6 +296,12 @@
           "display": "400 m"
         },
         {
+          "recordId": "NB1-4XY-AREA-AMENITY-10",
+          "metres": 650,
+          "walkingMinutes": 9,
+          "display": "650 m"
+        },
+        {
           "recordId": "NB1-4XY-AREA-AMENITY-2",
           "metres": 550,
           "walkingMinutes": 8,
@@ -457,8 +463,8 @@
         },
         {
           "priorityId": "SAMPLE-PRIORITY-GP",
-          "outcome": "not-known",
-          "nearestRecordId": null
+          "outcome": "meets",
+          "nearestRecordId": "NB1-4XY-AREA-AMENITY-10"
         },
         {
           "priorityId": "SAMPLE-PRIORITY-HOSPITAL",

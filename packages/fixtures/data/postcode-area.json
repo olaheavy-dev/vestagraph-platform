@@ -563,6 +563,33 @@
       }
     },
     {
+      "id": "NB1-4XY-AREA-AMENITY-10",
+      "postcode": "NB1 4XY",
+      "topic": "amenity",
+      "subtype": "gp-surgery",
+      "status": "recorded",
+      "label": "Mill Lane medical centre (synthetic)",
+      "value": {
+        "name": "Mill Lane medical centre (synthetic)",
+        "distanceMetres": 650,
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 9,
+        "walkingMethod": "routing over paths, synthetic"
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "Volunteer-mapped; completeness varies",
+      "doesNotEstablish": "A location in a volunteer-mapped source does not establish that the place is open, complete, or accepting new customers or patients.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like an OpenStreetMap extract",
+        "date": "2026-10-23",
+        "synthetic": true
+      },
+      "note": "A pilot-only record (no home-keyed counterpart in area.json) so the boards show a GP within a 15-minute walk."
+    },
+    {
       "id": "NB1-4XY-AREA-SCHOOL-INSPECTION-1",
       "postcode": "NB1 4XY",
       "topic": "school-inspection",

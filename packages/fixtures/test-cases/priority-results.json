@@ -1467,16 +1467,20 @@
       "steps": [
         {
           "n": 1,
-          "description": "Amenity gp-surgery: AMENITY-4 at 700 m with no walkingMinutes; limit 15 minutes."
+          "description": "Amenity gp-surgery records of NB1 4XY: AMENITY-4 at 700 m with no walkingMinutes, and AMENITY-10 at 650 m with walkingMinutes 9, both recorded; limit 15 minutes."
         },
         {
           "n": 2,
-          "description": "Rule 1: nothing to compare. Rule 3: lacks walkingMinutes, so not-known."
+          "description": "Rule 1: AMENITY-10's 9 minutes is at or under 15, so meets. Rule 1 comes before rule 4, so AMENITY-4's missing walking time does not make it not known."
+        },
+        {
+          "n": 3,
+          "description": "Nearest: the only meeting record, AMENITY-10 (9 minutes)."
         }
       ],
       "expected": {
-        "outcome": "not-known",
-        "nearestRecordId": null
+        "outcome": "meets",
+        "nearestRecordId": "NB1-4XY-AREA-AMENITY-10"
       }
     },
     {
