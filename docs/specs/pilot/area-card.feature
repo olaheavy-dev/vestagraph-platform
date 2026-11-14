@@ -350,11 +350,12 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     Then every place in the result is listed below the preview with its icon, name, type and distance
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
+  # Changed 14 Nov 2026 (FE-40, founder: "Use miles (Recommended)"): the answer gives the search distance in the display unit.
   @ui @mcp
   Scenario: CARD-43 the card never shows more than 10 places
     Given a sample postcode with more than 10 places within 5 km
     When the card is drawn
-    Then it shows the 10 nearest, and the text answer states the total number of places within 5 km that the result reports (TOOLS-42)
+    Then it shows the 10 nearest, and the text answer states the total number of places within the 5 km search that the result reports, giving the search distance in the country's display unit (FE-27; "3.1 miles" in England, FE-40) (TOOLS-42)
 
   # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR, three places 1 to 5 km away)
   @ui @mcp
