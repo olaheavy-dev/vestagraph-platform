@@ -37,6 +37,7 @@ class Topic:
     record_topics: tuple[str, ...]
     record_subtypes: tuple[str, ...]
     question_template: str
+    gap_question_template: str | None
     check_in_person: tuple[str, ...]
     official_route: OfficialRoute | None
     review_status: str
@@ -44,9 +45,10 @@ class Topic:
 
 @dataclass(frozen=True, slots=True)
 class Registry:
-    """The topics of one nation."""
+    """The topics of one nation, and a plain name for each record subtype."""
 
     nation: str
+    subtype_names: dict[str, str]
     topics: tuple[Topic, ...]
 
 
@@ -149,14 +151,20 @@ def _topic(raw: dict[str, Any]) -> Topic:
             label=_get(route_raw, "label", str, where),
             url=_optional_string(route_raw, "url", where),
         )
+    counted = _get(raw, "counted", bool, where)
+    gap_template = _optional_string(raw, "gapQuestionTemplate", where)
+    if counted and gap_template is None:
+        message = f"{where}: a counted topic needs a 'gapQuestionTemplate'."
+        raise InvalidAreaDataError(message)
     return Topic(
         key=key,
         name=_get(raw, "name", str, where),
         kind=_get(raw, "kind", str, where),
-        counted=_get(raw, "counted", bool, where),
+        counted=counted,
         record_topics=_strings(raw, "recordTopics", where, required=True),
         record_subtypes=_strings(raw, "recordSubtypes", where, required=False),
         question_template=_get(raw, "questionTemplate", str, where),
+        gap_question_template=gap_template,
         check_in_person=_strings(raw, "checkInPerson", where, required=True),
         official_route=route,
         review_status=_get(raw, "reviewStatus", str, where),
@@ -171,7 +179,13 @@ def read_registry(path: Path) -> Registry:
     if len(set(keys)) != len(keys):
         message = f"{path.name}: topic keys must be unique."
         raise InvalidAreaDataError(message)
-    return Registry(nation=_get(data, "nation", str, path.name), topics=topics)
+    names = _get(data, "subtypeNames", dict, path.name)
+    if not all(isinstance(k, str) and isinstance(v, str) for k, v in names.items()):
+        message = f"{path.name}: 'subtypeNames' must map subtype keys to plain names."
+        raise InvalidAreaDataError(message)
+    return Registry(
+        nation=_get(data, "nation", str, path.name), subtype_names=dict(names), topics=topics
+    )
 
 
 def _record(raw: dict[str, Any]) -> AreaRecord:

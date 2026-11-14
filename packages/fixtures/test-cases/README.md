@@ -55,7 +55,7 @@ The area-result calculations (At a glance counts, distance display, buses per ho
 ```
 
 - `inputs` and `expected` differ by calculation and are read by that calculation's test; `steps` are for reviewers (`value` is optional).
-- `area-glance.json` (At a glance): `inputs` is either `{ "dataPostcode": "NB1 4XY" }` (registry from `data/pilot-topics.json`, records from `data/postcode-area.json`) or inline `{ "topics": [...], "records": [...] }` for synthetic cases. `expected` has `found`, `notKnown`, `coverageFound`, `coverageTotal`, `outcomes` (topic key to `found`, `not-known` or `not-covered`), `questions` (`topicKey`, `recordId`, `text`, in registry then file order, one per record) and `checkInPersonTopics` (keys of the found or not-known topics).
+- `area-glance.json` (At a glance): `inputs` is either `{ "dataPostcode": "NB1 4XY" }` (registry from `data/pilot-topics.json`, records from `data/postcode-area.json`) or inline `{ "topics": [...], "records": [...] }` for synthetic cases. `expected` has `found`, `notKnown`, `coverageFound`, `coverageTotal`, `outcomes` (topic key to `found`, `not-known` or `not-covered`), `questions` (`topicKey`, `recordId`, `text` from the topic's `gapQuestionTemplate` with `{subject}` filled from `subtypeNames` or the topic name, never a record label; in registry then file order, one per record) and `checkInPersonTopics` (keys of the found or not-known topics).
 - Decimal values such as limits stay strings, as above, so no float is involved.
 
 ## 1. Rounding boundaries (decision 0034)

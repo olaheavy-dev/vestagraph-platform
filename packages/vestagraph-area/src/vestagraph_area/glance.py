@@ -67,6 +67,16 @@ def _records_of(topic: Topic, records: Sequence[AreaRecord]) -> list[AreaRecord]
     ]
 
 
+def _gap_question(registry: Registry, topic: Topic, record: AreaRecord) -> str:
+    """The topic's gap template; its {subject} is a plain name, never the record's label."""
+    template = topic.gap_question_template
+    if template is None:
+        message = f"Topic '{topic.key}' has no gapQuestionTemplate."
+        raise InvalidAreaDataError(message)
+    subject = registry.subtype_names.get(record.subtype or "", topic.name.lower())
+    return template.replace("{subject}", subject)
+
+
 def at_a_glance(registry: Registry, area: PostcodeArea, postcode: str) -> Glance:
     """The At a glance figures for one postcode.
 
@@ -89,7 +99,7 @@ def at_a_glance(registry: Registry, area: PostcodeArea, postcode: str) -> Glance
         for record in records:
             if record.status in _QUESTION_STATUSES and record.id not in asked:
                 asked.add(record.id)
-                text = topic.question_template.replace("{label}", record.label)
+                text = _gap_question(registry, topic, record)
                 questions.append(Question(topic.key, record.id, text))
         if outcome != "not-covered":
             check_in_person.append(CheckItem(topic.key, topic.name, topic.check_in_person))

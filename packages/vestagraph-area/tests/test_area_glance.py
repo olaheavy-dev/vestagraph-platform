@@ -43,7 +43,8 @@ def _inputs(inputs: dict[str, Any]) -> tuple[Registry, PostcodeArea, str]:
             counted=t["counted"],
             record_topics=tuple(t["recordTopics"]),
             record_subtypes=(),
-            question_template=t["questionTemplate"],
+            question_template="Ask about {label}",
+            gap_question_template=t["gapQuestionTemplate"],
             check_in_person=tuple(t["checkInPerson"]),
             official_route=None,
             review_status="draft",
@@ -55,7 +56,7 @@ def _inputs(inputs: dict[str, Any]) -> tuple[Registry, PostcodeArea, str]:
             id=r["id"],
             postcode="ZZ1 1AA",
             topic=r["topic"],
-            subtype=None,
+            subtype=r.get("subtype"),
             status=r["status"],
             label=r["label"],
             value=None,
@@ -63,7 +64,9 @@ def _inputs(inputs: dict[str, Any]) -> tuple[Registry, PostcodeArea, str]:
         for r in inputs["records"]
     )
     return (
-        Registry(nation="england", topics=topics),
+        Registry(
+            nation="england", subtype_names=dict(inputs.get("subtypeNames", {})), topics=topics
+        ),
         PostcodeArea(postcodes=("ZZ1 1AA",), unknown_postcodes=(), records=records),
         "ZZ1 1AA",
     )
@@ -161,3 +164,33 @@ def test_read_registry_topic_missing_key_raises_invalid_area_data(tmp_path: Path
 
     with pytest.raises(InvalidAreaDataError):
         read_registry(path)
+
+
+def test_at_a_glance_gap_question_never_contains_the_record_label() -> None:
+    registry, area, _ = _inputs({"dataPostcode": "NB7 1RR"})
+    labels = {r.id: r.label for r in area.records}
+
+    glance = at_a_glance(registry, area, "NB7 1RR")
+
+    assert len(glance.questions) == 10
+    for question in glance.questions:
+        assert labels[question.record_id] not in question.text
+        assert "(synthetic)" not in question.text
+        assert "{" not in question.text
+
+
+def test_at_a_glance_gap_question_subject_uses_subtype_name_then_topic_name() -> None:
+    registry = make_registry(
+        make_topic("alpha Topic", record_topics=("a",)),
+        subtype_names={"gp-surgery": "GP surgery"},
+    )
+    with_subtype = AreaRecord("R1", "ZZ1 1AA", "a", "gp-surgery", "no-record-in-source", "L1", None)
+    without = AreaRecord("R2", "ZZ1 1AA", "a", None, "source-failed", "L2", None)
+    area = PostcodeArea(("ZZ1 1AA",), (), (with_subtype, without))
+
+    glance = at_a_glance(registry, area, "ZZ1 1AA")
+
+    assert [q.text for q in glance.questions] == [
+        "Gap question about GP surgery",
+        "Gap question about alpha topic",
+    ]

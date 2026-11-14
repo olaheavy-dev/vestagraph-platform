@@ -30,6 +30,7 @@ def make_topic(
     record_topics: tuple[str, ...] = ("thing",),
     record_subtypes: tuple[str, ...] = (),
     template: str = "Ask about {label}",
+    gap_template: str | None = "Gap question about {subject}",
 ) -> Topic:
     return Topic(
         key=key,
@@ -39,6 +40,7 @@ def make_topic(
         record_topics=record_topics,
         record_subtypes=record_subtypes,
         question_template=template,
+        gap_question_template=gap_template,
         check_in_person=(f"Visit {key}",),
         official_route=None,
         review_status="draft",
@@ -59,8 +61,8 @@ def make_record(
     )
 
 
-def make_registry(*topics: Topic) -> Registry:
-    return Registry(nation="england", topics=topics)
+def make_registry(*topics: Topic, subtype_names: dict[str, str] | None = None) -> Registry:
+    return Registry(nation="england", subtype_names=subtype_names or {}, topics=topics)
 
 
 def make_area(*records: AreaRecord) -> PostcodeArea:

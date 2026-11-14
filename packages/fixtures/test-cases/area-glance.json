@@ -47,6 +47,10 @@
           "n": 8,
           "description": "found 15, not known 0, coverage 15 of 15. Questions: only the two no-record-in-source records, in registry then file order. Check in person: all 15 topics (all found).",
           "value": 15
+        },
+        {
+          "n": 9,
+          "description": "Question text comes from each topic's gapQuestionTemplate, never from the record label. The only slot is {subject}: for everyday-places it is the plain name of the record's subtype (childcare -> 'childcare', supermarket -> 'supermarket'); every other topic's template has no slot, so its text is the template as written. Two flood records in NB7 1RR give the same question twice, one per record."
         }
       ],
       "expected": {
@@ -75,12 +79,12 @@
           {
             "topicKey": "everyday-places",
             "recordId": "NB1-4XY-AREA-AMENITY-6",
-            "text": "Can you confirm the opening hours and whether No childcare found nearby in this source is taking new customers or patients?"
+            "text": "Which childcare do people living here use, and how far away is it?"
           },
           {
             "topicKey": "flood",
             "recordId": "NB1-4XY-AREA-FLOOD-1",
-            "text": "Has the home or the street at No current rivers and sea flood warning in this source ever flooded, and is there any insurance or flood history to see?"
+            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           }
         ],
         "checkInPersonTopics": [
@@ -151,6 +155,10 @@
           "n": 9,
           "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12. Not known = 2 (flood, transport-connectivity). Coverage total 12 + 2 = 14. Questions 10 (records that are not recorded). Check in person: the 14 found or not-known topics.",
           "value": 14
+        },
+        {
+          "n": 10,
+          "description": "Question text comes from each topic's gapQuestionTemplate, never from the record label. The only slot is {subject}: for everyday-places it is the plain name of the record's subtype (childcare -> 'childcare', supermarket -> 'supermarket'); every other topic's template has no slot, so its text is the template as written. Two flood records in NB7 1RR give the same question twice, one per record."
         }
       ],
       "expected": {
@@ -179,52 +187,52 @@
           {
             "topicKey": "getting-around",
             "recordId": "NB7-1RR-AREA-BUS-DEPARTURES-1",
-            "text": "What do I need to know about No departure times recorded for Fell Lane bus stop (synthetic) when I plan my regular journeys?"
+            "text": "How do people living here usually get around, and which stops or services do they use?"
           },
           {
             "topicKey": "everyday-places",
             "recordId": "NB7-1RR-AREA-AMENITY-2",
-            "text": "Can you confirm the opening hours and whether No supermarket within 5 km in this source (synthetic) is taking new customers or patients?"
+            "text": "Which supermarket do people living here use, and how far away is it?"
           },
           {
             "topicKey": "schools",
             "recordId": "NB7-1RR-AREA-SCHOOL-DEMAND-1",
-            "text": "Can you tell me about the admissions process and the catchment or priority rules for Admissions figures not covered for Fellside Primary School (synthetic)?"
+            "text": "Which schools do children living here usually go to, and how are places decided?"
           },
           {
             "topicKey": "flood",
             "recordId": "NB7-1RR-AREA-FLOOD-1",
-            "text": "Has the home or the street at Flood warning lookup failed; not known right now ever flooded, and is there any insurance or flood history to see?"
+            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           },
           {
             "topicKey": "flood",
             "recordId": "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
-            "text": "Has the home or the street at Flood-risk postcode lookup failed; not known right now ever flooded, and is there any insurance or flood history to see?"
+            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           },
           {
             "topicKey": "sold-nearby",
             "recordId": "NB7-1RR-AREA-SOLD-PRICE-1",
-            "text": "Can you tell me anything about the condition or work done to the home sold at No sold prices nearby in this source (synthetic)?"
+            "text": "Can you tell me about homes that have sold nearby recently and how they compare?"
           },
           {
             "topicKey": "air-quality",
             "recordId": "NB7-1RR-AREA-AIR-QUALITY-1",
-            "text": "What is the air like around No air quality figure for this area in this source (synthetic) on busy days and at busy times of day?"
+            "text": "What is the air like around the home on busy days and at busy times of day?"
           },
           {
             "topicKey": "housing-affordability",
             "recordId": "NB7-1RR-AREA-AFFORDABILITY-1",
-            "text": "Can you tell me how the price of No affordability ratio for this area in this source (synthetic) compares with similar homes you have sold recently?"
+            "text": "How does the price of the home compare with similar homes sold recently?"
           },
           {
             "topicKey": "transport-connectivity",
             "recordId": "NB7-1RR-AREA-TRANSPORT-CONNECTIVITY-1",
-            "text": "How do people living near Transport connectivity lookup failed; not known right now usually travel for work and school?"
+            "text": "How do people living here usually travel for work and school?"
           },
           {
             "topicKey": "green-space",
             "recordId": "NB7-1RR-AREA-GREEN-SPACE-1",
-            "text": "Can the public use Accessible Greenspace Standard not covered for this area (synthetic) freely, and what is it like to be in?"
+            "text": "Which green spaces can the public use near the home, and what are they like?"
           }
         ],
         "checkInPersonTopics": [
@@ -264,7 +272,8 @@
             "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit alpha"
-            ]
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
           }
         ],
         "records": [
@@ -285,6 +294,10 @@
           "n": 2,
           "description": "Left out: found 0, not known 0, coverage 0 of 0. One question (the record is not-covered). No check-in-person list (not found, not known).",
           "value": 0
+        },
+        {
+          "n": 3,
+          "description": "Question text: gap template 'Gap question about {subject}', no subtype, so subject = topic name in lower case = 'alpha'."
         }
       ],
       "expected": {
@@ -299,7 +312,7 @@
           {
             "topicKey": "alpha",
             "recordId": "S1-THING-1",
-            "text": "Ask about Thing one"
+            "text": "Gap question about alpha"
           }
         ],
         "checkInPersonTopics": []
@@ -324,7 +337,8 @@
             "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit alpha"
-            ]
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
           },
           {
             "key": "beta",
@@ -336,7 +350,8 @@
             "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit beta"
-            ]
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
           },
           {
             "key": "gamma",
@@ -348,7 +363,8 @@
             "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit gamma"
-            ]
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
           },
           {
             "key": "delta",
@@ -360,7 +376,8 @@
             "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit delta"
-            ]
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
           }
         ],
         "records": [
@@ -380,7 +397,8 @@
             "id": "S2-B-1",
             "topic": "b",
             "status": "not-covered",
-            "label": "B one"
+            "label": "B one",
+            "subtype": "widget"
           },
           {
             "id": "S2-B-2",
@@ -394,7 +412,10 @@
             "status": "no-record-in-source",
             "label": "Shared one"
           }
-        ]
+        ],
+        "subtypeNames": {
+          "widget": "widget"
+        }
       },
       "steps": [
         {
@@ -413,6 +434,10 @@
           "n": 4,
           "description": "found 3 (alpha, gamma, delta), not known 1 (beta), coverage 3 of 4. Questions 4: S2-A-2, S2-B-1, S2-B-2, S2-SHARED-1. Check in person: all four topics.",
           "value": 4
+        },
+        {
+          "n": 5,
+          "description": "Question text: subject = subtypeNames[subtype] if the record has a subtype, else the topic name in lower case. S2-B-1 has subtype 'widget' (named 'widget'): 'Gap question about widget'. S2-A-2 -> alpha, S2-B-2 -> beta (no subtype), S2-SHARED-1 -> gamma (first topic in registry order)."
         }
       ],
       "expected": {
@@ -430,22 +455,22 @@
           {
             "topicKey": "alpha",
             "recordId": "S2-A-2",
-            "text": "Ask about A two"
+            "text": "Gap question about alpha"
           },
           {
             "topicKey": "beta",
             "recordId": "S2-B-1",
-            "text": "Ask about B one"
+            "text": "Gap question about widget"
           },
           {
             "topicKey": "beta",
             "recordId": "S2-B-2",
-            "text": "Ask about B two"
+            "text": "Gap question about beta"
           },
           {
             "topicKey": "gamma",
             "recordId": "S2-SHARED-1",
-            "text": "Ask about Shared one"
+            "text": "Gap question about gamma"
           }
         ],
         "checkInPersonTopics": [

@@ -2,11 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://vestagraph.invalid/schema/pilot-topics.schema.json",
   "title": "Pilot topic registry (data/pilot-topics.json)",
-  "description": "The pilot's area topics in display order: how each reads the postcode records, its draft question template and check-in-person list. Each record belongs to exactly one counted topic; a grouping that reuses other topics' records has counted false and is never in the counts. Templates and lists are drafts until the founder reviews them. No figures live here.",
+  "description": "The pilot's area topics in display order: how each reads the postcode records, its draft question templates (one for named records, one for gaps) and check-in-person list. Each record belongs to exactly one counted topic; a grouping that reuses other topics' records has counted false and is never in the counts. Templates and lists are drafts until the founder reviews them. No figures live here.",
   "type": "object",
   "required": [
     "nation",
-    "topics"
+    "topics",
+    "subtypeNames"
   ],
   "additionalProperties": false,
   "properties": {
@@ -22,6 +23,15 @@
       "items": {
         "$ref": "#/$defs/topic"
       }
+    },
+    "subtypeNames": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "A plain name for each record subtype used by the data (for example gp-surgery: GP surgery). Fills the {subject} slot of a gap question; never a record label."
     }
   },
   "$defs": {
@@ -135,6 +145,11 @@
             "draft",
             "reviewed"
           ]
+        },
+        "gapQuestionTemplate": {
+          "type": "string",
+          "pattern": "^[^{}]*(\\{subject\\}[^{}]*)?$",
+          "description": "Plain, neutral question for a record that is a gap (no record in the source, source failed, not covered), with at most one {subject} slot filled from subtypeNames or the topic's plain name. Never a record label."
         }
       },
       "allOf": [
@@ -169,6 +184,7 @@
           "then": {
             "required": [
               "questionTemplate",
+              "gapQuestionTemplate",
               "checkInPerson"
             ]
           }
