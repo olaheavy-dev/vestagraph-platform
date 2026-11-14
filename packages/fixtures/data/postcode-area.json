@@ -1230,7 +1230,7 @@
       "topic": "amenity",
       "subtype": "supermarket",
       "status": "no-record-in-source",
-      "label": "No supermarket within 5 km in this source (synthetic)",
+      "label": "No supermarket found in this source (synthetic)",
       "level": {
         "kind": "from-postcode-centre"
       },
@@ -1358,7 +1358,7 @@
       "doesNotEstablish": "No matching record in this source does not mean no home has sold nearby.",
       "source": {
         "origin": "official-dataset",
-        "label": "Synthetic sample, shaped like the HM Land Registry price paid data",
+        "label": "Synthetic sample, shaped like the HM Land Registry Price Paid Data",
         "date": "2026-10-23",
         "synthetic": true
       }

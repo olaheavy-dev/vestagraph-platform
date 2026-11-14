@@ -25,6 +25,7 @@
 2. **A distance of 1,605 to 1,609 m** must display "1.0 miles", never "1,610 m". Test in Task 4.
 3. **A priority on a `no-record-in-source` or `source-failed` record** must be Not known, never Misses. Test in Task 6.
 4. **A limit beyond the 5 km search** with nothing found within 5 km must be "Not known beyond 5 km", not Misses. Test in Task 6.
+   *Since 14 Nov 2026 the visitor sees "Not known beyond 3.1 miles" (founder: "Use miles (Recommended)", FE-40); the engine outcome is unchanged.*
 5. **`generated/` holding both files**: the generator must stop deleting a sibling generated file it now writes (`costs.json` and `area-result.json` both survive a run). Test in Task 7.
 
 ## Pull requests
