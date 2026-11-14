@@ -1,7 +1,7 @@
 # Canvas pass B: redraw the pilot's home-context boards
 
 **Date:** 14 Nov 2026  
-**Status:** Waiting for #216 (not started). The founder asked for it to be written down before stopping: "make sure to document B, we will stop after A has a merge request opened" (typed, 14 Nov 2026).  
+**Status:** Done (canvas versions 136 and 137, 14 Nov 2026; founder: "okay start pass B"). The founder asked for it to be written down before stopping: "make sure to document B, we will stop after A has a merge request opened" (typed, 14 Nov 2026).  
 **Where:** the design canvas (https://claude.ai/artifact/MpvQNDVYCePp4iWM3j3Jx4), "Pilot · public area check" page. Canvas work, so it needs no code; the repository only records decisions and the status.  
 **Inputs:** [pilot design review](../../reviews/2026-11-14-pilot-design-review.md) (the "ten Nearby, Schools and Map boards" row under "Wrong now (P1), fixed first", and founder decision 2), [look-and-feel review](../../reviews/2026-11-14-pilot-look-and-feel-review.md), register lines FE-20 and FE-26 to FE-33, DA-12 to DA-14, and the postcode-level sample data from #216.
 
