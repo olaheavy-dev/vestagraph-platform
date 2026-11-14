@@ -340,6 +340,21 @@ def test_then_area_result_topic_left_out_of_coverage_counted_topic_fails(
     assert "schools" in str(failure.value)
 
 
+def test_then_area_result_topic_left_out_of_coverage_not_covered_topic_passes(
+    steps: DataSteps,
+) -> None:
+    steps.then_area_result_leaves_topic_out_of_coverage("NB7 1RR", "green-space")
+
+
+def test_then_area_result_topic_left_out_of_coverage_unknown_key_fails_naming_the_key(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_leaves_topic_out_of_coverage(_PC, "nosie")
+
+    assert "nosie" in str(failure.value)
+
+
 def test_then_area_result_gap_question_known_record_passes(steps: DataSteps) -> None:
     steps.then_area_result_asks_gap_question(_PC, "NB1-4XY-AREA-AMENITY-6")
 

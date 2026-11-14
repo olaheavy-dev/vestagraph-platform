@@ -20,6 +20,7 @@ _EVIDENCE = "packages/fixtures/data/evidence.json"
 _HOMES = "packages/fixtures/data/homes.json"
 _AREA = "packages/fixtures/data/area.json"
 _AREA_RESULT = "packages/fixtures/generated/area-result.json"
+_PILOT_TOPICS = "packages/fixtures/data/pilot-topics.json"
 _POSTCODE_AREA = "packages/fixtures/data/postcode-area.json"
 
 
@@ -41,6 +42,7 @@ class _Loaded:
     area: dict[str, Json]
     area_results: dict[str, Json]
     postcode_records: dict[str, Json]
+    topic_keys: frozenset[str]
 
 
 def repository_root() -> Path:
@@ -103,6 +105,7 @@ def _load() -> _Loaded:
         area,
         area_results,
         postcode_records,
+        frozenset(item["key"] for item in _read(_PILOT_TOPICS)["topics"]),
     )
 
 
@@ -258,12 +261,13 @@ class DataSteps:
         )
 
     def then_area_result_leaves_topic_out_of_coverage(self, postcode: str, topic_key: str) -> None:
-        """Uncounted topics (registry ``counted`` false) are absent; not-covered add nothing."""
+        """Absent from ``topics`` (registry ``counted`` false) or not-covered: not in the total."""
+        assert topic_key in _load().topic_keys, (
+            f'Topic "{topic_key}" is not in {_PILOT_TOPICS}. Check the key for a typo.'
+        )
         topic = _find(_require_area_result(postcode)["topics"], "key", topic_key)
         assert topic is None or topic["outcome"] == "not-covered", (
-            f'Area result "{postcode}" counts topic "{topic_key}" '
-            f'(outcome "{topic["outcome"] if topic else ""}") in {_AREA_RESULT}, '
-            "so it is not left out of the coverage total."
+            f'Area result "{postcode}" counts topic "{topic_key}" in {_AREA_RESULT}.'
         )
 
     def then_area_result_asks_gap_question(self, postcode: str, record_id: str) -> None:
