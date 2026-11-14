@@ -6,8 +6,8 @@ Feature: Landing
     (fixture needed: #216); inputs: none yet; figures: none.
   Route: / (the landing is the area check: the postcode box is the main action; decision 0046).
   Sections, in order, from the information architecture's "Landing": the promise with the postcode
-    box; the hero map; Data from (the source wall); How it works; How to read a result; Honest by
-    design; Coming next, with a free account; Questions; the footer.
+    box; the hero map; Data from (the source wall); How it works; How to read a result (a showcase card, FE-36); Coming next, with a free account; Questions; the footer
+    ("Honest by design" removed 14 Nov 2026, FE-35).
   Required states (doc 03 §5):
     basic/paid boundaries -> LAND-05
     narrow and mobile layouts with a list alternative to the map -> LAND-11
@@ -18,10 +18,11 @@ Feature: Landing
     compare, questions) are described only as "Coming next … not available yet" (LAND-05; decision 0046).
 
   @ui
+  # Changed 14 Nov 2026 (FE-37): placeholder "Enter a postcode", no example hint; the label stays.
   Scenario: LAND-01 the postcode box is the main action
     Given the user is not signed in
     When the user opens the landing page
-    Then the first action is a field with a persistent "Postcode" label, hint text under it and a "Check postcode" button
+    Then the first action is a field with a persistent "Postcode" label, the placeholder "Enter a postcode" meeting 4.5:1 contrast, no example hint under it, and a "Check postcode" button
 
   @ui
   Scenario: LAND-02 the landing says it covers England only
@@ -36,9 +37,10 @@ Feature: Landing
     Then Check an area opens with the postcode after "#postcode=", and the query string holds no postcode
 
   @ui
-  Scenario: LAND-04 the example opens the sample area
+  # Changed 14 Nov 2026 (FE-37): the link reads "Try a sample".
+  Scenario: LAND-04 the sample link opens the sample area
     Given the user is on the landing page
-    When the user chooses "Try an example"
+    When the user chooses "Try a sample"
     Then Check an area opens on the sample postcode, labelled "Sample data"
 
   @ui
@@ -61,10 +63,11 @@ Feature: Landing
     Then the hero map is a static image, and the live map library is not loaded
 
   @ui
+  # Changed 14 Nov 2026 (FE-34): the "can't tell you" line is gone from the cards; limits live in About the data.
   Scenario: LAND-08 the source wall names each source and links About the data
     Given the user is not signed in
     When the user opens the landing page
-    Then each "Data from" card shows a source's name, what it covers and what it can't tell you, with no logo, and links to About the data
+    Then each "Data from" card shows a source's name and what it covers, with no logo and no "can't tell you" line, and links to About the data, where the source's limits are
 
   @ui
   Scenario: LAND-09 the example result is labelled as a sample
