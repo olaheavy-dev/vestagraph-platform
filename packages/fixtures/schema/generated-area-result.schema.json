@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/generated-area-result.schema.json",
+  "title": "Area figures (generated/area-result.json)",
+  "description": "Every figure the area design boards quote, worked out by the area package from the area data files; nothing here is typed by hand (AGENTS.md rule 2). A whole number is an integer; a number that is not whole is an exact decimal string, never a float. A topic that is not known is never written as a count of zero (AGENTS.md rule 7).",
+  "type": "object",
+  "required": ["$schema", "formatVersion", "postcodes"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "formatVersion": { "const": 1 },
+    "postcodes": { "type": "array", "items": { "$ref": "#/$defs/postcode" } }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "wholeOrDecimal": {
+      "oneOf": [
+        { "type": "integer" },
+        { "type": "string", "pattern": "^-?[0-9]+\\.[0-9]+$" }
+      ]
+    },
+    "count": { "type": "integer", "minimum": 0 },
+    "postcode": {
+      "type": "object",
+      "required": ["postcode", "glance", "topics", "distances", "busesPerHour", "priorities"],
+      "properties": {
+        "postcode": { "type": "string", "minLength": 1 },
+        "glance": { "$ref": "#/$defs/glance" },
+        "topics": { "type": "array", "items": { "$ref": "#/$defs/topic" } },
+        "distances": { "type": "array", "items": { "$ref": "#/$defs/distance" } },
+        "busesPerHour": { "type": "array", "items": { "$ref": "#/$defs/busesPerHour" } },
+        "priorities": { "type": "array", "items": { "$ref": "#/$defs/priority" } }
+      },
+      "additionalProperties": false
+    },
+    "glance": {
+      "type": "object",
+      "required": ["found", "notKnown", "coverageFound", "coverageTotal", "questions", "checkInPerson"],
+      "properties": {
+        "found": { "$ref": "#/$defs/count" },
+        "notKnown": { "$ref": "#/$defs/count" },
+        "coverageFound": { "$ref": "#/$defs/count" },
+        "coverageTotal": { "$ref": "#/$defs/count" },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["recordId", "text"],
+            "properties": {
+              "recordId": { "type": "string", "minLength": 1 },
+              "text": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "checkInPerson": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["topicKey", "text"],
+            "properties": {
+              "topicKey": { "type": "string", "minLength": 1 },
+              "text": { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "topic": {
+      "type": "object",
+      "required": ["key", "outcome"],
+      "properties": {
+        "key": { "type": "string", "minLength": 1 },
+        "outcome": { "enum": ["found", "not-known", "not-covered"] }
+      },
+      "additionalProperties": false
+    },
+    "distance": {
+      "type": "object",
+      "required": ["recordId", "metres", "display"],
+      "properties": {
+        "recordId": { "type": "string", "minLength": 1 },
+        "metres": { "$ref": "#/$defs/wholeOrDecimal" },
+        "walkingMinutes": { "$ref": "#/$defs/wholeOrDecimal" },
+        "display": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false
+    },
+    "busesPerHour": {
+      "type": "object",
+      "required": ["stopItemId", "routeNumber", "destination", "hour", "count"],
+      "properties": {
+        "stopItemId": { "type": "string", "minLength": 1 },
+        "routeNumber": { "type": "string", "minLength": 1 },
+        "destination": { "type": "string", "minLength": 1 },
+        "hour": { "enum": [8, 12] },
+        "count": { "$ref": "#/$defs/count" }
+      },
+      "additionalProperties": false
+    },
+    "priority": {
+      "type": "object",
+      "required": ["priorityId", "outcome", "nearestRecordId"],
+      "properties": {
+        "priorityId": { "type": "string", "minLength": 1 },
+        "outcome": { "enum": ["meets", "misses", "not-known", "not-known-beyond-search"] },
+        "nearestRecordId": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    }
+  }
+}

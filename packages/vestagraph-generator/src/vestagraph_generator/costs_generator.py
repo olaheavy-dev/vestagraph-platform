@@ -1,7 +1,9 @@
-"""Reads the fixture data, asks the cost engine for every figure and writes ``costs.json``.
+"""Reads the fixture data and writes both generated files: ``costs.json`` (every figure from the
+cost engine) and ``area-result.json`` (every figure from ``vestagraph_area``).
 
-Ported from the C# ``CostsGenerator``. Nothing in the file is typed by hand (AGENTS rule 2). The
-output depends only on the data files, never on the clock.
+Ported from the C# ``CostsGenerator``. Nothing in either file is typed by hand (AGENTS rule 2).
+Both are made in memory first, so nothing is written if either cannot be generated. The output
+depends only on the data files, never on the clock.
 """
 
 import json
@@ -28,6 +30,8 @@ from vestagraph_engine import (
 )
 from vestagraph_engine.cost_categories import category_id, status_id
 
+from vestagraph_generator.area_generator import FILE_NAME as AREA_FILE_NAME
+from vestagraph_generator.area_generator import generate_area
 from vestagraph_generator.costs_document import (
     BudgetDocument,
     ChangeDocument,
@@ -63,35 +67,40 @@ _ROUNDING = (
 
 
 def run(fixtures_directory: Path, error: TextIO) -> int:
-    """Generate the file and write it to ``generated/``, deleting any other ``*.json`` there.
+    """Generate ``costs.json`` and ``area-result.json`` and write both to ``generated/``.
 
-    Writes nothing when the engine reports a failure. Returns the exit code: 0 for success, 1 when
-    the engine or the data's story links report a problem (printed to ``error`` with its code).
+    Both documents are made in memory first, so nothing is written if either cannot be
+    generated. Any other ``*.json`` in ``generated/`` is deleted. Returns the exit code: 0 for
+    success, 1 when the engine or the data's story links report a problem (printed to ``error``
+    with its code).
 
-    Raises ``OSError`` when a data file is missing or cannot be read or written, and
-    ``InvalidDataError`` when a data file holds something the reader does not understand.
+    Raises ``OSError`` when a data file is missing or cannot be read or written,
+    ``InvalidDataError`` when a cost data file holds something the reader does not understand, and
+    ``InvalidAreaDataError`` for the same in the area data.
     """
     generated = generate(fixtures_directory)
     if generated.is_failure:
         error.write(f"Generator failed [{generated.error.code}]: {generated.error.message}\n")
         return 1
+    area_text = generate_area(fixtures_directory)
 
     folder = fixtures_directory / "generated"
     folder.mkdir(parents=True, exist_ok=True)
 
-    # Write the new file beside the old one and swap it in, so a failure never leaves a
-    # half-written costs.json. Only then remove the other *.json files. Bytes, so no platform
+    # Write each new file beside the old one and swap it in, so a failure never leaves a
+    # half-written file. Only then remove the other *.json files. Bytes, so no platform
     # changes the line endings.
-    target = folder / FILE_NAME
-    temporary = folder / f"{FILE_NAME}.tmp"
-    try:
-        temporary.write_bytes(generated.value.encode("utf-8"))
-        os.replace(temporary, target)
-    finally:
-        temporary.unlink(missing_ok=True)
+    kept = {FILE_NAME, AREA_FILE_NAME}
+    for name, text in ((FILE_NAME, generated.value), (AREA_FILE_NAME, area_text)):
+        temporary = folder / f"{name}.tmp"
+        try:
+            temporary.write_bytes(text.encode("utf-8"))
+            os.replace(temporary, folder / name)
+        finally:
+            temporary.unlink(missing_ok=True)
 
     for other in folder.glob("*.json"):
-        if other.name != FILE_NAME and not other.is_dir():
+        if other.name not in kept and not other.is_dir():
             other.unlink()
     return 0
 

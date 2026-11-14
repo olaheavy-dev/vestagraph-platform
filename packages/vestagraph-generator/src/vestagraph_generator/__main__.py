@@ -1,14 +1,19 @@
 """Command line: ``python -m vestagraph_generator [repo-root]`` (ported from the C# ``Program.cs``).
 
-Writes ``packages/fixtures/generated/costs.json`` from ``packages/fixtures/data``. Exits 0 on
-success, 1 when the cost engine reports a problem (its error code is printed, nothing is
-written), and 2 when a data file is missing or cannot be understood.
+Writes ``costs.json`` and ``area-result.json`` into ``packages/fixtures/generated`` from
+``packages/fixtures/data``. Both are made in memory first, so nothing is written if either cannot
+be generated.
+Exits 0 on success, 1 when the cost engine reports a problem (its error code is printed), and 2
+when a data file is missing or cannot be understood.
 """
 
 import sys
 from pathlib import Path
 from typing import TextIO
 
+from vestagraph_area.records import InvalidAreaDataError
+
+from vestagraph_generator.area_generator import FILE_NAME as AREA_FILE_NAME
 from vestagraph_generator.costs_generator import FILE_NAME, run
 from vestagraph_generator.fixture_reader import InvalidDataError
 
@@ -28,11 +33,12 @@ def main(argv: list[str], stdout: TextIO, stderr: TextIO, cwd: Path) -> int:
         root = Path(argv[0]).resolve() if argv else find_repository_root(cwd)
         fixtures = root / "packages" / "fixtures"
         exit_code = run(fixtures, stderr)
-    except (OSError, InvalidDataError) as exception:
+    except (OSError, InvalidDataError, InvalidAreaDataError) as exception:
         stderr.write(f"Generator could not run: {exception}\n")
         return 2
     if exit_code == 0:
         stdout.write(f"Generated {fixtures / 'generated' / FILE_NAME}\n")
+        stdout.write(f"Generated {fixtures / 'generated' / AREA_FILE_NAME}\n")
     return exit_code
 
 

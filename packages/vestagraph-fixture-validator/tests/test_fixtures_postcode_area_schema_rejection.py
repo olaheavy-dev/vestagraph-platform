@@ -130,3 +130,96 @@ def test_validate_instance_postcode_area_commute_topic_is_rejected() -> None:
     item = _valid_item()
     item["topic"] = "commute"
     assert mentions(_problems(item), "topic")
+
+
+# Decimal strings are ASCII digits only (final review item 8): "\d" in Python's re also matches
+# other scripts' digits, such as Arabic-Indic fifteen (U+0661 U+0665).
+_ARABIC_INDIC_FIFTEEN = "\u0661\u0665"
+
+
+def test_validate_instance_postcode_area_air_quality_non_ascii_digits_are_rejected() -> None:
+    item = _valid_item()
+    item["id"] = "NB1-4XY-AREA-AIR-QUALITY-1"
+    item["topic"] = "air-quality"
+    item["value"] = {
+        "pollutant": "no2",
+        "year": 2024,
+        "concentration": "21.4",
+        "unit": "µg/m³",
+    }
+    item["level"] = {"kind": "neighbourhood", "areaName": "Northbridge Central 003 (synthetic)"}
+    assert _problems(item) == []
+
+    item["value"]["concentration"] = _ARABIC_INDIC_FIFTEEN
+
+    assert mentions(_problems(item), "concentration")
+
+
+def test_validate_instance_sample_priorities_non_ascii_digit_limit_is_rejected() -> None:
+    priority: Json = {
+        "id": "SAMPLE-PRIORITY-TEST",
+        "topicKey": "everyday-places",
+        "subtype": "gp-surgery",
+        "measure": "walking-minutes",
+        "limit": {"value": "15", "unit": "minutes"},
+        "synthetic": True,
+    }
+    schema = "sample-priorities.schema.json"
+    assert validate_instance({"priorities": [priority]}, schema, schema_directory()) == []
+
+    priority["limit"]["value"] = _ARABIC_INDIC_FIFTEEN
+
+    problems = validate_instance({"priorities": [priority]}, schema, schema_directory())
+    assert mentions(problems, "value")
+
+
+# Flood risk by postcode is published counts per likelihood category and property type, never a
+# single verdict (DA-16, final review item 3).
+def _flood_risk_item() -> Json:
+    item = _valid_item()
+    item["id"] = "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1"
+    item["topic"] = "flood-risk-postcode"
+    item["value"] = {
+        "source": "Rivers and sea (synthetic example)",
+        "counts": [
+            {
+                "category": "Medium (to confirm from the download)",
+                "propertyType": "residential (to confirm from the download)",
+                "properties": 6,
+            }
+        ],
+    }
+    item["level"] = {"kind": "postcode"}
+    return item
+
+
+def test_validate_instance_postcode_area_flood_risk_counts_are_accepted() -> None:
+    assert _problems(_flood_risk_item()) == []
+
+
+def test_validate_instance_postcode_area_flood_risk_yes_no_field_is_rejected() -> None:
+    item = _flood_risk_item()
+    item["value"]["inAreaAtRisk"] = True
+
+    assert mentions(_problems(item), "inAreaAtRisk")
+
+
+def test_validate_instance_postcode_area_flood_risk_single_band_is_rejected() -> None:
+    item = _flood_risk_item()
+    item["value"]["publishedBand"] = "Medium"
+
+    assert mentions(_problems(item), "publishedBand")
+
+
+def test_validate_instance_postcode_area_flood_risk_without_counts_is_rejected() -> None:
+    item = _flood_risk_item()
+    del item["value"]["counts"]
+
+    assert mentions(_problems(item), "counts")
+
+
+def test_validate_instance_postcode_area_flood_risk_decimal_count_is_rejected() -> None:
+    item = _flood_risk_item()
+    item["value"]["counts"][0]["properties"] = 6.5
+
+    assert mentions(_problems(item), "properties")

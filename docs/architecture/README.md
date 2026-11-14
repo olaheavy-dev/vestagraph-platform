@@ -55,7 +55,9 @@ flowchart TB
         cases[("Test cases<br/>JSON, packages/fixtures/test-cases<br/>Independently worked examples")]
         engine["Cost engine<br/>Python package, vestagraph_engine<br/>(packages/vestagraph-engine)<br/>No I/O, HTTP, AI, clock or random"]
         generator["Generator<br/>Python package<br/>vestagraph_generator"]
+        area["Area package<br/>Python package, vestagraph_area<br/>(packages/vestagraph-area)<br/>At a glance counts, distances, buses, priorities"]
         generated[("Generated costs<br/>packages/fixtures/generated/costs.json<br/>Every calculated output, each with a figure ID")]
+        arearesult[("Generated area result<br/>packages/fixtures/generated/area-result.json<br/>Every area figure the boards quote")]
         validator["Validator<br/>Python package<br/>vestagraph_fixture_validator"]
         tests["Python tests<br/>pytest, Hypothesis, architecture tests<br/>engine, generator and fixture tests"]
         specs["Specification tests<br/>pytest-bdd (packages/specs/tests)<br/>Gherkin specs from docs/specs/"]
@@ -75,12 +77,16 @@ flowchart TB
 
     generator -->|reads| data
     generator -->|calls| engine
+    generator -->|calls| area
     generator -->|writes| generated
+    generator -->|writes| arearesult
     validator -->|loads| schema
     validator -->|checks| data
     validator -->|checks| cases
     validator -->|checks| generated
+    validator -->|checks| arearesult
     tests -->|exercise| engine
+    tests -->|exercise| area
     tests -->|exercise| generator
     specs -->|check IDs in| generated
     ci -->|runs| validator
@@ -112,15 +118,17 @@ flowchart TB
 | Fixture data | `packages/fixtures/data/` | Hand-maintained inputs only: household, homes, evidence, documents, questions, replies, the snapshot and synthetic area context. No totals (`AGENTS.md` rule 2). |
 | Schemas | `packages/fixtures/schema/` | The contract: JSON Schema files for the data, the test cases and the generated output. |
 | Test cases | `packages/fixtures/test-cases/` | Calculations worked out independently of the engine, with their working, so a wrong calculation cannot confirm itself. |
-| Cost engine | `packages/vestagraph-engine/` (Python, `vestagraph_engine`, decision 0049) | The only place calculated figures come from (decision 0019); it produces `costs.json` through the generator. Architecture tests keep it free of I/O. |
-| Generator | `packages/vestagraph-generator/` (Python, `vestagraph_generator`) | `make generate`: reads the data, calls the engine, writes `costs.json`. |
-| Generated costs | `packages/fixtures/generated/costs.json` | The committed output. Never edited by hand. |
+| Cost engine | `packages/vestagraph-engine/` (Python, `vestagraph_engine`, decision 0049) | The only place calculated cost figures come from (decision 0019); it produces `costs.json` through the generator. Architecture tests keep it free of I/O. |
+| Area package | `packages/vestagraph-area/` (Python, `vestagraph_area`, FE-38) | The tested source of area figures (At a glance counts, display distances, buses per hour, priority results); it produces `area-result.json` through the generator. It calculates no cost figure. |
+| Generator | `packages/vestagraph-generator/` (Python, `vestagraph_generator`) | `make generate`: reads the data, calls the engine and the area package, writes `costs.json` and `area-result.json`; nothing is written if either cannot be generated. |
+| Generated costs | `packages/fixtures/generated/costs.json` | The committed cost output. Never edited by hand. |
+| Generated area result | `packages/fixtures/generated/area-result.json` | The committed area output the design boards quote. Never edited by hand. |
 | Validator | `packages/vestagraph-fixture-validator/` (Python, `vestagraph_fixture_validator`, on jsonschema and referencing) | `make validate`: checks every data, test-case and generated file against its schema. |
 | Python tests | `packages/*/tests/` | pytest tests, Hypothesis property tests, architecture tests and the generator's end-to-end tests. |
 | Specification tests | `packages/specs/tests/` | pytest-bdd runs the Gherkin specifications in `docs/specs/` (decision 0043); data steps check every cited figure and evidence ID against the fixtures and `costs.json`. |
 | Checks | `Makefile`, `.github/workflows/`, repository settings | `make check` locally and in CI, running the Python checks (mypy strict, `ruff format`, `ruff check`, the validator, pytest); `make generated-check` fails if the committed output is out of date. CodeQL (`actions` and `python`), dependency review and workflow linting also run. `make mutate` (mutmut on the Python engine) is manual and not part of CI. |
 
-**In plain language: how data flows today.** A person edits the inputs in the fixture data. The generator reads them, asks the cost engine to calculate every total (differences between homes are deferred to stage 5: BE-27, #96), and writes one file, `costs.json`. The validator checks that the inputs, the worked test cases and that output all match their schemas, and CI regenerates `costs.json` and fails if the committed copy is different. That is how the project keeps one rule: **inputs are typed once with a source; calculated figures only ever come from the engine.**
+**In plain language: how data flows today.** A person edits the inputs in the fixture data. The generator reads them, asks the cost engine to calculate every total (differences between homes are deferred to stage 5: BE-27, #96), and writes `costs.json`; it also asks the area package for the area figures and writes `area-result.json`. The validator checks that the inputs, the worked test cases and both outputs match their schemas, and CI regenerates both files and fails if a committed copy is different. That is how the project keeps one rule: **inputs are typed once with a source; calculated cost figures only ever come from the engine, and area figures from the tested area package.**
 
 **What is planned, and not built**
 
