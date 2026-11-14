@@ -792,7 +792,7 @@
         },
         "concentration": {
           "type": "string",
-          "pattern": "^\\d+(\\.\\d+)?$",
+          "pattern": "^[0-9]+(\\.[0-9]+)?$",
           "description": "Decimal string, as published."
         },
         "unit": {
@@ -845,7 +845,7 @@
               },
               "annualCharge": {
                 "type": "string",
-                "pattern": "^\\d+(\\.\\d+)?$",
+                "pattern": "^[0-9]+(\\.[0-9]+)?$",
                 "description": "Pounds per year as published, a decimal string."
               }
             }
@@ -880,7 +880,7 @@
         },
         "ratio": {
           "type": "string",
-          "pattern": "^\\d+(\\.\\d+)?$",
+          "pattern": "^[0-9]+(\\.[0-9]+)?$",
           "description": "Decimal string, as published."
         }
       }

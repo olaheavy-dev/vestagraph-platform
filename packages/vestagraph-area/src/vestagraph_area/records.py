@@ -3,11 +3,13 @@
 The files are checked against their schemas by ``make validate``. Anything this reader does not
 understand, including the cross-references a schema cannot express, is an
 ``InvalidAreaDataError`` rather than a guess; a missing file is an ``OSError``. Decimals are read
-as exact ``Fraction`` values (``parse_float=Fraction``), so no ``float`` is ever made (AGENTS
-rule 2).
+as exact ``Fraction`` values, so no ``float`` is ever made (AGENTS rule 2); ``NaN``, ``Infinity``,
+numbers with an exponent, duplicate keys, bad UTF-8 and JSON nested too deeply are refused, as
+the cost generator's reader does.
 """
 
 import json
+import re
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -16,6 +18,14 @@ from typing import Any
 
 class InvalidAreaDataError(ValueError):
     """A data file holds something the reader does not understand."""
+
+
+KNOWN_STATUSES = frozenset(
+    {"recorded", "stale", "no-record-in-source", "source-failed", "not-covered"}
+)
+# A limit is typed as plain ASCII digits with an optional decimal part: no sign, no spaces, no
+# exponent, no fraction bar and no other script's digits.
+_PLAIN_DECIMAL = re.compile(r"[0-9]+(\.[0-9]+)?", re.ASCII)
 
 
 @dataclass(frozen=True, slots=True)
@@ -88,10 +98,48 @@ class Priority:
     limit_unit: str
 
 
+def _refuse_constant(text: str) -> object:
+    message = f"it holds {text}, which is not a number the reader accepts."
+    raise InvalidAreaDataError(message)
+
+
+def _exact_decimal(text: str) -> Fraction:
+    if "e" in text or "E" in text:
+        message = f"the number {text} has an exponent; write it as a plain decimal."
+        raise InvalidAreaDataError(message)
+    return Fraction(text)
+
+
+def _unique_keys(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    obj: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in obj:
+            message = f"the key '{key}' appears twice in one object."
+            raise InvalidAreaDataError(message)
+        obj[key] = value
+    return obj
+
+
 def _load(path: Path) -> dict[str, Any]:
     try:
-        parsed = json.loads(path.read_text(encoding="utf-8"), parse_float=Fraction)
-    except json.JSONDecodeError as error:
+        text = path.read_text(encoding="utf-8")
+        parsed = json.loads(
+            text,
+            parse_float=_exact_decimal,
+            parse_constant=_refuse_constant,
+            object_pairs_hook=_unique_keys,
+        )
+    except UnicodeDecodeError as error:
+        message = f"{path.name} is not valid UTF-8 text: {error}"
+        raise InvalidAreaDataError(message) from error
+    except InvalidAreaDataError as error:
+        message = f"{path.name}: {error}"
+        raise InvalidAreaDataError(message) from error
+    except RecursionError as error:
+        message = f"{path.name} is nested too deeply to read."
+        raise InvalidAreaDataError(message) from error
+    except ValueError as error:
+        # Bad JSON, or a whole number with more digits than Python converts (4300).
         message = f"{path.name} is not valid JSON: {error}"
         raise InvalidAreaDataError(message) from error
     if not isinstance(parsed, dict):
@@ -195,15 +243,29 @@ def _record(raw: dict[str, Any]) -> AreaRecord:
     if value is not None and not isinstance(value, dict):
         message = f"{where}: 'value' must be an object."
         raise InvalidAreaDataError(message)
+    status = _get(raw, "status", str, where)
+    if status not in KNOWN_STATUSES:
+        message = f"{where}: unknown status '{status}'."
+        raise InvalidAreaDataError(message)
+    topic = _get(raw, "topic", str, where)
+    if topic == "bus-departures" and value is not None:
+        _check_departures_value(value, where)
     return AreaRecord(
         id=record_id,
         postcode=_get(raw, "postcode", str, where),
-        topic=_get(raw, "topic", str, where),
+        topic=topic,
         subtype=_optional_string(raw, "subtype", where),
-        status=_get(raw, "status", str, where),
+        status=status,
         label=_get(raw, "label", str, where),
         value=value,
     )
+
+
+def _check_departures_value(value: dict[str, Any], where: str) -> None:
+    """A bus-departures value names its stop, route and destination, and lists HH:MM strings."""
+    for key in ("stopItemId", "routeNumber", "destination"):
+        _get(value, key, str, where)
+    _strings(value, "departures", where, required=True)
 
 
 def _check_bus_stops(records: tuple[AreaRecord, ...]) -> None:
@@ -245,11 +307,11 @@ def _priority(raw: dict[str, Any]) -> Priority:
     priority_id = _get(raw, "id", str, "priority")
     where = f"priority '{priority_id}'"
     limit = _get(raw, "limit", dict, where)
-    try:
-        limit_value = Fraction(_get(limit, "value", str, where))
-    except (ValueError, ZeroDivisionError) as error:
-        message = f"{where}: limit value is not a decimal number."
-        raise InvalidAreaDataError(message) from error
+    limit_text = _get(limit, "value", str, where)
+    if _PLAIN_DECIMAL.fullmatch(limit_text) is None:
+        message = f"{where}: limit value {limit_text!r} is not a plain decimal number."
+        raise InvalidAreaDataError(message)
+    limit_value = Fraction(limit_text)
     flt = raw.get("filter")
     if flt is not None and not isinstance(flt, dict):
         message = f"{where}: 'filter' must be an object."

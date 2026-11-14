@@ -1,6 +1,8 @@
 """The readers: what they return from the committed data, and what they refuse."""
 
 import json
+from collections.abc import Callable
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
@@ -107,3 +109,227 @@ def test_read_postcode_area_record_missing_status_raises_invalid_area_data(tmp_p
 
     with pytest.raises(InvalidAreaDataError, match="status"):
         read_postcode_area(_write(tmp_path, "postcode-area.json", data))
+
+
+# --- Reader hardening: what the JSON parser itself must refuse (final review item 6) ---
+
+
+def _write_text(tmp_path: Path, name: str, text: str) -> Path:
+    path = tmp_path / name
+    path.write_text(text, encoding="utf-8")
+    return path
+
+
+@pytest.mark.parametrize("constant", ["NaN", "Infinity", "-Infinity"])
+def test_read_sample_priorities_non_finite_constant_raises_invalid_area_data(
+    tmp_path: Path, constant: str
+) -> None:
+    path = _write_text(tmp_path, "sample-priorities.json", f'{{"priorities": [], "x": {constant}}}')
+
+    with pytest.raises(InvalidAreaDataError, match=constant.lstrip("-")):
+        read_sample_priorities(path)
+
+
+def test_read_postcode_area_number_with_exponent_raises_invalid_area_data(tmp_path: Path) -> None:
+    data = read_json(DATA / "postcode-area.json")
+    text = json.dumps(data).replace('"distanceMetres": 120,', '"distanceMetres": 1.2e2,', 1)
+    assert "1.2e2" in text
+
+    with pytest.raises(InvalidAreaDataError, match="exponent"):
+        read_postcode_area(_write_text(tmp_path, "postcode-area.json", text))
+
+
+def test_read_registry_five_thousand_digit_integer_raises_invalid_area_data(
+    tmp_path: Path,
+) -> None:
+    path = _write_text(tmp_path, "pilot-topics.json", '{"nation": ' + "9" * 5000 + "}")
+
+    with pytest.raises(InvalidAreaDataError):
+        read_registry(path)
+
+
+def test_read_registry_bad_utf8_raises_invalid_area_data(tmp_path: Path) -> None:
+    path = tmp_path / "pilot-topics.json"
+    path.write_bytes(b'{"nation": "\xff\xfe"}')
+
+    with pytest.raises(InvalidAreaDataError, match="UTF-8"):
+        read_registry(path)
+
+
+def test_read_registry_duplicate_key_raises_invalid_area_data(tmp_path: Path) -> None:
+    path = _write_text(tmp_path, "pilot-topics.json", '{"nation": "england", "nation": "wales"}')
+
+    with pytest.raises(InvalidAreaDataError, match="nation"):
+        read_registry(path)
+
+
+def test_read_registry_deeply_nested_json_raises_invalid_area_data(tmp_path: Path) -> None:
+    path = _write_text(tmp_path, "pilot-topics.json", "[" * 200_000 + "]" * 200_000)
+
+    with pytest.raises(InvalidAreaDataError):
+        read_registry(path)
+
+
+def test_read_registry_missing_file_raises_os_error(tmp_path: Path) -> None:
+    with pytest.raises(FileNotFoundError):
+        read_registry(tmp_path / "pilot-topics.json")
+
+
+# --- Reader validation: statuses and bus departures (final review item 7) ---
+
+
+def test_read_postcode_area_unknown_status_raises_invalid_area_data(tmp_path: Path) -> None:
+    data = read_json(DATA / "postcode-area.json")
+    data["area"][0]["status"] = "verified"
+
+    with pytest.raises(InvalidAreaDataError, match="verified"):
+        read_postcode_area(_write(tmp_path, "postcode-area.json", data))
+
+
+@pytest.mark.parametrize(
+    ("field", "bad"),
+    [
+        ("routeNumber", 12),
+        ("destination", None),
+        ("departures", "08:00"),
+        ("departures", ["08:00", 830]),
+        ("stopItemId", ["NB1-4XY-AREA-TRANSPORT-STOP-1"]),
+    ],
+)
+def test_read_postcode_area_bus_departures_bad_value_shape_raises_invalid_area_data(
+    tmp_path: Path, field: str, bad: Any
+) -> None:
+    data = read_json(DATA / "postcode-area.json")
+    bus = next(r for r in data["area"] if r["topic"] == "bus-departures" and "value" in r)
+    bus["value"][field] = bad
+
+    with pytest.raises(InvalidAreaDataError, match=field):
+        read_postcode_area(_write(tmp_path, "postcode-area.json", data))
+
+
+def test_read_postcode_area_bus_departures_missing_route_number_raises_invalid_area_data(
+    tmp_path: Path,
+) -> None:
+    data = read_json(DATA / "postcode-area.json")
+    bus = next(r for r in data["area"] if r["topic"] == "bus-departures" and "value" in r)
+    del bus["value"]["routeNumber"]
+
+    with pytest.raises(InvalidAreaDataError, match="routeNumber"):
+        read_postcode_area(_write(tmp_path, "postcode-area.json", data))
+
+
+# --- Strict limit numbers (final review item 8) ---
+
+
+@pytest.mark.parametrize("bad", ["1/3", "-5", " 2 ", "1e3", "\u0661\u0665", "5\n", "", "1.", ".5"])
+def test_read_sample_priorities_limit_not_a_plain_decimal_raises_invalid_area_data(
+    tmp_path: Path, bad: str
+) -> None:
+    data = read_json(DATA / "sample-priorities.json")
+    data["priorities"][0]["limit"]["value"] = bad
+
+    with pytest.raises(InvalidAreaDataError, match="limit value"):
+        read_sample_priorities(_write(tmp_path, "sample-priorities.json", data))
+
+
+@pytest.mark.parametrize(("text", "expected"), [("15", Fraction(15)), ("0.5", Fraction(1, 2))])
+def test_read_sample_priorities_plain_decimal_limit_is_exact(
+    tmp_path: Path, text: str, expected: Fraction
+) -> None:
+    data = read_json(DATA / "sample-priorities.json")
+    data["priorities"][0]["limit"]["value"] = text
+
+    priorities = read_sample_priorities(_write(tmp_path, "sample-priorities.json", data))
+
+    assert priorities[0].limit_value == expected
+
+
+# --- Reader rejections the security review found untested (final review item 18) ---
+
+
+@pytest.mark.parametrize("reader", [read_registry, read_postcode_area, read_sample_priorities])
+def test_read_file_not_an_object_raises_invalid_area_data(
+    tmp_path: Path, reader: Callable[[Path], object]
+) -> None:
+    path = _write(tmp_path, "file.json", [1, 2])
+
+    with pytest.raises(InvalidAreaDataError, match="JSON object"):
+        reader(path)
+
+
+@pytest.mark.parametrize(
+    ("field", "bad"),
+    [("counted", "yes"), ("name", 3), ("recordTopics", "school"), ("checkInPerson", [1])],
+)
+def test_read_registry_topic_field_of_wrong_type_raises_invalid_area_data(
+    tmp_path: Path, field: str, bad: Any
+) -> None:
+    data = read_json(DATA / "pilot-topics.json")
+    data["topics"][0][field] = bad
+
+    with pytest.raises(InvalidAreaDataError, match=field):
+        read_registry(_write(tmp_path, "pilot-topics.json", data))
+
+
+@pytest.mark.parametrize("bad", ["gov.uk", {"url": "https://example.invalid"}, {"label": 5}])
+def test_read_registry_bad_official_route_raises_invalid_area_data(
+    tmp_path: Path, bad: Any
+) -> None:
+    data = read_json(DATA / "pilot-topics.json")
+    noise = next(t for t in data["topics"] if t["key"] == "noise")
+    noise["officialRoute"] = bad
+
+    with pytest.raises(InvalidAreaDataError, match="noise"):
+        read_registry(_write(tmp_path, "pilot-topics.json", data))
+
+
+def test_read_registry_non_string_subtype_name_raises_invalid_area_data(tmp_path: Path) -> None:
+    data = read_json(DATA / "pilot-topics.json")
+    data["subtypeNames"]["childcare"] = 7
+
+    with pytest.raises(InvalidAreaDataError, match="subtypeNames"):
+        read_registry(_write(tmp_path, "pilot-topics.json", data))
+
+
+def test_read_registry_duplicate_topic_keys_raise_invalid_area_data(tmp_path: Path) -> None:
+    data = read_json(DATA / "pilot-topics.json")
+    data["topics"][1]["key"] = data["topics"][0]["key"]
+
+    with pytest.raises(InvalidAreaDataError, match="unique"):
+        read_registry(_write(tmp_path, "pilot-topics.json", data))
+
+
+def test_read_postcode_area_duplicate_record_ids_raise_invalid_area_data(tmp_path: Path) -> None:
+    data = read_json(DATA / "postcode-area.json")
+    data["area"][1]["id"] = data["area"][0]["id"]
+
+    with pytest.raises(InvalidAreaDataError, match="unique"):
+        read_postcode_area(_write(tmp_path, "postcode-area.json", data))
+
+
+def test_read_postcode_area_record_value_not_an_object_raises_invalid_area_data(
+    tmp_path: Path,
+) -> None:
+    data = read_json(DATA / "postcode-area.json")
+    data["area"][0]["value"] = [120]
+
+    with pytest.raises(InvalidAreaDataError, match="value"):
+        read_postcode_area(_write(tmp_path, "postcode-area.json", data))
+
+
+def test_read_sample_priorities_non_string_limit_value_raises_invalid_area_data(
+    tmp_path: Path,
+) -> None:
+    data = read_json(DATA / "sample-priorities.json")
+    data["priorities"][0]["limit"]["value"] = 15
+
+    with pytest.raises(InvalidAreaDataError, match="value"):
+        read_sample_priorities(_write(tmp_path, "sample-priorities.json", data))
+
+
+def test_read_sample_priorities_non_object_filter_raises_invalid_area_data(tmp_path: Path) -> None:
+    data = read_json(DATA / "sample-priorities.json")
+    data["priorities"][0]["filter"] = "rail-station"
+
+    with pytest.raises(InvalidAreaDataError, match="filter"):
+        read_sample_priorities(_write(tmp_path, "sample-priorities.json", data))
