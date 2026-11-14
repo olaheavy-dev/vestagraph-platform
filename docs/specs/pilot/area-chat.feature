@@ -167,6 +167,13 @@ Feature: Ask about this area (the pilot's area chat panel)
     When the stand-in reply says "Not a safety rating" (the tools' own wording) or names a place such as "Safestore", and makes no claim about the area
     Then the output guard lets that reply through
 
+  # Added 14 Nov 2026 (AI-12 amended): "Explain this" stays pre-written and links to the chat for more.
+  @ui
+  Scenario: CHAT-52 "Ask more about this" opens the chat focused on that topic
+    Given the user has opened a topic's "Explain this" on Check an area
+    When the user chooses "Ask more about this"
+    Then "Ask about this area" opens with that topic named as its starting focus, the explanation itself made no model call, and the chat's bot check and daily cap apply as for any chat question
+
   # M2 (14 Nov 2026): "a number that is not in the tool results" means digits or number words that state a
   # fact. Allowed: the radius in use, counts and totals the tools return, and dates in the results. A
   # measured ceiling on wrongly blocked answers belongs to the evaluation set (AI-03).
