@@ -2,8 +2,8 @@
 Feature: Ask about this area (the pilot's area chat panel)
   Question it answers: "What do the sources say about this area, in plain words?"
   Modes: both (and anyone, with no account; decisions 0046 and 0051)
-  Fixtures: home WALES-1 (outside England); the postcode-level sample area data is not in the
-    fixtures yet (fixture needed: #216); figures: none (the chat never calculates; decision 0004).
+  Fixtures: home WALES-1 (outside England); the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
+    (NB1 4XY, NB7 1RR, NB9 9ZZ); figures: none (the chat never calculates; decision 0004).
   Where: on Check an area only (the landing has no result: it hands a complete postcode to Check an area,
     LAND-03; corrected 14 Nov 2026, C6), as an optional, closable panel (decision 0004), never a permanent
     column. A drawer over the right column on desktop, a bottom sheet on a phone. Layering (register line
@@ -56,7 +56,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     the isometric area card -> CHAT-31, CHAT-32, CHAT-33 (the card itself, in both its versions, is in area-card.feature)
     "Ask more about this" from a topic's "Explain this" opens the chat on that topic -> CHAT-52, CHAT-53
 
-  # Home "WALES-1" stands in for a postcode outside England until the postcode-level fixture (#216).
+  # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
   Scenario: CHAT-01 a postcode outside England is not yet covered, so there is nothing to ask about
     Then home "WALES-1" has coverage "not-yet-covered"
 
@@ -90,7 +90,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     When the user opens "Ask about this area"
     Then the panel opens as a bottom sheet that can be closed, and the area result is still there behind it; if a topic sheet was open, the chat replaces it and Back returns to the topic (one sheet at a time, FE-26)
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): the visible citation is the source's icon, name and link; the tool result behind the answer keeps the date and the decision 0029 label, so the reply can say when a fact dates from if asked (TOOLS-08).
   Scenario: CHAT-07 every claim in an answer shows its source
@@ -98,21 +98,21 @@ Feature: Ask about this area (the pilot's area chat panel)
     When the stand-in reply answers a question about a recorded topic
     Then each claim in the answer shows its source as the source's icon and name, linking to the official page, with no status word and no date on the citation; the reply can still say when a fact dates from, because the tool result it used carries the data date and the label (Cached or Fallback from decision 0029, or Old when stale; Unavailable is CHAT-09). "Live" is not offered in the pilot: the tools read only our stored copies (corrected 14 Nov 2026, C4)
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CHAT-08 a topic with no record is not known, never guessed
     Given the user has opened "Ask about this area" for a sample postcode
     When the user asks about a topic the sources hold no record for
     Then the answer says "Not known from our sources" and offers a question to ask instead
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CHAT-09 a topic whose source failed is Unavailable, never none or zero
     Given the user has opened "Ask about this area" for a sample postcode whose flood source failed
     When the user asks about flood warnings
     Then the answer says the flood source is "Unavailable" and that this is not the same as no warning, and it shows no "none" and no zero
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CHAT-10 suggested questions come from the gaps
     Given the user has checked a sample postcode with at least one gap
@@ -277,21 +277,21 @@ Feature: Ask about this area (the pilot's area chat panel)
     When the user sends a question and the answer has not arrived yet
     Then the panel shows "Writing an answer", and no empty answer is shown
 
-  # fixture needed: #216. The area card comes after the plain answers work everywhere (decision 0037).
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY). The area card comes after the plain answers work everywhere (decision 0037).
   @ui
   Scenario: CHAT-31 an answer about nearby places may show the area card, and the text answer is always there
     Given the user has opened "Ask about this area" for a sample postcode
     When the stand-in reply answers a question about nearby places with the area card
     Then the isometric area card is shown together with the full text answer, which lists the same places
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CHAT-32 every place on the area card sits at its listed distance
     Given an answer shows the area card for a sample postcode
     When the card is drawn
     Then every place in the text answer is drawn at its listed straight-line distance within 2%, or is named "off the map"
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): the card's sources show as icon, name and link; dates are on About the data.
   Scenario: CHAT-33 the area card carries its sources and shows no risk shading

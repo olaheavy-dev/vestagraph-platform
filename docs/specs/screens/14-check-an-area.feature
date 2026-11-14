@@ -3,7 +3,8 @@ Feature: Check an area
   Question it answers: "What is around this postcode?"
   Modes: both (and anyone, with no account; decision 0046)
   Fixtures: home WALES-1 (outside England); inputs: area record "WALES-1-AREA-SCHOOL-1";
-    the postcode-level sample area data is not in the fixtures yet (fixture needed: #216); figures: none.
+    the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
+    (NB1 4XY normal, NB7 1RR sparse and failed flood, NB9 9ZZ unknown); figures: none.
   Route: /area#postcode=… (the postcode lives in the URL fragment, never the query string, so it
     never reaches a server, application or hosting log of ours; decisions 0014 and 0046). The one
     exception is an outbound link the visitor clicks, which may carry the postcode to that site and
@@ -38,7 +39,7 @@ Feature: Check an area
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
 
-  # Home "WALES-1" stands in for a postcode outside England until the postcode-level fixture (#216).
+  # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
   Scenario: AREA-01 a postcode outside England is not yet covered
     Then home "WALES-1" has coverage "not-yet-covered"
 
@@ -58,7 +59,7 @@ Feature: Check an area
     When the user checks an incomplete postcode
     Then an inline message under the "Postcode" field explains the format, and no search is made
 
-  # fixture needed: #216 (one well-formed but unknown postcode)
+  # fixture: packages/fixtures/data/postcode-area.json (NB9 9ZZ, the unknown postcode)
   @ui
   Scenario: AREA-05 an unknown postcode shows only that it wasn't found
     Given the user is on Check an area
@@ -135,7 +136,7 @@ Feature: Check an area
     When the user chooses "Print or save as PDF"
     Then the print page is made in the browser, and no request is sent that carries the postcode
 
-  # fixture needed: #216 (distances from the postcode centre)
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY, distanceMethod from the postcode centre)
   @ui
   Scenario: AREA-13 distances are measured from the postcode centre
     Given the user has checked a sample postcode
@@ -144,7 +145,7 @@ Feature: Check an area
 
   # Units follow the country (register line FE-27, 14 Nov 2026): stored values stay in metres; the display
   # unit comes from the country entry in the data contract. Crime stays police.uk's own "within 1 mile".
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY under 1 mile; NB7 1RR from 1 mile)
   @ui
   Scenario: AREA-24 in England distances show in metres under 1 mile and in miles from 1 mile
     Given the user has checked a sample postcode in England
@@ -153,7 +154,7 @@ Feature: Check an area
     And a distance of 1 mile or more reads in miles to one decimal, like "1.3 miles"
     And crime reads "within 1 mile", the stored values are in metres, and no distance is shown in kilometres
 
-  # fixture needed: #216 (no flood source-failed record exists yet)
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1, source-failed)
   @ui
   Scenario: AREA-14 a missing flood copy is not the same as no warning
     Given the user is on Check an area
@@ -164,7 +165,7 @@ Feature: Check an area
   # every 15 minutes, gives no service-level guarantee and is not for safety-critical use
   # (https://environment.data.gov.uk/flood-monitoring/doc/reference, read 14 Nov 2026). The 1 hour and
   # 1 day limits below are the founder's accepted default, not an Environment Agency rule.
-  # fixture needed: #216 (flood copies of a known age for AREA-21 to AREA-23)
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY NB1-4XY-AREA-FLOOD-1; the test sets the clock against checkedAt (AREA-22, AREA-23))
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): no status label on the flood row (founder: "No exceptions"); About the data shows it (AREA-25).
   # Changed again 14 Nov 2026 (DA-12): the flood row keeps its check time (founder: "keep time for the flood"); its limit sits in the page's one "How we got this" (FE-34).
@@ -190,7 +191,7 @@ Feature: Check an area
     Then the row shows "Not known right now" and "This is not the same as no warning", no warning status from the old copy is shown, and About the data shows the flood source as "Unavailable" with the time we last checked
 
   # Added 14 Nov 2026 (FE-33, DA-12): where the source date and status now live.
-  # fixture needed: #216 (sources with known dates and statuses)
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY and NB7 1RR, sources with dates and statuses)
   @ui
   Scenario: AREA-25 About the data lists every source with its date and status
     Given the user is on Check an area and has checked a postcode
@@ -198,7 +199,7 @@ Feature: Check an area
     Then every source the area check uses is listed with its icon, name and official link, its data date and its status (Cached, Fallback, Old or Unavailable, never Live in the pilot), and the flood source shows when we last checked
 
   # Added 14 Nov 2026 (FE-33): the stamp on a fact.
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: AREA-26 a fact's source stamp is the source's icon, name and link only
     Given the user is on Check an area and has checked a postcode
@@ -219,7 +220,7 @@ Feature: Check an area
     And no outbound link sends a referrer, and nothing is sent until the user clicks it
 
   # Added 14 Nov 2026 (FE-34, one per page).
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: AREA-27 the postcode result has one "How we got this" at the bottom, with every topic's method and limits
     Given the user has checked a sample postcode in England

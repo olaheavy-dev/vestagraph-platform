@@ -5,7 +5,7 @@ Synthetic sample data for the prototype (decision 0018, stage 2 plan section 1).
 | Folder | What it holds |
 |---|---|
 | `schema/` | JSON Schema 2020-12 files. `common.schema.json` holds shared pieces (money, sources, dates, nations); the others describe one data file each. |
-| `data/` | Hand-maintained **inputs**: household, homes, evidence, documents, questions, replies, snapshot, area. No totals or other calculated figures (AGENTS.md rule 2). |
+| `data/` | Hand-maintained **inputs**: household, homes, evidence, documents, questions, replies, snapshot, area, postcode-area. No totals or other calculated figures (AGENTS.md rule 2). |
 | `test-cases/` | Independently worked examples (task 3), checked against `schema/test-case.schema.json`. |
 | `generated/` | Cost-engine output (task 4b): one file, `costs.json`, checked against `schema/generated-costs.schema.json`. Written only by the generator (`make generate`) and committed; never edited by hand. `make check` regenerates it and fails if anything under `generated/` differs from what is committed. |
 
@@ -59,6 +59,16 @@ Items that only describe a home (`council-tax-band`, `energy-certificate`, `ener
 - **Crime** is recorded counts by category and month (at least 1; a category with none recorded is absent, never 0). The crime value allows no rating, score or level field, and no wording in this file calls a home safe, unsafe, verified or approved (rule 4).
 - **Energy** items only point at the home's certificate and cost items in `evidence.json` (`evidenceItemIds`); the rating, year and cost are recorded once there (rule 2), are never actual bills, and never enter a total. **School inspections** carry a framework, a date and outcomes per area; there is no single overall grade field.
 - Tests: `AreaSchemaRejectionTests` (the schema refuses bad records) and `AreaDataTests` (every England home has each topic or an explicit gap, WALES-1 is not covered, links resolve, wording rules hold).
+
+## Postcode area data (#216)
+
+`data/postcode-area.json` is checked by `schema/postcode-area.schema.json`. It holds synthetic area facts measured from a **postcode centre**, for the pilot's public area check, beside the home-keyed `area.json` (which it does not replace). The schema reuses the value shapes of `area.schema.json` by `$ref` and adds a `postcode` key (never a `homeId`), a `level` (register DA-14: each fact at its official level) and, for flood items, a `checkedAt` time with an explicit offset (register DA-12).
+
+- **Postcodes** (England only, all synthetic): `NB1 4XY` (role `sample`, the normal result, mirroring the B1 records so the canvas figures stay), `NB7 1RR` (role `test`, sparse: three places between 1 and 5 km, no supermarket in the source, a failed flood lookup with no time, and a planning record with instruction-like text for the tools' "text is data" scenarios) and `NB9 9ZZ` (well-formed, listed under `unknownPostcodes`, no records).
+- **Levels by topic:** transport stops, schools and amenities `from-postcode-centre`; school inspections `named-place`; crime `radius` of exactly 1609.344 m (police.uk's 1 mile); sold prices and planning `radius` 500 m; flood and broadband `postcode`.
+- **Distances are inputs** with the method "straight-line from the postcode centre, synthetic". Live distances will come from the pilot's tested geometry module, not from this file.
+- **Worked miles figures for later UI tests** (metres divided by 1609.344, one decimal): 2400 m is 1.49, shown "1.5 miles"; 3100 m is 1.93, "1.9 miles"; 4600 m is 2.86, "2.9 miles".
+- Tests: `test_fixtures_postcode_area_schema_rejection.py` (the schema refuses bad records) and `test_fixtures_postcode_area_data.py` (levels, the exact mile, the flood time, unique IDs across both area files, listed postcodes, the sparse rules).
 
 ## Known limits
 
