@@ -34,6 +34,7 @@ Feature: Check an area
     distances in England: metres under 1 mile, miles from 1 mile, stored in metres -> AREA-24
     an address in Wales, Scotland or Northern Ireland, "not yet covered" -> AREA-01, AREA-02, AREA-08
     narrow and mobile layouts with a list alternative to the map -> covered by NEAR-11 (same topic details; a sheet on a phone, FE-20)
+    one "How we got this" at the bottom of the result, with every topic's method and limits -> AREA-27
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
 
@@ -216,3 +217,12 @@ Feature: Check an area
     When the user checks a complete postcode
     Then each outbound link that carries the postcode names its site and says that site will see the postcode
     And no outbound link sends a referrer, and nothing is sent until the user clicks it
+
+  # Added 14 Nov 2026 (FE-34, one per page).
+  # fixture needed: #216
+  @ui
+  Scenario: AREA-27 the postcode result has one "How we got this" at the bottom, with every topic's method and limits
+    Given the user has checked a sample postcode in England
+    When the results are shown
+    Then no topic carries its own "How we got this", each topic ends with its source links only
+    And one closed "How we got this" sits at the bottom of the result, reachable by keyboard, listing every topic on the page with its method and limits
