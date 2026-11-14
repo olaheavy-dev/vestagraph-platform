@@ -32,7 +32,9 @@ def test_main_real_data_exits_zero_and_names_the_file_it_wrote(tmp_path: Path) -
 
     written = root / "packages" / "fixtures" / "generated" / "costs.json"
     assert exit_code == 0
-    assert out.getvalue() == f"Generated {written}\n"
+    assert out.getvalue() == (
+        f"Generated {written}\nGenerated {written.with_name('area-result.json')}\n"
+    )
     assert err.getvalue() == ""
     assert written.read_bytes() == (fixtures_directory() / "generated" / "costs.json").read_bytes()
 

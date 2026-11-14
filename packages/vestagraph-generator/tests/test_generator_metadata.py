@@ -1,4 +1,4 @@
-"""Metadata tests: the generator depends only on the engine (decision 0039 section 1)."""
+"""Metadata tests: the generator depends only on the engine and the area package (0039, 0049)."""
 
 import ast
 import sys
@@ -7,8 +7,8 @@ from importlib.metadata import requires
 from pathlib import Path
 
 
-def test_requires_generator_depends_only_on_engine() -> None:
-    assert requires("vestagraph-generator") == ["vestagraph-engine"]
+def test_requires_generator_depends_only_on_engine_and_area() -> None:
+    assert requires("vestagraph-generator") == ["vestagraph-engine", "vestagraph-area"]
 
 
 def test_import_generator_ships_py_typed_marker() -> None:
@@ -30,16 +30,21 @@ def _imported_top_level_names(source_folder: Path) -> set[str]:
     return names
 
 
-def test_import_generator_modules_use_only_the_engine_and_the_standard_library() -> None:
+def test_import_generator_modules_use_only_engine_area_and_the_standard_library() -> None:
     package = import_module("vestagraph_generator")
     assert package.__file__ is not None
 
     names = _imported_top_level_names(Path(package.__file__).parent)
 
-    allowed = set(sys.stdlib_module_names) | {"vestagraph_engine", "vestagraph_generator"}
+    allowed = set(sys.stdlib_module_names) | {
+        "vestagraph_engine",
+        "vestagraph_area",
+        "vestagraph_generator",
+    }
     assert names, "no imports found: the check would prove nothing"
     assert names - allowed == set()
     assert "vestagraph_engine" in names
+    assert "vestagraph_area" in names
 
 
 def test_import_generator_does_not_use_the_float_type_for_money() -> None:

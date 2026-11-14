@@ -7,12 +7,12 @@ Synthetic sample data for the prototype (decision 0018, stage 2 plan section 1).
 | `schema/` | JSON Schema 2020-12 files. `common.schema.json` holds shared pieces (money, sources, dates, nations); the others describe one data file each. |
 | `data/` | Hand-maintained **inputs**: household, homes, evidence, documents, questions, replies, snapshot, area, postcode-area, pilot-topics, sample-priorities. No totals or other calculated figures (AGENTS.md rule 2). |
 | `test-cases/` | Independently worked examples (task 3), checked against `schema/test-case.schema.json`. |
-| `generated/` | Cost-engine output (task 4b): one file, `costs.json`, checked against `schema/generated-costs.schema.json`. Written only by the generator (`make generate`) and committed; never edited by hand. `make check` regenerates it and fails if anything under `generated/` differs from what is committed. |
+| `generated/` | Cost-engine output (task 4b): two files, `costs.json` (checked against `schema/generated-costs.schema.json`) and `area-result.json` (the figures the area design boards quote: At a glance counts, display distances, buses per hour and priority results, checked against `schema/generated-area-result.schema.json`). Written only by the generator (`make generate`) and committed; never edited by hand. `make check` regenerates it and fails if anything under `generated/` differs from what is committed. |
 
 ## Which schema checks which file
 
 - `data/NAME.json` is checked against `schema/NAME.schema.json` (by file name). Each data file also carries a `"$schema": "../schema/NAME.schema.json"` line for editors; the validator fails if it names a different schema.
-- Every file in `test-cases/` and `generated/` must name its schema in a top-level `"$schema"` field (a relative path into `schema/`); both test-case files name `../schema/test-case.schema.json`, and `costs.json` names `../schema/generated-costs.schema.json`.
+- Every file in `test-cases/` and `generated/` must name its schema in a top-level `"$schema"` field (a relative path into `schema/`); both test-case files name `../schema/test-case.schema.json`, `costs.json` names `../schema/generated-costs.schema.json`, and `area-result.json` names `../schema/generated-area-result.schema.json`.
 
 ## How values are modelled
 

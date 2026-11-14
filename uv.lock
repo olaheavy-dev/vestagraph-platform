@@ -1006,8 +1006,12 @@ name = "vestagraph-generator"
 version = "0.0.0"
 source = { editable = "packages/vestagraph-generator" }
 dependencies = [
+    { name = "vestagraph-area" },
     { name = "vestagraph-engine" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "vestagraph-engine", editable = "packages/vestagraph-engine" }]
+requires-dist = [
+    { name = "vestagraph-area", editable = "packages/vestagraph-area" },
+    { name = "vestagraph-engine", editable = "packages/vestagraph-engine" },
+]
