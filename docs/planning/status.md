@@ -81,7 +81,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 - Only this end-of-session status update (`docs/end-of-session-14-nov`). Everything else from 14 Nov 2026 is merged (#245 to #248, #250, #252).
 
 ## Start of the next session
-1. **Sync the repository design files** (pass B step 8): `.design/prototype/tokens.css` and `DESIGN_BRIEF.md` take the canvas version 138 values (slate ink, the light lit edge and cream bands, the source stamp, the lower-case wordmark). Small pull request, no decisions needed.
+1. **Done (15 Nov 2026, branch `docs/design-files-canvas-138`): the repository design files synced with canvas version 138** (pass B step 8). `tokens.css` takes slate ink dark mode (FE-31, with the warm hearth dot for the postcode centre), the light card edge and shadow, the cream band and solid ink headlines (FE-29, the headline gradient deleted); `DESIGN_BRIEF.md` takes the source stamp (FE-33) and the lower-case wordmark (PD-09 note).
 2. **Then the first design batch** on the canvas (item 1 (c) below): write a short brief for the founder to approve before drawing.
 3. Optional checks for the founder: the Logo board's new note may sit close to its bottom edge, and the lower-case change also applied to every lockup on the logo exploration board (the founder may prefer only the chosen D1).
 
