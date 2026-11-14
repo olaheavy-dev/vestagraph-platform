@@ -34,7 +34,7 @@ Feature: Check an area
     postcode not found, never shown as empty topics -> AREA-05
     our stored copy of a source is missing or failed, not shown as a clean result -> AREA-07, AREA-14
     the visitor's own request to us failed, a different state with Try again -> AREA-19
-    flood warnings: the Environment Agency stamp as the official warnings link, the check time on the row but no label; after 1 hour About the data shows the time we last checked, after 1 day the row says "Not known right now" -> AREA-21, AREA-22, AREA-23, AREA-25
+    flood warnings: the Environment Agency stamp as the official warnings link, the check time on the row but no label; About the data always shows the time we last checked (after 1 hour the copy is labelled Old in the data only, not on the page), and after 1 day the row says "Not known right now" -> AREA-21, AREA-22, AREA-23, AREA-25
     a fact's stamp is its source's icon, name and link, with no status word and no date -> AREA-26
     the printout: the sample postcode says "Sample data", any other postcode its made-at time -> AREA-12, AREA-20
     distances in England: metres under 1 mile, miles from 1 mile, stored in metres -> AREA-24
@@ -182,7 +182,7 @@ Feature: Check an area
     Given the user is on Check an area and our flood copy was refreshed within the last hour
     When the user views the flood row
     Then it shows the warnings in force "when we last checked, at <time>", its official warnings link is the Environment Agency source stamp (DA-12: no separate GOV.UK warnings link), no status word, and the word "live" and any "clear" or "safe" label are not shown
-    And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "This is not a flood risk check" sits inside the page's "How we got this" section at the bottom of the result, with no "How we got this" under the flood topic itself (FE-34)
+    And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "This is not a flood risk check" sits in the short "How we got this" note at the bottom of the result, with no "How we got this" under the flood topic itself (FE-34)
 
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): the check time is on About the data, with no "Old" word (founder: "Dates only, no notes").
@@ -238,5 +238,5 @@ Feature: Check an area
     Given the user has checked a sample postcode in England
     When the results are shown
     Then no topic carries its own "How we got this", each topic ends with its source links only
-    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked, the wider areas some figures are published for, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
+    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked and that this is not a flood risk check, the wider areas some figures are published for, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
     And it then shows one line per topic with its icon, name and source links (route-only topics show their official link), and the link "How each source works and what it can't tell you: About the data →"

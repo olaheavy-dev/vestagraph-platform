@@ -1,6 +1,6 @@
 # Status
 
-Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 2026, night (first design batch drawn, canvas version 168)**.
+Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 2026, night (first design batch drawn, canvas version 174)**.
 
 ## Where we are
 - **Stage 3** (prototype specification) is open. The founder put the **pilot** (the public area check with AI, stage 5b) first on 13 Nov 2026: pilot specs, then a pilot-only gate, then pilot development tickets (decisions [0051](../decisions/0051-ai-in-the-public-pilot.md) and [0052](../decisions/0052-pilot-only-gate.md)); the full stage 3 gate (#71) follows before the home workspace. Stage 4's frontend foundation is decided: [0048](../decisions/0048-frontend-foundation.md), amended by [0049](../decisions/0049-back-to-python-final.md) (the frontend starts from the founder's Next.js template).
@@ -13,6 +13,8 @@ Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 
 ## Done on 14 Nov 2026
 | Pull request | What merged |
 |---|---|
+| #264 | The first design batch recorded on the canvas (version 168): FE-42 map style, PD-09 wordmark note, status |
+| #262 | End-of-session status, 14 Nov 2026 (evening) |
 | #261 | The founder's approved wording for every pilot topic (FE-39 note): questions to ask, check-in-person lists, subject names; council tax topics split by meaning, affordability about local pay, official links for noise and coal mining |
 | #260 | City Explorer in the pilot (decision 0055, PD-17; DA-19 no council employment rates), with its research note |
 | #259 | PR A of the first design batch: sample data for every pilot topic, the tested `vestagraph_area` package (At a glance, distances, buses per route, priority results) and `area-result.json`; AGENTS.md rule 2 names it beside the cost engine (FE-38) |
@@ -87,7 +89,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 - `docs/about-the-data-general-page`: records the three 14 Nov 2026 decisions (dates only on About the data; a general About the data page; a short "How we got this" on each result) and updates the specifications they make stale. Everything else from 13–14 Nov 2026 is merged (#242, #243, #245 to #248, #250, #252 to #255, #259 to #262, #264).
 
 ## Start of the next session
-1. **The first design batch's specifications** (plan Task 13, second item): feature files for At a glance, priorities, the topic anatomy and the states, written from the approved boards (canvas version 168). The founder reviewed the boards on 14 Nov 2026 and approved them (typed: "no comments, mark the review done"), which closes plan Task 12. Still open for the founder while writing them: the agent's starting list of priority limits (spec, open to the founder), FE-42's agent's defaults, the transport connectivity scale's direction (to confirm from the DfT table before build, 0054), the "Explain this" texts (not written yet, AI-12), and #263 (dataset label spelled two ways).
+1. **The first design batch's specifications** (plan Task 13, second item): feature files for At a glance, priorities, the topic anatomy and the states, written from the approved boards (the founder approved canvas version 168; versions 169 to 174 apply the founder's three 14 Nov decisions on About the data and "How we got this"). The founder reviewed the boards on 14 Nov 2026 and approved them (typed: "no comments, mark the review done"), which closes plan Task 12. Still open for the founder while writing them: the agent's starting list of priority limits (spec, open to the founder), FE-42's agent's defaults, the transport connectivity scale's direction (to confirm from the DfT table before build, 0054), the "Explain this" texts (not written yet, AI-12), and #263 (dataset label spelled two ways).
 2. **Then City Explorer** (decision [0055](../decisions/0055-city-explorer-in-the-pilot.md), PD-17, founder 14 Nov 2026: "Full City Explorer", reason "Reach people earlier"): after the area-result boards, a brainstorm, design brief, design review and plan for one page per council, reusing the area layout and the data pipeline; official ranks only (0054), no council employment rates (DA-19). The pilot gate (0052) waits for both.
 
 **Done today, in short:** design files synced with canvas 138 (#254); the first design batch brief and plan (#255); PR A, the area data and the tested `vestagraph_area` rules with `area-result.json` (#259; 1,537 tests at the end of the session; one CodeQL false positive dismissed at the founder's request, "can you dismiss it"); City Explorer decided (#260); every pilot topic's wording approved (#261). Process issue logged: olaheavy-dev/agent-workflows#19 (a push before the pre-push review).
