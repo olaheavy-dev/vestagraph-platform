@@ -1,0 +1,48 @@
+{
+  "$schema": "../schema/postcode-area.schema.json",
+  "postcodes": [
+    {
+      "postcode": "NB1 4XY",
+      "nation": "england",
+      "placeName": "Northbridge (synthetic)",
+      "role": "sample",
+      "synthetic": true
+    },
+    {
+      "postcode": "NB7 1RR",
+      "nation": "england",
+      "placeName": "Northbridge Fells (synthetic)",
+      "role": "test",
+      "synthetic": true
+    }
+  ],
+  "unknownPostcodes": [
+    "NB9 9ZZ"
+  ],
+  "area": [
+    {
+      "id": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+      "postcode": "NB1 4XY",
+      "topic": "transport-stop",
+      "status": "recorded",
+      "label": "Mill Court bus stop (synthetic)",
+      "value": {
+        "stopName": "Mill Court bus stop (synthetic)",
+        "stopType": "bus-stop",
+        "distanceMetres": 120,
+        "distanceMethod": "straight-line from the postcode centre, synthetic"
+      },
+      "coverage": "Great Britain (not Northern Ireland)",
+      "doesNotEstablish": "Stop locations do not establish timetables, frequency, journey times, fares or step-free access.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the NaPTAN stop data",
+        "date": "2026-10-23",
+        "synthetic": true
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      }
+    }
+  ]
+}
