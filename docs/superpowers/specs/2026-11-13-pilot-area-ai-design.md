@@ -11,6 +11,8 @@ Founder, 13 Nov 2026: typed "both, on the page and in their own ChatGPT or Claud
 
 Why it matters: it shows what makes Vestagraph different (every fact with its source, date and limits, and honest gaps) in the places people already ask questions, and it tests the data adapters, hosting, privacy and AI rules on the lowest-risk data before any account or personal data exists.
 
+*City Explorer (14 Nov 2026, decision [0055](../../decisions/0055-city-explorer-in-the-pilot.md), PD-17): the pilot also has one page per council, from official figures, for people who don't yet have a postcode. It gets its own brainstorm and design after the area-result boards; the pilot gate (0052) waits for both.*
+
 ## Goals
 1. **One set of area tools** used by the page, the MCP server and the on-page chat, so all three give the same facts with the same labels.
 2. **Public read-only MCP server** with the area tools, usable from ChatGPT and Claude, no key, rate-limited.
