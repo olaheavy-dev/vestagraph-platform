@@ -202,7 +202,7 @@ Build in vertical slices, each one deployed to the private preview:
 
 Order changed on 13 Nov 2026 (decision 0052): the pilot passes its own gate on its specifications alone and is built before the home workspace; #68's remaining screens, the story scripts and the full stage 3 gate follow before the home workspace.
 
-The first public release: a free postcode check of what is around a home, with no accounts.
+The first public release: a free postcode check of what is around a home, with no accounts. Since 14 Nov 2026 it also has **City Explorer**, one page per council for people who don't yet have a postcode, designed after the area-result boards; the gate below also covers City Explorer's specifications and boards (decision [0055](../decisions/0055-city-explorer-in-the-pilot.md), PD-17).
 
 **Decisions first:** the API framework, architecture and contract (BE-01 framework and BE-02, #92) with the observability foundation (decision 0025); database and geospatial (DA-03), ingestion and caching (DA-04), source licences (DA-05), postcode lookup (DA-06, postcode only); hosting, infrastructure, environments, secrets, the domain and a budget cap (IN-01 to IN-05); rate limiting; privacy parts 1 and 2 (SE-02, decision 0014); analytics and feedback (FE-05); for the AI pieces (decision 0051): the AI-09 framework trial, then the model provider (AI-01) and orchestration (AI-04), and the evaluation set (AI-03).
 

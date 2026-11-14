@@ -70,7 +70,7 @@ AI explains, reads, drafts and connects at every step; the rules and the cost en
 
 | Step | Where AI helps | Never |
 |---|---|---|
-| Choosing where to look | Typed sentences turned into search inputs the user confirms (later, AI-10: areas meeting the visitor's limits, never ranked) | Recommending an area |
+| Choosing where to look | Typed sentences turned into search inputs the user confirms (later, AI-10: areas meeting the visitor's limits, never ranked; City Explorer's council pages are in the pilot, [0055](../decisions/0055-city-explorer-in-the-pilot.md)) | Recommending an area |
 | Checking an area | Plain-language explanation of any sourced fact; a gap turned into a suggested question | Calling an area safe or good |
 | Checking a home | Reading the listing details the user pasted and flagging what's missing against a cited list | Fetching listings (0028) |
 | Costs | Explaining a figure from the engine's working | Calculating any figure |
@@ -107,6 +107,7 @@ These are well covered by free or established products. Where we still show them
 | Drafted messages to agents | Doc 02 §5 E; the Questions screen (#169) |
 | Reading an uploaded document | Document extraction, doc 04 and decision 0030; privacy points in 0014 |
 | Walking times and buses per hour; school demand (applications and offers); council tax by band; a family view (13 Nov 2026) | In the pilot, one phase since 14 Nov 2026 (PD-16) ([pilot design](../superpowers/specs/2026-11-13-pilot-area-ai-design.md), Goals 5), each chosen by the founder in a prompt window after the [13 Nov research](../reviews/2026-11-13-chatgpt-ideas-research.md) |
+| Choosing where to look: City Explorer, council pages before a postcode (14 Nov 2026) | In the pilot, decided in [0055](../decisions/0055-city-explorer-in-the-pilot.md) (PD-17): one page per council, official figures at their level with source and period, official ranks only (0054), with a link to the postcode check (designed in its brainstorm); free comparisons already exist from the ONS (Explore local statistics), so the step beyond is the link from a council to the postcode being checked and later to the home. Designed after the area-result boards |
 
 ### Current leaning (to revisit at each stage gate)
 
