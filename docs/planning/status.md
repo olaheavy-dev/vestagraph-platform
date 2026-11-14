@@ -79,11 +79,11 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- The design-file sync (`docs/design-files-canvas-138`): `tokens.css` and `DESIGN_BRIEF.md` take the canvas version 138 values. Everything else from 14 Nov 2026 is merged (#245 to #248, #250, #252, #253).
+- PR A of the first design batch (`feat/area-result-data`): sample data for every pilot topic, the tested `vestagraph_area` package (At a glance counts, distance display, buses per hour per route, priority results) and the generated `area-result.json`. Everything else from 14 Nov 2026 is merged (#245 to #248, #250, #252 to #255).
 
 ## Start of the next session
 1. **Done (14 Nov 2026, branch `docs/design-files-canvas-138`): the repository design files synced with canvas version 138** (pass B step 8). `tokens.css` takes slate ink dark mode (FE-31, with the warm hearth dot for the postcode centre), the light card edge and shadow, the cream band and solid ink headlines (FE-29, the headline gradient deleted); `DESIGN_BRIEF.md` takes the source stamp (FE-33) and the lower-case wordmark (PD-09 note).
-2. **The first design batch** (item 1 (c) below): the brief is approved (`docs/superpowers/specs/2026-11-14-first-design-batch-design.md`, design-reviewed, FE-38 to FE-41, DA-17, DA-18, FE-27 amended) and the plan is `docs/superpowers/plans/2026-11-14-first-design-batch.md`: first PR A (sample data for every pilot topic, the tested `vestagraph_area` package and `area-result.json`), then the canvas boards.
+2. **The first design batch** (item 1 (c) below): the brief is approved (`docs/superpowers/specs/2026-11-14-first-design-batch-design.md`, design-reviewed, FE-38 to FE-41, DA-17, DA-18, FE-27 amended) and the plan is `docs/superpowers/plans/2026-11-14-first-design-batch.md`: first PR A (sample data for every pilot topic, the tested `vestagraph_area` package and `area-result.json`), then the canvas boards. **PR A is built** (Tasks 1 to 7 of the plan, each reviewed); after it merges, the founder reviews the draft question and "check in person" wording in `packages/fixtures/data/pilot-topics.json`, then the canvas boards (Tasks 9 to 13) quote `packages/fixtures/generated/area-result.json`.
 3. Optional checks for the founder: the Logo board's new note may sit close to its bottom edge, and the lower-case change also applied to every lockup on the logo exploration board (the founder may prefer only the chosen D1).
 
 ## Next, in order
