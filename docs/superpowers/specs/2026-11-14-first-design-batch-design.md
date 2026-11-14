@@ -9,7 +9,7 @@ The area result is the screen every pilot visitor sees after typing a postcode, 
 1. **At a glance** at the top of the result (FE-22, B20): rule-built counts (found, unknown or unavailable, questions to ask), each count linking to its items, and "Things to check in person" without a count (FE-41), and a coverage line ("<n> of <m> topics returned facts", worked out by a tested module, rule 2).
 2. **One topic anatomy** (B29), shown as a bottom sheet on a phone and a side panel on desktop (FE-20, FE-26), drawn once for each **kind** of topic (founder, 14 Nov 2026, prompt window: "One per kind (Recommended)").
 3. **Priorities** set from At a glance (founder, 14 Nov 2026, prompt window: "In At a glance (Recommended)"; FE-22, decision 0053).
-4. **The page's one "How we got this"** section, closed and open (FE-24, FE-34).
+4. **The result's short "How we got this"** note (a paragraph, one line per topic with its icon, name and source links, and a link to About the data; FE-24 amended 14 Nov 2026).
 5. **The desktop result** for Check an area (FE-26 layering).
 6. **The missing states** (B22, B32): loading, postcode not found, postcode service down, sparse area, stale source, all sources down, offline, AI error.
 7. **Theme and text size** (FE-23, B16).
@@ -29,7 +29,7 @@ The area result is the screen every pilot visitor sees after typing a postcode, 
 ## Constraints
 - Canvas version 138 style: soft gloss (FE-29), ledger rows (FE-30), source stamps (FE-33), one marker language, seven type sizes, three weights, England distances in metres under 1 mile and miles from 1 mile (FE-27). Values in `.design/prototype/tokens.css` (synced in #254).
 - **Sample data:** NB1 4XY (full), NB7 1RR (sparse), NB9 9ZZ (an unknown postcode: "We couldn't find that postcode", AREA-05) from `packages/fixtures/data/postcode-area.json` (#250). It has transport, amenities, schools and inspections, flood (with the 09:40 check time), crime, sold prices, planning and broadband, with straight-line distances only. **One sample-data pull request comes first** (agent's call: drawing these as gaps would defeat the per-kind examples): synthetic records, each with its level and source (DA-14), for a deprivation decile (0054), school demand, walking times, buses per hour, flood risk by postcode (DA-16); no flood warning count is stored, because a count would be a calculated figure, with any schema change they need.
-- Checklist items B2, B4 and B10 are read as amended by the founder's later decisions: a fact's date and status sit on About the data (FE-33), so B2's "Old" gap state is shown there and not on the fact, and limits sit in the page's "How we got this" (FE-34).
+- Checklist items B2, B4 and B10 are read as amended by the founder's later decisions: a fact's date sits on About the data with no status word (FE-33 amended 14 Nov 2026, "Dates only, no notes"), so B2's "Old" gap state is not shown at all, and limits sit on the general About the data page (FE-34 amended 14 Nov 2026).
 - WCAG 2.2 AA in both themes; no sideways scrolling at 320 to 390 px (B15); touch targets at least 44 px (the enhanced level, WCAG 2.5.5; stricter than AA's 24 px in 2.5.8); every map has a list.
 
 ## Founder answers to the builder check (14 Nov 2026, prompt windows)
@@ -69,7 +69,7 @@ At a glance
     Railway station within 0.5 miles .... Misses your limit
     Childcare within 1 mile ............. Not known
 ```
-Sketch only: `<n>` marks a count the boards take from the sample data, and the two priorities are examples. Counts come from rules over the facts (as CHAT-10 and TOOLS-15 make questions from gaps), never typed. Each count opens a list of its items, each item opening its topic. How the counts and the coverage line are worked out (what counts as found, not known and left out) is listed in the page's one "How we got this" (FE-24 names counts as calculated values; B6).
+Sketch only: `<n>` marks a count the boards take from the sample data, and the two priorities are examples. Counts come from rules over the facts (as CHAT-10 and TOOLS-15 make questions from gaps), never typed. Each count opens a list of its items, each item opening its topic. How the counts and the coverage line are worked out (what counts as found, not known and left out) is listed on the general About the data page, as the "How At a glance is counted" row (FE-24 and FE-34 amended 14 Nov 2026; B6).
 
 ### Priorities sheet
 "What matters to you": a short list of ready-made limits, each with an editable number and unit: GP surgery, pharmacy, primary school, secondary school, station or stop, supermarket, park or green space, broadband speed (agent's starting list, open to the founder; a worship limit follows PD-13, and whether it is sent like the others or checked only in the browser is decided in the privacy review, SE-02 part 2, before launch, 0053). How meets or misses is worked out is listed in the page's one "How we got this" (FE-24). Limits use walking time where the pilot has it (DA-08) and straight-line distance otherwise, labelled with which. Limits are sent to the server to work out meets or misses (0053), never stored or logged; remembering them between visits is opt-in and stays in the browser (FE-22).
@@ -93,13 +93,13 @@ Sketch only: `<n>` marks a count the boards take from the sample data, and the t
 | A warning | Flood (warnings now with check time, long-term risk link, risk by postcode) | none yet |
 
 ### Boards (light first; dark versions after the founder approves the light ones)
-1. Check an area result, phone: header, At a glance, topic rows, the "Ask about this area" entry with its AI badge (FE-13; the pilot design review's first batch lists an entry to the chat from the phone result), the closed "How we got this".
+1. Check an area result, phone: header, At a glance, topic rows, the "Ask about this area" entry with its AI badge (FE-13; the pilot design review's first batch lists an entry to the chat from the phone result), the short "How we got this" note with its link to About the data.
 2. Check an area result, desktop: At a glance and topic list on the left, map on the right (FE-26).
 3. Priorities sheet (phone) and panel (desktop), with the result showing meets, misses and not known, the checking state and the couldn't-check state. Board 1 is the result with no priorities set.
 4. Topic sheet (phone) and panel (desktop) for each of the four kinds: 8 boards.
-5. "How we got this" opened, phone.
-6. About the data: each source with its date and status (where a stale source shows, FE-33).
-7. States, every one in the information architecture's list, so nothing is lost when the old boards go: loading (skeletons with a status), invalid format (AREA-04), postcode not found (NB9 9ZZ, AREA-05), couldn't load (AREA-19), outside England (AREA-08), a search crossing the border (B9), the area rate limit, postcode service down, sparse area (NB7 1RR), stale source (shown as FE-33 decides: the fact unchanged, its status on About the data), all sources down, offline, AI error (the chat drawer's error, and "Explanation not yet available" in a topic); each with cause, reassurance and one action (B22).
+5. About the data as topic rows, one opened to its method, limits and coverage, phone.
+6. About the data: each source with its link and date, no status word, "We hold no current copy" in place of a date where there is none (FE-33 amended 14 Nov 2026).
+7. States, every one in the information architecture's list, so nothing is lost when the old boards go: loading (skeletons with a status), invalid format (AREA-04), postcode not found (NB9 9ZZ, AREA-05), couldn't load (AREA-19), outside England (AREA-08), a search crossing the border (B9), the area rate limit, postcode service down, sparse area (NB7 1RR), stale source (shown as FE-33 decides: the fact unchanged, its date on About the data), all sources down, offline, AI error (the chat drawer's error, and "Explanation not yet available" in a topic); each with cause, reassurance and one action (B22).
 8. Display settings: the theme switch (device, light, dark) and the text-size control, with the phone result at the largest size and no sideways scroll.
 
 About 16 light boards. The existing Check an area and area-states boards that these replace are removed in the same canvas change (and said which).

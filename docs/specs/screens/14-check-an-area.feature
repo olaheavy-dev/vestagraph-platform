@@ -19,8 +19,13 @@ Feature: Check an area
     in this source", "No <place> found within <radius>", "Old", "Not yet covered".
   Changed 14 Nov 2026 (FE-33, DA-12): on the page, a fact shows only its source's icon, name and link, with
     no status word and no date; a fact whose source is unavailable says "Not known right now" in its own
-    text. "Unavailable" and "Old" (with the date and the flood check time) are shown on About the data
-    (AREA-25); the stored data, the area tools and our chat's grounding keep them (area-tools.feature).
+    text. About the data shows each source's link and the date of the data we hold, with no status word
+    (founder, 14 Nov 2026: "Dates only, no notes"); a source we hold no current copy of says "We hold no
+    current copy" instead of a date (AREA-25); the stored data, the area tools and our chat's grounding keep
+    the Cached, Old and Unavailable labels (area-tools.feature).
+  Changed 14 Nov 2026 (FE-34, FE-24): each source's method, limits and coverage live on one general About
+    the data page, the same for every postcode (AREA-25); each result ends with a short "How we got this"
+    note with one line per topic and a link to that page (AREA-27).
   Required states (doc 03 §5, the information architecture's "Check an area" and AGENTS.md rule 7):
     the postcode never reaches a log (decisions 0014, 0046) -> AREA-03, AREA-15
     an outbound link says where it goes and whether it carries the postcode (FE-11) -> AREA-18
@@ -29,13 +34,13 @@ Feature: Check an area
     postcode not found, never shown as empty topics -> AREA-05
     our stored copy of a source is missing or failed, not shown as a clean result -> AREA-07, AREA-14
     the visitor's own request to us failed, a different state with Try again -> AREA-19
-    flood warnings: the Environment Agency stamp as the official warnings link, the check time on the row but no label; Old after 1 hour and Unavailable after 1 day on About the data -> AREA-21, AREA-22, AREA-23, AREA-25
+    flood warnings: the Environment Agency stamp as the official warnings link, the check time on the row but no label; after 1 hour About the data shows the time we last checked, after 1 day the row says "Not known right now" -> AREA-21, AREA-22, AREA-23, AREA-25
     a fact's stamp is its source's icon, name and link, with no status word and no date -> AREA-26
     the printout: the sample postcode says "Sample data", any other postcode its made-at time -> AREA-12, AREA-20
     distances in England: metres under 1 mile, miles from 1 mile, stored in metres -> AREA-24
     an address in Wales, Scotland or Northern Ireland, "not yet covered" -> AREA-01, AREA-02, AREA-08
     narrow and mobile layouts with a list alternative to the map -> covered by NEAR-11 (same topic details; a sheet on a phone, FE-20)
-    one "How we got this" at the bottom of the result, with every topic's method and limits -> AREA-27
+    a short "How we got this" at the bottom of the result, with one line per topic and a link to About the data, where each topic's method and limits are -> AREA-27
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
 
@@ -73,7 +78,7 @@ Feature: Check an area
     Then each topic shows a loading skeleton, and no topic shows as empty
 
   @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; the label "Unavailable" is on About the data.
+  # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; About the data shows no status word, only "We hold no current copy" in place of a date.
   Scenario: AREA-07 a source we hold no current copy of says it is not known right now and the rest still shows
     Given the user is on Check an area
     When the user checks a complete postcode and our stored copy of one topic's source is missing or failed to load
@@ -112,17 +117,19 @@ Feature: Check an area
     Then saving a home, and tracking questions and answers per home, appear only in a "Coming next · not available yet" panel, with no active button
 
   @ui
+  # Changed 14 Nov 2026 (FE-33): the closing page gives each source's date and no status word.
   Scenario: AREA-12 the printout of the example postcode keeps every topic, including gaps, and says "Sample data"
     Given the user has checked the example sample postcode and one topic has no current copy
     When the user chooses "Print or save as PDF"
-    Then the print page lists every topic with its source's name, the topic with no copy prints as "Not known right now", the closing "How we got this" page gives each source's data date and status, and the header says "Sample data"
+    Then the print page lists every topic with its source's name, the topic with no copy prints as "Not known right now", the closing "How we got this" page gives each source's data date, with no status word, and the header says "Sample data"
 
   # Split 14 Nov 2026 (C5): real postcodes are real data, so "Sample data" belongs only to the example.
   @ui
+  # Changed 14 Nov 2026 (FE-33): the closing page gives each source's date and no status word.
   Scenario: AREA-20 the printout of any other postcode shows when it was made, not "Sample data"
     Given the user has checked a postcode that is not the example and one topic has no current copy
     When the user chooses "Print or save as PDF"
-    Then the print page header shows the time the report was made, each topic shows its source's name, the topic with no copy prints as "Not known right now", the closing "How we got this" page gives each source's data date and status, and nothing says "Sample data"
+    Then the print page header shows the time the report was made, each topic shows its source's name, the topic with no copy prints as "Not known right now", the closing "How we got this" page gives each source's data date, with no status word, and nothing says "Sample data"
 
   @ui
   Scenario: AREA-16 a not covered postcode prints as not covered
@@ -178,26 +185,29 @@ Feature: Check an area
     And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "This is not a flood risk check" sits inside the page's "How we got this" section at the bottom of the result, with no "How we got this" under the flood topic itself (FE-34)
 
   @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): the Old label and the check time move to About the data.
-  Scenario: AREA-22 a flood copy over 1 hour old is labelled Old on About the data
+  # Changed 14 Nov 2026 (FE-33, DA-12): the check time is on About the data, with no "Old" word (founder: "Dates only, no notes").
+  Scenario: AREA-22 a flood copy over 1 hour old shows its last-checked time on About the data
     Given our flood copy is more than 1 hour old and less than 1 day old
     When the user views the flood row and then About the data
-    Then the flood row still shows the source's icon, name and link and "when we last checked, at <time>", but no label, and About the data shows the flood source as "Old" with the time we last checked
+    Then the flood row still shows the source's icon, name and link and "when we last checked, at <time>", but no label, and About the data shows the flood source with the time we last checked and no status word
 
   @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; "Unavailable" is on About the data.
-  Scenario: AREA-23 a flood copy over 1 day old is Unavailable on About the data
+  # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; About the data shows the time we last checked, with no "Unavailable" word.
+  Scenario: AREA-23 a flood copy over 1 day old makes the row say "Not known right now"
     Given our flood copy is more than 1 day old
     When the user views the flood row and then About the data
-    Then the row shows "Not known right now" and "This is not the same as no warning", no warning status from the old copy is shown, and About the data shows the flood source as "Unavailable" with the time we last checked
+    Then the row shows "Not known right now" and "This is not the same as no warning", no warning status from the old copy is shown, and About the data shows the flood source with the time we last checked and no status word
 
-  # Added 14 Nov 2026 (FE-33, DA-12): where the source date and status now live.
+  # Added 14 Nov 2026 (FE-33, DA-12): where the source date now lives.
+  # Changed 14 Nov 2026 (FE-33, FE-34 amended): dates only, no status words; one general page the same for every postcode, as topic rows that open to each topic's method, limits and coverage.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY and NB7 1RR, sources with dates and statuses)
   @ui
-  Scenario: AREA-25 About the data lists every source with its date and status
+  Scenario: AREA-25 About the data lists every source with its link and date, and no status words
     Given the user is on Check an area and has checked a postcode
     When the user opens About the data
-    Then every source the area check uses is listed with its icon, name and official link, its data date and its status (Cached, Fallback, Old or Unavailable, never Live in the pilot), and the flood source shows when we last checked
+    Then About the data is one general page, the same for every postcode, listing every source the area check uses as a topic row with its icon, name, official link and the date of the data we hold, and no status word (Cached, Fallback, Old or Unavailable)
+    And a source we hold no current copy of says "We hold no current copy" instead of a date, and the flood source shows when we last checked
+    And each row opens to that topic's method, what it can't tell you and its coverage, and "How At a glance is counted" and "How priorities are checked" are rows at the top
 
   # Added 14 Nov 2026 (FE-33): the stamp on a fact.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
@@ -221,10 +231,12 @@ Feature: Check an area
     And no outbound link sends a referrer, and nothing is sent until the user clicks it
 
   # Added 14 Nov 2026 (FE-34, one per page).
+  # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)" and "I pick B but add the icons"): the section is a short note, not every topic's method and limits.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
-  Scenario: AREA-27 the postcode result has one "How we got this" at the bottom, with every topic's method and limits
+  Scenario: AREA-27 the postcode result ends with a short "How we got this" and a link to About the data
     Given the user has checked a sample postcode in England
     When the results are shown
     Then no topic carries its own "How we got this", each topic ends with its source links only
-    And one closed "How we got this" sits at the bottom of the result, reachable by keyboard, listing every topic on the page with its method and limits
+    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked, the wider areas some figures are published for, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
+    And it then shows one line per topic with its icon, name and source links (route-only topics show their official link), and the link "How each source works and what it can't tell you: About the data →"
