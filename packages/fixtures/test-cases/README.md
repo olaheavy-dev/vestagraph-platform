@@ -7,6 +7,7 @@ Files:
 - `distance-display.json` (display distances, FE-27): `inputs.metres` is a decimal string; `expected.display` is the text (`under 10 m`, `1,450 m` or `1.3 miles`).
 - `area-glance.json` (and later `area-*.json`): area-result cases, see "Area cases" below.
 - `buses-per-hour.json` (buses per hour per route, DA-18): `inputs` is `{ "dataRecordId": "...", "hour": 8 }` (departures read from that `bus-departures` record in `data/postcode-area.json`) or `{ "departures": [...], "hour": 8 }`; `expected.count` is a whole number.
+- `priority-results.json` (priority results, FE-40): `inputs` is `{ "dataPostcode": "NB1 4XY", "priorityId": "SAMPLE-PRIORITY-GP" }` (the priority from `data/sample-priorities.json`, the records of its topic from `data/postcode-area.json`) or inline `{ "priority": {...}, "records": [...] }`; `expected` is `{ "outcome": "meets"|"misses"|"not-known"|"not-known-beyond-search", "nearestRecordId": id or null }`.
 - `story-calculations.json`: service-charge difference, mortgage repayments (including two boundary cases), monthly housing costs, upfront cash and the B1 budget beat.
 
 ## Case format

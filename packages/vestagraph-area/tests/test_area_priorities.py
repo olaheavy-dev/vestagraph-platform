@@ -1,0 +1,154 @@
+"""Priority results (FE-40), proved by worked cases in priority-results.json."""
+
+from fractions import Fraction
+from typing import Any
+
+import pytest
+from area_support import fixtures_directory, read_json
+from vestagraph_area.priorities import (
+    SEARCH_LIMIT_METRES,
+    PriorityResult,
+    limit_in_metres,
+    priority_result,
+)
+from vestagraph_area.records import (
+    AreaRecord,
+    Priority,
+    read_postcode_area,
+    read_registry,
+    read_sample_priorities,
+)
+
+DATA = fixtures_directory() / "data"
+CASES = read_json(fixtures_directory() / "test-cases" / "priority-results.json")["cases"]
+REGISTRY = read_registry(DATA / "pilot-topics.json")
+AREA = read_postcode_area(DATA / "postcode-area.json")
+PRIORITIES = {p.id: p for p in read_sample_priorities(DATA / "sample-priorities.json", REGISTRY)}
+
+
+def _priority(raw: dict[str, Any]) -> Priority:
+    flt = raw.get("filter")
+    return Priority(
+        id="CASE",
+        topic_key=raw["topicKey"],
+        subtype=raw.get("subtype"),
+        filter_field=None if flt is None else flt["field"],
+        filter_equals=None if flt is None else flt["equals"],
+        measure=raw["measure"],
+        limit_value=Fraction(raw["limit"]["value"]),
+        limit_unit=raw["limit"]["unit"],
+    )
+
+
+def _record(raw: dict[str, Any]) -> AreaRecord:
+    return AreaRecord(
+        id=raw["id"],
+        postcode="ZZ1 1AA",
+        topic=raw["topic"],
+        subtype=raw.get("subtype"),
+        status=raw["status"],
+        label=f"Label {raw['id']}",
+        value=raw.get("value"),
+    )
+
+
+def _from_inputs(inputs: dict[str, Any]) -> tuple[Priority, list[AreaRecord]]:
+    if "priorityId" in inputs:
+        priority = PRIORITIES[inputs["priorityId"]]
+        topic = next(t for t in REGISTRY.topics if t.key == priority.topic_key)
+        records = [
+            r
+            for r in AREA.records
+            if r.postcode == inputs["dataPostcode"] and r.topic in topic.record_topics
+        ]
+        return priority, records
+    return _priority(inputs["priority"]), [_record(r) for r in inputs["records"]]
+
+
+def _case(case_id: str) -> dict[str, Any]:
+    return next(c for c in CASES if c["id"] == case_id)
+
+
+def _result(case_id: str) -> PriorityResult:
+    return priority_result(*_from_inputs(_case(case_id)["inputs"]))
+
+
+@pytest.mark.parametrize("case", CASES, ids=[c["id"] for c in CASES])
+def test_priority_result_worked_cases_match_expected(case: dict[str, Any]) -> None:
+    result = priority_result(*_from_inputs(case["inputs"]))
+
+    assert result.outcome == case["expected"]["outcome"]
+    assert result.nearest_record_id == case["expected"]["nearestRecordId"]
+
+
+def test_priority_result_no_record_in_source_is_not_known_never_misses() -> None:
+    result = _result("childcare-no-record-in-source-is-not-known")
+
+    assert result == PriorityResult("not-known", None)
+
+
+def test_priority_result_exactly_at_limit_meets() -> None:
+    assert _result("walking-time-exactly-at-limit-meets").outcome == "meets"
+    assert _result("distance-exactly-at-metres-limit-meets").outcome == "meets"
+
+
+def test_priority_result_missing_walking_time_is_not_known_not_straight_line() -> None:
+    # 700 m straight-line is well within what 15 minutes could cover; it must not be used.
+    assert _result("distance-without-walking-time-is-not-known").outcome == "not-known"
+
+
+def test_priority_result_one_place_over_limit_one_without_walking_time_is_not_known() -> None:
+    assert _result("one-gp-over-limit-one-without-walking-time-is-not-known").outcome == "not-known"
+
+
+def test_priority_result_limit_beyond_search_with_nothing_found_is_not_known_beyond_search() -> (
+    None
+):
+    case = "limit-beyond-search-with-nothing-found-is-not-known-beyond-search"
+
+    assert _result(case).outcome == "not-known-beyond-search"
+
+
+def test_priority_result_meets_comes_before_beyond_search() -> None:
+    assert _result("limit-beyond-search-recorded-within-limit-meets").outcome == "meets"
+
+
+def test_priority_result_no_records_at_all_is_not_known() -> None:
+    priority = _priority(_case("no-matching-record-is-not-known")["inputs"]["priority"])
+
+    assert priority_result(priority, []) == PriorityResult("not-known", None)
+
+
+def test_priority_result_search_limit_is_five_thousand_metres() -> None:
+    assert Fraction(5000) == SEARCH_LIMIT_METRES
+
+
+def test_priority_result_unknown_measure_unit_pair_raises() -> None:
+    priority = _priority(
+        {"topicKey": "x", "measure": "walking-minutes", "limit": {"value": "5", "unit": "miles"}}
+    )
+
+    with pytest.raises(ValueError, match="walking-minutes"):
+        priority_result(priority, [])
+
+
+def test_priority_result_unknown_measure_raises() -> None:
+    priority = _priority(
+        {"topicKey": "x", "measure": "noise", "limit": {"value": "5", "unit": "decibels"}}
+    )
+
+    with pytest.raises(ValueError, match="noise"):
+        priority_result(priority, [])
+
+
+def test_limit_in_metres_half_mile_is_exact() -> None:
+    assert limit_in_metres(Fraction("0.5"), "miles") == Fraction("804.672")
+
+
+def test_limit_in_metres_metres_unchanged() -> None:
+    assert limit_in_metres(Fraction(1000), "metres") == Fraction(1000)
+
+
+def test_limit_in_metres_other_unit_raises() -> None:
+    with pytest.raises(ValueError, match="minutes"):
+        limit_in_metres(Fraction(15), "minutes")
