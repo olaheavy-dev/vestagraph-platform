@@ -41,6 +41,13 @@ Feature: Check an area
     an address in Wales, Scotland or Northern Ireland, "not yet covered" -> AREA-01, AREA-02, AREA-08
     narrow and mobile layouts with a list alternative to the map -> covered by NEAR-11 (same topic details; a sheet on a phone, FE-20)
     a short "How we got this" at the bottom of the result, with one line per topic and a link to About the data, where each topic's method and limits are -> AREA-27
+    the postcode service down, never "not found" -> AREA-28
+    the area check's request limit reached -> AREA-29
+    offline -> AREA-30
+    every source unavailable, the rows stay, one line to About the data -> AREA-31, AREA-34
+    a search that crosses the border, places across it may be missing (B9) -> AREA-32
+    a sparse area, the map opens on its places with the search distance as the outer ring (FE-42) -> AREA-33
+    (each of these states gives its cause, a line of reassurance and one action, B22)
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
 
@@ -240,3 +247,49 @@ Feature: Check an area
     Then no topic carries its own "How we got this", each topic ends with its source links only
     And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked and that this is not a flood risk check, the wider areas some figures are published for, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
     And it then shows one line per topic with its icon, name and source links (route-only topics show their official link), and the link "How each source works and what it can't tell you: About the data →"
+
+  # Added 14 Nov 2026 (first design batch, B22): each state below gives its cause, a line of reassurance and one action.
+  @ui
+  Scenario: AREA-28 when the postcode service is down the page says so and offers Try again
+    Given the user is on Check an area
+    When the user checks a complete postcode and the postcode lookup service is not responding
+    Then the page says the postcode lookup service isn't responding and that nothing is wrong with the postcode, offers "Try again", and does not say "We couldn't find that postcode"
+
+  @ui
+  Scenario: AREA-29 when the area check's request limit is reached the page says to try again later
+    Given the user is on Check an area
+    When the user checks a postcode after the area check's request limit for them has been reached
+    Then the page says too many checks have been made, that the postcode and anything already shown are unaffected, and offers one action, "Try again later", with no topic shown as empty
+
+  @ui
+  Scenario: AREA-30 offline shows that the connection is down and keeps what is already on the page
+    Given the user has checked a complete postcode and the results are shown
+    When the device goes offline
+    Then the page says the connection is down and offers "Try again" for when it is back, and the results already shown stay on the page unchanged
+
+  # fixture: packages/fixtures/data/postcode-area.json (the test makes every source unavailable)
+  @ui
+  Scenario: AREA-31 when every source is unavailable the rows stay and each says it is not known right now
+    Given the user is on Check an area
+    When the user checks a complete postcode and we hold no current copy of any source
+    Then every topic row stays, each says "Not known right now", and no row reads as empty, zero or a clean result
+
+  @ui
+  Scenario: AREA-34 when every source is unavailable one line points to About the data
+    Given the user is on Check an area
+    When the user checks a complete postcode and we hold no current copy of any source
+    Then one line above the rows points to About the data, as the single action, and no "Try again" is offered, because asking again cannot change our stored copies
+
+  # fixture: packages/fixtures/data/postcode-area.json (a postcode near a border; the test sets the border flag)
+  @ui
+  Scenario: AREA-32 a search that crosses the border says places across it may be missing
+    Given the user is on Check an area
+    When the user checks a postcode whose search area crosses into another nation
+    Then the result says that places across the border may be missing from this search (B9), and no topic reads as a clean result because of it
+
+  # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
+  @ui
+  Scenario: AREA-33 a sparse area opens the map on its places with the search distance as the outer ring
+    Given the user has checked the sample postcode "NB7 1RR"
+    When the user opens the map view
+    Then the map opens zoomed to the places the data holds for that postcode, and the outer ring shows the search distance quoted from `area-result.json` in the display unit, miles (FE-42)

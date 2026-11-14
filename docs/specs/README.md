@@ -7,6 +7,7 @@ The prototype specification lives here (decision [0043](../decisions/0043-specif
 |---|---|---|
 | `screens/NN-<screen>.feature` | One feature per screen in doc 03 §5, numbered in that order (for example `05-real-costs.feature`); 14 screens, with Check an area (decision 0046) appended as `14-check-an-area.feature` so earlier numbers and IDs never move | #68 |
 | `pilot/<feature>.feature` | The pilot's specifications (stage 5b, decisions 0051 and 0052), for example `area-chat.feature`; checked by the pilot gate | #223 and later pilot specifications |
+| `pilot/area-glance.feature`, `area-priorities.feature`, `area-topics.feature`, `area-display.feature` | The first design batch of the area result: At a glance (GLANCE), priorities (PRIO), the topic sheet and panel (TOPIC) and display settings, theme and text size (DISP); its error and edge states are AREA-28 to AREA-34 in `screens/14-check-an-area.feature` | The first design batch's specifications |
 | `stories/buyer.feature`, `stories/renter.feature` | The step-by-step story scripts | #69, #70 |
 | `mcp-tools.feature` | The MCP tool surface for AI assistants | #117 |
 
