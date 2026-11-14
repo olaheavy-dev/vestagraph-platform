@@ -20,7 +20,7 @@ Date: 11 Nov 2026 (phase 5 of the design flow)
   - **Done:** it reads in 5 seconds and nothing animates the figures. _New: decision-impact layout, cost category card (highlighted)._ _Risk first._
 - [ ] **H3 Costs and Nearby on a phone, B1 step 1:**
   - The hero figure with category cards (calculated, missing "not £0", not calculated) and upfront cash separate.
-  - Nearby list-first: commute, getting around, everyday places with a childcare gap card, schools with framework and date, the flood panel, the crime counts table, sold nearby, and a sage-tinted daily-life section.
+  - Nearby list-first: commute, getting around, everyday places with a childcare gap card, schools with "Inspected <Month Year>" (framework in How we got this, FE-36), the flood panel, the crime counts table, sold nearby, and a sage-tinted daily-life section.
 
   _New: category cards, gap card, status tag and source line, Nearby rows, crime table, flood panel._
   - **Round 2 (founder, 11 Nov 2026):** Nearby is summary first, one row per topic, with a topic detail (Schools) holding List and Map. The long list stays in the detail screens.

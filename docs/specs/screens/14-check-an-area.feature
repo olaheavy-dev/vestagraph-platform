@@ -28,7 +28,7 @@ Feature: Check an area
     postcode not found, never shown as empty topics -> AREA-05
     our stored copy of a source is missing or failed, not shown as a clean result -> AREA-07, AREA-14
     the visitor's own request to us failed, a different state with Try again -> AREA-19
-    flood warnings: official link first, the check time on the row but no label; Old after 1 hour and Unavailable after 1 day on About the data -> AREA-21, AREA-22, AREA-23, AREA-25
+    flood warnings: the Environment Agency stamp as the official warnings link, the check time on the row but no label; Old after 1 hour and Unavailable after 1 day on About the data -> AREA-21, AREA-22, AREA-23, AREA-25
     a fact's stamp is its source's icon, name and link, with no status word and no date -> AREA-26
     the printout: the sample postcode says "Sample data", any other postcode its made-at time -> AREA-12, AREA-20
     distances in England: metres under 1 mile, miles from 1 mile, stored in metres -> AREA-24
@@ -157,7 +157,7 @@ Feature: Check an area
   Scenario: AREA-14 a missing flood copy is not the same as no warning
     Given the user is on Check an area
     When the user checks a complete postcode and we hold no current copy of the flood warnings
-    Then the flood topic shows "Not known right now", "We don't hold a current copy of this source", the official flood-warning link first and "This is not the same as no warning", with no "Try again" and no status word or date on the row
+    Then the flood topic shows "Not known right now", "We don't hold a current copy of this source", the link "Check GOV.UK flood warnings ↗" (DA-12's one exception, since there is no source stamp to tap) and "This is not the same as no warning", with no "Try again" and no status word or date on the row
 
   # Flood warnings (register line DA-12, 14 Nov 2026). The Environment Agency says its flood data is updated
   # every 15 minutes, gives no service-level guarantee and is not for safety-critical use
@@ -167,10 +167,10 @@ Feature: Check an area
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): no status label on the flood row (founder: "No exceptions"); About the data shows it (AREA-25).
   # Changed again 14 Nov 2026 (DA-12): the flood row keeps its check time (founder: "keep time for the flood"); its limit sits in "How we got this" (FE-34).
-  Scenario: AREA-21 the flood row puts the official link first and shows the check time but no label
+  Scenario: AREA-21 the flood row's official warnings link is its source stamp, with the check time but no label
     Given the user is on Check an area and our flood copy was refreshed within the last hour
     When the user views the flood row
-    Then it shows the warnings in force "when we last checked, at <time>", its only official link is the Environment Agency source stamp (DA-12: no separate GOV.UK warnings link), no status word, and the word "live" and any "clear" or "safe" label are not shown
+    Then it shows the warnings in force "when we last checked, at <time>", its official warnings link is the Environment Agency source stamp (DA-12: no separate GOV.UK warnings link), no status word, and the word "live" and any "clear" or "safe" label are not shown
     And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "This is not a flood risk check" sits inside the topic's "How we got this" (FE-34)
 
   @ui
@@ -178,7 +178,7 @@ Feature: Check an area
   Scenario: AREA-22 a flood copy over 1 hour old is labelled Old on About the data
     Given our flood copy is more than 1 hour old and less than 1 day old
     When the user views the flood row and then About the data
-    Then the flood row still shows the source's icon, name and link with the official link first and "when we last checked, at <time>", but no label, and About the data shows the flood source as "Old" with the time we last checked
+    Then the flood row still shows the source's icon, name and link and "when we last checked, at <time>", but no label, and About the data shows the flood source as "Old" with the time we last checked
 
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; "Unavailable" is on About the data.

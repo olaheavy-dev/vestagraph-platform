@@ -148,7 +148,7 @@ All components are new.
 | Cost category card and receipt line | New | Status variants: calculated, included, missing, not calculated, conflicting. Costs shows the lines as a receipt; the card form stays for What changed and home cards |
 | Status tag and source line | New | One pattern everywhere: recorded, no record in this source, old, unavailable ("couldn't fetch this time"), not yet covered, missing not £0 |
 | Gap card | New | Dashed outline plus "this doesn't mean there are none" |
-| Nearby sections and rows | New | List first. Getting around, everyday places (including healthcare, police stations and childcare), places of worship as their own topic (PD-13), schools (framework and date), flood, recorded crime, sold nearby |
+| Nearby sections and rows | New | List first. Getting around, everyday places (including healthcare, police stations and childcare), places of worship as their own topic (PD-13), schools ("Inspected <Month Year>"; the framework in How we got this, FE-36), flood, recorded crime, sold nearby |
 | Map view and bottom sheet | New | MapLibre, the drawn Northbridge sample map, one muted colour and one crafted icon per category (FE-08), with the postcode centre or home pin the only deep-forest pin. Selection stays in sync with the list. Crime is never on the map, and sold-price pins have no price labels |
 | Crime counts table | New | Counts by month and category, "not a safety rating", neighbourhood team |
 | Flood panel | New | The Environment Agency's warning wording, the surface-water note and the long-term checker link |
