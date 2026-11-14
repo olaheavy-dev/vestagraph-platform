@@ -39,7 +39,7 @@ That is five boards in two themes, ten in all.
    - Every name and distance comes from the postcode-level sample fixture added by #216, never from the home records in `area.json`; no typed figure (rules 1, 2 and 7).
    - Every fact names the area it covers (DA-14), for example "from the postcode centre", "within 1 mile", "within 500 m" (sold prices, with the radius stated), "this postcode", "this neighbourhood" or the council's name.
 7. **Check:** render every redrawn board at 390 px and 1280 px, light and dark. Check contrast on the gloss surfaces (WCAG AA), compare each board with its pass A neighbours for consistency, and update the page's "still to design" note.
-8. **Sync the repository design files** in a small pull request: `.design/prototype/tokens.css` and `DESIGN_BRIEF.md` take the version 92 values for soft gloss (FE-29), slate ink (FE-31, amended 14 Nov 2026) and the source stamp (FE-33), so the build reads the same system as the canvas.
+8. **Sync the repository design files** in a small pull request: `.design/prototype/tokens.css` and `DESIGN_BRIEF.md` take the canvas version 128 values for soft gloss with the lit edge, tight shadow and cream bands (FE-29, refined 14 Nov 2026), slate ink (FE-31, amended 14 Nov 2026) and the source stamp (FE-33); until then `tokens.css` still holds the older values, so the build reads the same system as the canvas.
 9. **Publish once** to the same canvas URL, with a label. Tell the founder the version number and what changed, then ask the founder to review.
 
 ## Acceptance
