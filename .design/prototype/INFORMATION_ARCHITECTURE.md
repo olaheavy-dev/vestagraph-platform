@@ -133,7 +133,7 @@ The page opens as **one row per topic with its headline fact** (founder review, 
 2. **Getting around:** stops, with straight-line distances.
 3. **Everyday places:** supermarket or shop, park, healthcare, police station and childcare, with gaps shown.
 4. **Places of worship** (PD-13), its own topic: the nearest places of every faith recorded in the source, by distance; never counts or an area's religious makeup. In the fixtures it is the `place-of-worship` amenity subtype.
-5. **Schools,** with framework and date.
+5. **Schools,** each with "Inspected <Month Year>"; the inspection framework sits in the school's "How we got this" (FE-36, widened 14 Nov 2026).
 6. **Flood:** "No flood warnings right now (when we last checked, at <time>)" or the number of warnings, then "Long-term flood risk ↗" in the same fact (DA-12), with the official link first and no label on the row (the Old and Unavailable labels are on About the data, DA-12 amended 14 Nov 2026), plus the long-term link.
 7. **Recorded crime:** counts by month and category; never on the map.
 8. **Sold nearby:** history, not a valuation.
