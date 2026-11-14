@@ -1,0 +1,506 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "under-10-m-1",
+      "description": "1 m rounds to 0 m, so 'under 10 m'.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1 / 10 = 0.1, rounds to 0 (below half), so 0 x 10 = 0 m",
+          "value": 0
+        },
+        {
+          "n": 2,
+          "description": "0 is under 10, so the text is 'under 10 m'."
+        }
+      ],
+      "expected": {
+        "display": "under 10 m"
+      }
+    },
+    {
+      "id": "under-10-m-4",
+      "description": "4 m rounds to 0 m, so 'under 10 m'.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "4"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "4 / 10 = 0.4, rounds to 0 (below half), so 0 x 10 = 0 m",
+          "value": 0
+        },
+        {
+          "n": 2,
+          "description": "0 is under 10, so the text is 'under 10 m'."
+        }
+      ],
+      "expected": {
+        "display": "under 10 m"
+      }
+    },
+    {
+      "id": "five-metres-rounds-up-to-10-m",
+      "description": "5 m is exactly half of 10: rounds away from zero to 10 m.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "5"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "5 / 10 = 0.5, a half, away from zero gives 1, so 1 x 10 = 10 m",
+          "value": 10
+        },
+        {
+          "n": 2,
+          "description": "10 is not under 10 and is under 1,610, so '10 m'."
+        }
+      ],
+      "expected": {
+        "display": "10 m"
+      }
+    },
+    {
+      "id": "120-m",
+      "description": "120 m is already a multiple of 10.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "120"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "120 / 10 = 12, rounds to 12, so 120 m",
+          "value": 120
+        },
+        {
+          "n": 2,
+          "description": "Under 1,610: '120 m'."
+        }
+      ],
+      "expected": {
+        "display": "120 m"
+      }
+    },
+    {
+      "id": "1445-m-half-rounds-up",
+      "description": "1,445 m: 144.5 tens, a half, away from zero gives 145 tens, 1,450 m.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1445"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1445 / 10 = 144.5, half away from zero gives 145, 145 x 10 = 1,450 m",
+          "value": 1450
+        },
+        {
+          "n": 2,
+          "description": "1,450 is under 1,610, so metres with a comma: '1,450 m'."
+        }
+      ],
+      "expected": {
+        "display": "1,450 m"
+      }
+    },
+    {
+      "id": "1450-m",
+      "description": "1,450 m is already a multiple of 10.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1450"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1450 / 10 = 145, so 1,450 m",
+          "value": 1450
+        },
+        {
+          "n": 2,
+          "description": "Under 1,610: '1,450 m'."
+        }
+      ],
+      "expected": {
+        "display": "1,450 m"
+      }
+    },
+    {
+      "id": "1604-m-rounds-down",
+      "description": "1,604 m: 160.4 tens rounds down to 1,600 m.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1604"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1604 / 10 = 160.4, below half, rounds to 160, so 1,600 m",
+          "value": 1600
+        },
+        {
+          "n": 2,
+          "description": "Under 1,610: '1,600 m'."
+        }
+      ],
+      "expected": {
+        "display": "1,600 m"
+      }
+    },
+    {
+      "id": "1605-m-rounds-to-1610-so-miles",
+      "description": "1,605 m: 160.5 tens, a half, rounds up to 1,610 m, which is not under 1,610, so the unit is miles, shown from the STORED 1,605 m.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1605"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1605 / 10 = 160.5, half away from zero gives 161, 161 x 10 = 1,610 m (used only to choose the unit)",
+          "value": 1610
+        },
+        {
+          "n": 2,
+          "description": "1,610 is not under 1,610, so miles."
+        },
+        {
+          "n": 3,
+          "description": "Stored metres in miles: 1605 / 1609.344 = 0.99730, to one decimal (0.99730 x 10 = 9.973, rounds to 10) = 1.0",
+          "value": "1.0"
+        },
+        {
+          "n": 4,
+          "description": "Always one decimal: '1.0 miles'."
+        }
+      ],
+      "expected": {
+        "display": "1.0 miles"
+      }
+    },
+    {
+      "id": "1609-m",
+      "description": "1,609 m: 160.9 tens rounds to 161, so 1,610 m, so miles.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1609"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1609 / 10 = 160.9, rounds to 161, 1,610 m, so miles",
+          "value": 1610
+        },
+        {
+          "n": 2,
+          "description": "1609 / 1609.344 = 0.99979; x 10 = 9.9979, rounds to 10 tenths = 1.0"
+        }
+      ],
+      "expected": {
+        "display": "1.0 miles"
+      }
+    },
+    {
+      "id": "1609-344-m-exactly-a-mile",
+      "description": "1,609.344 m is exactly one mile.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1609.344"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1609.344 / 10 = 160.9344, rounds to 161, 1,610 m, so miles",
+          "value": 1610
+        },
+        {
+          "n": 2,
+          "description": "1609.344 / 1609.344 = 1 exactly, 1.0 tenths-rounded = 1.0"
+        }
+      ],
+      "expected": {
+        "display": "1.0 miles"
+      }
+    },
+    {
+      "id": "1610-m",
+      "description": "1,610 m: already 1,610, so miles.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1610"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1610 / 10 = 161, so 1,610 m, not under 1,610, so miles",
+          "value": 1610
+        },
+        {
+          "n": 2,
+          "description": "1610 / 1609.344 = 1.00041; x 10 = 10.0041, rounds to 10 = 1.0"
+        }
+      ],
+      "expected": {
+        "display": "1.0 miles"
+      }
+    },
+    {
+      "id": "1-25-miles-just-below-half",
+      "description": "2,011.67 m is just below 1.25 miles.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "2011.67"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2011.67 / 10 = 201.167, rounds to 201, 2,010 m, over 1,610, so miles"
+        },
+        {
+          "n": 2,
+          "description": "2011.67 / 1609.344 = 1.249994 (1.25 miles = 2011.68 m, this is 0.01 m less); x 10 = 12.49994, below half, rounds to 12 = 1.2"
+        }
+      ],
+      "expected": {
+        "display": "1.2 miles"
+      }
+    },
+    {
+      "id": "1-25-miles-exactly-half",
+      "description": "2,011.68 m is exactly 1.25 miles (1.25 x 1609.344 = 2011.68).",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "2011.68"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2011.68 / 10 = 201.168, rounds to 201, 2,010 m, over 1,610, so miles"
+        },
+        {
+          "n": 2,
+          "description": "1.25 x 1609.344 = 2011.68, so the miles value is exactly 1.25; x 10 = 12.5, a half, away from zero gives 13 = 1.3"
+        }
+      ],
+      "expected": {
+        "display": "1.3 miles"
+      }
+    },
+    {
+      "id": "1-25-miles-just-above-half",
+      "description": "2,011.69 m is just above 1.25 miles.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "2011.69"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2011.69 / 10 = 201.169, rounds to 201, 2,010 m, over 1,610, so miles"
+        },
+        {
+          "n": 2,
+          "description": "2011.69 / 1609.344 = 1.250006 (0.01 m more than 1.25 miles); x 10 = 12.50006, above half, rounds to 13 = 1.3"
+        }
+      ],
+      "expected": {
+        "display": "1.3 miles"
+      }
+    },
+    {
+      "id": "1-35-miles-just-below-half",
+      "description": "2,172.6143 m is just below 1.35 miles.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "2172.6143"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2172.6143 / 10 = 217.26143, rounds to 217, 2,170 m, so miles"
+        },
+        {
+          "n": 2,
+          "description": "1.35 miles = 2172.6144 m; this is 0.0001 m less, 2172.6143 / 1609.344 = 1.34999994; x 10 = 13.4999994, below half, rounds to 13 = 1.3"
+        }
+      ],
+      "expected": {
+        "display": "1.3 miles"
+      }
+    },
+    {
+      "id": "1-35-miles-exactly-half",
+      "description": "2,172.6144 m is exactly 1.35 miles (1.35 x 1609.344 = 1609.344 + 563.2704 = 2172.6144).",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "2172.6144"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2172.6144 / 10 = 217.26144, rounds to 217, 2,170 m, so miles"
+        },
+        {
+          "n": 2,
+          "description": "Miles value is exactly 1.35; x 10 = 13.5, a half, away from zero gives 14 = 1.4"
+        }
+      ],
+      "expected": {
+        "display": "1.4 miles"
+      }
+    },
+    {
+      "id": "1-35-miles-just-above-half",
+      "description": "2,172.6145 m is just above 1.35 miles.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "2172.6145"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2172.6145 / 10 = 217.26145, rounds to 217, 2,170 m, so miles"
+        },
+        {
+          "n": 2,
+          "description": "0.0001 m above 1.35 miles: 1.35000006; x 10 = 13.5000006, above half, rounds to 14 = 1.4"
+        }
+      ],
+      "expected": {
+        "display": "1.4 miles"
+      }
+    },
+    {
+      "id": "2173-m-miles-from-stored-metres",
+      "description": "2,173 m: miles come from the stored metres (1.3502 miles), not the rounded 2,170 m (which would give 1.3485, 1.3 miles).",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "2173"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2173 / 10 = 217.3, rounds to 217, 2,170 m, over 1,610, so miles"
+        },
+        {
+          "n": 2,
+          "description": "Stored: 2173 / 1609.344 = 1.35024 (1609.344 x 1.35 = 2172.6144, remainder 0.3856 / 1609.344 = 0.00024); x 10 = 13.5024, above half, rounds to 14 = 1.4. (From the rounded 2,170: 1.34840, 1.3, which is the wrong route.)"
+        }
+      ],
+      "expected": {
+        "display": "1.4 miles"
+      }
+    },
+    {
+      "id": "4600-m",
+      "description": "4,600 m: 2.8583 miles.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "4600"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "4600 / 10 = 460, 4,600 m, over 1,610, so miles"
+        },
+        {
+          "n": 2,
+          "description": "4600 / 1609.344 = 2.85831 (1609.344 x 2.85 = 4586.6304, remainder 13.3696 / 1609.344 = 0.00831); x 10 = 28.5831, rounds to 29 = 2.9"
+        }
+      ],
+      "expected": {
+        "display": "2.9 miles"
+      }
+    },
+    {
+      "id": "1000-m-thousands-comma",
+      "description": "1,000 m shows the thousands comma.",
+      "rule": {
+        "source": "FE-27 as amended (docs/product); a mile is exactly 1,609.344 m; halves away from zero",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "metres": "1000"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "1000 / 10 = 100, so 1,000 m, under 1,610"
+        },
+        {
+          "n": 2,
+          "description": "Thousands separator is a comma: '1,000 m'."
+        }
+      ],
+      "expected": {
+        "display": "1,000 m"
+      }
+    }
+  ]
+}

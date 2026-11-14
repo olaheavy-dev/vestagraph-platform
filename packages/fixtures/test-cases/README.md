@@ -4,6 +4,7 @@ These are the **expected values** the cost engine must reproduce. They were work
 
 Files:
 - `rounding-boundaries.json`: rounding boundary cases (decision 0034).
+- `distance-display.json` (display distances, FE-27): `inputs.metres` is a decimal string; `expected.display` is the text (`under 10 m`, `1,450 m` or `1.3 miles`).
 - `area-glance.json` (and later `area-*.json`): area-result cases, see "Area cases" below.
 - `story-calculations.json`: service-charge difference, mortgage repayments (including two boundary cases), monthly housing costs, upfront cash and the B1 budget beat.
 
