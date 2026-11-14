@@ -1,0 +1,352 @@
+{
+  "$schema": "../schema/pilot-topics.schema.json",
+  "nation": "england",
+  "topics": [
+    {
+      "key": "getting-around",
+      "name": "Getting around",
+      "kind": "places",
+      "counted": true,
+      "recordTopics": [
+        "transport-stop",
+        "bus-departures"
+      ],
+      "questionTemplate": "What do I need to know about {label} when I plan my regular journeys?",
+      "checkInPerson": [
+        "Walk the route to the stop or station at the times you would travel.",
+        "Check whether the stop has a shelter, lighting and step-free access.",
+        "Look at the posted timetable at the stop."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "everyday-places",
+      "name": "Everyday places",
+      "kind": "places",
+      "counted": true,
+      "recordTopics": [
+        "amenity"
+      ],
+      "recordSubtypes": [
+        "supermarket",
+        "shop",
+        "park",
+        "pharmacy",
+        "gp-surgery",
+        "hospital",
+        "clinic",
+        "dentist",
+        "police-station",
+        "childcare"
+      ],
+      "questionTemplate": "Can you confirm the opening hours and whether {label} is taking new customers or patients?",
+      "checkInPerson": [
+        "Visit at the times you would normally shop or use services.",
+        "Check how the walk feels on the way there and back, including the paths and crossings.",
+        "Ask the place directly whether it is accepting new registrations."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "places-of-worship",
+      "name": "Places of worship",
+      "kind": "places",
+      "counted": true,
+      "recordTopics": [
+        "amenity"
+      ],
+      "recordSubtypes": [
+        "place-of-worship"
+      ],
+      "questionTemplate": "Can you tell me how to find out about services, events and access at {label}?",
+      "checkInPerson": [
+        "Visit during a service or event time to see how busy the street gets.",
+        "Check access and parking nearby at the times that matter to you."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "schools",
+      "name": "Schools",
+      "kind": "places",
+      "counted": true,
+      "recordTopics": [
+        "school",
+        "school-inspection",
+        "school-demand"
+      ],
+      "questionTemplate": "Can you tell me about the admissions process and the catchment or priority rules for {label}?",
+      "checkInPerson": [
+        "Visit the school during a normal day, or at an open event.",
+        "Walk the route you would take with your child at school drop-off time.",
+        "Ask the school how places were allocated in the most recent year."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "family-view",
+      "name": "Family view",
+      "kind": "places",
+      "counted": false,
+      "recordTopics": [
+        "school",
+        "amenity",
+        "school-demand"
+      ],
+      "recordSubtypes": [
+        "childcare",
+        "park"
+      ],
+      "reviewStatus": "draft",
+      "questionTemplate": "What can you tell me about childcare, schools and open spaces near {label}?",
+      "checkInPerson": [
+        "Visit childcare and a school during opening hours.",
+        "Walk the routes with a child at the time they would travel.",
+        "Visit the nearest park at different times of day."
+      ],
+      "note": "A grouping that reuses childcare, school and park records already counted under other topics. Never in the counts."
+    },
+    {
+      "key": "planning-nearby",
+      "name": "Planning nearby",
+      "kind": "places",
+      "counted": true,
+      "recordTopics": [
+        "planning"
+      ],
+      "questionTemplate": "Can you tell me the current stage and expected timing of the planning application at {label}?",
+      "checkInPerson": [
+        "Walk past the site and note any notices displayed on or near it.",
+        "Look at the building work or empty plots around the home.",
+        "Check the council planning page for later updates."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "flood",
+      "name": "Flood",
+      "kind": "warning",
+      "counted": true,
+      "recordTopics": [
+        "flood",
+        "flood-risk-postcode"
+      ],
+      "questionTemplate": "Has the home or the street at {label} ever flooded, and is there any insurance or flood history to see?",
+      "checkInPerson": [
+        "Look at where water would run: the lowest points of the street and the ground around the home.",
+        "Ask neighbours about past flooding.",
+        "Look for damp marks, tide lines or flood protection on the property."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "crime",
+      "name": "Recorded crime",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "crime"
+      ],
+      "questionTemplate": "What can you tell me about the area around {label} that the recorded counts would not show?",
+      "checkInPerson": [
+        "Visit in the evening and at the weekend as well as in the daytime.",
+        "Look at lighting and how the street is used at different times.",
+        "Talk to people who live nearby."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "sold-nearby",
+      "name": "Sold nearby",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "sold-price"
+      ],
+      "questionTemplate": "Can you tell me anything about the condition or work done to the home sold at {label}?",
+      "checkInPerson": [
+        "Compare the sold homes you can see with the home you are looking at.",
+        "Ask an agent how the sold homes differ in size and condition."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "broadband",
+      "name": "Broadband",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "broadband"
+      ],
+      "questionTemplate": "Which broadband provider and package does the home at {label} use now, and what speed does it really get?",
+      "checkInPerson": [
+        "Check the speed on your own device in the rooms you would work in.",
+        "Ask the current occupant what they use and what they pay.",
+        "Check that the lines or sockets in the home are in place."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "air-quality",
+      "name": "Air quality",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "air-quality"
+      ],
+      "questionTemplate": "What is the air like around {label} on busy days and at busy times of day?",
+      "checkInPerson": [
+        "Visit at rush hour and note traffic and smell.",
+        "Look at how close the home is to main roads or industrial sites.",
+        "Check whether the windows can be opened comfortably on the road side."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "council-tax-by-band",
+      "name": "Council tax by band",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "council-tax"
+      ],
+      "questionTemplate": "Which council tax band is {label} in, and can I see the latest bill?",
+      "checkInPerson": [
+        "Ask for the latest council tax bill for the home.",
+        "Check the band on the official council tax band page for the address."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "housing-affordability",
+      "name": "Housing affordability",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "affordability"
+      ],
+      "questionTemplate": "Can you tell me how the price of {label} compares with similar homes you have sold recently?",
+      "checkInPerson": [
+        "Compare a few listings on the same street and nearby streets.",
+        "Ask the agent how long similar homes have been for sale."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "deprivation",
+      "name": "Deprivation",
+      "kind": "official-rank",
+      "counted": true,
+      "recordTopics": [
+        "deprivation-rank"
+      ],
+      "questionTemplate": "What should I know about the neighbourhood of {label} that these published ranks do not show?",
+      "checkInPerson": [
+        "Walk through the neighbourhood at different times and see how it is looked after.",
+        "Talk to people who live nearby about the area.",
+        "Look at the local shops, services and community spaces."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "transport-connectivity",
+      "name": "Transport connectivity",
+      "kind": "official-rank",
+      "counted": true,
+      "recordTopics": [
+        "transport-connectivity"
+      ],
+      "questionTemplate": "How do people living near {label} usually travel for work and school?",
+      "checkInPerson": [
+        "Try a real journey to your workplace or school at the time you would travel.",
+        "Check the service for late evening and weekend trips.",
+        "Look at how easy it is to reach the stop or station on foot."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "green-space",
+      "name": "Green space",
+      "kind": "official-rank",
+      "counted": true,
+      "recordTopics": [
+        "green-space"
+      ],
+      "questionTemplate": "Can the public use {label} freely, and what is it like to be in?",
+      "checkInPerson": [
+        "Walk to the nearest green space and see how it is kept.",
+        "Check the entrances, paths and opening times.",
+        "Visit at a weekend to see how busy it is."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "council-tax-band-home",
+      "name": "Council tax band of a home",
+      "kind": "route-only",
+      "counted": true,
+      "recordTopics": [],
+      "questionTemplate": "Which council tax band is {label} in, and can I see the latest bill?",
+      "checkInPerson": [
+        "Ask for the latest council tax bill for the home.",
+        "Check the band on the official page for the exact address."
+      ],
+      "officialRoute": {
+        "label": "Check the council tax band of a home (gov.uk)",
+        "url": "https://www.gov.uk/council-tax-bands"
+      },
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "mobile-by-network",
+      "name": "Mobile by network",
+      "kind": "route-only",
+      "counted": true,
+      "recordTopics": [],
+      "questionTemplate": "Which mobile networks work well indoors at {label}?",
+      "checkInPerson": [
+        "Check signal on your own phone in each room.",
+        "Ask the current occupant which network they use and how well it works.",
+        "Try a call and a video call in the rooms you would use most."
+      ],
+      "officialRoute": {
+        "label": "Ofcom's coverage checker",
+        "url": "https://www.ofcom.org.uk/phones-and-broadband/coverage-and-speeds/ofcom-checker"
+      },
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "noise",
+      "name": "Noise",
+      "kind": "route-only",
+      "counted": true,
+      "recordTopics": [],
+      "questionTemplate": "What is the noise like at {label} at different times of day?",
+      "checkInPerson": [
+        "Visit at rush hour, in the evening and at night.",
+        "Listen with the windows open and closed.",
+        "Note any flight paths, railway lines or busy roads you can hear."
+      ],
+      "officialRoute": {
+        "label": "Official noise information (no official link recorded yet)"
+      },
+      "reviewStatus": "draft"
+    },
+    {
+      "key": "ground-and-mining",
+      "name": "Ground and mining",
+      "kind": "route-only",
+      "counted": true,
+      "recordTopics": [],
+      "questionTemplate": "Has the ground at {label} had any survey, mining search or subsidence history?",
+      "checkInPerson": [
+        "Look for cracks in walls or uneven floors.",
+        "Ask whether a mining or ground search was done."
+      ],
+      "officialRoute": {
+        "label": "Official ground and mining information (no official link recorded yet)"
+      },
+      "reviewStatus": "draft"
+    }
+  ]
+}

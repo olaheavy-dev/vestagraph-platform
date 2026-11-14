@@ -5,7 +5,7 @@ Synthetic sample data for the prototype (decision 0018, stage 2 plan section 1).
 | Folder | What it holds |
 |---|---|
 | `schema/` | JSON Schema 2020-12 files. `common.schema.json` holds shared pieces (money, sources, dates, nations); the others describe one data file each. |
-| `data/` | Hand-maintained **inputs**: household, homes, evidence, documents, questions, replies, snapshot, area, postcode-area. No totals or other calculated figures (AGENTS.md rule 2). |
+| `data/` | Hand-maintained **inputs**: household, homes, evidence, documents, questions, replies, snapshot, area, postcode-area, pilot-topics, sample-priorities. No totals or other calculated figures (AGENTS.md rule 2). |
 | `test-cases/` | Independently worked examples (task 3), checked against `schema/test-case.schema.json`. |
 | `generated/` | Cost-engine output (task 4b): one file, `costs.json`, checked against `schema/generated-costs.schema.json`. Written only by the generator (`make generate`) and committed; never edited by hand. `make check` regenerates it and fails if anything under `generated/` differs from what is committed. |
 
@@ -69,6 +69,12 @@ Items that only describe a home (`council-tax-band`, `energy-certificate`, `ener
 - **Distances are inputs** with the method "straight-line from the postcode centre, synthetic". Live distances will come from the pilot's tested geometry module, not from this file.
 - **Worked miles figures for later UI tests** (metres divided by 1609.344, one decimal): 2400 m is 1.49, shown "1.5 miles"; 3100 m is 1.93, "1.9 miles"; 4600 m is 2.86, "2.9 miles".
 - Tests: `test_fixtures_postcode_area_schema_rejection.py` (the schema refuses bad records) and `test_fixtures_postcode_area_data.py` (levels, the exact mile, the flood time, unique IDs across both area files, listed postcodes, the sparse rules).
+
+## Pilot topics and sample priorities (first design batch)
+
+- `data/pilot-topics.json` (`schema/pilot-topics.schema.json`) is the registry of the pilot's area topics in display order: the postcode-area record topics (and subtypes) each one reads, a draft question template with one `{label}` slot, a draft check-in-person list and, for route-only topics, an `officialRoute`. Each record belongs to exactly one counted topic; the family view has `counted: false` and is never in the counts. Every template and list is `draft` until the founder reviews it. Noise and ground and mining have no recorded official URL yet, so their route has a label only.
+- `data/sample-priorities.json` (`schema/sample-priorities.schema.json`) holds synthetic example limits, kept as typed (a decimal string with a unit), used only to draw the boards. Tested code converts them exactly to metres.
+- `postcode-area.schema.json` gains the topics `deprivation-rank`, `transport-connectivity`, `green-space`, `air-quality`, `council-tax`, `affordability`, `flood-risk-postcode`, `school-demand` and `bus-departures` with their value shapes; place values in `area.schema.json` gain optional `walkingMinutes` with a required `walkingMethod` (register DA-18).
 
 ## Known limits
 

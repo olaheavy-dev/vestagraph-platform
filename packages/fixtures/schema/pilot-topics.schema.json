@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/pilot-topics.schema.json",
+  "title": "Pilot topic registry (data/pilot-topics.json)",
+  "description": "The pilot's area topics in display order: how each reads the postcode records, its draft question template and check-in-person list. Each record belongs to exactly one counted topic; a grouping that reuses other topics' records has counted false and is never in the counts. Templates and lists are drafts until the founder reviews them. No figures live here.",
+  "type": "object",
+  "required": [
+    "nation",
+    "topics"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "nation": {
+      "const": "england"
+    },
+    "topics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/topic"
+      }
+    }
+  },
+  "$defs": {
+    "topic": {
+      "type": "object",
+      "required": [
+        "key",
+        "name",
+        "kind",
+        "counted",
+        "recordTopics",
+        "reviewStatus"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "places",
+            "area-figures",
+            "official-rank",
+            "warning",
+            "route-only"
+          ]
+        },
+        "counted": {
+          "type": "boolean"
+        },
+        "recordTopics": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "transport-stop",
+              "school",
+              "school-inspection",
+              "crime",
+              "flood",
+              "sold-price",
+              "amenity",
+              "broadband",
+              "planning",
+              "deprivation-rank",
+              "transport-connectivity",
+              "green-space",
+              "air-quality",
+              "council-tax",
+              "affordability",
+              "flood-risk-postcode",
+              "school-demand",
+              "bus-departures"
+            ]
+          },
+          "description": "The postcode-area.json topic values this pilot topic reads. Empty for route-only topics."
+        },
+        "recordSubtypes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "questionTemplate": {
+          "type": "string",
+          "pattern": "^[^{}]*\\{label\\}[^{}]*$",
+          "description": "Plain, neutral question with exactly one {label} slot, filled later from a record label."
+        },
+        "checkInPerson": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 4,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Things data cannot show."
+        },
+        "officialRoute": {
+          "type": "object",
+          "required": [
+            "label"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "label": {
+              "type": "string",
+              "minLength": 1
+            },
+            "url": {
+              "type": "string",
+              "pattern": "^https://"
+            }
+          },
+          "description": "Where to go officially. url is left out when no official URL is recorded in the repository."
+        },
+        "note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reviewStatus": {
+          "enum": [
+            "draft",
+            "reviewed"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "route-only"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "officialRoute"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
