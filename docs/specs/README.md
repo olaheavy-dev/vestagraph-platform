@@ -48,6 +48,14 @@ The design skills' working notes in `.design/<feature>/` (decision 0031) feed th
   - `Then evidence "<evidence ID>" exists`
   - `Then area record "<record ID>" has status "<recorded | no-record-in-source | stale | source-failed | not-covered>"` (a record in `packages/fixtures/data/area.json`)
   - `Then area record "<record ID>" shows no value` (the record carries no `value`, so the screen has nothing to show as a result; rule 7)
+  - `Then area result "<postcode>" has topic "<topic key>" with outcome "<found | not-known | not-covered>"` (`packages/fixtures/generated/area-result.json`; the postcode is written as in that file, e.g. `NB1 4XY`)
+  - `Then area result "<postcode>" leaves topic "<topic key>" out of the coverage total` (the topic is absent from the postcode's `topics` list, because the registry marks it `counted: false`, or its outcome is `not-covered`)
+  - `Then area result "<postcode>" asks the gap question for record "<record ID>"` (the glance questions include that record)
+  - `Then area result "<postcode>" has priority "<priority ID>" with outcome "<meets | misses | not-known | not-known-beyond-search>"`
+  - `Then area result "<postcode>" has priority "<priority ID>" with nearest record "<record ID>"`
+  - `Then area result "<postcode>" has a display distance for record "<record ID>"` (the record has a distance with display text; never a typed number)
+  - `Then area result "<postcode>" counts buses for stop "<record ID>" on route "<route>" at hour <8 | 12>` (an entry exists; the count is never typed)
+  - `Then postcode record "<record ID>" has status "<recorded | no-record-in-source | stale | source-failed | not-covered>"` (a record in `packages/fixtures/data/postcode-area.json`; the `area record` step reads `area.json`)
   - `Then home "<home ID>" has coverage "<covered | not-yet-covered>"`
 
   `Given home ... is at story step N` accepts any step from a scenario's `fromStep` to its `toStep` (for B1, step 2 is `from-step-1`) and then requires every figure ID cited in that scenario to start with `<home>.<scenario>.`. `has status` and `shows no amount` apply to cost lines only, not totals. The wording in decision 0043's example is illustrative; this list is the contract.
