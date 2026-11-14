@@ -84,7 +84,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- `docs/first-design-batch-canvas`: this record of the first design batch on the canvas (versions 139 to 167), FE-42 and the PD-09 wordmark note. Everything else from 13–14 Nov 2026 is merged (#242, #243, #245 to #248, #250, #252 to #255, #259 to #262).
+- `docs/first-design-batch-canvas`: this record of the first design batch on the canvas (versions 139 to 168), FE-42 and the PD-09 wordmark note. Everything else from 13–14 Nov 2026 is merged (#242, #243, #245 to #248, #250, #252 to #255, #259 to #262).
 
 ## Start of the next session
 1. **The founder's review of the first design batch boards** (plan Task 12; canvas version 168; the boards sit to the right of the Nearby rows, dark versions below). Then the batch's specifications (plan Task 13, second item: feature files for At a glance, priorities, topic anatomy and states). Open for that review: the agent's starting list of priority limits (spec, open to the founder), the transport connectivity scale's direction (to confirm from the DfT table before build, 0054), the "Explain this" texts (not written yet, AI-12), and #263 (dataset label spelled two ways).
