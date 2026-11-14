@@ -131,6 +131,31 @@ def test_priority_result_beyond_search_with_no_matching_record_is_not_known_beyo
     assert _result(case).outcome == "not-known-beyond-search"
 
 
+def test_priority_result_filter_with_failed_lookup_and_place_over_limit_is_not_known() -> None:
+    case = "filter-with-failed-lookup-and-place-over-limit-is-not-known"
+
+    assert _result(case) == PriorityResult("not-known", None)
+
+
+def test_priority_result_sibling_record_without_the_measure_is_ignored() -> None:
+    assert _result("sibling-record-without-the-measure-is-ignored") == PriorityResult(
+        "misses", "S-1"
+    )
+
+
+def test_priority_result_subtype_and_filter_keep_a_matching_gap() -> None:
+    assert _result("subtype-and-filter-keep-a-matching-gap").outcome == "not-known"
+
+
+def test_priority_result_recorded_with_null_value_is_not_known() -> None:
+    assert _result("recorded-with-null-value-is-not-known").outcome == "not-known"
+
+
+def test_priority_result_broadband_has_no_nearest_record() -> None:
+    assert _result("broadband-above-limit-meets").nearest_record_id is None
+    assert _result("broadband-below-limit-misses").nearest_record_id is None
+
+
 def test_priority_result_search_limit_is_five_thousand_metres() -> None:
     assert Fraction(5000) == SEARCH_LIMIT_METRES
 

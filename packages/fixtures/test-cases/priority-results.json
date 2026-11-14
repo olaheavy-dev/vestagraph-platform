@@ -1020,8 +1020,8 @@
       }
     },
     {
-      "id": "filter-excludes-gap-record-without-value",
-      "description": "A gap record without a value while the priority filters on stopType.",
+      "id": "filter-keeps-gap-record-without-value-is-not-known",
+      "description": "A no-record-in-source stop record while the priority filters on stopType.",
       "rule": {
         "source": "FE-40 priority result rules, in order: (1) a recorded or stale record at or under the limit meets; (2) otherwise a distance limit over 5,000 m is not-known-beyond-search, whether or not a record matched; (3) otherwise no matching record is not-known; (4) a recorded or stale record lacking the measure is not-known; (5) a source-failed matching record is not-known; (6) all recorded or stale over the limit misses; (7) otherwise not-known. Broadband: at or above the limit meets, below misses. 1 mile = 1,609.344 m exactly.",
         "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
@@ -1050,7 +1050,7 @@
       "steps": [
         {
           "n": 1,
-          "description": "A gap record has no stopType to compare, so the filter drops it; nothing matches: not-known."
+          "description": "The gap record has no value to filter, so it passes the filter (its lookup may have held a rail station) and matches. No meet, limit not over 5,000 m; no recorded record, nothing failed: rule 7, not-known."
         }
       ],
       "expected": {
@@ -1088,12 +1088,12 @@
       "steps": [
         {
           "n": 1,
-          "description": "At or above the limit meets: 100 >= 100."
+          "description": "At or above the limit meets: 100 >= 100. A speed has no nearest place, so nearestRecordId is null."
         }
       ],
       "expected": {
         "outcome": "meets",
-        "nearestRecordId": "BB-1"
+        "nearestRecordId": null
       }
     },
     {
@@ -1126,12 +1126,12 @@
       "steps": [
         {
           "n": 1,
-          "description": "900 >= 100: meets."
+          "description": "900 >= 100: meets; nearestRecordId is null for a speed."
         }
       ],
       "expected": {
         "outcome": "meets",
-        "nearestRecordId": "BB-1"
+        "nearestRecordId": null
       }
     },
     {
@@ -1164,12 +1164,12 @@
       "steps": [
         {
           "n": 1,
-          "description": "80 < 100: misses. The ruling gives the matching record with the smallest measure as the nearest: BB-1."
+          "description": "80 < 100: misses. A speed has no nearest place: nearestRecordId is null."
         }
       ],
       "expected": {
         "outcome": "misses",
-        "nearestRecordId": "BB-1"
+        "nearestRecordId": null
       }
     },
     {
@@ -1200,6 +1200,252 @@
         {
           "n": 1,
           "description": "No recorded record: not-known."
+        }
+      ],
+      "expected": {
+        "outcome": "not-known",
+        "nearestRecordId": null
+      }
+    },
+    {
+      "id": "filter-with-failed-lookup-and-place-over-limit-is-not-known",
+      "description": "A recorded primary school at 900 m and a source-failed school record, against a 500 m limit.",
+      "rule": {
+        "source": "FE-40 priority result rules, in order: (1) a recorded or stale record at or under the limit meets; (2) otherwise a distance limit over 5,000 m is not-known-beyond-search, whether or not a record matched; (3) otherwise no matching record is not-known; (4) a recorded or stale record lacking the measure is not-known; (5) a source-failed matching record is not-known; (6) all recorded or stale over the limit misses; (7) otherwise not-known. Broadband: at or above the limit meets, below misses. 1 mile = 1,609.344 m exactly.",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "priority": {
+          "topicKey": "schools",
+          "measure": "distance",
+          "limit": {
+            "value": "500",
+            "unit": "metres"
+          },
+          "filter": {
+            "field": "phase",
+            "equals": "primary"
+          }
+        },
+        "records": [
+          {
+            "id": "S-1",
+            "topic": "school",
+            "status": "recorded",
+            "value": {
+              "phase": "primary",
+              "distanceMetres": 900
+            }
+          },
+          {
+            "id": "S-2",
+            "topic": "school",
+            "status": "source-failed"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The gap record has no value, so it passes the filter: its lookup may have held a nearer primary school."
+        },
+        {
+          "n": 2,
+          "description": "Rule 1: 900 > 500. Rule 4: S-1 has a distance. Rule 5: S-2 is source-failed: not-known, not Misses."
+        }
+      ],
+      "expected": {
+        "outcome": "not-known",
+        "nearestRecordId": null
+      }
+    },
+    {
+      "id": "sibling-record-without-the-measure-is-ignored",
+      "description": "A recorded primary school at 900 m and a school-demand record with phase primary.",
+      "rule": {
+        "source": "FE-40 priority result rules, in order: (1) a recorded or stale record at or under the limit meets; (2) otherwise a distance limit over 5,000 m is not-known-beyond-search, whether or not a record matched; (3) otherwise no matching record is not-known; (4) a recorded or stale record lacking the measure is not-known; (5) a source-failed matching record is not-known; (6) all recorded or stale over the limit misses; (7) otherwise not-known. Broadband: at or above the limit meets, below misses. 1 mile = 1,609.344 m exactly.",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "priority": {
+          "topicKey": "schools",
+          "measure": "distance",
+          "limit": {
+            "value": "500",
+            "unit": "metres"
+          },
+          "filter": {
+            "field": "phase",
+            "equals": "primary"
+          }
+        },
+        "records": [
+          {
+            "id": "S-1",
+            "topic": "school",
+            "status": "recorded",
+            "value": {
+              "phase": "primary",
+              "distanceMetres": 900
+            }
+          },
+          {
+            "id": "D-1",
+            "topic": "school-demand",
+            "status": "recorded",
+            "value": {
+              "phase": "primary",
+              "applications": 96
+            }
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "school-demand records do not carry a distance, so they never match."
+        },
+        {
+          "n": 2,
+          "description": "Only S-1 matches: 900 > 500, rule 6: misses, nearest S-1."
+        }
+      ],
+      "expected": {
+        "outcome": "misses",
+        "nearestRecordId": "S-1"
+      }
+    },
+    {
+      "id": "subtype-and-filter-keep-a-matching-gap",
+      "description": "Place of worship, religion christian, 1,000 m: a christian place at 2,000 m and a source-failed place-of-worship record.",
+      "rule": {
+        "source": "FE-40 priority result rules, in order: (1) a recorded or stale record at or under the limit meets; (2) otherwise a distance limit over 5,000 m is not-known-beyond-search, whether or not a record matched; (3) otherwise no matching record is not-known; (4) a recorded or stale record lacking the measure is not-known; (5) a source-failed matching record is not-known; (6) all recorded or stale over the limit misses; (7) otherwise not-known. Broadband: at or above the limit meets, below misses. 1 mile = 1,609.344 m exactly.",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "priority": {
+          "topicKey": "everyday-places",
+          "measure": "distance",
+          "limit": {
+            "value": "1000",
+            "unit": "metres"
+          },
+          "subtype": "place-of-worship",
+          "filter": {
+            "field": "religion",
+            "equals": "christian"
+          }
+        },
+        "records": [
+          {
+            "id": "W-1",
+            "topic": "amenity",
+            "status": "recorded",
+            "subtype": "place-of-worship",
+            "value": {
+              "religion": "christian",
+              "distanceMetres": 2000
+            }
+          },
+          {
+            "id": "W-2",
+            "topic": "amenity",
+            "status": "source-failed",
+            "subtype": "place-of-worship"
+          },
+          {
+            "id": "W-3",
+            "topic": "amenity",
+            "status": "source-failed",
+            "subtype": "gp-surgery"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "W-3 has another subtype and is removed. W-2 matches the subtype and has no value to filter, so it is kept."
+        },
+        {
+          "n": 2,
+          "description": "Rule 1: 2,000 > 1,000. Rule 5: W-2 is source-failed: not-known."
+        }
+      ],
+      "expected": {
+        "outcome": "not-known",
+        "nearestRecordId": null
+      }
+    },
+    {
+      "id": "recorded-with-null-value-is-not-known",
+      "description": "A GP record marked recorded but holding no value.",
+      "rule": {
+        "source": "FE-40 priority result rules, in order: (1) a recorded or stale record at or under the limit meets; (2) otherwise a distance limit over 5,000 m is not-known-beyond-search, whether or not a record matched; (3) otherwise no matching record is not-known; (4) a recorded or stale record lacking the measure is not-known; (5) a source-failed matching record is not-known; (6) all recorded or stale over the limit misses; (7) otherwise not-known. Broadband: at or above the limit meets, below misses. 1 mile = 1,609.344 m exactly.",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "priority": {
+          "topicKey": "everyday-places",
+          "measure": "walking-minutes",
+          "limit": {
+            "value": "15",
+            "unit": "minutes"
+          },
+          "subtype": "gp-surgery"
+        },
+        "records": [
+          {
+            "id": "GP-1",
+            "topic": "amenity",
+            "status": "recorded",
+            "subtype": "gp-surgery"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "No measure to compare: rule 4 treats a null value as lacking it, so not-known."
+        }
+      ],
+      "expected": {
+        "outcome": "not-known",
+        "nearestRecordId": null
+      }
+    },
+    {
+      "id": "wrong-topic-record-is-ignored",
+      "description": "A record of a topic that carries no distance, with a subtype matching the priority.",
+      "rule": {
+        "source": "FE-40 priority result rules, in order: (1) a recorded or stale record at or under the limit meets; (2) otherwise a distance limit over 5,000 m is not-known-beyond-search, whether or not a record matched; (3) otherwise no matching record is not-known; (4) a recorded or stale record lacking the measure is not-known; (5) a source-failed matching record is not-known; (6) all recorded or stale over the limit misses; (7) otherwise not-known. Broadband: at or above the limit meets, below misses. 1 mile = 1,609.344 m exactly.",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "priority": {
+          "topicKey": "everyday-places",
+          "measure": "walking-minutes",
+          "limit": {
+            "value": "15",
+            "unit": "minutes"
+          },
+          "subtype": "gp-surgery"
+        },
+        "records": [
+          {
+            "id": "X-1",
+            "topic": "crime",
+            "status": "recorded",
+            "subtype": "gp-surgery",
+            "value": {
+              "walkingMinutes": 5
+            }
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "crime records are not transport-stop, school or amenity records, so nothing matches: not-known."
         }
       ],
       "expected": {
@@ -1325,12 +1571,12 @@
       "steps": [
         {
           "n": 1,
-          "description": "Predicted download 900 >= 100: meets."
+          "description": "Predicted download 900 >= 100: meets; no nearest for a speed."
         }
       ],
       "expected": {
         "outcome": "meets",
-        "nearestRecordId": "NB1-4XY-AREA-BROADBAND-1"
+        "nearestRecordId": null
       }
     },
     {
@@ -1461,12 +1707,12 @@
       "steps": [
         {
           "n": 1,
-          "description": "Predicted download 80 < 100: misses; the only matching record is the nearest."
+          "description": "Predicted download 80 < 100: misses; no nearest for a speed."
         }
       ],
       "expected": {
         "outcome": "misses",
-        "nearestRecordId": "NB7-1RR-AREA-BROADBAND-1"
+        "nearestRecordId": null
       }
     },
     {

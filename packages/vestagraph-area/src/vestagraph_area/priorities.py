@@ -1,6 +1,9 @@
 """Priority results (FE-40): meets, misses or not known, proved by priority-results.json.
 
-The rules run in this order over the records that match the priority's subtype and filter:
+Matching comes first: only records whose topic carries the measure (transport-stop, school and
+amenity for distances and walking times; broadband for speeds), then the priority's subtype, then
+its filter, which applies only to records that have a value (a gap record passes it, because its
+lookup may have held a match). Then the rules run in this order:
 
 1. A recorded or stale record whose measure is at or under the limit: meets (for a download
    speed, at or above the limit).
@@ -30,6 +33,12 @@ SEARCH_LIMIT_METRES = Fraction(5000)
 Outcome = Literal["meets", "misses", "not-known", "not-known-beyond-search"]
 
 _HAS_VALUE = ("recorded", "stale")
+# The record topics that carry each measure; sibling records (school-demand, ...) never match.
+_MEASURE_TOPICS: dict[str, tuple[str, ...]] = {
+    "walking-minutes": ("transport-stop", "school", "amenity"),
+    "distance": ("transport-stop", "school", "amenity"),
+    "download-mbps": ("broadband",),
+}
 # measure -> (the field of the record's value, the unit its limit is typed in)
 _MEASURES: dict[str, tuple[str, tuple[str, ...]]] = {
     "walking-minutes": ("walkingMinutes", ("minutes",)),
@@ -57,12 +66,12 @@ def limit_in_metres(value: Fraction, unit: str) -> Fraction:
 
 
 def _matches(priority: Priority, record: AreaRecord) -> bool:
+    if record.topic not in _MEASURE_TOPICS[priority.measure]:
+        return False
     if priority.subtype is not None and record.subtype != priority.subtype:
         return False
-    if priority.filter_field is None:
-        return True
-    if record.value is None:
-        return False
+    if priority.filter_field is None or record.value is None:
+        return True  # a gap record has no value to filter; its lookup may have held a match
     return bool(record.value.get(priority.filter_field) == priority.filter_equals)
 
 
@@ -92,16 +101,16 @@ def priority_result(priority: Priority, records: Sequence[AreaRecord]) -> Priori
     measured = [(m, r.id) for r in matching if (m := _measure(r, field)) is not None]
     meeting = [(m, i) for m, i in measured if (m >= limit if is_speed else m <= limit)]
     if meeting:
-        return PriorityResult("meets", min(meeting)[1])
+        return PriorityResult("meets", None if is_speed else min(meeting)[1])
     if is_distance and limit > SEARCH_LIMIT_METRES:
         return PriorityResult("not-known-beyond-search", None)
     if not matching:
         return PriorityResult("not-known", None)
-    with_value = [r for r in matching if r.status in _HAS_VALUE and r.value is not None]
+    with_value = [r for r in matching if r.status in _HAS_VALUE]
     if any(_measure(r, field) is None for r in with_value):
         return PriorityResult("not-known", None)
     if any(r.status == "source-failed" for r in matching):
         return PriorityResult("not-known", None)
     if with_value:
-        return PriorityResult("misses", min(measured)[1])
+        return PriorityResult("misses", None if is_speed else min(measured)[1])
     return PriorityResult("not-known", None)
