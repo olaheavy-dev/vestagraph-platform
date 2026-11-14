@@ -32,7 +32,7 @@
  *   - Hairline border tokens are decorative and exempt.
  *   - The lowest text pairs: light, warning amber on the strongest point of the mint page wash 4.84 (neutral text: tertiary
  *     there 4.97; slate complement there 5.43; on the cream band, tertiary 5.45); dark, tertiary on the faint mint
- *     chip fill 5.06 (5.33 on the info status background, 5.83 on raised; the lowest status colour is error on
+ *     chip fill 5.06 (on body surfaces 5.83, on raised, as FE-31 records) (5.33 on the info status background, 5.83 on raised; the lowest status colour is error on
  *     info-bg, 6.18).
  *
  * Fonts: Bricolage Grotesque and Geist are Google Fonts under the SIL Open Font License. Record both in
@@ -112,7 +112,7 @@
   --color-map-marker-parks: #5E7A35;
   --color-map-marker-police: #4C5560;
   --color-map-marker-worship: #7A6A55;
-  --color-map-home: #153F35;      /* only the home or postcode-centre pin is deep forest */
+  --color-map-home: #153F35;      /* only the home or postcode-centre pin is deep forest (in dark, the postcode centre is the warm hearth dot, FE-31) */
 
   /* ── Typography ───────────────────────────────────────────────── */
   --font-family-display: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;  /* optical size set per size (opsz 12–96) */
@@ -191,7 +191,7 @@
 
   /* ── Shine: light and material, never new hues (founder, 11 Nov 2026) ── */
   --page-radiance: radial-gradient(1200px 620px at 82% -12%, rgba(211, 235, 223, 0.9), transparent 60%),
-                   radial-gradient(900px 520px at 6% -4%, rgba(220, 232, 243, 0.85), transparent 62%);  /* mint and sky (the canvas boards dropped the peach wash) */
+                   radial-gradient(900px 520px at 6% -4%, rgba(220, 232, 243, 0.85), transparent 62%);  /* mint and sky, on the first band only (FE-29; the canvas boards dropped the peach wash) */
   --surface-sheen: linear-gradient(180deg, #FFFFFF 0%, #FDFCF9 55%, #F9F7F2 100%);
   --surface-edge: inset 0 1px 0 #FFFFFF;
   --surface-edge-border: linear-gradient(var(--color-border-primary), var(--color-border-primary));  /* card border as an image, so dark can use a lit gradient edge */
@@ -230,7 +230,7 @@
   /* ── Component tokens ─────────────────────────────────────────── */
   --card-bg: var(--color-bg-secondary);
   --card-border: var(--border-width-hairline) solid var(--color-border-primary);
-  --card-shadow: var(--surface-shadow);
+  --card-shadow: var(--surface-shadow);  /* aliases resolve where declared: put data-theme on <html>, not on an inner element */
   --card-radius: var(--border-radius-lg);
   --card-padding: var(--space-7);
   --card-gap-border: var(--border-width-gap) dashed var(--color-border-gap);
@@ -300,12 +300,12 @@
   --color-map-marker-parks: #B7CB80;
   --color-map-marker-police: #BCC3CC;
   --color-map-marker-worship: #CBBFAE;  /* every category colour at least 5.09 on water and 8.10 on land */
-  --color-map-home: #E8A07A;  /* the warm hearth dot marks the postcode centre in dark (7.95 on land, 4.99 on water) */
+  --color-map-home: #E8A07A;  /* the warm hearth dot marks the postcode centre in dark (FE-31; 7.95 on land, 4.99 on water). A home's own pin in dark is not decided yet: settle it with the home workspace */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.45);
   --surface-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.08);  /* cards rely on the lit glass edge, not a drop shadow */
-  --field-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.04);
+  --field-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.04);  /* from the dark boards' input style */
   --texture-paper-opacity: 0.04;
   --color-hearth: #E8A07A;  /* warm hearth dot: 8.78 on the page */
   --color-border-complement: #93B8CE;
@@ -374,12 +374,12 @@
     --color-map-marker-parks: #B7CB80;
     --color-map-marker-police: #BCC3CC;
     --color-map-marker-worship: #CBBFAE;  /* every category colour at least 5.09 on water and 8.10 on land */
-    --color-map-home: #E8A07A;  /* the warm hearth dot marks the postcode centre in dark (7.95 on land, 4.99 on water) */
+    --color-map-home: #E8A07A;  /* the warm hearth dot marks the postcode centre in dark (FE-31; 7.95 on land, 4.99 on water). A home's own pin in dark is not decided yet: settle it with the home workspace */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.45);
     --surface-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.08);  /* cards rely on the lit glass edge, not a drop shadow */
-    --field-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.04);
+    --field-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.04);  /* from the dark boards' input style */
     --texture-paper-opacity: 0.04;
     --color-hearth: #E8A07A;  /* warm hearth dot: 8.78 on the page */
     --color-border-complement: #93B8CE;
