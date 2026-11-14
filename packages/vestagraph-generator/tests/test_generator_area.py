@@ -51,13 +51,19 @@ def test_run_area_data_with_missing_topic_exits_two_and_writes_nothing(tmp_path:
     document = read_json(path)
     document["area"] = [r for r in document["area"] if r["topic"] != "broadband"]
     write_json(path, document)
+    generated = tmp_path / "packages" / "fixtures" / "generated"
+    generated.mkdir()
+    (generated / "costs.json").write_bytes(b'{"known": "costs"}\n')
+    (generated / "area-result.json").write_bytes(b'{"known": "area"}\n')
     out, err = io.StringIO(), io.StringIO()
 
     exit_code = main([str(tmp_path)], out, err, tmp_path)
 
     assert exit_code == 2
     assert "broadband" in err.getvalue()
-    assert not (tmp_path / "packages" / "fixtures" / "generated").exists()
+    assert (generated / "costs.json").read_bytes() == b'{"known": "costs"}\n'
+    assert (generated / "area-result.json").read_bytes() == b'{"known": "area"}\n'
+    assert sorted(p.name for p in generated.iterdir()) == ["area-result.json", "costs.json"]
 
 
 def _real_output() -> dict[str, Any]:
@@ -171,3 +177,19 @@ def test_generate_area_priority_reads_only_its_topics_subtypes(tmp_path: Path) -
         "outcome": "misses",
         "nearestRecordId": "NB1-4XY-AREA-AMENITY-7",
     }
+
+
+@pytest.mark.parametrize(
+    "text",
+    ['{"area": NaN}', '{"area": 1e3}', '{"a": 1, "a": 2}', "[" * 200_000],
+)
+def test_main_area_file_the_reader_refuses_exits_two(tmp_path: Path, text: str) -> None:
+    copy_data_to(tmp_path)
+    path = tmp_path / "packages" / "fixtures" / "data" / "postcode-area.json"
+    path.write_text(text, encoding="utf-8")
+    out, err = io.StringIO(), io.StringIO()
+
+    exit_code = main([str(tmp_path)], out, err, tmp_path)
+
+    assert exit_code == 2
+    assert "postcode-area.json" in err.getvalue()
