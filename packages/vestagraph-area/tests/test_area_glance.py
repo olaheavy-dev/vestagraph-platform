@@ -39,11 +39,11 @@ def _inputs(inputs: dict[str, Any]) -> tuple[Registry, PostcodeArea, str]:
         Topic(
             key=t["key"],
             name=t["name"],
-            kind="places",
+            kind=t.get("kind", "places"),
             counted=t["counted"],
             record_topics=tuple(t["recordTopics"]),
-            record_subtypes=(),
-            gap_question_template=t["gapQuestionTemplate"],
+            record_subtypes=tuple(t.get("recordSubtypes", ())),
+            gap_question_template=t.get("gapQuestionTemplate"),
             check_in_person=tuple(t["checkInPerson"]),
             official_route=None,
             review_status="draft",
@@ -124,7 +124,10 @@ def test_topic_outcome_stale_is_found() -> None:
 
 
 def test_at_a_glance_topic_without_records_raises_invalid_area_data() -> None:
-    registry = make_registry(make_topic("alpha", record_topics=("missing-kind",)))
+    # beta owns R1, so the only problem is that alpha has no record.
+    registry = make_registry(
+        make_topic("alpha", record_topics=("missing-kind",)), make_topic("beta")
+    )
     area = make_area(make_record("R1", "recorded"))
 
     with pytest.raises(InvalidAreaDataError, match=r"alpha.*ZZ1 1AA"):
@@ -171,7 +174,8 @@ def test_at_a_glance_gap_question_never_contains_the_record_label() -> None:
 
     glance = at_a_glance(registry, area, "NB7 1RR")
 
-    assert len(glance.questions) == 10
+    # 10 gap records; the two flood records share one (topic, text), so 9 questions.
+    assert len(glance.questions) == 9
     for question in glance.questions:
         assert labels[question.record_id] not in question.text
         assert "(synthetic)" not in question.text
@@ -193,3 +197,80 @@ def test_at_a_glance_gap_question_subject_uses_subtype_name_then_topic_name() ->
         "Gap question about GP surgery",
         "Gap question about alpha topic",
     ]
+
+
+# --- Every record belongs to exactly one counted topic (final review item 4) ---
+
+
+def test_at_a_glance_record_read_by_no_topic_raises_invalid_area_data() -> None:
+    registry = make_registry(make_topic("alpha"))
+    area = make_area(make_record("R1", "recorded"), make_record("R2", "recorded", topic="stray"))
+
+    with pytest.raises(InvalidAreaDataError, match="R2"):
+        at_a_glance(registry, area, "ZZ1 1AA")
+
+
+def test_at_a_glance_record_of_an_unlisted_subtype_raises_invalid_area_data() -> None:
+    registry = make_registry(
+        make_topic("alpha", record_topics=("amenity",), record_subtypes=("park",))
+    )
+    park = AreaRecord("R1", "ZZ1 1AA", "amenity", "park", "recorded", "L1", None)
+    bakery = AreaRecord("R2", "ZZ1 1AA", "amenity", "bakery", "recorded", "L2", None)
+
+    with pytest.raises(InvalidAreaDataError, match="R2"):
+        at_a_glance(registry, PostcodeArea(("ZZ1 1AA",), (), (park, bakery)), "ZZ1 1AA")
+
+
+def test_at_a_glance_record_read_by_two_counted_topics_raises_invalid_area_data() -> None:
+    registry = make_registry(make_topic("alpha"), make_topic("beta"))
+    area = make_area(make_record("R1", "recorded"))
+
+    with pytest.raises(InvalidAreaDataError, match=r"R1.*alpha.*beta"):
+        at_a_glance(registry, area, "ZZ1 1AA")
+
+
+def test_at_a_glance_record_read_only_by_an_uncounted_grouping_is_allowed() -> None:
+    registry = make_registry(
+        make_topic("alpha"), make_topic("group", counted=False, record_topics=("extra",))
+    )
+    area = make_area(make_record("R1", "recorded"), make_record("R2", "recorded", topic="extra"))
+
+    glance = at_a_glance(registry, area, "ZZ1 1AA")
+
+    assert glance.outcomes == {"alpha": "found"}
+
+
+def test_at_a_glance_records_of_other_postcodes_are_not_checked_for_ownership() -> None:
+    registry = make_registry(make_topic("alpha"))
+    area = make_area(
+        make_record("R1", "recorded"), make_record("R2", "recorded", topic="stray", postcode="X")
+    )
+
+    assert at_a_glance(registry, area, "ZZ1 1AA").found == 1
+
+
+# --- Check in person (final review item 2) ---
+
+
+def test_at_a_glance_check_in_person_includes_route_only_topics_with_their_lists() -> None:
+    registry, area, postcode = _inputs({"dataPostcode": "NB1 4XY"})
+
+    glance = at_a_glance(registry, area, postcode)
+
+    noise = next(c for c in glance.check_in_person if c.topic_key == "noise")
+    mobile = next(c for c in glance.check_in_person if c.topic_key == "mobile-by-network")
+    topics = {t.key: t for t in registry.topics}
+    assert noise.items == topics["noise"].check_in_person
+    assert mobile.items == topics["mobile-by-network"].check_in_person
+    assert "family-view" not in {c.topic_key for c in glance.check_in_person}
+
+
+def test_at_a_glance_check_in_person_lists_are_neutral() -> None:
+    registry = read_registry(fixtures_directory() / "data" / "pilot-topics.json")
+    banned = ("safe", "unsafe", "verified", "approved", "good", "bad", "risky")
+
+    for topic in registry.topics:
+        assert topic.check_in_person, topic.key
+        for item in topic.check_in_person:
+            words = {w.strip(".,;:()").lower() for w in item.split()}
+            assert not words & set(banned), (topic.key, item)

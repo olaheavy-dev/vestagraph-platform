@@ -183,6 +183,46 @@
           {
             "topicKey": "green-space",
             "text": "Visit at a weekend to see how busy it is."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Ask for the latest council tax bill for the home."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Check the band on the official page for the exact address."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Check signal on your own phone in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Ask the current occupant which network they use and what it is like in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Try a call and a video call in the rooms you would use most."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Visit at rush hour, in the evening and at night."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Listen with the windows open and closed."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Note any flight paths, railway lines or busy roads you can hear."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Look for cracks in walls or uneven floors."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Ask whether a mining or ground search was done."
           }
         ]
       },
@@ -462,10 +502,6 @@
             "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           },
           {
-            "recordId": "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
-            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
-          },
-          {
             "recordId": "NB7-1RR-AREA-SOLD-PRICE-1",
             "text": "Can you tell me about homes that have sold nearby recently and how they compare?"
           },
@@ -638,6 +674,58 @@
           {
             "topicKey": "transport-connectivity",
             "text": "Look at how easy it is to reach the stop or station on foot."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Walk to the nearest green space and see how it is kept."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Check the entrances, paths and opening times."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Visit at a weekend to see how busy it is."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Ask for the latest council tax bill for the home."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Check the band on the official page for the exact address."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Check signal on your own phone in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Ask the current occupant which network they use and what it is like in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Try a call and a video call in the rooms you would use most."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Visit at rush hour, in the evening and at night."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Listen with the windows open and closed."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Note any flight paths, railway lines or busy roads you can hear."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Look for cracks in walls or uneven floors."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Ask whether a mining or ground search was done."
           }
         ]
       },

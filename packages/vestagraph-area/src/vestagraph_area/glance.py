@@ -1,7 +1,11 @@
 """At a glance counts for one postcode (FE-38, FE-39, FE-41).
 
-Only counted topics take part; ``counted: false`` topics (the family view, route-only topics) are
-ignored. The counts are derived from record statuses, never typed by hand (AGENTS rule 2).
+Only counted topics take part in the counts; ``counted: false`` topics (the family view,
+route-only topics) are never counted. Every record of the postcode must belong to exactly one
+counted topic (a record that only an uncounted grouping reads is allowed). Questions to ask come
+from gap records, one per (topic, question text). Check in person lists every counted topic,
+whatever its outcome, and every route-only topic, in registry order; the lists are never counted
+(FE-41). The counts are derived from record statuses, never typed by hand (AGENTS rule 2).
 """
 
 from collections.abc import Sequence
@@ -65,6 +69,20 @@ def topic_outcome(topic: Topic, records: Sequence[AreaRecord]) -> TopicOutcome:
     return "not-known"
 
 
+def _check_ownership(registry: Registry, records: Sequence[AreaRecord]) -> None:
+    """Each record is read by exactly one counted topic, or only by uncounted groupings."""
+    for record in records:
+        owners = [t.key for t in registry.topics if t.counted and records_of(t, [record])]
+        if len(owners) > 1:
+            message = (
+                f"Record '{record.id}' is read by more than one counted topic: {', '.join(owners)}."
+            )
+            raise InvalidAreaDataError(message)
+        if not owners and not any(records_of(t, [record]) for t in registry.topics):
+            message = f"Record '{record.id}' belongs to no topic in the registry."
+            raise InvalidAreaDataError(message)
+
+
 def _gap_question(registry: Registry, topic: Topic, record: AreaRecord) -> str:
     """The topic's gap template; its {subject} is a plain name, never the record's label."""
     template = topic.gap_question_template
@@ -78,29 +96,33 @@ def _gap_question(registry: Registry, topic: Topic, record: AreaRecord) -> str:
 def at_a_glance(registry: Registry, area: PostcodeArea, postcode: str) -> Glance:
     """The At a glance figures for one postcode.
 
-    Raises ``InvalidAreaDataError`` when a counted topic has no record for the postcode.
+    Raises ``InvalidAreaDataError`` when a counted topic has no record for the postcode, or a
+    record of the postcode belongs to no topic or to more than one counted topic.
     """
     postcode_records = [r for r in area.records if r.postcode == postcode]
+    _check_ownership(registry, postcode_records)
     outcomes: dict[str, TopicOutcome] = {}
     questions: list[Question] = []
     check_in_person: list[CheckItem] = []
-    asked: set[str] = set()
     for topic in registry.topics:
+        if topic.kind == "route-only":
+            check_in_person.append(CheckItem(topic.key, topic.name, topic.check_in_person))
         if not topic.counted:
             continue
         records = records_of(topic, postcode_records)
         if not records:
             message = f"Topic '{topic.key}' has no record for postcode {postcode}."
             raise InvalidAreaDataError(message)
-        outcome = topic_outcome(topic, records)
-        outcomes[topic.key] = outcome
+        outcomes[topic.key] = topic_outcome(topic, records)
+        asked: set[str] = set()
         for record in records:
-            if record.status in _QUESTION_STATUSES and record.id not in asked:
-                asked.add(record.id)
-                text = _gap_question(registry, topic, record)
+            if record.status not in _QUESTION_STATUSES:
+                continue
+            text = _gap_question(registry, topic, record)
+            if text not in asked:
+                asked.add(text)
                 questions.append(Question(topic.key, record.id, text))
-        if outcome != "not-covered":
-            check_in_person.append(CheckItem(topic.key, topic.name, topic.check_in_person))
+        check_in_person.append(CheckItem(topic.key, topic.name, topic.check_in_person))
     found = sum(1 for o in outcomes.values() if o == "found")
     not_known = sum(1 for o in outcomes.values() if o == "not-known")
     return Glance(
