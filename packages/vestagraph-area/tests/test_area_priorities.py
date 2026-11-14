@@ -119,6 +119,18 @@ def test_priority_result_no_records_at_all_is_not_known() -> None:
     assert priority_result(priority, []) == PriorityResult("not-known", None)
 
 
+def test_priority_result_over_limit_with_a_failed_lookup_is_not_known() -> None:
+    case = "recorded-over-limit-plus-source-failed-record-is-not-known"
+
+    assert _result(case) == PriorityResult("not-known", None)
+
+
+def test_priority_result_beyond_search_with_no_matching_record_is_not_known_beyond_search() -> None:
+    case = "no-matching-record-beyond-search-is-not-known-beyond-search"
+
+    assert _result(case).outcome == "not-known-beyond-search"
+
+
 def test_priority_result_search_limit_is_five_thousand_metres() -> None:
     assert Fraction(5000) == SEARCH_LIMIT_METRES
 

@@ -4,11 +4,15 @@ The rules run in this order over the records that match the priority's subtype a
 
 1. A recorded or stale record whose measure is at or under the limit: meets (for a download
    speed, at or above the limit).
-2. A distance limit over 5,000 m (the search limit, FE-12): not-known-beyond-search.
-3. A recorded or stale record without the measure (for example no walking time): not-known.
+2. A distance limit over 5,000 m (the search limit, FE-12): not-known-beyond-search, whether or
+   not any record matched.
+3. No matching record: not-known.
+4. A recorded or stale record without the measure (for example no walking time): not-known.
    The straight-line distance is never used instead.
-4. At least one recorded or stale record, all of them over the limit: misses.
-5. Anything else: not-known. A gap never gives Misses.
+5. A source-failed matching record: not-known (a failed lookup may hide a nearer place).
+6. At least one recorded or stale record, all of them over the limit: misses. A
+   no-record-in-source or not-covered record does not stop this (data present is not a gap).
+7. Anything else: not-known.
 
 All arithmetic is exact (``Fraction``); no float is made (AGENTS rule 2).
 """
@@ -85,17 +89,18 @@ def priority_result(priority: Priority, records: Sequence[AreaRecord]) -> Priori
         limit = limit_in_metres(limit, priority.limit_unit)
 
     matching = [r for r in records if _matches(priority, r)]
-    if not matching:
-        return PriorityResult("not-known", None)
-
     measured = [(m, r.id) for r in matching if (m := _measure(r, field)) is not None]
     meeting = [(m, i) for m, i in measured if (m >= limit if is_speed else m <= limit)]
     if meeting:
         return PriorityResult("meets", min(meeting)[1])
     if is_distance and limit > SEARCH_LIMIT_METRES:
         return PriorityResult("not-known-beyond-search", None)
+    if not matching:
+        return PriorityResult("not-known", None)
     with_value = [r for r in matching if r.status in _HAS_VALUE and r.value is not None]
     if any(_measure(r, field) is None for r in with_value):
+        return PriorityResult("not-known", None)
+    if any(r.status == "source-failed" for r in matching):
         return PriorityResult("not-known", None)
     if with_value:
         return PriorityResult("misses", min(measured)[1])
