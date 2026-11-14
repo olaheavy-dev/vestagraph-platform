@@ -100,7 +100,7 @@ On 13 Nov 2026 the founder put the pilot first (decisions 0051 and 0052); the de
 3. **Later, before the home workspace: #68, the remaining screen specifications** (paused after part 1; the resume point is on #68), in three pull requests in the stage 5 build order (decision 0046; design `docs/superpowers/specs/2026-11-13-screen-specs-design.md`): the area screens merged as #217 (13 Nov 2026, closing #67); next, home and money (identity confirmation, home overview, costs, compare, what changed), then questions and sharing.
 4. **#69 and #70, the buyer and renter story scripts.**
 5. **The full stage 3 gate (#71).**
-6. **The home workspace build:** after the app shell (#86), built from the founder's Next.js template (pnpm, TypeScript 5.9, `frontend/`, `@ui` scenarios with playwright-bdd and `@axe-core/playwright`). Then screens #165–#175, and #96 (home-to-home differences, now in Python).
+6. **The home workspace build:** after the app shell (#86), built from the founder's Next.js template (pnpm, TypeScript 5.9, `frontend/`, `@ui` scenarios with playwright-bdd and `@axe-core/playwright`). Then screens #165–#175, and #96 (home-to-home differences, now in Python). Its layout follows the signed-in workspace pattern recorded in doc 05 (sidebar, tabs for comparison and property search, chat with modes; our own design system; founder, 14 Nov 2026).
 
 7. **Revisit the area card rules with real data** (FE-19 is provisional; founder, 13 Nov 2026: "we would make mor decisions on this as we deal with real data" [sic]): the cap of 10, the 5 km limit and the sparse-area view, once the postcode-level sample data (#216) and the stage 5b data exist.
 
