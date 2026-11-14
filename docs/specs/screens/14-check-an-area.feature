@@ -150,7 +150,8 @@ Feature: Check an area
   Scenario: AREA-24 in England distances show in metres under 1 mile and in miles from 1 mile
     Given the user has checked a sample postcode in England
     When the results are shown
-    Then a distance under 1 mile reads in metres rounded to the nearest 10 m, like "120 m" or "1,450 m"
+    Then a distance that rounds to under 1,610 m reads in metres rounded to the nearest 10 m, like "120 m" or "1,450 m"
+    And a distance of 1,605 to 1,609 m reads "1.0 miles", because the unit is chosen from the rounded value (FE-27 amended)
     And a distance of 1 mile or more reads in miles to one decimal, like "1.3 miles"
     And crime reads "within 1 mile", the stored values are in metres, and no distance is shown in kilometres
 
