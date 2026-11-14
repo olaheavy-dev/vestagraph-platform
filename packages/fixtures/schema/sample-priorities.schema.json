@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/sample-priorities.schema.json",
+  "title": "Sample priorities (data/sample-priorities.json)",
+  "description": "Synthetic example limits used only to draw the design boards, never a visitor's. The limit is kept as typed (a decimal string with a unit) and shown as typed; tested code converts it exactly to metres for the comparison. filter targets a value field such as stopType or phase.",
+  "type": "object",
+  "required": [
+    "priorities"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "priorities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/priority"
+      }
+    }
+  },
+  "$defs": {
+    "priority": {
+      "type": "object",
+      "required": [
+        "id",
+        "topicKey",
+        "measure",
+        "limit",
+        "synthetic"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*$"
+        },
+        "topicKey": {
+          "type": "string",
+          "minLength": 1,
+          "description": "A key in pilot-topics.json."
+        },
+        "subtype": {
+          "type": "string",
+          "minLength": 1
+        },
+        "filter": {
+          "type": "object",
+          "required": [
+            "field",
+            "equals"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "field": {
+              "enum": [
+                "stopType",
+                "phase"
+              ]
+            },
+            "equals": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "measure": {
+          "enum": [
+            "walking-minutes",
+            "distance",
+            "download-mbps"
+          ]
+        },
+        "limit": {
+          "type": "object",
+          "required": [
+            "value",
+            "unit"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "value": {
+              "type": "string",
+              "pattern": "^[0-9]+(\\.[0-9]+)?$"
+            },
+            "unit": {
+              "enum": [
+                "minutes",
+                "metres",
+                "miles",
+                "mbps"
+              ]
+            }
+          }
+        },
+        "synthetic": {
+          "const": true
+        }
+      }
+    }
+  }
+}

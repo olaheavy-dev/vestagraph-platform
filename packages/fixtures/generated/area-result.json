@@ -1,0 +1,857 @@
+{
+  "$schema": "../schema/generated-area-result.schema.json",
+  "formatVersion": 1,
+  "postcodes": [
+    {
+      "postcode": "NB1 4XY",
+      "glance": {
+        "found": 15,
+        "notKnown": 0,
+        "coverageFound": 15,
+        "coverageTotal": 15,
+        "questions": [
+          {
+            "recordId": "NB1-4XY-AREA-AMENITY-6",
+            "text": "Which childcare provider do people living here use, and how far away is it?"
+          },
+          {
+            "recordId": "NB1-4XY-AREA-FLOOD-1",
+            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
+          }
+        ],
+        "checkInPerson": [
+          {
+            "topicKey": "getting-around",
+            "text": "Walk the route to the stop or station at the times you would travel."
+          },
+          {
+            "topicKey": "getting-around",
+            "text": "Check whether the stop has a shelter, lighting and step-free access."
+          },
+          {
+            "topicKey": "getting-around",
+            "text": "Look at the posted timetable at the stop."
+          },
+          {
+            "topicKey": "everyday-places",
+            "text": "Visit at the times you would normally shop or use services."
+          },
+          {
+            "topicKey": "everyday-places",
+            "text": "Check how the walk feels on the way there and back, including the paths and crossings."
+          },
+          {
+            "topicKey": "everyday-places",
+            "text": "Ask the place directly whether it is accepting new registrations."
+          },
+          {
+            "topicKey": "places-of-worship",
+            "text": "Visit during a service or event time to see how busy the street gets."
+          },
+          {
+            "topicKey": "places-of-worship",
+            "text": "Check access and parking nearby at the times that matter to you."
+          },
+          {
+            "topicKey": "schools",
+            "text": "Visit the school during a normal day, or at an open event."
+          },
+          {
+            "topicKey": "schools",
+            "text": "Walk the route you would take with your child at school drop-off time."
+          },
+          {
+            "topicKey": "schools",
+            "text": "Ask the school how places were allocated in the most recent year."
+          },
+          {
+            "topicKey": "planning-nearby",
+            "text": "Walk past the site and note any notices displayed on or near it."
+          },
+          {
+            "topicKey": "planning-nearby",
+            "text": "Look at the building work or empty plots around the home."
+          },
+          {
+            "topicKey": "planning-nearby",
+            "text": "Check the council planning page for later updates."
+          },
+          {
+            "topicKey": "flood",
+            "text": "Look at where water would run: the lowest points of the street and the ground around the home."
+          },
+          {
+            "topicKey": "flood",
+            "text": "Ask neighbours about past flooding."
+          },
+          {
+            "topicKey": "flood",
+            "text": "Look for damp marks, tide lines or flood protection on the property."
+          },
+          {
+            "topicKey": "crime",
+            "text": "Visit in the evening and at the weekend as well as in the daytime."
+          },
+          {
+            "topicKey": "crime",
+            "text": "Look at lighting and how the street is used at different times."
+          },
+          {
+            "topicKey": "crime",
+            "text": "Talk to people who live nearby."
+          },
+          {
+            "topicKey": "sold-nearby",
+            "text": "Compare the sold homes you can see with the home you are looking at."
+          },
+          {
+            "topicKey": "sold-nearby",
+            "text": "Ask an agent how the sold homes differ in size and condition."
+          },
+          {
+            "topicKey": "broadband",
+            "text": "Check the speed on your own device in the rooms you would work in."
+          },
+          {
+            "topicKey": "broadband",
+            "text": "Ask the current occupant what they use and what they pay."
+          },
+          {
+            "topicKey": "broadband",
+            "text": "Check that the lines or sockets in the home are in place."
+          },
+          {
+            "topicKey": "air-quality",
+            "text": "Visit at rush hour and note traffic and smell."
+          },
+          {
+            "topicKey": "air-quality",
+            "text": "Look at how close the home is to main roads or industrial sites."
+          },
+          {
+            "topicKey": "air-quality",
+            "text": "Check whether the windows can be opened comfortably on the road side."
+          },
+          {
+            "topicKey": "council-tax-by-band",
+            "text": "Ask for the latest council tax bill for the home."
+          },
+          {
+            "topicKey": "council-tax-by-band",
+            "text": "Check the band on the official council tax band page for the address."
+          },
+          {
+            "topicKey": "housing-affordability",
+            "text": "Compare a few listings on the same street and nearby streets."
+          },
+          {
+            "topicKey": "housing-affordability",
+            "text": "Ask the agent how long similar homes have been for sale."
+          },
+          {
+            "topicKey": "deprivation",
+            "text": "Walk through the neighbourhood at different times and see how it is looked after."
+          },
+          {
+            "topicKey": "deprivation",
+            "text": "Talk to people who live nearby about the area."
+          },
+          {
+            "topicKey": "deprivation",
+            "text": "Look at the local shops, services and community spaces."
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "text": "Try a real journey to your workplace or school at the time you would travel."
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "text": "Check the service for late evening and weekend trips."
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "text": "Look at how easy it is to reach the stop or station on foot."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Walk to the nearest green space and see how it is kept."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Check the entrances, paths and opening times."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Visit at a weekend to see how busy it is."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Ask for the latest council tax bill for the home."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Check the band on the official page for the exact address."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Check signal on your own phone in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Ask the current occupant which network they use and what it is like in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Try a call and a video call in the rooms you would use most."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Visit at rush hour, in the evening and at night."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Listen with the windows open and closed."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Note any flight paths, railway lines or busy roads you can hear."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Look for cracks in walls or uneven floors."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Ask whether a mining or ground search was done."
+          }
+        ]
+      },
+      "topics": [
+        {
+          "key": "getting-around",
+          "outcome": "found"
+        },
+        {
+          "key": "everyday-places",
+          "outcome": "found"
+        },
+        {
+          "key": "places-of-worship",
+          "outcome": "found"
+        },
+        {
+          "key": "schools",
+          "outcome": "found"
+        },
+        {
+          "key": "planning-nearby",
+          "outcome": "found"
+        },
+        {
+          "key": "flood",
+          "outcome": "found"
+        },
+        {
+          "key": "crime",
+          "outcome": "found"
+        },
+        {
+          "key": "sold-nearby",
+          "outcome": "found"
+        },
+        {
+          "key": "broadband",
+          "outcome": "found"
+        },
+        {
+          "key": "air-quality",
+          "outcome": "found"
+        },
+        {
+          "key": "council-tax-by-band",
+          "outcome": "found"
+        },
+        {
+          "key": "housing-affordability",
+          "outcome": "found"
+        },
+        {
+          "key": "deprivation",
+          "outcome": "found"
+        },
+        {
+          "key": "transport-connectivity",
+          "outcome": "found"
+        },
+        {
+          "key": "green-space",
+          "outcome": "found"
+        }
+      ],
+      "distances": [
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-1",
+          "metres": 400,
+          "walkingMinutes": 6,
+          "display": "400 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-10",
+          "metres": 650,
+          "walkingMinutes": 9,
+          "display": "650 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-2",
+          "metres": 550,
+          "walkingMinutes": 8,
+          "display": "550 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-3",
+          "metres": 250,
+          "walkingMinutes": 4,
+          "display": "250 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-4",
+          "metres": 700,
+          "display": "700 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-5",
+          "metres": 1100,
+          "walkingMinutes": 16,
+          "display": "1,100 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-7",
+          "metres": 600,
+          "walkingMinutes": 9,
+          "display": "600 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-8",
+          "metres": 950,
+          "walkingMinutes": 13,
+          "display": "950 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-AMENITY-9",
+          "metres": 1300,
+          "display": "1,300 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-PLANNING-1",
+          "metres": 40,
+          "display": "40 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-SCHOOL-1",
+          "metres": 450,
+          "walkingMinutes": 7,
+          "display": "450 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-SCHOOL-2",
+          "metres": 1100,
+          "walkingMinutes": 16,
+          "display": "1,100 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-SOLD-PRICE-1",
+          "metres": 60,
+          "display": "60 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-SOLD-PRICE-2",
+          "metres": 80,
+          "display": "80 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-SOLD-PRICE-3",
+          "metres": 300,
+          "display": "300 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+          "metres": 120,
+          "walkingMinutes": 2,
+          "display": "120 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-TRANSPORT-STOP-2",
+          "metres": 900,
+          "walkingMinutes": 12,
+          "display": "900 m"
+        },
+        {
+          "recordId": "NB1-4XY-AREA-TRANSPORT-STOP-3",
+          "metres": 350,
+          "walkingMinutes": 5,
+          "display": "350 m"
+        }
+      ],
+      "busesPerHour": [
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+          "routeNumber": "12",
+          "destination": "Northbridge Central (synthetic)",
+          "hour": 8,
+          "count": 4
+        },
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+          "routeNumber": "12",
+          "destination": "Northbridge Central (synthetic)",
+          "hour": 12,
+          "count": 3
+        },
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+          "routeNumber": "14",
+          "destination": "Harbour Estate (synthetic)",
+          "hour": 8,
+          "count": 2
+        },
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+          "routeNumber": "14",
+          "destination": "Harbour Estate (synthetic)",
+          "hour": 12,
+          "count": 2
+        },
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-3",
+          "routeNumber": "12",
+          "destination": "Mill Estate (synthetic)",
+          "hour": 8,
+          "count": 2
+        },
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-3",
+          "routeNumber": "12",
+          "destination": "Mill Estate (synthetic)",
+          "hour": 12,
+          "count": 2
+        },
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-3",
+          "routeNumber": "31",
+          "destination": "Northbridge Academy (synthetic)",
+          "hour": 8,
+          "count": 2
+        },
+        {
+          "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-3",
+          "routeNumber": "31",
+          "destination": "Northbridge Academy (synthetic)",
+          "hour": 12,
+          "count": 2
+        }
+      ],
+      "priorities": [
+        {
+          "priorityId": "SAMPLE-PRIORITY-BROADBAND",
+          "outcome": "meets",
+          "nearestRecordId": null
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-CHILDCARE",
+          "outcome": "not-known",
+          "nearestRecordId": null
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-GP",
+          "outcome": "meets",
+          "nearestRecordId": "NB1-4XY-AREA-AMENITY-10"
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-HOSPITAL",
+          "outcome": "not-known-beyond-search",
+          "nearestRecordId": null
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-PRIMARY",
+          "outcome": "meets",
+          "nearestRecordId": "NB1-4XY-AREA-SCHOOL-1"
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-RAIL",
+          "outcome": "meets",
+          "nearestRecordId": "NB1-4XY-AREA-TRANSPORT-STOP-2"
+        }
+      ]
+    },
+    {
+      "postcode": "NB7 1RR",
+      "glance": {
+        "found": 12,
+        "notKnown": 2,
+        "coverageFound": 12,
+        "coverageTotal": 14,
+        "questions": [
+          {
+            "recordId": "NB7-1RR-AREA-BUS-DEPARTURES-1",
+            "text": "How do people living here usually get around, and which stops or services do they use?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-AMENITY-2",
+            "text": "Which supermarket do people living here use, and how far away is it?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-SCHOOL-DEMAND-1",
+            "text": "Which schools do children living here usually go to, and how are places decided?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-FLOOD-1",
+            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-SOLD-PRICE-1",
+            "text": "Can you tell me about homes that have sold nearby recently and how they compare?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-AIR-QUALITY-1",
+            "text": "What is the air like around the home on busy days and at busy times of day?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-AFFORDABILITY-1",
+            "text": "How does the price of the home compare with similar homes sold recently?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-TRANSPORT-CONNECTIVITY-1",
+            "text": "How do people living here usually travel for work and school?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-GREEN-SPACE-1",
+            "text": "Which green spaces can the public use near the home, and what are they like?"
+          }
+        ],
+        "checkInPerson": [
+          {
+            "topicKey": "getting-around",
+            "text": "Walk the route to the stop or station at the times you would travel."
+          },
+          {
+            "topicKey": "getting-around",
+            "text": "Check whether the stop has a shelter, lighting and step-free access."
+          },
+          {
+            "topicKey": "getting-around",
+            "text": "Look at the posted timetable at the stop."
+          },
+          {
+            "topicKey": "everyday-places",
+            "text": "Visit at the times you would normally shop or use services."
+          },
+          {
+            "topicKey": "everyday-places",
+            "text": "Check how the walk feels on the way there and back, including the paths and crossings."
+          },
+          {
+            "topicKey": "everyday-places",
+            "text": "Ask the place directly whether it is accepting new registrations."
+          },
+          {
+            "topicKey": "places-of-worship",
+            "text": "Visit during a service or event time to see how busy the street gets."
+          },
+          {
+            "topicKey": "places-of-worship",
+            "text": "Check access and parking nearby at the times that matter to you."
+          },
+          {
+            "topicKey": "schools",
+            "text": "Visit the school during a normal day, or at an open event."
+          },
+          {
+            "topicKey": "schools",
+            "text": "Walk the route you would take with your child at school drop-off time."
+          },
+          {
+            "topicKey": "schools",
+            "text": "Ask the school how places were allocated in the most recent year."
+          },
+          {
+            "topicKey": "planning-nearby",
+            "text": "Walk past the site and note any notices displayed on or near it."
+          },
+          {
+            "topicKey": "planning-nearby",
+            "text": "Look at the building work or empty plots around the home."
+          },
+          {
+            "topicKey": "planning-nearby",
+            "text": "Check the council planning page for later updates."
+          },
+          {
+            "topicKey": "flood",
+            "text": "Look at where water would run: the lowest points of the street and the ground around the home."
+          },
+          {
+            "topicKey": "flood",
+            "text": "Ask neighbours about past flooding."
+          },
+          {
+            "topicKey": "flood",
+            "text": "Look for damp marks, tide lines or flood protection on the property."
+          },
+          {
+            "topicKey": "crime",
+            "text": "Visit in the evening and at the weekend as well as in the daytime."
+          },
+          {
+            "topicKey": "crime",
+            "text": "Look at lighting and how the street is used at different times."
+          },
+          {
+            "topicKey": "crime",
+            "text": "Talk to people who live nearby."
+          },
+          {
+            "topicKey": "sold-nearby",
+            "text": "Compare the sold homes you can see with the home you are looking at."
+          },
+          {
+            "topicKey": "sold-nearby",
+            "text": "Ask an agent how the sold homes differ in size and condition."
+          },
+          {
+            "topicKey": "broadband",
+            "text": "Check the speed on your own device in the rooms you would work in."
+          },
+          {
+            "topicKey": "broadband",
+            "text": "Ask the current occupant what they use and what they pay."
+          },
+          {
+            "topicKey": "broadband",
+            "text": "Check that the lines or sockets in the home are in place."
+          },
+          {
+            "topicKey": "air-quality",
+            "text": "Visit at rush hour and note traffic and smell."
+          },
+          {
+            "topicKey": "air-quality",
+            "text": "Look at how close the home is to main roads or industrial sites."
+          },
+          {
+            "topicKey": "air-quality",
+            "text": "Check whether the windows can be opened comfortably on the road side."
+          },
+          {
+            "topicKey": "council-tax-by-band",
+            "text": "Ask for the latest council tax bill for the home."
+          },
+          {
+            "topicKey": "council-tax-by-band",
+            "text": "Check the band on the official council tax band page for the address."
+          },
+          {
+            "topicKey": "housing-affordability",
+            "text": "Compare a few listings on the same street and nearby streets."
+          },
+          {
+            "topicKey": "housing-affordability",
+            "text": "Ask the agent how long similar homes have been for sale."
+          },
+          {
+            "topicKey": "deprivation",
+            "text": "Walk through the neighbourhood at different times and see how it is looked after."
+          },
+          {
+            "topicKey": "deprivation",
+            "text": "Talk to people who live nearby about the area."
+          },
+          {
+            "topicKey": "deprivation",
+            "text": "Look at the local shops, services and community spaces."
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "text": "Try a real journey to your workplace or school at the time you would travel."
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "text": "Check the service for late evening and weekend trips."
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "text": "Look at how easy it is to reach the stop or station on foot."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Walk to the nearest green space and see how it is kept."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Check the entrances, paths and opening times."
+          },
+          {
+            "topicKey": "green-space",
+            "text": "Visit at a weekend to see how busy it is."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Ask for the latest council tax bill for the home."
+          },
+          {
+            "topicKey": "council-tax-band-home",
+            "text": "Check the band on the official page for the exact address."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Check signal on your own phone in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Ask the current occupant which network they use and what it is like in each room."
+          },
+          {
+            "topicKey": "mobile-by-network",
+            "text": "Try a call and a video call in the rooms you would use most."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Visit at rush hour, in the evening and at night."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Listen with the windows open and closed."
+          },
+          {
+            "topicKey": "noise",
+            "text": "Note any flight paths, railway lines or busy roads you can hear."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Look for cracks in walls or uneven floors."
+          },
+          {
+            "topicKey": "ground-and-mining",
+            "text": "Ask whether a mining or ground search was done."
+          }
+        ]
+      },
+      "topics": [
+        {
+          "key": "getting-around",
+          "outcome": "found"
+        },
+        {
+          "key": "everyday-places",
+          "outcome": "found"
+        },
+        {
+          "key": "places-of-worship",
+          "outcome": "found"
+        },
+        {
+          "key": "schools",
+          "outcome": "found"
+        },
+        {
+          "key": "planning-nearby",
+          "outcome": "found"
+        },
+        {
+          "key": "flood",
+          "outcome": "not-known"
+        },
+        {
+          "key": "crime",
+          "outcome": "found"
+        },
+        {
+          "key": "sold-nearby",
+          "outcome": "found"
+        },
+        {
+          "key": "broadband",
+          "outcome": "found"
+        },
+        {
+          "key": "air-quality",
+          "outcome": "found"
+        },
+        {
+          "key": "council-tax-by-band",
+          "outcome": "found"
+        },
+        {
+          "key": "housing-affordability",
+          "outcome": "found"
+        },
+        {
+          "key": "deprivation",
+          "outcome": "found"
+        },
+        {
+          "key": "transport-connectivity",
+          "outcome": "not-known"
+        },
+        {
+          "key": "green-space",
+          "outcome": "not-covered"
+        }
+      ],
+      "distances": [
+        {
+          "recordId": "NB7-1RR-AREA-AMENITY-1",
+          "metres": 3100,
+          "display": "1.9 miles"
+        },
+        {
+          "recordId": "NB7-1RR-AREA-PLANNING-1",
+          "metres": 300,
+          "display": "300 m"
+        },
+        {
+          "recordId": "NB7-1RR-AREA-SCHOOL-1",
+          "metres": 4600,
+          "display": "2.9 miles"
+        },
+        {
+          "recordId": "NB7-1RR-AREA-TRANSPORT-STOP-1",
+          "metres": 2400,
+          "display": "1.5 miles"
+        }
+      ],
+      "busesPerHour": [],
+      "priorities": [
+        {
+          "priorityId": "SAMPLE-PRIORITY-BROADBAND",
+          "outcome": "misses",
+          "nearestRecordId": null
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-CHILDCARE",
+          "outcome": "not-known",
+          "nearestRecordId": null
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-GP",
+          "outcome": "not-known",
+          "nearestRecordId": null
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-HOSPITAL",
+          "outcome": "not-known-beyond-search",
+          "nearestRecordId": null
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-PRIMARY",
+          "outcome": "misses",
+          "nearestRecordId": "NB7-1RR-AREA-SCHOOL-1"
+        },
+        {
+          "priorityId": "SAMPLE-PRIORITY-RAIL",
+          "outcome": "not-known",
+          "nearestRecordId": null
+        }
+      ]
+    }
+  ]
+}

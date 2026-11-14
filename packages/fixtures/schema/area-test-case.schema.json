@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/area-test-case.schema.json",
+  "title": "Area test-case file (test-cases/area-*.json)",
+  "description": "Independently worked examples for the area-result calculations (At a glance counts, distance display, buses per hour, priority results), as documented in test-cases/README.md. The shape of inputs and expected differs by calculation and is read by that calculation's test; steps are the working, for reviewers.",
+  "type": "object",
+  "required": [
+    "formatVersion",
+    "cases"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "formatVersion": {
+      "const": 1
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "caseId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "case": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "rule",
+        "inputs",
+        "steps",
+        "expected"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/caseId"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rule": {
+          "type": "object",
+          "required": [
+            "source",
+            "url"
+          ],
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1
+            },
+            "url": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "inputs": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "n",
+              "description"
+            ],
+            "properties": {
+              "n": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "rounding": {
+                "type": "string",
+                "minLength": 1
+              },
+              "value": {
+                "type": [
+                  "number",
+                  "boolean",
+                  "string"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "expected": {
+          "type": "object",
+          "minProperties": 1
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

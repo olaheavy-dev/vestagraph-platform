@@ -50,6 +50,7 @@ mypy_path = [
   "packages/vestagraph-engine/src",
   "packages/vestagraph-generator/src",
   "packages/vestagraph-fixture-validator/src",
+  "packages/vestagraph-area/src",
   "packages/specs/tests",
   "tools",
 ]
@@ -60,6 +61,8 @@ files = [
   "packages/vestagraph-generator/tests",
   "packages/vestagraph-fixture-validator/src",
   "packages/vestagraph-fixture-validator/tests",
+  "packages/vestagraph-area/src",
+  "packages/vestagraph-area/tests",
   "packages/specs/tests",
   "tools",
 ]
@@ -74,6 +77,7 @@ pythonpath = [
   "packages/vestagraph-engine/tests",
   "packages/vestagraph-generator/tests",
   "packages/vestagraph-fixture-validator/tests",
+  "packages/vestagraph-area/tests",
   "packages/specs/tests",
   "tools",
 ]
@@ -93,5 +97,5 @@ markers = [
 
 [tool.coverage.run]
 branch = true
-source_pkgs = ["vestagraph_engine", "vestagraph_generator", "vestagraph_fixture_validator"]
+source_pkgs = ["vestagraph_engine", "vestagraph_generator", "vestagraph_fixture_validator", "vestagraph_area"]
 # Report only: no fail_under (decision 0039 section 4).

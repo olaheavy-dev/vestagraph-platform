@@ -1,0 +1,666 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "nb1-4xy-full",
+      "description": "NB1 4XY, the full sample postcode: every counted topic has something recorded.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per gap record, de-duplicated by topic and question text (the first record's id is kept); every record of the postcode belongs to exactly one counted topic; check in person lists every counted topic (whatever its outcome) and every route-only topic, in registry order, never counted",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataPostcode": "NB1 4XY",
+        "note": "Registry from pilot-topics.json, records from postcode-area.json (synthetic)."
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Counted topics, in registry order (family-view and the four route-only topics (five uncounted topics) are counted: false and ignored): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
+          "value": 15
+        },
+        {
+          "n": 2,
+          "description": "getting-around: transport-stop 1 to 3 and bus-departures 1 to 4 are all recorded, so found."
+        },
+        {
+          "n": 3,
+          "description": "everyday-places: amenity 1 to 5 recorded (supermarket, park, pharmacy, gp-surgery, police-station) and amenity 10 recorded (a second gp-surgery), amenity 6 (childcare) is no-record-in-source. Found; only the childcare record gets a question, so amenity 10 changes no count."
+        },
+        {
+          "n": 4,
+          "description": "places-of-worship: amenity 7, 8, 9 recorded, found."
+        },
+        {
+          "n": 5,
+          "description": "schools: school 1 and 2 recorded, school-inspection 1 stale and 2 recorded, school-demand 1 and 2 recorded, found."
+        },
+        {
+          "n": 6,
+          "description": "flood: FLOOD-1 is no-record-in-source and FLOOD-RISK-POSTCODE-1 is recorded, found; FLOOD-1 gets a question."
+        },
+        {
+          "n": 7,
+          "description": "The other ten counted topics each have recorded records only, found (planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space)."
+        },
+        {
+          "n": 8,
+          "description": "found 15, not known 0, coverage 15 of 15. Questions: only the two no-record-in-source records, in registry then file order; their (topic, text) pairs differ, so de-duplication removes nothing.",
+          "value": 15
+        },
+        {
+          "n": 9,
+          "description": "Question text comes from each topic's gapQuestionTemplate, never from the record label. The only slot is {subject}: for everyday-places it is the plain name of the record's subtype from subtypeNames (childcare -> 'childcare provider', so 'Which childcare provider do people living here use, and how far away is it?'); every other topic's template has no slot, so its text is the template as written."
+        },
+        {
+          "n": 10,
+          "description": "Check in person, in registry order: the 15 counted topics (whatever their outcome) and the four route-only topics (council-tax-band-home, mobile-by-network, noise, ground-and-mining). family-view is an uncounted grouping, not route-only, so it is left out. 15 + 4 = 19 lists; the lists are never counted (FE-41).",
+          "value": 19
+        },
+        {
+          "n": 11,
+          "description": "Ownership: every NB1 4XY record is read by exactly one counted topic (transport-stop and bus-departures: getting-around; amenity by subtype: everyday-places or places-of-worship; school, school-inspection, school-demand: schools; flood and flood-risk-postcode: flood; each other record topic: its one topic). family-view also reads school, school-demand and childcare and park amenities, but it is uncounted."
+        }
+      ],
+      "expected": {
+        "found": 15,
+        "notKnown": 0,
+        "coverageFound": 15,
+        "coverageTotal": 15,
+        "outcomes": {
+          "getting-around": "found",
+          "everyday-places": "found",
+          "places-of-worship": "found",
+          "schools": "found",
+          "planning-nearby": "found",
+          "flood": "found",
+          "crime": "found",
+          "sold-nearby": "found",
+          "broadband": "found",
+          "air-quality": "found",
+          "council-tax-by-band": "found",
+          "housing-affordability": "found",
+          "deprivation": "found",
+          "transport-connectivity": "found",
+          "green-space": "found"
+        },
+        "questions": [
+          {
+            "topicKey": "everyday-places",
+            "recordId": "NB1-4XY-AREA-AMENITY-6",
+            "text": "Which childcare provider do people living here use, and how far away is it?"
+          },
+          {
+            "topicKey": "flood",
+            "recordId": "NB1-4XY-AREA-FLOOD-1",
+            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
+          }
+        ],
+        "checkInPersonTopics": [
+          "getting-around",
+          "everyday-places",
+          "places-of-worship",
+          "schools",
+          "planning-nearby",
+          "flood",
+          "crime",
+          "sold-nearby",
+          "broadband",
+          "air-quality",
+          "council-tax-by-band",
+          "housing-affordability",
+          "deprivation",
+          "transport-connectivity",
+          "green-space",
+          "council-tax-band-home",
+          "mobile-by-network",
+          "noise",
+          "ground-and-mining"
+        ]
+      }
+    },
+    {
+      "id": "nb7-1rr-sparse",
+      "description": "NB7 1RR, the sparse test postcode: gaps of every kind.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per gap record, de-duplicated by topic and question text (the first record's id is kept); every record of the postcode belongs to exactly one counted topic; check in person lists every counted topic (whatever its outcome) and every route-only topic, in registry order, never counted",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataPostcode": "NB7 1RR",
+        "note": "Registry from pilot-topics.json, records from postcode-area.json (synthetic)."
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Same 15 counted topics as NB1 4XY.",
+          "value": 15
+        },
+        {
+          "n": 2,
+          "description": "getting-around: transport-stop 1 recorded, bus-departures 1 no-record-in-source. Found (any recorded), question for the bus-departures record."
+        },
+        {
+          "n": 3,
+          "description": "everyday-places: amenity 2 (supermarket) no-record-in-source. Found, with a question. places-of-worship: amenity 1 recorded, found."
+        },
+        {
+          "n": 4,
+          "description": "schools: school 1 recorded, school-demand 1 not-covered. Found, with a question for the not-covered record."
+        },
+        {
+          "n": 5,
+          "description": "flood: FLOOD-1 and FLOOD-RISK-POSTCODE-1 are both source-failed: not known. Both are gaps, and the flood template has no slot, so both give the same text; de-duplicated by (flood, text), one question, keeping FLOOD-1 (first in file order)."
+        },
+        {
+          "n": 6,
+          "description": "transport-connectivity: its only record is source-failed: not known, one question."
+        },
+        {
+          "n": 7,
+          "description": "green-space: its only record is not-covered: not covered, left out of found, not known and the total; still one question."
+        },
+        {
+          "n": 8,
+          "description": "sold-nearby, air-quality and housing-affordability each hold one no-record-in-source record: found, one question each. planning-nearby, crime, broadband, council-tax-by-band, deprivation and places-of-worship are recorded: found."
+        },
+        {
+          "n": 9,
+          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12. Not known = 2 (flood, transport-connectivity). Coverage total 12 + 2 = 14. Gap records 10 (bus-departures 1, amenity 2, school-demand 1, flood 1, flood-risk-postcode 1, sold-price 1, air-quality 1, affordability 1, transport-connectivity 1, green-space 1); the two flood records share one (topic, text), so 10 - 1 = 9 questions.",
+          "value": 14
+        },
+        {
+          "n": 10,
+          "description": "Question text comes from each topic's gapQuestionTemplate, never from the record label. The only slot is {subject}: for everyday-places it is the plain name of the record's subtype (supermarket -> 'supermarket'); every other topic's template has no slot, so its text is the template as written."
+        },
+        {
+          "n": 11,
+          "description": "Check in person, in registry order: the 15 counted topics, including green-space (not covered: data can't show it, so checking in person matters most), and the four route-only topics; family-view left out. 19 lists, never counted.",
+          "value": 19
+        }
+      ],
+      "expected": {
+        "found": 12,
+        "notKnown": 2,
+        "coverageFound": 12,
+        "coverageTotal": 14,
+        "outcomes": {
+          "getting-around": "found",
+          "everyday-places": "found",
+          "places-of-worship": "found",
+          "schools": "found",
+          "planning-nearby": "found",
+          "flood": "not-known",
+          "crime": "found",
+          "sold-nearby": "found",
+          "broadband": "found",
+          "air-quality": "found",
+          "council-tax-by-band": "found",
+          "housing-affordability": "found",
+          "deprivation": "found",
+          "transport-connectivity": "not-known",
+          "green-space": "not-covered"
+        },
+        "questions": [
+          {
+            "topicKey": "getting-around",
+            "recordId": "NB7-1RR-AREA-BUS-DEPARTURES-1",
+            "text": "How do people living here usually get around, and which stops or services do they use?"
+          },
+          {
+            "topicKey": "everyday-places",
+            "recordId": "NB7-1RR-AREA-AMENITY-2",
+            "text": "Which supermarket do people living here use, and how far away is it?"
+          },
+          {
+            "topicKey": "schools",
+            "recordId": "NB7-1RR-AREA-SCHOOL-DEMAND-1",
+            "text": "Which schools do children living here usually go to, and how are places decided?"
+          },
+          {
+            "topicKey": "flood",
+            "recordId": "NB7-1RR-AREA-FLOOD-1",
+            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
+          },
+          {
+            "topicKey": "sold-nearby",
+            "recordId": "NB7-1RR-AREA-SOLD-PRICE-1",
+            "text": "Can you tell me about homes that have sold nearby recently and how they compare?"
+          },
+          {
+            "topicKey": "air-quality",
+            "recordId": "NB7-1RR-AREA-AIR-QUALITY-1",
+            "text": "What is the air like around the home on busy days and at busy times of day?"
+          },
+          {
+            "topicKey": "housing-affordability",
+            "recordId": "NB7-1RR-AREA-AFFORDABILITY-1",
+            "text": "How does the price of the home compare with similar homes sold recently?"
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "recordId": "NB7-1RR-AREA-TRANSPORT-CONNECTIVITY-1",
+            "text": "How do people living here usually travel for work and school?"
+          },
+          {
+            "topicKey": "green-space",
+            "recordId": "NB7-1RR-AREA-GREEN-SPACE-1",
+            "text": "Which green spaces can the public use near the home, and what are they like?"
+          }
+        ],
+        "checkInPersonTopics": [
+          "getting-around",
+          "everyday-places",
+          "places-of-worship",
+          "schools",
+          "planning-nearby",
+          "flood",
+          "crime",
+          "sold-nearby",
+          "broadband",
+          "air-quality",
+          "council-tax-by-band",
+          "housing-affordability",
+          "deprivation",
+          "transport-connectivity",
+          "green-space",
+          "council-tax-band-home",
+          "mobile-by-network",
+          "noise",
+          "ground-and-mining"
+        ]
+      }
+    },
+    {
+      "id": "synthetic-all-not-covered",
+      "description": "One counted topic whose only record is not-covered: left out of every count, but its check-in-person list is kept, with a route-only topic's list; an uncounted grouping's is not.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per gap record, de-duplicated by topic and question text (the first record's id is kept); every record of the postcode belongs to exactly one counted topic; check in person lists every counted topic (whatever its outcome) and every route-only topic, in registry order, never counted",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "topics": [
+          {
+            "key": "alpha",
+            "name": "Alpha",
+            "counted": true,
+            "recordTopics": [
+              "thing"
+            ],
+            "checkInPerson": [
+              "Visit alpha"
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
+          },
+          {
+            "key": "route",
+            "name": "Route",
+            "kind": "route-only",
+            "counted": false,
+            "recordTopics": [],
+            "checkInPerson": [
+              "Check route"
+            ]
+          },
+          {
+            "key": "group",
+            "name": "Group",
+            "kind": "places",
+            "counted": false,
+            "recordTopics": [
+              "thing"
+            ],
+            "checkInPerson": [
+              "Visit group"
+            ]
+          }
+        ],
+        "records": [
+          {
+            "id": "S1-THING-1",
+            "topic": "thing",
+            "status": "not-covered",
+            "label": "Thing one"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "alpha has one record, not-covered, so the topic is not covered. route (route-only) and group (an uncounted grouping that also reads S1-THING-1) take no part in the counts."
+        },
+        {
+          "n": 2,
+          "description": "Left out: found 0, not known 0, coverage 0 of 0. One question (the record is not-covered).",
+          "value": 0
+        },
+        {
+          "n": 3,
+          "description": "Question text: gap template 'Gap question about {subject}', no subtype, so subject = topic name in lower case = 'alpha'."
+        },
+        {
+          "n": 4,
+          "description": "Ownership: S1-THING-1 is read by one counted topic (alpha); group also reads it but is uncounted, which is allowed."
+        },
+        {
+          "n": 5,
+          "description": "Check in person: alpha (counted, even though not covered) and route (route-only), in registry order; group is an uncounted grouping, not route-only, so left out. 2 lists.",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "found": 0,
+        "notKnown": 0,
+        "coverageFound": 0,
+        "coverageTotal": 0,
+        "outcomes": {
+          "alpha": "not-covered"
+        },
+        "questions": [
+          {
+            "topicKey": "alpha",
+            "recordId": "S1-THING-1",
+            "text": "Gap question about alpha"
+          }
+        ],
+        "checkInPersonTopics": [
+          "alpha",
+          "route"
+        ]
+      }
+    },
+    {
+      "id": "synthetic-mixed-statuses",
+      "description": "Recorded with source-failed, not-covered with source-failed, and a topic of its own for each record.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per gap record, de-duplicated by topic and question text (the first record's id is kept); every record of the postcode belongs to exactly one counted topic; check in person lists every counted topic (whatever its outcome) and every route-only topic, in registry order, never counted",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "topics": [
+          {
+            "key": "alpha",
+            "name": "Alpha",
+            "counted": true,
+            "recordTopics": [
+              "a"
+            ],
+            "checkInPerson": [
+              "Visit alpha"
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
+          },
+          {
+            "key": "beta",
+            "name": "Beta",
+            "counted": true,
+            "recordTopics": [
+              "b"
+            ],
+            "checkInPerson": [
+              "Visit beta"
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
+          },
+          {
+            "key": "gamma",
+            "name": "Gamma",
+            "counted": true,
+            "recordTopics": [
+              "g"
+            ],
+            "checkInPerson": [
+              "Visit gamma"
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
+          },
+          {
+            "key": "delta",
+            "name": "Delta",
+            "counted": true,
+            "recordTopics": [
+              "d"
+            ],
+            "checkInPerson": [
+              "Visit delta"
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
+          }
+        ],
+        "records": [
+          {
+            "id": "S2-A-1",
+            "topic": "a",
+            "status": "recorded",
+            "label": "A one"
+          },
+          {
+            "id": "S2-A-2",
+            "topic": "a",
+            "status": "source-failed",
+            "label": "A two"
+          },
+          {
+            "id": "S2-B-1",
+            "topic": "b",
+            "status": "not-covered",
+            "label": "B one",
+            "subtype": "widget"
+          },
+          {
+            "id": "S2-B-2",
+            "topic": "b",
+            "status": "source-failed",
+            "label": "B two"
+          },
+          {
+            "id": "S2-G-1",
+            "topic": "g",
+            "status": "no-record-in-source",
+            "label": "G one"
+          },
+          {
+            "id": "S2-D-1",
+            "topic": "d",
+            "status": "recorded",
+            "label": "D one"
+          }
+        ],
+        "subtypeNames": {
+          "widget": "widget"
+        }
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "alpha: recorded + source-failed. Something is found, so found. The source-failed record gets a question."
+        },
+        {
+          "n": 2,
+          "description": "beta: not-covered + source-failed. Nothing found and not all not-covered, so not known. Two questions: their texts differ ('widget' and 'beta'), so both stay."
+        },
+        {
+          "n": 3,
+          "description": "gamma: S2-G-1 is no-record-in-source, found, one question. delta: S2-D-1 is recorded, found, no question."
+        },
+        {
+          "n": 4,
+          "description": "found 3 (alpha, gamma, delta), not known 1 (beta), coverage 3 of 4. Questions 4: S2-A-2, S2-B-1, S2-B-2, S2-G-1. Check in person: all four topics (all counted).",
+          "value": 4
+        },
+        {
+          "n": 5,
+          "description": "Question text: subject = subtypeNames[subtype] if the record has a subtype, else the topic name in lower case. S2-B-1 has subtype 'widget' (named 'widget'): 'Gap question about widget'. S2-A-2 -> alpha, S2-B-2 -> beta, S2-G-1 -> gamma."
+        }
+      ],
+      "expected": {
+        "found": 3,
+        "notKnown": 1,
+        "coverageFound": 3,
+        "coverageTotal": 4,
+        "outcomes": {
+          "alpha": "found",
+          "beta": "not-known",
+          "gamma": "found",
+          "delta": "found"
+        },
+        "questions": [
+          {
+            "topicKey": "alpha",
+            "recordId": "S2-A-2",
+            "text": "Gap question about alpha"
+          },
+          {
+            "topicKey": "beta",
+            "recordId": "S2-B-1",
+            "text": "Gap question about widget"
+          },
+          {
+            "topicKey": "beta",
+            "recordId": "S2-B-2",
+            "text": "Gap question about beta"
+          },
+          {
+            "topicKey": "gamma",
+            "recordId": "S2-G-1",
+            "text": "Gap question about gamma"
+          }
+        ],
+        "checkInPersonTopics": [
+          "alpha",
+          "beta",
+          "gamma",
+          "delta"
+        ]
+      }
+    },
+    {
+      "id": "synthetic-duplicate-gap-questions",
+      "description": "Several gap records in one topic that give the same question text: one question per (topic, text), keeping the first record's id; the same text under another topic is kept.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per gap record, de-duplicated by topic and question text (the first record's id is kept); every record of the postcode belongs to exactly one counted topic; check in person lists every counted topic (whatever its outcome) and every route-only topic, in registry order, never counted",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "topics": [
+          {
+            "key": "alpha",
+            "name": "Alpha",
+            "counted": true,
+            "recordTopics": [
+              "a"
+            ],
+            "checkInPerson": [
+              "Visit alpha"
+            ],
+            "gapQuestionTemplate": "Gap question about {subject}"
+          },
+          {
+            "key": "beta",
+            "name": "Beta",
+            "counted": true,
+            "recordTopics": [
+              "b"
+            ],
+            "checkInPerson": [
+              "Visit beta"
+            ],
+            "gapQuestionTemplate": "Gap question about alpha"
+          }
+        ],
+        "records": [
+          {
+            "id": "S3-A-1",
+            "topic": "a",
+            "status": "source-failed",
+            "label": "A one"
+          },
+          {
+            "id": "S3-A-2",
+            "topic": "a",
+            "status": "not-covered",
+            "label": "A two"
+          },
+          {
+            "id": "S3-A-3",
+            "topic": "a",
+            "status": "no-record-in-source",
+            "label": "A three",
+            "subtype": "widget"
+          },
+          {
+            "id": "S3-A-4",
+            "topic": "a",
+            "status": "source-failed",
+            "label": "A four",
+            "subtype": "widget"
+          },
+          {
+            "id": "S3-B-1",
+            "topic": "b",
+            "status": "source-failed",
+            "label": "B one"
+          }
+        ],
+        "subtypeNames": {
+          "widget": "widget"
+        }
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "alpha: S3-A-3 is no-record-in-source, so found. beta: its only record is source-failed, so not known."
+        },
+        {
+          "n": 2,
+          "description": "alpha's gap texts, in file order: S3-A-1 'Gap question about alpha' (no subtype, topic name), S3-A-2 'Gap question about alpha' (same), S3-A-3 'Gap question about widget', S3-A-4 'Gap question about widget' (same)."
+        },
+        {
+          "n": 3,
+          "description": "De-duplicated by (topic, text): (alpha, 'about alpha') keeps S3-A-1; (alpha, 'about widget') keeps S3-A-3. 4 gap records give 2 questions."
+        },
+        {
+          "n": 4,
+          "description": "beta's template has no slot: S3-B-1 gives 'Gap question about alpha', the same text as alpha's first question but under another topic, so it is kept. 3 questions in all.",
+          "value": 3
+        },
+        {
+          "n": 5,
+          "description": "found 1, not known 1, coverage 1 of 2. Check in person: alpha and beta (both counted).",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "found": 1,
+        "notKnown": 1,
+        "coverageFound": 1,
+        "coverageTotal": 2,
+        "outcomes": {
+          "alpha": "found",
+          "beta": "not-known"
+        },
+        "questions": [
+          {
+            "topicKey": "alpha",
+            "recordId": "S3-A-1",
+            "text": "Gap question about alpha"
+          },
+          {
+            "topicKey": "alpha",
+            "recordId": "S3-A-3",
+            "text": "Gap question about widget"
+          },
+          {
+            "topicKey": "beta",
+            "recordId": "S3-B-1",
+            "text": "Gap question about alpha"
+          }
+        ],
+        "checkInPersonTopics": [
+          "alpha",
+          "beta"
+        ]
+      }
+    }
+  ]
+}

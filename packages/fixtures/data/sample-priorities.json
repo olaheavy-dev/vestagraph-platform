@@ -1,0 +1,76 @@
+{
+  "$schema": "../schema/sample-priorities.schema.json",
+  "priorities": [
+    {
+      "id": "SAMPLE-PRIORITY-GP",
+      "topicKey": "everyday-places",
+      "subtype": "gp-surgery",
+      "measure": "walking-minutes",
+      "limit": {
+        "value": "15",
+        "unit": "minutes"
+      },
+      "synthetic": true
+    },
+    {
+      "id": "SAMPLE-PRIORITY-RAIL",
+      "topicKey": "getting-around",
+      "filter": {
+        "field": "stopType",
+        "equals": "rail-station"
+      },
+      "measure": "distance",
+      "limit": {
+        "value": "1.5",
+        "unit": "miles"
+      },
+      "synthetic": true
+    },
+    {
+      "id": "SAMPLE-PRIORITY-PRIMARY",
+      "topicKey": "schools",
+      "filter": {
+        "field": "phase",
+        "equals": "primary"
+      },
+      "measure": "distance",
+      "limit": {
+        "value": "0.5",
+        "unit": "miles"
+      },
+      "synthetic": true
+    },
+    {
+      "id": "SAMPLE-PRIORITY-CHILDCARE",
+      "topicKey": "everyday-places",
+      "subtype": "childcare",
+      "measure": "distance",
+      "limit": {
+        "value": "1",
+        "unit": "miles"
+      },
+      "synthetic": true
+    },
+    {
+      "id": "SAMPLE-PRIORITY-BROADBAND",
+      "topicKey": "broadband",
+      "measure": "download-mbps",
+      "limit": {
+        "value": "100",
+        "unit": "mbps"
+      },
+      "synthetic": true
+    },
+    {
+      "id": "SAMPLE-PRIORITY-HOSPITAL",
+      "topicKey": "everyday-places",
+      "subtype": "hospital",
+      "measure": "distance",
+      "limit": {
+        "value": "4",
+        "unit": "miles"
+      },
+      "synthetic": true
+    }
+  ]
+}

@@ -628,9 +628,27 @@
           "type": "string",
           "minLength": 1,
           "description": "How the distance was measured, for example 'straight-line distance, synthetic'. Required with every distance; a distance is never a walking time."
+        },
+        "walkingMinutes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Walking minutes, a synthetic INPUT, never calculated by code (AGENTS.md rule 2, register DA-18). Optional; missing is never shown as zero. A walking time is not a distance: it must carry its walkingMethod."
+        },
+        "walkingMethod": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How the walking time was produced, for example 'walking route, synthetic'. Required with walkingMinutes."
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "dependentRequired": {
+        "walkingMinutes": [
+          "walkingMethod"
+        ],
+        "walkingMethod": [
+          "walkingMinutes"
+        ]
+      }
     },
     "schoolValue": {
       "type": "object",
@@ -669,9 +687,27 @@
           "type": "string",
           "minLength": 1,
           "description": "How the distance was measured, for example 'straight-line distance, synthetic'. Required with every distance; a distance is never a walking time."
+        },
+        "walkingMinutes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Walking minutes, a synthetic INPUT, never calculated by code (AGENTS.md rule 2, register DA-18). Optional; missing is never shown as zero. A walking time is not a distance: it must carry its walkingMethod."
+        },
+        "walkingMethod": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How the walking time was produced, for example 'walking route, synthetic'. Required with walkingMinutes."
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "dependentRequired": {
+        "walkingMinutes": [
+          "walkingMethod"
+        ],
+        "walkingMethod": [
+          "walkingMinutes"
+        ]
+      }
     },
     "crimeValue": {
       "type": "object",
@@ -856,9 +892,27 @@
             "not-recorded"
           ],
           "description": "Places of worship only, mapped from the source's religion tag (OpenStreetMap `religion=*`; 'multifaith' covers shared prayer rooms, 'other' any faith not listed, 'not-recorded' when the source has no tag). Every faith is shown alike, as the nearest places by distance; never counts, densities or an area's religious makeup (register PD-13)."
+        },
+        "walkingMinutes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Walking minutes, a synthetic INPUT, never calculated by code (AGENTS.md rule 2, register DA-18). Optional; missing is never shown as zero. A walking time is not a distance: it must carry its walkingMethod."
+        },
+        "walkingMethod": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How the walking time was produced, for example 'walking route, synthetic'. Required with walkingMinutes."
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "dependentRequired": {
+        "walkingMinutes": [
+          "walkingMethod"
+        ],
+        "walkingMethod": [
+          "walkingMinutes"
+        ]
+      }
     },
     "energyCertificateValue": {
       "type": "object",

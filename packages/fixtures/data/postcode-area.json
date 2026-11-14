@@ -30,7 +30,9 @@
         "stopName": "Mill Court bus stop (synthetic)",
         "stopType": "bus-stop",
         "distanceMetres": 120,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 2,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -54,7 +56,9 @@
         "stopName": "Northbridge Central station (synthetic)",
         "stopType": "rail-station",
         "distanceMetres": 900,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 12,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -78,7 +82,9 @@
         "stopName": "Quay Street bus stop (synthetic)",
         "stopType": "bus-stop",
         "distanceMetres": 350,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 5,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -103,7 +109,9 @@
         "phase": "primary",
         "schoolType": "state-funded",
         "distanceMetres": 450,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 7,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -128,7 +136,9 @@
         "phase": "secondary",
         "schoolType": "state-funded",
         "distanceMetres": 1100,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 16,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -336,7 +346,9 @@
       "value": {
         "name": "Mill Road supermarket (synthetic)",
         "distanceMetres": 400,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 6,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -360,7 +372,9 @@
       "value": {
         "name": "Quay Gardens (synthetic)",
         "distanceMetres": 550,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 8,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -384,7 +398,9 @@
       "value": {
         "name": "Mill Court pharmacy (synthetic)",
         "distanceMetres": 250,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 4,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -432,7 +448,9 @@
       "value": {
         "name": "Northbridge Central police station (synthetic)",
         "distanceMetres": 1100,
-        "distanceMethod": "straight-line from the postcode centre, synthetic"
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 16,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -476,7 +494,9 @@
         "name": "St Anne’s Church (synthetic)",
         "distanceMetres": 600,
         "distanceMethod": "straight-line from the postcode centre, synthetic",
-        "religion": "christian"
+        "religion": "christian",
+        "walkingMinutes": 9,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -501,7 +521,9 @@
         "name": "Quay Street Mosque (synthetic)",
         "distanceMetres": 950,
         "distanceMethod": "straight-line from the postcode centre, synthetic",
-        "religion": "muslim"
+        "religion": "muslim",
+        "walkingMinutes": 13,
+        "walkingMethod": "routing over paths, synthetic"
       },
       "level": {
         "kind": "from-postcode-centre"
@@ -539,6 +561,33 @@
         "date": "2026-10-23",
         "synthetic": true
       }
+    },
+    {
+      "id": "NB1-4XY-AREA-AMENITY-10",
+      "postcode": "NB1 4XY",
+      "topic": "amenity",
+      "subtype": "gp-surgery",
+      "status": "recorded",
+      "label": "Mill Lane medical centre (synthetic)",
+      "value": {
+        "name": "Mill Lane medical centre (synthetic)",
+        "distanceMetres": 650,
+        "distanceMethod": "straight-line from the postcode centre, synthetic",
+        "walkingMinutes": 9,
+        "walkingMethod": "routing over paths, synthetic"
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "Volunteer-mapped; completeness varies",
+      "doesNotEstablish": "A location in a volunteer-mapped source does not establish that the place is open, complete, or accepting new customers or patients.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like an OpenStreetMap extract",
+        "date": "2026-10-23",
+        "synthetic": true
+      },
+      "note": "A pilot-only record (no home-keyed counterpart in area.json) so the boards show a GP within a 15-minute walk."
     },
     {
       "id": "NB1-4XY-AREA-SCHOOL-INSPECTION-1",
@@ -655,6 +704,448 @@
       "source": {
         "origin": "official-dataset",
         "label": "Synthetic sample, shaped like the Planning Data Platform",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-BUS-DEPARTURES-1",
+      "postcode": "NB1 4XY",
+      "topic": "bus-departures",
+      "status": "recorded",
+      "label": "Route 12 to Northbridge Central (synthetic), from Mill Court bus stop (synthetic)",
+      "value": {
+        "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+        "routeNumber": "12",
+        "destination": "Northbridge Central (synthetic)",
+        "serviceDay": "weekday",
+        "departures": [
+          "07:20",
+          "07:45",
+          "07:59",
+          "08:00",
+          "08:15",
+          "08:30",
+          "08:59",
+          "09:00",
+          "09:30",
+          "12:10",
+          "12:40",
+          "12:59",
+          "13:00",
+          "15:30"
+        ]
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "Great Britain (not Northern Ireland)",
+      "doesNotEstablish": "Departure times do not establish that a bus runs on time, is not full, or runs on a bank holiday or school holiday. The timetable can change.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Bus Open Data Service timetable data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-BUS-DEPARTURES-2",
+      "postcode": "NB1 4XY",
+      "topic": "bus-departures",
+      "status": "recorded",
+      "label": "Route 14 to Harbour Estate (synthetic), from Mill Court bus stop (synthetic)",
+      "value": {
+        "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-1",
+        "routeNumber": "14",
+        "destination": "Harbour Estate (synthetic)",
+        "serviceDay": "weekday",
+        "departures": [
+          "07:10",
+          "07:58",
+          "08:05",
+          "08:35",
+          "09:05",
+          "12:05",
+          "12:35",
+          "13:05",
+          "16:00"
+        ]
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "Great Britain (not Northern Ireland)",
+      "doesNotEstablish": "Departure times do not establish that a bus runs on time, is not full, or runs on a bank holiday or school holiday. The timetable can change.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Bus Open Data Service timetable data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-BUS-DEPARTURES-3",
+      "postcode": "NB1 4XY",
+      "topic": "bus-departures",
+      "status": "recorded",
+      "label": "Route 12 to Mill Estate (synthetic), from Quay Street bus stop (synthetic)",
+      "value": {
+        "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-3",
+        "routeNumber": "12",
+        "destination": "Mill Estate (synthetic)",
+        "serviceDay": "weekday",
+        "departures": [
+          "07:55",
+          "08:20",
+          "08:50",
+          "12:20",
+          "12:50",
+          "13:20",
+          "17:10"
+        ]
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "Great Britain (not Northern Ireland)",
+      "doesNotEstablish": "Departure times do not establish that a bus runs on time, is not full, or runs on a bank holiday or school holiday. The timetable can change.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Bus Open Data Service timetable data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-BUS-DEPARTURES-4",
+      "postcode": "NB1 4XY",
+      "topic": "bus-departures",
+      "status": "recorded",
+      "label": "Route 31 to Northbridge Academy (synthetic), from Quay Street bus stop (synthetic)",
+      "value": {
+        "stopItemId": "NB1-4XY-AREA-TRANSPORT-STOP-3",
+        "routeNumber": "31",
+        "destination": "Northbridge Academy (synthetic)",
+        "serviceDay": "weekday",
+        "departures": [
+          "07:30",
+          "08:00",
+          "08:59",
+          "12:00",
+          "12:59",
+          "15:30"
+        ]
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "Great Britain (not Northern Ireland)",
+      "doesNotEstablish": "Departure times do not establish that a bus runs on time, is not full, or runs on a bank holiday or school holiday. The timetable can change.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Bus Open Data Service timetable data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-SCHOOL-DEMAND-1",
+      "postcode": "NB1 4XY",
+      "topic": "school-demand",
+      "status": "recorded",
+      "label": "Admissions figures: Millbrook Primary School (synthetic)",
+      "value": {
+        "schoolName": "Millbrook Primary School (synthetic)",
+        "phase": "primary",
+        "admissionYear": "2025-26",
+        "applications": 96,
+        "placesOffered": 58,
+        "publishedPlaceNumber": 60
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Published admissions figures describe a past year. They do not establish a place, the chance of a place, or what a future year will look like.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the council school admissions statistics",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-SCHOOL-DEMAND-2",
+      "postcode": "NB1 4XY",
+      "topic": "school-demand",
+      "status": "recorded",
+      "label": "Admissions figures: Northbridge Academy (synthetic)",
+      "value": {
+        "schoolName": "Northbridge Academy (synthetic)",
+        "phase": "secondary",
+        "admissionYear": "2025-26",
+        "applications": 310,
+        "placesOffered": 180,
+        "publishedPlaceNumber": 180
+      },
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Published admissions figures describe a past year. They do not establish a place, the chance of a place, or what a future year will look like.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the council school admissions statistics",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1",
+      "postcode": "NB1 4XY",
+      "topic": "flood-risk-postcode",
+      "status": "recorded",
+      "label": "Properties by flood risk category, this postcode (synthetic)",
+      "value": {
+        "source": "Rivers and sea (synthetic example)",
+        "counts": [
+          {
+            "category": "Medium (to confirm from the download)",
+            "propertyType": "residential (to confirm from the download)",
+            "properties": 6
+          },
+          {
+            "category": "Low (to confirm from the download)",
+            "propertyType": "residential (to confirm from the download)",
+            "properties": 11
+          },
+          {
+            "category": "Low (to confirm from the download)",
+            "propertyType": "non-residential (to confirm from the download)",
+            "properties": 2
+          },
+          {
+            "category": "Very low (to confirm from the download)",
+            "propertyType": "residential (to confirm from the download)",
+            "properties": 4
+          }
+        ]
+      },
+      "level": {
+        "kind": "postcode"
+      },
+      "coverage": "England only",
+      "doesNotEstablish": "Published counts of properties per likelihood category are not a property-level result and not one verdict for the postcode. They do not establish whether this home floods, and each flood type is kept separate.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download",
+        "date": "2026-10-23",
+        "synthetic": true
+      },
+      "note": "The category and property type names are to be confirmed from the real download before any live use."
+    },
+    {
+      "id": "NB1-4XY-AREA-DEPRIVATION-RANK-1",
+      "postcode": "NB1 4XY",
+      "topic": "deprivation-rank",
+      "status": "recorded",
+      "label": "Overall deprivation position, Northbridge Central 003 (synthetic)",
+      "value": {
+        "decile": 3,
+        "rank": 9800,
+        "ofAreas": 33755,
+        "edition": "2025",
+        "domain": "overall"
+      },
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Central 003 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A published position for a small neighbourhood area. It does not describe any one home, street or person, and is not a verdict on the area.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the English Indices of Deprivation 2025",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-TRANSPORT-CONNECTIVITY-1",
+      "postcode": "NB1 4XY",
+      "topic": "transport-connectivity",
+      "status": "recorded",
+      "label": "Public transport connectivity position, Northbridge Central (synthetic)",
+      "value": {
+        "measure": "Public transport connectivity (synthetic example)",
+        "edition": "2025 (synthetic)",
+        "decile": 8
+      },
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Central 003 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A published position for an area. It does not establish journey times, frequency or whether a service runs when you need it.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like a published transport connectivity measure",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-GREEN-SPACE-1",
+      "postcode": "NB1 4XY",
+      "topic": "green-space",
+      "status": "recorded",
+      "label": "Accessible Greenspace Standard figure, Northbridge Central (synthetic)",
+      "value": {
+        "standardName": "Accessible Greenspace Standard (synthetic example)",
+        "publishedFigure": "94% of homes in the area within 300 metres of an accessible green space, as published (synthetic)",
+        "edition": "2024 (synthetic)"
+      },
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Central 003 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A published figure for an area. It does not establish that a particular green space is open, safe, clean or pleasant to use.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Natural England Accessible Greenspace Standard data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-AIR-QUALITY-1",
+      "postcode": "NB1 4XY",
+      "topic": "air-quality",
+      "status": "recorded",
+      "label": "Annual mean nitrogen dioxide, 2024 (synthetic)",
+      "value": {
+        "pollutant": "no2",
+        "year": 2024,
+        "concentration": "21.4",
+        "unit": "µg/m³"
+      },
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Central 003 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A yearly average for an area. It does not establish the air at this street on a given day or at busy times.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Defra modelled background air pollution maps",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-AIR-QUALITY-2",
+      "postcode": "NB1 4XY",
+      "topic": "air-quality",
+      "status": "recorded",
+      "label": "Annual mean fine particles (PM2.5), 2024 (synthetic)",
+      "value": {
+        "pollutant": "pm25",
+        "year": 2024,
+        "concentration": "9.8",
+        "unit": "µg/m³"
+      },
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Central 003 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A yearly average for an area. It does not establish the air at this street on a given day or at busy times.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Defra modelled background air pollution maps",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-COUNCIL-TAX-1",
+      "postcode": "NB1 4XY",
+      "topic": "council-tax",
+      "status": "recorded",
+      "label": "Council tax charges by band, Northbridge City Council (synthetic)",
+      "value": {
+        "authorityName": "Northbridge City Council (synthetic)",
+        "taxYear": "2026-27",
+        "bands": [
+          {
+            "band": "A",
+            "annualCharge": "1412.10"
+          },
+          {
+            "band": "B",
+            "annualCharge": "1647.45"
+          },
+          {
+            "band": "C",
+            "annualCharge": "1882.80"
+          },
+          {
+            "band": "D",
+            "annualCharge": "2118.15"
+          },
+          {
+            "band": "E",
+            "annualCharge": "2588.85"
+          },
+          {
+            "band": "F",
+            "annualCharge": "3059.55"
+          },
+          {
+            "band": "G",
+            "annualCharge": "3530.25"
+          },
+          {
+            "band": "H",
+            "annualCharge": "4236.30"
+          }
+        ]
+      },
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Northbridge City Council (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Charges by band for the whole council. They do not establish which band any one home is in or the bill for it.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the council tax levels set by local authorities",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-AFFORDABILITY-1",
+      "postcode": "NB1 4XY",
+      "topic": "affordability",
+      "status": "recorded",
+      "label": "House price to earnings ratio, Northbridge City (synthetic)",
+      "value": {
+        "areaName": "Northbridge City (synthetic)",
+        "year": 2025,
+        "measure": "Median house price to median gross annual workplace-based earnings (synthetic example)",
+        "ratio": "7.9"
+      },
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Northbridge City Council (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A published ratio for a whole local authority. It does not establish whether any one home is affordable for any one household.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the ONS house price to workplace-based earnings ratio",
         "date": "2026-10-23",
         "synthetic": true
       }
@@ -849,6 +1340,238 @@
       "source": {
         "origin": "official-dataset",
         "label": "Synthetic sample, shaped like the Planning Data Platform",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-SOLD-PRICE-1",
+      "postcode": "NB7 1RR",
+      "topic": "sold-price",
+      "status": "no-record-in-source",
+      "label": "No sold prices nearby in this source (synthetic)",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England and Wales",
+      "doesNotEstablish": "No matching record in this source does not mean no home has sold nearby.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the HM Land Registry price paid data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-BUS-DEPARTURES-1",
+      "postcode": "NB7 1RR",
+      "topic": "bus-departures",
+      "status": "no-record-in-source",
+      "label": "No departure times recorded for Fell Lane bus stop (synthetic)",
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "Great Britain (not Northern Ireland)",
+      "doesNotEstablish": "No matching record in this source does not mean no bus stops here. The timetable on the stop is the check.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Bus Open Data Service timetable data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-SCHOOL-DEMAND-1",
+      "postcode": "NB7 1RR",
+      "topic": "school-demand",
+      "status": "not-covered",
+      "label": "Admissions figures not covered for Fellside Primary School (synthetic)",
+      "level": {
+        "kind": "from-postcode-centre"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "This source does not cover the school's admissions. It does not establish how places are allocated.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the council school admissions statistics",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
+      "postcode": "NB7 1RR",
+      "topic": "flood-risk-postcode",
+      "status": "source-failed",
+      "label": "Flood-risk postcode lookup failed; not known right now",
+      "level": {
+        "kind": "postcode"
+      },
+      "coverage": "England only",
+      "doesNotEstablish": "A failed lookup does not mean there is no flood risk.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-DEPRIVATION-RANK-1",
+      "postcode": "NB7 1RR",
+      "topic": "deprivation-rank",
+      "status": "recorded",
+      "label": "Overall deprivation position, Northbridge Fells 001 (synthetic)",
+      "value": {
+        "decile": 6,
+        "rank": 18500,
+        "ofAreas": 33755,
+        "edition": "2025",
+        "domain": "overall"
+      },
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Fells 001 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A published position for a small neighbourhood area. It does not describe any one home, street or person, and is not a verdict on the area.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the English Indices of Deprivation 2025",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-TRANSPORT-CONNECTIVITY-1",
+      "postcode": "NB7 1RR",
+      "topic": "transport-connectivity",
+      "status": "source-failed",
+      "label": "Transport connectivity lookup failed; not known right now",
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Fells 001 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A failed lookup does not mean connectivity is poor or good.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like a published transport connectivity measure",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-GREEN-SPACE-1",
+      "postcode": "NB7 1RR",
+      "topic": "green-space",
+      "status": "not-covered",
+      "label": "Accessible Greenspace Standard not covered for this area (synthetic)",
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Fells 001 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "This source does not cover the area. It does not establish whether green space is nearby.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Natural England Accessible Greenspace Standard data",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-AIR-QUALITY-1",
+      "postcode": "NB7 1RR",
+      "topic": "air-quality",
+      "status": "no-record-in-source",
+      "label": "No air quality figure for this area in this source (synthetic)",
+      "level": {
+        "kind": "neighbourhood",
+        "areaName": "Northbridge Fells 001 (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "No matching record in this source does not mean the air is clean.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Defra modelled background air pollution maps",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-COUNCIL-TAX-1",
+      "postcode": "NB7 1RR",
+      "topic": "council-tax",
+      "status": "recorded",
+      "label": "Council tax charges by band, Fellshire Council (synthetic)",
+      "value": {
+        "authorityName": "Fellshire Council (synthetic)",
+        "taxYear": "2026-27",
+        "bands": [
+          {
+            "band": "A",
+            "annualCharge": "1389.60"
+          },
+          {
+            "band": "B",
+            "annualCharge": "1621.20"
+          },
+          {
+            "band": "C",
+            "annualCharge": "1852.80"
+          },
+          {
+            "band": "D",
+            "annualCharge": "2084.40"
+          },
+          {
+            "band": "E",
+            "annualCharge": "2547.60"
+          },
+          {
+            "band": "F",
+            "annualCharge": "3010.80"
+          },
+          {
+            "band": "G",
+            "annualCharge": "3474.00"
+          },
+          {
+            "band": "H",
+            "annualCharge": "4168.80"
+          }
+        ]
+      },
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Fellshire Council (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Charges by band for the whole council. They do not establish which band any one home is in or the bill for it.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the council tax levels set by local authorities",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-AFFORDABILITY-1",
+      "postcode": "NB7 1RR",
+      "topic": "affordability",
+      "status": "no-record-in-source",
+      "label": "No affordability ratio for this area in this source (synthetic)",
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Fellshire Council (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "No matching record in this source does not mean homes there are affordable or unaffordable.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the ONS house price to workplace-based earnings ratio",
         "date": "2026-10-23",
         "synthetic": true
       }

@@ -8,6 +8,7 @@ resolution-markers = [
 
 [manifest]
 members = [
+    "vestagraph-area",
     "vestagraph-engine",
     "vestagraph-fixture-validator",
     "vestagraph-generator",
@@ -976,6 +977,11 @@ wheels = [
 ]
 
 [[package]]
+name = "vestagraph-area"
+version = "0.0.0"
+source = { editable = "packages/vestagraph-area" }
+
+[[package]]
 name = "vestagraph-engine"
 version = "0.0.0"
 source = { editable = "packages/vestagraph-engine" }
@@ -1000,8 +1006,12 @@ name = "vestagraph-generator"
 version = "0.0.0"
 source = { editable = "packages/vestagraph-generator" }
 dependencies = [
+    { name = "vestagraph-area" },
     { name = "vestagraph-engine" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "vestagraph-engine", editable = "packages/vestagraph-engine" }]
+requires-dist = [
+    { name = "vestagraph-area", editable = "packages/vestagraph-area" },
+    { name = "vestagraph-engine", editable = "packages/vestagraph-engine" },
+]

@@ -4,6 +4,10 @@ These are the **expected values** the cost engine must reproduce. They were work
 
 Files:
 - `rounding-boundaries.json`: rounding boundary cases (decision 0034).
+- `distance-display.json` (display distances, FE-27): `inputs.metres` is a decimal string; `expected.display` is the text (`under 10 m`, `1,450 m` or `1.3 miles`).
+- `area-glance.json` (and later `area-*.json`): area-result cases, see "Area cases" below.
+- `buses-per-hour.json` (buses per hour per route, DA-18): `inputs` is `{ "dataRecordId": "...", "hour": 8 }` (departures read from that `bus-departures` record in `data/postcode-area.json`) or `{ "departures": [...], "hour": 8 }`; `expected.count` is a whole number.
+- `priority-results.json` (priority results, FE-40): `inputs` is `{ "dataPostcode": "NB1 4XY", "priorityId": "SAMPLE-PRIORITY-GP" }` (the priority from `data/sample-priorities.json`, the records of its topic from `data/postcode-area.json`) or inline `{ "priority": {...}, "records": [...] }`; `expected` is `{ "outcome": "meets"|"misses"|"not-known"|"not-known-beyond-search", "nearestRecordId": id or null }`.
 - `story-calculations.json`: service-charge difference, mortgage repayments (including two boundary cases), monthly housing costs, upfront cash and the B1 budget beat.
 
 ## Case format
@@ -31,6 +35,31 @@ Each file is `{ "$schema": "../schema/test-case.schema.json", "formatVersion": 1
 - **Partial totals**: any `not-calculated`, `conflicting` or `missing` line makes the total partial (BE-16). Monthly and upfront cases carry `totalIsPartial` and `partialReasons`. A partial total is a floor, not the full cost.
 - **Budget fields**, the same on every monthly case: `budgetPence` (160,000), `budgetDifferencePence` = budget minus total (positive = headroom, negative = over budget), and `withinBudget` (total at or below the budget).
 - Rounding everywhere: nearest penny, half away from zero; each line rounded once; a total is the sum of the rounded lines.
+
+## Area cases (`area-*.json`)
+
+The area-result calculations (At a glance counts, distance display, buses per hour, priority results; FE-38 to FE-41) keep their worked examples in `area-*.json`, checked against [`area-test-case.schema.json`](../schema/area-test-case.schema.json). They carry no money, so there is no `planSnapshotDate` or `money` field. As above, the expected values were worked by hand from the committed data before any code was written, and `steps` shows the working.
+
+```json
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "stable-kebab-case-id",
+      "description": "what is being worked out",
+      "rule": { "source": "the rule followed", "url": "link or repo path" },
+      "inputs": { "...": "see below" },
+      "steps": [ { "n": 1, "description": "the working", "value": 15 } ],
+      "expected": { "...": "see below" }
+    }
+  ]
+}
+```
+
+- `inputs` and `expected` differ by calculation and are read by that calculation's test; `steps` are for reviewers (`value` is optional).
+- `area-glance.json` (At a glance): `inputs` is either `{ "dataPostcode": "NB1 4XY" }` (registry from `data/pilot-topics.json`, records from `data/postcode-area.json`) or inline `{ "topics": [...], "records": [...] }` for synthetic cases. `expected` has `found`, `notKnown`, `coverageFound`, `coverageTotal`, `outcomes` (topic key to `found`, `not-known` or `not-covered`), `questions` (`topicKey`, `recordId`, `text` from the topic's `gapQuestionTemplate` with `{subject}` filled from `subtypeNames` or the topic name, never a record label; in registry then file order, one per gap record, de-duplicated by topic and text with the first record's id kept) and `checkInPersonTopics` (keys of every counted topic, whatever its outcome, and every route-only topic, in registry order; never counted, FE-41). Every record of the postcode must belong to exactly one counted topic.
+- Decimal values such as limits stay strings, as above, so no float is involved.
 
 ## 1. Rounding boundaries (decision 0034)
 
