@@ -23,11 +23,11 @@ Feature: Priorities (what matters to you, on an area result)
     not known, a gap in the source -> PRIO-04
     not known beyond the search -> PRIO-05, PRIO-10
     checking -> PRIO-11
-    couldn't check, never a miss -> PRIO-11
+    couldn't check, never a miss -> PRIO-14
     invalid limit, empty or not a number -> PRIO-07
     the ready-made limits and one panel at a time -> PRIO-06, PRIO-13
     no total, count or ranking -> PRIO-08
-    privacy of the limits -> PRIO-12
+    privacy of the limits -> PRIO-12, PRIO-15, PRIO-16
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY)
   Scenario: PRIO-01 the GP limit is met in the normal sample postcode
@@ -95,21 +95,17 @@ Feature: Priorities (what matters to you, on an area result)
     And it does not read as a miss or as met (FE-40)
 
   @ui
-  Scenario: PRIO-11 checking and failure states
+  Scenario: PRIO-11 checking state
     Given the visitor changes a limit
     When the check is under way
     Then "Checking your priorities…" is shown and announced to screen readers
     And the old result is not shown meanwhile
-    When the check fails
-    Then "Couldn't check this · Try again" is shown, and it is never shown as a miss
 
   @ui
-  Scenario: PRIO-12 limits are private to the visitor
+  Scenario: PRIO-12 limits are sent only to work out results
     Given the visitor has set limits
     When the limits are sent to be checked
     Then they travel with the postcode only to work out results and are never stored or logged (0053)
-    And "Remember these on this device" is off by default and, when turned on, keeps them in the browser only
-    And a shared link never carries them
 
   @ui
   Scenario: PRIO-13 closing the priorities sheet returns focus
@@ -117,3 +113,22 @@ Feature: Priorities (what matters to you, on an area result)
     When the visitor presses Escape or the phone's Back
     Then the sheet closes
     And focus returns to "Set priorities" or "Edit", whichever opened it
+
+  @ui
+  Scenario: PRIO-14 a failed check is never shown as a miss
+    Given the visitor changes a limit
+    When the check fails
+    Then "Couldn't check this · Try again" is shown
+    And it is never shown as a miss
+
+  @ui
+  Scenario: PRIO-15 remembering limits stays in the browser and is off by default
+    Given the priorities sheet is open
+    Then "Remember these on this device" is off by default
+    And when turned on, the limits are kept in the browser only
+
+  @ui
+  Scenario: PRIO-16 a shared link never carries limits
+    Given the visitor has set limits
+    When the visitor shares the result link
+    Then the link does not carry the limits
