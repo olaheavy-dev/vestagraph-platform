@@ -285,7 +285,7 @@ Feature: Check an area
   Scenario: AREA-32 a search that crosses the border says places across it may be missing
     Given the user is on Check an area
     When the user checks a postcode whose search area crosses into another nation
-    Then a notice says the search reaches into another nation, that places beyond the border may be missing from this search (B9), that the places shown are still ours to show, and points to the official link to look further
+    Then a notice says the search reaches into another nation, that places beyond the border may be missing from this search (B9), that the places found in England are still shown, and offers one action: check the other nation's coverage, which reads "Not yet covered" (B9)
 
   @ui
   Scenario: AREA-35 a search that crosses the border leaves no topic reading as a clean result
