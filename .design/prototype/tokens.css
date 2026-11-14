@@ -1,5 +1,9 @@
 /*
  * Vestagraph design tokens: phase 4 of the design flow (decision 0031), 11 Nov 2026.
+ * Synced with the design canvas, version 138 (14 Nov 2026): soft gloss surfaces with a lit top edge, cream bands on
+ * long pages and solid ink headlines (FE-29), slate ink dark mode (FE-31), and the warm hearth dot for the postcode
+ * centre in dark. The canvas's "Brand and style" board (sections 7 to 9) is the source; where the canvas and this file
+ * differ, the canvas wins until the app's component gallery (#150) takes over.
  *
  * Philosophy: Scandinavian + Editorial (DESIGN_BRIEF.md). Warmth and restraint in the
  * workspace, and editorial typography for headlines and key moments.
@@ -7,8 +11,11 @@
  *   - Bricolage Grotesque (headlines, wordmark) + Geist (UI and figures), chosen 11 Nov 2026 over four other pairings
  *     (replacing Fraunces). Not Inter.
  *   - Slate is the complement in both themes; clay is kept for the hearth only; amber means warning only.
- *   - A radiant light page (clean near-white with a mint, sky and sunrise wash) and a premium dark layer
- *     (lit edges, sheen, glass header, one accent glow, a faint dot grid). Light and material, never new hues.
+ *   - Soft gloss (FE-29, 14 Nov 2026): a light page with a mint and sky wash, cards that fade from white to warm paper
+ *     with a lit top edge and a tight forest-tinted shadow, and one glow on the one main button per screen.
+ *     Headlines are solid ink (the headline gradient was deleted). Light and material, never new hues.
+ *   - Dark mode is slate ink (FE-31, 14 Nov 2026): cool-ink layers, cards with a lit glass edge, cool-grey text
+ *     and maps, mint only for the main action, links, selection and pins.
  *   - "Warmer and richer" colour: sage surfaces and tinted sections are allowed (light theme only;
  *     in dark, tinted panels turn neutral and only drawings sit on the slate illustration tint).
  *     Amber and red stay reserved for specific findings.
@@ -24,8 +31,9 @@
  *   - Meaningful non-text tokens (gap border, strong border, focus, complement border) are at least 3:1.
  *   - Hairline border tokens are decorative and exempt.
  *   - The lowest text pairs: light, warning amber on the strongest point of the mint page wash 4.84 (neutral text: tertiary
- *     there 4.97; slate complement there 5.43); dark, tertiary on
- *     bg-tertiary 5.40 (5.16 on the info status background; the lowest status colour is error on info-bg, 6.18).
+ *     there 4.97; slate complement there 5.43; on the cream band, tertiary 5.45); dark, tertiary on the faint mint
+ *     chip fill 5.06 (on body surfaces 5.83, on raised, as FE-31 records) (5.33 on the info status background, 5.83 on raised; the lowest status colour is error on
+ *     info-bg, 6.18).
  *
  * Fonts: Bricolage Grotesque and Geist are Google Fonts under the SIL Open Font License. Record both in
  * docs/references/third-party.md when the app first loads them (stage 5).
@@ -43,6 +51,7 @@
   --color-bg-primary: #FBFAF7;     /* clean near-white: the page, under --page-radiance */
   --color-bg-secondary: #FFFFFF;   /* surface: cards, sheets, working areas */
   --color-bg-tertiary: #EFECE3;    /* wells: inputs, table header rows, insets */
+  --color-bg-band: #F4F1EA;        /* cream band: long pages alternate this with the page colour (FE-29) */
   --color-bg-tint-sage: #E3ECE2;   /* "richer": daily-life sections, supporting surfaces */
   --color-bg-tint-clay: #F5E8DC;   /* legacy; panels now use sage or the illustration tint (clay is the hearth only) */
   --color-bg-inverse: #182923;     /* ink: inverse panels, tooltips */
@@ -60,7 +69,7 @@
   --color-hearth: #9A4A28;                /* clay: the hearth dot in the mark and drawings only */
 
   /* ── Colour: borders ──────────────────────────────────────────── */
-  --color-border-primary: #ECEAE4;   /* decorative hairline on white cards (exempt from 3:1) */
+  --color-border-primary: #E6E2D8;   /* decorative hairline: the card edge (exempt from 3:1) */
   --color-border-secondary: #E8E4DA; /* decorative divider */
   --color-border-strong: #857F72;    /* inputs and meaningful boundaries (3.23 at worst, on the mint wash) */
   --color-border-gap: #737D78;       /* dashed "no record" and "missing" cards (3.45 at worst) */
@@ -103,7 +112,7 @@
   --color-map-marker-parks: #5E7A35;
   --color-map-marker-police: #4C5560;
   --color-map-marker-worship: #7A6A55;
-  --color-map-home: #153F35;      /* only the home or postcode-centre pin is deep forest */
+  --color-map-home: #153F35;      /* only the home or postcode-centre pin is deep forest (in dark, the postcode centre is the warm hearth dot, FE-31) */
 
   /* ── Typography ───────────────────────────────────────────────── */
   --font-family-display: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;  /* optical size set per size (opsz 12–96) */
@@ -176,19 +185,22 @@
   --shadow-sm: 0 1px 2px rgba(21, 63, 53, 0.08);
   --shadow-md: 0 1px 2px rgba(21, 63, 53, 0.06), 0 10px 28px rgba(21, 63, 53, 0.10);
   --shadow-lg: 0 2px 4px rgba(21, 63, 53, 0.06), 0 24px 60px rgba(21, 63, 53, 0.16);
+  /* Cards at rest (FE-29): the lit top edge, a faint forest ring and a tight shadow */
+  --surface-shadow: inset 0 1px 0 #FFFFFF, 0 0 0 1px rgba(21, 63, 53, 0.06), 0 1px 2px rgba(21, 63, 53, 0.06), 0 6px 16px rgba(21, 63, 53, 0.07);
+  --field-shadow: inset 0 2px 5px rgba(24, 41, 35, 0.08);  /* inputs sit slightly into the card */
 
   /* ── Shine: light and material, never new hues (founder, 11 Nov 2026) ── */
   --page-radiance: radial-gradient(1200px 620px at 82% -12%, rgba(211, 235, 223, 0.9), transparent 60%),
-                   radial-gradient(900px 520px at 6% -4%, rgba(220, 232, 243, 0.85), transparent 62%),
-                   radial-gradient(1000px 500px at 50% 112%, rgba(255, 241, 220, 0.6), transparent 70%);
+                   radial-gradient(900px 520px at 6% -4%, rgba(220, 232, 243, 0.85), transparent 62%);  /* mint and sky, on the first band only (FE-29; the canvas boards dropped the peach wash) */
   --surface-sheen: linear-gradient(180deg, #FFFFFF 0%, #FDFCF9 55%, #F9F7F2 100%);
   --surface-edge: inset 0 1px 0 #FFFFFF;
+  --surface-edge-border: linear-gradient(var(--color-border-primary), var(--color-border-primary));  /* card border as an image, so dark can use a lit gradient edge */
   --accent-gradient: linear-gradient(180deg, #25604F 0%, #1A4A3E 50%, #0E2F27 100%);  /* white text 7.33 at the lightest point */
+  --accent-bevel: inset 0 1px 0 rgba(255, 255, 255, 0.28), inset 0 -2px 0 rgba(0, 0, 0, 0.2);  /* the main button's lit top and pressed base */
   --accent-glow: 0 8px 22px rgba(21, 63, 53, 0.28);  /* the one thing to press per screen; never on charts */
   --glass-bg: rgba(255, 255, 255, 0.72);              /* header and the hero summary card only */
   --glass-blur: 18px;                                  /* off under prefers-reduced-transparency */
-  --headline-gradient: linear-gradient(180deg, #182923 0%, #1D3F35 55%, #24614F 100%);  /* the subtle headline sheen (5.86 at worst, on the mint wash) */
-  --headline-fill: transparent;  /* paired with the gradient (background-clip: text); becomes solid text when the sheen is off */
+  /* Headlines are solid ink (FE-29): the earlier --headline-gradient and --headline-fill were deleted. */
   --shadow-focus: 0 0 0 3px var(--color-bg-primary), 0 0 0 5px var(--color-border-focus);
 
   /* ── Texture (editorial surfaces only, never behind data) ─────── */
@@ -218,6 +230,7 @@
   /* ── Component tokens ─────────────────────────────────────────── */
   --card-bg: var(--color-bg-secondary);
   --card-border: var(--border-width-hairline) solid var(--color-border-primary);
+  --card-shadow: var(--surface-shadow);  /* aliases resolve where declared: put data-theme on <html>, not on an inner element */
   --card-radius: var(--border-radius-lg);
   --card-padding: var(--space-7);
   --card-gap-border: var(--border-width-gap) dashed var(--color-border-gap);
@@ -234,121 +247,154 @@
 }
 
 
-/* ── Dark theme: near-neutral charcoal, not inverted ────────────── */
+/* ── Dark theme: slate ink (FE-31, founder, 14 Nov 2026), not inverted ── */
+/* Page #0D1117, panel and bands #11161D, cards #161B22 with a lit glass edge, raised #21262D; cool-grey text and maps;
+   mint only for the main action, links, selection and pins; slate blue as the one complement; the warm hearth dot
+   marks the postcode centre; amber only for warnings. Contrast (WCAG 2.2) is noted on each colour. */
 [data-theme="dark"] {
   color-scheme: dark;
-  /* Founder, 11 Nov 2026: near-neutral charcoal layers, one accent (mint), one complement (slate blue, chosen over clay and
-     brass on the design canvas), amber only for warnings.
-     Contrast (WCAG 2.2), on the plain surfaces (bg-primary, secondary, tertiary) and tints: text-tertiary 5.40 at worst,
-     complement 6.92 at worst (on bg-tertiary), accent text 8.67 at worst. Including the status backgrounds: 5.16, 6.63 and 8.29. */
-
-  --color-bg-primary: #181816;
-  --color-bg-secondary: #21201D;
-  --color-bg-tertiary: #2A2925;
-  --color-bg-tint-sage: #24231F;   /* neutral in dark: tinted panels compete on charcoal */
-  --color-bg-tint-clay: #24231F;   /* neutral in dark, as above */
+  --color-bg-primary: #0D1117;  /* page */
+  --color-bg-secondary: #161B22;  /* card */
+  --color-bg-tertiary: #21262D;  /* raised: wells, inputs, table header rows */
+  --color-bg-band: #11161D;  /* panel: bands on long pages */
+  --color-bg-tint-sage: #11161D;  /* neutral in dark: tinted panels compete, so they use the panel colour */
+  --color-bg-tint-clay: #11161D;  /* neutral in dark, as above */
   --color-bg-tint-illustration: #1A2329;  /* slate tint, behind drawings and the demo strip only */
-  --color-bg-inverse: #ECE8DF;
-
-  --color-text-primary: #ECE8DF;   /* off-white, never pure white */
-  --color-text-secondary: #B8B2A6;
-  --color-text-tertiary: #A39D90;  /* 5.40 at worst */
-  --color-text-inverse: #181816;
+  --color-bg-inverse: #E6E8EA;
+  --color-text-primary: #E6E8EA;  /* cool off-white, never pure white: 15.41 on the page */
+  --color-text-secondary: #B1B7BD;  /* 9.35 on the page, 7.52 on raised */
+  --color-text-tertiary: #9AA1A8;  /* 7.24 on the page, 5.83 on raised, 5.06 on the faint mint chip fill */
+  --color-text-inverse: #0D1117;
   --color-text-link: #9FD3BA;
-  --color-text-clay: #93B8CE;      /* kept as an alias of --color-accent-complement for now (slate in dark); rename later */
-  --color-accent-complement: #93B8CE;  /* slate: 8.46 on the page, 7.59 on its tint */
-
-  --color-border-primary: #33322E;
-  --color-border-secondary: #2A2925;
-  --color-border-strong: #7C786E;  /* 3.70 on cards */
-  --color-border-gap: #7C786E;     /* 3.70 on cards */
+  --color-text-clay: #93B8CE;  /* alias of --color-accent-complement for now; rename later */
+  --color-accent-complement: #93B8CE;  /* slate: 9.00 on the page, 7.24 on raised */
+  --color-border-primary: #212831;  /* decorative hairline (exempt from 3:1) */
+  --color-border-secondary: #21262D;  /* decorative divider */
+  --color-border-strong: #6C7785;  /* controls: 3.80 on a card, 3.34 on raised */
+  --color-border-gap: #6C7785;  /* dashed gap cards: 3.80 on a card */
   --color-border-focus: #9FD3BA;
-
-  --color-accent-primary: #9FD3BA;       /* mint: actions, links, and the border that marks a selection (9.7 on cards) */
+  --color-accent-primary: #9FD3BA;  /* mint: the main action, links, selection and pins (10.30 on a card) */
   --color-accent-primary-hover: #B5E0CB;
   --color-accent-primary-active: #8CCBAE;
-  --color-on-accent-primary: #10201A;    /* 10.05 on accent */
-  --color-accent-secondary: #20342C;     /* faint mint fill for selected chips (1.23 on cards, so the mint border carries the state) */
+  --color-on-accent-primary: #10201A;  /* 8.35 at the darkest point of the button gradient */
+  --color-accent-secondary: #20342C;  /* faint mint fill for selected chips (1.31 on a card, so the mint border carries the state) */
   --color-on-accent-secondary: #CDE6D8;  /* 10.01 on the fill */
-
   --color-status-success: #9FD3BA;
-  --color-status-success-bg: #24231F;
-  --color-status-warning: #E6B66C;       /* amber only for warnings */
-  --color-status-warning-bg: #332A1A;
+  --color-status-success-bg: #11161D;
+  --color-status-warning: #E6B66C;  /* amber only for warnings: 7.58 on its background */
+  --color-status-warning-bg: #332A1A;  /* not drawn on the canvas; kept from 11 Nov, rechecked on slate ink */
   --color-status-error: #F0948B;
-  --color-status-error-bg: #3A2220;
-  --color-status-info: #93BEDC;          /* rare; always with a label, so it isn't confused with the slate complement */
-  --color-status-info-bg: #1E2E3A;
-
+  --color-status-error-bg: #3A2220;  /* kept from 11 Nov, rechecked */
+  --color-status-info: #93BEDC;  /* rare; always with a label, so it isn't confused with the slate complement */
+  --color-status-info-bg: #1E2E3A;  /* kept from 11 Nov, rechecked */
   --color-surface-overlay: rgba(0, 0, 0, 0.55);
-  --color-map-land: #1F1F1C;
-  --color-map-water: #1E2427;
-  --color-map-park: #1F2520;
-  --color-map-road: #2C2B28;
-  --color-map-marker: #B8B2A6;
+  --color-map-land: #161C24;  /* cool-grey map, from the canvas's drawn sample map */
+  --color-map-water: #28414C;
+  --color-map-park: #161C24;  /* the canvas draws no separate park colour in dark; set it with the street map (FE-03) */
+  --color-map-road: #12161E;
+  --color-map-marker: #B1B7BD;  /* neutral marker: the secondary text colour, as before */
   --color-map-marker-transport: #93B8CE;
   --color-map-marker-shops: #CDA6CD;
   --color-map-marker-health: #8CCAC6;
   --color-map-marker-schools: #B0AEE6;
   --color-map-marker-parks: #B7CB80;
   --color-map-marker-police: #BCC3CC;
-  --color-map-marker-worship: #CBBFAE;
-  --color-map-home: #9FD3BA;
-
-  /* Dark shadows: darker and more transparent */
+  --color-map-marker-worship: #CBBFAE;  /* every category colour at least 5.09 on water and 8.10 on land */
+  --color-map-home: #E8A07A;  /* the warm hearth dot marks the postcode centre in dark (FE-31; 7.95 on land, 4.99 on water). A home's own pin in dark is not decided yet: settle it with the home workspace */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
   --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.45);
-
-  --texture-paper-opacity: 0.04;  /* light grain on dark, behind drawings only */
-
-  --color-hearth: #93B8CE;  /* slate in dark */
+  --surface-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.08);  /* cards rely on the lit glass edge, not a drop shadow */
+  --field-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.04);  /* from the dark boards' input style */
+  --texture-paper-opacity: 0.04;
+  --color-hearth: #E8A07A;  /* warm hearth dot: 8.78 on the page */
   --color-border-complement: #93B8CE;
-  --font-weight-body: 380;
+  --font-weight-body: 380;  /* light text on dark reads heavier */
   --font-weight-heading: 570;
-  --page-radiance: radial-gradient(1100px 560px at 72% -14%, rgba(147, 184, 206, 0.17), transparent 62%),
-                   radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.2px);  /* slate spotlight and a faint dot grid */
-  --surface-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0) 60%);
-  --surface-edge: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  --accent-gradient: linear-gradient(180deg, #D2F0E1 0%, #A8DAC2 45%, #86C3A7 100%);  /* text on it 8.35 at the darkest point */
-  --accent-glow: 0 10px 32px rgba(159, 211, 186, 0.34);
-  --glass-bg: rgba(24, 24, 22, 0.66);
-  --headline-gradient: linear-gradient(180deg, #ECE8DF 0%, #E2ECE6 50%, #C3D9CF 100%);  /* off-white start; 8.64 at worst, on the slate spotlight */
-
-  /* The demo strip keeps a distinct look in dark: slate tint plus a slate outline (7.59) */
+  --page-radiance: none;  /* a flat slate-ink page; depth comes from the cards */
+  --surface-sheen: linear-gradient(180deg, #19202A 0%, #151B23 100%);  /* card, glass top to base */
+  --surface-edge: inset 0 1px 0 rgba(220, 235, 250, 0.08);
+  --surface-edge-border: linear-gradient(180deg, rgba(220, 235, 250, 0.14), rgba(220, 235, 250, 0.04));  /* the lit glass edge */
+  --accent-gradient: linear-gradient(180deg, #D2F0E1 0%, #A8DAC2 45%, #86C3A7 100%);
+  --accent-bevel: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  --accent-glow: 0 0 0 1px rgba(159, 211, 186, 0.35), 0 8px 28px rgba(159, 211, 186, 0.22);  /* the one mint glow */
+  --glass-bg: rgba(13, 17, 23, 0.66);
   --demo-timeline-bg: var(--color-bg-tint-illustration);
-  --demo-timeline-border: var(--color-accent-complement);
+  --demo-timeline-border: var(--color-accent-complement);  /* the demo strip keeps a distinct look in dark: slate tint plus a slate outline (7.59) */
 }
 
-/* The system preference applies unless the user chose light explicitly */
+/* The system preference applies unless the user chose light explicitly (the same values as above) */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --color-bg-primary: #181816; --color-bg-secondary: #21201D; --color-bg-tertiary: #2A2925;
-    --color-bg-tint-sage: #24231F; --color-bg-tint-clay: #24231F; --color-bg-tint-illustration: #1A2329; --color-bg-inverse: #ECE8DF;
-    --color-text-primary: #ECE8DF; --color-text-secondary: #B8B2A6; --color-text-tertiary: #A39D90;
-    --color-text-inverse: #181816; --color-text-link: #9FD3BA; --color-text-clay: #93B8CE; --color-accent-complement: #93B8CE;
-    --color-border-primary: #33322E; --color-border-secondary: #2A2925; --color-border-strong: #7C786E;
-    --color-border-gap: #7C786E; --color-border-focus: #9FD3BA;
-    --color-accent-primary: #9FD3BA; --color-accent-primary-hover: #B5E0CB; --color-accent-primary-active: #8CCBAE;
-    --color-on-accent-primary: #10201A; --color-accent-secondary: #20342C; --color-on-accent-secondary: #CDE6D8;
-    --color-status-success: #9FD3BA; --color-status-success-bg: #24231F;
-    --color-status-warning: #E6B66C; --color-status-warning-bg: #332A1A;
-    --color-status-error: #F0948B; --color-status-error-bg: #3A2220;
-    --color-status-info: #93BEDC; --color-status-info-bg: #1E2E3A;
+    --color-bg-primary: #0D1117;  /* page */
+    --color-bg-secondary: #161B22;  /* card */
+    --color-bg-tertiary: #21262D;  /* raised: wells, inputs, table header rows */
+    --color-bg-band: #11161D;  /* panel: bands on long pages */
+    --color-bg-tint-sage: #11161D;  /* neutral in dark: tinted panels compete, so they use the panel colour */
+    --color-bg-tint-clay: #11161D;  /* neutral in dark, as above */
+    --color-bg-tint-illustration: #1A2329;  /* slate tint, behind drawings and the demo strip only */
+    --color-bg-inverse: #E6E8EA;
+    --color-text-primary: #E6E8EA;  /* cool off-white, never pure white: 15.41 on the page */
+    --color-text-secondary: #B1B7BD;  /* 9.35 on the page, 7.52 on raised */
+    --color-text-tertiary: #9AA1A8;  /* 7.24 on the page, 5.83 on raised, 5.06 on the faint mint chip fill */
+    --color-text-inverse: #0D1117;
+    --color-text-link: #9FD3BA;
+    --color-text-clay: #93B8CE;  /* alias of --color-accent-complement for now; rename later */
+    --color-accent-complement: #93B8CE;  /* slate: 9.00 on the page, 7.24 on raised */
+    --color-border-primary: #212831;  /* decorative hairline (exempt from 3:1) */
+    --color-border-secondary: #21262D;  /* decorative divider */
+    --color-border-strong: #6C7785;  /* controls: 3.80 on a card, 3.34 on raised */
+    --color-border-gap: #6C7785;  /* dashed gap cards: 3.80 on a card */
+    --color-border-focus: #9FD3BA;
+    --color-accent-primary: #9FD3BA;  /* mint: the main action, links, selection and pins (10.30 on a card) */
+    --color-accent-primary-hover: #B5E0CB;
+    --color-accent-primary-active: #8CCBAE;
+    --color-on-accent-primary: #10201A;  /* 8.35 at the darkest point of the button gradient */
+    --color-accent-secondary: #20342C;  /* faint mint fill for selected chips (1.31 on a card, so the mint border carries the state) */
+    --color-on-accent-secondary: #CDE6D8;  /* 10.01 on the fill */
+    --color-status-success: #9FD3BA;
+    --color-status-success-bg: #11161D;
+    --color-status-warning: #E6B66C;  /* amber only for warnings: 7.58 on its background */
+    --color-status-warning-bg: #332A1A;  /* not drawn on the canvas; kept from 11 Nov, rechecked on slate ink */
+    --color-status-error: #F0948B;
+    --color-status-error-bg: #3A2220;  /* kept from 11 Nov, rechecked */
+    --color-status-info: #93BEDC;  /* rare; always with a label, so it isn't confused with the slate complement */
+    --color-status-info-bg: #1E2E3A;  /* kept from 11 Nov, rechecked */
     --color-surface-overlay: rgba(0, 0, 0, 0.55);
-    --color-map-land: #1F1F1C; --color-map-water: #1E2427; --color-map-park: #1F2520;
-    --color-map-road: #2C2B28; --color-map-marker: #B8B2A6; --color-map-home: #9FD3BA;
-    --color-map-marker-transport: #93B8CE; --color-map-marker-shops: #CDA6CD; --color-map-marker-health: #8CCAC6; --color-map-marker-schools: #B0AEE6; --color-map-marker-parks: #B7CB80; --color-map-marker-police: #BCC3CC; --color-map-marker-worship: #CBBFAE;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30); --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
+    --color-map-land: #161C24;  /* cool-grey map, from the canvas's drawn sample map */
+    --color-map-water: #28414C;
+    --color-map-park: #161C24;  /* the canvas draws no separate park colour in dark; set it with the street map (FE-03) */
+    --color-map-road: #12161E;
+    --color-map-marker: #B1B7BD;  /* neutral marker: the secondary text colour, as before */
+    --color-map-marker-transport: #93B8CE;
+    --color-map-marker-shops: #CDA6CD;
+    --color-map-marker-health: #8CCAC6;
+    --color-map-marker-schools: #B0AEE6;
+    --color-map-marker-parks: #B7CB80;
+    --color-map-marker-police: #BCC3CC;
+    --color-map-marker-worship: #CBBFAE;  /* every category colour at least 5.09 on water and 8.10 on land */
+    --color-map-home: #E8A07A;  /* the warm hearth dot marks the postcode centre in dark (FE-31; 7.95 on land, 4.99 on water). A home's own pin in dark is not decided yet: settle it with the home workspace */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.30);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.45);
+    --surface-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.08);  /* cards rely on the lit glass edge, not a drop shadow */
+    --field-shadow: inset 0 1px 0 rgba(220, 235, 250, 0.04);  /* from the dark boards' input style */
     --texture-paper-opacity: 0.04;
-    --demo-timeline-bg: var(--color-bg-tint-illustration); --demo-timeline-border: var(--color-accent-complement);
-    --color-hearth: #93B8CE; --color-border-complement: #93B8CE; --font-weight-body: 380; --font-weight-heading: 570;
-    --page-radiance: radial-gradient(1100px 560px at 72% -14%, rgba(147, 184, 206, 0.17), transparent 62%), radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.2px);
-    --surface-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.075) 0%, rgba(255, 255, 255, 0) 60%); --surface-edge: inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    --accent-gradient: linear-gradient(180deg, #D2F0E1 0%, #A8DAC2 45%, #86C3A7 100%); --accent-glow: 0 10px 32px rgba(159, 211, 186, 0.34); --glass-bg: rgba(24, 24, 22, 0.66);
-    --headline-gradient: linear-gradient(180deg, #ECE8DF 0%, #E2ECE6 50%, #C3D9CF 100%);
+    --color-hearth: #E8A07A;  /* warm hearth dot: 8.78 on the page */
+    --color-border-complement: #93B8CE;
+    --font-weight-body: 380;  /* light text on dark reads heavier */
+    --font-weight-heading: 570;
+    --page-radiance: none;  /* a flat slate-ink page; depth comes from the cards */
+    --surface-sheen: linear-gradient(180deg, #19202A 0%, #151B23 100%);  /* card, glass top to base */
+    --surface-edge: inset 0 1px 0 rgba(220, 235, 250, 0.08);
+    --surface-edge-border: linear-gradient(180deg, rgba(220, 235, 250, 0.14), rgba(220, 235, 250, 0.04));  /* the lit glass edge */
+    --accent-gradient: linear-gradient(180deg, #D2F0E1 0%, #A8DAC2 45%, #86C3A7 100%);
+    --accent-bevel: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    --accent-glow: 0 0 0 1px rgba(159, 211, 186, 0.35), 0 8px 28px rgba(159, 211, 186, 0.22);  /* the one mint glow */
+    --glass-bg: rgba(13, 17, 23, 0.66);
+    --demo-timeline-bg: var(--color-bg-tint-illustration);
+    --demo-timeline-border: var(--color-accent-complement);  /* the demo strip keeps a distinct look in dark: slate tint plus a slate outline (7.59) */
   }
 }
 
@@ -365,12 +411,4 @@
 /* Reduced transparency: glass becomes solid (selectors match the dark rules' specificity so they win in every theme) */
 @media (prefers-reduced-transparency: reduce) {
   :root, :root:not([data-theme="light"]), [data-theme="dark"] { --glass-bg: var(--color-bg-primary); --glass-blur: 0px; }
-}
-
-/* Increased contrast and print: the headline sheen becomes solid text */
-@media (prefers-contrast: more) {
-  :root, :root:not([data-theme="light"]), [data-theme="dark"] { --headline-gradient: none; --headline-fill: var(--color-text-primary); }
-}
-@media print {
-  :root, :root:not([data-theme="light"]), [data-theme="dark"] { --headline-gradient: none; --headline-fill: var(--color-text-primary); }
 }

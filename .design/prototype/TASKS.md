@@ -27,7 +27,7 @@ Date: 11 Nov 2026 (phase 5 of the design flow)
 - [ ] **H4 Desktop split and dark theme:**
   - (Nearby desktop moved to H6, the immersive map with a floating list; the earlier 2D split frame was removed.)
   - Compare with B1 and B2 aligned and no winner.
-  - H1 repeated in the near-neutral charcoal dark theme.
+  - H1 repeated in the dark theme (near-neutral charcoal then; slate ink since 14 Nov 2026, FE-31).
 
   _Depends on: H1–H3._
 - [ ] **H6 Immersive map** (founder, 11 Nov 2026): a 3D switch (tilt and approximate building heights), category filters with icons, a legend, a hover card on desktop and a tap card on phones, all on the sample map. Crime and flood stay off the map.
