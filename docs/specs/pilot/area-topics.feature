@@ -13,7 +13,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   Rule 2: no distance, time, count or date is typed in a scenario; the page quotes values from the records
     named by ID in `postcode-area.json` and from `area-result.json`.
   Rule 7: a gap is named and never reads as zero, "none", a miss or a clean result. The search distance
-    beside a gap label is the display-unit distance (miles) taken from `area-result.json` (DA-20, B2).
+    beside a gap label is the display-unit distance (miles): the search limit `SEARCH_LIMIT_METRES` in `packages/vestagraph-area/src/vestagraph_area/priorities.py`, shown in the display unit, miles, by `vestagraph_area.distance.display_distance` (DA-20, B2); `area-result.json` does not hold it.
   Required states (design docs/superpowers/specs/2026-11-14-first-design-batch-design.md;
     AGENTS.md rules 2, 4 and 7):
     gap, "no record in this source" with its search distance -> TOPIC-09, TOPIC-10
@@ -155,7 +155,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Given a topic has a gap where the source holds no record
     When the visitor opens the topic
     Then the gap shows its label, for example "No supermarket found within <the search distance> in this source"
-    And the search distance is quoted from `area-result.json` in the display unit, miles (DA-20, B2)
+    And the search distance is quoted from the search limit `SEARCH_LIMIT_METRES` in `packages/vestagraph-area/src/vestagraph_area/priorities.py`, shown in the display unit, miles, by `vestagraph_area.distance.display_distance` (DA-20, B2)
     And it never reads as zero or as a clean result
 
   @ui

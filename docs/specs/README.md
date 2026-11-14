@@ -7,14 +7,14 @@ The prototype specification lives here (decision [0043](../decisions/0043-specif
 |---|---|---|
 | `screens/NN-<screen>.feature` | One feature per screen in doc 03 §5, numbered in that order (for example `05-real-costs.feature`); 14 screens, with Check an area (decision 0046) appended as `14-check-an-area.feature` so earlier numbers and IDs never move | #68 |
 | `pilot/<feature>.feature` | The pilot's specifications (stage 5b, decisions 0051 and 0052), for example `area-chat.feature`; checked by the pilot gate | #223 and later pilot specifications |
-| `pilot/area-glance.feature`, `area-priorities.feature`, `area-topics.feature`, `area-display.feature` | The first design batch of the area result: At a glance (GLANCE), priorities (PRIO), the topic sheet and panel (TOPIC) and display settings, theme and text size (DISP); its error and edge states are AREA-28 to AREA-34 in `screens/14-check-an-area.feature` | The first design batch's specifications |
+| `pilot/area-glance.feature`, `area-priorities.feature`, `area-topics.feature`, `area-display.feature` | The first design batch of the area result: At a glance (GLANCE), priorities (PRIO), the topic sheet and panel (TOPIC) and display settings, theme and text size (DISP); its error and edge states are AREA-28 to AREA-36 in `screens/14-check-an-area.feature` | The first design batch's specifications |
 | `stories/buyer.feature`, `stories/renter.feature` | The step-by-step story scripts | #69, #70 |
 | `mcp-tools.feature` | The MCP tool surface for AI assistants | #117 |
 
 The design skills' working notes in `.design/<feature>/` (decision 0031) feed these files. If they disagree, this folder wins.
 
 ## Rules
-1. **Every acceptance criterion is a Gherkin `Scenario:`** whose name starts with a permanent ID, for example `Scenario: COSTS-02 missing insurance is not zero`. Keep each scenario to one observable outcome.
+1. **Every acceptance criterion is a Gherkin `Scenario:`** whose name starts with a permanent ID, for example `Scenario: COSTS-02 missing insurance is not zero`. Keep each scenario to one observable outcome. For an error state, the cause, the reassurance and the one action (register line B22) count as one outcome.
 2. **IDs:** a code for the screen or area plus a number, for example `COSTS-02`, `BUY-3.2` (buyer story, step 3, scenario 2) or `MCP-01`.
    - An ID is never reused or renumbered.
    - A scenario that is no longer needed stays in the file, tagged `@withdrawn`.

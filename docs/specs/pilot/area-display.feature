@@ -11,8 +11,8 @@ Feature: Display settings (theme and text size on the area check)
   Required states (design docs/superpowers/specs/2026-11-14-first-design-batch-design.md, "Theme and text size";
     AGENTS.md rule 7):
     the Display button, its two choices and their options -> DISP-01
-    the largest text size, one column and no sideways scroll -> DISP-02
-    nothing remembered between visits until the PECR check -> DISP-03
+    the largest text size, one column and no sideways scroll -> DISP-02, DISP-04
+    nothing remembered between visits until the PECR check -> DISP-03, DISP-05
 
   @ui
   Scenario: DISP-01 the Display button opens theme and text size
@@ -24,10 +24,22 @@ Feature: Display settings (theme and text size on the area check)
   Scenario: DISP-02 at Larger the result reflows to one column with no sideways scroll
     Given the user has checked a complete postcode
     When the user chooses the text size "Larger"
-    Then the result reflows to one column and the page has no sideways scroll
+    Then the result reflows to one column
 
   @ui
   Scenario: DISP-03 the choices are not remembered between visits
     Given the user has chosen a theme and a text size
     When the user leaves the page and returns on a later visit
-    Then the page opens with Device theme and Standard text size, and nothing about the choices has been stored in the browser
+    Then the page opens with Device theme and Standard text size
+
+  @ui
+  Scenario: DISP-04 at Larger the page has no sideways scroll
+    Given the user has checked a complete postcode
+    When the user chooses the text size "Larger"
+    Then the page has no sideways scroll
+
+  @ui
+  Scenario: DISP-05 the display choices are stored nowhere
+    Given the user has chosen a theme and a text size
+    When the user leaves the page and returns on a later visit
+    Then nothing about the choices has been stored in the browser (no cookie, local storage or session storage)

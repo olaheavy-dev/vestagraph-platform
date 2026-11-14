@@ -45,8 +45,8 @@ Feature: Check an area
     the area check's request limit reached -> AREA-29
     offline -> AREA-30
     every source unavailable, the rows stay, one line to About the data -> AREA-31, AREA-34
-    a search that crosses the border, places across it may be missing (B9) -> AREA-32
-    a sparse area, the map opens on its places with the search distance as the outer ring (FE-42) -> AREA-33
+    a search that crosses the border, places across it may be missing (B9) -> AREA-32, AREA-35
+    a sparse area, the map opens on its places, the outer ring labelled with the search distance (FE-42) -> AREA-33, AREA-36
     (each of these states gives its cause, a line of reassurance and one action, B22)
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
@@ -256,10 +256,10 @@ Feature: Check an area
     Then the page says the postcode lookup service isn't responding and that nothing is wrong with the postcode, offers "Try again", and does not say "We couldn't find that postcode"
 
   @ui
-  Scenario: AREA-29 when the area check's request limit is reached the page says to try again later
+  Scenario: AREA-29 when the area check's request limit is reached the page says to try again
     Given the user is on Check an area
     When the user checks a postcode after the area check's request limit for them has been reached
-    Then the page says too many checks have been made, that the postcode and anything already shown are unaffected, and offers one action, "Try again later", with no topic shown as empty
+    Then the page says too many checks have been made, that the postcode and anything already shown are unaffected, and offers one action, "Try again", with no topic shown as empty
 
   @ui
   Scenario: AREA-30 offline shows that the connection is down and keeps what is already on the page
@@ -280,16 +280,29 @@ Feature: Check an area
     When the user checks a complete postcode and we hold no current copy of any source
     Then one line above the rows points to About the data, as the single action, and no "Try again" is offered, because asking again cannot change our stored copies
 
-  # fixture: packages/fixtures/data/postcode-area.json (a postcode near a border; the test sets the border flag)
+  # fixture still to add: no postcode in `postcode-area.json` crosses a border yet, and there is no data step for it; until a border fixture exists the scenario is @ui only (B9, `docs/reviews/2026-11-14-pilot-design-review.md`).
   @ui
   Scenario: AREA-32 a search that crosses the border says places across it may be missing
     Given the user is on Check an area
     When the user checks a postcode whose search area crosses into another nation
-    Then the result says that places across the border may be missing from this search (B9), and no topic reads as a clean result because of it
+    Then a notice says the search reaches into another nation, that places beyond the border may be missing from this search (B9), that the places shown are still ours to show, and points to the official link to look further
+
+  @ui
+  Scenario: AREA-35 a search that crosses the border leaves no topic reading as a clean result
+    Given the user is on Check an area
+    When the user checks a postcode whose search area crosses into another nation
+    Then no topic reads as a clean result because of the border, and a topic with nothing found does not read as none exist
 
   # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
   @ui
-  Scenario: AREA-33 a sparse area opens the map on its places with the search distance as the outer ring
+  Scenario: AREA-33 a sparse area opens the map zoomed to its places
     Given the user has checked the sample postcode "NB7 1RR"
     When the user opens the map view
-    Then the map opens zoomed to the places the data holds for that postcode, and the outer ring shows the search distance quoted from `area-result.json` in the display unit, miles (FE-42)
+    Then the map opens zoomed to the places the data holds for that postcode
+
+  # The distance is not in `area-result.json`: it is the search limit `SEARCH_LIMIT_METRES` in `packages/vestagraph-area/src/vestagraph_area/priorities.py`, shown in the display unit, miles, by `vestagraph_area.distance.display_distance` (FE-42).
+  @ui
+  Scenario: AREA-36 the outer ring is labelled with the search distance
+    Given the user has checked the sample postcode "NB7 1RR"
+    When the user opens the map view
+    Then the outer ring is labelled with the search distance, quoted from the source named above and never typed here
