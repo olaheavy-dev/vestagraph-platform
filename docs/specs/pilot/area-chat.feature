@@ -37,7 +37,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     AI label and disclaimer shown -> CHAT-04
     closing leaves the area result unchanged -> CHAT-05
     narrow and mobile layouts -> CHAT-06; desktop side panel -> CHAT-38
-    every claim with its source, date and label -> CHAT-07
+    every claim with its source (the visible citation is the icon, name and link; the tool result keeps date and label, FE-33) -> CHAT-07
     not known, never a guess -> CHAT-08
     a failed source is Unavailable, never none or zero -> CHAT-09
     suggested questions from the gaps -> CHAT-10
@@ -54,6 +54,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     error messages never repeat what the visitor typed -> CHAT-36
     loading, keyboard and screen reader -> CHAT-28, CHAT-29, CHAT-30
     the isometric area card -> CHAT-31, CHAT-32, CHAT-33 (the card itself, in both its versions, is in area-card.feature)
+    "Ask more about this" from a topic's "Explain this" opens the chat on that topic -> CHAT-52
 
   # Home "WALES-1" stands in for a postcode outside England until the postcode-level fixture (#216).
   Scenario: CHAT-01 a postcode outside England is not yet covered, so there is nothing to ask about
