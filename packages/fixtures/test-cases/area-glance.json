@@ -1,0 +1,460 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "nb1-4xy-full",
+      "description": "NB1 4XY, the full sample postcode: every counted topic has something recorded.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per record",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataPostcode": "NB1 4XY",
+        "note": "Registry from pilot-topics.json, records from postcode-area.json (synthetic)."
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Counted topics, in registry order (family-view and the five route-only topics are counted: false and ignored): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
+          "value": 15
+        },
+        {
+          "n": 2,
+          "description": "getting-around: transport-stop 1 to 3 and bus-departures 1 to 4 are all recorded, so found."
+        },
+        {
+          "n": 3,
+          "description": "everyday-places: amenity 1 to 5 recorded (supermarket, park, pharmacy, gp-surgery, police-station), amenity 6 (childcare) is no-record-in-source. Found; the childcare record gets a question."
+        },
+        {
+          "n": 4,
+          "description": "places-of-worship: amenity 7, 8, 9 recorded, found."
+        },
+        {
+          "n": 5,
+          "description": "schools: school 1 and 2 recorded, school-inspection 1 stale and 2 recorded, school-demand 1 and 2 recorded, found."
+        },
+        {
+          "n": 6,
+          "description": "flood: FLOOD-1 is no-record-in-source and FLOOD-RISK-POSTCODE-1 is recorded, found; FLOOD-1 gets a question."
+        },
+        {
+          "n": 7,
+          "description": "The other ten counted topics each have recorded records only, found (planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space)."
+        },
+        {
+          "n": 8,
+          "description": "found 15, not known 0, coverage 15 of 15. Questions: only the two no-record-in-source records, in registry then file order. Check in person: all 15 topics (all found).",
+          "value": 15
+        }
+      ],
+      "expected": {
+        "found": 15,
+        "notKnown": 0,
+        "coverageFound": 15,
+        "coverageTotal": 15,
+        "outcomes": {
+          "getting-around": "found",
+          "everyday-places": "found",
+          "places-of-worship": "found",
+          "schools": "found",
+          "planning-nearby": "found",
+          "flood": "found",
+          "crime": "found",
+          "sold-nearby": "found",
+          "broadband": "found",
+          "air-quality": "found",
+          "council-tax-by-band": "found",
+          "housing-affordability": "found",
+          "deprivation": "found",
+          "transport-connectivity": "found",
+          "green-space": "found"
+        },
+        "questions": [
+          {
+            "topicKey": "everyday-places",
+            "recordId": "NB1-4XY-AREA-AMENITY-6",
+            "text": "Can you confirm the opening hours and whether No childcare found nearby in this source is taking new customers or patients?"
+          },
+          {
+            "topicKey": "flood",
+            "recordId": "NB1-4XY-AREA-FLOOD-1",
+            "text": "Has the home or the street at No current rivers and sea flood warning in this source ever flooded, and is there any insurance or flood history to see?"
+          }
+        ],
+        "checkInPersonTopics": [
+          "getting-around",
+          "everyday-places",
+          "places-of-worship",
+          "schools",
+          "planning-nearby",
+          "flood",
+          "crime",
+          "sold-nearby",
+          "broadband",
+          "air-quality",
+          "council-tax-by-band",
+          "housing-affordability",
+          "deprivation",
+          "transport-connectivity",
+          "green-space"
+        ]
+      }
+    },
+    {
+      "id": "nb7-1rr-sparse",
+      "description": "NB7 1RR, the sparse test postcode: gaps of every kind.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per record",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataPostcode": "NB7 1RR",
+        "note": "Registry from pilot-topics.json, records from postcode-area.json (synthetic)."
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Same 15 counted topics as NB1 4XY.",
+          "value": 15
+        },
+        {
+          "n": 2,
+          "description": "getting-around: transport-stop 1 recorded, bus-departures 1 no-record-in-source. Found (any recorded), question for the bus-departures record."
+        },
+        {
+          "n": 3,
+          "description": "everyday-places: amenity 2 (supermarket) no-record-in-source. Found, with a question. places-of-worship: amenity 1 recorded, found."
+        },
+        {
+          "n": 4,
+          "description": "schools: school 1 recorded, school-demand 1 not-covered. Found, with a question for the not-covered record."
+        },
+        {
+          "n": 5,
+          "description": "flood: FLOOD-1 and FLOOD-RISK-POSTCODE-1 are both source-failed: not known, two questions."
+        },
+        {
+          "n": 6,
+          "description": "transport-connectivity: its only record is source-failed: not known, one question."
+        },
+        {
+          "n": 7,
+          "description": "green-space: its only record is not-covered: not covered, left out of found, not known and the total; still one question."
+        },
+        {
+          "n": 8,
+          "description": "sold-nearby, air-quality and housing-affordability each hold one no-record-in-source record: found, one question each. planning-nearby, crime, broadband, council-tax-by-band, deprivation and places-of-worship are recorded: found."
+        },
+        {
+          "n": 9,
+          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12. Not known = 2 (flood, transport-connectivity). Coverage total 12 + 2 = 14. Questions 10 (records that are not recorded). Check in person: the 14 found or not-known topics.",
+          "value": 14
+        }
+      ],
+      "expected": {
+        "found": 12,
+        "notKnown": 2,
+        "coverageFound": 12,
+        "coverageTotal": 14,
+        "outcomes": {
+          "getting-around": "found",
+          "everyday-places": "found",
+          "places-of-worship": "found",
+          "schools": "found",
+          "planning-nearby": "found",
+          "flood": "not-known",
+          "crime": "found",
+          "sold-nearby": "found",
+          "broadband": "found",
+          "air-quality": "found",
+          "council-tax-by-band": "found",
+          "housing-affordability": "found",
+          "deprivation": "found",
+          "transport-connectivity": "not-known",
+          "green-space": "not-covered"
+        },
+        "questions": [
+          {
+            "topicKey": "getting-around",
+            "recordId": "NB7-1RR-AREA-BUS-DEPARTURES-1",
+            "text": "What do I need to know about No departure times recorded for Fell Lane bus stop (synthetic) when I plan my regular journeys?"
+          },
+          {
+            "topicKey": "everyday-places",
+            "recordId": "NB7-1RR-AREA-AMENITY-2",
+            "text": "Can you confirm the opening hours and whether No supermarket within 5 km in this source (synthetic) is taking new customers or patients?"
+          },
+          {
+            "topicKey": "schools",
+            "recordId": "NB7-1RR-AREA-SCHOOL-DEMAND-1",
+            "text": "Can you tell me about the admissions process and the catchment or priority rules for Admissions figures not covered for Fellside Primary School (synthetic)?"
+          },
+          {
+            "topicKey": "flood",
+            "recordId": "NB7-1RR-AREA-FLOOD-1",
+            "text": "Has the home or the street at Flood warning lookup failed; not known right now ever flooded, and is there any insurance or flood history to see?"
+          },
+          {
+            "topicKey": "flood",
+            "recordId": "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
+            "text": "Has the home or the street at Flood-risk postcode lookup failed; not known right now ever flooded, and is there any insurance or flood history to see?"
+          },
+          {
+            "topicKey": "sold-nearby",
+            "recordId": "NB7-1RR-AREA-SOLD-PRICE-1",
+            "text": "Can you tell me anything about the condition or work done to the home sold at No sold prices nearby in this source (synthetic)?"
+          },
+          {
+            "topicKey": "air-quality",
+            "recordId": "NB7-1RR-AREA-AIR-QUALITY-1",
+            "text": "What is the air like around No air quality figure for this area in this source (synthetic) on busy days and at busy times of day?"
+          },
+          {
+            "topicKey": "housing-affordability",
+            "recordId": "NB7-1RR-AREA-AFFORDABILITY-1",
+            "text": "Can you tell me how the price of No affordability ratio for this area in this source (synthetic) compares with similar homes you have sold recently?"
+          },
+          {
+            "topicKey": "transport-connectivity",
+            "recordId": "NB7-1RR-AREA-TRANSPORT-CONNECTIVITY-1",
+            "text": "How do people living near Transport connectivity lookup failed; not known right now usually travel for work and school?"
+          },
+          {
+            "topicKey": "green-space",
+            "recordId": "NB7-1RR-AREA-GREEN-SPACE-1",
+            "text": "Can the public use Accessible Greenspace Standard not covered for this area (synthetic) freely, and what is it like to be in?"
+          }
+        ],
+        "checkInPersonTopics": [
+          "getting-around",
+          "everyday-places",
+          "places-of-worship",
+          "schools",
+          "planning-nearby",
+          "flood",
+          "crime",
+          "sold-nearby",
+          "broadband",
+          "air-quality",
+          "council-tax-by-band",
+          "housing-affordability",
+          "deprivation",
+          "transport-connectivity"
+        ]
+      }
+    },
+    {
+      "id": "synthetic-all-not-covered",
+      "description": "One counted topic whose only record is not-covered: left out of every count.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per record",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "topics": [
+          {
+            "key": "alpha",
+            "name": "Alpha",
+            "counted": true,
+            "recordTopics": [
+              "thing"
+            ],
+            "questionTemplate": "Ask about {label}",
+            "checkInPerson": [
+              "Visit alpha"
+            ]
+          }
+        ],
+        "records": [
+          {
+            "id": "S1-THING-1",
+            "topic": "thing",
+            "status": "not-covered",
+            "label": "Thing one"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "alpha has one record, not-covered, so the topic is not covered."
+        },
+        {
+          "n": 2,
+          "description": "Left out: found 0, not known 0, coverage 0 of 0. One question (the record is not-covered). No check-in-person list (not found, not known).",
+          "value": 0
+        }
+      ],
+      "expected": {
+        "found": 0,
+        "notKnown": 0,
+        "coverageFound": 0,
+        "coverageTotal": 0,
+        "outcomes": {
+          "alpha": "not-covered"
+        },
+        "questions": [
+          {
+            "topicKey": "alpha",
+            "recordId": "S1-THING-1",
+            "text": "Ask about Thing one"
+          }
+        ],
+        "checkInPersonTopics": []
+      }
+    },
+    {
+      "id": "synthetic-mixed-statuses",
+      "description": "Recorded with source-failed, not-covered with source-failed, and one record shared by two topics.",
+      "rule": {
+        "source": "FE-38, FE-39 and FE-41 (docs/product), as written in the Task 3 plan: counted topics only; found = recorded, stale or no-record-in-source; not known = records all source-failed (or mixed with not-covered); not covered = left out; one question per record",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "topics": [
+          {
+            "key": "alpha",
+            "name": "Alpha",
+            "counted": true,
+            "recordTopics": [
+              "a"
+            ],
+            "questionTemplate": "Ask about {label}",
+            "checkInPerson": [
+              "Visit alpha"
+            ]
+          },
+          {
+            "key": "beta",
+            "name": "Beta",
+            "counted": true,
+            "recordTopics": [
+              "b"
+            ],
+            "questionTemplate": "Ask about {label}",
+            "checkInPerson": [
+              "Visit beta"
+            ]
+          },
+          {
+            "key": "gamma",
+            "name": "Gamma",
+            "counted": true,
+            "recordTopics": [
+              "shared"
+            ],
+            "questionTemplate": "Ask about {label}",
+            "checkInPerson": [
+              "Visit gamma"
+            ]
+          },
+          {
+            "key": "delta",
+            "name": "Delta",
+            "counted": true,
+            "recordTopics": [
+              "shared"
+            ],
+            "questionTemplate": "Ask about {label}",
+            "checkInPerson": [
+              "Visit delta"
+            ]
+          }
+        ],
+        "records": [
+          {
+            "id": "S2-A-1",
+            "topic": "a",
+            "status": "recorded",
+            "label": "A one"
+          },
+          {
+            "id": "S2-A-2",
+            "topic": "a",
+            "status": "source-failed",
+            "label": "A two"
+          },
+          {
+            "id": "S2-B-1",
+            "topic": "b",
+            "status": "not-covered",
+            "label": "B one"
+          },
+          {
+            "id": "S2-B-2",
+            "topic": "b",
+            "status": "source-failed",
+            "label": "B two"
+          },
+          {
+            "id": "S2-SHARED-1",
+            "topic": "shared",
+            "status": "no-record-in-source",
+            "label": "Shared one"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "alpha: recorded + source-failed. Something is found, so found. The source-failed record gets a question."
+        },
+        {
+          "n": 2,
+          "description": "beta: not-covered + source-failed. Nothing found and not all not-covered, so not known. Two questions (both records are gaps)."
+        },
+        {
+          "n": 3,
+          "description": "gamma and delta both read the record S2-SHARED-1 (no-record-in-source): both found. The record is asked about once, under gamma (first in registry order)."
+        },
+        {
+          "n": 4,
+          "description": "found 3 (alpha, gamma, delta), not known 1 (beta), coverage 3 of 4. Questions 4: S2-A-2, S2-B-1, S2-B-2, S2-SHARED-1. Check in person: all four topics.",
+          "value": 4
+        }
+      ],
+      "expected": {
+        "found": 3,
+        "notKnown": 1,
+        "coverageFound": 3,
+        "coverageTotal": 4,
+        "outcomes": {
+          "alpha": "found",
+          "beta": "not-known",
+          "gamma": "found",
+          "delta": "found"
+        },
+        "questions": [
+          {
+            "topicKey": "alpha",
+            "recordId": "S2-A-2",
+            "text": "Ask about A two"
+          },
+          {
+            "topicKey": "beta",
+            "recordId": "S2-B-1",
+            "text": "Ask about B one"
+          },
+          {
+            "topicKey": "beta",
+            "recordId": "S2-B-2",
+            "text": "Ask about B two"
+          },
+          {
+            "topicKey": "gamma",
+            "recordId": "S2-SHARED-1",
+            "text": "Ask about Shared one"
+          }
+        ],
+        "checkInPersonTopics": [
+          "alpha",
+          "beta",
+          "gamma",
+          "delta"
+        ]
+      }
+    }
+  ]
+}
