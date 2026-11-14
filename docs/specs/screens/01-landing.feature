@@ -2,8 +2,8 @@
 Feature: Landing
   Question it answers: "What can this help me do?"
   Modes: both (and anyone, with no account; decision 0046)
-  Fixtures: the postcode-level sample area data for the hero is not in the fixtures yet
-    (fixture needed: #216); inputs: none yet; figures: none.
+  Fixtures: the postcode-level sample area data for the hero, `packages/fixtures/data/postcode-area.json`
+    (postcode NB1 4XY); inputs: its recorded distances; figures: none.
   Route: / (the landing is the area check: the postcode box is the main action; decision 0046).
   Sections, in order, from the information architecture's "Landing": the promise with the postcode
     box; the hero map; Data from (the source wall); How it works; How to read a result (a showcase card, FE-36); Coming next, with a free account; Questions; the footer
@@ -50,7 +50,7 @@ Feature: Landing
     When the user opens the landing page
     Then the cost estimate, compare, and tracking questions and answers per home appear only in a "Coming next" panel labelled "not available yet", with no active control
 
-  # fixture needed: #216 (the hero's nearest places, distances and "+N more nearby" count)
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY, the hero's nearest places)
   @ui
   Scenario: LAND-06 the hero's places come from the sample data
     Given the user is not signed in

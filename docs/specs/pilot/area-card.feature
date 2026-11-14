@@ -2,8 +2,8 @@
 Feature: Area card (the isometric scene of the nearest places, in our chat and in ChatGPT and Claude)
   Question it answers: "Where are the nearest places, at a glance?"
   Modes: both (and anyone, with no account; decisions 0046 and 0051)
-  Fixtures: the postcode-level sample area data is not in the fixtures yet (fixture needed: #216);
-    figures: none (distances and positions come from the area tools' tested geometry module).
+  Fixtures: the postcode-level sample area data, `packages/fixtures/data/postcode-area.json` (NB1 4XY normal,
+    NB7 1RR sparse); figures: none (distances and positions come from the area tools' tested geometry module).
   What it is: the nearest places from the nearby places tool's result (area-tools.feature), drawn as a
     small isometric scene in the approved style (FE-10), with the postcode centre in the middle. It comes
     after the plain answers work in every host (decision 0037).
@@ -62,21 +62,21 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     in the phone chat, a preview with Open map instead of a squeezed map -> CARD-36 to CARD-42
     at most 10 places, up to 5 km, the map fitted to them, also in a sparse area -> CARD-43, CARD-44
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-01 every place sits at its listed distance, or is named off the map
     Given a nearby places result for a sample postcode
     When the card is drawn
     Then every place is drawn at its listed straight-line distance within 2% and in its listed bearing, in list order, or is named "off the map"
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-02 both versions draw the same places in the same positions
     Given the same nearby places result for a sample postcode
     When our chat card and the widget are both drawn from it
     Then each place is in the same position on both, with the same name and distance
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   # Changed 14 Nov 2026 (FE-33, DA-12): the source shows as icon, name and link, with no date.
   Scenario: CARD-03 tapping a pin shows its name, distance and source
@@ -84,28 +84,28 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When the user taps a pin
     Then the pin's place name, straight-line distance and source (its icon and name, linking to the official page) are shown beside it, with no date or status word
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-04 the pins work with the keyboard alone
     Given the card is drawn for a sample postcode
     When the user moves to a pin with Tab and presses Enter or Space, then presses Escape
     Then Enter or Space shows the same details as a tap, and Escape hides them and keeps focus on the pin
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-05 each pin is a named button for screen readers
     Given the card is drawn for a sample postcode
     When a screen reader moves through the card
     Then each pin is announced as a button named with its place and distance
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-06 the text answer lists the same places in the same order
     Given the card is drawn for a sample postcode
     When the answer is shown
     Then the text (our answer beside the card in our chat; the tool result's text content for the widget) lists every place on the card, in the same order, with its distance and source
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   # Changed 14 Nov 2026 (FE-33, DA-12): the card names its sources by icon and name with a link; dates are on About the data.
   Scenario: CARD-07 the card shows its sources
@@ -113,42 +113,42 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When the card is shown
     Then it names each source it draws from by icon and name, each linking to the official page, with no data date or status word
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-08 the card has no flood or crime shading
     Given the card is drawn for a sample postcode
     When the card is shown
     Then no area of the card is shaded, coloured or marked for flood, crime or any other risk
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-09 building heights are labelled approximate
     Given the card is drawn for a sample postcode
     When the card is shown
     Then the card says building heights are "approximate"
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-10 the centre pin is the postcode centre, never an address
     Given the card is drawn for a sample postcode
     When the card is shown
     Then the centre pin is labelled "Postcode centre", and no address pin is shown
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-11 the card makes no network request
     Given the card is drawn for a sample postcode
     When the card loads, the user taps every pin, opens Expand and chooses every row
     Then the card has made no network request of any kind from the moment it loads, and the widget declares no allowed outside origin in its content security policy
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-12 the card stores nothing
     Given the card has been drawn, its pins tapped, and Expand opened and closed
     When the card is closed
     Then nothing from the card is in local storage, session storage, IndexedDB or cookies
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @mcp
   Scenario: CARD-13 a host without widgets still gets every place as text
     Given a host that does not show widgets
@@ -161,7 +161,7 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When the answer is shown
     Then no card is drawn, and the text says "No places found within" and the 5 km cap in the country's display unit (FE-27; TOOLS-06), never an empty card
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-15 the card does not move when reduced motion is set
     Given the user's device asks for reduced motion
@@ -192,14 +192,14 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When its contents are inspected
     Then it holds no key, token, secret or internal URL
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-20 a card does not change silently between versions
     Given a saved screenshot of the card for a fixed sample result
     When the card is drawn again from the same result after a change to the code
     Then it matches the saved screenshot, or the difference is reviewed and the screenshot updated in the same pull request
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-21 Expand opens a larger view of the same places
     Given the compact card is drawn for a sample postcode, in our chat or in a host that grants full screen
@@ -220,7 +220,7 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When the user reaches "Expand" with Tab, opens it with Enter, then presses Escape
     Then the view opens with focus inside it, Escape closes it, and focus returns to the "Expand" button
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   # Changed 14 Nov 2026 (FE-33, DA-12): the source shows as icon, name and link, with no date.
   Scenario: CARD-24 choosing a row in the expanded list selects its pin
@@ -258,56 +258,56 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When the card is shown
     Then no Expand button is shown, and the compact card keeps every place, its list and its details
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-30 every place name has its category icon beside it, matching its pin
     Given the card is drawn for a sample postcode
     When the list and the expanded view are shown
     Then each place in the list, and the selected place, shows its category icon beside its name, the same icon and colour as its pin on the map
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-31 on a phone the expanded map opens closer, centred on the postcode
     Given the preview is shown in our chat for a sample postcode on a 390 px wide screen
     When the user chooses "Open map"
     Then the map opens full screen with the place pins, at a larger scale than the desktop compact card, with the postcode centre in the middle of the visible part
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-32 on a phone the expanded map moves by dragging
     Given the expanded map is open on a 390 px wide screen
     When the user drags the map
     Then the visible part moves with the drag, and the list below still shows every place
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-33 the zoom buttons change the scale and keep every place at its distance
     Given the expanded map is open on a 390 px wide screen
     When the user chooses "Zoom in" and then "Zoom out"
     Then the scale changes each time, and every place stays at its listed distance and bearing within 2%
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-34 choosing a place, or tabbing to its pin, moves the map to show it
     Given the expanded map is open on a 390 px wide screen and one place is outside the visible part
     When the user chooses that place in the list, or moves to its pin with Tab
     Then the map moves so that pin is fully visible and not covered, with no dragging needed
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-35 a place scrolled out of view is not off the map
     Given the expanded map is open on a 390 px wide screen and one place is outside the visible part
     When the map is shown
     Then that place is not labelled "off the map", and it is reachable by dragging, by its list row or by Tab
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-36 in the phone chat the card is a preview, not a squeezed map
     Given an answer about nearby places in our chat on a 390 px wide screen
     When the answer is shown
     Then the card shows a map strip with only the postcode centre, no place pins or place labels, and a full-width "Open map" button
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   # The count is the number of places the card shows, from the tool result (TOOLS-43), not a sum of figures; the distance is the
   # farthest shown place's listed distance, quoted, not calculated (AGENTS.md rule 2).
@@ -322,7 +322,7 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When the user chooses "Open map"
     Then the expanded view opens full screen (CARD-31)
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-39 the preview's nearest place is the result's nearest
     Given an answer about nearby places in our chat on a 390 px wide screen
@@ -335,28 +335,28 @@ Feature: Area card (the isometric scene of the nearest places, in our chat and i
     When the user chooses "Close"
     Then focus returns to the "Open map" button
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-41 the preview's map strip is hidden from screen readers, and Open map says what it opens
     Given the preview is shown in our chat on a 390 px wide screen
     When a screen reader moves through the preview
     Then the map strip is skipped as decorative, and the button is announced as "Open map, nearest <n> places up to <distance>, button", or "Open map, nearest place, <distance>, button" when there is one
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: CARD-42 on a phone the list of places stays in the answer
     Given the preview is shown in our chat on a 390 px wide screen
     When the answer is shown
     Then every place in the result is listed below the preview with its icon, name, type and distance
 
-  # fixture needed: #216
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-43 the card never shows more than 10 places
     Given a sample postcode with more than 10 places within 5 km
     When the card is drawn
     Then it shows the 10 nearest, and the text answer states the total number of places within 5 km that the result reports (TOOLS-42)
 
-  # fixture needed: #216 (a sparse sample postcode, with its nearest places between 1 and 5 km away)
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR, three places 1 to 5 km away)
   @ui @mcp
   Scenario: CARD-44 in a sparse area the map widens to fit the nearest places
     Given a sparse sample postcode whose nearest places are between 1 and 5 km away
