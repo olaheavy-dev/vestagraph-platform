@@ -37,7 +37,7 @@
 - Modify: `packages/specs/tests/features/data_steps_wording.feature` (WORD-03 uses every new wording), `docs/specs/README.md` (data steps list)
 
 **Interfaces:**
-- Produces these step wordings (the contract the feature files use):
+- Produces these eight step wordings (the contract the feature files use):
   - `Then area result "<postcode>" has topic "<topic key>" with outcome "<found | not-known | not-covered>"`
   - `Then area result "<postcode>" leaves topic "<topic key>" out of the coverage total`
   - `Then area result "<postcode>" asks the gap question for record "<record ID>"`
@@ -45,9 +45,10 @@
   - `Then area result "<postcode>" has priority "<priority ID>" with nearest record "<record ID>"`
   - `Then area result "<postcode>" has a display distance for record "<record ID>"`
   - `Then area result "<postcode>" counts buses for stop "<record ID>" on route "<route>" at hour <8 | 12>`
+  - `Then postcode record "<record ID>" has status "<recorded | no-record-in-source | stale | source-failed | not-covered>"` (a record in `packages/fixtures/data/postcode-area.json`; the existing `area record` step reads `area.json`)
 - Each step fails with a message naming the postcode and ID when the item is missing; an unknown postcode fails naming it.
 
-- [ ] **Step 1: Write failing tests**, one per wording, each with a passing case and a failing case naming the ID, for example `test_then_area_result_priority_outcome_wrong_outcome_fails_naming_the_id` (NB1 4XY, `SAMPLE-PRIORITY-CHILDCARE`, "misses" must fail; "not-known" passes) and `test_then_area_result_topic_left_out_of_coverage_counted_topic_fails` (NB1 4XY, "schools" must fail; "noise" passes).
+- [ ] **Step 1: Write failing tests**, one per wording (eight), each with a passing case and a failing case naming the ID, for example `test_then_area_result_priority_outcome_wrong_outcome_fails_naming_the_id` (NB1 4XY, `SAMPLE-PRIORITY-CHILDCARE`, "misses" must fail; "not-known" passes) and `test_then_area_result_topic_left_out_of_coverage_counted_topic_fails` (NB1 4XY, "schools" must fail; "noise" passes).
 - [ ] **Step 2: Run** `uv run --locked pytest packages/specs/tests/test_specs_data_steps.py -v`. Expected: FAIL (steps not defined).
 - [ ] **Step 3: Implement** the seven steps on `DataSteps`, reading `area-result.json` once through `specs_support`; a topic is left out of the coverage total when it is absent from the postcode's `topics` list (registry `counted` is false, `packages/fixtures/data/pilot-topics.json`) or its outcome is "not-covered".
 - [ ] **Step 4: Run** the same command, then `make check`. Expected: PASS, including WORD-03.
@@ -102,7 +103,7 @@
   - TOPIC-02 `@ui` phone: a bottom sheet with Close; Escape or Back closes it; focus returns to the row; the open topic has its own link (B14).
   - TOPIC-03 `@ui` desktop: a panel beside the list in place of the map, one at a time (FE-26); focus moves to its heading.
   - TOPIC-04 `@ui` Schools: each school with its phase, type, distance and walking time from `area-result.json`, its inspection date and framework, and its admissions figures quoted from records `NB1-4XY-AREA-SCHOOL-DEMAND-1` and `-2`; the desktop panel has its own small map.
-  - TOPIC-05 (data) `NB1-4XY-AREA-SCHOOL-INSPECTION-1` has status "stale" (the inspection date is the fact and stays shown).
+  - TOPIC-05 (data) postcode record `NB1-4XY-AREA-SCHOOL-INSPECTION-1` has status "stale" (the inspection date is the fact and stays shown).
   - TOPIC-06 `@ui` Recorded crime: counts by month and category for records `NB1-4XY-AREA-CRIME-1` and `-2`, "within 1 mile", the neighbourhood team, and never on a map (B5).
   - TOPIC-07 `@ui` Deprivation: the decile and rank quoted from `NB1-4XY-AREA-DEPRIVATION-RANK-1` in one sentence with which end is most deprived, "compared with other neighbourhoods", and that it describes the neighbourhood, not this street or home (0054, DA-17).
   - TOPIC-08 `@ui` Flood: warnings with "when we last checked, at <time>" from `NB1-4XY-AREA-FLOOD-1`, the long-term risk link, the properties-by-likelihood counts quoted from `NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1`, and no map (FE-25).
