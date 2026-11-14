@@ -16,7 +16,7 @@
       "steps": [
         {
           "n": 1,
-          "description": "Counted topics, in registry order (family-view and the five route-only topics are counted: false and ignored): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
+          "description": "Counted topics, in registry order (family-view and the four route-only topics (five uncounted topics) are counted: false and ignored): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
           "value": 15
         },
         {

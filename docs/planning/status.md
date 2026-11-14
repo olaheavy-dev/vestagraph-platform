@@ -14,6 +14,8 @@ Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 
 | Pull request | What merged |
 |---|---|
 | #254 | The repository design files synced with canvas version 138: slate ink (FE-31), soft gloss refinements (FE-29), the source stamp (FE-33), the lower-case wordmark (PD-09 note) |
+| #253 | End-of-session status |
+| #255 | The first design batch brief and plan, FE-38 to FE-41, DA-17, DA-18, FE-27 amended |
 | #252 | Pass B done, the "Satellite view" link (FE-11), the lower-case wordmark (PD-09), the signed-in workspace pattern (doc 05, anonymised), research #249 and #251, the data pipeline design as the first stage 5b backend item |
 | #250 | #216: the postcode sample area data (`packages/fixtures/data/postcode-area.json`, NB1 4XY sample, NB7 1RR sparse, NB9 9ZZ unknown), each fact's level (DA-14) and the flood check time |
 | #248 | The founder's one-by-one review of the 14 Nov decisions; AI-12 "Ask more about this" (CHAT-52, CHAT-53); one "How we got this" per page (FE-34) |
@@ -83,7 +85,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 
 ## Start of the next session
 1. **Done (14 Nov 2026, branch `docs/design-files-canvas-138`): the repository design files synced with canvas version 138** (pass B step 8). `tokens.css` takes slate ink dark mode (FE-31, with the warm hearth dot for the postcode centre), the light card edge and shadow, the cream band and solid ink headlines (FE-29, the headline gradient deleted); `DESIGN_BRIEF.md` takes the source stamp (FE-33) and the lower-case wordmark (PD-09 note).
-2. **The first design batch** (item 1 (c) below): the brief is approved (`docs/superpowers/specs/2026-11-14-first-design-batch-design.md`, design-reviewed, FE-38 to FE-41, DA-17, DA-18, FE-27 amended) and the plan is `docs/superpowers/plans/2026-11-14-first-design-batch.md`: first PR A (sample data for every pilot topic, the tested `vestagraph_area` package and `area-result.json`), then the canvas boards. **PR A is built** (Tasks 1 to 7 of the plan, each reviewed); after it merges, the founder reviews the draft question and "check in person" wording in `packages/fixtures/data/pilot-topics.json`, then the canvas boards (Tasks 9 to 13) quote `packages/fixtures/generated/area-result.json`.
+2. **The first design batch** (item 1 (c) below): the brief is approved (`docs/superpowers/specs/2026-11-14-first-design-batch-design.md`, design-reviewed, FE-38 to FE-41, DA-17, DA-18, FE-27 amended) and the plan is `docs/superpowers/plans/2026-11-14-first-design-batch.md`: first PR A (sample data for every pilot topic, the tested `vestagraph_area` package and `area-result.json`), then the canvas boards. **PR A is built** (Tasks 1 to 7 of the plan, each reviewed). It also updates AGENTS.md rule 2 to name `vestagraph_area` and `area-result.json` beside the cost engine (FE-38) and amends BE-10. For the founder's wording review: whether family view gets its own "check in person" list, and the repeated "latest council tax bill" line shared by the two council tax topics. After PR A merges, the founder reviews the draft question and "check in person" wording in `packages/fixtures/data/pilot-topics.json`, then the canvas boards (Tasks 9 to 13) quote `packages/fixtures/generated/area-result.json`.
 3. Optional checks for the founder: the Logo board's new note may sit close to its bottom edge, and the lower-case change also applied to every lockup on the logo exploration board (the founder may prefer only the chosen D1).
 
 ## Next, in order

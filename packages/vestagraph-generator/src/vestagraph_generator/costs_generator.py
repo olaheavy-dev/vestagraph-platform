@@ -70,9 +70,9 @@ def run(fixtures_directory: Path, error: TextIO) -> int:
     """Generate ``costs.json`` and ``area-result.json`` and write both to ``generated/``.
 
     Both documents are made in memory first, so nothing is written if either cannot be
-    generated. Any other
-    ``*.json`` in ``generated/`` is deleted. Returns the exit code: 0 for success, 1 when the
-    engine or the data's story links report a problem (printed to ``error`` with its code).
+    generated. Any other ``*.json`` in ``generated/`` is deleted. Returns the exit code: 0 for
+    success, 1 when the engine or the data's story links report a problem (printed to ``error``
+    with its code).
 
     Raises ``OSError`` when a data file is missing or cannot be read or written,
     ``InvalidDataError`` when a cost data file holds something the reader does not understand, and
