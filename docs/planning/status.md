@@ -82,7 +82,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 
 ## Start of the next session
 1. **Done (14 Nov 2026, branch `docs/design-files-canvas-138`): the repository design files synced with canvas version 138** (pass B step 8). `tokens.css` takes slate ink dark mode (FE-31, with the warm hearth dot for the postcode centre), the light card edge and shadow, the cream band and solid ink headlines (FE-29, the headline gradient deleted); `DESIGN_BRIEF.md` takes the source stamp (FE-33) and the lower-case wordmark (PD-09 note).
-2. **Then the first design batch** on the canvas (item 1 (c) below): write a short brief for the founder to approve before drawing.
+2. **The first design batch** (item 1 (c) below): the brief is approved (`docs/superpowers/specs/2026-11-14-first-design-batch-design.md`, design-reviewed, FE-38 to FE-41, DA-17, DA-18, FE-27 amended) and the plan is `docs/superpowers/plans/2026-11-14-first-design-batch.md`: first PR A (sample data for every pilot topic, the tested `vestagraph_area` package and `area-result.json`), then the canvas boards.
 3. Optional checks for the founder: the Logo board's new note may sit close to its bottom edge, and the lower-case change also applied to every lockup on the logo exploration board (the founder may prefer only the chosen D1).
 
 ## Next, in order
