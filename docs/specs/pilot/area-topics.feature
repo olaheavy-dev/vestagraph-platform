@@ -83,7 +83,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   Scenario: TOPIC-04 the Schools topic lists each school with its facts
     Given the result for "NB1 4XY" is open
     When the visitor opens "Schools"
-    Then each school is listed with its phase, type, distance and walking time quoted from `area-result.json`
+    Then each school is listed with its phase and type quoted from its school record in `postcode-area.json` (`NB1-4XY-AREA-SCHOOL-1` and `-2`), and its distance and walking time quoted from `area-result.json`
     And each school shows its inspection date and framework
 
   @ui

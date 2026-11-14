@@ -102,7 +102,7 @@
   - TOPIC-01 `@ui` every topic opens in the same order (B29): title and headline (the row's own line), your priority result if one is set, facts with the area each covers, the map where the topic has places, gaps, what to do next, Explain this, source stamps.
   - TOPIC-02 `@ui` phone: a bottom sheet with Close; Escape or Back closes it; focus returns to the row; the open topic has its own link (B14).
   - TOPIC-03 `@ui` desktop: a panel beside the list in place of the map, one at a time (FE-26); focus moves to its heading.
-  - TOPIC-04 `@ui` Schools: each school with its phase, type, distance and walking time from `area-result.json`, its inspection date and framework, and its admissions figures quoted from records `NB1-4XY-AREA-SCHOOL-DEMAND-1` and `-2`; the desktop panel has its own small map.
+  - TOPIC-04 `@ui` Schools: each school with its phase and type from its school record in `postcode-area.json` and its distance and walking time from `area-result.json`, its inspection date and framework, and its admissions figures quoted from records `NB1-4XY-AREA-SCHOOL-DEMAND-1` and `-2`; the desktop panel has its own small map.
   - TOPIC-05 (data) postcode record `NB1-4XY-AREA-SCHOOL-INSPECTION-1` has status "stale" (the inspection date is the fact and stays shown).
   - TOPIC-06 `@ui` Recorded crime: counts by month and category for records `NB1-4XY-AREA-CRIME-1` and `-2`, "within 1 mile", the neighbourhood team, and never on a map (B5).
   - TOPIC-07 `@ui` Deprivation: the decile and rank quoted from `NB1-4XY-AREA-DEPRIVATION-RANK-1` in one sentence with which end is most deprived, "compared with other neighbourhoods", and that it describes the neighbourhood, not this street or home (0054, DA-17).
