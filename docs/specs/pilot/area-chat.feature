@@ -37,7 +37,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     AI label and disclaimer shown -> CHAT-04
     closing leaves the area result unchanged -> CHAT-05
     narrow and mobile layouts -> CHAT-06; desktop side panel -> CHAT-38
-    every claim with its source, date and label -> CHAT-07
+    every claim with its source (the visible citation is the icon, name and link; the tool result keeps date and label, FE-33) -> CHAT-07
     not known, never a guess -> CHAT-08
     a failed source is Unavailable, never none or zero -> CHAT-09
     suggested questions from the gaps -> CHAT-10
@@ -54,6 +54,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     error messages never repeat what the visitor typed -> CHAT-36
     loading, keyboard and screen reader -> CHAT-28, CHAT-29, CHAT-30
     the isometric area card -> CHAT-31, CHAT-32, CHAT-33 (the card itself, in both its versions, is in area-card.feature)
+    "Ask more about this" from a topic's "Explain this" opens the chat on that topic -> CHAT-52, CHAT-53
 
   # Home "WALES-1" stands in for a postcode outside England until the postcode-level fixture (#216).
   Scenario: CHAT-01 a postcode outside England is not yet covered, so there is nothing to ask about
@@ -166,6 +167,22 @@ Feature: Ask about this area (the pilot's area chat panel)
     Given the user has opened "Ask about this area"
     When the stand-in reply says "Not a safety rating" (the tools' own wording) or names a place such as "Safestore", and makes no claim about the area
     Then the output guard lets that reply through
+
+  # Added 14 Nov 2026 (AI-12 amended): "Explain this" stays pre-written and links to the chat for more.
+  @ui
+  Scenario: CHAT-52 "Ask more about this" opens the chat focused on that topic
+    Given the user has opened a topic's "Explain this" on Check an area
+    When the user chooses "Ask more about this"
+    Then "Ask about this area" opens with that topic shown as its focus and a suggested question about it filled in but not sent
+    And no model call has been made, neither by the explanation nor by opening the chat
+    And when the visitor sends the question, the chat's bot check and daily cap apply as for any chat question
+
+  # Agent's defaults, 14 Nov 2026 (AI-12 amended), open to the founder.
+  @ui
+  Scenario: CHAT-53 "Ask more about this" follows the chat's state and the explanation's presence
+    Given the user is on Check an area
+    When the chat is paused for the day, or a topic's explanation reads "Explanation not yet available"
+    Then "Ask more about this" opens the chat's paused message when the chat is paused (CHAT-24), and is not shown under a topic whose explanation is not yet available
 
   # M2 (14 Nov 2026): "a number that is not in the tool results" means digits or number words that state a
   # fact. Allowed: the radius in use, counts and totals the tools return, and dates in the results. A

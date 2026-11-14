@@ -17,7 +17,7 @@ Feature: Nearby
     stale information: the row shows no label or source date, About the data does (FE-33); a fact's own date, such as an inspection date, stays -> NEAR-03, NEAR-09
     missing never shown as zero or a favourable value -> NEAR-02, NEAR-05, NEAR-08
     narrow and mobile layouts with a list alternative to the map -> NEAR-11
-    a topic's limits inside "How we got this", never on the row or at the top of the sheet -> NEAR-13
+    the limits inside the page's single closed "How we got this" section, never on a row, at the top of a sheet or under each topic -> NEAR-13
     basic/paid boundaries -> NEAR-16
   Free and paid (doc 02 §8): the Nearby map and list with straight-line distances are free; routed
     travel times to the household's own destinations are paid (routing is a metered third-party
@@ -58,18 +58,18 @@ Feature: Nearby
     Then the recorded crime topic shows "Not known right now", "Couldn't fetch this time · Try again" and "This doesn't mean there's nothing to report" for "R1-AREA-CRIME-2"
 
   @ui
-  # Changed 14 Nov 2026 (FE-34): the "doesn't tell you" note is no longer a visible line; it sits inside "How we got this".
+  # Changed 14 Nov 2026 (FE-34): the "doesn't tell you" note is no longer a visible line; it sits inside the page's one "How we got this" section.
   Scenario: NEAR-08 the flood gap is never a reassuring label
     Given home "B1" is at story step 1
     When the user opens Nearby
-    Then the flood topic shows the label of "B1-AREA-FLOOD-1" as recorded, with its long-term flood risk link, and no "no risk", "low risk" or "clear" label, and the recorded limit note is inside the flood topic's "How we got this"
+    Then the flood topic shows the label of "B1-AREA-FLOOD-1" as recorded, with its long-term flood risk link, and no "no risk", "low risk" or "clear" label, and the recorded limit note is inside the page's "How we got this" section, not under the flood topic
 
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): the "Old" label and the source date move to About the data; the inspection date is the fact itself and stays.
   Scenario: NEAR-09 the stale inspection shows its inspection date and no label
     Given home "B1" is at story step 1
     When the user opens the schools topic
-    Then "B1-AREA-SCHOOL-INSPECTION-1" shows "Inspected <Month Year>" with its framework only inside "How we got this" (FE-36), and its source stamp shows only the source's icon, name and link, with no "Old" label, no "Older inspection" badge (FE-35) and no source date
+    Then "B1-AREA-SCHOOL-INSPECTION-1" shows "Inspected <Month Year>" with its framework only inside the page's "How we got this" section (FE-36), and its source stamp shows only the source's icon, name and link, with no "Old" label, no "Older inspection" badge (FE-35) and no source date
 
   @ui
   Scenario: NEAR-10 Wales shows one not yet covered card
@@ -92,13 +92,14 @@ Feature: Nearby
 
   @ui
   # Changed 14 Nov 2026 (FE-34, replacing FE-28): the founder removed every visible limit line. The limits
-  # live inside each topic's "How we got this" (FE-24), closed by default, and on About the data.
+  # live inside the page's one "How we got this" section (FE-24), closed by default, and on About the data.
+  # Changed again 14 Nov 2026 (FE-34, one per page): topics no longer carry their own "How we got this".
   # Earlier change (M3, FE-28): the full note on every row made the list long again.
-  Scenario: NEAR-13 what a topic doesn't tell you sits inside "How we got this"
+  Scenario: NEAR-13 what a topic doesn't tell you sits inside the page's one "How we got this"
     Given home "B1" is at story step 1
     And the screen is 390 pixels wide
     When the user opens Nearby and then a topic
-    Then no row and no sheet or panel top shows a limit line or a "What this doesn't tell you" note, the topic's "How we got this" section is closed by default, and opening it by keyboard shows the topic's limits
+    Then no row and no sheet or panel top shows a limit line or a "What this doesn't tell you" note, no topic carries its own "How we got this", the page has one closed "How we got this" section at the bottom of the result (closed by default), and opening it by keyboard lists every topic's method and limits
 
   @ui
   Scenario: NEAR-14 the commute row gives no verdict

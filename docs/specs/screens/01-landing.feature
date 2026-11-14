@@ -12,6 +12,7 @@ Feature: Landing
     basic/paid boundaries -> LAND-05
     narrow and mobile layouts with a list alternative to the map -> LAND-11
     invalid postcode on the landing's own box -> LAND-12
+    the "How to read a result" showcase and where "How we got this" is -> LAND-13
     A complete postcode hands over to Check an area (14-check-an-area.feature), which holds the
     loading, not found, source failed and outside England states.
   Free and paid: the area check is free and needs no account. Account features (cost estimate,
@@ -93,3 +94,10 @@ Feature: Landing
     Given the user is on the landing page
     When the user checks an incomplete postcode
     Then an inline message under the "Postcode" field explains the format, and the page does not move to Check an area
+
+  # Added 14 Nov 2026 (FE-34, FE-36): the showcase's fourth callout points to the page-level section.
+  @ui
+  Scenario: LAND-13 the "How to read a result" showcase explains where "How we got this" is
+    Given the user is not signed in
+    When the user views "How to read a result"
+    Then the sample card carries no "How we got this" row, and callout 4 reads "How we got this" with "At the bottom of every result: how each figure was worked out and what the data can't tell you."

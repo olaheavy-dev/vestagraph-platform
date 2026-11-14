@@ -34,6 +34,7 @@ Feature: Check an area
     distances in England: metres under 1 mile, miles from 1 mile, stored in metres -> AREA-24
     an address in Wales, Scotland or Northern Ireland, "not yet covered" -> AREA-01, AREA-02, AREA-08
     narrow and mobile layouts with a list alternative to the map -> covered by NEAR-11 (same topic details; a sheet on a phone, FE-20)
+    one "How we got this" at the bottom of the result, with every topic's method and limits -> AREA-27
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
 
@@ -166,12 +167,13 @@ Feature: Check an area
   # fixture needed: #216 (flood copies of a known age for AREA-21 to AREA-23)
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): no status label on the flood row (founder: "No exceptions"); About the data shows it (AREA-25).
-  # Changed again 14 Nov 2026 (DA-12): the flood row keeps its check time (founder: "keep time for the flood"); its limit sits in "How we got this" (FE-34).
+  # Changed again 14 Nov 2026 (DA-12): the flood row keeps its check time (founder: "keep time for the flood"); its limit sits in the page's one "How we got this" (FE-34).
+  # Changed 14 Nov 2026 (FE-34, one per page): "This is not a flood risk check" is in the page's "How we got this" section, not under the flood topic.
   Scenario: AREA-21 the flood row's official warnings link is its source stamp, with the check time but no label
     Given the user is on Check an area and our flood copy was refreshed within the last hour
     When the user views the flood row
     Then it shows the warnings in force "when we last checked, at <time>", its official warnings link is the Environment Agency source stamp (DA-12: no separate GOV.UK warnings link), no status word, and the word "live" and any "clear" or "safe" label are not shown
-    And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "This is not a flood risk check" sits inside the topic's "How we got this" (FE-34)
+    And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "This is not a flood risk check" sits inside the page's "How we got this" section at the bottom of the result, with no "How we got this" under the flood topic itself (FE-34)
 
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): the Old label and the check time move to About the data.
@@ -215,3 +217,12 @@ Feature: Check an area
     When the user checks a complete postcode
     Then each outbound link that carries the postcode names its site and says that site will see the postcode
     And no outbound link sends a referrer, and nothing is sent until the user clicks it
+
+  # Added 14 Nov 2026 (FE-34, one per page).
+  # fixture needed: #216
+  @ui
+  Scenario: AREA-27 the postcode result has one "How we got this" at the bottom, with every topic's method and limits
+    Given the user has checked a sample postcode in England
+    When the results are shown
+    Then no topic carries its own "How we got this", each topic ends with its source links only
+    And one closed "How we got this" sits at the bottom of the result, reachable by keyboard, listing every topic on the page with its method and limits
