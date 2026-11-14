@@ -186,3 +186,28 @@ def test_limit_in_metres_metres_unchanged() -> None:
 def test_limit_in_metres_other_unit_raises() -> None:
     with pytest.raises(ValueError, match="minutes"):
         limit_in_metres(Fraction(15), "minutes")
+
+
+def test_priority_result_family_view_primary_school_distance_meets() -> None:
+    """Worked by hand from NB1 4XY in postcode-area.json: the family view reads school records.
+
+    Limit 0.5 miles = 0.5 x 1609.344 = 804.672 m. Millbrook Primary (phase primary) is 450 m
+    away, and 450 <= 804.672, so the priority meets, nearest NB1-4XY-AREA-SCHOOL-1. Northbridge
+    Academy is secondary (1100 m) and the phase filter leaves it out.
+    """
+    family = next(t for t in REGISTRY.topics if t.key == "family-view")
+    priority = Priority(
+        id="FAMILY-PRIMARY",
+        topic_key="family-view",
+        subtype=None,
+        filter_field="phase",
+        filter_equals="primary",
+        measure="distance",
+        limit_value=Fraction("0.5"),
+        limit_unit="miles",
+    )
+    nb1 = [r for r in AREA.records if r.postcode == "NB1 4XY"]
+
+    result = priority_result(priority, records_of(family, nb1))
+
+    assert result == PriorityResult("meets", "NB1-4XY-AREA-SCHOOL-1")

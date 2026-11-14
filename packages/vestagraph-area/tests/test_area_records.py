@@ -430,3 +430,24 @@ def test_read_sample_priorities_committed_data_fits_the_registry() -> None:
     registry = read_registry(DATA / "pilot-topics.json")
 
     assert len(read_sample_priorities(DATA / "sample-priorities.json", registry)) == 6
+
+
+def test_records_of_family_view_includes_schools_and_its_amenity_subtypes() -> None:
+    registry = read_registry(DATA / "pilot-topics.json")
+    area = read_postcode_area(DATA / "postcode-area.json")
+    family = next(t for t in registry.topics if t.key == "family-view")
+    nb1 = [r for r in area.records if r.postcode == "NB1 4XY"]
+
+    found = records_of(family, nb1)
+
+    # By hand from postcode-area.json and the topic: family view reads the record topics
+    # school, amenity and school-demand. Its subtypes (childcare, park) narrow only the amenity
+    # records; school and school-demand records have no subtype and match by record topic.
+    schools = [r.id for r in nb1 if r.topic in ("school", "school-demand")]
+    amenities = [r for r in nb1 if r.topic == "amenity"]
+    assert len(schools) >= 3
+    assert {r.id for r in found if r.topic != "amenity"} == set(schools)
+    assert {r.subtype for r in found if r.topic == "amenity"} == {"childcare", "park"}
+    assert {r.id for r in found if r.topic == "amenity"} == {
+        r.id for r in amenities if r.subtype in ("childcare", "park")
+    }

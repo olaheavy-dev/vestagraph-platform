@@ -106,12 +106,15 @@ class Priority:
 
 
 def records_of(topic: Topic, records: Sequence[AreaRecord]) -> list[AreaRecord]:
-    """The records a topic reads: its record topics and, when it lists subtypes, only those."""
+    """The records a topic reads: its record topics; a topic's subtypes narrow only its
+    ``amenity`` records (the only record topic whose records carry place subtypes)."""
     return [
         r
         for r in records
         if r.topic in topic.record_topics
-        and (not topic.record_subtypes or r.subtype in topic.record_subtypes)
+        and (
+            r.topic != "amenity" or not topic.record_subtypes or r.subtype in topic.record_subtypes
+        )
     ]
 
 
