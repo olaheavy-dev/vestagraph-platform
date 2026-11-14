@@ -6,6 +6,7 @@ Files:
 - `rounding-boundaries.json`: rounding boundary cases (decision 0034).
 - `distance-display.json` (display distances, FE-27): `inputs.metres` is a decimal string; `expected.display` is the text (`under 10 m`, `1,450 m` or `1.3 miles`).
 - `area-glance.json` (and later `area-*.json`): area-result cases, see "Area cases" below.
+- `buses-per-hour.json` (buses per hour per route, DA-18): `inputs` is `{ "dataRecordId": "...", "hour": 8 }` (departures read from that `bus-departures` record in `data/postcode-area.json`) or `{ "departures": [...], "hour": 8 }`; `expected.count` is a whole number.
 - `story-calculations.json`: service-charge difference, mortgage repayments (including two boundary cases), monthly housing costs, upfront cash and the B1 budget beat.
 
 ## Case format

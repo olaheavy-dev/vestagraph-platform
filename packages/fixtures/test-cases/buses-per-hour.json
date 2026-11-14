@@ -1,0 +1,449 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "nb1-4xy-bus-1-12-mill-court-hour-08",
+      "description": "NB1 4XY route 12 at mill-court: departures from 08:00 to 08:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-1",
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 08:00-08:59 window, counted by hand from the record: 08:00, 08:15, 08:30, 08:59"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 4
+        }
+      ],
+      "expected": {
+        "count": 4
+      }
+    },
+    {
+      "id": "nb1-4xy-bus-1-12-mill-court-hour-12",
+      "description": "NB1 4XY route 12 at mill-court: departures from 12:00 to 12:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-1",
+        "hour": 12
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 12:00-12:59 window, counted by hand from the record: 12:10, 12:40, 12:59"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 3
+        }
+      ],
+      "expected": {
+        "count": 3
+      }
+    },
+    {
+      "id": "nb1-4xy-bus-2-14-mill-court-hour-08",
+      "description": "NB1 4XY route 14 at mill-court: departures from 08:00 to 08:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-2",
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 08:00-08:59 window, counted by hand from the record: 08:05, 08:35"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "nb1-4xy-bus-2-14-mill-court-hour-12",
+      "description": "NB1 4XY route 14 at mill-court: departures from 12:00 to 12:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-2",
+        "hour": 12
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 12:00-12:59 window, counted by hand from the record: 12:05, 12:35"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "nb1-4xy-bus-3-12-quay-street-hour-08",
+      "description": "NB1 4XY route 12 at quay-street: departures from 08:00 to 08:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-3",
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 08:00-08:59 window, counted by hand from the record: 08:20, 08:50"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "nb1-4xy-bus-3-12-quay-street-hour-12",
+      "description": "NB1 4XY route 12 at quay-street: departures from 12:00 to 12:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-3",
+        "hour": 12
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 12:00-12:59 window, counted by hand from the record: 12:20, 12:50"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "nb1-4xy-bus-4-31-quay-street-hour-08",
+      "description": "NB1 4XY route 31 at quay-street: departures from 08:00 to 08:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-4",
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 08:00-08:59 window, counted by hand from the record: 08:00, 08:59"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "nb1-4xy-bus-4-31-quay-street-hour-12",
+      "description": "NB1 4XY route 31 at quay-street: departures from 12:00 to 12:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "dataRecordId": "NB1-4XY-AREA-BUS-DEPARTURES-4",
+        "hour": 12
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Times in the 12:00-12:59 window, counted by hand from the record: 12:00, 12:59"
+        },
+        {
+          "n": 2,
+          "description": "Number of those times",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "empty-departures-existing-record-is-zero",
+      "description": "A departures record that exists and lists no times gives 0 (a missing record is a gap, never 0; that rule lives with the caller).",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [],
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "No times listed, so none fall in 08:00-08:59"
+        },
+        {
+          "n": 2,
+          "description": "Count",
+          "value": 0
+        }
+      ],
+      "expected": {
+        "count": 0
+      }
+    },
+    {
+      "id": "07-59-is-outside-08-hour",
+      "description": "07:59 is before 08:00.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [
+          "07:59"
+        ],
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "07 is not 08, so not counted"
+        },
+        {
+          "n": 2,
+          "description": "Count",
+          "value": 0
+        }
+      ],
+      "expected": {
+        "count": 0
+      }
+    },
+    {
+      "id": "09-00-is-outside-08-hour",
+      "description": "09:00 is after 08:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [
+          "09:00"
+        ],
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "09 is not 08, so not counted"
+        },
+        {
+          "n": 2,
+          "description": "Count",
+          "value": 0
+        }
+      ],
+      "expected": {
+        "count": 0
+      }
+    },
+    {
+      "id": "08-00-and-08-59-are-inside",
+      "description": "08:00 and 08:59 are the first and last minute of the 08 hour.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [
+          "08:00",
+          "08:59"
+        ],
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "08:00 counted"
+        },
+        {
+          "n": 2,
+          "description": "08:59 counted"
+        },
+        {
+          "n": 3,
+          "description": "Count",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "midnight-hour-zero",
+      "description": "Hour 0 counts 00:00 and 00:59 but not 01:00 or 23:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [
+          "00:00",
+          "00:59",
+          "01:00",
+          "23:59"
+        ],
+        "hour": 0
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "00:00 and 00:59 counted; 01:00 and 23:59 not"
+        },
+        {
+          "n": 2,
+          "description": "Count",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "late-hour-23",
+      "description": "Hour 23 counts 23:00 and 23:59 but not 22:59.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [
+          "22:59",
+          "23:00",
+          "23:59"
+        ],
+        "hour": 23
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "23:00 and 23:59 counted; 22:59 not"
+        },
+        {
+          "n": 2,
+          "description": "Count",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "duplicate-times-count-each",
+      "description": "Two departures listed at the same time are two buses.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [
+          "08:10",
+          "08:10"
+        ],
+        "hour": 8
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Both entries counted"
+        },
+        {
+          "n": 2,
+          "description": "Count",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    },
+    {
+      "id": "unsorted-times-still-counted",
+      "description": "Order does not matter.",
+      "rule": {
+        "source": "DA-18 as amended (founder, 14 Nov 2026): per route at a stop, count timetabled weekday departures whose HH:MM hour equals the hour asked for (08:00-08:59, 12:00-12:59); no stop totals, no averaging",
+        "url": "docs/superpowers/plans/2026-11-14-first-design-batch.md"
+      },
+      "inputs": {
+        "departures": [
+          "12:30",
+          "08:20",
+          "12:05"
+        ],
+        "hour": 12
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12:30 and 12:05 counted; 08:20 not"
+        },
+        {
+          "n": 2,
+          "description": "Count",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "count": 2
+      }
+    }
+  ]
+}
