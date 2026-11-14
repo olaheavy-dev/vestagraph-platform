@@ -281,11 +281,12 @@ Feature: Check an area
     Then one line above the rows points to About the data, as the single action, and no "Try again" is offered, because asking again cannot change our stored copies
 
   # fixture still to add: no postcode in `postcode-area.json` crosses a border yet, and there is no data step for it; until a border fixture exists the scenario is @ui only (B9, `docs/reviews/2026-11-14-pilot-design-review.md`).
+  # B9 fixes only that places beyond the border may be missing; the one action is the agent's call, open to the founder.
   @ui
   Scenario: AREA-32 a search that crosses the border says places across it may be missing
     Given the user is on Check an area
     When the user checks a postcode whose search area crosses into another nation
-    Then a notice says the search reaches into another nation, that places beyond the border may be missing from this search (B9), that the places found in England are still shown, and offers one action, which leads to the existing "Not yet covered" card for that nation (AREA-08). The wording of B9 is only that places beyond the border may be missing; the one action is the agent's call, open to the founder
+    Then a notice says the search reaches into another nation, that places beyond the border may be missing from this search (B9), that the places found in England are still shown, and offers one action, which leads to the existing "Not yet covered" card for that nation (AREA-08)
 
   @ui
   Scenario: AREA-35 a search that crosses the border leaves no topic reading as a clean result

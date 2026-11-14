@@ -53,13 +53,12 @@ Feature: Area maps (the quiet 3D map on every area map)
     Given the result for "NB7 1RR" is open
     When the map is shown
     Then it is zoomed to fit the places found
-    And not fixed to a set radius (FE-42, FE-19)
 
   @ui
   Scenario: MAP-06 the map draws three dashed rings
     Given an area map is open
     When the map is shown
-    Then dashed rings are drawn at 500 m, at 1 mile and at the search limit (FE-42)
+    Then dashed rings are drawn at 500 m, at 1 mile and at the search limit (the three ring distances FE-42 fixes; their labels come from `display_distance`)
     And the rings are drawn at the map's own scale
 
   @ui
