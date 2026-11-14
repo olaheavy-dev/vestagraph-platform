@@ -1,7 +1,9 @@
-"""Reads the fixture data, asks the cost engine for every figure and writes ``costs.json``.
+"""Reads the fixture data and writes both generated files: ``costs.json`` (every figure from the
+cost engine) and ``area-result.json`` (every figure from ``vestagraph_area``).
 
-Ported from the C# ``CostsGenerator``. Nothing in the file is typed by hand (AGENTS rule 2). The
-output depends only on the data files, never on the clock.
+Ported from the C# ``CostsGenerator``. Nothing in either file is typed by hand (AGENTS rule 2).
+Both are made in memory first, so nothing is written if either cannot be generated. The output
+depends only on the data files, never on the clock.
 """
 
 import json
@@ -67,7 +69,8 @@ _ROUNDING = (
 def run(fixtures_directory: Path, error: TextIO) -> int:
     """Generate ``costs.json`` and ``area-result.json`` and write both to ``generated/``.
 
-    Both documents are made in memory first, so nothing is written when either fails. Any other
+    Both documents are made in memory first, so nothing is written if either cannot be
+    generated. Any other
     ``*.json`` in ``generated/`` is deleted. Returns the exit code: 0 for success, 1 when the
     engine or the data's story links report a problem (printed to ``error`` with its code).
 

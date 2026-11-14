@@ -1,7 +1,8 @@
 """Command line: ``python -m vestagraph_generator [repo-root]`` (ported from the C# ``Program.cs``).
 
 Writes ``costs.json`` and ``area-result.json`` into ``packages/fixtures/generated`` from
-``packages/fixtures/data``. Both are made in memory first, so if either fails nothing is written.
+``packages/fixtures/data``. Both are made in memory first, so nothing is written if either cannot
+be generated.
 Exits 0 on success, 1 when the cost engine reports a problem (its error code is printed), and 2
 when a data file is missing or cannot be understood.
 """
