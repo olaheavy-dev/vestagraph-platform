@@ -1,6 +1,6 @@
 # Status
 
-Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 2026**.
+Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 2026, end of session**.
 
 ## Where we are
 - **Stage 3** (prototype specification) is open. The founder put the **pilot** (the public area check with AI, stage 5b) first on 13 Nov 2026: pilot specs, then a pilot-only gate, then pilot development tickets (decisions [0051](../decisions/0051-ai-in-the-public-pilot.md) and [0052](../decisions/0052-pilot-only-gate.md)); the full stage 3 gate (#71) follows before the home workspace. Stage 4's frontend foundation is decided: [0048](../decisions/0048-frontend-foundation.md), amended by [0049](../decisions/0049-back-to-python-final.md) (the frontend starts from the founder's Next.js template).
@@ -13,6 +13,7 @@ Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 
 ## Done on 14 Nov 2026
 | Pull request | What merged |
 |---|---|
+| #252 | Pass B done, the "Satellite view" link (FE-11), the lower-case wordmark (PD-09), the signed-in workspace pattern (doc 05, anonymised), research #249 and #251, the data pipeline design as the first stage 5b backend item |
 | #250 | #216: the postcode sample area data (`packages/fixtures/data/postcode-area.json`, NB1 4XY sample, NB7 1RR sparse, NB9 9ZZ unknown), each fact's level (DA-14) and the flood check time |
 | #248 | The founder's one-by-one review of the 14 Nov decisions; AI-12 "Ask more about this" (CHAT-52, CHAT-53); one "How we got this" per page (FE-34) |
 | #247 | Dark mode slate ink (FE-31) and the light refinements (FE-29) |
@@ -77,7 +78,12 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- `docs/pass-b-and-workspace-note` (this pull request): pass B done, the signed-in workspace pattern idea, the Satellite view link (FE-11), research #249 and #251, the data pipeline design as the first stage 5b backend item, the lower-case wordmark (PD-09).
+- Only this end-of-session status update (`docs/end-of-session-14-nov`). Everything else from 14 Nov 2026 is merged (#245 to #248, #250, #252).
+
+## Start of the next session
+1. **Sync the repository design files** (pass B step 8): `.design/prototype/tokens.css` and `DESIGN_BRIEF.md` take the canvas version 138 values (slate ink, the light lit edge and cream bands, the source stamp, the lower-case wordmark). Small pull request, no decisions needed.
+2. **Then the first design batch** on the canvas (item 1 (c) below): write a short brief for the founder to approve before drawing.
+3. Optional checks for the founder: the Logo board's new note may sit close to its bottom edge, and the lower-case change also applied to every lockup on the logo exploration board (the founder may prefer only the chosen D1).
 
 ## Next, in order
 **Design goal (founder, 13 Nov 2026, typed):** "our minimum now is to be way better than [the competitor]", for the pilot only: "we said we would only design what we need for the pilot at the moment" (typed); recorded as the design quality bar in doc 04, stage 5b. The whole pilot design is reviewed screen by screen, and the first step turns `docs/reviews/2026-11-13-competitor-report-comparison.md` into a competitor benchmark checklist (the private evidence: `~/Documents/Competitor research 2026-11-13/START-HERE.md`, on the founder's machine) that every canvas board and specification must pass before the founder reviews it: truthful figures (no verdicts or scores, missing never zero, the area each figure covers, "how we got this"), clearer on a phone (short topic list, detail in a sheet, no sideways scrolling, text size and theme), quicker to act on (At a glance first, then questions and checks), about the home (energy certificate by number now; real monthly cost and tracked questions later), and free public facts with no account.
@@ -122,9 +128,11 @@ Domains `vestagraph.com` and `vestagraph.co.uk` were bought on 12 Nov 2026 (regi
 |---|---|---|---|
 | Approve the two documentation MCP servers (Microsoft Learn, Context7) | Agents read current official documentation instead of memory (WW-15) | Accept them when Claude Code asks at the start of an interactive session in this project | Next session |
 | Finish the trade-mark clearance (PD-09) | Your name search was clean, and you kept the new logo (Lit doorway, D1) after its UK screen: "i think it is unique enough" (13 Nov 2026); still open: which register and classes the name search covered, EUIPO and WIPO for the name and the logo, the logo's international registrations that have no pictures on the IPO site, a light-rays picture code, and a fresh Companies House check (decision 0044) | Finish those checks (or ask an attorney about UK00004266938), then accept PD-09 | Before the public area check (stage 5b) |
+| Look at canvas version 138 | Pass B (the pilot boards redrawn for NB1 4XY), slate ink, the light refinements and the lower-case wordmark are all on the canvas | Open the canvas link above, light and dark; comment on any board | Before the first design batch |
 | Narrow the sharing of the design-canvas link | The prototype is a private reference (0045) | In claude.ai, set the canvas artifact's sharing to only the people who need it | Any time |
 | Set the pilot's budget caps (IN-05) | The pilot has running costs and an on-page AI chat (decision 0051); a monthly cap and a daily AI cap must be set before launch | Decide the two amounts in pounds when the agent asks at stage 5b | Before the pilot launches |
 | Close or keep the competitor research account | It was made for the 13 Nov research (day pass ended 14 Nov 2026); the private screenshots, three PDFs, `CATALOGUE.md` and the spec review are in the founder's private folder `~/Documents/Competitor research 2026-11-13/` (read `START-HERE.md` first; never commit its contents), not in the repository | Keep it for later checks, or use its Account page to request deletion | Any time |
+| Decide on research #249 and #251 when they report | Opening hours (NHS, OpenStreetMap) and an in-page satellite view have licences and possibly running costs | Answer the prompt window when the research note is ready | When ready |
 | Optional: decide on `types-jsonschema` | Typing information for the validator's `jsonschema` imports, so two `# type: ignore` lines can go | Say yes or no; it is dev-only, free, Apache-2.0, not on the approved list | Any time (recommended after P8, which is done) |
 
 ## Open `noticed` issues
