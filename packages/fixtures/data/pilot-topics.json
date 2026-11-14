@@ -24,7 +24,6 @@
         "transport-stop",
         "bus-departures"
       ],
-      "questionTemplate": "What do I need to know about {label} when I plan my regular journeys?",
       "gapQuestionTemplate": "How do people living here usually get around, and which stops or services do they use?",
       "checkInPerson": [
         "Walk the route to the stop or station at the times you would travel.",
@@ -53,7 +52,6 @@
         "police-station",
         "childcare"
       ],
-      "questionTemplate": "Can you confirm the opening hours and whether {label} is taking new customers or patients?",
       "gapQuestionTemplate": "Which {subject} do people living here use, and how far away is it?",
       "checkInPerson": [
         "Visit at the times you would normally shop or use services.",
@@ -73,7 +71,6 @@
       "recordSubtypes": [
         "place-of-worship"
       ],
-      "questionTemplate": "Can you tell me how to find out about services, events and access at {label}?",
       "gapQuestionTemplate": "Which {subject} do people living here use, and how do they get there?",
       "checkInPerson": [
         "Visit during a service or event time to see how busy the street gets.",
@@ -91,7 +88,6 @@
         "school-inspection",
         "school-demand"
       ],
-      "questionTemplate": "Can you tell me about the admissions process and the catchment or priority rules for {label}?",
       "gapQuestionTemplate": "Which schools do children living here usually go to, and how are places decided?",
       "checkInPerson": [
         "Visit the school during a normal day, or at an open event.",
@@ -115,7 +111,6 @@
         "park"
       ],
       "reviewStatus": "draft",
-      "questionTemplate": "What can you tell me about childcare, schools and open spaces near {label}?",
       "checkInPerson": [
         "Visit childcare and a school during opening hours.",
         "Walk the routes with a child at the time they would travel.",
@@ -131,7 +126,6 @@
       "recordTopics": [
         "planning"
       ],
-      "questionTemplate": "Can you tell me the current stage and expected timing of the planning application at {label}?",
       "gapQuestionTemplate": "Are there any planning applications or building work planned near the home?",
       "checkInPerson": [
         "Walk past the site and note any notices displayed on or near it.",
@@ -149,7 +143,6 @@
         "flood",
         "flood-risk-postcode"
       ],
-      "questionTemplate": "Has the home or the street at {label} ever flooded, and is there any insurance or flood history to see?",
       "gapQuestionTemplate": "Has the home or the street ever flooded, and is there a flood history for the property?",
       "checkInPerson": [
         "Look at where water would run: the lowest points of the street and the ground around the home.",
@@ -166,7 +159,6 @@
       "recordTopics": [
         "crime"
       ],
-      "questionTemplate": "What can you tell me about the area around {label} that the recorded counts would not show?",
       "gapQuestionTemplate": "What is the area like at different times of day, and what do people living here say about it?",
       "checkInPerson": [
         "Visit in the evening and at the weekend as well as in the daytime.",
@@ -183,7 +175,6 @@
       "recordTopics": [
         "sold-price"
       ],
-      "questionTemplate": "Can you tell me anything about the condition or work done to the home sold at {label}?",
       "gapQuestionTemplate": "Can you tell me about homes that have sold nearby recently and how they compare?",
       "checkInPerson": [
         "Compare the sold homes you can see with the home you are looking at.",
@@ -199,7 +190,6 @@
       "recordTopics": [
         "broadband"
       ],
-      "questionTemplate": "Which broadband provider and package does the home at {label} use now, and what speed does it really get?",
       "gapQuestionTemplate": "Which broadband provider and speed do people living here use, and how reliable is it?",
       "checkInPerson": [
         "Check the speed on your own device in the rooms you would work in.",
@@ -216,7 +206,6 @@
       "recordTopics": [
         "air-quality"
       ],
-      "questionTemplate": "What is the air like around {label} on busy days and at busy times of day?",
       "gapQuestionTemplate": "What is the air like around the home on busy days and at busy times of day?",
       "checkInPerson": [
         "Visit at rush hour and note traffic and smell.",
@@ -233,7 +222,6 @@
       "recordTopics": [
         "council-tax"
       ],
-      "questionTemplate": "Which council tax band is {label} in, and can I see the latest bill?",
       "gapQuestionTemplate": "Which council tax band is the home in, and can I see the latest bill?",
       "checkInPerson": [
         "Ask for the latest council tax bill for the home.",
@@ -249,7 +237,6 @@
       "recordTopics": [
         "affordability"
       ],
-      "questionTemplate": "Can you tell me how the price of {label} compares with similar homes you have sold recently?",
       "gapQuestionTemplate": "How does the price of the home compare with similar homes sold recently?",
       "checkInPerson": [
         "Compare a few listings on the same street and nearby streets.",
@@ -265,7 +252,6 @@
       "recordTopics": [
         "deprivation-rank"
       ],
-      "questionTemplate": "What should I know about the neighbourhood of {label} that these published ranks do not show?",
       "gapQuestionTemplate": "What should I know about the neighbourhood that published figures do not show?",
       "checkInPerson": [
         "Walk through the neighbourhood at different times and see how it is looked after.",
@@ -282,7 +268,6 @@
       "recordTopics": [
         "transport-connectivity"
       ],
-      "questionTemplate": "How do people living near {label} usually travel for work and school?",
       "gapQuestionTemplate": "How do people living here usually travel for work and school?",
       "checkInPerson": [
         "Try a real journey to your workplace or school at the time you would travel.",
@@ -299,7 +284,6 @@
       "recordTopics": [
         "green-space"
       ],
-      "questionTemplate": "Can the public use {label} freely, and what is it like to be in?",
       "gapQuestionTemplate": "Which green spaces can the public use near the home, and what are they like?",
       "checkInPerson": [
         "Walk to the nearest green space and see how it is kept.",
@@ -314,7 +298,6 @@
       "kind": "route-only",
       "counted": false,
       "recordTopics": [],
-      "questionTemplate": "Which council tax band is {label} in, and can I see the latest bill?",
       "checkInPerson": [
         "Ask for the latest council tax bill for the home.",
         "Check the band on the official page for the exact address."
@@ -331,7 +314,6 @@
       "kind": "route-only",
       "counted": false,
       "recordTopics": [],
-      "questionTemplate": "Which mobile networks does {label} get indoors?",
       "checkInPerson": [
         "Check signal on your own phone in each room.",
         "Ask the current occupant which network they use and what it is like in each room.",
@@ -349,7 +331,6 @@
       "kind": "route-only",
       "counted": false,
       "recordTopics": [],
-      "questionTemplate": "What is the noise like at {label} at different times of day?",
       "checkInPerson": [
         "Visit at rush hour, in the evening and at night.",
         "Listen with the windows open and closed.",
@@ -366,7 +347,6 @@
       "kind": "route-only",
       "counted": false,
       "recordTopics": [],
-      "questionTemplate": "Has the ground at {label} had any survey, mining search or subsidence history?",
       "checkInPerson": [
         "Look for cracks in walls or uneven floors.",
         "Ask whether a mining or ground search was done."

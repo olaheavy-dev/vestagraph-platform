@@ -46,7 +46,6 @@ class Topic:
     counted: bool
     record_topics: tuple[str, ...]
     record_subtypes: tuple[str, ...]
-    question_template: str
     gap_question_template: str | None
     check_in_person: tuple[str, ...]
     official_route: OfficialRoute | None
@@ -211,7 +210,6 @@ def _topic(raw: dict[str, Any]) -> Topic:
         counted=counted,
         record_topics=_strings(raw, "recordTopics", where, required=True),
         record_subtypes=_strings(raw, "recordSubtypes", where, required=False),
-        question_template=_get(raw, "questionTemplate", str, where),
         gap_question_template=gap_template,
         check_in_person=_strings(raw, "checkInPerson", where, required=True),
         official_route=route,

@@ -43,7 +43,6 @@ def _inputs(inputs: dict[str, Any]) -> tuple[Registry, PostcodeArea, str]:
             counted=t["counted"],
             record_topics=tuple(t["recordTopics"]),
             record_subtypes=(),
-            question_template="Ask about {label}",
             gap_question_template=t["gapQuestionTemplate"],
             check_in_person=tuple(t["checkInPerson"]),
             official_route=None,

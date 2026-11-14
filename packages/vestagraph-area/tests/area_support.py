@@ -29,7 +29,6 @@ def make_topic(
     counted: bool = True,
     record_topics: tuple[str, ...] = ("thing",),
     record_subtypes: tuple[str, ...] = (),
-    template: str = "Ask about {label}",
     gap_template: str | None = "Gap question about {subject}",
 ) -> Topic:
     return Topic(
@@ -39,7 +38,6 @@ def make_topic(
         counted=counted,
         record_topics=record_topics,
         record_subtypes=record_subtypes,
-        question_template=template,
         gap_question_template=gap_template,
         check_in_person=(f"Visit {key}",),
         official_route=None,

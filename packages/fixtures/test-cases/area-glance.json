@@ -269,7 +269,6 @@
             "recordTopics": [
               "thing"
             ],
-            "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit alpha"
             ],
@@ -334,7 +333,6 @@
             "recordTopics": [
               "a"
             ],
-            "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit alpha"
             ],
@@ -347,7 +345,6 @@
             "recordTopics": [
               "b"
             ],
-            "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit beta"
             ],
@@ -360,7 +357,6 @@
             "recordTopics": [
               "shared"
             ],
-            "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit gamma"
             ],
@@ -373,7 +369,6 @@
             "recordTopics": [
               "shared"
             ],
-            "questionTemplate": "Ask about {label}",
             "checkInPerson": [
               "Visit delta"
             ],
