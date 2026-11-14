@@ -13,6 +13,7 @@ Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 
 ## Done on 14 Nov 2026
 | Pull request | What merged |
 |---|---|
+| #254 | The repository design files synced with canvas version 138: slate ink (FE-31), soft gloss refinements (FE-29), the source stamp (FE-33), the lower-case wordmark (PD-09 note) |
 | #252 | Pass B done, the "Satellite view" link (FE-11), the lower-case wordmark (PD-09), the signed-in workspace pattern (doc 05, anonymised), research #249 and #251, the data pipeline design as the first stage 5b backend item |
 | #250 | #216: the postcode sample area data (`packages/fixtures/data/postcode-area.json`, NB1 4XY sample, NB7 1RR sparse, NB9 9ZZ unknown), each fact's level (DA-14) and the flood check time |
 | #248 | The founder's one-by-one review of the 14 Nov decisions; AI-12 "Ask more about this" (CHAT-52, CHAT-53); one "How we got this" per page (FE-34) |
@@ -82,7 +83,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 
 ## Start of the next session
 1. **Done (14 Nov 2026, branch `docs/design-files-canvas-138`): the repository design files synced with canvas version 138** (pass B step 8). `tokens.css` takes slate ink dark mode (FE-31, with the warm hearth dot for the postcode centre), the light card edge and shadow, the cream band and solid ink headlines (FE-29, the headline gradient deleted); `DESIGN_BRIEF.md` takes the source stamp (FE-33) and the lower-case wordmark (PD-09 note).
-2. **Then the first design batch** on the canvas (item 1 (c) below): write a short brief for the founder to approve before drawing.
+2. **The first design batch** (item 1 (c) below): the brief is approved (`docs/superpowers/specs/2026-11-14-first-design-batch-design.md`, design-reviewed, FE-38 to FE-41, DA-17, DA-18, FE-27 amended) and the plan is `docs/superpowers/plans/2026-11-14-first-design-batch.md`: first PR A (sample data for every pilot topic, the tested `vestagraph_area` package and `area-result.json`), then the canvas boards.
 3. Optional checks for the founder: the Logo board's new note may sit close to its bottom edge, and the lower-case change also applied to every lockup on the logo exploration board (the founder may prefer only the chosen D1).
 
 ## Next, in order
@@ -99,7 +100,7 @@ On 13 Nov 2026 the founder put the pilot first (decisions 0051 and 0052); the de
    - (a) **Done:** canvas pass A (version 92).
    - (b0) **Done (#250, merged 14 Nov 2026): #216, the postcode-level sample data** (`packages/fixtures/data/postcode-area.json`; NB1 4XY, the sparse NB7 1RR and the unknown NB9 9ZZ; every fact has its level and the flood check time; the specifications' `fixture needed: #216` notes now name its records). Next is (b), canvas pass B. Original entry: (after the founder's review of the rest of the 14 Nov changes; no longer a deferred `noticed` item: it is the next build step, and also serves LAND-06, AREA-13, AREA-14 and CARD-44's sparse postcode), with each fact's level recorded (DA-14) and a flood-warning check time ("09:40", founder: "Add the time to the sample data"). Founder, 14 Nov 2026, prompt window: "#216 first, with levels (Recommended)", after Codex found that pass B would otherwise label a home's distances as postcode distances.
    - (b) **Done (canvas versions 136 and 137, 14 Nov 2026; founder: "okay start pass B"): canvas pass B**, the plan in `docs/superpowers/plans/2026-11-14-canvas-pass-b.md`: redraw the five home-context boards (Nearby phone, Nearby › Schools, Nearby desktop with a side panel, Map phone, Map desktop), light and dark, for a postcode in the pass A style, and move the originals to "Home workspace (later)". Founder: "Redraw, move originals (Recommended)"; the founder asked for it to be written down before stopping. The two pass A details are settled: the flood check time comes from #216's sample data, and distances in England are metres under 1 mile, miles from 1 mile (FE-27 as amended). Pass B rows use icons and linked stamps (FE-30, FE-33).
-   - (c) The first design batch on the canvas, then its specifications: At a glance, the topic detail sheet and panel for every topic (FE-20), with the page's one "How we got this" section (FE-24, FE-34), priorities (FE-22, 0053; founder: "First batch"), the missing states, theme and text size (FE-23).
+   - (c) The first design batch on the canvas, then its specifications (brief `docs/superpowers/specs/2026-11-14-first-design-batch-design.md`, plan `docs/superpowers/plans/2026-11-14-first-design-batch.md`; one topic sheet per kind of topic, founder 14 Nov 2026: "One per kind (Recommended)"): At a glance, the topic detail sheet and panel (FE-20), with the page's one "How we got this" section (FE-24, FE-34), priorities (FE-22, 0053; founder: "First batch"), the missing states, theme and text size (FE-23).
    - (d) The designed report (FE-21) and Share a link.
    - (e) The energy certificate (DA-09), the extras, the street map (price our own tiles first, FE-03) and the public pages.
    - (f) The chat and tools fixes and the AI evaluation set (AI-03).
