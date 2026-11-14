@@ -20,6 +20,7 @@ from vestagraph_area.records import (
     read_postcode_area,
     read_registry,
     read_sample_priorities,
+    records_of,
 )
 
 FILE_NAME = "area-result.json"
@@ -103,9 +104,7 @@ def generate_area(fixtures_directory: Path) -> str:
         glance = at_a_glance(registry, area, postcode)
         postcode_priorities: list[dict[str, Any]] = []
         for priority in sorted(priorities, key=lambda p: p.id):
-            topic = topics[priority.topic_key]
-            topic_records = [r for r in records if r.topic in topic.record_topics]
-            result = priority_result(priority, topic_records)
+            result = priority_result(priority, records_of(topics[priority.topic_key], records))
             postcode_priorities.append(
                 {
                     "priorityId": priority.id,

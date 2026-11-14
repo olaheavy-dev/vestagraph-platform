@@ -13,6 +13,7 @@ from vestagraph_area.records import (
     read_postcode_area,
     read_registry,
     read_sample_priorities,
+    records_of,
 )
 
 DATA = fixtures_directory() / "data"
@@ -333,3 +334,99 @@ def test_read_sample_priorities_non_object_filter_raises_invalid_area_data(tmp_p
 
     with pytest.raises(InvalidAreaDataError, match="filter"):
         read_sample_priorities(_write(tmp_path, "sample-priorities.json", data))
+
+
+# --- One record selector for a topic, and priorities that fit their topic (final review item 5) ---
+
+
+def test_records_of_reads_record_topics_and_only_listed_subtypes() -> None:
+    registry = read_registry(DATA / "pilot-topics.json")
+    area = read_postcode_area(DATA / "postcode-area.json")
+    worship = next(t for t in registry.topics if t.key == "places-of-worship")
+    nb1 = [r for r in area.records if r.postcode == "NB1 4XY"]
+
+    found = records_of(worship, nb1)
+
+    # By hand from postcode-area.json: the three place-of-worship amenities of NB1 4XY, and no
+    # other amenity (supermarket, park, pharmacy, ...).
+    assert [r.id for r in found] == [
+        "NB1-4XY-AREA-AMENITY-7",
+        "NB1-4XY-AREA-AMENITY-8",
+        "NB1-4XY-AREA-AMENITY-9",
+    ]
+
+
+def test_records_of_topic_without_subtypes_reads_every_record_of_its_record_topics() -> None:
+    registry = read_registry(DATA / "pilot-topics.json")
+    area = read_postcode_area(DATA / "postcode-area.json")
+    flood = next(t for t in registry.topics if t.key == "flood")
+
+    found = records_of(flood, [r for r in area.records if r.postcode == "NB7 1RR"])
+
+    assert [r.id for r in found] == [
+        "NB7-1RR-AREA-FLOOD-1",
+        "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
+    ]
+
+
+@pytest.mark.parametrize(
+    ("index", "subtype"),
+    [(0, "place-of-worship"), (0, "bakery")],
+)
+def test_read_sample_priorities_subtype_not_in_topic_raises_invalid_area_data(
+    tmp_path: Path, index: int, subtype: str
+) -> None:
+    data = read_json(DATA / "sample-priorities.json")
+    data["priorities"][index]["subtype"] = subtype  # SAMPLE-PRIORITY-GP, everyday-places
+
+    with pytest.raises(InvalidAreaDataError, match=subtype):
+        read_sample_priorities(
+            _write(tmp_path, "sample-priorities.json", data),
+            read_registry(DATA / "pilot-topics.json"),
+        )
+
+
+def test_read_sample_priorities_subtype_on_topic_without_subtypes_raises_invalid_area_data(
+    tmp_path: Path,
+) -> None:
+    data = read_json(DATA / "sample-priorities.json")
+    broadband = next(p for p in data["priorities"] if p["topicKey"] == "broadband")
+    broadband["subtype"] = "full-fibre"
+
+    with pytest.raises(InvalidAreaDataError, match="full-fibre"):
+        read_sample_priorities(
+            _write(tmp_path, "sample-priorities.json", data),
+            read_registry(DATA / "pilot-topics.json"),
+        )
+
+
+@pytest.mark.parametrize(
+    ("topic_key", "measure", "unit"),
+    [
+        ("broadband", "distance", "miles"),
+        ("crime", "walking-minutes", "minutes"),
+        ("everyday-places", "download-mbps", "mbps"),
+        ("everyday-places", "walking-km", "minutes"),
+    ],
+)
+def test_read_sample_priorities_measure_that_cannot_apply_to_topic_raises_invalid_area_data(
+    tmp_path: Path, topic_key: str, measure: str, unit: str
+) -> None:
+    data = read_json(DATA / "sample-priorities.json")
+    priority = data["priorities"][0]
+    priority.pop("subtype", None)
+    priority["topicKey"] = topic_key
+    priority["measure"] = measure
+    priority["limit"]["unit"] = unit
+
+    with pytest.raises(InvalidAreaDataError, match=measure):
+        read_sample_priorities(
+            _write(tmp_path, "sample-priorities.json", data),
+            read_registry(DATA / "pilot-topics.json"),
+        )
+
+
+def test_read_sample_priorities_committed_data_fits_the_registry() -> None:
+    registry = read_registry(DATA / "pilot-topics.json")
+
+    assert len(read_sample_priorities(DATA / "sample-priorities.json", registry)) == 6

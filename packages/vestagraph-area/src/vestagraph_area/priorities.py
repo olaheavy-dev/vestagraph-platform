@@ -26,19 +26,13 @@ from fractions import Fraction
 from typing import Literal
 
 from vestagraph_area.distance import METRES_PER_MILE
-from vestagraph_area.records import AreaRecord, Priority
+from vestagraph_area.records import MEASURE_RECORD_TOPICS, AreaRecord, Priority
 
 SEARCH_LIMIT_METRES = Fraction(5000)
 
 Outcome = Literal["meets", "misses", "not-known", "not-known-beyond-search"]
 
 _HAS_VALUE = ("recorded", "stale")
-# The record topics that carry each measure; sibling records (school-demand, ...) never match.
-_MEASURE_TOPICS: dict[str, tuple[str, ...]] = {
-    "walking-minutes": ("transport-stop", "school", "amenity"),
-    "distance": ("transport-stop", "school", "amenity"),
-    "download-mbps": ("broadband",),
-}
 # measure -> (the field of the record's value, the unit its limit is typed in)
 _MEASURES: dict[str, tuple[str, tuple[str, ...]]] = {
     "walking-minutes": ("walkingMinutes", ("minutes",)),
@@ -66,7 +60,7 @@ def limit_in_metres(value: Fraction, unit: str) -> Fraction:
 
 
 def _matches(priority: Priority, record: AreaRecord) -> bool:
-    if record.topic not in _MEASURE_TOPICS[priority.measure]:
+    if record.topic not in MEASURE_RECORD_TOPICS[priority.measure]:
         return False
     if priority.subtype is not None and record.subtype != priority.subtype:
         return False

@@ -17,6 +17,7 @@ from vestagraph_area.records import (
     read_postcode_area,
     read_registry,
     read_sample_priorities,
+    records_of,
 )
 
 DATA = fixtures_directory() / "data"
@@ -56,12 +57,8 @@ def _from_inputs(inputs: dict[str, Any]) -> tuple[Priority, list[AreaRecord]]:
     if "priorityId" in inputs:
         priority = PRIORITIES[inputs["priorityId"]]
         topic = next(t for t in REGISTRY.topics if t.key == priority.topic_key)
-        records = [
-            r
-            for r in AREA.records
-            if r.postcode == inputs["dataPostcode"] and r.topic in topic.record_topics
-        ]
-        return priority, records
+        postcode_records = [r for r in AREA.records if r.postcode == inputs["dataPostcode"]]
+        return priority, records_of(topic, postcode_records)
     return _priority(inputs["priority"]), [_record(r) for r in inputs["records"]]
 
 

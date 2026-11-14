@@ -10,6 +10,7 @@ the cost generator's reader does.
 
 import json
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -23,6 +24,13 @@ class InvalidAreaDataError(ValueError):
 KNOWN_STATUSES = frozenset(
     {"recorded", "stale", "no-record-in-source", "source-failed", "not-covered"}
 )
+# The record topics that carry each priority measure; sibling records (school-demand, ...) never
+# carry one.
+MEASURE_RECORD_TOPICS: dict[str, tuple[str, ...]] = {
+    "walking-minutes": ("transport-stop", "school", "amenity"),
+    "distance": ("transport-stop", "school", "amenity"),
+    "download-mbps": ("broadband",),
+}
 # A limit is typed as plain ASCII digits with an optional decimal part: no sign, no spaces, no
 # exponent, no fraction bar and no other script's digits.
 _PLAIN_DECIMAL = re.compile(r"[0-9]+(\.[0-9]+)?", re.ASCII)
@@ -95,6 +103,16 @@ class Priority:
     measure: str
     limit_value: Fraction
     limit_unit: str
+
+
+def records_of(topic: Topic, records: Sequence[AreaRecord]) -> list[AreaRecord]:
+    """The records a topic reads: its record topics and, when it lists subtypes, only those."""
+    return [
+        r
+        for r in records
+        if r.topic in topic.record_topics
+        and (not topic.record_subtypes or r.subtype in topic.record_subtypes)
+    ]
 
 
 def _refuse_constant(text: str) -> object:
@@ -326,17 +344,33 @@ def _priority(raw: dict[str, Any]) -> Priority:
     )
 
 
+def _check_priority_fits(priority: Priority, topic: Topic) -> None:
+    """The priority's subtype is one its topic reads, and its measure is carried by a record
+    topic its topic reads."""
+    where = f"priority '{priority.id}'"
+    if priority.subtype is not None and priority.subtype not in topic.record_subtypes:
+        message = f"{where}: subtype '{priority.subtype}' is not a subtype of topic '{topic.key}'."
+        raise InvalidAreaDataError(message)
+    carriers = MEASURE_RECORD_TOPICS.get(priority.measure, ())
+    if not set(carriers) & set(topic.record_topics):
+        message = f"{where}: measure '{priority.measure}' cannot apply to topic '{topic.key}'."
+        raise InvalidAreaDataError(message)
+
+
 def read_sample_priorities(path: Path, registry: Registry | None = None) -> tuple[Priority, ...]:
-    """Read ``sample-priorities.json``; with a registry, every ``topicKey`` must name a topic."""
+    """Read ``sample-priorities.json``. With a registry, every ``topicKey`` must name a topic,
+    a ``subtype`` must be one of that topic's subtypes, and the measure must be one its records
+    carry."""
     data = _load(path)
     priorities = tuple(_priority(raw) for raw in _objects(data, "priorities", path.name))
     if registry is not None:
-        keys = {t.key for t in registry.topics}
+        topics = {t.key: t for t in registry.topics}
         for priority in priorities:
-            if priority.topic_key not in keys:
+            if priority.topic_key not in topics:
                 message = (
                     f"priority '{priority.id}': topicKey '{priority.topic_key}' is not a "
                     "topic in the registry."
                 )
                 raise InvalidAreaDataError(message)
+            _check_priority_fits(priority, topics[priority.topic_key])
     return priorities

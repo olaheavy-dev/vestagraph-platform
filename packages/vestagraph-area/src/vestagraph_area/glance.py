@@ -8,7 +8,14 @@ from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Literal
 
-from vestagraph_area.records import AreaRecord, InvalidAreaDataError, PostcodeArea, Registry, Topic
+from vestagraph_area.records import (
+    AreaRecord,
+    InvalidAreaDataError,
+    PostcodeArea,
+    Registry,
+    Topic,
+    records_of,
+)
 
 TopicOutcome = Literal["found", "not-known", "not-covered"]
 
@@ -58,15 +65,6 @@ def topic_outcome(topic: Topic, records: Sequence[AreaRecord]) -> TopicOutcome:
     return "not-known"
 
 
-def _records_of(topic: Topic, records: Sequence[AreaRecord]) -> list[AreaRecord]:
-    return [
-        r
-        for r in records
-        if r.topic in topic.record_topics
-        and (not topic.record_subtypes or r.subtype in topic.record_subtypes)
-    ]
-
-
 def _gap_question(registry: Registry, topic: Topic, record: AreaRecord) -> str:
     """The topic's gap template; its {subject} is a plain name, never the record's label."""
     template = topic.gap_question_template
@@ -90,7 +88,7 @@ def at_a_glance(registry: Registry, area: PostcodeArea, postcode: str) -> Glance
     for topic in registry.topics:
         if not topic.counted:
             continue
-        records = _records_of(topic, postcode_records)
+        records = records_of(topic, postcode_records)
         if not records:
             message = f"Topic '{topic.key}' has no record for postcode {postcode}."
             raise InvalidAreaDataError(message)

@@ -138,3 +138,36 @@ def test_json_number_whole_is_an_integer_and_other_is_a_decimal_string(
 def test_json_number_without_a_short_decimal_form_raises() -> None:
     with pytest.raises(InvalidAreaDataError):
         json_number(Fraction(1, 3))
+
+
+def test_generate_area_priority_reads_only_its_topics_subtypes(tmp_path: Path) -> None:
+    # Worked by hand from postcode-area.json: NB1 4XY's places of worship are AMENITY-7 (600 m),
+    # AMENITY-8 (950 m) and AMENITY-9 (1,300 m), all recorded. Limit 500 m: none is within it,
+    # the limit is under the 5,000 m search limit, each has a distance and none failed, so
+    # rule 6 gives misses, nearest AMENITY-7 (600 m). The pharmacy (250 m) and supermarket
+    # (400 m) are everyday places and must not be read for this topic.
+    fixtures = copy_data_to(tmp_path)
+    path = fixtures / "data" / "sample-priorities.json"
+    document = read_json(path)
+    document["priorities"].append(
+        {
+            "id": "SAMPLE-PRIORITY-WORSHIP-TEST",
+            "topicKey": "places-of-worship",
+            "measure": "distance",
+            "limit": {"value": "500", "unit": "metres"},
+            "synthetic": True,
+        }
+    )
+    write_json(path, document)
+
+    output = json.loads(generate_area(fixtures))
+    nb1 = next(p for p in output["postcodes"] if p["postcode"] == "NB1 4XY")
+    worship = next(
+        p for p in nb1["priorities"] if p["priorityId"] == "SAMPLE-PRIORITY-WORSHIP-TEST"
+    )
+
+    assert worship == {
+        "priorityId": "SAMPLE-PRIORITY-WORSHIP-TEST",
+        "outcome": "misses",
+        "nearestRecordId": "NB1-4XY-AREA-AMENITY-7",
+    }
