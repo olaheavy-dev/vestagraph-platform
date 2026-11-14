@@ -115,3 +115,5 @@ These are well covered by free or established products. Where we still show them
 3. **Move-in checklist, dated and tailored:** proposed in 0047.
 4. **One watch feed per saved home,** once accounts exist.
 5. **Travel cost in the monthly cost.**
+
+- **Opening hours for nearby places** (founder, 14 Nov 2026): pharmacies and GPs from the NHS, shops from OpenStreetMap, labelled with their source and "may be out of date" where crowd-sourced; a missing value reads "not recorded", never "closed". Research: #249.
