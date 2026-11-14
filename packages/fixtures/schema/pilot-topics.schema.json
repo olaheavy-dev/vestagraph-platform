@@ -154,6 +154,24 @@
               "officialRoute"
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "counted": {
+                "const": true
+              }
+            },
+            "required": [
+              "counted"
+            ]
+          },
+          "then": {
+            "required": [
+              "questionTemplate",
+              "checkInPerson"
+            ]
+          }
         }
       ]
     }

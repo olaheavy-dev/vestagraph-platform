@@ -284,7 +284,7 @@
       "key": "council-tax-band-home",
       "name": "Council tax band of a home",
       "kind": "route-only",
-      "counted": true,
+      "counted": false,
       "recordTopics": [],
       "questionTemplate": "Which council tax band is {label} in, and can I see the latest bill?",
       "checkInPerson": [
@@ -301,12 +301,12 @@
       "key": "mobile-by-network",
       "name": "Mobile by network",
       "kind": "route-only",
-      "counted": true,
+      "counted": false,
       "recordTopics": [],
-      "questionTemplate": "Which mobile networks work well indoors at {label}?",
+      "questionTemplate": "Which mobile networks does {label} get indoors?",
       "checkInPerson": [
         "Check signal on your own phone in each room.",
-        "Ask the current occupant which network they use and how well it works.",
+        "Ask the current occupant which network they use and what it is like in each room.",
         "Try a call and a video call in the rooms you would use most."
       ],
       "officialRoute": {
@@ -319,7 +319,7 @@
       "key": "noise",
       "name": "Noise",
       "kind": "route-only",
-      "counted": true,
+      "counted": false,
       "recordTopics": [],
       "questionTemplate": "What is the noise like at {label} at different times of day?",
       "checkInPerson": [
@@ -328,7 +328,7 @@
         "Note any flight paths, railway lines or busy roads you can hear."
       ],
       "officialRoute": {
-        "label": "Official noise information (no official link recorded yet)"
+        "label": "Official noise information"
       },
       "reviewStatus": "draft"
     },
@@ -336,7 +336,7 @@
       "key": "ground-and-mining",
       "name": "Ground and mining",
       "kind": "route-only",
-      "counted": true,
+      "counted": false,
       "recordTopics": [],
       "questionTemplate": "Has the ground at {label} had any survey, mining search or subsidence history?",
       "checkInPerson": [
@@ -344,7 +344,7 @@
         "Ask whether a mining or ground search was done."
       ],
       "officialRoute": {
-        "label": "Official ground and mining information (no official link recorded yet)"
+        "label": "Official ground and mining information"
       },
       "reviewStatus": "draft"
     }
