@@ -52,15 +52,34 @@ def _expected_level(topic: str) -> dict[str, Any]:
     return {"kind": "postcode"}
 
 
+# Pilot topics added after the home-keyed file (DA-14, DA-18): the level kind they must use.
+_NEW_TOPIC_LEVEL_KINDS = {
+    "bus-departures": "from-postcode-centre",
+    "school-demand": "from-postcode-centre",
+    "flood-risk-postcode": "postcode",
+    "deprivation-rank": "neighbourhood",
+    "transport-connectivity": "neighbourhood",
+    "green-space": "neighbourhood",
+    "air-quality": "neighbourhood",
+    "council-tax": "local-authority",
+    "affordability": "local-authority",
+}
+
+
 def _counterpart_id(b1_id: str) -> str:
     return "NB1-4XY-" + b1_id.removeprefix("B1-")
 
 
 def test_postcode_area_sample_every_allowed_b1_topic_has_a_counterpart_with_equal_values() -> None:
-    by_id = {i["id"]: i for i in _for_postcode("NB1 4XY")}
+    by_id = {i["id"]: i for i in _for_postcode("NB1 4XY") if i["topic"] in _ALLOWED_TOPICS}
     assert len(by_id) == len(_b1_allowed())
     for b1 in _b1_allowed():
         mine = by_id[_counterpart_id(b1["id"])]
+        # Walking minutes are the pilot's own addition (DA-18); the home-keyed file has none.
+        mine_value = copy.deepcopy(mine.get("value"))
+        if mine_value is not None:
+            mine_value.pop("walkingMinutes", None)
+            mine_value.pop("walkingMethod", None)
         for field in (
             "label",
             "status",
@@ -78,12 +97,15 @@ def test_postcode_area_sample_every_allowed_b1_topic_has_a_counterpart_with_equa
                 expected["distanceMethod"] = _CENTRE_METHOD
             if "schoolItemId" in expected:
                 expected["schoolItemId"] = _counterpart_id(expected["schoolItemId"])
-        assert mine.get("value") == expected, mine["id"]
+        assert mine_value == expected, mine["id"]
 
 
 def test_postcode_area_sample_levels_follow_da14_by_topic() -> None:
     for item in _items():
-        assert item["level"] == _expected_level(item["topic"]), item["id"]
+        if item["topic"] in _NEW_TOPIC_LEVEL_KINDS:
+            assert item["level"]["kind"] == _NEW_TOPIC_LEVEL_KINDS[item["topic"]], item["id"]
+        else:
+            assert item["level"] == _expected_level(item["topic"]), item["id"]
 
 
 def test_postcode_area_sample_crime_radius_is_exactly_one_mile() -> None:
