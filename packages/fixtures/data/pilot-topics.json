@@ -30,7 +30,7 @@
         "Check whether the stop has a shelter, lighting and step-free access.",
         "Look at the posted timetable at the stop."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "everyday-places",
@@ -56,9 +56,9 @@
       "checkInPerson": [
         "Visit at the times you would normally shop or use services.",
         "Check how the walk feels on the way there and back, including the paths and crossings.",
-        "Ask the place directly whether it is accepting new registrations."
+        "If you need a GP surgery, dentist or childcare provider, ask whether it is taking new registrations."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "places-of-worship",
@@ -76,7 +76,7 @@
         "Visit during a service or event time to see how busy the street gets.",
         "Check access and parking nearby at the times that matter to you."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "schools",
@@ -94,7 +94,7 @@
         "Walk the route you would take with your child at school drop-off time.",
         "Ask the school how places were allocated in the most recent year."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "family-view",
@@ -110,7 +110,7 @@
         "childcare",
         "park"
       ],
-      "reviewStatus": "draft",
+      "reviewStatus": "reviewed",
       "checkInPerson": [
         "Visit childcare and a school during opening hours.",
         "Walk the routes with a child at the time they would travel.",
@@ -132,7 +132,7 @@
         "Look at the building work or empty plots around the home.",
         "Check the council planning page for later updates."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "flood",
@@ -149,7 +149,7 @@
         "Ask neighbours about past flooding.",
         "Look for damp marks, tide lines or flood protection on the property."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "crime",
@@ -165,7 +165,7 @@
         "Look at lighting and how the street is used at different times.",
         "Talk to people who live nearby."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "sold-nearby",
@@ -180,7 +180,7 @@
         "Compare the sold homes you can see with the home you are looking at.",
         "Ask an agent how the sold homes differ in size and condition."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "broadband",
@@ -196,7 +196,7 @@
         "Ask the current occupant what they use and what they pay.",
         "Check that the lines or sockets in the home are in place."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "air-quality",
@@ -212,7 +212,7 @@
         "Look at how close the home is to main roads or industrial sites.",
         "Check whether the windows can be opened comfortably on the road side."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "council-tax-by-band",
@@ -222,12 +222,11 @@
       "recordTopics": [
         "council-tax"
       ],
-      "gapQuestionTemplate": "Which council tax band is the home in, and can I see the latest bill?",
+      "gapQuestionTemplate": "Does this council area have a parish or town council charge on top of the council's own charge for each band?",
       "checkInPerson": [
-        "Ask for the latest council tax bill for the home.",
-        "Check the band on the official council tax band page for the address."
+        "Look at the council's own council tax page for this year's charge for each band, including any parish or town council charge."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "housing-affordability",
@@ -237,12 +236,12 @@
       "recordTopics": [
         "affordability"
       ],
-      "gapQuestionTemplate": "How does the price of the home compare with similar homes sold recently?",
+      "gapQuestionTemplate": "How do house prices here compare with what people earn locally, and how has that changed?",
       "checkInPerson": [
-        "Compare a few listings on the same street and nearby streets.",
-        "Ask the agent how long similar homes have been for sale."
+        "Compare the home's monthly cost with your own income.",
+        "Look at what similar homes nearby cost to buy or rent."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "deprivation",
@@ -258,7 +257,7 @@
         "Talk to people who live nearby about the area.",
         "Look at the local shops, services and community spaces."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "transport-connectivity",
@@ -274,7 +273,7 @@
         "Check the service for late evening and weekend trips.",
         "Look at how easy it is to reach the stop or station on foot."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "green-space",
@@ -290,7 +289,7 @@
         "Check the entrances, paths and opening times.",
         "Visit at a weekend to see how busy it is."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "council-tax-band-home",
@@ -306,7 +305,7 @@
         "label": "Check the council tax band of a home (gov.uk)",
         "url": "https://www.gov.uk/council-tax-bands"
       },
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "mobile-by-network",
@@ -323,7 +322,7 @@
         "label": "Ofcom's coverage checker",
         "url": "https://www.ofcom.org.uk/phones-and-broadband/coverage-and-speeds/ofcom-checker"
       },
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "noise",
@@ -337,9 +336,10 @@
         "Note any flight paths, railway lines or busy roads you can hear."
       ],
       "officialRoute": {
-        "label": "Official noise information"
+        "label": "Government road and rail noise maps (gov.uk)",
+        "url": "https://www.gov.uk/government/publications/strategic-noise-mapping-2022"
       },
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "ground-and-mining",
@@ -352,9 +352,10 @@
         "Ask whether a mining or ground search was done."
       ],
       "officialRoute": {
-        "label": "Official ground and mining information"
+        "label": "Check if a property is affected by coal mining (gov.uk)",
+        "url": "https://www.gov.uk/check-if-property-is-affected-by-coal-mining"
       },
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     }
   ]
 }

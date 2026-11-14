@@ -105,7 +105,7 @@
         },
         "checkInPerson": {
           "type": "array",
-          "minItems": 2,
+          "minItems": 1,
           "maxItems": 4,
           "items": {
             "type": "string",
