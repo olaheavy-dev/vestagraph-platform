@@ -7,6 +7,7 @@ calculated.
 import copy
 import json
 import re
+from datetime import datetime, timedelta
 from typing import Any
 
 from fixtures_support import Json, area_items, load, number
@@ -168,3 +169,24 @@ def test_postcode_area_unknown_postcode_is_well_formed_and_unused() -> None:
 def test_postcode_area_instruction_like_text_is_only_in_its_test_record() -> None:
     holders = [i["id"] for i in _items() if _INJECTION_PHRASE in json.dumps(i, default=str)]
     assert holders == ["NB7-1RR-AREA-PLANNING-1"]
+    record = next(i for i in _items() if i["id"] == "NB7-1RR-AREA-PLANNING-1")
+    assert _INJECTION_PHRASE in record["value"]["description"]
+    assert _INJECTION_PHRASE not in record["label"]
+
+
+def test_postcode_area_postcodes_are_all_fictional_nb_area() -> None:
+    # NB is not a UK postcode area, so a real postcode cannot slip into this public file.
+    data = load("postcode-area")
+    every = [p["postcode"] for p in data["postcodes"]] + list(data["unknownPostcodes"])
+    assert every
+    assert all(p.startswith("NB") for p in every)
+
+
+def test_postcode_area_checked_at_is_a_valid_offset_datetime() -> None:
+    stamps = [i["checkedAt"] for i in _items() if "checkedAt" in i]
+    assert stamps
+    for stamp in stamps:
+        parsed = datetime.fromisoformat(stamp)
+        assert parsed.tzinfo is not None
+        # 23 Oct 2026 is in British Summer Time, one hour ahead of UTC.
+        assert parsed.utcoffset() == timedelta(hours=1)

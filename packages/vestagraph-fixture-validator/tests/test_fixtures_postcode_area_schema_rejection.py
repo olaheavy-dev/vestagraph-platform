@@ -77,7 +77,7 @@ def test_validate_instance_postcode_area_item_with_home_id_is_rejected() -> None
 def test_validate_instance_postcode_area_item_with_no_postcode_is_rejected() -> None:
     item = _valid_item()
     del item["postcode"]
-    assert mentions(_problems(item), "postcode")
+    assert mentions(_problems(item), "'postcode' is a required property")
 
 
 def test_validate_instance_postcode_area_item_with_no_level_is_rejected() -> None:

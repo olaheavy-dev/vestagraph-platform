@@ -105,7 +105,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     When the user asks about a topic the sources hold no record for
     Then the answer says "Not known from our sources" and offers a question to ask instead
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR, NB7-1RR-AREA-FLOOD-1 (source-failed))
   @ui
   Scenario: CHAT-09 a topic whose source failed is Unavailable, never none or zero
     Given the user has opened "Ask about this area" for a sample postcode whose flood source failed

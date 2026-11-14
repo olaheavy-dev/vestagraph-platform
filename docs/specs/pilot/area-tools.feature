@@ -102,7 +102,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   Scenario: TOOLS-08 every topic value carries its source, date, label and geographic level
     Given an assistant is connected to the area tools
     When it calls the area topic tool for a sample postcode
-    Then each value carries its source, its data date, its label and its geographic level (postcode, street or council area)
+    Then each value carries its source, its data date, its label and its geographic level (from the postcode centre, within a radius, this postcode, this neighbourhood or the council)
 
   # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1, source-failed)
   @mcp
@@ -255,7 +255,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     When it calls a tool with a radius of 0, a negative radius, a radius that is not a number, a category the tools don't have, or a number of places below 1 or above 10
     Then the call is refused with what is allowed, no lookup is made, and nothing is returned as "none" or an empty list
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1, source-failed)
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY; the test simulates the places source failing, so no fixture record is needed)
   @mcp
   Scenario: TOOLS-32 a failed places source is Unavailable, never an empty list
     Given an assistant is connected to the area tools
