@@ -1230,7 +1230,7 @@
       "topic": "amenity",
       "subtype": "supermarket",
       "status": "no-record-in-source",
-      "label": "No supermarket within our search in this source (synthetic)",
+      "label": "No supermarket found in this source (synthetic)",
       "level": {
         "kind": "from-postcode-centre"
       },
