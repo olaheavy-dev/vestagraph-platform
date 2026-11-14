@@ -15,7 +15,7 @@
 - **Public site at launch** (stage 5b, decision 0046)
   - Landing `/`: search first, with the area check as the main action (see Landing below).
   - Check an area `/area#postcode=…`: postcode in, the Nearby topic summary out (without the commute row, which needs the household's own destination), with Summary and Map views and a download with sources. Saving a home appears only in a "Coming next · not available yet" panel until accounts exist (no active button). No account to use it. The map pin is labelled **Postcode centre**; address pins are only for homes the user has chosen. **The postcode goes in the URL fragment, never the query string**, so it never reaches server, application or hosting logs (0014); on live data the API call sends it in the request body (POST), never in a query string or URL path. The first public page (decision 0046, accepted); in the prototype it runs on sample data.
-    - **Form:** a persistent "Postcode" label, hint text under it ("For example, NB1 4XY"; no placeholder, following the GOV.UK text-input guidance), and a "Check postcode" button.
+    - **Form:** a persistent "Postcode" label, the placeholder "Enter a postcode" inside the box and no example hint under it (FE-37; this departs from the GOV.UK text-input guidance, which advises against placeholder text, so the label stays visible and the placeholder text meets 4.5:1 contrast), a "Check postcode" button, and the link "Just try a sample".
     - **States:**
       - loading: a skeleton per topic, never empty rows;
       - invalid format: an inline message, and nothing is searched until the postcode is complete;
