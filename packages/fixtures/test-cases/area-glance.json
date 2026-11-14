@@ -50,7 +50,7 @@
         },
         {
           "n": 9,
-          "description": "Question text comes from each topic's gapQuestionTemplate, never from the record label. The only slot is {subject}: for everyday-places it is the plain name of the record's subtype (subtypeNames); every other topic's template has no slot, so its text is the template as written."
+          "description": "Question text comes from each topic's gapQuestionTemplate, never from the record label. The only slot is {subject}: for everyday-places it is the plain name of the record's subtype from subtypeNames (childcare -> 'childcare provider', so 'Which childcare provider do people living here use, and how far away is it?'); every other topic's template has no slot, so its text is the template as written."
         },
         {
           "n": 10,
@@ -88,7 +88,7 @@
           {
             "topicKey": "everyday-places",
             "recordId": "NB1-4XY-AREA-AMENITY-6",
-            "text": "Which childcare do people living here use, and how far away is it?"
+            "text": "Which childcare provider do people living here use, and how far away is it?"
           },
           {
             "topicKey": "flood",
