@@ -9,6 +9,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   What it is: one anatomy for four kinds of topic (found with places, found without places, a gap, and
     route-only). A phone shows it as a bottom sheet, desktop as a panel beside the list in place of the
     map, one at a time (FE-26). Every topic opens in the same order (B29).
+  Scenarios are grouped by topic, so IDs are not in numeric order.
   Rule 2: no distance, time, count or date is typed in a scenario; the page quotes values from the records
     named by ID in `postcode-area.json` and from `area-result.json`.
   Rule 7: a gap is named and never reads as zero, "none", a miss or a clean result. The search distance
@@ -25,7 +26,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Recorded crime -> TOPIC-06, TOPIC-21, TOPIC-22
     Deprivation -> TOPIC-07
     Flood -> TOPIC-08, TOPIC-17, TOPIC-18, TOPIC-19
-    Explain this, reviewed text or not yet available -> TOPIC-11
+    Explain this, reviewed text or not yet available -> TOPIC-11, TOPIC-24
     route-only topic -> TOPIC-12
 
   @ui
@@ -153,8 +154,8 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   Scenario: TOPIC-09 a "no record in this source" gap shows its search distance
     Given a topic has a gap where the source holds no record
     When the visitor opens the topic
-    Then the gap shows its label, for example "No supermarket found within 3.1 miles in this source"
-    And the search distance is shown beside the label in the display unit (DA-20, B2)
+    Then the gap shows its label, for example "No supermarket found within <the search distance> in this source"
+    And the search distance is quoted from `area-result.json` in the display unit, miles (DA-20, B2)
     And it never reads as zero or as a clean result
 
   @ui
@@ -165,11 +166,16 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And it lists every check-in-person item for the topic (FE-39)
 
   @ui
-  Scenario: TOPIC-11 Explain this shows the reviewed text, or says it is not yet available
-    Given a topic is open
-    When the topic has reviewed explanation text
-    Then Explain this shows that text
-    But when it has none, it reads "Explanation not yet available"
+  Scenario: TOPIC-11 Explain this shows the reviewed text when it exists
+    Given a topic with reviewed explanation text is open
+    When the visitor looks at Explain this
+    Then it shows that reviewed text
+
+  @ui
+  Scenario: TOPIC-24 Explain this without reviewed text says it is not yet available
+    Given a topic with no reviewed explanation text is open
+    When the visitor looks at Explain this
+    Then it reads "Explanation not yet available"
     And "Ask more about this" is not shown (AI-12, CHAT-53)
 
   @ui
