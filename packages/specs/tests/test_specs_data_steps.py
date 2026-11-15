@@ -285,3 +285,173 @@ def test_then_home_has_coverage_unknown_home_fails_naming_the_id(steps: DataStep
         steps.then_home_has_coverage("ZZ-9", "covered")
 
     assert "ZZ-9" in str(failure.value)
+
+
+# The area result steps (first design batch specifications). The cases use the synthetic
+# postcode NB1 4XY; a passing case and a failing case per wording.
+
+_PC = "NB1 4XY"
+
+
+def test_then_area_result_topic_outcome_matching_outcome_passes(steps: DataSteps) -> None:
+    steps.then_area_result_has_topic_with_outcome(_PC, "schools", "found")
+
+
+def test_then_area_result_topic_outcome_wrong_outcome_fails_naming_the_topic(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_has_topic_with_outcome(_PC, "schools", "not-known")
+
+    assert "schools" in str(failure.value)
+    assert _PC in str(failure.value)
+
+
+def test_then_area_result_topic_outcome_topic_left_out_fails_naming_the_topic(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_has_topic_with_outcome(_PC, "noise", "found")
+
+    assert "noise" in str(failure.value)
+
+
+def test_then_area_result_topic_outcome_unknown_postcode_fails_naming_it(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_has_topic_with_outcome("ZZ9 9ZZ", "schools", "found")
+
+    assert "ZZ9 9ZZ" in str(failure.value)
+
+
+def test_then_area_result_topic_left_out_of_coverage_uncounted_topic_passes(
+    steps: DataSteps,
+) -> None:
+    steps.then_area_result_leaves_topic_out_of_coverage(_PC, "noise")
+
+
+def test_then_area_result_topic_left_out_of_coverage_counted_topic_fails(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_leaves_topic_out_of_coverage(_PC, "schools")
+
+    assert "schools" in str(failure.value)
+
+
+def test_then_area_result_topic_left_out_of_coverage_not_covered_topic_passes(
+    steps: DataSteps,
+) -> None:
+    steps.then_area_result_leaves_topic_out_of_coverage("NB7 1RR", "green-space")
+
+
+def test_then_area_result_topic_left_out_of_coverage_unknown_key_fails_naming_the_key(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_leaves_topic_out_of_coverage(_PC, "nosie")
+
+    assert "nosie" in str(failure.value)
+
+
+def test_then_area_result_gap_question_known_record_passes(steps: DataSteps) -> None:
+    steps.then_area_result_asks_gap_question(_PC, "NB1-4XY-AREA-AMENITY-6")
+
+
+def test_then_area_result_gap_question_record_without_question_fails_naming_the_id(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_asks_gap_question(_PC, "NB1-4XY-AREA-AMENITY-1")
+
+    assert "NB1-4XY-AREA-AMENITY-1" in str(failure.value)
+
+
+def test_then_area_result_priority_outcome_matching_outcome_passes(steps: DataSteps) -> None:
+    steps.then_area_result_has_priority_with_outcome(_PC, "SAMPLE-PRIORITY-CHILDCARE", "not-known")
+
+
+def test_then_area_result_priority_outcome_wrong_outcome_fails_naming_the_id(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_has_priority_with_outcome(_PC, "SAMPLE-PRIORITY-CHILDCARE", "misses")
+
+    assert "SAMPLE-PRIORITY-CHILDCARE" in str(failure.value)
+
+
+def test_then_area_result_priority_outcome_unknown_priority_fails_naming_the_id(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_has_priority_with_outcome(_PC, "SAMPLE-PRIORITY-NOPE", "meets")
+
+    assert "SAMPLE-PRIORITY-NOPE" in str(failure.value)
+
+
+def test_then_area_result_priority_nearest_matching_record_passes(steps: DataSteps) -> None:
+    steps.then_area_result_has_priority_with_nearest_record(
+        _PC, "SAMPLE-PRIORITY-GP", "NB1-4XY-AREA-AMENITY-10"
+    )
+
+
+def test_then_area_result_priority_nearest_wrong_record_fails_naming_both_ids(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_has_priority_with_nearest_record(
+            _PC, "SAMPLE-PRIORITY-GP", "NB1-4XY-AREA-AMENITY-1"
+        )
+
+    assert "SAMPLE-PRIORITY-GP" in str(failure.value)
+    assert "NB1-4XY-AREA-AMENITY-1" in str(failure.value)
+
+
+def test_then_area_result_display_distance_known_record_passes(steps: DataSteps) -> None:
+    steps.then_area_result_has_display_distance(_PC, "NB1-4XY-AREA-SCHOOL-1")
+
+
+def test_then_area_result_display_distance_missing_record_fails_naming_the_id(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_has_display_distance(_PC, "NB1-4XY-AREA-NOPE")
+
+    assert "NB1-4XY-AREA-NOPE" in str(failure.value)
+
+
+def test_then_area_result_buses_known_stop_route_and_hour_passes(steps: DataSteps) -> None:
+    steps.then_area_result_counts_buses(_PC, "NB1-4XY-AREA-TRANSPORT-STOP-1", "12", 8)
+
+
+def test_then_area_result_buses_unknown_route_fails_naming_stop_and_route(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_area_result_counts_buses(_PC, "NB1-4XY-AREA-TRANSPORT-STOP-1", "999", 8)
+
+    assert "NB1-4XY-AREA-TRANSPORT-STOP-1" in str(failure.value)
+    assert "999" in str(failure.value)
+
+
+def test_then_postcode_record_status_matching_status_passes(steps: DataSteps) -> None:
+    steps.then_postcode_record_has_status("NB1-4XY-AREA-SCHOOL-INSPECTION-1", "stale")
+
+
+def test_then_postcode_record_status_wrong_status_fails_naming_the_id(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_postcode_record_has_status("NB1-4XY-AREA-SCHOOL-INSPECTION-1", "recorded")
+
+    assert "NB1-4XY-AREA-SCHOOL-INSPECTION-1" in str(failure.value)
+
+
+def test_then_postcode_record_status_unknown_record_fails_naming_the_id(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_postcode_record_has_status("NB1-4XY-NOPE", "stale")
+
+    assert "NB1-4XY-NOPE" in str(failure.value)

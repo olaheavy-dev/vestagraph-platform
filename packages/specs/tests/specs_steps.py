@@ -75,3 +75,70 @@ def then_area_record_shows_no_value(data_steps: DataSteps, record_id: str) -> No
 @then(parsers.parse('home "{home_id}" has coverage "{coverage}"'))
 def then_home_has_coverage(data_steps: DataSteps, home_id: str, coverage: str) -> None:
     data_steps.then_home_has_coverage(home_id, coverage)
+
+
+@then(parsers.parse('area result "{postcode}" has topic "{topic_key}" with outcome "{outcome}"'))
+def then_area_result_has_topic_with_outcome(
+    data_steps: DataSteps, postcode: str, topic_key: str, outcome: str
+) -> None:
+    data_steps.then_area_result_has_topic_with_outcome(postcode, topic_key, outcome)
+
+
+@then(
+    parsers.parse('area result "{postcode}" leaves topic "{topic_key}" out of the coverage total')
+)
+def then_area_result_leaves_topic_out_of_coverage(
+    data_steps: DataSteps, postcode: str, topic_key: str
+) -> None:
+    data_steps.then_area_result_leaves_topic_out_of_coverage(postcode, topic_key)
+
+
+@then(parsers.parse('area result "{postcode}" asks the gap question for record "{record_id}"'))
+def then_area_result_asks_gap_question(
+    data_steps: DataSteps, postcode: str, record_id: str
+) -> None:
+    data_steps.then_area_result_asks_gap_question(postcode, record_id)
+
+
+@then(
+    parsers.parse('area result "{postcode}" has priority "{priority_id}" with outcome "{outcome}"')
+)
+def then_area_result_has_priority_with_outcome(
+    data_steps: DataSteps, postcode: str, priority_id: str, outcome: str
+) -> None:
+    data_steps.then_area_result_has_priority_with_outcome(postcode, priority_id, outcome)
+
+
+@then(
+    parsers.parse(
+        'area result "{postcode}" has priority "{priority_id}" with nearest record "{record_id}"'
+    )
+)
+def then_area_result_has_priority_with_nearest_record(
+    data_steps: DataSteps, postcode: str, priority_id: str, record_id: str
+) -> None:
+    data_steps.then_area_result_has_priority_with_nearest_record(postcode, priority_id, record_id)
+
+
+@then(parsers.parse('area result "{postcode}" has a display distance for record "{record_id}"'))
+def then_area_result_has_display_distance(
+    data_steps: DataSteps, postcode: str, record_id: str
+) -> None:
+    data_steps.then_area_result_has_display_distance(postcode, record_id)
+
+
+@then(
+    parsers.parse(
+        'area result "{postcode}" counts buses for stop "{stop_id}" '
+        'on route "{route}" at hour {hour:d}'
+    )
+)
+def then_area_result_counts_buses(
+    data_steps: DataSteps, postcode: str, stop_id: str, route: str, hour: int
+) -> None:
+    data_steps.then_area_result_counts_buses(postcode, stop_id, route, hour)
+
+
+@then(parsers.parse('postcode record "{record_id}" has status "{status}"'))
+def then_postcode_record_has_status(data_steps: DataSteps, record_id: str, status: str) -> None:
+    data_steps.then_postcode_record_has_status(record_id, status)

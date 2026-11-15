@@ -7,19 +7,21 @@ The prototype specification lives here (decision [0043](../decisions/0043-specif
 |---|---|---|
 | `screens/NN-<screen>.feature` | One feature per screen in doc 03 §5, numbered in that order (for example `05-real-costs.feature`); 14 screens, with Check an area (decision 0046) appended as `14-check-an-area.feature` so earlier numbers and IDs never move | #68 |
 | `pilot/<feature>.feature` | The pilot's specifications (stage 5b, decisions 0051 and 0052), for example `area-chat.feature`; checked by the pilot gate | #223 and later pilot specifications |
+| `pilot/area-glance.feature`, `area-priorities.feature`, `area-topics.feature`, `area-display.feature`, `area-map.feature` | The first design batch of the area result: At a glance (GLANCE), priorities (PRIO), the topic sheet and panel (TOPIC) and display settings, theme and text size (DISP) and the maps' behaviour (MAP); its error and edge states are AREA-28 to AREA-36 in `screens/14-check-an-area.feature` | — |
 | `stories/buyer.feature`, `stories/renter.feature` | The step-by-step story scripts | #69, #70 |
 | `mcp-tools.feature` | The MCP tool surface for AI assistants | #117 |
 
 The design skills' working notes in `.design/<feature>/` (decision 0031) feed these files. If they disagree, this folder wins.
 
 ## Rules
-1. **Every acceptance criterion is a Gherkin `Scenario:`** whose name starts with a permanent ID, for example `Scenario: COSTS-02 missing insurance is not zero`. Keep each scenario to one observable outcome.
+1. **Every acceptance criterion is a Gherkin `Scenario:`** whose name starts with a permanent ID, for example `Scenario: COSTS-02 missing insurance is not zero`. Keep each scenario to one observable outcome. For an error state, the cause, the reassurance and the one action (register line B22) count as one outcome.
 2. **IDs:** a code for the screen or area plus a number, for example `COSTS-02`, `BUY-3.2` (buyer story, step 3, scenario 2) or `MCP-01`.
    - An ID is never reused or renumbered.
    - A scenario that is no longer needed stays in the file, tagged `@withdrawn`.
 3. **Figures are cited by ID, in quotes, never typed** (AGENTS.md rule 2):
    - inputs by evidence ID from `packages/fixtures/data/`;
-   - calculated values by figure ID from `packages/fixtures/generated/costs.json`.
+   - calculated values by figure ID from `packages/fixtures/generated/costs.json`;
+   - area results by postcode and topic, priority or record ID from `packages/fixtures/generated/area-result.json`; the search distance from `SEARCH_LIMIT_METRES` (`packages/vestagraph-area/src/vestagraph_area/priorities.py`) shown by `vestagraph_area.distance.display_distance`.
 
    A value the engine does not produce is written "not calculated". Missing and partial states are named explicitly, and missing is never shown as £0 (rule 7).
 4. **Required states:** each feature's description maps every required state from doc 03 §5 that applies to it to at least one scenario, for example ambiguous match, not covered, stale, partial answer or source failed.
@@ -48,6 +50,14 @@ The design skills' working notes in `.design/<feature>/` (decision 0031) feed th
   - `Then evidence "<evidence ID>" exists`
   - `Then area record "<record ID>" has status "<recorded | no-record-in-source | stale | source-failed | not-covered>"` (a record in `packages/fixtures/data/area.json`)
   - `Then area record "<record ID>" shows no value` (the record carries no `value`, so the screen has nothing to show as a result; rule 7)
+  - `Then area result "<postcode>" has topic "<topic key>" with outcome "<found | not-known | not-covered>"` (`packages/fixtures/generated/area-result.json`; the postcode is written as in that file, e.g. `NB1 4XY`)
+  - `Then area result "<postcode>" leaves topic "<topic key>" out of the coverage total` (the topic is absent from the postcode's `topics` list, because the registry marks it `counted: false`, or its outcome is `not-covered`)
+  - `Then area result "<postcode>" asks the gap question for record "<record ID>"` (the glance questions include that record)
+  - `Then area result "<postcode>" has priority "<priority ID>" with outcome "<meets | misses | not-known | not-known-beyond-search>"`
+  - `Then area result "<postcode>" has priority "<priority ID>" with nearest record "<record ID>"`
+  - `Then area result "<postcode>" has a display distance for record "<record ID>"` (the record has a distance with display text; never a typed number)
+  - `Then area result "<postcode>" counts buses for stop "<record ID>" on route "<route>" at hour <8 | 12>` (an entry exists; the count is never typed)
+  - `Then postcode record "<record ID>" has status "<recorded | no-record-in-source | stale | source-failed | not-covered>"` (a record in `packages/fixtures/data/postcode-area.json`; the `area record` step reads `area.json`)
   - `Then home "<home ID>" has coverage "<covered | not-yet-covered>"`
 
   `Given home ... is at story step N` accepts any step from a scenario's `fromStep` to its `toStep` (for B1, step 2 is `from-step-1`) and then requires every figure ID cited in that scenario to start with `<home>.<scenario>.`. `has status` and `shows no amount` apply to cost lines only, not totals. The wording in decision 0043's example is illustrative; this list is the contract.

@@ -19,6 +19,9 @@ _COSTS = "packages/fixtures/generated/costs.json"
 _EVIDENCE = "packages/fixtures/data/evidence.json"
 _HOMES = "packages/fixtures/data/homes.json"
 _AREA = "packages/fixtures/data/area.json"
+_AREA_RESULT = "packages/fixtures/generated/area-result.json"
+_PILOT_TOPICS = "packages/fixtures/data/pilot-topics.json"
+_POSTCODE_AREA = "packages/fixtures/data/postcode-area.json"
 
 
 @dataclass(frozen=True)
@@ -37,6 +40,9 @@ class _Loaded:
     homes: frozenset[str]
     home_records: dict[str, Json]
     area: dict[str, Json]
+    area_results: dict[str, Json]
+    postcode_records: dict[str, Json]
+    topic_keys: frozenset[str]
 
 
 def repository_root() -> Path:
@@ -88,7 +94,19 @@ def _load() -> _Loaded:
     evidence = frozenset(item["id"] for item in _read(_EVIDENCE)["evidence"])
     home_records = {item["id"]: item for item in _read(_HOMES)["homes"]}
     area = {item["id"]: item for item in _read(_AREA)["area"]}
-    return _Loaded(figures, scenarios, evidence, frozenset(home_records), home_records, area)
+    area_results = {item["postcode"]: item for item in _read(_AREA_RESULT)["postcodes"]}
+    postcode_records = {item["id"]: item for item in _read(_POSTCODE_AREA)["area"]}
+    return _Loaded(
+        figures,
+        scenarios,
+        evidence,
+        frozenset(home_records),
+        home_records,
+        area,
+        area_results,
+        postcode_records,
+        frozenset(item["key"] for item in _read(_PILOT_TOPICS)["topics"]),
+    )
 
 
 def evidence_ids() -> frozenset[str]:
@@ -143,7 +161,7 @@ class StoryPosition:
 
 
 class DataSteps:
-    """The seven data steps; the wording that selects each is in ``specs_steps.py``."""
+    """The data steps; the wording that selects each is in ``specs_steps.py``."""
 
     def __init__(self, position: StoryPosition) -> None:
         self._position = position
@@ -229,6 +247,96 @@ class DataSteps:
             f'Home "{home_id}" has coverage "{actual}", not "{coverage}", in {_HOMES}.'
         )
 
+    def then_area_result_has_topic_with_outcome(
+        self, postcode: str, topic_key: str, outcome: str
+    ) -> None:
+        topic = _find(_require_area_result(postcode)["topics"], "key", topic_key)
+        assert topic is not None, (
+            f'Area result "{postcode}" has no topic "{topic_key}" in {_AREA_RESULT} '
+            "(an uncounted topic is left out of the list)."
+        )
+        assert topic["outcome"] == outcome, (
+            f'Area result "{postcode}" topic "{topic_key}" has outcome "{topic["outcome"]}", '
+            f'not "{outcome}", in {_AREA_RESULT}.'
+        )
+
+    def then_area_result_leaves_topic_out_of_coverage(self, postcode: str, topic_key: str) -> None:
+        """Absent from ``topics`` (registry ``counted`` false) or not-covered: not in the total."""
+        assert topic_key in _load().topic_keys, (
+            f'Topic "{topic_key}" is not in {_PILOT_TOPICS}. Check the key for a typo.'
+        )
+        topic = _find(_require_area_result(postcode)["topics"], "key", topic_key)
+        assert topic is None or topic["outcome"] == "not-covered", (
+            f'Area result "{postcode}" counts topic "{topic_key}" in {_AREA_RESULT}.'
+        )
+
+    def then_area_result_asks_gap_question(self, postcode: str, record_id: str) -> None:
+        questions = _require_area_result(postcode)["glance"]["questions"]
+        assert _find(questions, "recordId", record_id) is not None, (
+            f'Area result "{postcode}" asks no gap question for record "{record_id}" '
+            f"in {_AREA_RESULT}."
+        )
+
+    def then_area_result_has_priority_with_outcome(
+        self, postcode: str, priority_id: str, outcome: str
+    ) -> None:
+        priority = _require_priority(postcode, priority_id)
+        assert priority["outcome"] == outcome, (
+            f'Area result "{postcode}" priority "{priority_id}" has outcome '
+            f'"{priority["outcome"]}", not "{outcome}", in {_AREA_RESULT}.'
+        )
+
+    def then_area_result_has_priority_with_nearest_record(
+        self, postcode: str, priority_id: str, record_id: str
+    ) -> None:
+        priority = _require_priority(postcode, priority_id)
+        assert priority.get("nearestRecordId") == record_id, (
+            f'Area result "{postcode}" priority "{priority_id}" has nearest record '
+            f'"{priority.get("nearestRecordId")}", not "{record_id}", in {_AREA_RESULT}.'
+        )
+
+    def then_area_result_has_display_distance(self, postcode: str, record_id: str) -> None:
+        distance = _find(_require_area_result(postcode)["distances"], "recordId", record_id)
+        assert distance is not None, (
+            f'Area result "{postcode}" has no distance for record "{record_id}" in {_AREA_RESULT}.'
+        )
+        display = distance.get("display")
+        assert isinstance(display, str), (
+            f'Area result "{postcode}" distance for record "{record_id}" has no display text '
+            f"in {_AREA_RESULT}."
+        )
+        assert display, (
+            f'Area result "{postcode}" distance for record "{record_id}" has no display text '
+            f"in {_AREA_RESULT}."
+        )
+
+    def then_area_result_counts_buses(
+        self, postcode: str, stop_id: str, route: str, hour: int
+    ) -> None:
+        counts = [
+            item
+            for item in _require_area_result(postcode)["busesPerHour"]
+            if item["stopItemId"] == stop_id
+            and item["routeNumber"] == route
+            and item["hour"] == hour
+        ]
+        assert counts, (
+            f'Area result "{postcode}" has no bus count for stop "{stop_id}" on route "{route}" '
+            f"at hour {hour} in {_AREA_RESULT}."
+        )
+
+    def then_postcode_record_has_status(self, record_id: str, status: str) -> None:
+        record = _load().postcode_records.get(record_id)
+        assert record is not None, (
+            f'Postcode record "{record_id}" is not in {_POSTCODE_AREA}. '
+            "Check the ID against that file; records are cited by ID and never typed."
+        )
+        actual = record.get("status")
+        assert actual == status, (
+            f'Postcode record "{record_id}" has status "{actual}", not "{status}", '
+            f"in {_POSTCODE_AREA}."
+        )
+
     def _require_figure(self, figure_id: str) -> Json:
         figure = try_get_figure(figure_id)
         assert figure is not None, (
@@ -250,3 +358,24 @@ def _require_area_record(record_id: str) -> Json:
         "Check the ID against that file; records are cited by ID and never typed."
     )
     return record
+
+
+def _find(items: list[Json], key: str, value: str) -> Json | None:
+    return next((item for item in items if item[key] == value), None)
+
+
+def _require_area_result(postcode: str) -> Json:
+    result = _load().area_results.get(postcode)
+    assert result is not None, (
+        f'Postcode "{postcode}" is not in {_AREA_RESULT}. '
+        "Check it against that file; postcodes are cited as written there."
+    )
+    return result
+
+
+def _require_priority(postcode: str, priority_id: str) -> Json:
+    priority = _find(_require_area_result(postcode)["priorities"], "priorityId", priority_id)
+    assert priority is not None, (
+        f'Area result "{postcode}" has no priority "{priority_id}" in {_AREA_RESULT}.'
+    )
+    return priority
