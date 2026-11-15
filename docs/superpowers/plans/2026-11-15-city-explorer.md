@@ -6,7 +6,7 @@
 
 **Architecture:** This is stage 3 work only, the same shape as the first design batch (#259):
 - Research the sources first, so the sample data takes the real sources' shapes.
-- The data contract comes next: a council sample file and its schema, plus a versioned council tax band table.
+- The data contract comes next: a council sample file and its schema. The eight council tax bands are published inputs (MHCLG Table 9), so there is no band table.
 - New pure modules in `vestagraph_area` work out every figure. They call `vestagraph_engine` for the mortgage repayment.
 - The generator writes a third generated file, `council-result.json`, with every figure for the example inputs and all eight bands.
 - The canvas boards quote that file.
@@ -22,7 +22,7 @@
   - Inputs carry a source.
   - Outputs come from `vestagraph_area` through `council-result.json`.
   - Test expectations are worked out independently, with their working (the test-first skill).
-- **Rule 3:** the band proportions live in a versioned rule table. Its source is the [Local Government Finance Act 1992, s.5(1)](https://www.legislation.gov.uk/ukpga/1992/14/section/5), England, 6:7:8:9:11:13:15:18 over 9, with an effective date. Adding that table makes PR A a founder merge (AGENTS.md: tax rule tables).
+- **Rule 3:** there is **no band rule table**. The eight council tax band amounts are published inputs from MHCLG's [council tax levels 2026-27](https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2026-to-2027) Table 9, each recorded with its source (founder, 15 Nov 2026: "Record all eight bands", reason "Match the publication"). Nothing is derived from Band D by proportions, and there are no ratio tests. The mortgage rates are inputs from the Bank of England series (sources in Task 1's note).
 - **Rule 7:** missing is never zero, a flat line or a clean result.
   - A gap status never becomes a value.
   - A trend caption needs both end points.
@@ -34,7 +34,7 @@
   - no score drawn on a map;
   - no combined score;
   - no verdict words ("best", "better", "cheaper", "high", "low", "steep", "sharp").
-- **Money:** in `Pence`, rounding halves away from zero, once per published figure (0021). A band's yearly amount is rounded once, as on a bill; its monthly amount is then that yearly amount ÷ 12 via `Pence.annual_to_monthly`, rounded once more on purpose, because the monthly figure comes from the published yearly figure (#197 notes that no record states the ÷ 12 rule yet). Captions show money in whole pounds (rounded from pence, halves away from zero); the generated file keeps pence.
+- **Money:** in `Pence`, rounding halves away from zero, once per published figure (0021). A band's yearly amount is the published amount, recorded in pence as given; its monthly amount is that yearly amount ÷ 12 via `Pence.annual_to_monthly`, rounded once, because the monthly figure comes from the published yearly figure (#197 notes that no record states the ÷ 12 rule yet). Captions show money in whole pounds (rounded from pence, halves away from zero); the generated file keeps pence.
 - **Exact numbers in generated files:** a whole `Fraction` is written as an integer, any other as an exact decimal string (`"34.5"`), as `area-result.json` does; never a float.
 - **Rankings note:** the official deprivation rank and decile are allowed, quoted as published with 0054's notes ("relative, not absolute"; "describes the neighbourhood, not a street"); what is banned is a ranking we make.
 - **Percentages:** one decimal place, halves away from zero, from an exact `Fraction`.
@@ -47,8 +47,8 @@
 
 ## Review Focus
 1. **A deposit of 100% or more, or a loan of zero,** gives "deposit too large: no mortgage needed" on the buy side, never a crash or £0; the rent side stays. The test is in Task 4.
-2. **A loan above the highest published band** (for example a 3% deposit when the bands stop at 95%) gives `rate-band-unavailable` on the buy side; the rent side stays. It never falls back to a lower band. A small loan takes the lowest band that covers it (bands mean "up to X% loan"; a 50% loan takes the 60% band). The test is in Task 4.
-6. **Missing council tax** (Band D is a gap) gives `council-tax-missing`, with no side, comparison or budget label, never £0. The test is in Task 4.
+2. **A loan above the highest published band** (for example a 3% deposit when the bands stop at 95%) gives `rate-band-unavailable` on every buy side; the rent side stays. **A product with no rate at the deposit's band** (the 5-year fixed is published only at 75% and 95%) gives `rate-band-unavailable` on that product's buy side only; the 2-year side stays. A band is never borrowed from another band or product. A small loan takes the lowest band that covers it (bands mean "up to X% loan"; a 50% loan takes the 60% band). The tests are in Task 4.
+6. **Missing council tax** (the band's published amount is a gap) gives `council-tax-missing`, with no side, comparison or budget label, never £0. The test is in Task 4.
 7. **A very large typed rate** gives `rate-too-high`, never a crash. The test is in Task 4.
 3. **A council with no published rent** gets the buy side only: no difference sentence and no budget label for rent. The test is in Tasks 4 and 6.
 4. **A trend whose month 12 months earlier is missing or across a method break** gets no change caption. It shows only "not published" or "not comparable". The test is in Task 5.
@@ -57,7 +57,7 @@
 ## Pull requests
 - **PR R (research, documentation):** Task 1. Branch `docs/city-explorer-sources`.
 - **PR A (code, Codex review):** Tasks 2 to 9. Branch `feat/council-result-data`.
-  - The founder merges it, because it adds the band rule table.
+  - It is no longer a founder merge for the tax rule-table reason, because there is no band rule table (founder: "Record all eight bands"). Task 9 checks that nothing else on the founder-only list is in it.
   - The pre-push review runs **before** the push (agent-workflows#23). The builder's brief ends at a local commit and `make check`.
 - **PR B (canvas record):** Tasks 10 to 13.
 - **PR C (specifications):** Task 14, after the founder approves the boards.
@@ -100,29 +100,24 @@
 - Create:
   - `packages/fixtures/schema/council-area.schema.json`
   - `packages/fixtures/data/council-area.json`
-  - `packages/fixtures/schema/council-tax-bands.schema.json`
-  - `packages/fixtures/data/council-tax-bands.json`
 - Modify: `packages/fixtures/README.md`
 - Test: `make validate`
 
 **Interfaces:**
-- **Produces `council-tax-bands.json`:**
-  `{ "$schema", "nation": "england", "effectiveFrom": "1993-04-01", "source": {label, url: "https://www.legislation.gov.uk/ukpga/1992/14/section/5"}, "bands": [ {"band": "A", "numerator": 6}, …, {"band": "H", "numerator": 18} ], "denominator": 9 }`
-  - The numerators are 6, 7, 8, 9, 11, 13, 15, 18.
-  - `effectiveFrom` is the date council tax began in England, 1 April 1993; Task 1 confirms it from an official page, and PR A carries no placeholder.
 - **Produces `council-area.json`:**
   `{ "$schema", "councils": [Council], "places": [PlaceName], "rateBands": [RateBand] }`
   - **Council:**
-    `{ "code", "name", "nation", "tier": "unitary"|"district", "county"?, "formedOn"?, "formerNames"?: [..], "population": Fact, "bandD": Fact, "rentSeries": Series, "priceSeries": Series, "affordabilitySeries": Series, "tenure": Fact, "connectivity": Fact, "neighbourhoods": [Neighbourhood] }`
+    `{ "code", "name", "nation", "tier": "unitary"|"district", "county"?, "formedOn"?, "formerNames"?: [..], "population": Fact, "bands": Fact, "rentSeries": Series, "priceSeries": Series, "affordabilitySeries": Series, "tenure": Fact, "connectivity": Fact, "neighbourhoods": [Neighbourhood] }`
   - **Fact:**
     `{ "status": "recorded"|"no-record-in-source"|"source-failed"|"not-covered", "value"?, "level": {kind, name}, "source": {label, url, edition, period} }`
   - **Series:**
     `{ "status", "unit": "pence-per-month"|"pence"|"ratio", "points": [ {"period": "YYYY-MM"|"YYYY", "value"?: int|decimal-string, "status": "recorded"|"provisional"|"not-published", "methodBreakBefore"?: true} ], "level", "source" }`
+  - **Bands value (the `bands` Fact):** `{ "A": int, "B": int, …, "H": int }`: the eight published yearly band amounts in pence, from MHCLG Table 9 ("Area council tax for a dwelling occupied by two adults by band"). A recorded `bands` Fact has all eight keys; a gap status carries no value. The Fact's `source` names Table 9 and its edition.
   - **Tenure value:** `{ "ownedOutright", "ownedWithMortgage", "socialRented", "privateRented", "other" }`. These are whole household counts; shares are worked out.
   - **Neighbourhood:**
     `{ "code" (the full LSOA code, for example a synthetic "E01999012"), "shortCode" (the suffix shown and used after the `#`, for example "012C"), "largerAreaName", "facts": { "connectivity": Fact, "deprivation": Fact (value {decile, rank, ofAreas, edition}), "tenure": Fact } }`
   - **PlaceName:** `{ "name", "county", "region", "councilCodes": [..] }`
-  - **RateBand:** `{ "maxLoanToValuePercent": int, "rateBasisPoints": int, "month": "YYYY-MM", "source" }`. The bands are shaped like the Bank's published ones (Task 1).
+  - **RateBand:** `{ "product": "2-year-fixed"|"5-year-fixed", "maxLoanToValuePercent": int, "rateBasisPoints": int, "month": "YYYY-MM", "source" }`. The bands are shaped like the Bank's published ones (Task 1): the 2-year fixed at 60, 75, 85, 90 and 95%; the 5-year fixed at 75 and 95% only.
   - Every rate stays an input, never a calculated figure.
 
 - [ ] **Step 1:** Write the schemas (`additionalProperties: false`; a gap status carries no `value`).
@@ -133,17 +128,18 @@
   - **Westshire (synthetic)** has two districts: Eastmere and "Westmere (synthetic)" (a small district record, other facts as gaps).
   - **Places:** "Northbridge" (one council), "Newbury (synthetic)" twice in two counties, "Westshire" (the county, listing both districts), a place spanning Eastmere and Westmere, a "London"-style region name listing several councils (synthetic "Capital (synthetic)" with two council codes), and a Welsh-style place with `nation: "wales"`.
   - **Postcodes:** a short list mapping sample postcodes to councils (`"postcodes": [{postcode, councilCode}]`, NB1 4XY to Northbridge, one to Southvale), for the "postcode in another council" check.
-  - **Rate bands:** 60, 75, 85, 90 and 95.
+  - **Rate bands:** 2-year fixed at 60, 75, 85, 90 and 95; 5-year fixed at 75 and 95 (as the Bank quotes them, Task 1). The rate values are synthetic and carry their source label.
+  - **Council tax bands:** each complete council records all eight band amounts as a `bands` Fact; Westmere's `bands` is a gap (`no-record-in-source`), to test the missing-council-tax case.
 - [ ] **Step 3:** Run `make validate`. Expected: PASS.
-- [ ] **Step 4:** Commit: `feat: council sample data, schema and the band rule table`.
+- [ ] **Step 4:** Commit: `feat: council sample data and schema`.
 
-### Task 3: Council records reader and council tax bands
+### Task 3: Council records reader and council tax band amounts
 
 **Files:**
 - Create:
   - `packages/vestagraph-area/src/vestagraph_area/council_records.py`
   - `packages/vestagraph-area/src/vestagraph_area/council_tax.py`
-  - `packages/fixtures/test-cases/council-tax-bands.json`
+  - `packages/fixtures/test-cases/council-tax.json`
   - `packages/vestagraph-area/tests/test_council_tax.py`
   - `packages/vestagraph-area/tests/test_council_records.py`
 - Modify:
@@ -154,28 +150,30 @@
 **Interfaces:**
 - **Produces in `council_records.py`:**
   - `read_council_area(path) -> CouncilArea`
-  - `read_band_table(path) -> BandTable`
-  - frozen dataclasses mirroring Task 2 (`Council`, `Fact`, `Series`, `SeriesPoint`, `Neighbourhood`, `PlaceName`, `RateBand`, `BandTable`)
+  - frozen dataclasses mirroring Task 2 (`Council`, `Fact`, `Series`, `SeriesPoint`, `Neighbourhood`, `PlaceName`, `RateBand`)
   - it raises `InvalidAreaDataError` (from `records.py`) for anything not understood, with the same refusals as `read_postcode_area`.
 - **Produces in `council_tax.py`:**
-  - `band_yearly(band_d_yearly: Pence, band: str, table: BandTable) -> Pence`, which is `round_ratio(band_d × numerator, denominator)`;
+  - `band_yearly(bands: Fact, band: str) -> Pence | None`, which reads the published yearly amount for that band from the council's `bands` Fact, and returns `None` when the Fact is a gap (never £0, rule 7);
   - `band_monthly(yearly: Pence) -> Pence`, which is `yearly.annual_to_monthly()`.
   - An unknown band raises `InvalidAreaDataError`.
 
 - [ ] **Step 1:** Work the cases by hand, with the working shown:
-  - the Band D example for all 8 bands;
-  - Band D amounts leaving remainders of 4/9 and 5/9 of a penny on band B (×7/9; band A, ×6/9, only leaves 0, 3 or 6 ninths), to show rounding down and up (an exact half is impossible over 9);
-  - a yearly amount leaving exactly half a penny when ÷ 12 (for example 6 pence a year), to show halves away from zero;
-  - each band's monthly amount.
+  - each of the eight sample band amounts and its monthly amount (yearly ÷ 12, rounded once, halves away from zero);
+  - a yearly amount leaving exactly half a penny when ÷ 12 (for example 6 pence a year: 6 ÷ 12 = 0.5, which rounds to 1 penny), to show halves away from zero;
+  - a yearly amount that divides exactly;
+  - a `bands` gap (no amount, no monthly figure).
+  - There are no ratio cases: the amounts are published, not derived.
 - [ ] **Step 2:** Write the tests:
-  - `test_band_yearly_worked_cases_match_expected`
-  - `test_band_yearly_band_d_is_unchanged`
+  - `test_band_yearly_returns_the_published_amount_for_each_band`
   - `test_band_yearly_unknown_band_raises`
+  - `test_band_yearly_gap_returns_none_not_zero`
+  - `test_band_monthly_worked_cases_match_expected`
+  - `test_band_monthly_exact_half_penny_rounds_away_from_zero`
   - `test_read_council_area_gap_with_value_raises`
-  - `test_read_band_table_wrong_numerators_count_raises`
+  - `test_read_council_area_recorded_bands_missing_a_band_raises`
 - [ ] **Step 3:** Run `uv run pytest packages/vestagraph-area -q -k council`. Expected: FAIL (the module is missing).
 - [ ] **Step 4:** Implement it. Run again. Expected: PASS.
-- [ ] **Step 5:** Commit: `feat: council records reader and council tax bands (LGFA 1992 s.5)`.
+- [ ] **Step 5:** Commit: `feat: council records reader and council tax band amounts`.
 
 ### Task 4: Rent or buy, per month
 
@@ -190,40 +188,52 @@
   - `vestagraph_engine.mortgage.monthly_repayment(loan: Pence, rate_basis_points: int, term_years: int) -> Result[MortgageRepayment]`
   - `band_monthly` (Task 3)
 - **Produces:**
-  - `rate_band_for(deposit_percent: Fraction, bands: Sequence[RateBand]) -> RateBand | None`. The loan-to-value is `100 − deposit_percent`. The function returns the smallest band whose `maxLoanToValuePercent` is at least that (bands mean "up to X% loan"), and `None` when the loan-to-value is above the highest band or at or below 0.
+  - `rate_band_for(deposit_percent: Fraction, bands: Sequence[RateBand], product: "2-year-fixed"|"5-year-fixed") -> RateBand | None`.
+    - The loan-to-value is `100 − deposit_percent`.
+    - The band is chosen on the **whole band grid** (the loan-to-value values of every product's bands together: 60, 75, 85, 90, 95): the smallest grid band whose `maxLoanToValuePercent` is at least the loan-to-value (bands mean "up to X% loan").
+    - The function then returns that product's rate **at that same grid band**, or `None` when the product publishes none there. A band is never borrowed from another band or product, so the 5-year fixed has a rate only for loans taking the 75% or 95% grid band.
+    - It returns `None` for every product when the loan-to-value is above the highest grid band or at or below 0.
+    - This reading of "a 5-year line where the Bank quotes one, and no published rate elsewhere" is the agent's call, for the founder to review in PR A: a 5-year rate from the 95% band is not used for an 80% loan.
   - `rent_or_buy(rent_monthly: Pence | None, price: Pence | None, council_tax_monthly: Pence | None, deposit_percent: Fraction, term_years: int, rate_basis_points: int | None, bands: Sequence[RateBand]) -> RentOrBuy`
-  - `RentOrBuy(rent_side: Pence | None, buy_side: Pence | None, repayment: Pence | None, rate_used: RateBand | None, comparison: "more"|"less"|"about-the-same"|None, difference: Pence | None, problem: str | None)`
+  - `RentOrBuy(rent_side: Pence | None, buy_sides: tuple[BuySide, ...], problem: str | None)`
+  - `BuySide(product: "2-year-fixed"|"5-year-fixed"|"typed-rate", buy_side: Pence | None, repayment: Pence | None, rate_used: RateBand | None, comparison: "more"|"less"|"about-the-same"|None, difference: Pence | None, problem: str | None)`
   - `ABOUT_THE_SAME_PENCE = 1000` (£10 a month, the agent's call, for the founder to review in PR A).
 - **Rules:**
   - `rent_side` = rent + council tax.
-  - `buy_side` = repayment + council tax.
+  - Each `buy_side` = repayment + council tax.
+  - **One buy side per product** (founder, 15 Nov 2026: "Both where each exists"). Without a typed rate, `buy_sides` holds a 2-year-fixed side and a 5-year-fixed side. A product with no rate at the deposit's band gives a side with `buy_side None` and `problem "rate-band-unavailable"`; the other product's side and the rent side stay.
   - The repayment is on `price × (100 − deposit_percent) / 100`, rounded once, from the engine.
-  - A typed `rate_basis_points` overrides the band.
+  - A typed `rate_basis_points` overrides the bands: `buy_sides` then holds one side with `product "typed-rate"` and no `rate_used`.
   - A 0% typed rate gives a repayment of loan ÷ payments, rounded once (the engine refuses 0).
-  - **Problems** (`problem`). A problem with the buying inputs (`deposit-too-large`, `deposit-negative`, `term-out-of-range`, `rate-band-unavailable`, `rate-negative`, `rate-too-high`) hides only the buy side and the comparison: the rent side and its budget check stay, as the design's missing-input rule says. Only `council-tax-missing` hides both sides:
+  - **Problems.** A problem with the buying inputs hides every buy side and their comparisons: the rent side and its budget check stay, as the design's missing-input rule says. `RentOrBuy.problem` carries it: `deposit-too-large`, `deposit-negative`, `term-out-of-range`, `rate-negative`, `rate-too-high`. `rate-band-unavailable` sits on each `BuySide` (every side when the loan is above the highest band; one side when only that product lacks the band). Only `council-tax-missing` hides both rent and buy sides:
     - `deposit-too-large`: a deposit of 100% or more;
     - `deposit-negative`;
     - `term-out-of-range`: a term outside 1 to 40;
-    - `rate-band-unavailable`: no band and no typed rate;
+    - `rate-band-unavailable`: no rate at the band for that product, and no typed rate;
     - `rate-negative`;
     - `rate-too-high`: a typed rate above `MAX_TYPED_RATE_BASIS_POINTS = 2000` (20%, the agent's call, for the founder to review in PR A);
-    - `council-tax-missing`: no council tax for the band (Band D is a gap); never treated as £0.
+    - `council-tax-missing`: no council tax for the band (its published amount is a gap); never treated as £0.
   - A missing rent or price gives that side `None`, `comparison None` and `difference None`.
-  - `comparison` is "about-the-same" when |buy − rent| < 1000 pence. Otherwise it is "more" or "less" (buy compared with rent).
+  - Each side's `comparison` is "about-the-same" when |buy − rent| < 1000 pence. Otherwise it is "more" or "less" (buy compared with rent).
 
 - [ ] **Step 1:** Work the cases by hand from the Northbridge sample:
-  - deposits of 10%, 20% (an 80% loan, which takes the 85% band), 25% (75%), 40% (60%) and 3% (no band);
+  - deposits of 10% (a 90% loan: the 2-year fixed has a 90% band, the 5-year has none), 20% (an 80% loan, which takes the 85% band: no 5-year rate), 25% (75%: both products), 5% (95%: both products), 40% (60%: 2-year only) and 3% (no band for either);
   - 0%, 100% and −5% deposits;
   - a 0% typed rate;
   - Eastmere with no rent;
   - a pair within £10;
   - a 50% deposit (takes the 60% band);
+  - a typed rate (one "typed-rate" side);
   - missing council tax; a typed rate of 2,001 basis points.
 
   Show the engine's formula working for one case.
 - [ ] **Step 2:** Write the tests:
   - `test_rent_or_buy_worked_cases_match_expected`
-  - `test_rate_band_for_eighty_percent_loan_takes_eighty_five_band`
+  - `test_rate_band_for_two_year_eighty_percent_loan_takes_eighty_five_band`
+  - `test_rate_band_for_five_year_without_a_band_at_the_grid_band_is_none`
+  - `test_rent_or_buy_returns_one_buy_side_per_product`
+  - `test_rent_or_buy_five_year_unavailable_keeps_two_year_side_and_rent_side`
+  - `test_rent_or_buy_typed_rate_gives_one_typed_rate_side`
   - `test_rate_band_for_loan_above_highest_band_is_none`
   - `test_rent_or_buy_deposit_one_hundred_percent_is_deposit_too_large`
   - `test_rent_or_buy_missing_rent_has_buy_side_only_and_no_comparison`
@@ -234,7 +244,7 @@
   - `test_rent_or_buy_rate_above_limit_is_rate_too_high`
   - `test_rent_or_buy_no_rate_band_keeps_rent_side_and_hides_buy_side`
 - [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
-- [ ] **Step 4:** Commit: `feat: rent or buy per month with the rate for the deposit band`.
+- [ ] **Step 4:** Commit: `feat: rent or buy per month with the rate for the deposit band and product`.
 
 ### Task 5: Plain-words captions
 
@@ -357,7 +367,7 @@
 
 **Interfaces:**
 - **Produces `council-result.json`:**
-  `{ "$schema", "formatVersion": 1, "exampleInputs": {depositPercent: "10", termYears: 25}, "councils": [ { "code", "bands": [{band, yearly, monthly}], "rentOrBuy": {byBand: [{band, rentSide?, buySide?, repayment?, rateBand?, comparison?, difference?, problem?}]}, "captions": [{topic, kind, values}], "tenureShares": {...}?, "neighbourhoods": [{code, label: "<largerAreaName> (<code>)", tenureShares?}] } ], "search": [{query, kind, matches}] }`
+  `{ "$schema", "formatVersion": 1, "exampleInputs": {depositPercent: "10", termYears: 25}, "councils": [ { "code", "bands": [{band, yearly, monthly}] (yearly is the published amount, monthly is worked out), "rentOrBuy": {byBand: [{band, rentSide?, buySides: [{product, buySide?, repayment?, rateBand?, comparison?, difference?, problem?}], problem?}]}, "captions": [{topic, kind, values}], "tenureShares": {...}?, "neighbourhoods": [{code, label: "<largerAreaName> (<code>)", tenureShares?}] } ], "search": [{query, kind, matches}] }`
   - Everything is sorted, so a rerun is byte-identical.
   - The `search` cases are taken from the sample places.
 
@@ -377,10 +387,11 @@
   - the £10 "about the same" threshold;
   - the "unchanged" rule;
   - the caption wording file;
-  - the 20% typed-rate limit.
+  - the 20% typed-rate limit;
+  - how the 5-year line is chosen (a rate only where the Bank publishes one at the deposit's own band).
 - [ ] Run the pre-push Opus review with `code-security-reviewer` **before** pushing, and fix its findings.
 - [ ] Push, then comment `@codex review`.
-- [ ] The founder merges: it adds a tax rule table.
+- [ ] Merge: not a founder merge for the tax rule-table reason (there is no band rule table). Before merging, check that nothing else on the founder-only list is in the PR (a new package, `LICENSE`, `.claude/settings.json`, CI permissions, infrastructure).
 - [ ] Update `docs/planning/status.md` in the PR.
 
 ### Task 10: Canvas, chart style and the council page (light)
