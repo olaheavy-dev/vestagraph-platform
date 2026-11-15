@@ -1,0 +1,1311 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "northbridge-deposit-10-percent",
+      "description": "Deposit 10% on the Northbridge average home: a 90% loan; the 2-year fixed has a 90% band, the 5-year fixed has none there.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "10",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 90 / 100 = 26802000 exactly, nothing to round.",
+          "value": 26802000
+        },
+        {
+          "n": 4,
+          "description": "Loan-to-value 90 sits on the 90 grid band. 2-year fixed at 90 is 510 basis points; the 5-year fixed publishes no 90 band, so it has no rate (never borrowed from 95).",
+          "value": 510
+        },
+        {
+          "n": 5,
+          "description": "Engine formula: i = 510 / 120000 = 0.00425 a month, N = 25 x 12 = 300, (1+i)^N = 3.5690458001. pmt = 26802000 x 0.00425 x 3.5690458001 / 2.5690458001 = 113908.5 x 1.389236... = 158247.0 (exact fraction 158246.9...; rounded once to 158247).",
+          "value": 158247
+        },
+        {
+          "n": 6,
+          "description": "Buy side = 158247 + 18000 = 176247. Difference from rent side = 176247 - 156700 = 19547, more than 1000, so more.",
+          "value": 176247
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 176247,
+            "repaymentPence": 158247,
+            "rateUsedBasisPoints": 510,
+            "rateUsedMaxLoanToValuePercent": 90,
+            "comparison": "more",
+            "differencePence": 19547,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-20-percent",
+      "description": "Deposit 20%: an 80% loan takes the 85 grid band; the 5-year fixed has no 85 band, so it is unavailable rather than borrowing the 95 band.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "20",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 80 / 100 = 23824000 exactly.",
+          "value": 23824000
+        },
+        {
+          "n": 4,
+          "description": "Loan-to-value 80: the smallest grid band at or above 80 is 85. 2-year fixed at 85 is 470 basis points. The 5-year fixed has no 85 band.",
+          "value": 470
+        },
+        {
+          "n": 5,
+          "description": "i = 470/120000, N = 300, (1+i)^N = 3.2307197622. pmt = 23824000 x i x 3.2307197622 / 2.2307197622 = 135141 (rounded once).",
+          "value": 135141
+        },
+        {
+          "n": 6,
+          "description": "Buy side = 135141 + 18000 = 153141. Difference = 153141 - 156700 = -3559: less.",
+          "value": 153141
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 153141,
+            "repaymentPence": 135141,
+            "rateUsedBasisPoints": 470,
+            "rateUsedMaxLoanToValuePercent": 85,
+            "comparison": "less",
+            "differencePence": -3559,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-25-percent",
+      "description": "Deposit 25%: a 75% loan; both products publish a 75 band.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 75 / 100 = 22335000 exactly.",
+          "value": 22335000
+        },
+        {
+          "n": 4,
+          "description": "Loan-to-value 75 sits on the 75 band: 2-year fixed 430 basis points, 5-year fixed 450."
+        },
+        {
+          "n": 5,
+          "description": "2-year: i = 430/120000, (1+i)^300 = 2.9243684625, pmt = 121623. 5-year: i = 450/120000, (1+i)^300 = 3.0737425280, pmt = 124145."
+        },
+        {
+          "n": 6,
+          "description": "Buy sides = 121623 + 18000 = 139623 and 124145 + 18000 = 142145. Differences from 156700: -17077 and -14555, both less."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 139623,
+            "repaymentPence": 121623,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "less",
+            "differencePence": -17077,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 142145,
+            "repaymentPence": 124145,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "less",
+            "differencePence": -14555,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-5-percent",
+      "description": "Deposit 5%: a 95% loan; both products publish a 95 band.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "5",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 95 / 100 = 28291000 exactly.",
+          "value": 28291000
+        },
+        {
+          "n": 4,
+          "description": "Loan-to-value 95: 2-year fixed 560 basis points, 5-year fixed 540 at the 95 band."
+        },
+        {
+          "n": 5,
+          "description": "2-year: (1+i)^300 = 4.0420155289, pmt = 175425. 5-year: (1+i)^300 = 3.8457613042, pmt = 172046."
+        },
+        {
+          "n": 6,
+          "description": "Buy sides = 193425 and 190046. Differences from 156700: 36725 and 33346, both more."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 193425,
+            "repaymentPence": 175425,
+            "rateUsedBasisPoints": 560,
+            "rateUsedMaxLoanToValuePercent": 95,
+            "comparison": "more",
+            "differencePence": 36725,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 190046,
+            "repaymentPence": 172046,
+            "rateUsedBasisPoints": 540,
+            "rateUsedMaxLoanToValuePercent": 95,
+            "comparison": "more",
+            "differencePence": 33346,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-40-percent",
+      "description": "Deposit 40%: a 60% loan; 2-year fixed only (the 5-year fixed has no 60 band).",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "40",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 60 / 100 = 17868000 exactly.",
+          "value": 17868000
+        },
+        {
+          "n": 4,
+          "description": "Loan-to-value 60 sits on the 60 band: 2-year fixed 410 basis points; none for the 5-year fixed.",
+          "value": 410
+        },
+        {
+          "n": 5,
+          "description": "i = 410/120000, (1+i)^300 = 2.7822304791, pmt = 95303. Buy side = 113303; difference = -43397: less.",
+          "value": 113303
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 113303,
+            "repaymentPence": 95303,
+            "rateUsedBasisPoints": 410,
+            "rateUsedMaxLoanToValuePercent": 60,
+            "comparison": "less",
+            "differencePence": -43397,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-50-percent",
+      "description": "Deposit 50%: a 50% loan is below every band so it takes the lowest, 60 (bands mean up to X% loan).",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "50",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 50 / 100 = 14890000 exactly.",
+          "value": 14890000
+        },
+        {
+          "n": 4,
+          "description": "Loan-to-value 50: smallest grid band at or above 50 is 60. 2-year fixed 410 basis points; no 5-year fixed 60 band.",
+          "value": 410
+        },
+        {
+          "n": 5,
+          "description": "pmt = 14890000 x i x 2.7822304791 / 1.7822304791 = 79419. Buy side = 97419; difference = -59281: less.",
+          "value": 97419
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 97419,
+            "repaymentPence": 79419,
+            "rateUsedBasisPoints": 410,
+            "rateUsedMaxLoanToValuePercent": 60,
+            "comparison": "less",
+            "differencePence": -59281,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-3-percent",
+      "description": "Deposit 3%: a 97% loan is above the highest band (95): no product has a rate; rent side stays.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "3",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan-to-value 97 is above the highest grid band 95, so no rate for either product (no invented rate)."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-0-percent",
+      "description": "Deposit 0%: a 100% loan is above the highest band: no rate for either product.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "0",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan-to-value 100 is above 95: no rate."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-deposit-100-percent",
+      "description": "Deposit 100%: nothing to borrow, so deposit-too-large; buy sides hidden, rent side stays.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "100",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "A deposit of 100% or more leaves no loan: problem deposit-too-large. Every buy side is hidden."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": "deposit-too-large",
+        "buySides": []
+      }
+    },
+    {
+      "id": "northbridge-deposit-negative-5-percent",
+      "description": "A deposit of -5% is not possible: deposit-negative.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "-5",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "A deposit below 0% is refused: problem deposit-negative."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": "deposit-negative",
+        "buySides": []
+      }
+    },
+    {
+      "id": "northbridge-term-zero-years",
+      "description": "A term outside 1 to 40 years is refused: term-out-of-range.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 0,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Term 0 years is outside 1 to 40: problem term-out-of-range."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": "term-out-of-range",
+        "buySides": []
+      }
+    },
+    {
+      "id": "northbridge-term-forty-one-years",
+      "description": "A term outside 1 to 40 years is refused: term-out-of-range.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 41,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Term 41 years is outside 1 to 40: problem term-out-of-range."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": "term-out-of-range",
+        "buySides": []
+      }
+    },
+    {
+      "id": "northbridge-typed-rate-650",
+      "description": "A typed rate of 650 basis points (6.5%) overrides the bands: one typed-rate side.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": 650
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 75 / 100 = 22335000. Typed rate 6.5% = 650 basis points overrides the bands.",
+          "value": 22335000
+        },
+        {
+          "n": 4,
+          "description": "i = 650/120000, N = 300; pmt = 22335000 x i x (1+i)^N / ((1+i)^N - 1) = 150808 (rounded once). Buy side = 168808; difference = 12108: more.",
+          "value": 150808
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "typed-rate",
+            "buySidePence": 168808,
+            "repaymentPence": 150808,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": "more",
+            "differencePence": 12108,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-typed-rate-2000-allowed",
+      "description": "A typed rate of exactly 2000 basis points (20%) is allowed.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": 2000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan 22335000; rate 2000 is not above the 2000 limit.",
+          "value": 22335000
+        },
+        {
+          "n": 4,
+          "description": "pmt at i = 2000/120000 over 300 payments = 374882. Buy side = 392882; difference = 236182: more.",
+          "value": 374882
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "typed-rate",
+            "buySidePence": 392882,
+            "repaymentPence": 374882,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": "more",
+            "differencePence": 236182,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-typed-rate-2001-too-high",
+      "description": "A typed rate of 2001 basis points is above the 2000 limit: rate-too-high.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": 2001
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "2001 is above the 2000 (20%) limit: problem rate-too-high."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": "rate-too-high",
+        "buySides": []
+      }
+    },
+    {
+      "id": "northbridge-typed-rate-negative",
+      "description": "A negative typed rate is refused: rate-negative.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": -1
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "-1 basis points is below 0: problem rate-negative."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": "rate-negative",
+        "buySides": []
+      }
+    },
+    {
+      "id": "northbridge-typed-rate-zero-divides-loan",
+      "description": "A 0% typed rate: the engine refuses 0, so the repayment is loan / payments rounded once.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "33",
+        "termYears": 25,
+        "rateBasisPoints": 0
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "Loan = 29780000 x 67 / 100 = 19952600 exactly.",
+          "value": 19952600
+        },
+        {
+          "n": 4,
+          "description": "Payments N = 25 x 12 = 300. 19952600 / 300 = 66508.666..., so 66509 (nearest penny).",
+          "value": 66509
+        },
+        {
+          "n": 5,
+          "description": "Buy side = 66509 + 18000 = 84509; difference from 156700 = -72191: less.",
+          "value": 84509
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "typed-rate",
+            "buySidePence": 84509,
+            "repaymentPence": 66509,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": "less",
+            "differencePence": -72191,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-within-ten-pounds",
+      "description": "The 2-year fixed buy side is 499 pence below the rent side: about the same.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 122122,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Deposit 25%: 2-year fixed buy side 139623 (repayment 121623 + 18000), worked above. 5-year fixed buy side 142145.",
+          "value": 139623
+        },
+        {
+          "n": 2,
+          "description": "Rent 122122 + council tax 18000 = rent side 140122. 139623 - 140122 = -499; |-499| < 1000.",
+          "value": 140122
+        }
+      ],
+      "expected": {
+        "rentSidePence": 140122,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 139623,
+            "repaymentPence": 121623,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "about-the-same",
+            "differencePence": -499,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 142145,
+            "repaymentPence": 124145,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 2023,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-999-pence-apart",
+      "description": "999 pence apart is still about the same.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 122622,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Deposit 25%: 2-year fixed buy side 139623 (repayment 121623 + 18000), worked above. 5-year fixed buy side 142145.",
+          "value": 139623
+        },
+        {
+          "n": 2,
+          "description": "Rent 122622 + council tax 18000 = rent side 140622. 139623 - 140622 = -999; |-999| < 1000.",
+          "value": 140622
+        }
+      ],
+      "expected": {
+        "rentSidePence": 140622,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 139623,
+            "repaymentPence": 121623,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "about-the-same",
+            "differencePence": -999,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 142145,
+            "repaymentPence": 124145,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 1523,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-1000-pence-apart-is-less",
+      "description": "Exactly 1000 pence apart is no longer about the same: less.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 122623,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Deposit 25%: 2-year fixed buy side 139623 (repayment 121623 + 18000), worked above. 5-year fixed buy side 142145.",
+          "value": 139623
+        },
+        {
+          "n": 2,
+          "description": "Rent 122623 + council tax 18000 = rent side 140623. 139623 - 140623 = -1000; not < 1000, so less.",
+          "value": 140623
+        }
+      ],
+      "expected": {
+        "rentSidePence": 140623,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 139623,
+            "repaymentPence": 121623,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "less",
+            "differencePence": -1000,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 142145,
+            "repaymentPence": 124145,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 1522,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-1000-pence-apart-is-more",
+      "description": "Exactly 1000 pence the other way: more.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 120623,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Deposit 25%: 2-year fixed buy side 139623 (repayment 121623 + 18000), worked above. 5-year fixed buy side 142145.",
+          "value": 139623
+        },
+        {
+          "n": 2,
+          "description": "Rent 120623 + council tax 18000 = rent side 138623. 139623 - 138623 = +1000; not < 1000, so more.",
+          "value": 138623
+        }
+      ],
+      "expected": {
+        "rentSidePence": 138623,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 139623,
+            "repaymentPence": 121623,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 1000,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 142145,
+            "repaymentPence": 124145,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 3522,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "eastmere-no-rent",
+      "description": "Eastmere (synthetic) has no recorded rent: the rent side is missing, the buy sides stay, and no comparison is made.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": null,
+        "pricePence": 22620000,
+        "councilTaxMonthlyPence": 19500,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Eastmere inputs: rent series is a gap (no-record-in-source), average price 22620000 pence, band D council tax 234000 a year."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 234000 / 12 = 19500 exactly. Rent side is missing, never 0.",
+          "value": 19500
+        },
+        {
+          "n": 3,
+          "description": "Loan = 22620000 x 75 / 100 = 16965000. 2-year fixed 430: pmt = 92381; 5-year fixed 450: pmt = 94297 (rounded once each).",
+          "value": 16965000
+        },
+        {
+          "n": 4,
+          "description": "Buy sides = 92381 + 19500 = 111881 and 94297 + 19500 = 113797. No rent, so comparison and difference are missing."
+        }
+      ],
+      "expected": {
+        "rentSidePence": null,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 111881,
+            "repaymentPence": 92381,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": null,
+            "differencePence": null,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 113797,
+            "repaymentPence": 94297,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": null,
+            "differencePence": null,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-missing-price",
+      "description": "With no price the buy sides have no amount and no comparison; the rent side stays.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": null,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) inputs: average rent 138700 pence a month (latest point, 2026-10, provisional), average price 29780000 pence (2026-08, provisional), band D council tax 216000 pence a year (recorded)."
+        },
+        {
+          "n": 2,
+          "description": "Council tax a month: 216000 / 12 = 18000 exactly. Rent side = 138700 + 18000 = 156700.",
+          "value": 156700
+        },
+        {
+          "n": 3,
+          "description": "No average price recorded: each buy side is missing (never 0); the 75 band rates are still reported."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": null,
+            "differencePence": null,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": null,
+            "differencePence": null,
+            "problem": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "northbridge-missing-council-tax",
+      "description": "Council tax missing (a gap): both sides are hidden; it is never treated as 0.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": null,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The council tax for the band is a gap (as for Westmere (synthetic), whose bands are no-record-in-source): problem council-tax-missing. Rent side and buy sides are both hidden because both include council tax."
+        }
+      ],
+      "expected": {
+        "rentSidePence": null,
+        "problem": "council-tax-missing",
+        "buySides": []
+      }
+    },
+    {
+      "id": "westmere-no-council-tax-rent-or-price",
+      "description": "Westmere (synthetic) has no council tax, rent or price: council-tax-missing, nothing shown.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": null,
+        "pricePence": null,
+        "councilTaxMonthlyPence": null,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Every Westmere series and the bands are gaps: problem council-tax-missing."
+        }
+      ],
+      "expected": {
+        "rentSidePence": null,
+        "problem": "council-tax-missing",
+        "buySides": []
+      }
+    }
+  ]
+}
