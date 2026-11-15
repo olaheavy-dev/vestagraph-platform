@@ -34,7 +34,9 @@
   - no score drawn on a map;
   - no combined score;
   - no verdict words ("best", "better", "cheaper", "high", "low", "steep", "sharp").
-- **Money:** in `Pence`, rounding halves away from zero, once (0021). Monthly = yearly ÷ 12 via `Pence.annual_to_monthly` (#197 notes that no record states this rule yet).
+- **Money:** in `Pence`, rounding halves away from zero, once per published figure (0021). A band's yearly amount is rounded once, as on a bill; its monthly amount is then that yearly amount ÷ 12 via `Pence.annual_to_monthly`, rounded once more on purpose, because the monthly figure comes from the published yearly figure (#197 notes that no record states the ÷ 12 rule yet). Captions show money in whole pounds (rounded from pence, halves away from zero); the generated file keeps pence.
+- **Exact numbers in generated files:** a whole `Fraction` is written as an integer, any other as an exact decimal string (`"34.5"`), as `area-result.json` does; never a float.
+- **Rankings note:** the official deprivation rank and decile are allowed, quoted as published with 0054's notes ("relative, not absolute"; "describes the neighbourhood, not a street"); what is banned is a ranking we make.
 - **Percentages:** one decimal place, halves away from zero, from an exact `Fraction`.
 - **Sample data stays synthetic.**
   - Councils are named "Northbridge", "Eastmere" and "Southvale", each with "(synthetic)".
@@ -45,7 +47,9 @@
 
 ## Review Focus
 1. **A deposit of 100% or more, or a loan of zero,** gives "deposit too large: no mortgage needed", never a crash or £0. The test is in Task 4.
-2. **A loan above the highest published band** (for example a 3% deposit when the bands stop at 95%), or below the lowest, gives `rate-band-unavailable`. It never falls back to the nearest band. The test is in Task 4.
+2. **A loan above the highest published band** (for example a 3% deposit when the bands stop at 95%) gives `rate-band-unavailable`. It never falls back to a lower band. A small loan takes the lowest band that covers it (bands mean "up to X% loan"; a 50% loan takes the 60% band). The test is in Task 4.
+6. **Missing council tax** (Band D is a gap) gives `council-tax-missing`, with no side, comparison or budget label, never £0. The test is in Task 4.
+7. **A very large typed rate** gives `rate-too-high`, never a crash. The test is in Task 4.
 3. **A council with no published rent** gets the buy side only: no difference sentence and no budget label for rent. The test is in Tasks 4 and 6.
 4. **A trend whose month 12 months earlier is missing or across a method break** gets no change caption. It shows only "not published" or "not comparable". The test is in Task 5.
 5. **Two places with the same name in different counties** are both returned, labelled with their county, and never auto-picked. The test is in Task 7.
@@ -80,7 +84,9 @@
   - give the latest month;
   - confirm the data is the Bank's own, not LSEG data.
 
-  This fixes the sample data's band list.
+  - list which products (for example 2-year and 5-year fixed) the Bank quotes for each band.
+
+  This fixes the sample data's band list. **Founder question** (prompt window, with a recommendation): which product the example uses.
 - [ ] **Step 3:** For the place-name lookup, pick a recommended source, or "none suitable", giving the licence conflict the design review found. Give the founder a question with options if a choice is needed.
 - [ ] **Step 4:**
   - Run the pre-push review.
@@ -103,7 +109,7 @@
 - **Produces `council-tax-bands.json`:**
   `{ "$schema", "nation": "england", "effectiveFrom": "1993-04-01", "source": {label, url: "https://www.legislation.gov.uk/ukpga/1992/14/section/5"}, "bands": [ {"band": "A", "numerator": 6}, …, {"band": "H", "numerator": 18} ], "denominator": 9 }`
   - The numerators are 6, 7, 8, 9, 11, 13, 15, 18.
-  - Set `effectiveFrom` to the date the Act's s.5 took effect for council tax. Confirm it in Task 1, and leave a `TODO-confirm` field if it is not found.
+  - `effectiveFrom` is the date council tax began in England, 1 April 1993; Task 1 confirms it from an official page, and PR A carries no placeholder.
 - **Produces `council-area.json`:**
   `{ "$schema", "councils": [Council], "places": [PlaceName], "rateBands": [RateBand] }`
   - **Council:**
@@ -114,7 +120,7 @@
     `{ "status", "unit": "pence-per-month"|"pence"|"ratio", "points": [ {"period": "YYYY-MM"|"YYYY", "value"?: int|decimal-string, "status": "recorded"|"provisional"|"not-published", "methodBreakBefore"?: true} ], "level", "source" }`
   - **Tenure value:** `{ "ownedOutright", "ownedWithMortgage", "socialRented", "privateRented", "other" }`. These are whole household counts; shares are worked out.
   - **Neighbourhood:**
-    `{ "code", "largerAreaName", "facts": { "connectivity": Fact, "deprivation": Fact (value {decile, rank, ofAreas, edition}), "tenure": Fact } }`
+    `{ "code" (the full LSOA code, for example a synthetic "E01999012"), "shortCode" (the suffix shown and used after the `#`, for example "012C"), "largerAreaName", "facts": { "connectivity": Fact, "deprivation": Fact (value {decile, rank, ofAreas, edition}), "tenure": Fact } }`
   - **PlaceName:** `{ "name", "county", "region", "councilCodes": [..] }`
   - **RateBand:** `{ "maxLoanToValuePercent": int, "rateBasisPoints": int, "month": "YYYY-MM", "source" }`. The bands are shaped like the Bank's published ones (Task 1).
   - Every rate stays an input, never a calculated figure.
@@ -124,7 +130,9 @@
   - **Northbridge (synthetic), unitary:** complete, with 24 monthly rent and price points, the last 2 rent and the last 12 price points provisional, and 3 neighbourhoods.
   - **Eastmere (synthetic), district in "Westshire (synthetic)":** `formedOn` 2023-04-01 with a former name, rents `no-record-in-source`, and an affordability series with a `methodBreakBefore`.
   - **Southvale (synthetic):** a council whose price point 12 months back is `not-published`.
-  - **Places:** "Northbridge" (one council), "Newbury (synthetic)" twice in two counties, a county name listing its districts, and a Welsh-style place with `nation: "wales"`.
+  - **Westshire (synthetic)** has two districts: Eastmere and "Westmere (synthetic)" (a small district record, other facts as gaps).
+  - **Places:** "Northbridge" (one council), "Newbury (synthetic)" twice in two counties, "Westshire" (the county, listing both districts), a place spanning Eastmere and Westmere, a "London"-style region name listing several councils (synthetic "Capital (synthetic)" with two council codes), and a Welsh-style place with `nation: "wales"`.
+  - **Postcodes:** a short list mapping sample postcodes to councils (`"postcodes": [{postcode, councilCode}]`, NB1 4XY to Northbridge, one to Southvale), for the "postcode in another council" check.
   - **Rate bands:** 60, 75, 85, 90 and 95.
 - [ ] **Step 3:** Run `make validate`. Expected: PASS.
 - [ ] **Step 4:** Commit: `feat: council sample data, schema and the band rule table`.
@@ -156,7 +164,8 @@
 
 - [ ] **Step 1:** Work the cases by hand, with the working shown:
   - the Band D example for all 8 bands;
-  - a Band D giving an exact half penny on band A (×6/9), to show the rounding;
+  - Band D amounts leaving remainders of 4/9 and 5/9 of a penny on band A (×6/9), to show rounding down and up (an exact half is impossible over 9);
+  - a yearly amount leaving exactly half a penny when ÷ 12 (for example 6 pence a year), to show halves away from zero;
   - each band's monthly amount.
 - [ ] **Step 2:** Write the tests:
   - `test_band_yearly_worked_cases_match_expected`
@@ -182,7 +191,7 @@
   - `band_monthly` (Task 3)
 - **Produces:**
   - `rate_band_for(deposit_percent: Fraction, bands: Sequence[RateBand]) -> RateBand | None`. The loan-to-value is `100 − deposit_percent`. The function returns the smallest band whose `maxLoanToValuePercent` is at least that (bands mean "up to X% loan"), and `None` when the loan-to-value is above the highest band or at or below 0.
-  - `rent_or_buy(rent_monthly: Pence | None, price: Pence | None, council_tax_monthly: Pence, deposit_percent: Fraction, term_years: int, rate_basis_points: int | None, bands: Sequence[RateBand]) -> RentOrBuy`
+  - `rent_or_buy(rent_monthly: Pence | None, price: Pence | None, council_tax_monthly: Pence | None, deposit_percent: Fraction, term_years: int, rate_basis_points: int | None, bands: Sequence[RateBand]) -> RentOrBuy`
   - `RentOrBuy(rent_side: Pence | None, buy_side: Pence | None, repayment: Pence | None, rate_used: RateBand | None, comparison: "more"|"less"|"about-the-same"|None, difference: Pence | None, problem: str | None)`
   - `ABOUT_THE_SAME_PENCE = 1000` (£10 a month, the agent's call, for the founder to review in PR A).
 - **Rules:**
@@ -196,7 +205,9 @@
     - `deposit-negative`;
     - `term-out-of-range`: a term outside 1 to 40;
     - `rate-band-unavailable`: no band and no typed rate;
-    - `rate-negative`.
+    - `rate-negative`;
+    - `rate-too-high`: a typed rate above `MAX_TYPED_RATE_BASIS_POINTS = 2000` (20%, the agent's call, for the founder to review in PR A);
+    - `council-tax-missing`: no council tax for the band (Band D is a gap); never treated as £0.
   - A missing rent or price gives that side `None`, `comparison None` and `difference None`.
   - `comparison` is "about-the-same" when |buy − rent| < 1000 pence. Otherwise it is "more" or "less" (buy compared with rent).
 
@@ -205,7 +216,9 @@
   - 0%, 100% and −5% deposits;
   - a 0% typed rate;
   - Eastmere with no rent;
-  - a pair within £10.
+  - a pair within £10;
+  - a 50% deposit (takes the 60% band);
+  - missing council tax; a typed rate of 2,001 basis points.
 
   Show the engine's formula working for one case.
 - [ ] **Step 2:** Write the tests:
@@ -216,6 +229,9 @@
   - `test_rent_or_buy_missing_rent_has_buy_side_only_and_no_comparison`
   - `test_rent_or_buy_zero_typed_rate_divides_loan_by_payments`
   - `test_rent_or_buy_within_ten_pounds_is_about_the_same`
+  - `test_rate_band_for_fifty_percent_loan_takes_lowest_band`
+  - `test_rent_or_buy_missing_council_tax_is_problem_not_zero`
+  - `test_rent_or_buy_rate_above_limit_is_rate_too_high`
 - [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
 - [ ] **Step 4:** Commit: `feat: rent or buy per month with the rate for the deposit band`.
 
@@ -241,7 +257,8 @@
     - the series status is a gap.
   - "unchanged" means the amount rounds to £0 (money) or to 0.0 (ratio). That threshold is separate from `ABOUT_THE_SAME_PENCE`.
   - The percent is `amount / from_value × 100` to one decimal place.
-  - `provisional_months` counts provisional points in the latest 12.
+  - `provisional_months` counts provisional points in the latest 12 months.
+  - For a yearly series (periods `YYYY`), the change is from the previous year; the caption names the two years.
   - Tenure single point: the shares come from `tenure_shares` (Task 7).
 
 - [ ] **Step 1:** Work the cases by hand:
@@ -307,6 +324,7 @@
   - Several councils, or several same-name places, give `choose`, each labelled "<place>, <county>".
   - A non-England place gives `not-covered`.
   - The search never picks one for the visitor.
+- **Produces in `place_search.py`:** `council_for_postcode(postcode: str, area: CouncilArea) -> str | None` (from the sample `postcodes` list; at 5b the postcode lookup, DA-06), so the page can say "This postcode is in <council>" and still open its result.
 
 - [ ] **Step 1:** Work the tenure cases by hand: Northbridge, plus a case where the rounded shares total 99.9.
 - [ ] **Step 2:** Write the tests:
@@ -316,6 +334,9 @@
   - `test_find_councils_former_name_leads_to_current_with_note`
   - `test_find_councils_welsh_place_is_not_covered`
   - `test_find_councils_unknown_is_not_found`
+  - `test_find_councils_region_lists_several_councils`
+  - `test_find_councils_place_spanning_two_councils_is_choose`
+  - `test_council_for_postcode_in_another_council_returns_that_council`
 - [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
 - [ ] **Step 4:** Commit: `feat: tenure shares and council search by place name`.
 
@@ -327,8 +348,8 @@
   - `packages/vestagraph-generator/src/vestagraph_generator/council_generator.py`
   - `packages/vestagraph-generator/tests/test_generator_council.py`
 - Modify:
-  - `packages/vestagraph-generator/src/vestagraph_generator/__main__.py` (build all three documents in memory, then write)
-  - `costs_generator.py` (keep `council-result.json` when cleaning `generated/`)
+  - `costs_generator.py`: `run()` builds all three documents in memory, then writes them, and keeps `council-result.json` when cleaning `generated/`
+  - `__main__.py`: docstring and output lines only
   - the AGENTS.md Commands table
   - `packages/fixtures/README.md`
 - Generated: `packages/fixtures/generated/council-result.json`
@@ -338,6 +359,8 @@
   `{ "$schema", "formatVersion": 1, "exampleInputs": {depositPercent: "10", termYears: 25}, "councils": [ { "code", "bands": [{band, yearly, monthly}], "rentOrBuy": {byBand: [{band, rentSide?, buySide?, repayment?, rateBand?, comparison?, difference?, problem?}]}, "captions": [{topic, kind, values}], "tenureShares": {...}?, "neighbourhoods": [{code, label: "<largerAreaName> (<code>)", tenureShares?}] } ], "search": [{query, kind, matches}] }`
   - Everything is sorted, so a rerun is byte-identical.
   - The `search` cases are taken from the sample places.
+
+- Every new `council-*.json` and `rent-or-buy.json` test-case file names `../schema/area-test-case.schema.json` (the area worked-case format); `packages/fixtures/test-cases/README.md` lists them.
 
 - [ ] **Step 1:** Write the tests:
   - `test_run_writes_all_three_generated_files_and_keeps_them`
@@ -352,7 +375,8 @@
 - [ ] Ask the founder in a prompt window to review:
   - the £10 "about the same" threshold;
   - the "unchanged" rule;
-  - the caption wording file.
+  - the caption wording file;
+  - the 20% typed-rate limit.
 - [ ] Run the pre-push Opus review with `code-security-reviewer` **before** pushing, and fix its findings.
 - [ ] Push, then comment `@codex review`.
 - [ ] The founder merges: it adds a tax rule table.
@@ -386,7 +410,7 @@ Board values come only from `council-result.json` and `council-area.json`: quote
   - touch targets are at least 44 px.
 
 ### Task 11: Canvas, neighbourhood page and states (light)
-- [ ] **Neighbourhood result page,** phone and desktop. It reuses the area result's layout and shows only published neighbourhood facts. For a topic that needs a postcode, it shows "Check a postcode in this neighbourhood to see this". It includes the postcode box and the way back.
+- [ ] **Neighbourhood result page,** phone and desktop. It reuses the area result's layout and shows only published neighbourhood facts. For a topic that needs a postcode, it shows "Check a postcode in this neighbourhood to see this". It includes the postcode box and the way back. The official deprivation rank and decile appear as published, with 0054's notes ("relative, not absolute"; "describes the neighbourhood, not a street").
 - [ ] **States board.** Every state in the design's States list:
   - working out / couldn't work this out;
   - one side missing (Eastmere);
@@ -394,7 +418,11 @@ Board values come only from `council-result.json` and `council-area.json`: quote
   - choose a council (Newbury);
   - former name;
   - merger series;
-  - not covered (Wales).
+  - not covered (Wales);
+  - postcode in another council;
+  - offline; all sources down; a stale edition;
+  - a figure published only for the county;
+  - a council replaced during the pilot.
 
 ### Task 12: Canvas, part 2 boards and the how-to page (light)
 - [ ] **Compare** in rows (Northbridge and Southvale), phone and desktop.
@@ -420,5 +448,7 @@ Board values come only from `council-result.json` and `council-area.json`: quote
 
   Use scenario ID prefixes `CITY-`, `HOOD-`, `CITY2-` and `HOWTO-`. Map every board to its scenarios, and every figure to a `council-result.json` ID.
 - [ ] Update the section list in `docs/specs/screens/01-landing.feature` (the council link and the how-to section) and the specs README.
-- [ ] Add council tools to `docs/specs/pilot/area-tools.feature`: published figures only (0051, 0056).
+- [ ] Add council tools to `docs/specs/pilot/area-tools.feature`: published figures only (0051, 0056), with their AI evaluation cases (AI-03) listed.
+- [ ] Add the area result's "About <council>" link to `docs/specs/pilot/area-display.feature` (or the area result spec that owns its header), and City Explorer's sources to About the data's scenarios.
+- [ ] Check `.design/prototype/INFORMATION_ARCHITECTURE.md` still matches the boards (the routes were added in #282).
 - [ ] Run `make check`, the pre-push review, Codex, then merge.
