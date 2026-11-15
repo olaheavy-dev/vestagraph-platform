@@ -993,6 +993,12 @@ wheels = [
 name = "vestagraph-area"
 version = "0.0.0"
 source = { editable = "packages/vestagraph-area" }
+dependencies = [
+    { name = "vestagraph-engine" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "vestagraph-engine", editable = "packages/vestagraph-engine" }]
 
 [[package]]
 name = "vestagraph-engine"

@@ -3,7 +3,10 @@ name = "vestagraph-area"
 version = "0.0.0"
 description = "Reads the area data and works out the area-result figures: At a glance counts, distances, buses per hour and priority results."
 requires-python = ">=3.14"
-dependencies = []
+dependencies = ["vestagraph-engine"]
+
+[tool.uv.sources]
+vestagraph-engine = { workspace = true }
 
 [build-system]
 requires = ["uv_build>=0.13.7,<0.14"]
