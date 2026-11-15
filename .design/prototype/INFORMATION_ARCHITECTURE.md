@@ -92,6 +92,7 @@
   - an account menu (settings, theme, plan, sign out);
   - a "Sample data" label on every example screen;
   - **Ask about this home**, a contextual entry inside a home (sheet or side panel).
+  - **City Explorer** (pilot, decision 0055; design `docs/superpowers/specs/2026-11-15-city-explorer-design.md`): a council page at `/council/<council-name>` (for example `/council/northbridge`), found by council, city or town name, leading with what it costs; its neighbourhood map leads to a **neighbourhood page** at `/council/<council-name>/<neighbourhood-code>` showing only facts published at that level (founder, 15 Nov 2026: "Neighbourhood result page"). Typed searches and calculator inputs never go in the address (the design's Privacy constraint). Linked from the landing ("No postcode yet? Explore a council area", agent's call, under the postcode box so the box stays first, 0046), from each area result ("About <council>") and from the footer.
   - **Use in ChatGPT or Claude** (pilot, decisions 0051 and 0056): a how-to page with steps for each app, linked from each area result, each City Explorer page and the footer. The pilot has no on-page "Ask about this area" chat (0056); that chat, with its "AI" badge (FE-13), is built in the signed-in workspace ("Home workspace (later)"), and `docs/specs/pilot/area-chat.feature` is withdrawn and kept for it.
 - **Mobile navigation:**
   - **App level:** bottom tabs **My move · Homes · Compare**, plus a floating **Check a home** action.
@@ -188,7 +189,7 @@ Each topic detail ends with its source line. On a phone the map is a view inside
 6. **Use in ChatGPT or Claude** (decision 0056; founder, 15 Nov 2026: "Short section on landing (Recommended)"): one line, such as "Ask about any postcode in your own ChatGPT or Claude", a small illustration and a "How to connect" link to the how-to page. The postcode box stays first (0046).
 7. **Coming next, with a free account** (labelled "not available yet" until live): cost estimate, compare, track questions and answers per home. White panel with a slate outline in light; neutral panel with a slate outline in dark.
 8. **Questions:** a short FAQ beside a photo (kitchen table; honest alt text, footer note).
-9. Footer: How it works, About the data, Use in ChatGPT or Claude (0056), Privacy, Accessibility.
+9. Footer: How it works, About the data, Explore council areas (0055), Use in ChatGPT or Claude (0056), Privacy, Accessibility.
 
 (The "Honest by design" section was removed on 14 Nov 2026, FE-35: founder, prompt window, "Remove the whole section".)
 
