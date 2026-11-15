@@ -66,7 +66,7 @@ Option A. It keeps 0014's promise, adds almost no launch work and still shows re
 - **What is counted:** calls per day by tool, by host (ChatGPT, Claude, other) and outcome (answered, refused by a limit, error); calls per day by city, region and country (ChatGPT only; "not sent" when the location is missing); calls per day by language. Each total is counted separately, not crossed with the others, so no row combines tool, place and language.
 - **City:** counted. Founder, 15 Nov 2026, prompt window: "City as well"; the agent had recommended "Region and country", following 0014's "Anonymous counts must not be detailed enough to identify a person".
 - **Minimum count (one rule for every total):** every daily total (by tool, host, outcome, city, region, country or language) below **10** is shown and stored as "fewer than 10". Founder, 15 Nov 2026, prompt window: "10 (Recommended)". No official threshold was found in the sources read, so this is our own rule. The exact count is held only for the current day, to know whether it reaches 10, and is replaced when the day closes.
-- **No working it out by subtraction** (*default, founder to confirm*): when any total is shown as "fewer than 10", every total it could be worked out from by subtraction (its region, its country and the day's overall count) is shown rounded to the nearest 10. Example: region 57, cities 30 and 22 shown, a third city "fewer than 10": the region shows as about 60, so 60 − 52 no longer gives the hidden 5 exactly. The ICO's anonymisation guidance, which may name other techniques, could not be loaded on 15 Nov 2026 (site timed out); check it before launch.
+- **No working it out by subtraction** (founder, 15 Nov 2026, prompt window: "Confirm rounding to 10 (Recommended)"): when any total is shown as "fewer than 10", every total it could be worked out from by subtraction (its region, its country and the day's overall count) is shown rounded to the nearest 10. Example: region 57, cities 30 and 22 shown, a third city "fewer than 10": the region shows as about 60, so 60 − 52 no longer gives the hidden 5 exactly. The ICO's anonymisation guidance, which may name other techniques, could not be loaded on 15 Nov 2026 (site timed out); check it before launch.
 - **Kept:** the totals have no end date (our choice; 0014 sets no period for anonymous counts).
 - **Rate limits** stay a global cap and a per-host cap (0051). `openai/subject` is not used.
 
@@ -96,6 +96,5 @@ The wording is proposed and finalised with the page, which is re-checked against
 - **Revisit if** OpenAI changes the fields it sends, Anthropic documents fields for Claude, or the totals turn out not to answer the usage questions (any per-person record would need a new decision that changes 0014).
 
 ## Open points for the founder
-The founder answered the city totals and the minimum count on 15 Nov 2026. Still open:
-1. **Rounding against subtraction** (default above): round the region, country and overall totals to the nearest 10 whenever a total they contain shows "fewer than 10". Confirm.
-2. **Lawful basis:** legitimate interests is this record's proposal; the basis is chosen with SE-02's launch privacy work (0014, "Still to decide"), together with its assessment and a DPIA screening.
+The founder answered the city totals, the minimum count and the rounding rule on 15 Nov 2026. Still open:
+1. **Lawful basis:** legitimate interests is this record's proposal; the basis is chosen with SE-02's launch privacy work (0014, "Still to decide"), together with its assessment and a DPIA screening.
