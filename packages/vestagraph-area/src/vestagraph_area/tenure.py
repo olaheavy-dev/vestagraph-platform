@@ -26,8 +26,25 @@ def _round_to_tenth(percent: Fraction) -> Fraction:
     return Fraction(scaled.numerator // scaled.denominator) / _TEN
 
 
+def share_text(share: Fraction) -> str:
+    """A share already rounded to one decimal place, as text with that one decimal ("35.0").
+
+    The one place the text is made, so the shares and the caption values always agree. Raises
+    ``ValueError`` for a share that is not a multiple of a tenth.
+    """
+    scaled = share * _TEN
+    if scaled.denominator != 1:
+        message = "A tenure share is a multiple of 0.1."
+        raise ValueError(message)
+    whole, tenths = divmod(scaled.numerator, 10)
+    return f"{whole}.{tenths}"
+
+
 def tenure_shares(counts: TenureCounts) -> dict[str, Fraction]:
     """Percent share of each tenure, one decimal place; counts are whole households."""
+    if any(count < 0 for count in counts.values()):
+        message = "A tenure count cannot be negative."
+        raise InvalidAreaDataError(message)
     total = sum(counts.values())
     if total <= 0:
         message = "Tenure counts must total at least one household."

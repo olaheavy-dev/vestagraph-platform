@@ -13,7 +13,7 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
-from vestagraph_area.captions import Caption, caption_for
+from vestagraph_area.captions import series_caption, tenure_caption
 from vestagraph_area.council_records import (
     BAND_LETTERS,
     TENURE_KEYS,
@@ -24,8 +24,9 @@ from vestagraph_area.council_records import (
 )
 from vestagraph_area.council_tax import band_monthly, band_yearly
 from vestagraph_area.place_search import council_for_postcode, find_councils
+from vestagraph_area.records import InvalidAreaDataError
 from vestagraph_area.rent_or_buy import BuySide, rent_or_buy
-from vestagraph_area.tenure import tenure_shares_for_fact
+from vestagraph_area.tenure import share_text, tenure_shares_for_fact
 from vestagraph_engine.pence import Pence
 
 from vestagraph_generator.area_generator import json_number
@@ -46,22 +47,18 @@ def _latest_value(series: Series) -> Any:
 
 
 def _pence(value: int | Fraction | None) -> Pence | None:
-    return None if value is None else Pence(int(value))
+    """Whole pence; anything that is not a whole number is refused, never cut (rule 2)."""
+    if value is None:
+        return None
+    if type(value) is not int:
+        message = f"A pence value must be a whole number, not {value}."
+        raise InvalidAreaDataError(message)
+    return Pence(value)
 
 
-def _caption(topic: str, series: Series) -> Caption:
-    if not series.points:
-        return Caption("missing", {"topic": topic, "pattern": "missing", "reason": series.status})
-    return caption_for(topic, series, series.points[-1].period)
-
-
-def _shares(shares: dict[str, Fraction]) -> dict[str, int | str]:
-    return {key: json_number(shares[key]) for key in TENURE_KEYS}
-
-
-def _share_text(share: Fraction) -> str:
-    whole, tenths = divmod(round(share * 10), 10)
-    return f"{whole}.{tenths}"
+def _shares(shares: dict[str, Fraction]) -> dict[str, str]:
+    # One decimal place as text ("35.0"): the same text the tenure caption quotes.
+    return {key: share_text(shares[key]) for key in TENURE_KEYS}
 
 
 def _buy_side(side: BuySide) -> dict[str, Any]:
@@ -80,6 +77,10 @@ def _buy_side(side: BuySide) -> dict[str, Any]:
         entry["comparison"] = side.comparison
     if side.difference is not None:
         entry["difference"] = side.difference.value
+    if side.shown_buy_side is not None:
+        entry["shownBuySide"] = side.shown_buy_side
+    if side.shown_difference is not None:
+        entry["shownDifference"] = side.shown_difference
     if side.problem is not None:
         entry["problem"] = side.problem
     return entry
@@ -122,6 +123,8 @@ def _rent_or_buy(council: Council, area: CouncilArea) -> dict[str, Any]:
         entry: dict[str, Any] = {"band": band}
         if outcome.rent_side is not None:
             entry["rentSide"] = outcome.rent_side.value
+        if outcome.shown_rent_side is not None:
+            entry["shownRentSide"] = outcome.shown_rent_side
         entry["buySides"] = [_buy_side(s) for s in outcome.buy_sides]
         if outcome.problem is not None:
             entry["problem"] = outcome.problem
@@ -136,25 +139,16 @@ def _rent_or_buy(council: Council, area: CouncilArea) -> dict[str, Any]:
 
 
 def _captions(council: Council) -> list[dict[str, Any]]:
-    captions: list[tuple[str, str, dict[str, str]]] = []
-    for topic, series in (
-        ("rent", council.rent_series),
-        ("price", council.price_series),
-        ("affordability", council.affordability_series),
-    ):
-        caption = _caption(topic, series)
-        captions.append((topic, caption.kind, caption.values))
-    shares = tenure_shares_for_fact(council.tenure)
-    if shares is not None:
-        # One Census period, so no change over time: a single-point caption (never a trend).
-        values = {
-            "topic": "tenure",
-            "pattern": "single-point",
-            "period": council.tenure.source.period,
-        }
-        values.update({key: _share_text(shares[key]) for key in TENURE_KEYS})
-        captions.append(("tenure", "single-point", values))
-    return [{"topic": t, "kind": k, "values": v} for t, k, v in captions]
+    captions = [
+        (topic, series_caption(topic, series))
+        for topic, series in (
+            ("rent", council.rent_series),
+            ("price", council.price_series),
+            ("affordability", council.affordability_series),
+        )
+    ]
+    captions.append(("tenure", tenure_caption(council.tenure)))
+    return [{"topic": t, "kind": c.kind, "values": c.values} for t, c in captions]
 
 
 def _council(council: Council, area: CouncilArea) -> dict[str, Any]:
@@ -176,6 +170,8 @@ def _council(council: Council, area: CouncilArea) -> dict[str, Any]:
         hood_shares = tenure_shares_for_fact(hood.tenure)
         if hood_shares is not None:
             item["tenureShares"] = _shares(hood_shares)
+        else:
+            item["tenureMissingReason"] = hood.tenure.status
         neighbourhoods.append(item)
     entry["neighbourhoods"] = neighbourhoods
     return entry
@@ -201,7 +197,7 @@ def _search(area: CouncilArea) -> list[dict[str, Any]]:
         found.append(
             {
                 "query": entry.postcode,
-                "kind": "council_for_postcode",
+                "kind": "council-for-postcode",
                 "matches": [] if code is None else [{"councilCode": code}],
             }
         )
@@ -219,7 +215,7 @@ def generate_council(fixtures_directory: Path) -> str:
         "$schema": "../schema/generated-council-result.schema.json",
         "formatVersion": 1,
         "exampleInputs": {
-            "depositPercent": str(_DEPOSIT_PERCENT.numerator),
+            "depositPercent": json_number(_DEPOSIT_PERCENT),
             "termYears": _TERM_YEARS,
         },
         "councils": [_council(c, area) for c in sorted(area.councils, key=lambda c: c.code)],

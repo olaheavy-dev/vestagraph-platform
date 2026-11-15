@@ -2,7 +2,7 @@
   "$schema": "../schema/generated-council-result.schema.json",
   "formatVersion": 1,
   "exampleInputs": {
-    "depositPercent": "10",
+    "depositPercent": 10,
     "termYears": 25
   },
   "councils": [
@@ -59,6 +59,7 @@
           {
             "band": "A",
             "rentSide": 150700,
+            "shownRentSide": 1507,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -70,7 +71,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1702,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -81,6 +84,7 @@
           {
             "band": "B",
             "rentSide": 152700,
+            "shownRentSide": 1527,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -92,7 +96,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1722,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -103,6 +109,7 @@
           {
             "band": "C",
             "rentSide": 154700,
+            "shownRentSide": 1547,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -114,7 +121,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1742,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -125,6 +134,7 @@
           {
             "band": "D",
             "rentSide": 156700,
+            "shownRentSide": 1567,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -136,7 +146,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1762,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -147,6 +159,7 @@
           {
             "band": "E",
             "rentSide": 160700,
+            "shownRentSide": 1607,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -158,7 +171,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1802,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -169,6 +184,7 @@
           {
             "band": "F",
             "rentSide": 164700,
+            "shownRentSide": 1647,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -180,7 +196,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1842,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -191,6 +209,7 @@
           {
             "band": "G",
             "rentSide": 168700,
+            "shownRentSide": 1687,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -202,7 +221,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1882,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -213,6 +234,7 @@
           {
             "band": "H",
             "rentSide": 174700,
+            "shownRentSide": 1747,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -224,7 +246,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 19547
+                "difference": 19547,
+                "shownBuySide": 1942,
+                "shownDifference": 195
               },
               {
                 "product": "5-year-fixed",
@@ -248,7 +272,7 @@
             "toValue": "1387",
             "amount": "108",
             "percent": "8.4",
-            "provisionalMonths": "2"
+            "provisionalPoints": "2"
           }
         },
         {
@@ -264,7 +288,7 @@
             "toValue": "297800",
             "amount": "7200",
             "percent": "2.5",
-            "provisionalMonths": "12"
+            "provisionalPoints": "12"
           }
         },
         {
@@ -279,7 +303,7 @@
             "fromValue": "8.27",
             "toValue": "8.44",
             "amount": "0.17",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         },
         {
@@ -335,7 +359,7 @@
             "ownedWithMortgage": "42.8",
             "socialRented": "2.9",
             "privateRented": "6.9",
-            "other": 0
+            "other": "0.0"
           }
         }
       ]
@@ -393,6 +417,7 @@
           {
             "band": "A",
             "rentSide": 113500,
+            "shownRentSide": 1135,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -404,7 +429,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1186,
+                "shownDifference": 51
               },
               {
                 "product": "5-year-fixed",
@@ -415,6 +442,7 @@
           {
             "band": "B",
             "rentSide": 115333,
+            "shownRentSide": 1153,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -426,7 +454,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1205,
+                "shownDifference": 52
               },
               {
                 "product": "5-year-fixed",
@@ -437,6 +467,7 @@
           {
             "band": "C",
             "rentSide": 117167,
+            "shownRentSide": 1172,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -448,7 +479,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1223,
+                "shownDifference": 51
               },
               {
                 "product": "5-year-fixed",
@@ -459,6 +492,7 @@
           {
             "band": "D",
             "rentSide": 119000,
+            "shownRentSide": 1190,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -470,7 +504,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1241,
+                "shownDifference": 51
               },
               {
                 "product": "5-year-fixed",
@@ -481,6 +517,7 @@
           {
             "band": "E",
             "rentSide": 122667,
+            "shownRentSide": 1227,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -492,7 +529,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1278,
+                "shownDifference": 51
               },
               {
                 "product": "5-year-fixed",
@@ -503,6 +542,7 @@
           {
             "band": "F",
             "rentSide": 126333,
+            "shownRentSide": 1263,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -514,7 +554,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1315,
+                "shownDifference": 52
               },
               {
                 "product": "5-year-fixed",
@@ -525,6 +567,7 @@
           {
             "band": "G",
             "rentSide": 130000,
+            "shownRentSide": 1300,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -536,7 +579,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1351,
+                "shownDifference": 51
               },
               {
                 "product": "5-year-fixed",
@@ -547,6 +592,7 @@
           {
             "band": "H",
             "rentSide": 135500,
+            "shownRentSide": 1355,
             "buySides": [
               {
                 "product": "2-year-fixed",
@@ -558,7 +604,9 @@
                   "month": "2026-10"
                 },
                 "comparison": "more",
-                "difference": 5133
+                "difference": 5133,
+                "shownBuySide": 1406,
+                "shownDifference": 51
               },
               {
                 "product": "5-year-fixed",
@@ -582,7 +630,7 @@
             "toValue": "1025",
             "amount": "60",
             "percent": "6.2",
-            "provisionalMonths": "1"
+            "provisionalPoints": "1"
           }
         },
         {
@@ -609,7 +657,7 @@
             "fromValue": "6.30",
             "toValue": "6.41",
             "amount": "0.11",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         },
         {
@@ -708,7 +756,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1332
               },
               {
                 "product": "5-year-fixed",
@@ -727,7 +776,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1354
               },
               {
                 "product": "5-year-fixed",
@@ -746,7 +796,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1375
               },
               {
                 "product": "5-year-fixed",
@@ -765,7 +816,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1397
               },
               {
                 "product": "5-year-fixed",
@@ -784,7 +836,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1440
               },
               {
                 "product": "5-year-fixed",
@@ -803,7 +856,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1484
               },
               {
                 "product": "5-year-fixed",
@@ -822,7 +876,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1527
               },
               {
                 "product": "5-year-fixed",
@@ -841,7 +896,8 @@
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
                   "month": "2026-10"
-                }
+                },
+                "shownBuySide": 1592
               },
               {
                 "product": "5-year-fixed",
@@ -874,7 +930,7 @@
             "toValue": "226200",
             "amount": "4800",
             "percent": "2.2",
-            "provisionalMonths": "12"
+            "provisionalPoints": "12"
           }
         },
         {
@@ -889,7 +945,7 @@
             "fromValue": "6.92",
             "toValue": "7.03",
             "amount": "0.11",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         },
         {
@@ -908,8 +964,8 @@
         }
       ],
       "tenureShares": {
-        "ownedOutright": 35,
-        "ownedWithMortgage": 31,
+        "ownedOutright": "35.0",
+        "ownedWithMortgage": "31.0",
         "socialRented": "12.2",
         "privateRented": "20.7",
         "other": "1.2"
@@ -1002,6 +1058,15 @@
           "kind": "missing",
           "values": {
             "topic": "affordability",
+            "pattern": "missing",
+            "reason": "no-record-in-source"
+          }
+        },
+        {
+          "topic": "tenure",
+          "kind": "missing",
+          "values": {
+            "topic": "tenure",
             "pattern": "missing",
             "reason": "no-record-in-source"
           }
@@ -1125,7 +1190,7 @@
     },
     {
       "query": "NB1 4XY",
-      "kind": "council_for_postcode",
+      "kind": "council-for-postcode",
       "matches": [
         {
           "councilCode": "E06999001"
@@ -1134,7 +1199,7 @@
     },
     {
       "query": "SV2 3AB",
-      "kind": "council_for_postcode",
+      "kind": "council-for-postcode",
       "matches": [
         {
           "councilCode": "E06999002"

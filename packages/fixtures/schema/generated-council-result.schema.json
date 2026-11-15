@@ -12,7 +12,7 @@
       "type": "object",
       "required": ["depositPercent", "termYears"],
       "properties": {
-        "depositPercent": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]+)?$" },
+        "depositPercent": { "$ref": "#/$defs/wholeOrDecimal" },
         "termYears": { "type": "integer", "minimum": 1 }
       },
       "additionalProperties": false
@@ -29,6 +29,25 @@
       ]
     },
     "pence": { "type": "integer" },
+    "positivePence": { "type": "integer", "minimum": 1, "maximum": 9223372036854775807 },
+    "shownPounds": { "type": "integer" },
+    "shareText": {
+      "description": "A tenure share to one decimal place, as text: 35.0, never 35.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]$"
+    },
+    "buyingProblem": {
+      "enum": [
+        "council-tax-missing",
+        "deposit-negative",
+        "deposit-too-large",
+        "term-out-of-range",
+        "rate-negative",
+        "rate-too-high",
+        "rate-invalid"
+      ]
+    },
+    "sideProblem": { "enum": ["rate-band-unavailable", "price-not-positive"] },
     "gapStatus": { "enum": ["no-record-in-source", "source-failed", "not-covered"] },
     "missingReason": {
       "enum": ["no-record-in-source", "source-failed", "not-covered", "latest-not-published"]
@@ -38,11 +57,11 @@
       "type": "object",
       "required": ["ownedOutright", "ownedWithMortgage", "socialRented", "privateRented", "other"],
       "properties": {
-        "ownedOutright": { "$ref": "#/$defs/wholeOrDecimal" },
-        "ownedWithMortgage": { "$ref": "#/$defs/wholeOrDecimal" },
-        "socialRented": { "$ref": "#/$defs/wholeOrDecimal" },
-        "privateRented": { "$ref": "#/$defs/wholeOrDecimal" },
-        "other": { "$ref": "#/$defs/wholeOrDecimal" }
+        "ownedOutright": { "$ref": "#/$defs/shareText" },
+        "ownedWithMortgage": { "$ref": "#/$defs/shareText" },
+        "socialRented": { "$ref": "#/$defs/shareText" },
+        "privateRented": { "$ref": "#/$defs/shareText" },
+        "other": { "$ref": "#/$defs/shareText" }
       },
       "additionalProperties": false
     },
@@ -90,7 +109,8 @@
             "properties": {
               "code": { "type": "string", "minLength": 1 },
               "label": { "type": "string", "minLength": 1 },
-              "tenureShares": { "$ref": "#/$defs/tenureShares" }
+              "tenureShares": { "$ref": "#/$defs/tenureShares" },
+              "tenureMissingReason": { "$ref": "#/$defs/gapStatus" }
             },
             "additionalProperties": false
           }
@@ -103,9 +123,10 @@
       "required": ["band", "buySides"],
       "properties": {
         "band": { "$ref": "#/$defs/band" },
-        "rentSide": { "$ref": "#/$defs/pence" },
+        "rentSide": { "$ref": "#/$defs/positivePence" },
+        "shownRentSide": { "$ref": "#/$defs/shownPounds" },
         "buySides": { "type": "array", "items": { "$ref": "#/$defs/buySide" } },
-        "problem": { "type": "string", "minLength": 1 }
+        "problem": { "$ref": "#/$defs/buyingProblem" }
       },
       "additionalProperties": false
     },
@@ -114,8 +135,8 @@
       "required": ["product"],
       "properties": {
         "product": { "enum": ["2-year-fixed", "5-year-fixed"] },
-        "buySide": { "$ref": "#/$defs/pence" },
-        "repayment": { "$ref": "#/$defs/pence" },
+        "buySide": { "$ref": "#/$defs/positivePence" },
+        "repayment": { "$ref": "#/$defs/positivePence" },
         "rateBand": {
           "type": "object",
           "required": ["maxLoanToValuePercent", "rateBasisPoints", "month"],
@@ -128,7 +149,9 @@
         },
         "comparison": { "enum": ["more", "less", "about-the-same"] },
         "difference": { "$ref": "#/$defs/pence" },
-        "problem": { "type": "string", "minLength": 1 }
+        "shownBuySide": { "$ref": "#/$defs/shownPounds" },
+        "shownDifference": { "$ref": "#/$defs/shownPounds" },
+        "problem": { "$ref": "#/$defs/sideProblem" }
       },
       "additionalProperties": false
     },
@@ -148,7 +171,7 @@
       "properties": {
         "query": { "type": "string", "minLength": 1 },
         "kind": {
-          "enum": ["council", "choose", "not-found", "not-covered", "council_for_postcode"]
+          "enum": ["council", "choose", "not-found", "not-covered", "council-for-postcode"]
         },
         "matches": {
           "type": "array",
