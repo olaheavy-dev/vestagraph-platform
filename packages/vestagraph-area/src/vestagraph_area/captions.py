@@ -9,8 +9,11 @@ yearly ``YYYY`` series). It is ``None`` when it cannot be worked out honestly (r
 is a gap, either end point is missing or not published, or the method changed between the two
 (a ``methodBreakBefore`` on any point after the start point, up to and including the end point).
 A provisional end point still allows a trend; provisional points in the latest twelve months are
-counted so the wording can say so. Money in ``values`` is whole pounds (pence rounded once,
-halves away from zero); percents and ratio amounts are one decimal place, also half away from zero.
+counted so the wording can say so. Money in ``values`` is whole pounds: each figure is rounded
+once (halves away from zero) and the shown amount is the difference of those two rounded figures
+(register line BE-14), so the numbers add up on screen; the percent is worked from the exact pence
+to one decimal place. A ratio is shown as published (two places) and its amount is exact. When
+there is no change, the latest figure is still carried in a ``missing`` caption.
 """
 
 from dataclasses import dataclass
@@ -22,7 +25,7 @@ from vestagraph_engine.pence import Pence, round_ratio
 from vestagraph_area.council_records import Series, SeriesPoint
 
 Direction = Literal["rose", "fell", "unchanged"]
-CaptionKind = Literal["trend", "single-point", "missing", "not-comparable"]
+CaptionKind = Literal["trend", "missing", "not-comparable"]
 _PENCE_PER_POUND: Final = 100
 
 
@@ -32,7 +35,8 @@ class Change:
 
     The amount is ``Pence`` for a money series and an exact ``Fraction`` for a ratio series.
     ``percent`` is ``amount / from x 100`` (exact), and ``None`` for a ratio series.
-    ``direction`` is ``unchanged`` when the amount rounds to 0 pounds (money) or 0.0 (ratio).
+    ``direction`` is ``unchanged`` when the two figures shown in whole pounds are equal (money,
+    each rounded once, register line BE-14) or when the two published values are equal (ratio).
     """
 
     from_period: str
@@ -114,8 +118,9 @@ def _decimal_text(value: Fraction, places: int) -> str:
     return f"{whole}.{part:0{places}d}"
 
 
-def _pounds_text(pence: int) -> str:
-    return str(round_ratio(abs(pence), _PENCE_PER_POUND).value)
+def _pounds(pence: int) -> int:
+    """Whole pounds, rounded once: nearest, exact halves away from zero."""
+    return round_ratio(pence, _PENCE_PER_POUND).value
 
 
 def _assess(series: Series, latest_period: str) -> _Outcome:
@@ -132,9 +137,9 @@ def _assess(series: Series, latest_period: str) -> _Outcome:
         return _Outcome("missing", reason="end-point-not-published")
     start = by_period.get(start_period)
     if start is None:
-        return _Outcome("single-point", end_point=end)
+        return _Outcome("missing", reason="start-point-absent", end_point=end)
     if start.value is None:
-        return _Outcome("missing", reason="start-point-not-published")
+        return _Outcome("missing", reason="start-point-not-published", end_point=end)
     if any(p.method_break_before and start_key < _key(p.period) <= end_key for p in series.points):
         return _Outcome("not-comparable", from_period=start_period, to_period=latest_period)
     provisional = sum(
@@ -152,10 +157,11 @@ def _assess(series: Series, latest_period: str) -> _Outcome:
 def _money_change(start: SeriesPoint, end: SeriesPoint, provisional: int) -> Change:
     from_pence, to_pence = _whole(start.value), _whole(end.value)
     amount = to_pence - from_pence
-    if round_ratio(amount, _PENCE_PER_POUND).value == 0:
+    shown = _pounds(to_pence) - _pounds(from_pence)
+    if shown == 0:
         direction: Direction = "unchanged"
     else:
-        direction = "rose" if amount > 0 else "fell"
+        direction = "rose" if shown > 0 else "fell"
     return Change(
         from_period=start.period,
         to_period=end.period,
@@ -171,7 +177,7 @@ def _money_change(start: SeriesPoint, end: SeriesPoint, provisional: int) -> Cha
 def _ratio_change(start: SeriesPoint, end: SeriesPoint, provisional: int) -> Change:
     from_value, to_value = _exact(start.value), _exact(end.value)
     amount = to_value - from_value
-    if _scaled(amount, 1) == 0:
+    if amount == 0:
         direction: Direction = "unchanged"
     else:
         direction = "rose" if amount > 0 else "fell"
@@ -196,10 +202,11 @@ def twelve_month_change(series: Series, latest_period: str) -> Change | None:
 
 
 def _money_values(change: Change) -> dict[str, str]:
+    shown_from, shown_to = _pounds(_whole(change.from_value)), _pounds(_whole(change.to_value))
     return {
-        "fromValue": _pounds_text(_whole(change.from_value)),
-        "toValue": _pounds_text(_whole(change.to_value)),
-        "amount": _pounds_text(_whole(change.amount)),
+        "fromValue": str(shown_from),
+        "toValue": str(shown_to),
+        "amount": str(abs(shown_to - shown_from)),
     }
 
 
@@ -207,7 +214,7 @@ def _ratio_values(change: Change) -> dict[str, str]:
     return {
         "fromValue": _decimal_text(_exact(change.from_value), 2),
         "toValue": _decimal_text(_exact(change.to_value), 2),
-        "amount": _decimal_text(_exact(change.amount), 1),
+        "amount": _decimal_text(_exact(change.amount), 2),
     }
 
 
@@ -229,18 +236,12 @@ def _trend_values(topic: str, change: Change) -> dict[str, str]:
     return values
 
 
-def _single_point_values(topic: str, series: Series, end: SeriesPoint) -> dict[str, str]:
+def _latest_values(series: Series, end: SeriesPoint) -> dict[str, str]:
     if series.unit == "ratio":
         shown = _decimal_text(_exact(end.value), 2)
     else:
-        shown = _pounds_text(_whole(end.value))
-    return {
-        "topic": topic,
-        "pattern": "single-point",
-        "period": end.period,
-        "value": shown,
-        "pointStatus": end.status,
-    }
+        shown = str(_pounds(_whole(end.value)))
+    return {"period": end.period, "value": shown, "pointStatus": end.status}
 
 
 def caption_for(topic: str, series: Series, latest_period: str) -> Caption:
@@ -248,8 +249,6 @@ def caption_for(topic: str, series: Series, latest_period: str) -> Caption:
     outcome = _assess(series, latest_period)
     if outcome.change is not None:
         return Caption("trend", _trend_values(topic, outcome.change))
-    if outcome.end_point is not None:
-        return Caption("single-point", _single_point_values(topic, series, outcome.end_point))
     if outcome.kind == "not-comparable":
         return Caption(
             "not-comparable",
@@ -260,4 +259,7 @@ def caption_for(topic: str, series: Series, latest_period: str) -> Caption:
                 "toPeriod": outcome.to_period,
             },
         )
-    return Caption("missing", {"topic": topic, "pattern": "missing", "reason": outcome.reason})
+    values = {"topic": topic, "pattern": "missing", "reason": outcome.reason}
+    if outcome.end_point is not None:
+        values.update(_latest_values(series, outcome.end_point))
+    return Caption("missing", values)

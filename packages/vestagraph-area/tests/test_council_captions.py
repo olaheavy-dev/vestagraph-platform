@@ -96,6 +96,32 @@ def test_twelve_month_change_missing_start_point_is_none() -> None:
     caption = caption_for("price", _series(case["inputs"]), "2026-08")
     assert caption.kind == "missing"
     assert caption.values["reason"] == "start-point-not-published"
+    assert caption.values["value"] == "202550"  # The latest figure is still carried.
+
+
+def test_caption_for_absent_start_point_is_missing_never_single_point() -> None:
+    for case_id in (
+        "northbridge-rent-start-point-absent",
+        "eastmere-affordability-start-point-absent",
+    ):
+        case = BY_ID[case_id]
+        caption = caption_for(_topic(case), _series(case["inputs"]), case["inputs"]["latestPeriod"])
+        assert caption.kind == "missing"
+        assert caption.values["reason"] == "start-point-absent"
+
+
+def test_caption_for_money_amount_is_difference_of_shown_pounds() -> None:
+    money = [c for c in CASES if c["expected"]["caption"]["kind"] == "trend"]
+    checked = 0
+    for case in money:
+        values = case["expected"]["caption"]["values"]
+        if "." in values["fromValue"]:
+            continue
+        caption = caption_for(_topic(case), _series(case["inputs"]), case["inputs"]["latestPeriod"])
+        shown = abs(int(caption.values["toValue"]) - int(caption.values["fromValue"]))
+        assert shown == int(caption.values["amount"])
+        checked += 1
+    assert checked >= 10
 
 
 def test_twelve_month_change_across_method_break_is_not_comparable() -> None:
@@ -111,8 +137,8 @@ def test_twelve_month_change_across_method_break_is_not_comparable() -> None:
     [
         "inline-rent-rise-just-below-half-is-unchanged",
         "inline-rent-fall-just-below-half-is-unchanged",
-        "inline-ratio-rise-just-below-half-is-unchanged",
-        "inline-ratio-fall-just-below-half-is-unchanged",
+        "inline-rent-fall-by-half-a-pound",
+        "inline-ratio-equal-values-are-unchanged",
     ],
 )
 def test_twelve_month_change_rounding_to_zero_is_unchanged(case_id: str) -> None:
@@ -120,7 +146,11 @@ def test_twelve_month_change_rounding_to_zero_is_unchanged(case_id: str) -> None
     change = twelve_month_change(_series(case["inputs"]), case["inputs"]["latestPeriod"])
     assert change is not None
     assert change.direction == "unchanged"
-    assert change.amount not in (Pence.ZERO, Fraction(0))  # Raw amount kept; only wording is zero.
+    # The two shown figures are equal; the exact money amount is kept, a ratio's is exactly zero.
+    if isinstance(change.amount, Pence):
+        assert change.amount != Pence.ZERO
+    else:
+        assert change.amount == 0
 
 
 def test_twelve_month_change_bad_latest_period_raises() -> None:
