@@ -1,0 +1,345 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "each-side-below-budget",
+      "description": "Budget \u00a32,000 a month; rent side \u00a31,567 and both buy sides below it: all within.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 199999
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 200000 pence."
+        },
+        {
+          "n": 2,
+          "description": "Rent side 156700 <= 200000: within."
+        },
+        {
+          "n": 3,
+          "description": "Buy 190000 <= 200000 and 199999 <= 200000: both within."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "within"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "each-side-equal-to-budget",
+      "description": "Budget \u00a31,567 a month equal to the rent side and to both buy sides: equal is within.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 156700,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 156700
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 156700
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 156700 pence."
+        },
+        {
+          "n": 2,
+          "description": "Every side is 156700, and 156700 <= 156700, so within (equal counts as within)."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "within"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "each-side-above-budget",
+      "description": "Budget \u00a31,500 a month; rent side one penny over, buy sides well over: all above.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 150000,
+        "rentSidePence": 150001,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 150001
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 230000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 150000 pence."
+        },
+        {
+          "n": 2,
+          "description": "150001 > 150000 (one penny over): above. 230000 > 150000: above."
+        }
+      ],
+      "expected": {
+        "rent": "above",
+        "buy": {
+          "2-year-fixed": "above",
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "mixed-sides",
+      "description": "Rent within, one buy side within, the other above.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 200000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 200001
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 200000 pence."
+        },
+        {
+          "n": 2,
+          "description": "Rent 156700: within. 2-year 200000: equal, within. 5-year 200001: above."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "eastmere-rent-missing",
+      "description": "Eastmere (synthetic) has no rent figure: the rent side is no answer, not within; the buy side is still checked.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": null,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 210000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Rent side is missing (no figure), so there is nothing to compare: no answer."
+        },
+        {
+          "n": 2,
+          "description": "190000 <= 200000 within; 210000 > 200000 above."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "buy-side-figure-missing",
+      "description": "A buy side with no figure (no rate band or no price) is no answer for that product only.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 210000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2-year has no figure: no answer, not within."
+        },
+        {
+          "n": 2,
+          "description": "Rent 156700 within; 5-year 210000 above."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": null,
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "buying-problem-hides-buy-sides",
+      "description": "When the rent-or-buy result has a problem, it has no buy sides, so the buy answers are empty; the rent side is still checked.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": "deposit-negative",
+        "buySides": []
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "No buy sides, so no buy answers."
+        },
+        {
+          "n": 2,
+          "description": "Rent 156700 <= 200000 within."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {},
+        "problem": null
+      }
+    },
+    {
+      "id": "zero-budget",
+      "description": "A budget of zero is a problem and no side is compared.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 0,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Zero is not positive: problem budget-not-positive, no answers."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {},
+        "problem": "budget-not-positive"
+      }
+    },
+    {
+      "id": "negative-budget",
+      "description": "A negative budget is a problem and no side is compared.",
+      "rule": {
+        "source": "Budget rule: a side is within when its monthly figure is at or below the monthly budget (equal is within), above when it is more; a missing figure gives no answer, never within (founder decision 23 Oct 2026 (b), AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "docs/product/02-research-and-direction.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": -1,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Negative is not positive: problem budget-not-positive, no answers."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {},
+        "problem": "budget-not-positive"
+      }
+    }
+  ]
+}
