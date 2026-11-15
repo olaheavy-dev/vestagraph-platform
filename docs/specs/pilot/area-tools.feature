@@ -6,8 +6,8 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     (NB1 4XY normal, NB7 1RR sparse, NB9 9ZZ unknown); figures: none (no tool calculates anything except the
     straight-line distance, which comes from the area tools' tested geometry module; design, Accuracy).
   What it is: a public, read-only MCP server with no key or sign-in, for public area data only
-    (decision 0051 point 1). The same area tools serve the Check an area page and the on-page chat
-    (design, goal 1). The tools read only our stored copies of each source, never the live source on a
+    (decision 0051 point 1). The same area tools serve the Check an area page and, in the pilot, ChatGPT and Claude only: the
+    on-page chat left the pilot (decision 0056, 15 Nov 2026) and will use them in the signed-in workspace (design, goal 1). The tools read only our stored copies of each source, never the live source on a
     visitor's request (design, builder check answer 1). Tool names and exact signatures are chosen in the
     build (design, "Left to the builder"); these scenarios name each tool by its job:
     the find-area tool, the nearby places tool, the area topic tool, the explain-source tool and the
@@ -29,7 +29,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
       work in every host.
   Kept 14 Nov 2026 (FE-33, DA-12): the tools' outputs are data, not the page. Every scenario here keeps each
     value's source, data date and label, even though the page shows only the source's icon, name and link
-    and puts only each source's date (no status word) on About the data (FE-33 amended 14 Nov 2026), so the chat and MCP hosts can say when a fact dates from.
+    and puts only each source's date (no status word) on About the data (FE-33 amended 14 Nov 2026), so MCP hosts (and the later workspace chat) can say when a fact dates from.
   Labels: every value carries Cached or Fallback (decision 0029), or Unavailable when its source failed,
     and "Old" when its stored copy is past its refresh date. The tools never read a live source, so no
     value is labelled Live.

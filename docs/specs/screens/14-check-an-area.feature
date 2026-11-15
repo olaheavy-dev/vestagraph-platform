@@ -21,7 +21,7 @@ Feature: Check an area
     no status word and no date; a fact whose source is unavailable says "Not known right now" in its own
     text. About the data shows each source's link and the date of the data we hold, with no status word
     (founder, 14 Nov 2026: "Dates only, no notes"); a source we hold no current copy of says "We hold no
-    current copy" instead of a date (AREA-25); the stored data, the area tools and our chat's grounding keep
+    current copy" instead of a date (AREA-25); the stored data, the area tools (and the later workspace chat's grounding) keep
     the Cached, Old and Unavailable labels (area-tools.feature).
   Changed 14 Nov 2026 (FE-34, FE-24): each source's method, limits and coverage live on one general About
     the data page, the same for every postcode (AREA-25); each result ends with a short "How we got this"

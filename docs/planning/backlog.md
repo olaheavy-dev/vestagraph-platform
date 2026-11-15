@@ -107,14 +107,14 @@ Decisions first, then the API and the area adapters, then the public site. Items
 | 44.11 | #136 | Broadband and mobile coverage (Ofcom) |
 | 44.14 | #139 | Planning applications nearby |
 | 38e | to open | Pilot AI (decision 0051): the AI-09 framework trial, then the model provider (AI-01) and orchestration (AI-04) |
-| 38f | to open | Pilot AI evaluation set (AI-03): questions the area chat and tools must answer or refuse |
-| 38g | to open | Area tools package shared by the API, the public MCP server and the area chat |
+| 38f | to open | Pilot AI evaluation set (AI-03): questions the tools' outputs and descriptions must answer or refuse; the chat's cases wait for the workspace chat (decision 0056) |
+| 38g | to open | Area tools package shared by the API, the public MCP server and, later, the workspace chat (decision 0056) |
 | 38h | to open | Public read-only MCP server for the area tools (no key; global and per-host caps; spec `docs/specs/pilot/area-tools.feature`), then the area card widget (FE-15 to FE-19, `area-card.feature`) |
-| 38i | to open | On-page area chat with the disclaimer, daily AI cap, bot check and "paused" and "unavailable" states (spec `docs/specs/pilot/area-chat.feature`); the isometric area card component (FE-14 to FE-19, `area-card.feature`) |
+| 38i | to open | The isometric area card (FE-14 to FE-19, `area-card.feature`): the widget for ChatGPT and Claude in the pilot; the version in our own chat and the on-page area chat (disclaimer, daily AI cap, bot check, "paused" and "unavailable" states, `docs/specs/pilot/area-chat.feature`, withdrawn) move to the signed-in workspace, decision 0056. New: the "Use in ChatGPT or Claude" how-to page, with its scenarios still to specify |
 | 38j | to open | Pilot features: Explain this, Share a link, Recent postcodes (opt-in), Report a problem; questions to ask; go-check-in-person list |
 | 38k | to open | Pilot extras (pilot design, Goals 5; "wave 2" until 14 Nov 2026, now one pilot phase, PD-16): planning applications nearby, school inspection results with school demand (DfE applications and offers), air quality, compare two postcodes; walking times and timetabled buses per hour (needs DA-08); council tax by band (a tax table, so a founder merge); a family view. Each behind its own switch (research `docs/reviews/2026-11-13-chatgpt-ideas-research.md`) |
 | 38c | to open | Public site: landing (search first), How it works, About the data, privacy notice, accessibility statement (TASKS P1 to P4) |
-| 38d | to open | Stage 5b gate: sources on every fact, no searched postcode in any log, privacy notice and budget cap live, accessibility checks pass; AI caps, rate limits and bot check live; the evaluation set passes (decision 0051) |
+| 38d | to open | Stage 5b gate: sources on every fact, no searched postcode in any log, privacy notice and budget cap live, accessibility checks pass; monthly cap, rate limits and the Report a problem bot check live; the tool evaluation set passes (decisions 0051, 0056) |
 
 ## Stage 6: the real product
 | # | Issue | Item |
@@ -132,7 +132,7 @@ Decisions first, then the API and the area adapters, then the public site. Items
 | 45 | #99 | **Epic:** accounts, households and the questions workflow |
 | 46 | #100 | AI evaluation harness and model provider choice (AI-03, AI-01) |
 | 47 | #101 | AI gateway: short trial of Agent Framework and LangGraph in the founder's template, then a second recorded import (decision 0049, AI-09); the trial now runs at 5b (row 38e, decision 0051), and this row keeps the gateway import |
-| 48 | #102 | Agent chat over AG-UI (CopilotKit), on the framework AI-09 chooses; the pilot's area chat comes first at 5b (row 38i, decision 0051), and this row is the home chat |
+| 48 | #102 | Agent chat over AG-UI (CopilotKit), on the framework AI-09 chooses; the on-page area chat left the pilot (decision 0056) and this row covers the workspace chat and then the home chat |
 | 49 | #103 | Document investigation workflow with human approval |
 | 50 | #104 | **Epic:** entitlements and payments (CO-01) |
 | 51 | #105 | **Epic:** monitoring, scheduling and notifications (OP-01, OP-02) |

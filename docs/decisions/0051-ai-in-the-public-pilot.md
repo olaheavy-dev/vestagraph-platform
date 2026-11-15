@@ -1,7 +1,7 @@
 # 0051: AI in the public pilot — an area chat and a public read-only MCP server
 
 **ID:** PD-15  
-**Status:** Accepted (founder, 13 Nov 2026, in prompt windows)  
+**Status:** Accepted (founder, 13 Nov 2026, in prompt windows) *15 Nov 2026: [0056](0056-no-on-page-chat-in-the-pilot.md) moves point 2, the on-page area chat, out of the pilot (into the signed-in workspace), together with the launch blockers that existed only for the chat; the MCP server (points 1 and 4) stands.*  
 **Date:** 2026-11-13  
 **Stage:** 5b  
 **Supersedes in part (no older text is rewritten):** [0038](0038-accounts-and-api-keys-for-mcp.md) Option C's limit ("not acceptable for any remote server that returns anything but public synthetic data") for the area tools only; [0046](0046-public-area-check-first.md)'s pilot scope (no AI named) and its "then accounts" order for the MCP server; [0004](0004-ai-in-the-product.md)'s rule that the chat "only answers about the current home", extended to the current area; [0014](0014-privacy-and-data-protection.md)'s supporting rule "no AI calls per anonymous visitor", for the pilot's chat and Explain this only (replaced by the safeguards below); [0037](0037-mcp-server-and-agent-integrations.md)'s order (remote server at stage 6, after 0038's keys, local first) for the area tools only; [0025](0025-ai-platform-capabilities.md)'s stage 6 timing for the chat panel and its packages, for the pilot's area chat; [0049](0049-back-to-python-final.md) items 9 and 11d's stage 6 timing for choosing the framework, brought forward to 5b; the register's stage 6 timing for AI-01, AI-03, AI-04 and AI-09

@@ -6,7 +6,7 @@ Feature: Landing
     (postcode NB1 4XY); inputs: its recorded distances; figures: none.
   Route: / (the landing is the area check: the postcode box is the main action; decision 0046).
   Sections, in order, from the information architecture's "Landing": the promise with the postcode
-    box; the hero map; Data from (the source wall); How it works; How to read a result (a showcase card, FE-36); Coming next, with a free account; Questions; the footer
+    box; the hero map; Data from (the source wall); How it works; How to read a result (a showcase card, FE-36); Use in ChatGPT or Claude (a short section with a "How to connect" link, decision 0056; its scenario is written with the how-to page's specification); Coming next, with a free account; Questions; the footer
     ("Honest by design" removed 14 Nov 2026, FE-35).
   Required states (doc 03 §5):
     basic/paid boundaries -> LAND-05

@@ -21,7 +21,7 @@ The prototype must demonstrate a change in understanding, not simply display a l
 | Technical property dashboard | Dense datasets and maps feel powerful | Harder to understand; risks favouring experienced buyers and implying comprehensive coverage | Use its detail only when requested |
 | AI concierge | Conversational and approachable | Can hide missing evidence and make the product resemble other AI wrappers | Use conversation within the current task |
 
-**Founder decision (0004):** AI appears inside tasks **and** as an optional, closable chat panel about the current home, not a permanent column. In the prototype, chat replies are scripted from the sample data, cite their evidence, and are labelled as simulated.
+**Founder decision (0004):** AI appears inside tasks **and** as an optional, closable chat panel about the current home, not a permanent column. In the prototype, chat replies are scripted from the sample data, cite their evidence, and are labelled as simulated. *15 Nov 2026: the public pilot has no on-page chat; the chat panel belongs to the signed-in workspace ([0056](../decisions/0056-no-on-page-chat-in-the-pilot.md)).*
 
 ## 2. What to keep and change in the eight existing images
 
