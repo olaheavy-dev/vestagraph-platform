@@ -187,7 +187,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Given a topic with no reviewed explanation text is open
     When the visitor looks at Explain this
     Then it reads "Explanation not yet available"
-    And "Ask more about this" is not shown (AI-12, CHAT-53)
+    # No "Ask more about this" link in the pilot: there is no chat to open (AI-12, decision 0056, 15 Nov 2026).
 
   @ui
   Scenario: TOPIC-12 a route-only topic says it is not yet covered

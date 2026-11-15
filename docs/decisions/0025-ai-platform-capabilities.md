@@ -1,7 +1,7 @@
 # 0025: AI platform capabilities
 
 **ID:** AI-05 (accepted), AI-03 and OP-01 (in part)  
-**Status:** Accepted (partly superseded: by [0051](0051-ai-in-the-public-pilot.md) for the pilot's area chat and public read-only area MCP server at stage 5b; founder merge for its stage 6 packages by [0035](0035-ways-of-working-v2.md); by [0049](0049-back-to-python-final.md): the Aspire app host is written in TypeScript from stage 5b, and OpenTelemetry uses the Python packages)  
+**Status:** Accepted (partly superseded: by [0051](0051-ai-in-the-public-pilot.md) for the pilot's area chat and public read-only area MCP server at stage 5b (*15 Nov 2026: the area chat left the pilot, [0056](0056-no-on-page-chat-in-the-pilot.md); the chat's guards apply to the workspace chat*); founder merge for its stage 6 packages by [0035](0035-ways-of-working-v2.md); by [0049](0049-back-to-python-final.md): the Aspire app host is written in TypeScript from stage 5b, and OpenTelemetry uses the Python packages)  
 **Date:** 2026-10-23  
 **Stage:** 6 (requirements decided early)
 

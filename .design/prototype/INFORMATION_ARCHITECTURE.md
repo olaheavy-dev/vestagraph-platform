@@ -92,7 +92,7 @@
   - an account menu (settings, theme, plan, sign out);
   - a "Sample data" label on every example screen;
   - **Ask about this home**, a contextual entry inside a home (sheet or side panel).
-  - **Ask about this area** (pilot, decision 0051), on Check an area only (the landing has no result; C6, 14 Nov 2026): an optional, closable panel (a drawer over the right column on desktop, a bottom sheet on a phone; see "Layering" below) with an "AI" badge on the entry (FE-13); spec `docs/specs/pilot/area-chat.feature`.
+  - **Use in ChatGPT or Claude** (pilot, decisions 0051 and 0056): a how-to page with steps for each app, linked from each area result, each City Explorer page and the footer. The pilot has no on-page "Ask about this area" chat (0056); that chat, with its "AI" badge (FE-13), is built in the signed-in workspace ("Home workspace (later)"), and `docs/specs/pilot/area-chat.feature` is withdrawn and kept for it.
 - **Mobile navigation:**
   - **App level:** bottom tabs **My move · Homes · Compare**, plus a floating **Check a home** action.
   - **Inside a home:** a compact home header and a bottom bar of **Overview · Nearby · Costs · Questions**. A labelled **More** menu holds Viewings (one tap away during a visit), Documents and Activity (doc 03 §3).
@@ -142,7 +142,7 @@ The page opens as **one row per topic with its headline fact** (founder review, 
 Limits (register line FE-34, 14 Nov 2026, replacing FE-28): there is **no visible limit line** on the landing cards, the rows or the top of a topic's sheet or panel. Each result page (Check an area, Nearby, Nearby desktop, Nearby › Schools) has **one** short **"How we got this"** section at the bottom of the result (FE-24, FE-34 one per page, founder 14 Nov 2026: "One per page"; amended the same day, founder: "General page + short note (Recommended)" and "I pick B but add the icons"): a short paragraph on what is specific to this search, one line per topic with its icon, name and source links, and the link "How each source works and what it can't tell you: About the data →". Each topic's method, limits and coverage live on the general About the data page. Topics carry no "How we got this" of their own, and area cards and chat answers just carry source links. A missing value is still said on the row, never zero (rule 7).
 
 #### Layering (register line FE-26, founder, 14 Nov 2026: "one at a time")
-One rule for what shows where; the feature files point here (CHAT-06, CHAT-38, CARD-22).
+One rule for what shows where; the feature files point here (CHAT-06, CHAT-38, CARD-22). *15 Nov 2026 (0056): the chat lines below apply to the signed-in workspace chat; the pilot has no on-page chat.*
 - **Desktop:** the topic list is on the left. The right column is the map until a topic opens, then that topic's side panel (with its own small map) replaces it. The area chat opens as a drawer over the right column; closing it returns to what was there.
 - **Phone:** one sheet at a time. Opening the chat from inside a topic replaces the topic sheet, and Back returns to it.
 - The card's Expand or Open map view is the chat's own answer, so it may sit above the chat; closing it returns to the chat.
@@ -185,9 +185,10 @@ Each topic detail ends with its source line. On a phone the map is a view inside
 3. **Data from:** a source wall: one card per source shown in About the data (planned: Environment Agency, covering "Flood warnings and flood risk by postcode" (DA-16), police.uk, HM Land Registry, Department for Education, Ofsted, NaPTAN, OpenStreetMap, Ofcom, Planning Data, and, added 14 Nov 2026, MHCLG (neighbourhood deprivation rank, English Indices of Deprivation 2025, decision 0054), Department for Transport (transport connectivity, 0054), Natural England (access to green space, DA-16) and the Office for National Statistics (housing affordability by council, DA-16); the final list follows DA-05), with each source and what it covers, and no limit line (FE-34); names only, no logos; links to About the data.
 4. **How it works:** three illustrated steps (type a postcode, see what's around, print or save), followed by a full-width photo band (an AI-generated terraced street; honest alt text, footer note).
 5. **How to read a result:** a showcase: the Schools card from the sample data, labelled Sample, large on the soft gloss surface with the school's isometric icon, and four numbered callouts joined to it by thin leader lines (distance; when it was inspected, shown as "Inspected March 2019" with the framework name on About the data; the source as icon, name and link; callout 4, "At the bottom of every result: a short note on how this search was worked out. The full method and what each source can't tell you are on About the data."). On a phone the callouts stack under the card (FE-36).
-6. **Coming next, with a free account** (labelled "not available yet" until live): cost estimate, compare, track questions and answers per home. White panel with a slate outline in light; neutral panel with a slate outline in dark.
-7. **Questions:** a short FAQ beside a photo (kitchen table; honest alt text, footer note).
-8. Footer: How it works, About the data, Privacy, Accessibility.
+6. **Use in ChatGPT or Claude** (decision 0056; founder, 15 Nov 2026: "Short section on landing (Recommended)"): one line, such as "Ask about any postcode in your own ChatGPT or Claude", a small illustration and a "How to connect" link to the how-to page. The postcode box stays first (0046).
+7. **Coming next, with a free account** (labelled "not available yet" until live): cost estimate, compare, track questions and answers per home. White panel with a slate outline in light; neutral panel with a slate outline in dark.
+8. **Questions:** a short FAQ beside a photo (kitchen table; honest alt text, footer note).
+9. Footer: How it works, About the data, Use in ChatGPT or Claude (0056), Privacy, Accessibility.
 
 (The "Honest by design" section was removed on 14 Nov 2026, FE-35: founder, prompt window, "Remove the whole section".)
 
@@ -265,7 +266,7 @@ In the private prototype the landing can also link the two example homes; the pu
 | Demo story control | Example story · Demo | Never "simulation" in product copy |
 | Sample data marker | Sample data | Everywhere fixtures are shown |
 | Assistant entry | Ask about this home | No "Copilot", no "AI" badge |
-| Area assistant entry (pilot) | Ask about this area | "AI" badge on the entry and "Answers are written by AI from the sources below" in the header (FE-13); no "Copilot" |
+| Area assistant entry (workspace chat, later; not in the pilot, 0056) | Ask about this area | "AI" badge on the entry and "Answers are written by AI from the sources below" in the header (FE-13); no "Copilot" |
 | Paid tier (simulated) | Move pass | A labelled hypothesis, doc 02 §8 |
 | Forbidden labels | — | Never "verified", "safe", "approved", scores or "best" (rule 4) |
 

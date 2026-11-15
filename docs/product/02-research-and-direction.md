@@ -240,7 +240,7 @@ Research the economics before commitments: licensed address/data calls, routing,
 | Product category | Home decision workspace, expressed in plain consumer language | **Confirmed by founder** (decision 0001) |
 | Core object | One home record inside My move | **Confirmed by founder** (0002) |
 | Main value | Evidence, real costs, comparison and answers connected together | **Confirmed by founder** (0003); validate with users |
-| AI presentation | AI inside specific tasks **plus an optional chat panel** about the current home, with grounding rules | **Confirmed by founder** (0004), changed from tasks-only |
+| AI presentation | AI inside specific tasks **plus an optional chat panel** about the current home, with grounding rules | **Confirmed by founder** (0004), changed from tasks-only | *15 Nov 2026: the pilot has no on-page chat; it is built in the signed-in workspace ([0056](../decisions/0056-no-on-page-chat-in-the-pilot.md)).*
 | Visual direction | Warm editorial photography plus a precise, restrained workspace | **Confirmed by founder** (0005); details in doc 03 |
 | Public brand | Public name Vestagraph, replacing the former code name HomeScout (0044, supersedes 0008) | Open (0009): trade-mark clearance still to do |
 | Commercial model | Test a Move pass against monthly and one-off alternatives | Open (0010) |

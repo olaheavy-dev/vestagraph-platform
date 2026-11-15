@@ -1,7 +1,7 @@
 # 0004: How AI appears in the product
 
 **ID:** PD-04  
-**Status:** Accepted (partly superseded by [0051](0051-ai-in-the-public-pilot.md): on the public pilot the chat also answers about the current area)  
+**Status:** Accepted (partly superseded by [0051](0051-ai-in-the-public-pilot.md): on the public pilot the chat also answers about the current area; *15 Nov 2026: the pilot has no on-page chat, so that applies to the signed-in workspace chat, [0056](0056-no-on-page-chat-in-the-pilot.md)*)  
 **Date:** 2026-10-23  
 **Stage:** 1
 
