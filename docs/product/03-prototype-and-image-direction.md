@@ -181,7 +181,7 @@ Prototype controls must distinguish simulated source checks, document attachment
 
 | Screen / interaction | Main question it answers | Required content and behaviour |
 |---|---|---|
-| Search-led landing | “What can this help me do?” | Shared promise with the **postcode box first**, which opens Check an area; "England only for now"; account features (costs, compare, questions) only as "coming next" until they exist; "Try a sample" (FE-37, 14 Nov 2026) opens the sample area (decision 0046 replaced the address input and equal buy/rent choice as the landing's main action) |
+| Search-led landing | “What can this help me do?” | Shared promise with the **search box first** (a postcode or a town, FE-37 amended 15 Nov 2026), which opens Check an area for a postcode or a council page for a town; "England only for now"; account features (costs, compare, questions) only as "coming next" until they exist; "Try a sample" (FE-37, 14 Nov 2026) opens the sample area (decision 0046 replaced the address input and equal buy/rent choice as the landing's main action) |
 | Identity confirmation | “Is this the exact home?” | Unit/building candidates, clear correction route; no quiet postcode-to-flat inference |
 | Home overview | “What matters here?” | Three concise findings as appropriate, current cost assumption, open questions, source/scope labels and next action |
 | Nearby and routines | “Would daily life work?” | Map/list, optional destinations, selected categories, route assumptions and missing information |

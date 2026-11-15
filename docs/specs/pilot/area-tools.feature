@@ -21,9 +21,10 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     ChatGPT (corrected 15 Nov 2026; OpenAI's wording changed, see
       docs/reviews/2026-11-15-use-in-assistant-research.md): add the server through ChatGPT's "plugins"
       (chatgpt.com/plugins, the plus button, "Add custom MCP server"); authentication "No authentication" is
-      a normal option; on Business and Enterprise/Edu plans an admin must allow the permission "Create plugins
-      with MCPs" first (this last fact comes from a search summary of the help-centre page, which returned 403
-      to the research tool, so it is to confirm in the real app)
+      a normal option; on Business only admins and owners can add one, and on Enterprise/Edu an admin grants it
+      through roles (permission "Create plugins with MCPs", off by default in Enterprise workspaces) (these
+      last facts come from a search summary of the help-centre page, which returned 403 to the research
+      tool, so they are to confirm in the real app)
       (https://developers.openai.com/api/docs/guides/custom-mcp-server,
       https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt).
     Widgets (the area card, area-card.feature): Claude and Claude Desktop are on the MCP Apps client list
