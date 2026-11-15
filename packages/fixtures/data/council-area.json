@@ -317,6 +317,556 @@
           "edition": "August 2026 data",
           "period": "monthly",
           "synthetic": true
+        },
+        "byType": {
+          "detached": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2024-09",
+                "value": 40000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-10",
+                "value": 40080000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-11",
+                "value": 40160000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-12",
+                "value": 40240000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-01",
+                "value": 40320000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-02",
+                "value": 40400000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-03",
+                "value": 40480000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-04",
+                "value": 40560000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-05",
+                "value": 40640000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-06",
+                "value": 40720000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-07",
+                "value": 40800000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "value": 40880000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-09",
+                "value": 40960000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 41040000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 41120000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 41200000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 41280000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 41360000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 41440000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 41520000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 41600000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 41680000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 41760000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 41840000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Northbridge (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "semiDetached": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2024-09",
+                "value": 30000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-10",
+                "value": 30090000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-11",
+                "value": 30180000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-12",
+                "value": 30270000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-01",
+                "value": 30360000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-02",
+                "value": 30450000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-03",
+                "value": 30540000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-04",
+                "value": 30630000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-05",
+                "value": 30720000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-06",
+                "value": 30810000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-07",
+                "value": 30900000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "value": 30990000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-09",
+                "value": 31080000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 31170000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 31260000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 31350000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 31440000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 31530000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 31620000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 31710000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 31800000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 31890000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 31980000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 32070000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Northbridge (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "terraced": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2024-09",
+                "value": 26000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-10",
+                "value": 25960000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-11",
+                "value": 25920000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-12",
+                "value": 25880000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-01",
+                "value": 25840000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-02",
+                "value": 25800000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-03",
+                "value": 25760000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-04",
+                "value": 25720000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-05",
+                "value": 25680000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-06",
+                "value": 25640000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-07",
+                "value": 25600000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "value": 25560000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-09",
+                "value": 25520000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 25480000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 25440000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 25400000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 25360000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 25320000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 25280000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 25240000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 25200000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 25160000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 25120000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 25080000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Northbridge (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "flat": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2024-09",
+                "value": 20000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-10",
+                "value": 20030000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-11",
+                "value": 20060000,
+                "status": "recorded"
+              },
+              {
+                "period": "2024-12",
+                "value": 20090000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-01",
+                "value": 20120000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-02",
+                "value": 20150000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-03",
+                "value": 20180000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-04",
+                "value": 20210000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-05",
+                "value": 20240000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-06",
+                "value": 20270000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-07",
+                "value": 20300000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "value": 20330000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-09",
+                "value": 20360000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 20390000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 20420000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 20450000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 20480000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 20510000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 20540000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 20570000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 20600000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 20630000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 20660000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 20690000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Northbridge (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          }
         }
       },
       "affordabilitySeries": {
@@ -826,6 +1376,352 @@
           "edition": "August 2026 data",
           "period": "monthly",
           "synthetic": true
+        },
+        "byType": {
+          "detached": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2025-07",
+                "value": 26000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "status": "not-published"
+              },
+              {
+                "period": "2025-09",
+                "value": 26100000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 26150000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 26200000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 26250000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 26300000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 26350000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 26400000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 26450000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 26500000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 26550000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 26600000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 26650000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Southvale (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "semiDetached": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2025-07",
+                "value": 21000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "status": "not-published"
+              },
+              {
+                "period": "2025-09",
+                "value": 21080000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 21120000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 21160000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 21200000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 21240000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 21280000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 21320000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 21360000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 21400000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 21440000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 21480000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 21520000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Southvale (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "terraced": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2025-07",
+                "value": 17000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "status": "not-published"
+              },
+              {
+                "period": "2025-09",
+                "value": 17060000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 17090000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 17120000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 17150000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 17180000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 17210000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 17240000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 17270000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 17300000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 17330000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 17360000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 17390000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Southvale (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "flat": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2025-07",
+                "value": 14000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "status": "not-published"
+              },
+              {
+                "period": "2025-09",
+                "value": 14040000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 14060000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 14080000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 14100000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 14120000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 14140000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 14160000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 14180000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 14200000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 14220000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 14240000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 14260000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Southvale (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          }
         }
       },
       "affordabilitySeries": {
@@ -1118,6 +2014,285 @@
           "edition": "August 2026 data",
           "period": "monthly",
           "synthetic": true
+        },
+        "byType": {
+          "detached": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2025-07",
+                "value": 30000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "value": 30060000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-09",
+                "value": 30120000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 30180000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 30240000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 30300000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 30360000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 30420000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 30480000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 30540000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 30600000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 30660000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 30720000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 30780000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Eastmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "semiDetached": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2025-07",
+                "value": 24000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "value": 24040000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-09",
+                "value": 24080000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 24120000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 24160000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 24200000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 24240000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 24280000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 24320000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 24360000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 24400000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 24440000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 24480000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 24520000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Eastmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "terraced": {
+            "status": "recorded",
+            "unit": "pence",
+            "points": [
+              {
+                "period": "2025-07",
+                "value": 19000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-08",
+                "value": 19000000,
+                "status": "recorded"
+              },
+              {
+                "period": "2025-09",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-10",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-11",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2025-12",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-01",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-02",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-03",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-04",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-05",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-06",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-07",
+                "value": 19000000,
+                "status": "provisional"
+              },
+              {
+                "period": "2026-08",
+                "value": 19000000,
+                "status": "provisional"
+              }
+            ],
+            "level": {
+              "kind": "local-authority",
+              "name": "Eastmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "flat": {
+            "status": "no-record-in-source",
+            "unit": "pence",
+            "points": [],
+            "level": {
+              "kind": "local-authority",
+              "name": "Eastmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          }
         }
       },
       "affordabilitySeries": {
@@ -1339,6 +2514,72 @@
           "edition": "August 2026 data",
           "period": "monthly",
           "synthetic": true
+        },
+        "byType": {
+          "detached": {
+            "status": "no-record-in-source",
+            "unit": "pence",
+            "points": [],
+            "level": {
+              "kind": "local-authority",
+              "name": "Westmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "semiDetached": {
+            "status": "no-record-in-source",
+            "unit": "pence",
+            "points": [],
+            "level": {
+              "kind": "local-authority",
+              "name": "Westmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "terraced": {
+            "status": "no-record-in-source",
+            "unit": "pence",
+            "points": [],
+            "level": {
+              "kind": "local-authority",
+              "name": "Westmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          },
+          "flat": {
+            "status": "no-record-in-source",
+            "unit": "pence",
+            "points": [],
+            "level": {
+              "kind": "local-authority",
+              "name": "Westmere (synthetic)"
+            },
+            "source": {
+              "label": "Synthetic sample, shaped like the UK House Price Index average prices by property type",
+              "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+              "edition": "August 2026 data",
+              "period": "monthly",
+              "synthetic": true
+            }
+          }
         }
       },
       "affordabilitySeries": {

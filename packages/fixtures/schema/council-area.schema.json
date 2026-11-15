@@ -211,6 +211,9 @@
         },
         "source": {
           "$ref": "#/$defs/source"
+        },
+        "byType": {
+          "$ref": "#/$defs/priceByType"
         }
       },
       "allOf": [
@@ -609,7 +612,8 @@
               "properties": {
                 "unit": {
                   "const": "pence-per-month"
-                }
+                },
+                "byType": false
               }
             }
           ]
@@ -624,7 +628,10 @@
                 "unit": {
                   "const": "pence"
                 }
-              }
+              },
+              "required": [
+                "byType"
+              ]
             }
           ]
         },
@@ -637,7 +644,8 @@
               "properties": {
                 "unit": {
                   "const": "ratio"
-                }
+                },
+                "byType": false
               }
             }
           ]
@@ -783,6 +791,46 @@
           "$ref": "#/$defs/source"
         }
       }
+    },
+    "priceByType": {
+      "description": "Average price by property type for one council (UK House Price Index shape): exactly these four series, each in pence. A type the source does not publish for the council is a series gap, never zero.",
+      "type": "object",
+      "required": [
+        "detached",
+        "semiDetached",
+        "terraced",
+        "flat"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "detached": {
+          "$ref": "#/$defs/typeSeries"
+        },
+        "semiDetached": {
+          "$ref": "#/$defs/typeSeries"
+        },
+        "terraced": {
+          "$ref": "#/$defs/typeSeries"
+        },
+        "flat": {
+          "$ref": "#/$defs/typeSeries"
+        }
+      }
+    },
+    "typeSeries": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/series"
+        },
+        {
+          "properties": {
+            "unit": {
+              "const": "pence"
+            },
+            "byType": false
+          }
+        }
+      ]
     }
   }
 }

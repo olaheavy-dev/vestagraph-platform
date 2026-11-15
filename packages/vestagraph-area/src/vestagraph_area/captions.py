@@ -22,7 +22,14 @@ from typing import Final, Literal
 
 from vestagraph_engine.pence import Pence, round_ratio
 
-from vestagraph_area.council_records import TENURE_KEYS, Fact, Series, SeriesPoint, period_key
+from vestagraph_area.council_records import (
+    PROPERTY_TYPES,
+    TENURE_KEYS,
+    Fact,
+    Series,
+    SeriesPoint,
+    period_key,
+)
 from vestagraph_area.tenure import share_text, tenure_shares_for_fact
 
 Direction = Literal["rose", "fell", "unchanged"]
@@ -260,6 +267,23 @@ def series_caption(topic: str, series: Series) -> Caption:
     if not series.points:
         return Caption("missing", {"topic": topic, "pattern": "missing", "reason": series.status})
     return caption_for(topic, series, series.points[-1].period)
+
+
+def property_type_caption(property_type: str, series: Series) -> Caption:
+    """The price caption for one property type's series, carrying that type.
+
+    It is the ordinary ``price`` caption for the series at its latest point (a trend only when
+    both end points are published and the method did not change between them, rule 7), with the
+    property type added to its values. It looks at this one series only: a caption never
+    compares two types or two councils.
+
+    Raises ``ValueError`` for a name that is not one of ``PROPERTY_TYPES``.
+    """
+    if property_type not in PROPERTY_TYPES:
+        message = f"{property_type!r} is not a property type; use {', '.join(PROPERTY_TYPES)}."
+        raise ValueError(message)
+    caption = series_caption("price", series)
+    return Caption(caption.kind, {**caption.values, "propertyType": property_type})
 
 
 def tenure_caption(fact: Fact) -> Caption:

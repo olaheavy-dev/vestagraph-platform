@@ -67,7 +67,7 @@
     },
     "council": {
       "type": "object",
-      "required": ["code", "bands", "rentOrBuy", "captions", "neighbourhoods"],
+      "required": ["code", "bands", "rentOrBuy", "captions", "priceByType", "neighbourhoods"],
       "properties": {
         "code": { "type": "string", "minLength": 1 },
         "bands": {
@@ -75,11 +75,13 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["band", "yearly", "monthly"],
+            "required": ["band", "yearly", "monthly", "shownYearly", "shownCouncilTax"],
             "properties": {
               "band": { "$ref": "#/$defs/band" },
               "yearly": { "$ref": "#/$defs/pence" },
-              "monthly": { "$ref": "#/$defs/pence" }
+              "monthly": { "$ref": "#/$defs/pence" },
+              "shownYearly": { "$ref": "#/$defs/shownPounds" },
+              "shownCouncilTax": { "$ref": "#/$defs/shownPounds" }
             },
             "additionalProperties": false
           }
@@ -100,6 +102,38 @@
           "additionalProperties": false
         },
         "captions": { "type": "array", "items": { "$ref": "#/$defs/caption" } },
+        "priceByType": {
+          "description": "One average-price caption per property type, always in this order: detached, semiDetached, terraced, flat. Each looks at that type's own series: no caption compares two types or two councils.",
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "prefixItems": [
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "detached" }, "values": { "properties": { "propertyType": { "const": "detached" } } } } }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "semiDetached" }, "values": { "properties": { "propertyType": { "const": "semiDetached" } } } } }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "terraced" }, "values": { "properties": { "propertyType": { "const": "terraced" } } } } }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "flat" }, "values": { "properties": { "propertyType": { "const": "flat" } } } } }
+              ]
+            }
+          ]
+        },
         "tenureShares": { "$ref": "#/$defs/tenureShares" },
         "neighbourhoods": {
           "type": "array",
@@ -123,10 +157,18 @@
       "required": ["band", "buySides"],
       "properties": {
         "band": { "$ref": "#/$defs/band" },
+        "councilTax": { "$ref": "#/$defs/positivePence" },
+        "shownCouncilTax": { "$ref": "#/$defs/shownPounds" },
         "rentSide": { "$ref": "#/$defs/positivePence" },
         "shownRentSide": { "$ref": "#/$defs/shownPounds" },
         "buySides": { "type": "array", "items": { "$ref": "#/$defs/buySide" } },
         "problem": { "$ref": "#/$defs/buyingProblem" }
+      },
+      "dependentRequired": {
+        "councilTax": ["shownCouncilTax"],
+        "shownCouncilTax": ["councilTax"],
+        "rentSide": ["shownRentSide"],
+        "shownRentSide": ["rentSide"]
       },
       "additionalProperties": false
     },
@@ -137,6 +179,7 @@
         "product": { "enum": ["2-year-fixed", "5-year-fixed"] },
         "buySide": { "$ref": "#/$defs/positivePence" },
         "repayment": { "$ref": "#/$defs/positivePence" },
+        "shownRepayment": { "$ref": "#/$defs/shownPounds" },
         "rateBand": {
           "type": "object",
           "required": ["maxLoanToValuePercent", "rateBasisPoints", "month"],
@@ -153,6 +196,12 @@
         "shownDifference": { "$ref": "#/$defs/shownPounds" },
         "problem": { "$ref": "#/$defs/sideProblem" }
       },
+      "dependentRequired": {
+        "repayment": ["shownRepayment"],
+        "shownRepayment": ["repayment"],
+        "buySide": ["shownBuySide"],
+        "shownBuySide": ["buySide"]
+      },
       "additionalProperties": false
     },
     "caption": {
@@ -162,6 +211,22 @@
         "topic": { "enum": ["rent", "price", "affordability", "tenure"] },
         "kind": { "enum": ["trend", "missing", "not-comparable", "single-point"] },
         "values": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "propertyType": { "enum": ["detached", "semiDetached", "terraced", "flat"] },
+    "priceTypeCaption": {
+      "type": "object",
+      "required": ["propertyType", "kind", "values"],
+      "properties": {
+        "propertyType": { "$ref": "#/$defs/propertyType" },
+        "kind": { "enum": ["trend", "missing", "not-comparable"] },
+        "values": {
+          "type": "object",
+          "required": ["propertyType"],
+          "properties": { "propertyType": { "$ref": "#/$defs/propertyType" } },
+          "additionalProperties": { "type": "string" }
+        }
       },
       "additionalProperties": false
     },

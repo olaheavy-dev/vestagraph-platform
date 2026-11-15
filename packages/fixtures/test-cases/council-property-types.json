@@ -1,0 +1,655 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "northbridge-detached-rose",
+      "description": "Northbridge detached, 2026-08 against 2025-08: rose, all 12 window months provisional.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "propertyType": "detached"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Data: 2024-09 is 40000000p and each month adds 80000p. 2025-08 is the 12th point (11 steps): 40000000 + 11 x 80000 = 40880000p. 2026-08 is 23 steps: 40000000 + 23 x 80000 = 41840000p (provisional)."
+        },
+        {
+          "n": 2,
+          "description": "Amount = 41840000 - 40880000 = 960000p."
+        },
+        {
+          "n": 3,
+          "description": "Percent = 960000 x 100 / 40880000 = 2.3483..., so 2.3. As a fraction: 960000 x 100 / 40880000 = 96000000/40880000 = 1200/511 (divide both by 80000)."
+        },
+        {
+          "n": 4,
+          "description": "Pounds: 40880000p = 408800, 41840000p = 418400; shown amount 418400 - 408800 = 9600."
+        },
+        {
+          "n": 5,
+          "description": "Window 2025-09 to 2026-08: all 12 points provisional."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-08",
+          "toPeriod": "2026-08",
+          "fromValue": 40880000,
+          "toValue": 41840000,
+          "amount": 960000,
+          "percent": "1200/511",
+          "direction": "rose",
+          "provisionalPoints": 12
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "408800",
+            "toValue": "418400",
+            "amount": "9600",
+            "percent": "2.3",
+            "provisionalPoints": "12",
+            "propertyType": "detached"
+          }
+        }
+      }
+    },
+    {
+      "id": "northbridge-semi-detached-rose-rounds-percent-up",
+      "description": "Northbridge semi-detached, 2026-08 against 2025-08: percent 3.48499 rounds up to 3.5.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "propertyType": "semiDetached"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Data: 2024-09 is 30000000p, each month adds 90000p. 2025-08: 30000000 + 11 x 90000 = 30990000p. 2026-08: 30000000 + 23 x 90000 = 32070000p."
+        },
+        {
+          "n": 2,
+          "description": "Amount = 32070000 - 30990000 = 1080000p."
+        },
+        {
+          "n": 3,
+          "description": "Percent = 1080000 x 100 / 30990000 = 3.48499..., so 3.5 (the second decimal is 8, rounded up). As a fraction: 1080000 x 100 / 30990000 = 108000000/30990000 = 3600/1033 (divide both by 30000)."
+        },
+        {
+          "n": 4,
+          "description": "Pounds: 309900 and 320700; shown amount 10800."
+        },
+        {
+          "n": 5,
+          "description": "Window 2025-09 to 2026-08: all 12 provisional."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-08",
+          "toPeriod": "2026-08",
+          "fromValue": 30990000,
+          "toValue": 32070000,
+          "amount": 1080000,
+          "percent": "3600/1033",
+          "direction": "rose",
+          "provisionalPoints": 12
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "309900",
+            "toValue": "320700",
+            "amount": "10800",
+            "percent": "3.5",
+            "provisionalPoints": "12",
+            "propertyType": "semiDetached"
+          }
+        }
+      }
+    },
+    {
+      "id": "northbridge-terraced-fell",
+      "description": "Northbridge terraced, 2026-08 against 2025-08: fell.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "propertyType": "terraced"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Data: 2024-09 is 26000000p, each month takes 40000p off. 2025-08: 26000000 - 11 x 40000 = 25560000p. 2026-08: 26000000 - 23 x 40000 = 25080000p."
+        },
+        {
+          "n": 2,
+          "description": "Amount = 25080000 - 25560000 = -480000p."
+        },
+        {
+          "n": 3,
+          "description": "Percent = -480000 x 100 / 25560000 = -1.8779..., shown as 1.9 with the direction 'fell'. As a fraction: -480000 x 100 / 25560000 = -48000000/25560000 = -400/213 (divide both by 120000)."
+        },
+        {
+          "n": 4,
+          "description": "Pounds: 255600 and 250800; shown amount |250800 - 255600| = 4800."
+        },
+        {
+          "n": 5,
+          "description": "Window: all 12 provisional."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-08",
+          "toPeriod": "2026-08",
+          "fromValue": 25560000,
+          "toValue": 25080000,
+          "amount": -480000,
+          "percent": "-400/213",
+          "direction": "fell",
+          "provisionalPoints": 12
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-fell",
+            "direction": "fell",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "255600",
+            "toValue": "250800",
+            "amount": "4800",
+            "percent": "1.9",
+            "provisionalPoints": "12",
+            "propertyType": "terraced"
+          }
+        }
+      }
+    },
+    {
+      "id": "northbridge-flat-rose",
+      "description": "Northbridge flat, 2026-08 against 2025-08: rose.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "propertyType": "flat"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Data: 2024-09 is 20000000p, each month adds 30000p. 2025-08: 20000000 + 11 x 30000 = 20330000p. 2026-08: 20000000 + 23 x 30000 = 20690000p."
+        },
+        {
+          "n": 2,
+          "description": "Amount = 360000p."
+        },
+        {
+          "n": 3,
+          "description": "Percent = 360000 x 100 / 20330000 = 1.7708..., so 1.8. As a fraction: 360000 x 100 / 20330000 = 36000000/20330000 = 3600/2033 (divide both by 10000)."
+        },
+        {
+          "n": 4,
+          "description": "Pounds: 203300 and 206900; shown amount 3600."
+        },
+        {
+          "n": 5,
+          "description": "Window: all 12 provisional."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-08",
+          "toPeriod": "2026-08",
+          "fromValue": 20330000,
+          "toValue": 20690000,
+          "amount": 360000,
+          "percent": "3600/2033",
+          "direction": "rose",
+          "provisionalPoints": 12
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "203300",
+            "toValue": "206900",
+            "amount": "3600",
+            "percent": "1.8",
+            "provisionalPoints": "12",
+            "propertyType": "flat"
+          }
+        }
+      }
+    },
+    {
+      "id": "eastmere-detached-rose",
+      "description": "Eastmere detached, 2026-08 against 2025-08 (the series starts 2025-07): rose.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E07999001",
+        "propertyType": "detached"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Data: 2025-07 is 30000000p, each month adds 60000p. 2025-08 is 1 step: 30060000p. 2026-08 is 13 steps: 30000000 + 13 x 60000 = 30780000p."
+        },
+        {
+          "n": 2,
+          "description": "Amount = 720000p."
+        },
+        {
+          "n": 3,
+          "description": "Percent = 720000 x 100 / 30060000 = 2.3952..., so 2.4. As a fraction: 720000 x 100 / 30060000 = 72000000/30060000 = 1200/501 = 400/167."
+        },
+        {
+          "n": 4,
+          "description": "Pounds: 300600 and 307800; shown amount 7200."
+        },
+        {
+          "n": 5,
+          "description": "Window 2025-09 to 2026-08: all 12 provisional."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-08",
+          "toPeriod": "2026-08",
+          "fromValue": 30060000,
+          "toValue": 30780000,
+          "amount": 720000,
+          "percent": "400/167",
+          "direction": "rose",
+          "provisionalPoints": 12
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "300600",
+            "toValue": "307800",
+            "amount": "7200",
+            "percent": "2.4",
+            "provisionalPoints": "12",
+            "propertyType": "detached"
+          }
+        }
+      }
+    },
+    {
+      "id": "eastmere-semi-detached-rose-rounds-percent-up",
+      "description": "Eastmere semi-detached, 2026-08 against 2025-08: percent 1.99667 rounds up to 2.0.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E07999001",
+        "propertyType": "semiDetached"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Data: 2025-07 is 24000000p, each month adds 40000p. 2025-08: 24040000p. 2026-08: 24000000 + 13 x 40000 = 24520000p."
+        },
+        {
+          "n": 2,
+          "description": "Amount = 480000p."
+        },
+        {
+          "n": 3,
+          "description": "Percent = 480000 x 100 / 24040000 = 1.99667..., so 2.0 (one decimal place, shown with the zero). As a fraction: 480000 x 100 / 24040000 = 48000000/24040000 = 1200/601."
+        },
+        {
+          "n": 4,
+          "description": "Pounds: 240400 and 245200; shown amount 4800."
+        },
+        {
+          "n": 5,
+          "description": "Window: all 12 provisional."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-08",
+          "toPeriod": "2026-08",
+          "fromValue": 24040000,
+          "toValue": 24520000,
+          "amount": 480000,
+          "percent": "1200/601",
+          "direction": "rose",
+          "provisionalPoints": 12
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "240400",
+            "toValue": "245200",
+            "amount": "4800",
+            "percent": "2.0",
+            "provisionalPoints": "12",
+            "propertyType": "semiDetached"
+          }
+        }
+      }
+    },
+    {
+      "id": "eastmere-terraced-unchanged",
+      "description": "Eastmere terraced, 2026-08 against 2025-08: the same figure both times, so unchanged (no percent).",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E07999001",
+        "propertyType": "terraced"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Data: every month is 19000000p."
+        },
+        {
+          "n": 2,
+          "description": "Amount = 19000000 - 19000000 = 0p; the shown pounds are 190000 and 190000, so the direction is 'unchanged' and no percent is quoted."
+        },
+        {
+          "n": 3,
+          "description": "Window: all 12 provisional."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-08",
+          "toPeriod": "2026-08",
+          "fromValue": 19000000,
+          "toValue": 19000000,
+          "amount": 0,
+          "percent": "0",
+          "direction": "unchanged",
+          "provisionalPoints": 12
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-unchanged",
+            "direction": "unchanged",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "190000",
+            "toValue": "190000",
+            "amount": "0",
+            "provisionalPoints": "12",
+            "propertyType": "terraced"
+          }
+        }
+      }
+    },
+    {
+      "id": "southvale-detached-start-point-not-published",
+      "description": "Southvale detached: the 2025-08 month is not published, so there is no trend; the latest figure is still carried.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E06999002",
+        "propertyType": "detached"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The start point 2025-08 is not published, so no change can be worked out (never treated as 0)."
+        },
+        {
+          "n": 2,
+          "description": "Latest 2026-08: 26000000 + 13 x 50000 = 26650000p = 266500 pounds, provisional."
+        }
+      ],
+      "expected": {
+        "change": null,
+        "caption": {
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "start-point-not-published",
+            "period": "2026-08",
+            "value": "266500",
+            "pointStatus": "provisional",
+            "propertyType": "detached"
+          }
+        }
+      }
+    },
+    {
+      "id": "southvale-flat-start-point-not-published",
+      "description": "Southvale flat: the 2025-08 month is not published, so there is no trend; the latest figure is still carried.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E06999002",
+        "propertyType": "flat"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The start point 2025-08 is not published: no trend."
+        },
+        {
+          "n": 2,
+          "description": "Latest 2026-08: 14000000 + 13 x 20000 = 14260000p = 142600 pounds, provisional."
+        }
+      ],
+      "expected": {
+        "change": null,
+        "caption": {
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "start-point-not-published",
+            "period": "2026-08",
+            "value": "142600",
+            "pointStatus": "provisional",
+            "propertyType": "flat"
+          }
+        }
+      }
+    },
+    {
+      "id": "eastmere-flat-not-published-for-this-council",
+      "description": "Eastmere flat: no flat series is recorded for this council (a gap, never 0): a missing caption with the gap status as its reason.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E07999001",
+        "propertyType": "flat"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The series has the status no-record-in-source and no points, so there is nothing to compare and no figure to carry."
+        }
+      ],
+      "expected": {
+        "change": null,
+        "caption": {
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source",
+            "propertyType": "flat"
+          }
+        }
+      }
+    },
+    {
+      "id": "westmere-terraced-gap",
+      "description": "Westmere terraced: the whole council has no price record, so no type has a series: a missing caption.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "councilCode": "E07999002",
+        "propertyType": "terraced"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The series has the status no-record-in-source and no points: no trend and no figure."
+        }
+      ],
+      "expected": {
+        "change": null,
+        "caption": {
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source",
+            "propertyType": "terraced"
+          }
+        }
+      }
+    },
+    {
+      "id": "inline-flat-end-point-not-published",
+      "description": "A flat series whose latest month (2026-08) is not published: no trend and no latest figure to quote.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "propertyType": "flat",
+        "unit": "pence",
+        "points": [
+          {
+            "period": "2025-08",
+            "status": "recorded",
+            "value": 20330000
+          },
+          {
+            "period": "2026-08",
+            "status": "not-published"
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The end point 2026-08 is not published, so there is no trend and no end figure to carry (never 0)."
+        }
+      ],
+      "expected": {
+        "change": null,
+        "caption": {
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "end-point-not-published",
+            "propertyType": "flat"
+          }
+        }
+      }
+    },
+    {
+      "id": "inline-detached-method-break-between-end-points",
+      "description": "A detached series whose method changed after the start point: the two ends cannot be compared.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero; the shown amount is the difference of the two rounded figures (decision 0021, 0034; register line BE-14 in docs/decisions/README.md); the two end points are twelve months apart. One property type's series only: a caption never compares two types or two councils. A type with no published end point, a missing start point, a gap status or a method break gets no trend (rule 7). Worked by hand from the synthetic inputs in packages/fixtures/data/council-area.json (priceSeries.byType) or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "propertyType": "detached",
+        "unit": "pence",
+        "points": [
+          {
+            "period": "2025-08",
+            "status": "recorded",
+            "value": 40880000
+          },
+          {
+            "period": "2026-02",
+            "status": "recorded",
+            "value": 41300000,
+            "methodBreakBefore": true
+          },
+          {
+            "period": "2026-08",
+            "status": "recorded",
+            "value": 41840000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "A method break sits at 2026-02, after the start point 2025-08 and before the end point 2026-08, so the caption says the two are not comparable and quotes no change."
+        }
+      ],
+      "expected": {
+        "change": null,
+        "caption": {
+          "kind": "not-comparable",
+          "values": {
+            "topic": "price",
+            "pattern": "not-comparable",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "propertyType": "detached"
+          }
+        }
+      }
+    }
+  ]
+}

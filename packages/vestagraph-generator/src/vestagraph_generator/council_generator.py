@@ -13,9 +13,10 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
-from vestagraph_area.captions import series_caption, tenure_caption
+from vestagraph_area.captions import property_type_caption, series_caption, tenure_caption
 from vestagraph_area.council_records import (
     BAND_LETTERS,
+    PROPERTY_TYPES,
     TENURE_KEYS,
     Council,
     CouncilArea,
@@ -25,7 +26,7 @@ from vestagraph_area.council_records import (
 from vestagraph_area.council_tax import band_monthly, band_yearly
 from vestagraph_area.place_search import council_for_postcode, find_councils
 from vestagraph_area.records import InvalidAreaDataError
-from vestagraph_area.rent_or_buy import BuySide, rent_or_buy
+from vestagraph_area.rent_or_buy import BuySide, rent_or_buy, shown_pounds
 from vestagraph_area.tenure import share_text, tenure_shares_for_fact
 from vestagraph_engine.pence import Pence
 
@@ -67,6 +68,8 @@ def _buy_side(side: BuySide) -> dict[str, Any]:
         entry["buySide"] = side.buy_side.value
     if side.repayment is not None:
         entry["repayment"] = side.repayment.value
+    if side.shown_repayment is not None:
+        entry["shownRepayment"] = side.shown_repayment
     if side.rate_used is not None:
         entry["rateBand"] = {
             "maxLoanToValuePercent": side.rate_used.max_loan_to_value_percent,
@@ -91,8 +94,15 @@ def _bands(council: Council) -> list[dict[str, Any]]:
     for band in BAND_LETTERS:
         yearly = band_yearly(council.bands, band)
         if yearly is not None:
+            monthly = band_monthly(yearly)
             found.append(
-                {"band": band, "yearly": yearly.value, "monthly": band_monthly(yearly).value}
+                {
+                    "band": band,
+                    "yearly": yearly.value,
+                    "monthly": monthly.value,
+                    "shownYearly": shown_pounds(yearly),
+                    "shownCouncilTax": shown_pounds(monthly),
+                }
             )
     return found
 
@@ -121,6 +131,9 @@ def _rent_or_buy(council: Council, area: CouncilArea) -> dict[str, Any]:
             rent, price, tax, _DEPOSIT_PERCENT, _TERM_YEARS, None, area.rate_bands
         )
         entry: dict[str, Any] = {"band": band}
+        if tax is not None:
+            entry["councilTax"] = tax.value
+            entry["shownCouncilTax"] = shown_pounds(tax)
         if outcome.rent_side is not None:
             entry["rentSide"] = outcome.rent_side.value
         if outcome.shown_rent_side is not None:
@@ -151,12 +164,24 @@ def _captions(council: Council) -> list[dict[str, Any]]:
     return [{"topic": t, "kind": c.kind, "values": c.values} for t, c in captions]
 
 
+def _price_by_type(council: Council) -> list[dict[str, Any]]:
+    """One price caption per property type, in the fixed order; each looks at its own series."""
+    found: list[dict[str, Any]] = []
+    for property_type in PROPERTY_TYPES:
+        caption = property_type_caption(property_type, council.price_by_type[property_type])
+        found.append(
+            {"propertyType": property_type, "kind": caption.kind, "values": caption.values}
+        )
+    return found
+
+
 def _council(council: Council, area: CouncilArea) -> dict[str, Any]:
     entry: dict[str, Any] = {
         "code": council.code,
         "bands": _bands(council),
         "rentOrBuy": _rent_or_buy(council, area),
         "captions": _captions(council),
+        "priceByType": _price_by_type(council),
     }
     shares = tenure_shares_for_fact(council.tenure)
     if shares is not None:

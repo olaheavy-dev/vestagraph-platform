@@ -12,42 +12,58 @@
         {
           "band": "A",
           "yearly": 144000,
-          "monthly": 12000
+          "monthly": 12000,
+          "shownYearly": 1440,
+          "shownCouncilTax": 120
         },
         {
           "band": "B",
           "yearly": 168000,
-          "monthly": 14000
+          "monthly": 14000,
+          "shownYearly": 1680,
+          "shownCouncilTax": 140
         },
         {
           "band": "C",
           "yearly": 192000,
-          "monthly": 16000
+          "monthly": 16000,
+          "shownYearly": 1920,
+          "shownCouncilTax": 160
         },
         {
           "band": "D",
           "yearly": 216000,
-          "monthly": 18000
+          "monthly": 18000,
+          "shownYearly": 2160,
+          "shownCouncilTax": 180
         },
         {
           "band": "E",
           "yearly": 264000,
-          "monthly": 22000
+          "monthly": 22000,
+          "shownYearly": 2640,
+          "shownCouncilTax": 220
         },
         {
           "band": "F",
           "yearly": 312000,
-          "monthly": 26000
+          "monthly": 26000,
+          "shownYearly": 3120,
+          "shownCouncilTax": 260
         },
         {
           "band": "G",
           "yearly": 360000,
-          "monthly": 30000
+          "monthly": 30000,
+          "shownYearly": 3600,
+          "shownCouncilTax": 300
         },
         {
           "band": "H",
           "yearly": 432000,
-          "monthly": 36000
+          "monthly": 36000,
+          "shownYearly": 4320,
+          "shownCouncilTax": 360
         }
       ],
       "rentOrBuy": {
@@ -58,6 +74,8 @@
         "byBand": [
           {
             "band": "A",
+            "councilTax": 12000,
+            "shownCouncilTax": 120,
             "rentSide": 150700,
             "shownRentSide": 1507,
             "buySides": [
@@ -65,6 +83,7 @@
                 "product": "2-year-fixed",
                 "buySide": 170247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -83,6 +102,8 @@
           },
           {
             "band": "B",
+            "councilTax": 14000,
+            "shownCouncilTax": 140,
             "rentSide": 152700,
             "shownRentSide": 1527,
             "buySides": [
@@ -90,6 +111,7 @@
                 "product": "2-year-fixed",
                 "buySide": 172247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -108,6 +130,8 @@
           },
           {
             "band": "C",
+            "councilTax": 16000,
+            "shownCouncilTax": 160,
             "rentSide": 154700,
             "shownRentSide": 1547,
             "buySides": [
@@ -115,6 +139,7 @@
                 "product": "2-year-fixed",
                 "buySide": 174247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -133,6 +158,8 @@
           },
           {
             "band": "D",
+            "councilTax": 18000,
+            "shownCouncilTax": 180,
             "rentSide": 156700,
             "shownRentSide": 1567,
             "buySides": [
@@ -140,6 +167,7 @@
                 "product": "2-year-fixed",
                 "buySide": 176247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -158,6 +186,8 @@
           },
           {
             "band": "E",
+            "councilTax": 22000,
+            "shownCouncilTax": 220,
             "rentSide": 160700,
             "shownRentSide": 1607,
             "buySides": [
@@ -165,6 +195,7 @@
                 "product": "2-year-fixed",
                 "buySide": 180247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -183,6 +214,8 @@
           },
           {
             "band": "F",
+            "councilTax": 26000,
+            "shownCouncilTax": 260,
             "rentSide": 164700,
             "shownRentSide": 1647,
             "buySides": [
@@ -190,6 +223,7 @@
                 "product": "2-year-fixed",
                 "buySide": 184247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -208,6 +242,8 @@
           },
           {
             "band": "G",
+            "councilTax": 30000,
+            "shownCouncilTax": 300,
             "rentSide": 168700,
             "shownRentSide": 1687,
             "buySides": [
@@ -215,6 +251,7 @@
                 "product": "2-year-fixed",
                 "buySide": 188247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -233,6 +270,8 @@
           },
           {
             "band": "H",
+            "councilTax": 36000,
+            "shownCouncilTax": 360,
             "rentSide": 174700,
             "shownRentSide": 1747,
             "buySides": [
@@ -240,6 +279,7 @@
                 "product": "2-year-fixed",
                 "buySide": 194247,
                 "repayment": 158247,
+                "shownRepayment": 1582,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -321,6 +361,76 @@
           }
         }
       ],
+      "priceByType": [
+        {
+          "propertyType": "detached",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "408800",
+            "toValue": "418400",
+            "amount": "9600",
+            "percent": "2.3",
+            "provisionalPoints": "12",
+            "propertyType": "detached"
+          }
+        },
+        {
+          "propertyType": "semiDetached",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "309900",
+            "toValue": "320700",
+            "amount": "10800",
+            "percent": "3.5",
+            "provisionalPoints": "12",
+            "propertyType": "semiDetached"
+          }
+        },
+        {
+          "propertyType": "terraced",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-fell",
+            "direction": "fell",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "255600",
+            "toValue": "250800",
+            "amount": "4800",
+            "percent": "1.9",
+            "provisionalPoints": "12",
+            "propertyType": "terraced"
+          }
+        },
+        {
+          "propertyType": "flat",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "203300",
+            "toValue": "206900",
+            "amount": "3600",
+            "percent": "1.8",
+            "provisionalPoints": "12",
+            "propertyType": "flat"
+          }
+        }
+      ],
       "tenureShares": {
         "ownedOutright": "25.7",
         "ownedWithMortgage": "30.3",
@@ -370,42 +480,58 @@
         {
           "band": "A",
           "yearly": 132000,
-          "monthly": 11000
+          "monthly": 11000,
+          "shownYearly": 1320,
+          "shownCouncilTax": 110
         },
         {
           "band": "B",
           "yearly": 154000,
-          "monthly": 12833
+          "monthly": 12833,
+          "shownYearly": 1540,
+          "shownCouncilTax": 128
         },
         {
           "band": "C",
           "yearly": 176000,
-          "monthly": 14667
+          "monthly": 14667,
+          "shownYearly": 1760,
+          "shownCouncilTax": 147
         },
         {
           "band": "D",
           "yearly": 198000,
-          "monthly": 16500
+          "monthly": 16500,
+          "shownYearly": 1980,
+          "shownCouncilTax": 165
         },
         {
           "band": "E",
           "yearly": 242000,
-          "monthly": 20167
+          "monthly": 20167,
+          "shownYearly": 2420,
+          "shownCouncilTax": 202
         },
         {
           "band": "F",
           "yearly": 286000,
-          "monthly": 23833
+          "monthly": 23833,
+          "shownYearly": 2860,
+          "shownCouncilTax": 238
         },
         {
           "band": "G",
           "yearly": 330000,
-          "monthly": 27500
+          "monthly": 27500,
+          "shownYearly": 3300,
+          "shownCouncilTax": 275
         },
         {
           "band": "H",
           "yearly": 396000,
-          "monthly": 33000
+          "monthly": 33000,
+          "shownYearly": 3960,
+          "shownCouncilTax": 330
         }
       ],
       "rentOrBuy": {
@@ -416,6 +542,8 @@
         "byBand": [
           {
             "band": "A",
+            "councilTax": 11000,
+            "shownCouncilTax": 110,
             "rentSide": 113500,
             "shownRentSide": 1135,
             "buySides": [
@@ -423,6 +551,7 @@
                 "product": "2-year-fixed",
                 "buySide": 118633,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -441,6 +570,8 @@
           },
           {
             "band": "B",
+            "councilTax": 12833,
+            "shownCouncilTax": 128,
             "rentSide": 115333,
             "shownRentSide": 1153,
             "buySides": [
@@ -448,6 +579,7 @@
                 "product": "2-year-fixed",
                 "buySide": 120466,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -466,6 +598,8 @@
           },
           {
             "band": "C",
+            "councilTax": 14667,
+            "shownCouncilTax": 147,
             "rentSide": 117167,
             "shownRentSide": 1172,
             "buySides": [
@@ -473,6 +607,7 @@
                 "product": "2-year-fixed",
                 "buySide": 122300,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -491,6 +626,8 @@
           },
           {
             "band": "D",
+            "councilTax": 16500,
+            "shownCouncilTax": 165,
             "rentSide": 119000,
             "shownRentSide": 1190,
             "buySides": [
@@ -498,6 +635,7 @@
                 "product": "2-year-fixed",
                 "buySide": 124133,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -516,6 +654,8 @@
           },
           {
             "band": "E",
+            "councilTax": 20167,
+            "shownCouncilTax": 202,
             "rentSide": 122667,
             "shownRentSide": 1227,
             "buySides": [
@@ -523,6 +663,7 @@
                 "product": "2-year-fixed",
                 "buySide": 127800,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -541,6 +682,8 @@
           },
           {
             "band": "F",
+            "councilTax": 23833,
+            "shownCouncilTax": 238,
             "rentSide": 126333,
             "shownRentSide": 1263,
             "buySides": [
@@ -548,6 +691,7 @@
                 "product": "2-year-fixed",
                 "buySide": 131466,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -566,6 +710,8 @@
           },
           {
             "band": "G",
+            "councilTax": 27500,
+            "shownCouncilTax": 275,
             "rentSide": 130000,
             "shownRentSide": 1300,
             "buySides": [
@@ -573,6 +719,7 @@
                 "product": "2-year-fixed",
                 "buySide": 135133,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -591,6 +738,8 @@
           },
           {
             "band": "H",
+            "councilTax": 33000,
+            "shownCouncilTax": 330,
             "rentSide": 135500,
             "shownRentSide": 1355,
             "buySides": [
@@ -598,6 +747,7 @@
                 "product": "2-year-fixed",
                 "buySide": 140633,
                 "repayment": 107633,
+                "shownRepayment": 1076,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -675,6 +825,60 @@
           }
         }
       ],
+      "priceByType": [
+        {
+          "propertyType": "detached",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "start-point-not-published",
+            "period": "2026-08",
+            "value": "266500",
+            "pointStatus": "provisional",
+            "propertyType": "detached"
+          }
+        },
+        {
+          "propertyType": "semiDetached",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "start-point-not-published",
+            "period": "2026-08",
+            "value": "215200",
+            "pointStatus": "provisional",
+            "propertyType": "semiDetached"
+          }
+        },
+        {
+          "propertyType": "terraced",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "start-point-not-published",
+            "period": "2026-08",
+            "value": "173900",
+            "pointStatus": "provisional",
+            "propertyType": "terraced"
+          }
+        },
+        {
+          "propertyType": "flat",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "start-point-not-published",
+            "period": "2026-08",
+            "value": "142600",
+            "pointStatus": "provisional",
+            "propertyType": "flat"
+          }
+        }
+      ],
       "tenureShares": {
         "ownedOutright": "30.5",
         "ownedWithMortgage": "28.3",
@@ -702,42 +906,58 @@
         {
           "band": "A",
           "yearly": 156000,
-          "monthly": 13000
+          "monthly": 13000,
+          "shownYearly": 1560,
+          "shownCouncilTax": 130
         },
         {
           "band": "B",
           "yearly": 182000,
-          "monthly": 15167
+          "monthly": 15167,
+          "shownYearly": 1820,
+          "shownCouncilTax": 152
         },
         {
           "band": "C",
           "yearly": 208000,
-          "monthly": 17333
+          "monthly": 17333,
+          "shownYearly": 2080,
+          "shownCouncilTax": 173
         },
         {
           "band": "D",
           "yearly": 234000,
-          "monthly": 19500
+          "monthly": 19500,
+          "shownYearly": 2340,
+          "shownCouncilTax": 195
         },
         {
           "band": "E",
           "yearly": 286000,
-          "monthly": 23833
+          "monthly": 23833,
+          "shownYearly": 2860,
+          "shownCouncilTax": 238
         },
         {
           "band": "F",
           "yearly": 338000,
-          "monthly": 28167
+          "monthly": 28167,
+          "shownYearly": 3380,
+          "shownCouncilTax": 282
         },
         {
           "band": "G",
           "yearly": 390000,
-          "monthly": 32500
+          "monthly": 32500,
+          "shownYearly": 3900,
+          "shownCouncilTax": 325
         },
         {
           "band": "H",
           "yearly": 468000,
-          "monthly": 39000
+          "monthly": 39000,
+          "shownYearly": 4680,
+          "shownCouncilTax": 390
         }
       ],
       "rentOrBuy": {
@@ -747,11 +967,14 @@
         "byBand": [
           {
             "band": "A",
+            "councilTax": 13000,
+            "shownCouncilTax": 130,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 133200,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -767,11 +990,14 @@
           },
           {
             "band": "B",
+            "councilTax": 15167,
+            "shownCouncilTax": 152,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 135367,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -787,11 +1013,14 @@
           },
           {
             "band": "C",
+            "councilTax": 17333,
+            "shownCouncilTax": 173,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 137533,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -807,11 +1036,14 @@
           },
           {
             "band": "D",
+            "councilTax": 19500,
+            "shownCouncilTax": 195,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 139700,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -827,11 +1059,14 @@
           },
           {
             "band": "E",
+            "councilTax": 23833,
+            "shownCouncilTax": 238,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 144033,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -847,11 +1082,14 @@
           },
           {
             "band": "F",
+            "councilTax": 28167,
+            "shownCouncilTax": 282,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 148367,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -867,11 +1105,14 @@
           },
           {
             "band": "G",
+            "councilTax": 32500,
+            "shownCouncilTax": 325,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 152700,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -887,11 +1128,14 @@
           },
           {
             "band": "H",
+            "councilTax": 39000,
+            "shownCouncilTax": 390,
             "buySides": [
               {
                 "product": "2-year-fixed",
                 "buySide": 159200,
                 "repayment": 120200,
+                "shownRepayment": 1202,
                 "rateBand": {
                   "maxLoanToValuePercent": 90,
                   "rateBasisPoints": 510,
@@ -960,6 +1204,68 @@
             "socialRented": "12.2",
             "privateRented": "20.7",
             "other": "1.2"
+          }
+        }
+      ],
+      "priceByType": [
+        {
+          "propertyType": "detached",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "300600",
+            "toValue": "307800",
+            "amount": "7200",
+            "percent": "2.4",
+            "provisionalPoints": "12",
+            "propertyType": "detached"
+          }
+        },
+        {
+          "propertyType": "semiDetached",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "240400",
+            "toValue": "245200",
+            "amount": "4800",
+            "percent": "2.0",
+            "provisionalPoints": "12",
+            "propertyType": "semiDetached"
+          }
+        },
+        {
+          "propertyType": "terraced",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-unchanged",
+            "direction": "unchanged",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "190000",
+            "toValue": "190000",
+            "amount": "0",
+            "provisionalPoints": "12",
+            "propertyType": "terraced"
+          }
+        },
+        {
+          "propertyType": "flat",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source",
+            "propertyType": "flat"
           }
         }
       ],
@@ -1069,6 +1375,48 @@
             "topic": "tenure",
             "pattern": "missing",
             "reason": "no-record-in-source"
+          }
+        }
+      ],
+      "priceByType": [
+        {
+          "propertyType": "detached",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source",
+            "propertyType": "detached"
+          }
+        },
+        {
+          "propertyType": "semiDetached",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source",
+            "propertyType": "semiDetached"
+          }
+        },
+        {
+          "propertyType": "terraced",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source",
+            "propertyType": "terraced"
+          }
+        },
+        {
+          "propertyType": "flat",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source",
+            "propertyType": "flat"
           }
         }
       ],
