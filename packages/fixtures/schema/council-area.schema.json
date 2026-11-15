@@ -1,0 +1,743 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/council-area.schema.json",
+  "title": "Council-level area file (data/council-area.json)",
+  "description": "Synthetic council facts, series, neighbourhoods, place names, postcodes and mortgage rate bands for City Explorer. Every value is an input with its source (AGENTS.md rule 2); a gap status never carries a value (rule 7). Council codes are invented (999 in the middle), never real ONS codes.",
+  "type": "object",
+  "required": [
+    "councils",
+    "places",
+    "postcodes",
+    "rateBands"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "councils": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/council"
+      }
+    },
+    "places": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/placeName"
+      }
+    },
+    "postcodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/postcodeEntry"
+      }
+    },
+    "rateBands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/rateBand"
+      }
+    }
+  },
+  "$defs": {
+    "councilCode": {
+      "type": "string",
+      "pattern": "^[EWSN]0[0-9]{7}$",
+      "description": "Synthetic council code in the ONS style; the digits 999 in the middle mark it as invented (E06999001)."
+    },
+    "lsoaCode": {
+      "type": "string",
+      "pattern": "^[EWS]01[0-9]{6}$"
+    },
+    "postcode": {
+      "type": "string",
+      "pattern": "^[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][A-Z]{2}$"
+    },
+    "nation": {
+      "enum": [
+        "england",
+        "wales",
+        "scotland",
+        "northern-ireland"
+      ]
+    },
+    "level": {
+      "type": "object",
+      "required": [
+        "kind",
+        "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "local-authority",
+            "neighbourhood",
+            "region",
+            "country"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "label",
+        "url",
+        "edition",
+        "period",
+        "synthetic"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "period": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic": {
+          "const": true
+        }
+      }
+    },
+    "fact": {
+      "type": "object",
+      "required": [
+        "status",
+        "level",
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "recorded",
+            "no-record-in-source",
+            "source-failed",
+            "not-covered"
+          ]
+        },
+        "value": true,
+        "level": {
+          "$ref": "#/$defs/level"
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        }
+      },
+      "allOf": [
+        {
+          "description": "Only the 'recorded' status (or the listed point statuses) carries a value; a gap never carries one (rule 7).",
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "recorded"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          },
+          "else": {
+            "properties": {
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    "series": {
+      "type": "object",
+      "required": [
+        "status",
+        "unit",
+        "points",
+        "level",
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "recorded",
+            "no-record-in-source",
+            "source-failed",
+            "not-covered"
+          ]
+        },
+        "unit": {
+          "enum": [
+            "pence-per-month",
+            "pence",
+            "ratio"
+          ]
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          }
+        },
+        "level": {
+          "$ref": "#/$defs/level"
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "recorded"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "points"
+            ]
+          },
+          "else": {
+            "properties": {
+              "points": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "point": {
+      "type": "object",
+      "required": [
+        "period",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "period": {
+          "type": "string",
+          "pattern": "^[0-9]{4}(-(0[1-9]|1[0-2]))?$"
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "string",
+              "pattern": "^[0-9]+\\.[0-9]+$"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "recorded",
+            "provisional",
+            "not-published"
+          ]
+        },
+        "methodBreakBefore": {
+          "const": true
+        }
+      },
+      "allOf": [
+        {
+          "description": "Only the 'recorded' status (or the listed point statuses) carries a value; a gap never carries one (rule 7).",
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "recorded",
+                  "provisional"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          },
+          "else": {
+            "properties": {
+              "value": false
+            }
+          }
+        }
+      ]
+    },
+    "bandsValue": {
+      "type": "object",
+      "required": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "A": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "B": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "C": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "D": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "E": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "F": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "G": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "H": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "tenureValue": {
+      "type": "object",
+      "required": [
+        "ownedOutright",
+        "ownedWithMortgage",
+        "socialRented",
+        "privateRented",
+        "other"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "ownedOutright": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ownedWithMortgage": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "socialRented": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "privateRented": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "other": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "connectivityValue": {
+      "type": "object",
+      "required": [
+        "score",
+        "decile"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+$"
+        },
+        "decile": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        }
+      }
+    },
+    "deprivationValue": {
+      "type": "object",
+      "required": [
+        "decile",
+        "rank",
+        "ofAreas",
+        "edition"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "decile": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "rank": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "ofAreas": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "populationValue": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "neighbourhood": {
+      "type": "object",
+      "required": [
+        "code",
+        "shortCode",
+        "largerAreaName",
+        "facts"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/lsoaCode"
+        },
+        "shortCode": {
+          "type": "string",
+          "pattern": "^[0-9]{3}[A-Z]$"
+        },
+        "largerAreaName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "facts": {
+          "type": "object",
+          "required": [
+            "connectivity",
+            "deprivation",
+            "tenure"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "connectivity": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/fact"
+                },
+                {
+                  "properties": {
+                    "value": {
+                      "$ref": "#/$defs/connectivityValue"
+                    }
+                  }
+                }
+              ]
+            },
+            "deprivation": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/fact"
+                },
+                {
+                  "properties": {
+                    "value": {
+                      "$ref": "#/$defs/deprivationValue"
+                    }
+                  }
+                }
+              ]
+            },
+            "tenure": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/fact"
+                },
+                {
+                  "properties": {
+                    "value": {
+                      "$ref": "#/$defs/tenureValue"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "council": {
+      "type": "object",
+      "required": [
+        "code",
+        "name",
+        "nation",
+        "tier",
+        "population",
+        "bands",
+        "rentSeries",
+        "priceSeries",
+        "affordabilitySeries",
+        "tenure",
+        "connectivity",
+        "neighbourhoods"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/councilCode"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nation": {
+          "$ref": "#/$defs/nation"
+        },
+        "tier": {
+          "enum": [
+            "unitary",
+            "district"
+          ]
+        },
+        "county": {
+          "type": "string",
+          "minLength": 1
+        },
+        "formedOn": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "formerNames": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "population": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/fact"
+            },
+            {
+              "properties": {
+                "value": {
+                  "$ref": "#/$defs/populationValue"
+                }
+              }
+            }
+          ]
+        },
+        "bands": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/fact"
+            },
+            {
+              "properties": {
+                "value": {
+                  "$ref": "#/$defs/bandsValue"
+                }
+              }
+            }
+          ]
+        },
+        "rentSeries": {
+          "$ref": "#/$defs/series"
+        },
+        "priceSeries": {
+          "$ref": "#/$defs/series"
+        },
+        "affordabilitySeries": {
+          "$ref": "#/$defs/series"
+        },
+        "tenure": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/fact"
+            },
+            {
+              "properties": {
+                "value": {
+                  "$ref": "#/$defs/tenureValue"
+                }
+              }
+            }
+          ]
+        },
+        "connectivity": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/fact"
+            },
+            {
+              "properties": {
+                "value": {
+                  "$ref": "#/$defs/connectivityValue"
+                }
+              }
+            }
+          ]
+        },
+        "neighbourhoods": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/neighbourhood"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "tier": {
+                "const": "district"
+              }
+            },
+            "required": [
+              "tier"
+            ]
+          },
+          "then": {
+            "required": [
+              "county"
+            ]
+          }
+        }
+      ]
+    },
+    "placeName": {
+      "type": "object",
+      "required": [
+        "name",
+        "county",
+        "region",
+        "nation",
+        "councilCodes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "county": {
+          "type": "string",
+          "minLength": 1
+        },
+        "region": {
+          "type": "string",
+          "minLength": 1
+        },
+        "nation": {
+          "$ref": "#/$defs/nation"
+        },
+        "councilCodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/councilCode"
+          }
+        }
+      }
+    },
+    "postcodeEntry": {
+      "type": "object",
+      "required": [
+        "postcode",
+        "councilCode"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "postcode": {
+          "$ref": "#/$defs/postcode"
+        },
+        "councilCode": {
+          "$ref": "#/$defs/councilCode"
+        }
+      }
+    },
+    "rateBand": {
+      "type": "object",
+      "required": [
+        "product",
+        "maxLoanToValuePercent",
+        "rateBasisPoints",
+        "month",
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "product": {
+          "enum": [
+            "2-year-fixed",
+            "5-year-fixed"
+          ]
+        },
+        "maxLoanToValuePercent": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "rateBasisPoints": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "month": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$"
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        }
+      }
+    }
+  }
+}
