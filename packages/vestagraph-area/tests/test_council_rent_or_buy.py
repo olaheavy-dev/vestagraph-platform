@@ -7,12 +7,13 @@ import pytest
 from area_support import fixtures_directory, read_json
 from vestagraph_area.council_records import RateBand, read_council_area
 from vestagraph_area.rent_or_buy import (
-    ABOUT_THE_SAME_PENCE,
+    ABOUT_THE_SAME_POUNDS,
     MAX_TYPED_RATE_BASIS_POINTS,
     BuySide,
     RentOrBuy,
     rate_band_for,
     rent_or_buy,
+    shown_figures,
 )
 from vestagraph_engine.pence import Pence
 
@@ -72,6 +73,7 @@ def test_rent_or_buy_worked_cases_match_expected(case: dict[str, Any]) -> None:
     )
 
     assert result.rent_side == _pence(expected["rentSidePence"])
+    assert result.shown_rent_side == expected["shownRentSide"]
     assert result.problem == expected["problem"]
     assert [s.product for s in result.buy_sides] == [s["product"] for s in expected["buySides"]]
     for side, want in zip(result.buy_sides, expected["buySides"], strict=True):
@@ -79,6 +81,8 @@ def test_rent_or_buy_worked_cases_match_expected(case: dict[str, Any]) -> None:
         assert side.repayment == _pence(want["repaymentPence"])
         assert side.comparison == want["comparison"]
         assert side.difference == _pence(want["differencePence"])
+        assert side.shown_buy_side == want["shownBuySide"]
+        assert side.shown_difference == want["shownDifference"]
         assert side.problem == want["problem"]
         if want["rateUsedBasisPoints"] is None:
             assert side.rate_used is None
@@ -172,12 +176,80 @@ def test_rent_or_buy_zero_typed_rate_divides_loan_by_payments() -> None:
     assert result.problem is None
 
 
-def test_rent_or_buy_within_ten_pounds_is_about_the_same() -> None:
-    assert ABOUT_THE_SAME_PENCE == 1000
-    result = _run(rent=122622)
+def test_rent_or_buy_less_than_ten_shown_pounds_apart_is_about_the_same() -> None:
+    assert ABOUT_THE_SAME_POUNDS == 10
+    # Rent side 122122 + 18000 = 140122 (shown 1401); buy side 139623 (shown 1396): -5 pounds.
+    result = _run(rent=122122)
 
     assert _side(result, "2-year-fixed").comparison == "about-the-same"
+    assert _side(result, "2-year-fixed").difference == Pence(-499)
+    assert _side(result, "2-year-fixed").shown_difference == -5
+
+
+def test_rent_or_buy_999_pence_apart_can_be_ten_shown_pounds_apart_so_less() -> None:
+    # Rent side 122622 + 18000 = 140622 (1406.22 -> 1406); buy side 139623 (1396.23 -> 1396).
+    # The pence difference is -999 (under 1000) but the shown difference is -10: less.
+    result = _run(rent=122622)
+
     assert _side(result, "2-year-fixed").difference == Pence(-999)
+    assert _side(result, "2-year-fixed").shown_difference == -10
+    assert _side(result, "2-year-fixed").comparison == "less"
+
+
+def test_shown_figures_rounds_each_side_once_and_subtracts_the_rounded_figures() -> None:
+    # 100450 / 100 = 1004.50 -> 1005 (half away from zero); 100449 / 100 = 1004.49 -> 1004.
+    # Shown difference = 1005 - 1004 = 1 (not the pence difference 1 rounded to 0).
+    shown = shown_figures(Pence(100449), Pence(100450))
+
+    assert (shown.rent_side, shown.buy_side, shown.difference) == (1004, 1005, 1)
+    assert shown.comparison == "about-the-same"
+
+
+def test_shown_figures_exactly_ten_pounds_apart_is_more_or_less() -> None:
+    assert shown_figures(Pence(100000), Pence(101000)).comparison == "more"
+    assert shown_figures(Pence(101000), Pence(100000)).comparison == "less"
+    assert shown_figures(Pence(100000), Pence(100999)).comparison == "more"  # 1000 -> 1010
+    assert shown_figures(Pence(100000), Pence(100949)).comparison == "about-the-same"  # 1009
+
+
+def test_shown_figures_missing_side_gives_none_not_zero() -> None:
+    shown = shown_figures(None, Pence(123456))
+
+    assert (shown.rent_side, shown.buy_side, shown.difference, shown.comparison) == (
+        None,
+        1235,
+        None,
+        None,
+    )
+    assert shown_figures(Pence(123456), None).buy_side is None
+
+
+def test_rent_or_buy_bool_term_is_a_problem_not_a_crash() -> None:
+    result = rent_or_buy(
+        Pence(138700), Pence(29780000), Pence(18000), Fraction(25), True, None, BANDS
+    )
+
+    assert result.problem == "term-out-of-range"
+    assert result.buy_sides == ()
+
+
+def test_rent_or_buy_bool_rate_is_a_problem_not_a_crash() -> None:
+    result = rent_or_buy(
+        Pence(138700), Pence(29780000), Pence(18000), Fraction(25), 25, True, BANDS
+    )
+
+    assert result.problem == "rate-invalid"
+    assert result.buy_sides == ()
+
+
+def test_rent_or_buy_rent_missing_and_buy_side_above_a_budget_keeps_no_comparison() -> None:
+    # M-e: with no rent there is no comparison and no shown difference, only the buy side.
+    result = _run(rent=None)
+
+    side = _side(result, "2-year-fixed")
+    assert side.shown_buy_side == 1396
+    assert side.shown_difference is None
+    assert result.shown_rent_side is None
 
 
 def test_rent_or_buy_missing_council_tax_is_problem_not_zero() -> None:

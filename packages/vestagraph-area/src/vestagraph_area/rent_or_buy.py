@@ -2,7 +2,11 @@
 
 Two monthly figures are set side by side for an area's average home: renting (rent plus council
 tax) and buying (the mortgage repayment plus council tax), one buy figure per mortgage product.
-Every amount is whole pence and nothing here uses a ``float`` (AGENTS rule 2). The repayment comes
+Every amount is whole pence and nothing here uses a ``float`` (AGENTS rule 2). Each figure also
+has a shown value in whole pounds: each side is rounded once from pence (halves away from zero,
+decision 0021), the shown difference is the rounded buy side minus the rounded rent side, and the
+comparison is made on those shown pounds so it always agrees with what is on screen. The
+repayment comes
 from the cost engine's ``monthly_repayment``; only a typed 0% rate, which the engine refuses, is
 worked here as the loan divided by the number of payments, rounded once.
 
@@ -24,8 +28,10 @@ from vestagraph_area.council_records import RateBand
 # A typed rate may be at most this (20%); a larger one is refused. The agent's call, for the
 # founder to review in pull request A.
 MAX_TYPED_RATE_BASIS_POINTS: Final = 2000
-# Buy and rent within 10 pounds a month are called about the same (the agent's call, for review).
-ABOUT_THE_SAME_PENCE: Final = 1000
+# Buy and rent less than 10 pounds a month apart, as shown in whole pounds, are called about the
+# same (the agent's call, for review). 10 pounds or more apart is "more" or "less".
+ABOUT_THE_SAME_POUNDS: Final = 10
+_PENCE_PER_POUND: Final = 100
 MIN_TERM_YEARS: Final = 1
 MAX_TERM_YEARS: Final = 40
 PRODUCT_ORDER: Final = ("2-year-fixed", "5-year-fixed")
@@ -37,7 +43,9 @@ class BuySide:
     """The monthly cost of buying with one product (or a typed rate).
 
     ``buy_side`` is repayment plus council tax; ``comparison`` is the buy side against the rent
-    side ("more", "less" or "about-the-same"); ``difference`` is buy side minus rent side.
+    side ("more", "less" or "about-the-same") on the shown whole pounds; ``difference`` is buy
+    side minus rent side in pence. ``shown_buy_side`` and ``shown_difference`` are the whole-pound
+    values to display (``None`` when there is no figure, never zero).
     """
 
     product: str
@@ -47,6 +55,8 @@ class BuySide:
     comparison: str | None
     difference: Pence | None
     problem: str | None
+    shown_buy_side: int | None = None
+    shown_difference: int | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -56,6 +66,43 @@ class RentOrBuy:
     rent_side: Pence | None
     buy_sides: tuple[BuySide, ...]
     problem: str | None
+    shown_rent_side: int | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class ShownFigures:
+    """The whole-pound values to display for a rent side and a buy side, and their comparison.
+
+    A side that does not exist is ``None``; the difference and comparison need both.
+    """
+
+    rent_side: int | None
+    buy_side: int | None
+    difference: int | None
+    comparison: str | None
+
+
+def _shown(pence: Pence | None) -> int | None:
+    """Whole pounds, rounded once: nearest, exact halves away from zero (decision 0021)."""
+    return None if pence is None else round_ratio(pence.value, _PENCE_PER_POUND).value
+
+
+def shown_figures(rent_side: Pence | None, buy_side: Pence | None) -> ShownFigures:
+    """Display values: each side rounded once to whole pounds; difference = shown buy - shown rent.
+
+    The comparison is ``about-the-same`` when the shown difference is less than 10 pounds either
+    way, otherwise ``more`` (buying costs more) or ``less``. Exactly 10 pounds apart is not
+    about the same.
+    """
+    shown_rent, shown_buy = _shown(rent_side), _shown(buy_side)
+    if shown_rent is None or shown_buy is None:
+        return ShownFigures(shown_rent, shown_buy, None, None)
+    difference = shown_buy - shown_rent
+    if abs(difference) < ABOUT_THE_SAME_POUNDS:
+        comparison = "about-the-same"
+    else:
+        comparison = "more" if difference > 0 else "less"
+    return ShownFigures(shown_rent, shown_buy, difference, comparison)
 
 
 def rate_band_for(
@@ -95,14 +142,15 @@ def rent_or_buy(
         return RentOrBuy(None, (), "council-tax-missing")
 
     rent_side = None if rent_monthly is None else rent_monthly + council_tax_monthly
+    shown_rent = _shown(rent_side)
     problem = _buying_problem(deposit_percent, term_years, rate_basis_points)
     if problem is not None:
-        return RentOrBuy(rent_side, (), problem)
+        return RentOrBuy(rent_side, (), problem, shown_rent)
 
     loan = None if price is None else _loan(price, deposit_percent)
     if rate_basis_points is not None:
         typed = _side("typed-rate", None, rate_basis_points, loan, term_years, council_tax_monthly)
-        return RentOrBuy(rent_side, (_compared(typed, rent_side),), None)
+        return RentOrBuy(rent_side, (_compared(typed, rent_side),), None, shown_rent)
 
     sides = tuple(
         _compared(
@@ -118,12 +166,18 @@ def rent_or_buy(
         )
         for product in PRODUCT_ORDER
     )
-    return RentOrBuy(rent_side, sides, None)
+    return RentOrBuy(rent_side, sides, None, shown_rent)
 
 
 def _buying_problem(
     deposit_percent: Fraction, term_years: int, rate_basis_points: int | None
 ) -> str | None:
+    # A bool is an int in Python (True == 1) but is never a real term or rate: refuse it here
+    # rather than let the engine raise a TypeError.
+    if type(term_years) is not int:
+        return "term-out-of-range"
+    if rate_basis_points is not None and type(rate_basis_points) is not int:
+        return "rate-invalid"
     if deposit_percent < 0:
         return "deposit-negative"
     if deposit_percent >= 100:
@@ -169,16 +223,22 @@ def _repayment(loan: Pence, rate_basis_points: int, term_years: int) -> Pence:
         # The engine refuses a 0% rate: the repayment is the loan over the payments, rounded once.
         return round_ratio(loan.value, term_years * _MONTHS_PER_YEAR)
     result = monthly_repayment(loan, rate_basis_points, term_years)
+    # Safe: the engine fails only for a loan, rate or term it refuses, and the callers already
+    # guarantee a positive loan, a rate above zero (0 is handled above) and a term of 1 to 40.
+    # Were that ever untrue, ``.value`` raises RuntimeError rather than returning a made-up figure.
     return result.value.monthly_repayment
 
 
 def _compared(side: BuySide, rent_side: Pence | None) -> BuySide:
     """Add the comparison with the rent side when both figures exist."""
     if side.buy_side is None or rent_side is None:
-        return side
+        return replace(side, shown_buy_side=_shown(side.buy_side))
     difference = side.buy_side - rent_side
-    if abs(difference.value) < ABOUT_THE_SAME_PENCE:
-        comparison = "about-the-same"
-    else:
-        comparison = "more" if difference.value > 0 else "less"
-    return replace(side, comparison=comparison, difference=difference)
+    shown = shown_figures(rent_side, side.buy_side)
+    return replace(
+        side,
+        comparison=shown.comparison,
+        difference=difference,
+        shown_buy_side=shown.buy_side,
+        shown_difference=shown.difference,
+    )

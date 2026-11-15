@@ -6,7 +6,7 @@
       "id": "northbridge-deposit-10-percent",
       "description": "Deposit 10% on the Northbridge average home: a 90% loan; the 2-year fixed has a 90% band, the 5-year fixed has none there.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -60,7 +60,9 @@
             "rateUsedMaxLoanToValuePercent": 90,
             "comparison": "more",
             "differencePence": 19547,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1762,
+            "shownDifference": 195
           },
           {
             "product": "5-year-fixed",
@@ -70,16 +72,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-20-percent",
       "description": "Deposit 20%: an 80% loan takes the 85 grid band; the 5-year fixed has no 85 band, so it is unavailable rather than borrowing the 95 band.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -133,7 +138,9 @@
             "rateUsedMaxLoanToValuePercent": 85,
             "comparison": "less",
             "differencePence": -3559,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1531,
+            "shownDifference": -36
           },
           {
             "product": "5-year-fixed",
@@ -143,16 +150,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-25-percent",
       "description": "Deposit 25%: a 75% loan; both products publish a 75 band.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -203,7 +213,9 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "less",
             "differencePence": -17077,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1396,
+            "shownDifference": -171
           },
           {
             "product": "5-year-fixed",
@@ -213,16 +225,143 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "less",
             "differencePence": -14555,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1421,
+            "shownDifference": -146
           }
-        ]
+        ],
+        "shownRentSide": 1567
+      }
+    },
+    {
+      "id": "northbridge-term-one-year",
+      "description": "Deposit 25% over 1 years (12 payments): the loan is 22335000 pence at 430 basis points (2-year fixed) and 450 (5-year fixed), the 75 band. Edge of the allowed term range 1 to 40.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 1,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Rent side = 138700 + 18000 = 156700 (shown 1567). Loan = 29780000 x 75 / 100 = 22335000 exactly."
+        },
+        {
+          "n": 2,
+          "description": "Repayment pmt = P i (1+i)^N / ((1+i)^N - 1) with i = rate / 12 and N = 12, worked in exact fractions and rounded once: 2-year fixed (i = 430 / 10000 / 12) gives 1904886; 5-year fixed (i = 450 / 10000 / 12) gives 1906929.",
+          "value": 1904886
+        },
+        {
+          "n": 3,
+          "description": "Buy side = repayment + 18000; shown pounds each rounded once (halves away from zero); shown difference = shown buy - 1567."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 1922886,
+            "repaymentPence": 1904886,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 1766186,
+            "problem": null,
+            "shownBuySide": 19229,
+            "shownDifference": 17662
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 1924929,
+            "repaymentPence": 1906929,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 1768229,
+            "problem": null,
+            "shownBuySide": 19249,
+            "shownDifference": 17682
+          }
+        ],
+        "shownRentSide": 1567
+      }
+    },
+    {
+      "id": "northbridge-term-forty-years",
+      "description": "Deposit 25% over 40 years (480 payments): the loan is 22335000 pence at 430 basis points (2-year fixed) and 450 (5-year fixed), the 75 band. Edge of the allowed term range 1 to 40.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 40,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Rent side = 138700 + 18000 = 156700 (shown 1567). Loan = 29780000 x 75 / 100 = 22335000 exactly."
+        },
+        {
+          "n": 2,
+          "description": "Repayment pmt = P i (1+i)^N / ((1+i)^N - 1) with i = rate / 12 and N = 480, worked in exact fractions and rounded once: 2-year fixed (i = 430 / 10000 / 12) gives 97557; 5-year fixed (i = 450 / 10000 / 12) gives 100410.",
+          "value": 97557
+        },
+        {
+          "n": 3,
+          "description": "Buy side = repayment + 18000; shown pounds each rounded once (halves away from zero); shown difference = shown buy - 1567."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 115557,
+            "repaymentPence": 97557,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "less",
+            "differencePence": -41143,
+            "problem": null,
+            "shownBuySide": 1156,
+            "shownDifference": -411
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 118410,
+            "repaymentPence": 100410,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "less",
+            "differencePence": -38290,
+            "problem": null,
+            "shownBuySide": 1184,
+            "shownDifference": -383
+          }
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-5-percent",
       "description": "Deposit 5%: a 95% loan; both products publish a 95 band.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -273,7 +412,9 @@
             "rateUsedMaxLoanToValuePercent": 95,
             "comparison": "more",
             "differencePence": 36725,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1934,
+            "shownDifference": 367
           },
           {
             "product": "5-year-fixed",
@@ -283,16 +424,19 @@
             "rateUsedMaxLoanToValuePercent": 95,
             "comparison": "more",
             "differencePence": 33346,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1900,
+            "shownDifference": 333
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-40-percent",
       "description": "Deposit 40%: a 60% loan; 2-year fixed only (the 5-year fixed has no 60 band).",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -341,7 +485,9 @@
             "rateUsedMaxLoanToValuePercent": 60,
             "comparison": "less",
             "differencePence": -43397,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1133,
+            "shownDifference": -434
           },
           {
             "product": "5-year-fixed",
@@ -351,16 +497,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-50-percent",
       "description": "Deposit 50%: a 50% loan is below every band so it takes the lowest, 60 (bands mean up to X% loan).",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -409,7 +558,9 @@
             "rateUsedMaxLoanToValuePercent": 60,
             "comparison": "less",
             "differencePence": -59281,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 974,
+            "shownDifference": -593
           },
           {
             "product": "5-year-fixed",
@@ -419,16 +570,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-3-percent",
       "description": "Deposit 3%: a 97% loan is above the highest band (95): no product has a rate; rent side stays.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -466,7 +620,9 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           },
           {
             "product": "5-year-fixed",
@@ -476,16 +632,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-0-percent",
       "description": "Deposit 0%: a 100% loan is above the highest band: no rate for either product.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -523,7 +682,9 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           },
           {
             "product": "5-year-fixed",
@@ -533,16 +694,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-100-percent",
       "description": "Deposit 100%: nothing to borrow, so deposit-too-large; buy sides hidden, rent side stays.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -571,14 +735,15 @@
       "expected": {
         "rentSidePence": 156700,
         "problem": "deposit-too-large",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-deposit-negative-5-percent",
       "description": "A deposit of -5% is not possible: deposit-negative.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -607,14 +772,15 @@
       "expected": {
         "rentSidePence": 156700,
         "problem": "deposit-negative",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-term-zero-years",
       "description": "A term outside 1 to 40 years is refused: term-out-of-range.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -643,14 +809,15 @@
       "expected": {
         "rentSidePence": 156700,
         "problem": "term-out-of-range",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-term-forty-one-years",
       "description": "A term outside 1 to 40 years is refused: term-out-of-range.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -679,14 +846,15 @@
       "expected": {
         "rentSidePence": 156700,
         "problem": "term-out-of-range",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-typed-rate-650",
       "description": "A typed rate of 650 basis points (6.5%) overrides the bands: one typed-rate side.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -730,16 +898,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": "more",
             "differencePence": 12108,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1688,
+            "shownDifference": 121
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-typed-rate-2000-allowed",
       "description": "A typed rate of exactly 2000 basis points (20%) is allowed.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -783,16 +954,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": "more",
             "differencePence": 236182,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 3929,
+            "shownDifference": 2362
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-typed-rate-2001-too-high",
       "description": "A typed rate of 2001 basis points is above the 2000 limit: rate-too-high.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -821,14 +995,15 @@
       "expected": {
         "rentSidePence": 156700,
         "problem": "rate-too-high",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-typed-rate-negative",
       "description": "A negative typed rate is refused: rate-negative.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -857,14 +1032,15 @@
       "expected": {
         "rentSidePence": 156700,
         "problem": "rate-negative",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-typed-rate-zero-divides-loan",
       "description": "A 0% typed rate: the engine refuses 0, so the repayment is loan / payments rounded once.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -913,16 +1089,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": "less",
             "differencePence": -72191,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 845,
+            "shownDifference": -722
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-within-ten-pounds",
       "description": "The 2-year fixed buy side is 499 pence below the rent side: about the same.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -941,7 +1120,7 @@
         },
         {
           "n": 2,
-          "description": "Rent 122122 + council tax 18000 = rent side 140122. 139623 - 140122 = -499; |-499| < 1000.",
+          "description": "Rent 122122 + council tax 18000 = rent side 140122. 139623 - 140122 = -499 pence. Shown pounds: 140122 -> 1401, 139623 -> 1396; difference -5; |-5| < 10, so about the same.",
           "value": 140122
         }
       ],
@@ -957,7 +1136,9 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "about-the-same",
             "differencePence": -499,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1396,
+            "shownDifference": -5
           },
           {
             "product": "5-year-fixed",
@@ -967,16 +1148,19 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "more",
             "differencePence": 2023,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1421,
+            "shownDifference": 20
           }
-        ]
+        ],
+        "shownRentSide": 1401
       }
     },
     {
       "id": "northbridge-999-pence-apart",
-      "description": "999 pence apart is still about the same.",
+      "description": "999 pence apart, but the two sides shown in whole pounds are 10 pounds apart (each rounded once), so it is 'less', not 'about the same'. Pence alone would say about the same; the comparison is made on the shown pounds.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -995,7 +1179,7 @@
         },
         {
           "n": 2,
-          "description": "Rent 122622 + council tax 18000 = rent side 140622. 139623 - 140622 = -999; |-999| < 1000.",
+          "description": "Rent 122622 + council tax 18000 = rent side 140622. Shown pounds: 140622 / 100 = 1406.22 -> 1406; 139623 / 100 = 1396.23 -> 1396. Shown difference 1396 - 1406 = -10; |-10| is not less than 10, so less (the pence difference is -999).",
           "value": 140622
         }
       ],
@@ -1009,9 +1193,11 @@
             "repaymentPence": 121623,
             "rateUsedBasisPoints": 430,
             "rateUsedMaxLoanToValuePercent": 75,
-            "comparison": "about-the-same",
+            "comparison": "less",
             "differencePence": -999,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1396,
+            "shownDifference": -10
           },
           {
             "product": "5-year-fixed",
@@ -1021,16 +1207,78 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "more",
             "differencePence": 1523,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1421,
+            "shownDifference": 15
           }
-        ]
+        ],
+        "shownRentSide": 1406
+      }
+    },
+    {
+      "id": "northbridge-999-pence-apart-the-other-way-is-more",
+      "description": "999 pence apart the other way, but 10 pounds apart in whole pounds: more.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 120624,
+        "pricePence": 29780000,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "25",
+        "termYears": 25,
+        "rateBasisPoints": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Deposit 25%: 2-year fixed buy side 139623 (repayment 121623 + 18000), worked above. 5-year fixed buy side 142145.",
+          "value": 139623
+        },
+        {
+          "n": 2,
+          "description": "Rent 120624 + council tax 18000 = rent side 138624. Shown pounds: 138624 / 100 = 1386.24 -> 1386; 139623 / 100 = 1396.23 -> 1396. Shown difference 1396 - 1386 = +10; not less than 10, so more (the pence difference is +999).",
+          "value": 138624
+        }
+      ],
+      "expected": {
+        "rentSidePence": 138624,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 139623,
+            "repaymentPence": 121623,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 999,
+            "problem": null,
+            "shownBuySide": 1396,
+            "shownDifference": 10
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 142145,
+            "repaymentPence": 124145,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "more",
+            "differencePence": 3521,
+            "problem": null,
+            "shownBuySide": 1421,
+            "shownDifference": 35
+          }
+        ],
+        "shownRentSide": 1386
       }
     },
     {
       "id": "northbridge-1000-pence-apart-is-less",
       "description": "Exactly 1000 pence apart is no longer about the same: less.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1049,7 +1297,7 @@
         },
         {
           "n": 2,
-          "description": "Rent 122623 + council tax 18000 = rent side 140623. 139623 - 140623 = -1000; not < 1000, so less.",
+          "description": "Rent 122623 + council tax 18000 = rent side 140623. 139623 - 140623 = -1000 pence. Shown pounds: 140623 -> 1406, 139623 -> 1396; difference -10; not < 10, so less.",
           "value": 140623
         }
       ],
@@ -1065,7 +1313,9 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "less",
             "differencePence": -1000,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1396,
+            "shownDifference": -10
           },
           {
             "product": "5-year-fixed",
@@ -1075,16 +1325,19 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "more",
             "differencePence": 1522,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1421,
+            "shownDifference": 15
           }
-        ]
+        ],
+        "shownRentSide": 1406
       }
     },
     {
       "id": "northbridge-1000-pence-apart-is-more",
       "description": "Exactly 1000 pence the other way: more.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1103,7 +1356,7 @@
         },
         {
           "n": 2,
-          "description": "Rent 120623 + council tax 18000 = rent side 138623. 139623 - 138623 = +1000; not < 1000, so more.",
+          "description": "Rent 120623 + council tax 18000 = rent side 138623. 139623 - 138623 = +1000 pence. Shown pounds: 138623 -> 1386, 139623 -> 1396; difference +10; not < 10, so more.",
           "value": 138623
         }
       ],
@@ -1119,7 +1372,9 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "more",
             "differencePence": 1000,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1396,
+            "shownDifference": 10
           },
           {
             "product": "5-year-fixed",
@@ -1129,16 +1384,19 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "more",
             "differencePence": 3522,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1421,
+            "shownDifference": 35
           }
-        ]
+        ],
+        "shownRentSide": 1386
       }
     },
     {
       "id": "eastmere-no-rent",
       "description": "Eastmere (synthetic) has no recorded rent: the rent side is missing, the buy sides stay, and no comparison is made.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1181,7 +1439,9 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": null,
             "differencePence": null,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1119,
+            "shownDifference": null
           },
           {
             "product": "5-year-fixed",
@@ -1191,16 +1451,19 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": null,
             "differencePence": null,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1138,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": null
       }
     },
     {
       "id": "northbridge-missing-price",
       "description": "With no price the buy sides have no amount and no comparison; the rent side stays.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1238,7 +1501,9 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": null,
             "differencePence": null,
-            "problem": null
+            "problem": null,
+            "shownBuySide": null,
+            "shownDifference": null
           },
           {
             "product": "5-year-fixed",
@@ -1248,16 +1513,19 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": null,
             "differencePence": null,
-            "problem": null
+            "problem": null,
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "northbridge-missing-council-tax",
       "description": "Council tax missing (a gap): both sides are hidden; it is never treated as 0.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1277,14 +1545,15 @@
       "expected": {
         "rentSidePence": null,
         "problem": "council-tax-missing",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": null
       }
     },
     {
       "id": "westmere-no-council-tax-rent-or-price",
       "description": "Westmere (synthetic) has no council tax, rent or price: council-tax-missing, nothing shown.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1304,14 +1573,15 @@
       "expected": {
         "rentSidePence": null,
         "problem": "council-tax-missing",
-        "buySides": []
+        "buySides": [],
+        "shownRentSide": null
       }
     },
     {
       "id": "half-penny-loan-rounds-away-from-zero",
       "description": "Test-only price 29781390 at a 15% deposit: the loan is exactly 25314181.5 pence, which must round up to 25314182 (floor would give 25314181). Loan-to-value 85 is exactly on the 85 grid band.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1356,7 +1626,9 @@
             "rateUsedMaxLoanToValuePercent": 85,
             "comparison": "more",
             "differencePence": 4894,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1616,
+            "shownDifference": 49
           },
           {
             "product": "5-year-fixed",
@@ -1366,16 +1638,19 @@
             "rateUsedMaxLoanToValuePercent": null,
             "comparison": null,
             "differencePence": null,
-            "problem": "rate-band-unavailable"
+            "problem": "rate-band-unavailable",
+            "shownBuySide": null,
+            "shownDifference": null
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     },
     {
       "id": "decimal-deposit-rounds-loan-once",
       "description": "Test-only price 29783520 at a 33.3% deposit (a decimal, read exactly as 333/10): the loan is 19865607.84 pence, which rounds up to 19865608 (floor would give 19865607). Loan-to-value 66.7 takes the 75 band.",
       "rule": {
-        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021); the comparison is made on the whole pounds shown, each side rounded once (halves away from zero) and the shown difference being buy minus rent: about the same when that is less than 10 pounds. Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
         "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
       },
       "inputs": {
@@ -1419,7 +1694,9 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "less",
             "differencePence": -30523,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1262,
+            "shownDifference": -305
           },
           {
             "product": "5-year-fixed",
@@ -1429,9 +1706,12 @@
             "rateUsedMaxLoanToValuePercent": 75,
             "comparison": "less",
             "differencePence": -28280,
-            "problem": null
+            "problem": null,
+            "shownBuySide": 1284,
+            "shownDifference": -283
           }
-        ]
+        ],
+        "shownRentSide": 1567
       }
     }
   ]
