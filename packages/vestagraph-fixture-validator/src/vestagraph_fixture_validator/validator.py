@@ -21,16 +21,16 @@ library behaves differently from JsonSchema.Net (the C# library) is settled here
 
 import json
 import re
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 from decimal import Decimal
 from fractions import Fraction
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
-# jsonschema ships no type information, and no stub package is added (P5 adds no packages).
-from jsonschema import Draft202012Validator, TypeChecker, validators  # type: ignore[import-untyped]
-from jsonschema.exceptions import ValidationError  # type: ignore[import-untyped]
+from jsonschema import Draft202012Validator, TypeChecker, validators
+from jsonschema.exceptions import ValidationError
+from jsonschema.protocols import Validator
 from referencing import Registry, Resource
 from referencing.exceptions import CannotDetermineSpecification, Unresolvable
 from referencing.jsonschema import DRAFT202012
@@ -117,14 +117,24 @@ def _pattern_properties(
                 yield from validator.descend(value, subschema, path=key, schema_path=pattern)
 
 
-_Validator = validators.extend(
+def _extend(
+    base: type[Validator],
+    overrides: dict[str, Any],
+    type_checker: TypeChecker,
+) -> type[Validator]:
+    # The stubs leave ``validators.extend`` untyped, so the call goes through a cast.
+    extend = cast("Callable[..., type[Validator]]", validators.extend)
+    return extend(base, validators=overrides, type_checker=type_checker)
+
+
+_Validator = _extend(
     Draft202012Validator,
-    validators={
+    {
         "pattern": _pattern,
         "patternProperties": _pattern_properties,
         "properties": _properties,
     },
-    type_checker=Draft202012Validator.TYPE_CHECKER.redefine("integer", _is_integer),
+    Draft202012Validator.TYPE_CHECKER.redefine("integer", _is_integer),
 )
 
 

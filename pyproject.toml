@@ -17,6 +17,7 @@ dev = [
   "pytest-bdd>=9.0.1,<10",
   "pytest-cov>=7.1,<8",
   "ruff>=0.17.4,<0.18",
+  "types-jsonschema>=4.26,<5",
 ]
 
 [tool.ruff]
