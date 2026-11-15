@@ -4,7 +4,7 @@ Two monthly figures are set side by side for an area's average home: renting (re
 tax) and buying (the mortgage repayment plus council tax), one buy figure per mortgage product.
 Every amount is whole pence and nothing here uses a ``float`` (AGENTS rule 2). Each figure also
 has a shown value in whole pounds: each side is rounded once from pence (halves away from zero,
-decision 0021), the shown difference is the rounded buy side minus the rounded rent side, and the
+decision 0034), the shown difference is the rounded buy side minus the rounded rent side, and the
 comparison is made on those shown pounds so it always agrees with what is on screen. The
 repayment comes
 from the cost engine's ``monthly_repayment``; only a typed 0% rate, which the engine refuses, is
@@ -83,7 +83,7 @@ class ShownFigures:
 
 
 def _shown(pence: Pence | None) -> int | None:
-    """Whole pounds, rounded once: nearest, exact halves away from zero (decision 0021)."""
+    """Whole pounds, rounded once: nearest, exact halves away from zero (decision 0034)."""
     return None if pence is None else round_ratio(pence.value, _PENCE_PER_POUND).value
 
 

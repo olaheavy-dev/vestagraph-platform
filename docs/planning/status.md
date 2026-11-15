@@ -105,8 +105,6 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- This pull request: City Explorer sources research (plan Task 1) and the founder's five answers.
-- This pull request: City Explorer's implementation plan (`docs/superpowers/plans/2026-11-15-city-explorer.md`). Everything before it is merged, up to #282.
 - **PR A of City Explorer** (branch `feat/council-result-data`, this pull request): the council sample data, the tested figures in `vestagraph_area` (council tax by band, rent or buy with whole-pound display values, captions, tenure shares, budget check, place search) and the generated `council-result.json`. Not merged yet: it needs the pre-push review, Codex, then merge. It is not a founder merge by the rule tables (no new tax, legal or tenancy rule table), but the founder is asked to review these agent's calls (founder review list):
   1. Rent or buy "about the same" means the two sides, shown in whole pounds, are less than £10 apart (this compares what is on screen, so a 999 pence gap that shows as £10 is "more" or "less"); the threshold is an agent's call.
   2. "Unchanged" for a trend: the two shown whole pounds are equal; a ratio is unchanged when the two published values (two decimal places) are equal.
