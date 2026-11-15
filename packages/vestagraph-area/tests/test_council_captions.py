@@ -5,7 +5,13 @@ from typing import Any
 
 import pytest
 from area_support import fixtures_directory, read_json
-from vestagraph_area.captions import Change, caption_for, twelve_month_change
+from vestagraph_area.captions import (
+    Change,
+    caption_for,
+    series_caption,
+    tenure_caption,
+    twelve_month_change,
+)
 from vestagraph_area.council_records import (
     Level,
     Series,
@@ -73,7 +79,7 @@ def _expected_change(case: dict[str, Any]) -> Change | None:
         amount=number(raw["amount"]),
         percent=None if raw["percent"] is None else Fraction(raw["percent"]),
         direction=raw["direction"],
-        provisional_months=raw["provisionalMonths"],
+        provisional_points=raw["provisionalPoints"],
     )
 
 
@@ -157,3 +163,56 @@ def test_twelve_month_change_bad_latest_period_raises() -> None:
     series = _series(BY_ID["northbridge-rent-rose"]["inputs"])
     with pytest.raises(ValueError, match="YYYY"):
         twelve_month_change(series, "2026-13")
+
+
+def test_series_caption_empty_series_is_missing_with_the_gap_status_as_reason() -> None:
+    westmere = COUNCILS["E07999002"]
+
+    caption = series_caption("rent", westmere.rent_series)
+
+    assert caption.kind == "missing"
+    assert caption.values == {
+        "topic": "rent",
+        "pattern": "missing",
+        "reason": "no-record-in-source",
+    }
+
+
+def test_series_caption_recorded_series_uses_its_latest_point() -> None:
+    northbridge = COUNCILS["E06999001"]
+
+    caption = series_caption("rent", northbridge.rent_series)
+
+    assert caption == caption_for("rent", northbridge.rent_series, "2026-10")
+    assert caption.kind == "trend"
+
+
+def test_tenure_caption_recorded_gives_single_point_shares_with_one_decimal() -> None:
+    northbridge = COUNCILS["E06999001"]
+
+    caption = tenure_caption(northbridge.tenure)
+
+    assert caption.kind == "single-point"
+    assert caption.values["pattern"] == "single-point"
+    assert caption.values["period"] == northbridge.tenure.source.period
+    assert all(
+        "." in caption.values[key] and len(caption.values[key].split(".")[1]) == 1
+        for key in (
+            "ownedOutright",
+            "ownedWithMortgage",
+            "socialRented",
+            "privateRented",
+            "other",
+        )
+    )
+
+
+def test_tenure_caption_gap_is_missing_with_the_gap_status_as_reason() -> None:
+    caption = tenure_caption(COUNCILS["E07999002"].tenure)
+
+    assert caption.kind == "missing"
+    assert caption.values == {
+        "topic": "tenure",
+        "pattern": "missing",
+        "reason": "no-record-in-source",
+    }

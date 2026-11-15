@@ -7,7 +7,7 @@
       "description": "Northbridge's recorded counts (data/council-area.json): total 121300; shares add to 99.9, not 100.",
       "rule": {
         "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
-        "url": "packages/fixtures/test-cases/README.md"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "counts": {
@@ -52,7 +52,7 @@
       "description": "Test-only counts, total 2000: four shares land exactly on a half tenth; each rounds up (round-half-to-even would give 0.2, 0.4, 0.0 and 49.2). Shares add to 100.2.",
       "rule": {
         "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
-        "url": "packages/fixtures/test-cases/README.md"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "counts": {
@@ -97,7 +97,7 @@
       "description": "Test-only counts 1, 1, 1, 0, 0: thirds round down to 33.3; a recorded count of zero is a share of 0.0 (a recorded zero, not a gap). Shares add to 99.9.",
       "rule": {
         "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
-        "url": "packages/fixtures/test-cases/README.md"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "counts": {
@@ -142,7 +142,7 @@
       "description": "Test-only counts 2, 1, 0, 0, 0: 66.666... rounds up to 66.7, 33.333... rounds down to 33.3. Shares add to 100.0.",
       "rule": {
         "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
-        "url": "packages/fixtures/test-cases/README.md"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "counts": {

@@ -7,7 +7,7 @@ import pytest
 from area_support import fixtures_directory, read_json
 from vestagraph_area.council_records import Fact, Level, Source
 from vestagraph_area.records import InvalidAreaDataError
-from vestagraph_area.tenure import tenure_shares, tenure_shares_for_fact
+from vestagraph_area.tenure import share_text, tenure_shares, tenure_shares_for_fact
 
 CASES: list[dict[str, Any]] = read_json(
     fixtures_directory() / "test-cases" / "council-tenure.json"
@@ -51,3 +51,30 @@ def test_tenure_shares_for_fact_recorded_gives_shares() -> None:
 
     assert shares is not None
     assert shares["ownedOutright"] == Fraction("33.3")
+
+
+def test_tenure_shares_negative_count_is_refused() -> None:
+    counts = {"ownedOutright": -1, "ownedWithMortgage": 5, "socialRented": 5}
+    counts |= {"privateRented": 0, "other": 0}
+
+    with pytest.raises(InvalidAreaDataError, match="negative"):
+        tenure_shares(counts)
+
+
+@pytest.mark.parametrize(
+    ("share", "text"),
+    [
+        (Fraction(35), "35.0"),
+        (Fraction("7.5"), "7.5"),
+        (Fraction(0), "0.0"),
+        (Fraction(100), "100.0"),
+        (Fraction("33.3"), "33.3"),
+    ],
+)
+def test_share_text_always_has_one_decimal_place(share: Fraction, text: str) -> None:
+    assert share_text(share) == text
+
+
+def test_share_text_not_a_multiple_of_a_tenth_raises() -> None:
+    with pytest.raises(ValueError, match=r"multiple of 0\.1"):
+        share_text(Fraction(1, 3))

@@ -6,8 +6,8 @@
       "id": "northbridge-rent-rose",
       "description": "Northbridge average rent, latest 2026-10 against 2025-10: rose, with 2 provisional months.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -45,7 +45,7 @@
           "amount": 10800,
           "percent": "10800/1279",
           "direction": "rose",
-          "provisionalMonths": 2
+          "provisionalPoints": 2
         },
         "caption": {
           "kind": "trend",
@@ -59,7 +59,7 @@
             "toValue": "1387",
             "amount": "108",
             "percent": "8.4",
-            "provisionalMonths": "2"
+            "provisionalPoints": "2"
           }
         }
       }
@@ -68,8 +68,8 @@
       "id": "northbridge-price-rose-rounds-percent-up",
       "description": "Northbridge average price, latest 2026-08 against 2025-08: percent 2.4776 rounds up to 2.5 (truncating would give 2.4); all 12 window months provisional.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -107,7 +107,7 @@
           "amount": 720000,
           "percent": "3600/1453",
           "direction": "rose",
-          "provisionalMonths": 12
+          "provisionalPoints": 12
         },
         "caption": {
           "kind": "trend",
@@ -121,7 +121,7 @@
             "toValue": "297800",
             "amount": "7200",
             "percent": "2.5",
-            "provisionalMonths": "12"
+            "provisionalPoints": "12"
           }
         }
       }
@@ -130,8 +130,8 @@
       "id": "southvale-price-rose-gap-inside-window",
       "description": "Southvale average price, latest 2026-07 against 2025-07: 2025-08 is not published but lies inside the window, so it is not counted as provisional (11, not 12).",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999002",
@@ -169,7 +169,7 @@
           "amount": 420000,
           "percent": "70/33",
           "direction": "rose",
-          "provisionalMonths": 11
+          "provisionalPoints": 11
         },
         "caption": {
           "kind": "trend",
@@ -183,7 +183,7 @@
             "toValue": "202200",
             "amount": "4200",
             "percent": "2.1",
-            "provisionalMonths": "11"
+            "provisionalPoints": "11"
           }
         }
       }
@@ -192,8 +192,8 @@
       "id": "southvale-rent-rose-one-provisional",
       "description": "Southvale average rent, latest 2026-08 against 2025-08: one provisional month (the end point).",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999002",
@@ -231,7 +231,7 @@
           "amount": 6000,
           "percent": "1200/193",
           "direction": "rose",
-          "provisionalMonths": 1
+          "provisionalPoints": 1
         },
         "caption": {
           "kind": "trend",
@@ -245,7 +245,7 @@
             "toValue": "1025",
             "amount": "60",
             "percent": "6.2",
-            "provisionalMonths": "1"
+            "provisionalPoints": "1"
           }
         }
       }
@@ -254,8 +254,8 @@
       "id": "southvale-price-start-point-not-published",
       "description": "Southvale average price, latest 2026-08: the point twelve months back (2025-08) is not published, so there is no change and the caption is missing.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999002",
@@ -295,8 +295,8 @@
       "id": "southvale-price-end-point-not-published",
       "description": "Southvale average price, latest 2025-08 (itself not published): missing.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999002",
@@ -325,8 +325,8 @@
       "id": "northbridge-rent-end-point-absent",
       "description": "Northbridge rent, latest 2027-01: the series has no such period, so missing.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -355,8 +355,8 @@
       "id": "westmere-rent-series-has-no-record",
       "description": "Westmere rent: the series status is no-record-in-source, so missing.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E07999002",
@@ -385,8 +385,8 @@
       "id": "northbridge-rent-start-point-absent",
       "description": "Northbridge rent, latest 2025-10: 2024-10 is before the series starts (first point is 2024-11), so there is no change; the caption is missing and carries the latest figure.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -422,8 +422,8 @@
       "id": "eastmere-affordability-rose",
       "description": "Eastmere affordability ratio, 2025 against 2024 (the method break is before 2023, so it is not between these): rose by 0.11, shown exactly.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E07999001",
@@ -453,7 +453,7 @@
           "amount": "11/100",
           "percent": null,
           "direction": "rose",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -466,7 +466,7 @@
             "fromValue": "6.92",
             "toValue": "7.03",
             "amount": "0.11",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -475,8 +475,8 @@
       "id": "eastmere-affordability-break-at-start-point-allowed",
       "description": "Eastmere affordability, 2024 against 2023: the break sits before 2023, which is the start point, so both are on the same method and can be compared.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E07999001",
@@ -506,7 +506,7 @@
           "amount": "21/100",
           "percent": null,
           "direction": "rose",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -519,7 +519,7 @@
             "fromValue": "6.71",
             "toValue": "6.92",
             "amount": "0.21",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -528,8 +528,8 @@
       "id": "eastmere-affordability-across-method-break",
       "description": "Eastmere affordability, 2023 against 2022: the method changed before 2023, so the two cannot be compared.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E07999001",
@@ -563,8 +563,8 @@
       "id": "eastmere-affordability-start-point-absent",
       "description": "Eastmere affordability, latest 2019: 2018 is before the series starts, so missing, carrying the latest figure.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "councilCode": "E07999001",
@@ -600,8 +600,8 @@
       "id": "inline-rent-rise-by-half-a-pound",
       "description": "A rise of exactly 50p: the new figure 1000.5 rounds up to 1001, so the shown amount is 1; percent exactly 0.05 rounds up to 0.1.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "pence-per-month",
@@ -642,7 +642,7 @@
           "amount": 50,
           "percent": "1/20",
           "direction": "rose",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -656,7 +656,7 @@
             "toValue": "1001",
             "amount": "1",
             "percent": "0.1",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -665,8 +665,8 @@
       "id": "inline-rent-fall-by-half-a-pound",
       "description": "A fall of exactly 50p: both figures round to 1000 pounds (999.5 rounds away from zero to 1000), so the shown amount is 0 and it is called unchanged; the percent is not shown.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "pence-per-month",
@@ -707,7 +707,7 @@
           "amount": -50,
           "percent": "-1/20",
           "direction": "unchanged",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -720,7 +720,7 @@
             "fromValue": "1000",
             "toValue": "1000",
             "amount": "0",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -729,8 +729,8 @@
       "id": "inline-rent-rise-just-below-half-is-unchanged",
       "description": "A rise of 49p: both figures round to 1000 pounds, so the shown amount is 0, unchanged; the percent is not shown.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "pence-per-month",
@@ -771,7 +771,7 @@
           "amount": 49,
           "percent": "49/1000",
           "direction": "unchanged",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -784,7 +784,7 @@
             "fromValue": "1000",
             "toValue": "1000",
             "amount": "0",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -793,8 +793,8 @@
       "id": "inline-rent-fall-just-below-half-is-unchanged",
       "description": "A fall of 49p: both figures round to 1000 pounds: unchanged.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "pence-per-month",
@@ -831,7 +831,7 @@
           "amount": -49,
           "percent": "-49/1000",
           "direction": "unchanged",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -844,7 +844,7 @@
             "fromValue": "1000",
             "toValue": "1000",
             "amount": "0",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -853,8 +853,8 @@
       "id": "inline-rent-fall",
       "description": "A fall: 250000p to 243750p. Figures 2500 and 2437.5 (rounds to 2438); shown amount 2500 - 2438 = 62; percent -2.5.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "pence-per-month",
@@ -895,7 +895,7 @@
           "amount": -6250,
           "percent": "-5/2",
           "direction": "fell",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -909,7 +909,7 @@
             "toValue": "2438",
             "amount": "62",
             "percent": "2.5",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -918,8 +918,8 @@
       "id": "inline-rent-rise-across-a-pound-boundary",
       "description": "A rise of only 2p (127949p to 127951p) crosses a pound boundary: 1279.49 rounds to 1279 and 1279.51 to 1280, so the shown amount is 1 and it is a rise.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "pence-per-month",
@@ -960,7 +960,7 @@
           "amount": 2,
           "percent": "200/127949",
           "direction": "rose",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -974,7 +974,7 @@
             "toValue": "1280",
             "amount": "1",
             "percent": "0.0",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -983,8 +983,8 @@
       "id": "inline-rent-fall-across-a-pound-boundary",
       "description": "A fall of 2p (127951p to 127949p): 1280 to 1279, shown amount 1, a fall.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "pence-per-month",
@@ -1025,7 +1025,7 @@
           "amount": -2,
           "percent": "-200/127951",
           "direction": "fell",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -1039,7 +1039,7 @@
             "toValue": "1279",
             "amount": "1",
             "percent": "0.0",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -1048,8 +1048,8 @@
       "id": "inline-ratio-rise-by-five-hundredths",
       "description": "A ratio rising by 0.05 is shown exactly, never rounded to a tenth.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "ratio",
@@ -1082,7 +1082,7 @@
           "amount": "1/20",
           "percent": null,
           "direction": "rose",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -1095,7 +1095,7 @@
             "fromValue": "6.92",
             "toValue": "6.97",
             "amount": "0.05",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -1104,8 +1104,8 @@
       "id": "inline-ratio-fall-by-five-hundredths",
       "description": "A ratio falling by 0.05: fell, shown as 0.05.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "ratio",
@@ -1138,7 +1138,7 @@
           "amount": "-1/20",
           "percent": null,
           "direction": "fell",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -1151,7 +1151,7 @@
             "fromValue": "6.97",
             "toValue": "6.92",
             "amount": "0.05",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -1160,8 +1160,8 @@
       "id": "inline-ratio-rise-by-four-hundredths",
       "description": "A ratio rose of 0.04 is a real change and is shown as 0.04, never rounded to nothing.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "ratio",
@@ -1194,7 +1194,7 @@
           "amount": "1/25",
           "percent": null,
           "direction": "rose",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -1207,7 +1207,7 @@
             "fromValue": "6.92",
             "toValue": "6.96",
             "amount": "0.04",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -1216,8 +1216,8 @@
       "id": "inline-ratio-fall-by-four-hundredths",
       "description": "A ratio fell of 0.04 is a real change and is shown as 0.04, never rounded to nothing.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "ratio",
@@ -1250,7 +1250,7 @@
           "amount": "-1/25",
           "percent": null,
           "direction": "fell",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -1263,7 +1263,7 @@
             "fromValue": "6.96",
             "toValue": "6.92",
             "amount": "0.04",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
           }
         }
       }
@@ -1272,8 +1272,8 @@
       "id": "inline-ratio-equal-values-are-unchanged",
       "description": "Equal published values are the only unchanged ratio.",
       "rule": {
-        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
-        "url": "packages/fixtures/data/council-area.json"
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
       },
       "inputs": {
         "unit": "ratio",
@@ -1306,7 +1306,7 @@
           "amount": "0",
           "percent": null,
           "direction": "unchanged",
-          "provisionalMonths": 0
+          "provisionalPoints": 0
         },
         "caption": {
           "kind": "trend",
@@ -1319,7 +1319,129 @@
             "fromValue": "6.92",
             "toValue": "6.92",
             "amount": "0.00",
-            "provisionalMonths": "0"
+            "provisionalPoints": "0"
+          }
+        }
+      }
+    },
+    {
+      "id": "inline-rent-provisional-start-point-not-counted",
+      "description": "Provisional start point (2025-10) is not counted; the provisional point inside the window (2026-03) is: 1.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "unit": "pence-per-month",
+        "points": [
+          {
+            "period": "2025-10",
+            "value": 100000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-03",
+            "value": 105000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-10",
+            "value": 110000,
+            "status": "recorded"
+          }
+        ],
+        "latestPeriod": "2026-10"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Start 2025-10 is 100000p, end 2026-10 is 110000p. Amount = 110000 - 100000 = 10000p = 100 pounds; percent = 10000 x 100 / 100000 = 10, so 10.0."
+        },
+        {
+          "n": 2,
+          "description": "The window is after the start point, 2025-11 to 2026-10. The provisional start point 2025-10 is outside it, so only the provisional 2026-03 is counted: 1."
+        },
+        {
+          "n": 3,
+          "description": "Pounds: 100000p = 1000, 110000p = 1100."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-10",
+          "toPeriod": "2026-10",
+          "fromValue": 100000,
+          "toValue": 110000,
+          "amount": 10000,
+          "percent": "10",
+          "direction": "rose",
+          "provisionalPoints": 1
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "rent",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-10",
+            "toPeriod": "2026-10",
+            "fromValue": "1000",
+            "toValue": "1100",
+            "amount": "100",
+            "percent": "10.0",
+            "provisionalPoints": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "inline-rent-method-break-in-a-middle-month",
+      "description": "A monthly series with a method break in a middle month of the window (2026-04): not comparable.",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "unit": "pence-per-month",
+        "points": [
+          {
+            "period": "2025-10",
+            "value": 100000,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-04",
+            "value": 104000,
+            "status": "recorded",
+            "methodBreakBefore": true
+          },
+          {
+            "period": "2026-10",
+            "value": 110000,
+            "status": "recorded"
+          }
+        ],
+        "latestPeriod": "2026-10"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2026-04 carries methodBreakBefore and lies after the start point 2025-10 and before the end point 2026-10, so the method changed inside the window."
+        },
+        {
+          "n": 2,
+          "description": "No change is worked out."
+        }
+      ],
+      "expected": {
+        "change": null,
+        "caption": {
+          "kind": "not-comparable",
+          "values": {
+            "topic": "rent",
+            "pattern": "not-comparable",
+            "fromPeriod": "2025-10",
+            "toPeriod": "2026-10"
           }
         }
       }

@@ -4,7 +4,7 @@ from functools import cache
 
 from area_support import fixtures_directory
 from vestagraph_area.council_records import CouncilArea, read_council_area
-from vestagraph_area.place_search import Match, council_for_postcode, find_councils
+from vestagraph_area.place_search import Match, SearchResult, council_for_postcode, find_councils
 
 NORTHBRIDGE = "E06999001"
 SOUTHVALE = "E06999002"
@@ -95,7 +95,14 @@ def test_find_councils_english_and_welsh_same_name_lists_both_with_not_covered_n
     result = find_councils("Northbridge (synthetic)", area)
 
     assert result.kind == "choose"
-    assert [m.note for m in result.matches] == [None, "not-covered"]
+    assert result.matches == (
+        Match(NORTHBRIDGE, "Northbridge (synthetic)", None),
+        Match(
+            "W06999001",
+            "Northbridge (synthetic), Gwynfa (synthetic) (not yet covered)",
+            "not-covered",
+        ),
+    )
 
 
 def test_council_for_postcode_in_another_council_returns_that_council() -> None:
@@ -105,3 +112,11 @@ def test_council_for_postcode_in_another_council_returns_that_council() -> None:
 
 def test_council_for_postcode_unknown_is_none() -> None:
     assert council_for_postcode("ZZ9 9ZZ", _area()) is None
+
+
+def test_find_councils_partial_name_is_not_found() -> None:
+    # "Northbridge" is only the start of "Northbridge (synthetic)": no prefix or fuzzy match.
+    for query in ("Northbridge", "North", "Eastmere Westmere"):
+        result = find_councils(query, _area())
+
+        assert result == SearchResult("not-found", ()), query

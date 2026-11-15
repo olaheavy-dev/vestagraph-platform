@@ -4,9 +4,9 @@
   "cases": [
     {
       "id": "each-side-below-budget",
-      "description": "Budget \u00a32,000 a month; rent side \u00a31,567 and both buy sides below it: all within.",
+      "description": "Budget £2,000 a month; rent side £1,567 and both buy sides below it: all within.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -49,9 +49,9 @@
     },
     {
       "id": "each-side-equal-to-budget",
-      "description": "Budget \u00a31,567 a month equal to the rent side and to both buy sides: equal is within.",
+      "description": "Budget £1,567 a month equal to the rent side and to both buy sides: equal is within.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -90,9 +90,9 @@
     },
     {
       "id": "each-side-above-budget",
-      "description": "Budget \u00a31,500 a month; rent side one penny over, buy sides well over: all above.",
+      "description": "Budget £1,500 a month; rent side one penny over, buy sides well over: all above.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -133,7 +133,7 @@
       "id": "mixed-sides",
       "description": "Rent within, one buy side within, the other above.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -174,7 +174,7 @@
       "id": "eastmere-rent-missing",
       "description": "Eastmere (synthetic) has no rent figure: the rent side is no answer, not within; the buy side is still checked.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -212,10 +212,51 @@
       }
     },
     {
+      "id": "eastmere-rent-missing-buy-side-above-budget",
+      "description": "No rent figure and one buy side above the budget: the rent side has no answer (never within); the buy side above is above, the one at the budget is within.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 150000,
+        "rentSidePence": null,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 160000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 150000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 150000 pence; no rent side, so no answer for rent."
+        },
+        {
+          "n": 2,
+          "description": "Buy 160000 > 150000: above. Buy 150000 <= 150000: within (equal is within)."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {
+          "2-year-fixed": "above",
+          "5-year-fixed": "within"
+        },
+        "problem": null
+      }
+    },
+    {
       "id": "buy-side-figure-missing",
       "description": "A buy side with no figure (no rate band or no price) is no answer for that product only.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -256,7 +297,7 @@
       "id": "buying-problem-hides-buy-sides",
       "description": "When the rent-or-buy result has a problem, it has no buy sides, so the buy answers are empty; the rent side is still checked.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -285,7 +326,7 @@
       "id": "zero-budget",
       "description": "A budget of zero is a problem and no side is compared.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {
@@ -315,7 +356,7 @@
       "id": "negative-budget",
       "description": "A negative budget is a problem and no side is compared.",
       "rule": {
-        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below \u00a31,600; exactly \u00a31,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
         "url": "packages/fixtures/test-cases/README.md"
       },
       "inputs": {

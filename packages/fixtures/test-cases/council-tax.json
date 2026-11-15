@@ -7,7 +7,7 @@
       "description": "Northbridge (synthetic) band A: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -36,7 +36,7 @@
       "description": "Northbridge (synthetic) band B: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -65,7 +65,7 @@
       "description": "Northbridge (synthetic) band C: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -94,7 +94,7 @@
       "description": "Northbridge (synthetic) band D: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -123,7 +123,7 @@
       "description": "Northbridge (synthetic) band E: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -152,7 +152,7 @@
       "description": "Northbridge (synthetic) band F: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -181,7 +181,7 @@
       "description": "Northbridge (synthetic) band G: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -210,7 +210,7 @@
       "description": "Northbridge (synthetic) band H: the published yearly amount and its exact monthly amount.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999001",
@@ -239,7 +239,7 @@
       "description": "Southvale (synthetic) band B: 154000 / 12 leaves a third of a penny, which rounds down.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999002",
@@ -268,7 +268,7 @@
       "description": "Southvale (synthetic) band C: 176000 / 12 leaves two thirds of a penny, which rounds up.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E06999002",
@@ -297,7 +297,7 @@
       "description": "6 pence a year: 6 / 12 = 0.5 exactly, so it rounds away from zero.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "yearlyPence": 6
@@ -324,7 +324,7 @@
       "description": "18 pence a year: 18 / 12 = 1.5 exactly, so it rounds away from zero.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "yearlyPence": 18
@@ -351,7 +351,7 @@
       "description": "30 pence a year: 30 / 12 = 2.5 exactly, so it rounds away from zero.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "yearlyPence": 30
@@ -378,7 +378,7 @@
       "description": "Westmere (synthetic) has no council tax record in its source: no yearly amount and no monthly figure, never £0.",
       "rule": {
         "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
-        "url": "packages/fixtures/data/council-area.json"
+        "url": "docs/decisions/0021-dotnet-engineering-foundation.md"
       },
       "inputs": {
         "councilCode": "E07999002",

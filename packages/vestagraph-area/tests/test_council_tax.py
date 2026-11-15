@@ -65,3 +65,17 @@ def test_band_monthly_exact_half_penny_rounds_away_from_zero(case: dict[str, Any
     assert band_monthly(Pence(case["inputs"]["yearlyPence"])) == Pence(
         case["expected"]["monthlyPence"]
     )
+
+
+@pytest.mark.parametrize("case", CASES, ids=[c["id"] for c in CASES])
+def test_worked_case_yearly_input_equals_the_value_read_from_council_area_json(
+    case: dict[str, Any],
+) -> None:
+    given = case["inputs"]
+    if "councilCode" not in given:
+        pytest.skip("a typed yearly figure (half-penny cases) is not read from the data file")
+
+    read = band_yearly(COUNCILS[given["councilCode"]].bands, given["band"])
+
+    # A gap council has no yearly input in the case: both sides are "no figure" (None).
+    assert read == _expected(given.get("yearlyPence"))
