@@ -257,7 +257,7 @@ def test_numbers_in_every_fixture_file_are_whole_numbers() -> None:
     for path in sorted((fixtures_directory() / "test-cases").glob("*.json")):
         documents[path.name] = read_file(path)
 
-    assert len(documents) == 15
+    assert len(documents) == 16
     for name, document in documents.items():
         assert list(_fractional_numbers(document)) == [], (
             f"{name} must contain no fractional numbers"
