@@ -106,6 +106,7 @@ Nearly all 14 topics are published free under the Open Government Licence at cou
 - **Already free elsewhere:** Not on ONS Explore (no private rent indicator in the housing list).
 - **Evidence it helps a decision:** English Housing Survey 2023 to 24: private renters most often moved for a better area (14%), larger home (12%) or work (12%), per a [search result only](https://www.gov.uk/government/statistics/english-housing-survey-2023-to-2024-rented-sectors/english-housing-survey-2023-24-rented-sectors). That is about moving, not about rent levels.
 - **Open questions:** Confirm the downloadable dataset carries pounds per council before promising a "typical rent" fact.
+- **Checked later, 15 Nov 2026 (City Explorer design):** the [dataset](https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/priceindexofprivaterentsukmonthlypricestatistics) spreadsheet (21 Oct 2026 edition, OGL v3.0, "Table 1") has a "Rental price" column per area, councils included, "rounded to the nearest £1" (its note 6), with index columns by bedroom count (whether a rental price is given per bedroom count was not checked), from January 2015. Its cover sheet calls the series "official statistics in development", which differs from the bulletin's "official statistics", "not yet accredited" above; which to quote is settled at the licence check.
 
 ### 9. Tenure, who rents and who owns
 - **Source:** ONS, [Housing, England and Wales: Census 2021](https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingenglandandwales/census2021).
@@ -181,7 +182,7 @@ The ONS Explore local statistics indicator list shows population, average house 
 
 ## Not confirmed
 - The Ofcom 2026 licence wording; postcode-level 2026 Ofcom files.
-- Whether the downloadable PIPR dataset gives pounds per council; whether the council tax Table 10 has parish detail; whether a council-level net additions table exists on the page.
+- Whether the downloadable PIPR dataset gives pounds per council (answered 15 Nov 2026: yes, topic 8); whether the council tax Table 10 has parish detail; whether a council-level net additions table exists on the page.
 - OfS Register current download and location fields; the planning.data.gov.uk local plan counts (page unavailable when fetched).
 - Pages that returned errors on fetch: the Housing Delivery Test 2025 measurement page, the ONS Explore visualisation page.
 
