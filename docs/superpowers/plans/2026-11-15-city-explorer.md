@@ -46,8 +46,8 @@
 - No agent attribution in commits or pull requests.
 
 ## Review Focus
-1. **A deposit of 100% or more, or a loan of zero,** gives "deposit too large: no mortgage needed", never a crash or £0. The test is in Task 4.
-2. **A loan above the highest published band** (for example a 3% deposit when the bands stop at 95%) gives `rate-band-unavailable`. It never falls back to a lower band. A small loan takes the lowest band that covers it (bands mean "up to X% loan"; a 50% loan takes the 60% band). The test is in Task 4.
+1. **A deposit of 100% or more, or a loan of zero,** gives "deposit too large: no mortgage needed" on the buy side, never a crash or £0; the rent side stays. The test is in Task 4.
+2. **A loan above the highest published band** (for example a 3% deposit when the bands stop at 95%) gives `rate-band-unavailable` on the buy side; the rent side stays. It never falls back to a lower band. A small loan takes the lowest band that covers it (bands mean "up to X% loan"; a 50% loan takes the 60% band). The test is in Task 4.
 6. **Missing council tax** (Band D is a gap) gives `council-tax-missing`, with no side, comparison or budget label, never £0. The test is in Task 4.
 7. **A very large typed rate** gives `rate-too-high`, never a crash. The test is in Task 4.
 3. **A council with no published rent** gets the buy side only: no difference sentence and no budget label for rent. The test is in Tasks 4 and 6.
@@ -164,7 +164,7 @@
 
 - [ ] **Step 1:** Work the cases by hand, with the working shown:
   - the Band D example for all 8 bands;
-  - Band D amounts leaving remainders of 4/9 and 5/9 of a penny on band A (×6/9), to show rounding down and up (an exact half is impossible over 9);
+  - Band D amounts leaving remainders of 4/9 and 5/9 of a penny on band B (×7/9; band A, ×6/9, only leaves 0, 3 or 6 ninths), to show rounding down and up (an exact half is impossible over 9);
   - a yearly amount leaving exactly half a penny when ÷ 12 (for example 6 pence a year), to show halves away from zero;
   - each band's monthly amount.
 - [ ] **Step 2:** Write the tests:
@@ -200,7 +200,7 @@
   - The repayment is on `price × (100 − deposit_percent) / 100`, rounded once, from the engine.
   - A typed `rate_basis_points` overrides the band.
   - A 0% typed rate gives a repayment of loan ÷ payments, rounded once (the engine refuses 0).
-  - **Problems** (`problem`), each with no side shown and no comparison:
+  - **Problems** (`problem`). A problem with the buying inputs (`deposit-too-large`, `deposit-negative`, `term-out-of-range`, `rate-band-unavailable`, `rate-negative`, `rate-too-high`) hides only the buy side and the comparison: the rent side and its budget check stay, as the design's missing-input rule says. Only `council-tax-missing` hides both sides:
     - `deposit-too-large`: a deposit of 100% or more;
     - `deposit-negative`;
     - `term-out-of-range`: a term outside 1 to 40;
@@ -232,6 +232,7 @@
   - `test_rate_band_for_fifty_percent_loan_takes_lowest_band`
   - `test_rent_or_buy_missing_council_tax_is_problem_not_zero`
   - `test_rent_or_buy_rate_above_limit_is_rate_too_high`
+  - `test_rent_or_buy_no_rate_band_keeps_rent_side_and_hides_buy_side`
 - [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
 - [ ] **Step 4:** Commit: `feat: rent or buy per month with the rate for the deposit band`.
 
