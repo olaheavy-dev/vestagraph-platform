@@ -87,8 +87,9 @@ class ShownFigures:
 def shown_pounds(pence: Pence | None) -> int | None:
     """Whole pounds, rounded once: nearest, exact halves away from zero (decision 0034).
 
-    The one helper behind every whole-pound figure a council board shows; ``None`` (a missing
-    amount) stays ``None``, never zero (rule 7).
+    The helper behind the whole-pound money parts of a council board (rent or buy sides, council
+    tax, repayment). Caption values round the same way in ``captions._pounds``. ``None`` (a
+    missing amount) stays ``None``, never zero (rule 7).
     """
     return None if pence is None else round_ratio(pence.value, _PENCE_PER_POUND).value
 

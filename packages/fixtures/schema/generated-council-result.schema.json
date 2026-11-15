@@ -107,7 +107,32 @@
           "type": "array",
           "minItems": 4,
           "maxItems": 4,
-          "items": { "$ref": "#/$defs/priceTypeCaption" }
+          "prefixItems": [
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "detached" }, "values": { "properties": { "propertyType": { "const": "detached" } } } } }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "semiDetached" }, "values": { "properties": { "propertyType": { "const": "semiDetached" } } } } }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "terraced" }, "values": { "properties": { "propertyType": { "const": "terraced" } } } } }
+              ]
+            },
+            {
+              "allOf": [
+                { "$ref": "#/$defs/priceTypeCaption" },
+                { "properties": { "propertyType": { "const": "flat" }, "values": { "properties": { "propertyType": { "const": "flat" } } } } }
+              ]
+            }
+          ]
         },
         "tenureShares": { "$ref": "#/$defs/tenureShares" },
         "neighbourhoods": {
@@ -139,6 +164,12 @@
         "buySides": { "type": "array", "items": { "$ref": "#/$defs/buySide" } },
         "problem": { "$ref": "#/$defs/buyingProblem" }
       },
+      "dependentRequired": {
+        "councilTax": ["shownCouncilTax"],
+        "shownCouncilTax": ["councilTax"],
+        "rentSide": ["shownRentSide"],
+        "shownRentSide": ["rentSide"]
+      },
       "additionalProperties": false
     },
     "buySide": {
@@ -164,6 +195,12 @@
         "shownBuySide": { "$ref": "#/$defs/shownPounds" },
         "shownDifference": { "$ref": "#/$defs/shownPounds" },
         "problem": { "$ref": "#/$defs/sideProblem" }
+      },
+      "dependentRequired": {
+        "repayment": ["shownRepayment"],
+        "shownRepayment": ["repayment"],
+        "buySide": ["shownBuySide"],
+        "shownBuySide": ["buySide"]
       },
       "additionalProperties": false
     },

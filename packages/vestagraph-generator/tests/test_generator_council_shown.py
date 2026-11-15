@@ -101,7 +101,11 @@ def test_generate_council_every_shown_figure_is_its_pence_rounded_once() -> None
         for band in council["bands"]:
             assert band["shownYearly"] == rounded(band["yearly"])
             assert band["shownCouncilTax"] == rounded(band["monthly"])
+        monthly = {b["band"]: b["monthly"] for b in council["bands"]}
         for entry in council["rentOrBuy"]["byBand"]:
+            if "councilTax" in entry:
+                assert entry["councilTax"] == monthly[entry["band"]]
+                assert entry["shownCouncilTax"] == rounded(entry["councilTax"])
             for side in entry["buySides"]:
                 if "repayment" in side:
                     assert side["shownRepayment"] == rounded(side["repayment"])
@@ -152,3 +156,35 @@ def test_generate_council_existing_captions_and_rent_or_buy_price_are_unchanged(
     assert "propertyType" not in price["values"]
     assert council["rentOrBuy"]["pricePeriod"] == "2026-08"
     assert council["rentOrBuy"]["pricePointStatus"] == "provisional"
+
+
+def test_generate_council_rent_or_buy_figures_match_the_independently_worked_cases() -> None:
+    rent_cases = read_json(fixtures_directory() / "test-cases" / "rent-or-buy.json")["cases"]
+    worked = next(c for c in rent_cases if c["id"] == "northbridge-deposit-10-percent")
+    tax_cases = read_json(fixtures_directory() / "test-cases" / "council-tax.json")["cases"]
+    monthly = {
+        c["inputs"]["band"]: c["expected"]["monthlyPence"]
+        for c in tax_cases
+        if c["inputs"].get("councilCode") == "E06999001"
+    }
+    rent = worked["inputs"]["rentMonthlyPence"]
+    northbridge = _council("E06999001")["rentOrBuy"]["byBand"]
+
+    # Every band: the rent side is the worked rent plus the worked monthly council tax.
+    assert len(monthly) == 8
+    for entry in northbridge:
+        assert entry["rentSide"] == rent + monthly[entry["band"]]
+        assert entry["councilTax"] == monthly[entry["band"]]
+    # Band D is the worked 10% deposit case, line by line (the 5-year product has no band).
+    band_d = next(b for b in northbridge if b["band"] == "D")
+    assert band_d["rentSide"] == worked["expected"]["rentSidePence"]
+    assert band_d["shownRentSide"] == worked["expected"]["shownRentSide"]
+    for want in worked["expected"]["buySides"]:
+        side = next(s for s in band_d["buySides"] if s["product"] == want["product"])
+        assert side.get("buySide") == want["buySidePence"]
+        assert side.get("repayment") == want["repaymentPence"]
+        assert side.get("difference") == want["differencePence"]
+        assert side.get("comparison") == want["comparison"]
+        assert side.get("shownBuySide") == want["shownBuySide"]
+        assert side.get("shownDifference") == want["shownDifference"]
+        assert side.get("problem") == want["problem"]
