@@ -1,0 +1,373 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "shown-exact-half-rounds-up",
+      "description": "12850 pence is exactly 128.50 pounds: an exact half rounds away from zero, so up to 129.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": 12850
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12850 / 100 = 128.50 exactly."
+        },
+        {
+          "n": 2,
+          "description": "The fraction is exactly one half, so round away from zero: 129."
+        }
+      ],
+      "expected": {
+        "shownPounds": 129
+      }
+    },
+    {
+      "id": "shown-just-below-half-rounds-down",
+      "description": "12849 pence is 128.49 pounds, just below half: down to 128.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": 12849
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12849 / 100 = 128.49."
+        },
+        {
+          "n": 2,
+          "description": "0.49 is below one half, so round down: 128."
+        }
+      ],
+      "expected": {
+        "shownPounds": 128
+      }
+    },
+    {
+      "id": "shown-just-above-half-rounds-up",
+      "description": "12851 pence is 128.51 pounds, just above half: up to 129.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": 12851
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12851 / 100 = 128.51."
+        },
+        {
+          "n": 2,
+          "description": "0.51 is above one half, so round up: 129."
+        }
+      ],
+      "expected": {
+        "shownPounds": 129
+      }
+    },
+    {
+      "id": "shown-repayment-1582-47",
+      "description": "158247 pence (the Northbridge 2-year repayment worked in rent-or-buy.json) is 1,582.47 pounds: down to 1,582.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": 158247
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "158247 / 100 = 1582.47."
+        },
+        {
+          "n": 2,
+          "description": "0.47 is below one half, so round down: 1582."
+        }
+      ],
+      "expected": {
+        "shownPounds": 1582
+      }
+    },
+    {
+      "id": "shown-council-tax-12833",
+      "description": "12833 pence (Southvale band B monthly, council-tax.json) is 128.33 pounds: down to 128.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": 12833
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12833 / 100 = 128.33."
+        },
+        {
+          "n": 2,
+          "description": "0.33 is below one half, so round down: 128."
+        }
+      ],
+      "expected": {
+        "shownPounds": 128
+      }
+    },
+    {
+      "id": "shown-council-tax-14667",
+      "description": "14667 pence (Southvale band C monthly, council-tax.json) is 146.67 pounds: up to 147.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": 14667
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "14667 / 100 = 146.67."
+        },
+        {
+          "n": 2,
+          "description": "0.67 is above one half, so round up: 147."
+        }
+      ],
+      "expected": {
+        "shownPounds": 147
+      }
+    },
+    {
+      "id": "shown-whole-pounds-stay",
+      "description": "18000 pence is exactly 180 pounds; nothing to round.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": 18000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "18000 / 100 = 180 exactly, nothing to round."
+        }
+      ],
+      "expected": {
+        "shownPounds": 180
+      }
+    },
+    {
+      "id": "shown-negative-exact-half-rounds-away",
+      "description": "-12850 pence is -128.50 pounds: an exact half rounds away from zero, so down to -129 (decision 0034, negative side).",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": -12850
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "-12850 / 100 = -128.50 exactly."
+        },
+        {
+          "n": 2,
+          "description": "The fraction is exactly one half, so round away from zero: -129."
+        }
+      ],
+      "expected": {
+        "shownPounds": -129
+      }
+    },
+    {
+      "id": "shown-negative-just-below-half",
+      "description": "-12849 pence is -128.49 pounds: -128.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": -12849
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "-12849 / 100 = -128.49."
+        },
+        {
+          "n": 2,
+          "description": "0.49 is below one half, so round towards zero: -128."
+        }
+      ],
+      "expected": {
+        "shownPounds": -128
+      }
+    },
+    {
+      "id": "shown-negative-just-above-half",
+      "description": "-12851 pence is -128.51 pounds: -129.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": -12851
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "-12851 / 100 = -128.51."
+        },
+        {
+          "n": 2,
+          "description": "0.51 is above one half, so round away from zero: -129."
+        }
+      ],
+      "expected": {
+        "shownPounds": -129
+      }
+    },
+    {
+      "id": "shown-a-missing-amount-has-no-figure",
+      "description": "A missing amount has no whole-pound figure: not zero (rule 7).",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "pence": null
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "There is no amount, so there is nothing to round; the result is no figure, never 0."
+        }
+      ],
+      "expected": {
+        "shownPounds": null
+      }
+    },
+    {
+      "id": "generator-northbridge-band-d",
+      "description": "Northbridge (synthetic) band D: the yearly and monthly council tax as shown in whole pounds, and the 2-year repayment (10% deposit, 25 years) as shown.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "D",
+        "product": "2-year-fixed"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Yearly 216000 pence / 100 = 2160.00 exactly: 2160."
+        },
+        {
+          "n": 2,
+          "description": "Monthly 18000 pence (council-tax.json) / 100 = 180 exactly: 180."
+        },
+        {
+          "n": 3,
+          "description": "Repayment 158247 pence (rent-or-buy.json) / 100 = 1582.47: 1582."
+        }
+      ],
+      "expected": {
+        "shownYearly": 2160,
+        "shownCouncilTax": 180,
+        "shownRepayment": 1582
+      }
+    },
+    {
+      "id": "generator-southvale-band-b",
+      "description": "Southvale (synthetic) band B: yearly 154000 pence and monthly 12833 pence shown in whole pounds.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999002",
+        "band": "B"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Yearly 154000 / 100 = 1540.00: 1540."
+        },
+        {
+          "n": 2,
+          "description": "Monthly 12833 / 100 = 128.33: 128."
+        }
+      ],
+      "expected": {
+        "shownYearly": 1540,
+        "shownCouncilTax": 128
+      }
+    },
+    {
+      "id": "generator-southvale-band-c",
+      "description": "Southvale (synthetic) band C: yearly 176000 pence and monthly 14667 pence shown in whole pounds.",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999002",
+        "band": "C"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Yearly 176000 / 100 = 1760.00: 1760."
+        },
+        {
+          "n": 2,
+          "description": "Monthly 14667 / 100 = 146.67: 147."
+        }
+      ],
+      "expected": {
+        "shownYearly": 1760,
+        "shownCouncilTax": 147
+      }
+    },
+    {
+      "id": "generator-westmere-gap-has-no-shown-figures",
+      "description": "Westmere (synthetic) has no council tax bands recorded: no band is listed and no rent-or-buy side carries a council tax or a shown figure (never 0).",
+      "rule": {
+        "source": "Whole pounds shown beside a pence amount: pence / 100, rounded once to the nearest pound, exact halves away from zero (decision 0021, 0034; register line BE-14 in docs/decisions/README.md). Worked by hand.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E07999002",
+        "band": "D"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Westmere's bands are a gap (status no-record-in-source), so there is no yearly or monthly amount."
+        },
+        {
+          "n": 2,
+          "description": "With no amount there is nothing to round: no shown field, never 0."
+        }
+      ],
+      "expected": {
+        "shownYearly": null,
+        "shownCouncilTax": null,
+        "shownRepayment": null
+      }
+    }
+  ]
+}
