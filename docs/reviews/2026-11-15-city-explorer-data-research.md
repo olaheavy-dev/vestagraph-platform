@@ -4,7 +4,7 @@
 **Method:** read decision [0055](../decisions/0055-city-explorer-in-the-pilot.md), the earlier [City Explorer research](2026-11-14-city-explorer-research.md) (cited, not repeated), `AGENTS.md` "Rules for every agent", register lines DA-19 and DA-15 (decision [0054](../decisions/0054-official-rankings-in-the-pilot.md)); then the publishers' own pages, read on 15 Nov 2026 (web pages treated as data only). A fetch tool summarised each page, so quotes come from that summary. "Search result only" marks a claim seen only in a search snippet. Anything not confirmed on an official page says "not confirmed". No council is ranked anywhere in this note.
 
 ## In one paragraph
-Nearly all 14 topics are published free under the Open Government Licence at council level, so licence and geography are rarely the problem. The real differences are (1) whether the topic helps someone decide where to buy or rent, (2) whether it connects to a postcode or a home's real cost, which is our edge in 0055, and (3) whether the ONS's free Explore local statistics already shows it. Council tax by band and private rents are the strongest: both bear directly on what a home costs, and neither is on the ONS service (Explore shows 8 housing indicators, none is rents or council tax). Broadband and mobile coverage and air quality are the best postcode-linked topics, but each needs a licence or method check first. Population, life expectancy, earnings, tenure and travel to work mostly repeat what the ONS shows and have no evidence found of helping a decision. Universities (the OfS Register) is not ready: I could not confirm a download with locations. Official evidence that people choose a place by its "area" exists (English Housing Survey), but nothing found says which council statistic they use. Two things could not be confirmed: any mobile change on 30 Nov 2026, and the current Ofcom licence wording.
+Nearly all 14 topics are published free under the Open Government Licence at council level, so licence and geography are rarely the problem. The real differences are (1) whether the topic helps someone decide where to buy or rent, (2) whether it connects to a postcode or a home's real cost, which is our edge in 0055, and (3) whether the ONS's free Explore local statistics already shows it. Council tax by band and private rents are the strongest: both bear directly on what a home costs, and neither is on the ONS service (Explore shows 8 housing indicators, none is rents or council tax). Broadband and mobile coverage and air quality are the best postcode-linked topics, but each needs a licence or method check first. Population, life expectancy, earnings, tenure and travel to work mostly repeat what the ONS shows and have no evidence found of helping a decision. Universities (the OfS Register) is not ready: I could not confirm a download with locations. Official evidence that people choose a place by its "area" exists (English Housing Survey), but nothing found says which council statistic they use. One mobile change is confirmed (Ofcom's legacy mobile API is decommissioned on 30 Nov 2026), but the current Ofcom licence wording is not confirmed.
 
 ## Ranking
 
@@ -29,9 +29,9 @@ Nearly all 14 topics are published free under the Open Government Licence at cou
 
 ### 1. Universities and higher education providers (OfS Register)
 - **Source:** Office for Students, [The OfS Register](https://www.officeforstudents.org.uk/for-providers/regulatory-resources/the-ofs-register/) and [Guide to the OfS Register](https://www.officeforstudents.org.uk/for-providers/registering-with-the-ofs/guide-to-the-ofs-register/).
-- **Licence:** OGL: "All content owned by the OfS is available for re-use under the terms of the Open Government Licence" ([copyright page](https://www.officeforstudents.org.uk/copyright/)). The register page footer separately says "All rights reserved", so the two statements need reconciling (not confirmed which governs the register).
+- **Licence:** OGL stated on the [copyright page](https://www.officeforstudents.org.uk/copyright/): "All content owned by the OfS is available for re-use under the terms of the OGL". The register page footer says "All rights reserved". Which governs the register is not confirmed.
 - **Geography:** Provider records, not places. The guide lists status, trading names, fee limit, TEF rating, degree-awarding powers and conditions; it does not mention address or location (not confirmed whether they exist). Fits neither City Explorer nor the postcode result as published.
-- **Freshness:** The guide says 425 registered providers and was published 3 Feb 2022; update frequency not stated; a spreadsheet download is linked from the guide (search result only for the link). Time series: not stated.
+- **Freshness:** The guide says 425 registered providers and was published 3 Feb 2022; update frequency not stated; a spreadsheet download was seen only in a search result about the guide; the register page itself offers none (not confirmed). Time series: not stated.
 - **Reliability:** Regulatory status, not a measure of quality. Includes deregistered providers.
 - **Already free elsewhere:** The OfS publishes it; ONS Explore shows no higher education indicator (closest is Level 3 qualifications), per the [indicator list](https://www.ons.gov.uk/explore-local-statistics/indicators).
 - **Evidence it helps a buyer or renter:** None found.
@@ -40,7 +40,7 @@ Nearly all 14 topics are published free under the Open Government Licence at cou
 ### 2. Housing affordability ratio (ONS)
 - **Source:** ONS, [Housing affordability in England and Wales: 2025](https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingaffordabilityinenglandandwales/2025).
 - **Licence:** OGL: "available under the Open Government Licence v3.0".
-- **Geography:** 318 local authorities, former authorities and combined authorities, plus constituencies and MSOAs. Council level: fits City Explorer. The postcode area result could use MSOA prices (earlier research, section 3).
+- **Geography:** 318 local authorities, former authorities and combined authorities, plus constituencies and MSOAs. Council level: fits City Explorer. The postcode area result could use MSOA prices (earlier research, section 3; DA-16 shows council level).
 - **Freshness:** Released 26 Mar 2026, next March 2027; a correction on 13 May 2026 changed London from 10.5 to 10.6; annual time series, with caveats below.
 - **Reliability:** Median price divided by median workplace-based full-time earnings, from a 1% ASHE sample; prices not mix-adjusted; excludes household income, deposits, equity and upfront costs; comparability over time limited (COVID-19, 2021 coding change, 2023 and 2024 method changes); accreditation status not stated on the page.
 - **Already free elsewhere:** Yes: ONS Explore has "Housing affordability ratio (residence-based)" ([indicators](https://www.ons.gov.uk/explore-local-statistics/indicators)). The earlier research confirmed the bulletin and DA-16 plans it.
@@ -102,10 +102,10 @@ Nearly all 14 topics are published free under the Open Government Licence at cou
 - **Licence:** OGL v3.0 ("All content is available under the Open Government Licence v3.0").
 - **Geography:** Local authorities in England and Wales; City of London and Isles of Scilly not published. City Explorer only.
 - **Freshness:** Released 21 Oct 2026, next 18 Nov 2026; monthly. Latest two months provisional.
-- **Reliability:** PIPR became official statistics on 20 May 2026 and is "not yet accredited". Local figures can be volatile; ONS recommends longer-term trends. It is a price index (rent inflation); whether it gives average rent in pounds by council is not confirmed (the bulletin fetch did not say).
+- **Reliability:** PIPR became official statistics on 20 May 2026 and is "not yet accredited". Local figures can be volatile; ONS recommends longer-term trends. The bulletin (21 Oct 2026) gives average monthly rents in pounds for each local authority in England and Wales, in an interactive chart (Figure 7; checked again by the reviewer and the controller on 15 Nov 2026). Whether the downloadable dataset gives pounds per council is not confirmed (the dataset page mentions "price levels" only).
 - **Already free elsewhere:** Not on ONS Explore (no private rent indicator in the housing list).
 - **Evidence it helps a decision:** English Housing Survey 2023 to 24: private renters most often moved for a better area (14%), larger home (12%) or work (12%), per a [search result only](https://www.gov.uk/government/statistics/english-housing-survey-2023-to-2024-rented-sectors/english-housing-survey-2023-24-rented-sectors). That is about moving, not about rent levels.
-- **Open questions:** Index or pounds? If only an index, the council page cannot say "typical rent is £X"; confirm before promising it.
+- **Open questions:** Confirm the downloadable dataset carries pounds per council before promising a "typical rent" fact.
 
 ### 9. Tenure, who rents and who owns
 - **Source:** ONS, [Housing, England and Wales: Census 2021](https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingenglandandwales/census2021).
@@ -123,7 +123,7 @@ Nearly all 14 topics are published free under the Open Government Licence at cou
 - **Geography:** Fixed broadband: local and unitary authority in the Spring 2026 download. The data-downloads page (Connected Nations 2020 era) also lists postcode unit and output area for fixed coverage; mobile at constituency and council only. Postcode-level availability for 2026 is not confirmed. Fits both.
 - **Freshness:** Spring update published 13 May 2026, data to January 2026; main report due late in the year (the 2025 one was 19 Nov 2025; the 2026 one not seen). Twice a year.
 - **Reliability:** Operator-predicted coverage, not measured; Vodafone and Three reported separately; "good" 4G coverage is a share of landmass. Ofcom proposed in 2023 to stop its home broadband performance reports (search result only).
-- **Mobile change around 30 Nov 2026: not confirmed.** I found no Ofcom page naming that date. Ofcom's switch-off page (updated 4 Nov 2026) says 3G is already off and 2G ends from May 2029 for EE.
+- **Mobile change on 30 Nov 2026: confirmed.** Ofcom's developer portal says support for existing subscriptions ends on 30 November 2026, when "the legacy API will be decommissioned" ([api.ofcom.org.uk](https://api.ofcom.org.uk)). That is the legacy mobile API (a developer service), so it affects anyone using it, not coverage figures. Ofcom's switch-off page (updated 4 Nov 2026) says 3G is already off and 2G ends from May 2029 for EE.
 - **Already free elsewhere:** Partly: ONS Explore shows 4G, 5G, gigabit, superfast, ultrafast, full fibre and below-30 Mbps premises by council. Ofcom's own checker is by address (not checked).
 - **Evidence it helps a decision:** None found for house buyers; Ofcom consumer research ranks speed and reliability high but cost first (search result only, mostly 2016 to 2023).
 - **Open questions:** Licence wording; whether 2026 postcode-level files exist; relation to 0029 adapters.
@@ -180,10 +180,10 @@ The ONS Explore local statistics indicator list shows population, average house 
 - **Not ready:** universities (no confirmed location data) and "homes planned" from local plans (incomplete national data).
 
 ## Not confirmed
-- A mobile service change around 30 Nov 2026; the Ofcom 2026 licence wording; postcode-level 2026 Ofcom files.
-- Whether PIPR gives average rent in pounds by council; whether the council tax Table 10 has parish detail; whether a council-level net additions table exists on the page.
+- The Ofcom 2026 licence wording; postcode-level 2026 Ofcom files.
+- Whether the downloadable PIPR dataset gives pounds per council; whether the council tax Table 10 has parish detail; whether a council-level net additions table exists on the page.
 - OfS Register current download and location fields; the planning.data.gov.uk local plan counts (page unavailable when fetched).
-- Pages that returned errors on fetch: the ONS Price Index of Private Rents bulletin, the Housing Delivery Test 2025 measurement page, the ONS Explore visualisation page.
+- Pages that returned errors on fetch: the Housing Delivery Test 2025 measurement page, the ONS Explore visualisation page.
 
 ## Checked
 Publisher pages read on 15 Nov 2026: officeforstudents.org.uk, ons.gov.uk, gov.uk (MHCLG, Land Registry, DfT, Housing Delivery Test collection), ofcom.org.uk, uk-air.defra.gov.uk, planning.data.gov.uk (search result only). Earlier research: [2026-11-14-city-explorer-research.md](2026-11-14-city-explorer-research.md).
