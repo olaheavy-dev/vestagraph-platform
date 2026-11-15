@@ -29,6 +29,10 @@
       ]
     },
     "pence": { "type": "integer" },
+    "gapStatus": { "enum": ["no-record-in-source", "source-failed", "not-covered"] },
+    "missingReason": {
+      "enum": ["no-record-in-source", "source-failed", "not-covered", "latest-not-published"]
+    },
     "band": { "enum": ["A", "B", "C", "D", "E", "F", "G", "H"] },
     "tenureShares": {
       "type": "object",
@@ -65,6 +69,13 @@
           "type": "object",
           "required": ["byBand"],
           "properties": {
+            "rentPeriod": { "type": "string", "minLength": 1 },
+            "rentPointStatus": { "enum": ["recorded", "provisional"] },
+            "rentMissingReason": { "$ref": "#/$defs/missingReason" },
+            "pricePeriod": { "type": "string", "minLength": 1 },
+            "pricePointStatus": { "enum": ["recorded", "provisional"] },
+            "priceMissingReason": { "$ref": "#/$defs/missingReason" },
+            "councilTaxMissingReason": { "$ref": "#/$defs/gapStatus" },
             "byBand": { "type": "array", "items": { "$ref": "#/$defs/rentOrBuyBand" } }
           },
           "additionalProperties": false

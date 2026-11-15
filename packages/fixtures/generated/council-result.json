@@ -51,6 +51,10 @@
         }
       ],
       "rentOrBuy": {
+        "rentPeriod": "2026-10",
+        "rentPointStatus": "provisional",
+        "pricePeriod": "2026-08",
+        "pricePointStatus": "provisional",
         "byBand": [
           {
             "band": "A",
@@ -381,6 +385,10 @@
         }
       ],
       "rentOrBuy": {
+        "rentPeriod": "2026-08",
+        "rentPointStatus": "provisional",
+        "pricePeriod": "2026-08",
+        "pricePointStatus": "provisional",
         "byBand": [
           {
             "band": "A",
@@ -685,6 +693,9 @@
         }
       ],
       "rentOrBuy": {
+        "rentMissingReason": "no-record-in-source",
+        "pricePeriod": "2026-08",
+        "pricePointStatus": "provisional",
         "byBand": [
           {
             "band": "A",
@@ -921,6 +932,9 @@
       "code": "E07999002",
       "bands": [],
       "rentOrBuy": {
+        "rentMissingReason": "no-record-in-source",
+        "priceMissingReason": "no-record-in-source",
+        "councilTaxMissingReason": "no-record-in-source",
         "byBand": [
           {
             "band": "A",

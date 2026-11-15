@@ -96,6 +96,19 @@ def _bands(council: Council) -> list[dict[str, Any]]:
     return found
 
 
+def _label_series(prefix: str, series: Series, into: dict[str, Any]) -> None:
+    """Say which month and status a used figure has, or why there is none (never an older month)."""
+    if series.status != "recorded":
+        into[f"{prefix}MissingReason"] = series.status
+        return
+    last = series.points[-1]
+    if last.value is None:
+        into[f"{prefix}MissingReason"] = "latest-not-published"
+        return
+    into[f"{prefix}Period"] = last.period
+    into[f"{prefix}PointStatus"] = last.status
+
+
 def _rent_or_buy(council: Council, area: CouncilArea) -> dict[str, Any]:
     rent = _pence(_latest_value(council.rent_series))
     price = _pence(_latest_value(council.price_series))
@@ -113,7 +126,13 @@ def _rent_or_buy(council: Council, area: CouncilArea) -> dict[str, Any]:
         if outcome.problem is not None:
             entry["problem"] = outcome.problem
         by_band.append(entry)
-    return {"byBand": by_band}
+    result: dict[str, Any] = {}
+    _label_series("rent", council.rent_series, result)
+    _label_series("price", council.price_series, result)
+    if council.bands.status != "recorded":
+        result["councilTaxMissingReason"] = council.bands.status
+    result["byBand"] = by_band
+    return result
 
 
 def _captions(council: Council) -> list[dict[str, Any]]:
