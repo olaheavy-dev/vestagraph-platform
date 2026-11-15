@@ -101,6 +101,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
+- `chore/types-jsonschema`: adds `types-jsonschema` (dev only, register line BE-35) and drops two `# type: ignore` lines.
 - This pull request: decision [0056](../decisions/0056-no-on-page-chat-in-the-pilot.md) (the on-page AI chat leaves the pilot) and its knock-on edits. Everything before it is merged, up to #277.
 
 ## Start of the next session
@@ -157,7 +158,6 @@ Domains `vestagraph.com` and `vestagraph.co.uk` were bought on 12 Nov 2026 (regi
 | Set the pilot's budget caps (IN-05) | The pilot has running costs (decision 0051; the on-page AI chat left the pilot, [0056](../decisions/0056-no-on-page-chat-in-the-pilot.md)); a monthly cap must be set before launch, and the daily AI cap comes with the workspace chat | Decide the monthly amount in pounds when the agent asks at stage 5b | Before the pilot launches |
 | Close or keep the competitor research account | It was made for the 13 Nov research (day pass ended 14 Nov 2026); the private screenshots, three PDFs, `CATALOGUE.md` and the spec review are in the founder's private folder `~/Documents/Competitor research 2026-11-13/` (read `START-HERE.md` first; never commit its contents), not in the repository | Keep it for later checks, or use its Account page to request deletion | Any time |
 | Decide on research #249 and #251 when they report | Opening hours (NHS, OpenStreetMap) and an in-page satellite view have licences and possibly running costs | Answer the prompt window when the research note is ready | When ready |
-| Optional: decide on `types-jsonschema` | Typing information for the validator's `jsonschema` imports, so two `# type: ignore` lines can go | Say yes or no; it is dev-only, free, Apache-2.0, not on the approved list | Any time (recommended after P8, which is done) |
 
 ## Open `noticed` issues
 #269, #270, #271 (first design batch specs: test tidy-ups), #33, #115, #151, #159, #184, #197 (no record states the divide-by-12 rule), #244 (NEAR-07 wording for the home workspace), #235 (area-display-engineering says routing is DA-06 at stage 6), #207 (validators accept duplicate JSON keys), #212 (C# wording left in Python docstrings). New on 14 Nov 2026 from the PR A reviews: #256 (mutation testing for `vestagraph_area`), #257 (house numbers in the sample sold-price `addressText`, DA-13), #258 (exponents and duplicate keys in the older JSON readers). #202 and #210 closed with P8.
