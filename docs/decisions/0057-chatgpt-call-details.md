@@ -1,7 +1,7 @@
 # 0057: ChatGPT call details: anonymous totals only
 
 **ID:** SE-05  
-**Status:** Proposed (founder's choices made 15 Nov 2026 in prompt windows; the region-only totals and the minimum count are defaults for the founder to confirm)  
+**Status:** Proposed (founder's choices made 15 Nov 2026 in prompt windows)  
 **Date:** 2026-11-15  
 **Stage:** 5b (before the public MCP server launches)  
 **Applies, without changing:** [0014](0014-privacy-and-data-protection.md) (SE-02): "Keep nothing about anonymous visitors", with only anonymous counts, now applied to the tool calls the MCP server receives. [0051](0051-ai-in-the-public-pilot.md) and [0056](0056-no-on-page-chat-in-the-pilot.md) stand: no postcode, place name or tool argument in any log; rate limits a global and a per-host cap.
@@ -52,8 +52,7 @@ Option A. It keeps 0014's promise, adds almost no launch work and still shows re
 | `openai/subject` (user ID) | Dropped. Not used for rate limits either. |
 | `openai/session` (conversation ID) | Dropped |
 | `openai/organization` (organisation ID) | Dropped |
-| `openai/userLocation`: region and country | Read only to add one to the day's totals, then dropped |
-| `openai/userLocation`: city | Dropped (*default, founder to confirm*: no city totals) |
+| `openai/userLocation`: city, region and country | Read only to add one to the day's totals, then dropped |
 | `openai/userLocation`: time zone, latitude, longitude | Dropped |
 | `openai/userAgent` (device hint) | Dropped |
 | `openai/locale` (language) | Read only to add one to the day's language total, then dropped |
@@ -62,9 +61,9 @@ Option A. It keeps 0014's promise, adds almost no launch work and still shows re
 | Anything Claude, or a future ChatGPT version, sends that is not listed here | Dropped unread. A new field is used only after a new decision. |
 
 ### The totals
-- **What is counted:** calls per day by tool, by host (ChatGPT, Claude, other) and outcome (answered, refused by a limit, error); calls per day by region and country (ChatGPT only; "not sent" when the location is missing); calls per day by language. Each total is counted separately, not crossed with the others, so no row combines tool, place and language.
-- **City:** not counted (*default, founder to confirm*), following 0014's "Anonymous counts must not be detailed enough to identify a person"; region and country answer the reach question.
-- **Minimum count:** a total for a day below **10** is shown and stored as "fewer than 10" (*default, founder to confirm*). The figure is the agent's proposal; no official threshold was found in the sources read (not stated).
+- **What is counted:** calls per day by tool, by host (ChatGPT, Claude, other) and outcome (answered, refused by a limit, error); calls per day by city, region and country (ChatGPT only; "not sent" when the location is missing); calls per day by language. Each total is counted separately, not crossed with the others, so no row combines tool, place and language.
+- **City:** counted. Founder, 15 Nov 2026, prompt window: "City as well"; the agent had recommended "Region and country", following 0014's "Anonymous counts must not be detailed enough to identify a person".
+- **Minimum count:** a total for a day below **10** is shown and stored as "fewer than 10". Founder, 15 Nov 2026, prompt window: "10 (Recommended)". No official threshold was found in the sources read, so this is our own rule.
 - **Kept:** the totals have no end date, as 0014's anonymous counts.
 - **Rate limits** stay a global cap and a per-host cap (0051). `openai/subject` is not used.
 
@@ -79,19 +78,19 @@ Option A. It keeps 0014's promise, adds almost no launch work and still shows re
 ### What the "Use in ChatGPT or Claude" page says
 In addition to what 0056 decision 2 requires, a short section, "What your app sends us":
 - ChatGPT sends, with every tool call, an anonymised user ID, conversation ID and organisation ID (for work accounts), a rough location (city, region, country, time zone and approximate coordinates), a device hint and your language. ChatGPT chooses to send these; we don't ask for them.
-- We keep none of it. We count calls by region, country and language per day, then drop everything. We never keep what you asked: no postcode, place name or other text.
+- We keep none of it. We count calls by city, region, country and language per day, then drop everything. We never keep what you asked: no postcode, place name or other text.
 - Claude does not document sending anything beyond the question's details; anything it sends is dropped the same way.
 - A link to the privacy notice.
 
 The wording is proposed and finalised with the page, which is re-checked against OpenAI's reference page before launch, because hosts change what they send.
 
 ## Consequences
-- **0014 stands** and now explicitly covers MCP calls. TOOLS-26 ("the server keeps no record of calls") stays true.
-- **Specification wording to check** when the specifications are next edited (no change made here): `docs/specs/pilot/area-tools.feature` TOOLS-26 could add "and the usage totals hold only daily counts by tool, host, outcome, region, country and language, with no ID"; TOOLS-25 could name the `_meta` IDs, coordinates and device hint among what never reaches a log; new scenarios for the totals, the "fewer than 10" rule and a missing location (rule 7).
+- **0014 stands** and now explicitly covers MCP calls.
+- **Small cities:** a daily total for a small city comes close to identifying someone, so the minimum count of 10 is what protects small cities, and it applies to every total that includes a city. TOOLS-26 ("the server keeps no record of calls") stays true.
+- **Specification wording to check** when the specifications are next edited (no change made here): `docs/specs/pilot/area-tools.feature` TOOLS-26 could add "and the usage totals hold only daily counts by tool, host, outcome, city, region, country and language, with no ID"; TOOLS-25 could name the `_meta` IDs, coordinates and device hint among what never reaches a log; new scenarios for the totals, the "fewer than 10" rule and a missing location (rule 7).
 - **Launch blockers added** (stage 5b gate): the drop-on-arrival filter with tests that no `_meta` ID, coordinate or device hint reaches a log, store, trace or error report; the privacy notice and how-to page sections above.
 - **Running cost:** a few small counters per day; nothing measurable.
 - **Revisit if** OpenAI changes the fields it sends, Anthropic documents fields for Claude, or the totals turn out not to answer the usage questions (any per-person record would need a new decision that changes 0014).
 
 ## Open points for the founder
-1. **Region and country only, no city totals** (default). Confirm.
-2. **Minimum count of 10** per daily total, below which it shows "fewer than 10" (default). Confirm or pick another figure.
+None. The founder answered the last two (city totals, minimum count) on 15 Nov 2026.
