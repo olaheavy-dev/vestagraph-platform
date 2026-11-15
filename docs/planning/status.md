@@ -88,7 +88,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- `docs/border-state-and-brainstorm-inputs`: the AREA-32 and AREA-29 wording matched to the approved states board, and City Explorer brainstorm inputs. Everything else from 13–15 Nov 2026 is merged, up to #272.
+- #273 `docs/border-state-and-brainstorm-inputs`: the AREA-32 and AREA-29 wording matched to the approved states board, and City Explorer brainstorm inputs. Everything else from 13–15 Nov 2026 is merged, up to #272.
 
 ## Start of the next session
 1. **Done (merged, #272): the first design batch's specifications**: `pilot/area-glance.feature` (GLANCE), `area-priorities.feature` (PRIO), `area-topics.feature` (TOPIC), `area-display.feature` (DISP), the new states AREA-28 to AREA-36 in `screens/14-check-an-area.feature`, and `area-map.feature` (MAP), written from the approved boards (canvas version 178). Still open: the transport connectivity scale's direction (to confirm from the DfT table before build, 0054) and the "Explain this" texts (not written yet, AI-12).
