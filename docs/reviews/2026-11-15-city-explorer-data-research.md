@@ -13,8 +13,8 @@ Nearly all 14 topics are published free under the Open Government Licence at cou
 | 1 | Council tax by band (3) | Ready | Accredited, OGL, per billing authority, annual; a direct home cost; not on the ONS service. Band amounts derive from Band D by fixed fractions (engine, not by hand). |
 | 2 | Private rents (8) | Ready with caveats | OGL, monthly, council level, not on ONS Explore; "official statistics" but not yet accredited; local figures volatile. |
 | 3 | Broadband and mobile coverage (10) | Ready with caveats | Postcode-level fixed data exists (our edge); licence wording on the 2026 page not confirmed; predictions, not measurements. |
-| 4 | UK House Price Index (4) | Ready | Accredited, OGL, monthly, council level with history; ONS Explore shows only "Average house price", so trend and sales add something. |
-| 5 | Housing affordability ratio (2) | Ready with caveats | OGL, annual, already planned (DA-16); also on ONS Explore; workplace-based median ratio, no household income or deposit. |
+| 4 | Housing affordability ratio (2) | Ready with caveats | OGL, annual, already planned (DA-16); also on ONS Explore; workplace-based median ratio, no household income or deposit. |
+| 5 | UK House Price Index (4) | Ready | Accredited, OGL, monthly, council level with history; but ONS Explore already shows the council trend, so only prices by property type and sales volumes would add anything (moved down from 4 after the Codex review). |
 | 6 | Air quality (13) | Ready with caveats | Modelled 1 km background maps fit a postcode, OGL; modelled not measured, LAQM-only guidance; not on ONS Explore as a pollutant figure. |
 | 7 | New homes planned and housing supply (12) | Ready with caveats (supply and delivery); not ready (local plans) | Net additions and Housing Delivery Test are accredited or official, OGL, by council; planning.data.gov.uk local plans are incomplete. |
 | 8 | DfT transport connectivity (6) | Ready with caveats | Already in 0054; LSOA and council scores; single provisional first edition. |
@@ -63,7 +63,7 @@ Nearly all 14 topics are published free under the Open Government Licence at cou
 - **Geography:** More than 441 areas in the UK including English councils (search result only for the count); Isles of Scilly excluded. Council level: fits City Explorer.
 - **Freshness:** August 2026 data published 21 Oct 2026; September 2026 due 18 Nov 2026. Monthly; the app says back to 1995 (earlier research).
 - **Reliability:** Accredited official statistics. Newest 12 months are provisional; new-build estimates uncertain; revisions may be larger than historic.
-- **Already free elsewhere:** Partly: ONS Explore shows "Average house price" only, not trend, property type or sales.
+- **Already free elsewhere:** Mostly: ONS Explore's [average house price page](https://www.ons.gov.uk/explore-local-statistics/indicators/average-house-price) shows a line chart and a downloadable table by council from January 2005 to August 2026 (found by Codex review, checked 15 Nov 2026). It does not show prices by property type or sales volumes, so only those would add anything (whether the UK HPI download carries them by council is not confirmed).
 - **Evidence it helps a decision:** None found.
 - **Open questions:** Sales-volume field and the UK HPI's DA-05 entry in `docs/references/data-sources.md` (earlier research said not yet assessed).
 
@@ -174,7 +174,7 @@ The ONS Explore local statistics indicator list shows population, average house 
 ## What this means for the brainstorm
 - **Lead with what a home costs.** Council tax by band and private rents are the two topics that change what someone pays, and neither is on ONS Explore. Council tax also meets 0055's postcode edge, because the band belongs to the home.
 - **Use the postcode edge for broadband and air quality, after checks.** They are the topics with postcode-scale data, but broadband needs the Ofcom licence wording and air quality needs a rule for wording a modelled background figure.
-- **Skip or defer topics ONS already shows.** Population, life expectancy, earnings and the affordability ratio repeat ONS Explore; keep the affordability ratio only because DA-16 plans it for the postcode.
+- **Skip or defer topics ONS already shows.** Population, life expectancy, earnings, the council house-price trend and the affordability ratio repeat ONS Explore; keep the affordability ratio only because DA-16 plans it for the postcode.
 - **Evidence of need is thin.** The only official evidence found is the English Housing Survey on moving "to a better area" (search result only); nothing found says which council statistic a buyer or renter uses. The brainstorm should treat usefulness as a hypothesis to test with the pilot.
 - **Mind the rules.** Everything shown must be a published figure or an engine output (rule 2), with no council ranking (0054, DA-15) and no employment rates (DA-19). Housing Delivery Test results and life expectancy are the likeliest to read as a verdict on a council.
 - **Not ready:** universities (no confirmed location data) and "homes planned" from local plans (incomplete national data).
