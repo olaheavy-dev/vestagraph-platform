@@ -44,6 +44,8 @@ SERIES_UNIT_BY_NAME = {
 # 4,300 digits and raises a bare ValueError beyond that).
 MAX_DECIMAL_TEXT_LENGTH = 40
 _RATIO_TEXT = re.compile(r"[0-9]+\.[0-9]{2}", re.ASCII)
+# The property types the UK House Price Index publishes average prices for, in the order shown.
+PROPERTY_TYPES = ("detached", "semiDetached", "terraced", "flat")
 BAND_LETTERS = ("A", "B", "C", "D", "E", "F", "G", "H")
 TENURE_KEYS = ("ownedOutright", "ownedWithMortgage", "socialRented", "privateRented", "other")
 NATIONS = frozenset({"england", "wales", "scotland", "northern-ireland"})
@@ -127,6 +129,7 @@ class Council:
     bands: Fact
     rent_series: Series
     price_series: Series
+    price_by_type: dict[str, Series]
     affordability_series: Series
     tenure: Fact
     connectivity: Fact
@@ -398,6 +401,17 @@ def _series(raw: dict[str, Any], name: str, where: str) -> Series:
     )
 
 
+def _price_by_type(price: dict[str, Any], where: str) -> dict[str, Series]:
+    """The four property-type series inside ``priceSeries``: exactly these keys, each in pence."""
+    here = f"{where} priceSeries byType"
+    by_type = _dict(price, "byType", f"{where} priceSeries")
+    _exact_keys(by_type, PROPERTY_TYPES, here)
+    return {
+        key: _series(_dict(by_type, key, here), "priceSeries", f"{here} {key}")
+        for key in PROPERTY_TYPES
+    }
+
+
 def _neighbourhood(raw: dict[str, Any], where: str) -> Neighbourhood:
     code = _get(raw, "code", str, where)
     here = f"{where} neighbourhood {code}"
@@ -444,6 +458,7 @@ def _council(raw: dict[str, Any]) -> Council:
         bands=_fact(_dict(raw, "bands", where), "bands", _band_value, where),
         rent_series=_series(_dict(raw, "rentSeries", where), "rentSeries", where),
         price_series=_series(_dict(raw, "priceSeries", where), "priceSeries", where),
+        price_by_type=_price_by_type(_dict(raw, "priceSeries", where), where),
         affordability_series=_series(
             _dict(raw, "affordabilitySeries", where), "affordabilitySeries", where
         ),

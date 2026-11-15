@@ -45,7 +45,8 @@ class BuySide:
     ``buy_side`` is repayment plus council tax; ``comparison`` is the buy side against the rent
     side ("more", "less" or "about-the-same") on the shown whole pounds; ``difference`` is buy
     side minus rent side in pence. ``shown_buy_side`` and ``shown_difference`` are the whole-pound
-    values to display (``None`` when there is no figure, never zero).
+    values to display (``None`` when there is no figure, never zero); ``shown_repayment`` is the
+    repayment in whole pounds, rounded once from its own pence.
     """
 
     product: str
@@ -57,6 +58,7 @@ class BuySide:
     problem: str | None
     shown_buy_side: int | None = None
     shown_difference: int | None = None
+    shown_repayment: int | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -82,8 +84,12 @@ class ShownFigures:
     comparison: str | None
 
 
-def _shown(pence: Pence | None) -> int | None:
-    """Whole pounds, rounded once: nearest, exact halves away from zero (decision 0034)."""
+def shown_pounds(pence: Pence | None) -> int | None:
+    """Whole pounds, rounded once: nearest, exact halves away from zero (decision 0034).
+
+    The one helper behind every whole-pound figure a council board shows; ``None`` (a missing
+    amount) stays ``None``, never zero (rule 7).
+    """
     return None if pence is None else round_ratio(pence.value, _PENCE_PER_POUND).value
 
 
@@ -94,7 +100,7 @@ def shown_figures(rent_side: Pence | None, buy_side: Pence | None) -> ShownFigur
     way, otherwise ``more`` (buying costs more) or ``less``. Exactly 10 pounds apart is not
     about the same.
     """
-    shown_rent, shown_buy = _shown(rent_side), _shown(buy_side)
+    shown_rent, shown_buy = shown_pounds(rent_side), shown_pounds(buy_side)
     if shown_rent is None or shown_buy is None:
         return ShownFigures(shown_rent, shown_buy, None, None)
     difference = shown_buy - shown_rent
@@ -142,7 +148,7 @@ def rent_or_buy(
         return RentOrBuy(None, (), "council-tax-missing")
 
     rent_side = None if rent_monthly is None else rent_monthly + council_tax_monthly
-    shown_rent = _shown(rent_side)
+    shown_rent = shown_pounds(rent_side)
     problem = _buying_problem(deposit_percent, term_years, rate_basis_points)
     if problem is not None:
         return RentOrBuy(rent_side, (), problem, shown_rent)
@@ -215,7 +221,16 @@ def _side(
     rate = typed_rate_basis_points if band is None else band.rate_basis_points
     assert rate is not None  # noqa: S101 - one of the two is always set here
     repayment = _repayment(loan, rate, term_years)
-    return BuySide(product, repayment + council_tax_monthly, repayment, band, None, None, None)
+    return BuySide(
+        product,
+        repayment + council_tax_monthly,
+        repayment,
+        band,
+        None,
+        None,
+        None,
+        shown_repayment=shown_pounds(repayment),
+    )
 
 
 def _repayment(loan: Pence, rate_basis_points: int, term_years: int) -> Pence:
@@ -232,7 +247,7 @@ def _repayment(loan: Pence, rate_basis_points: int, term_years: int) -> Pence:
 def _compared(side: BuySide, rent_side: Pence | None) -> BuySide:
     """Add the comparison with the rent side when both figures exist."""
     if side.buy_side is None or rent_side is None:
-        return replace(side, shown_buy_side=_shown(side.buy_side))
+        return replace(side, shown_buy_side=shown_pounds(side.buy_side))
     difference = side.buy_side - rent_side
     shown = shown_figures(rent_side, side.buy_side)
     return replace(
