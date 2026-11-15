@@ -1,9 +1,10 @@
 """Budget check (City Explorer): is each monthly figure within the user's monthly budget?
 
-"Within" includes a figure equal to the budget (founder decision 23 Oct 2026 (b)). A side whose
-figure is missing gives ``None``, never "within" (AGENTS rule 7). There is one answer for the
-rent side and one for each buy side, keyed by product. A budget of zero or below is a problem and
-nothing is compared. Whole pence only; no ``float`` (rule 2).
+"Within" includes a figure equal to the budget: founder decision (b), 23 Oct 2026, made for the
+B1 story budget and extended by analogy here (the agent's call, for the founder to confirm in
+pull request A). A side whose figure is missing gives ``None``, never "within" (AGENTS rule 7).
+There is one answer for the rent side and one for each buy side, keyed by product. A budget of
+zero or below is a problem and nothing is compared. Whole pence only; no ``float`` (rule 2).
 """
 
 from dataclasses import dataclass
