@@ -1,7 +1,7 @@
 [project]
 name = "vestagraph-area"
 version = "0.0.0"
-description = "Reads the area data and works out the area-result figures: At a glance counts, distances, buses per hour and priority results."
+description = "Reads the area data and works out the area-result figures (At a glance counts, distances, buses per hour, priority results) and the council figures (council tax by band, rent or buy, captions, tenure shares, budget check, place search)."
 requires-python = ">=3.14"
 dependencies = ["vestagraph-engine"]
 

@@ -257,7 +257,7 @@
 **Interfaces:**
 - **Produces:**
   - `twelve_month_change(series: Series, latest_period: str) -> Change | None`
-  - `Change(from_period, to_period, from_value, to_value, amount: Pence | Fraction, percent: Fraction | None, direction: "rose"|"fell"|"unchanged", provisional_months: int)`
+  - `Change(from_period, to_period, from_value, to_value, amount: Pence | Fraction, percent: Fraction | None, direction: "rose"|"fell"|"unchanged", provisional_points: int)`
   - `caption_for(topic: str, series: Series, latest_period: str) -> Caption` (the tenure single-point caption is built in the generator from `tenure_shares`)
   - `Caption(kind: "trend"|"single-point"|"missing"|"not-comparable", values: dict[str, str])`
   - Captions carry **values and a pattern key**, not finished sentences. The wording is approved by the founder (like FE-39) and lives in a wording file the boards and specs quote.
@@ -268,7 +268,7 @@
     - the series status is a gap.
   - "unchanged" means the amount rounds to £0 (money) or to 0.0 (ratio). That threshold is separate from `ABOUT_THE_SAME_PENCE`.
   - The percent is `amount / from_value × 100` to one decimal place.
-  - `provisional_months` counts provisional points in the latest 12 months.
+  - `provisional_points` counts provisional points in the latest 12 months.
   - For a yearly series (periods `YYYY`), the change is from the previous year; the caption names the two years.
   - Tenure single point: the shares come from `tenure_shares` (Task 7).
 
@@ -371,6 +371,7 @@
   `{ "$schema", "formatVersion": 1, "exampleInputs": {depositPercent: "10", termYears: 25}, "councils": [ { "code", "bands": [{band, yearly, monthly}] (yearly is the published amount, monthly is worked out), "rentOrBuy": {byBand: [{band, rentSide?, buySides: [{product, buySide?, repayment?, rateBand?, comparison?, difference?, problem?}], problem?}]}, "captions": [{topic, kind, values}], "tenureShares": {...}?, "neighbourhoods": [{code, label: "<largerAreaName> (<code>)", tenureShares?}] } ], "search": [{query, kind, matches}] }`
   - Everything is sorted, so a rerun is byte-identical.
   - The `search` cases are taken from the sample places.
+  - **As built (PR A, after the final review):** the file is the contract; this list is the differences from the line above. `rentOrBuy` also holds `rentPeriod`, `rentPointStatus`, `pricePeriod`, `pricePointStatus` (the month and status of the figure used, never an older month), `rentMissingReason` and `priceMissingReason` (a gap status, or `latest-not-published`) and `councilTaxMissingReason` (the council tax gap status). Each band has `shownRentSide` and each buy side `shownBuySide` and `shownDifference`: whole pounds, each side rounded once, shown difference = shown buy minus shown rent, and the comparison is made on those (`about-the-same` when under £10). `exampleInputs.depositPercent` is a JSON number (10). A tenure share is text with one decimal ("35.0"), the same text the caption quotes; a tenure gap is a `missing` caption (council) or `tenureMissingReason` (neighbourhood). Tenure captions have kind `single-point`; caption values say `provisionalPoints`, not `provisionalMonths`. The postcode search kind is `council-for-postcode`.
 
 - Every new `council-*.json` and `rent-or-buy.json` test-case file names `../schema/area-test-case.schema.json` (the area worked-case format); `packages/fixtures/test-cases/README.md` lists them.
 
