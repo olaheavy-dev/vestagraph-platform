@@ -150,21 +150,21 @@ Loading; council not found; place name matching several councils; a source missi
 - **Site plan:** `.design/prototype/INFORMATION_ARCHITECTURE.md` gains the council page and neighbourhood page routes, and links from the landing ("No postcode yet? Explore a council area", a link under the postcode box), the area result ("About <council>") and the footer.
 
 ## Sources to check before build (DA-05, `data-sources.md`)
-| Source | For | Open point |
-|---|---|---|
-| MHCLG council tax levels 2026–27 | Band D and bands | Whether Table 10 gives per-band amounts and parish detail |
-| ONS Price Index of Private Rents | Average rent and trend | Pounds per council confirmed 15 Nov 2026; which status to quote; licence entry |
-| UK House Price Index | Average price and trend | Property-type split by council; licence entry |
-| ONS affordability ratio | Ratio trend | Workplace or residence based; accreditation |
-| Census 2021 tenure | Who rents and owns | Table to quote |
-| ONS mid-year population | Header line | None beyond the entry |
-| DfT transport connectivity | Council page and neighbourhood page | Scale direction; table and column (0054) |
-| Bank of England quoted mortgage rates by deposit band | Rent vs buy | Which bands and series, latest month; the database is under the OGL with exceptions: some exchange-rate series, LSEG data, and Isle of Man, Guernsey and Jersey data ([legal page](https://www.bankofengland.co.uk/legal), read in the reviews of 15 Nov 2026); confirm the quoted-rate series are the Bank's own data |
-| Council and neighbourhood outlines | Map, neighbourhood page | Source (for example the ONS Open Geography Portal) and licence; Ordnance Survey rights may apply |
-| Names for the larger areas (MSOA names) | Neighbourhood names | The House of Commons Library list: licence and update cycle |
-| Neighbourhood-level facts (LSOA) | Neighbourhood page | Which tables publish each first-version topic at that level |
-| Our own map tiles | Map | FE-03: price and host our own tiles |
-| Place-name-to-council lookup | Search | Source and licence (0055); the design review found portal pages that disagree on the ONS index's licence, and Ordnance Survey rights may apply |
+| Source | For | Open point | Research result (15 Nov 2026) |
+|---|---|---|---|
+| MHCLG council tax levels 2026–27 | Band D and bands | Whether Table 10 gives per-band amounts and parish detail | Answered 15 Nov 2026: Table 9 gives bands A to H per council (parish precepts included); Table 10 gives Band D only and a council-wide parish total; OGL; started 1 April 1993 |
+| ONS Price Index of Private Rents | Average rent and trend | Pounds per council confirmed 15 Nov 2026; which status to quote; licence entry | Answered: pounds per council, one series, OGL, 'official statistics in development'; some councils have no value |
+| UK House Price Index | Average price and trend | Property-type split by council; licence entry | Answered: property-type file per council, OGL plus required attribution line; some blank cells |
+| ONS affordability ratio | Ratio trend | Workplace or residence based; accreditation | Answered: headline is workplace-based, residence-based is separate; OGL; accreditation not confirmed |
+| Census 2021 tenure | Who rents and owns | Table to quote | Answered: TS054, council and LSOA files; 2021 geography, merged councils need matching (not confirmed) |
+| ONS mid-year population | Header line | None beyond the entry | Answered: mid-2025 bulletin, OGL, accredited; table and column names still open |
+| DfT transport connectivity | Council page and neighbourhood page | Scale direction; table and column (0054) | Answered: higher is better (0 to 100); LSOA `Overall` and council sheet keyed by 2022 name; page says OGL but file says `license: TBA` |
+| Bank of England quoted mortgage rates by deposit band | Rent vs buy | Which bands and series, latest month; the database is under the OGL with exceptions: some exchange-rate series, LSEG data, and Isle of Man, Guernsey and Jersey data ([legal page](https://www.bankofengland.co.uk/legal), read in the reviews of 15 Nov 2026); confirm the quoted-rate series are the Bank's own data | Answered: series by band, latest Oct 2026; the Bank's database is under the OGL, but the advertised rates come from Moneyfacts and no licence line is stated: still open |
+| Council and neighbourhood outlines | Map, neighbourhood page | Source (for example the ONS Open Geography Portal) and licence; Ordnance Survey rights may apply | Answered: ONS boundaries under OGL with ONS and OS attribution both required |
+| Names for the larger areas (MSOA names) | Neighbourhood names | The House of Commons Library list: licence and update cycle | Answered: Open Parliament Licence (terms page not read), version 2.3 |
+| Neighbourhood-level facts (LSOA) | Neighbourhood page | Which tables publish each first-version topic at that level | Answered: LSOA for DfT connectivity and Census tenure; others not checked |
+| Our own map tiles | Map | FE-03: price and host our own tiles | Unchanged (FE-03) |
+| Place-name-to-council lookup | Search | Source and licence (0055); the design review found portal pages that disagree on the ONS index's licence, and Ordnance Survey rights may apply | Open: none suitable confirmed; founder question in the sources research |
 
 ## Left to the builder
 Scenario IDs and file names; the chart library (a package not yet approved needs the founder's approval: bring it with licence and cost); exact caption threshold for "unchanged"; how many years each trend shows by default.
