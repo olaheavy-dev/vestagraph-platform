@@ -99,7 +99,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- `docs/city-explorer-brainstorm-answers`: the founder's first City Explorer brainstorm answers and this end-of-session update. Everything else is merged, up to #274.
+- #275 `docs/city-explorer-brainstorm-answers`: the founder's first City Explorer brainstorm answers and this end-of-session update. Everything else is merged, up to #274.
 
 ## Start of the next session
 1. **Continue the City Explorer brainstorm** (decision [0055](../decisions/0055-city-explorer-in-the-pilot.md), PD-17; founder, 15 Nov 2026: "go ahead with the brainstorm after merge, wrap up after ypu take the info from me" [sic]). Next in the brainstorm: the ways to build it (approaches, one recommended), then the written design in `docs/superpowers/specs/`, a builder check, the founder's approval, then the design review and plan. **Answers so far** (founder, 15 Nov 2026, prompt windows; the founder typed "Present in the agreed way", and for the topics typed "let us go thru one by one and elect"):
