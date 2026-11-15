@@ -297,3 +297,120 @@ def test_read_council_area_not_an_object_raises(tmp_path: Path) -> None:
 def test_read_council_area_missing_file_raises_os_error(tmp_path: Path) -> None:
     with pytest.raises(OSError, match="council-area"):
         read_council_area(tmp_path / "council-area.json")
+
+
+def test_read_council_area_rent_series_in_ratio_unit_raises(tmp_path: Path) -> None:
+    # A rent marked "ratio" would let "1200.99" through and the generator would truncate it.
+    data = _data()
+    series = data["councils"][0]["rentSeries"]
+    series["unit"] = "ratio"
+    for point in series["points"]:
+        if "value" in point:
+            point["value"] = "1200.99"
+
+    _refused(tmp_path, data, "rentSeries: unit must be 'pence-per-month'")
+
+
+def test_read_council_area_price_series_in_wrong_unit_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["priceSeries"]["unit"] = "pence-per-month"
+
+    _refused(tmp_path, data, "priceSeries: unit must be 'pence'")
+
+
+def test_read_council_area_affordability_series_in_pence_unit_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["affordabilitySeries"]["unit"] = "pence"
+
+    _refused(tmp_path, data, "affordabilitySeries: unit must be 'ratio'")
+
+
+def test_read_council_area_over_long_decimal_text_raises_a_data_error(tmp_path: Path) -> None:
+    # 5,000 digits would make Fraction raise a bare ValueError (Python's 4,300-digit limit).
+    data = _data()
+    data["councils"][0]["affordabilitySeries"]["points"][0]["value"] = "1" * 5000 + ".00"
+
+    _refused(tmp_path, data, "too long")
+
+
+def test_read_council_area_place_with_no_council_codes_raises(tmp_path: Path) -> None:
+    # place_search reads council_codes[0] for a place outside England, so an empty list is refused.
+    data = _data()
+    data["places"].append(
+        {
+            "name": "Nowhere (synthetic)",
+            "county": "Nowhere shire (synthetic)",
+            "region": "Nowhere (synthetic)",
+            "nation": "wales",
+            "councilCodes": [],
+        }
+    )
+
+    _refused(tmp_path, data, "at least one council code")
+
+
+def test_read_council_area_pence_above_sixty_four_bits_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["priceSeries"]["points"][0]["value"] = 10**30
+
+    _refused(tmp_path, data, "at most 9223372036854775807")
+
+
+def test_read_council_area_pence_at_the_sixty_four_bit_limit_is_read(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["priceSeries"]["points"][0]["value"] = 2**63 - 1
+
+    area = _read(tmp_path, data)
+
+    assert area.councils[0].price_series.points[0].value == 2**63 - 1
+
+
+def test_read_council_area_band_amount_above_sixty_four_bits_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["bands"]["value"]["A"] = 10**30
+
+    _refused(tmp_path, data, "at most 9223372036854775807")
+
+
+def test_read_council_area_rate_above_twenty_percent_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["rateBands"][0]["rateBasisPoints"] = 2001
+
+    _refused(tmp_path, data, "at most 2000")
+
+
+def test_read_council_area_rate_of_exactly_twenty_percent_is_read(tmp_path: Path) -> None:
+    data = _data()
+    data["rateBands"][0]["rateBasisPoints"] = 2000
+
+    assert _read(tmp_path, data).rate_bands[0].rate_basis_points == 2000
+
+
+def test_read_council_area_tenure_counts_all_zero_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["tenure"]["value"] = dict.fromkeys(
+        data["councils"][0]["tenure"]["value"], 0
+    )
+
+    _refused(tmp_path, data, "at least one household")
+
+
+def test_read_council_area_negative_tenure_count_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["tenure"]["value"]["ownedOutright"] = -1
+
+    _refused(tmp_path, data, "at least 0")
+
+
+def test_read_council_area_ratio_with_three_decimal_places_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["affordabilitySeries"]["points"][0]["value"] = "7.411"
+
+    _refused(tmp_path, data, "exactly two decimal places")
+
+
+def test_read_council_area_ratio_with_one_decimal_place_raises(tmp_path: Path) -> None:
+    data = _data()
+    data["councils"][0]["affordabilitySeries"]["points"][0]["value"] = "7.4"
+
+    _refused(tmp_path, data, "exactly two decimal places")

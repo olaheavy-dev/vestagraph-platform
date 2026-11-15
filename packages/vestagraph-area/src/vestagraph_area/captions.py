@@ -22,10 +22,11 @@ from typing import Final, Literal
 
 from vestagraph_engine.pence import Pence, round_ratio
 
-from vestagraph_area.council_records import Series, SeriesPoint
+from vestagraph_area.council_records import TENURE_KEYS, Fact, Series, SeriesPoint, period_key
+from vestagraph_area.tenure import share_text, tenure_shares_for_fact
 
 Direction = Literal["rose", "fell", "unchanged"]
-CaptionKind = Literal["trend", "missing", "not-comparable"]
+CaptionKind = Literal["trend", "missing", "not-comparable", "single-point"]
 _PENCE_PER_POUND: Final = 100
 
 
@@ -46,7 +47,7 @@ class Change:
     amount: Pence | Fraction
     percent: Fraction | None
     direction: Direction
-    provisional_months: int
+    provisional_points: int
 
 
 @dataclass(frozen=True, slots=True)
@@ -85,25 +86,8 @@ def _exact(value: object) -> Fraction:
     raise TypeError(message)
 
 
-def _key(period: str) -> tuple[int, int]:
-    if len(period) == 4 and period.isascii() and period.isdigit():
-        return int(period), 0
-    if (
-        len(period) == 7
-        and period[4] == "-"
-        and period[:4].isascii()
-        and period[:4].isdigit()
-        and period[5:].isascii()
-        and period[5:].isdigit()
-        and 1 <= int(period[5:]) <= 12
-    ):
-        return int(period[:4]), int(period[5:])
-    message = f"Period {period!r} is not YYYY or YYYY-MM."
-    raise ValueError(message)
-
-
 def _a_year_earlier(period: str) -> str:
-    year, month = _key(period)
+    year, month = period_key(period)
     return f"{year - 1:04d}" if month == 0 else f"{year - 1:04d}-{month:02d}"
 
 
@@ -124,9 +108,9 @@ def _pounds(pence: int) -> int:
 
 
 def _assess(series: Series, latest_period: str) -> _Outcome:
-    end_key = _key(latest_period)
+    end_key = period_key(latest_period)
     start_period = _a_year_earlier(latest_period)
-    start_key = _key(start_period)
+    start_key = period_key(start_period)
     if series.status != "recorded":
         return _Outcome("missing", reason=series.status)
     by_period = {p.period: p for p in series.points}
@@ -140,12 +124,14 @@ def _assess(series: Series, latest_period: str) -> _Outcome:
         return _Outcome("missing", reason="start-point-absent", end_point=end)
     if start.value is None:
         return _Outcome("missing", reason="start-point-not-published", end_point=end)
-    if any(p.method_break_before and start_key < _key(p.period) <= end_key for p in series.points):
+    if any(
+        p.method_break_before and start_key < period_key(p.period) <= end_key for p in series.points
+    ):
         return _Outcome("not-comparable", from_period=start_period, to_period=latest_period)
     provisional = sum(
         1
         for p in series.points
-        if p.status == "provisional" and start_key < _key(p.period) <= end_key
+        if p.status == "provisional" and start_key < period_key(p.period) <= end_key
     )
     if series.unit == "ratio":
         change = _ratio_change(start, end, provisional)
@@ -170,7 +156,7 @@ def _money_change(start: SeriesPoint, end: SeriesPoint, provisional: int) -> Cha
         amount=Pence(amount),
         percent=Fraction(amount * 100, from_pence),
         direction=direction,
-        provisional_months=provisional,
+        provisional_points=provisional,
     )
 
 
@@ -189,7 +175,7 @@ def _ratio_change(start: SeriesPoint, end: SeriesPoint, provisional: int) -> Cha
         amount=amount,
         percent=None,
         direction=direction,
-        provisional_months=provisional,
+        provisional_points=provisional,
     )
 
 
@@ -232,7 +218,7 @@ def _trend_values(topic: str, change: Change) -> dict[str, str]:
     }
     if change.percent is not None and change.direction != "unchanged":
         values["percent"] = _decimal_text(change.percent, 1)
-    values["provisionalMonths"] = str(change.provisional_months)
+    values["provisionalPoints"] = str(change.provisional_points)
     return values
 
 
@@ -263,3 +249,29 @@ def caption_for(topic: str, series: Series, latest_period: str) -> Caption:
     if outcome.end_point is not None:
         values.update(_latest_values(series, outcome.end_point))
     return Caption("missing", values)
+
+
+def series_caption(topic: str, series: Series) -> Caption:
+    """The caption for a topic's series at its latest point, whatever the series holds.
+
+    A series with no points (a gap status) has no latest period, so it gets a ``missing`` caption
+    whose reason is the gap status; every other series goes through ``caption_for``.
+    """
+    if not series.points:
+        return Caption("missing", {"topic": topic, "pattern": "missing", "reason": series.status})
+    return caption_for(topic, series, series.points[-1].period)
+
+
+def tenure_caption(fact: Fact) -> Caption:
+    """The caption for a tenure fact: its shares as published, or a ``missing`` caption.
+
+    One Census period has no change over time, so a recorded fact is a ``single-point`` caption
+    carrying each share to one decimal place (never a trend). A gap status is a ``missing``
+    caption whose reason is that status (rule 7).
+    """
+    shares = tenure_shares_for_fact(fact)
+    if shares is None:
+        return Caption("missing", {"topic": "tenure", "pattern": "missing", "reason": fact.status})
+    values = {"topic": "tenure", "pattern": "single-point", "period": fact.source.period}
+    values.update({key: share_text(shares[key]) for key in TENURE_KEYS})
+    return Caption("single-point", values)

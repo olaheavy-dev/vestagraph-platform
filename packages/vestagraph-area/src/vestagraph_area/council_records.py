@@ -9,6 +9,7 @@ exponents, duplicate keys, bad UTF-8 and over-deep nesting are refused by the sh
 A gap status never carries a value (rule 7).
 """
 
+import re
 from dataclasses import dataclass
 from fractions import Fraction
 from itertools import pairwise
@@ -29,6 +30,20 @@ FACT_STATUSES = frozenset({"recorded", "no-record-in-source", "source-failed", "
 POINT_STATUSES = frozenset({"recorded", "provisional", "not-published"})
 POINT_STATUSES_WITH_VALUE = frozenset({"recorded", "provisional"})
 SERIES_UNITS = frozenset({"pence-per-month", "pence", "ratio"})
+# The largest whole-pence amount: a signed 64-bit integer, as a database or other tool would hold.
+MAX_PENCE = 2**63 - 1
+# A quoted or typed mortgage rate is at most 20% (the same cap as the typed-rate limit).
+MAX_RATE_BASIS_POINTS = 2000
+# The only unit each series may use, so a rent can never be read as a ratio (or the reverse).
+SERIES_UNIT_BY_NAME = {
+    "rentSeries": "pence-per-month",
+    "priceSeries": "pence",
+    "affordabilitySeries": "ratio",
+}
+# Decimal text longer than this is refused before Fraction sees it (Python limits integer text to
+# 4,300 digits and raises a bare ValueError beyond that).
+MAX_DECIMAL_TEXT_LENGTH = 40
+_RATIO_TEXT = re.compile(r"[0-9]+\.[0-9]{2}", re.ASCII)
 BAND_LETTERS = ("A", "B", "C", "D", "E", "F", "G", "H")
 TENURE_KEYS = ("ownedOutright", "ownedWithMortgage", "socialRented", "privateRented", "other")
 NATIONS = frozenset({"england", "wales", "scotland", "northern-ireland"})
@@ -158,10 +173,15 @@ class CouncilArea:
     rate_bands: tuple[RateBand, ...]
 
 
-def _whole(obj: dict[str, Any], key: str, where: str, *, minimum: int) -> int:
+def _whole(
+    obj: dict[str, Any], key: str, where: str, *, minimum: int, maximum: int | None = None
+) -> int:
     value: int = _get(obj, key, int, where)
     if value < minimum:
         message = f"{where}: field '{key}' must be at least {minimum}."
+        raise InvalidAreaDataError(message)
+    if maximum is not None and value > maximum:
+        message = f"{where}: field '{key}' must be at most {maximum}."
         raise InvalidAreaDataError(message)
     return value
 
@@ -194,6 +214,11 @@ def _source(raw: dict[str, Any], where: str) -> Source:
 
 
 def _decimal(text: str, where: str) -> Fraction:
+    if len(text) > MAX_DECIMAL_TEXT_LENGTH:
+        message = (
+            f"{where}: decimal text is too long (at most {MAX_DECIMAL_TEXT_LENGTH} characters)."
+        )
+        raise InvalidAreaDataError(message)
     if _PLAIN_DECIMAL.fullmatch(text) is None:
         message = f"{where}: {text!r} is not a plain decimal number."
         raise InvalidAreaDataError(message)
@@ -205,7 +230,10 @@ def _band_value(value: Any, where: str) -> dict[str, int]:
         message = f"{where}: 'value' must be an object."
         raise InvalidAreaDataError(message)
     _exact_keys(value, BAND_LETTERS, where)
-    return {letter: _whole(value, letter, where, minimum=1) for letter in BAND_LETTERS}
+    return {
+        letter: _whole(value, letter, where, minimum=1, maximum=MAX_PENCE)
+        for letter in BAND_LETTERS
+    }
 
 
 def _tenure_value(value: Any, where: str) -> dict[str, int]:
@@ -213,7 +241,11 @@ def _tenure_value(value: Any, where: str) -> dict[str, int]:
         message = f"{where}: 'value' must be an object."
         raise InvalidAreaDataError(message)
     _exact_keys(value, TENURE_KEYS, where)
-    return {key: _whole(value, key, where, minimum=0) for key in TENURE_KEYS}
+    counts = {key: _whole(value, key, where, minimum=0) for key in TENURE_KEYS}
+    if sum(counts.values()) < 1:
+        message = f"{where}: the tenure counts must total at least one household."
+        raise InvalidAreaDataError(message)
+    return counts
 
 
 def _connectivity_value(value: Any, where: str) -> dict[str, Any]:
@@ -271,7 +303,11 @@ def _fact(raw: dict[str, Any], name: str, parse_value: Any, where: str) -> Fact:
     return Fact(status=status, value=value, level=_level(raw, here), source=_source(raw, here))
 
 
-def _period_key(period: str, where: str) -> tuple[int, int]:
+def period_key(period: str) -> tuple[int, int]:
+    """Sort key of a ``YYYY`` or ``YYYY-MM`` period (a year sorts before its months).
+
+    Raises ``ValueError`` when the text is neither.
+    """
     if len(period) == 4 and period.isascii() and period.isdigit():
         return int(period), 0
     if (
@@ -284,8 +320,16 @@ def _period_key(period: str, where: str) -> tuple[int, int]:
         and 1 <= int(period[5:]) <= 12
     ):
         return int(period[:4]), int(period[5:])
-    message = f"{where}: period {period!r} is not YYYY or YYYY-MM."
-    raise InvalidAreaDataError(message)
+    message = f"Period {period!r} is not YYYY or YYYY-MM."
+    raise ValueError(message)
+
+
+def _period_key(period: str, where: str) -> tuple[int, int]:
+    try:
+        return period_key(period)
+    except ValueError as error:
+        message = f"{where}: period {period!r} is not YYYY or YYYY-MM."
+        raise InvalidAreaDataError(message) from error
 
 
 def _point(raw: dict[str, Any], unit: str, where: str) -> SeriesPoint:
@@ -301,12 +345,16 @@ def _point(raw: dict[str, Any], unit: str, where: str) -> SeriesPoint:
             message = f"{here}: a {status} point needs a 'value'."
             raise InvalidAreaDataError(message)
         if unit == "ratio":
-            value = _decimal(_get(raw, "value", str, here), here)
+            text = _get(raw, "value", str, here)
+            value = _decimal(text, here)
+            if _RATIO_TEXT.fullmatch(text) is None:
+                message = f"{here}: a ratio must have exactly two decimal places."
+                raise InvalidAreaDataError(message)
             if value == 0:
                 message = f"{here}: a value of zero is refused; say 'not-published' instead."
                 raise InvalidAreaDataError(message)
         else:
-            value = _whole(raw, "value", here, minimum=1)
+            value = _whole(raw, "value", here, minimum=1, maximum=MAX_PENCE)
     elif "value" in raw:
         message = f"{here}: status '{status}' must not carry a value."
         raise InvalidAreaDataError(message)
@@ -330,6 +378,9 @@ def _series(raw: dict[str, Any], name: str, where: str) -> Series:
     unit = _get(raw, "unit", str, here)
     if unit not in SERIES_UNITS:
         message = f"{here}: unknown unit '{unit}'."
+        raise InvalidAreaDataError(message)
+    if unit != SERIES_UNIT_BY_NAME[name]:
+        message = f"{here}: unit must be '{SERIES_UNIT_BY_NAME[name]}', not '{unit}'."
         raise InvalidAreaDataError(message)
     points = tuple(_point(p, unit, here) for p in _objects(raw, "points", here))
     if status != "recorded" and points:
@@ -413,12 +464,16 @@ def _place(raw: dict[str, Any]) -> PlaceName:
     if nation not in NATIONS:
         message = f"{where}: unknown nation '{nation}'."
         raise InvalidAreaDataError(message)
+    council_codes = _strings(raw, "councilCodes", where, required=True)
+    if not council_codes:
+        message = f"{where}: 'councilCodes' needs at least one council code."
+        raise InvalidAreaDataError(message)
     return PlaceName(
         name=name,
         county=_get(raw, "county", str, where),
         region=_get(raw, "region", str, where),
         nation=nation,
-        council_codes=_strings(raw, "councilCodes", where, required=True),
+        council_codes=council_codes,
     )
 
 
@@ -435,7 +490,9 @@ def _rate_band(raw: dict[str, Any]) -> RateBand:
     return RateBand(
         product=product,
         max_loan_to_value_percent=ltv,
-        rate_basis_points=_whole(raw, "rateBasisPoints", where, minimum=1),
+        rate_basis_points=_whole(
+            raw, "rateBasisPoints", where, minimum=1, maximum=MAX_RATE_BASIS_POINTS
+        ),
         month=_get(raw, "month", str, where),
         source=_source(raw, where),
     )

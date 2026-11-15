@@ -256,11 +256,13 @@
           "oneOf": [
             {
               "type": "integer",
-              "minimum": 1
+              "minimum": 1,
+              "maximum": 9223372036854775807
             },
             {
               "type": "string",
-              "pattern": "^[0-9]+\\.[0-9]+$"
+              "pattern": "^[0-9]+\\.[0-9]{2}$",
+              "maxLength": 40
             }
           ]
         },
@@ -320,35 +322,43 @@
       "properties": {
         "A": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         },
         "B": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         },
         "C": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         },
         "D": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         },
         "E": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         },
         "F": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         },
         "G": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         },
         "H": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 9223372036854775807
         }
       }
     },
@@ -591,13 +601,46 @@
           ]
         },
         "rentSeries": {
-          "$ref": "#/$defs/series"
+          "allOf": [
+            {
+              "$ref": "#/$defs/series"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "pence-per-month"
+                }
+              }
+            }
+          ]
         },
         "priceSeries": {
-          "$ref": "#/$defs/series"
+          "allOf": [
+            {
+              "$ref": "#/$defs/series"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "pence"
+                }
+              }
+            }
+          ]
         },
         "affordabilitySeries": {
-          "$ref": "#/$defs/series"
+          "allOf": [
+            {
+              "$ref": "#/$defs/series"
+            },
+            {
+              "properties": {
+                "unit": {
+                  "const": "ratio"
+                }
+              }
+            }
+          ]
         },
         "tenure": {
           "allOf": [
@@ -684,7 +727,8 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/councilCode"
-          }
+          },
+          "minItems": 1
         }
       }
     },
@@ -728,7 +772,8 @@
         },
         "rateBasisPoints": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "maximum": 2000
         },
         "month": {
           "type": "string",
