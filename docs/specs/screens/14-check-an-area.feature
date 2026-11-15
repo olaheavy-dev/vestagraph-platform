@@ -259,7 +259,7 @@ Feature: Check an area
   Scenario: AREA-29 when the area check's request limit is reached the page says to try again in a minute
     Given the user is on Check an area
     When the user checks a postcode after the area check's request limit for them has been reached
-    Then the page says too many checks have been made, that the postcode and anything already shown are unaffected, and offers one action, "Try again in a minute", as on the approved states board, with no topic shown as empty
+    Then the page says too many checks have been made, that results already shown stay on screen and checks open again shortly, and offers one action, "Try again in a minute", as on the approved states board, with no topic shown as empty
 
   @ui
   Scenario: AREA-30 offline shows that the connection is down and keeps what is already on the page

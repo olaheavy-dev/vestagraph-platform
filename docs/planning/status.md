@@ -1,6 +1,6 @@
 # Status
 
-Overwritten at the end of every session (decision 0050). Last updated: **14 Nov 2026, night (first design batch drawn, canvas version 178)**.
+Overwritten at the end of every session (decision 0050). Last updated: **15 Nov 2026 (first design batch specifications merged, #272; canvas version 179; City Explorer brainstorm inputs)**.
 
 ## Where we are
 - **Stage 3** (prototype specification) is open. The founder put the **pilot** (the public area check with AI, stage 5b) first on 13 Nov 2026: pilot specs, then a pilot-only gate, then pilot development tickets (decisions [0051](../decisions/0051-ai-in-the-public-pilot.md) and [0052](../decisions/0052-pilot-only-gate.md)); the full stage 3 gate (#71) follows before the home workspace. Stage 4's frontend foundation is decided: [0048](../decisions/0048-frontend-foundation.md), amended by [0049](../decisions/0049-back-to-python-final.md) (the frontend starts from the founder's Next.js template).
