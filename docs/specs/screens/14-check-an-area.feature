@@ -256,10 +256,10 @@ Feature: Check an area
     Then the page says the postcode lookup service isn't responding and that nothing is wrong with the postcode, offers "Try again", and does not say "We couldn't find that postcode"
 
   @ui
-  Scenario: AREA-29 when the area check's request limit is reached the page says to try again
+  Scenario: AREA-29 when the area check's request limit is reached the page says to try again in a minute
     Given the user is on Check an area
     When the user checks a postcode after the area check's request limit for them has been reached
-    Then the page says too many checks have been made, that the postcode and anything already shown are unaffected, and offers one action, "Try again", with no topic shown as empty
+    Then the page says too many checks have been made, that the postcode and anything already shown are unaffected, and offers one action, "Try again in a minute", as on the approved states board, with no topic shown as empty
 
   @ui
   Scenario: AREA-30 offline shows that the connection is down and keeps what is already on the page
@@ -281,12 +281,12 @@ Feature: Check an area
     Then one line above the rows points to About the data, as the single action, and no "Try again" is offered, because asking again cannot change our stored copies
 
   # fixture still to add: no postcode in `postcode-area.json` crosses a border yet, and there is no data step for it; until a border fixture exists the scenario is @ui only (B9, `docs/reviews/2026-11-14-pilot-design-review.md`).
-  # B9 fixes only that places beyond the border may be missing; the one action is the agent's call, open to the founder.
+  # B9 fixes that places beyond the border may be missing; the wording and the one action are from the approved states board (canvas version 178).
   @ui
   Scenario: AREA-32 a search that crosses the border says places across it may be missing
     Given the user is on Check an area
     When the user checks a postcode whose search area crosses into another nation
-    Then a notice says the search reaches into another nation, that places beyond the border may be missing from this search (B9), that the places found in England are still shown, and offers one action, which leads to the existing "Not yet covered" card for that nation (AREA-08)
+    Then a notice says the search reaches into another nation, that places beyond the border may be missing from this search (B9), that the places found in England are still shown, and offers one action, the link "What England-only means", as on the approved states board
 
   @ui
   Scenario: AREA-35 a search that crosses the border leaves no topic reading as a clean result
