@@ -1,0 +1,1210 @@
+{
+  "$schema": "../schema/generated-council-result.schema.json",
+  "formatVersion": 1,
+  "exampleInputs": {
+    "depositPercent": 10,
+    "termYears": 25
+  },
+  "councils": [
+    {
+      "code": "E06999001",
+      "bands": [
+        {
+          "band": "A",
+          "yearly": 144000,
+          "monthly": 12000
+        },
+        {
+          "band": "B",
+          "yearly": 168000,
+          "monthly": 14000
+        },
+        {
+          "band": "C",
+          "yearly": 192000,
+          "monthly": 16000
+        },
+        {
+          "band": "D",
+          "yearly": 216000,
+          "monthly": 18000
+        },
+        {
+          "band": "E",
+          "yearly": 264000,
+          "monthly": 22000
+        },
+        {
+          "band": "F",
+          "yearly": 312000,
+          "monthly": 26000
+        },
+        {
+          "band": "G",
+          "yearly": 360000,
+          "monthly": 30000
+        },
+        {
+          "band": "H",
+          "yearly": 432000,
+          "monthly": 36000
+        }
+      ],
+      "rentOrBuy": {
+        "rentPeriod": "2026-10",
+        "rentPointStatus": "provisional",
+        "pricePeriod": "2026-08",
+        "pricePointStatus": "provisional",
+        "byBand": [
+          {
+            "band": "A",
+            "rentSide": 150700,
+            "shownRentSide": 1507,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 170247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1702,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "B",
+            "rentSide": 152700,
+            "shownRentSide": 1527,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 172247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1722,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "C",
+            "rentSide": 154700,
+            "shownRentSide": 1547,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 174247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1742,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "D",
+            "rentSide": 156700,
+            "shownRentSide": 1567,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 176247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1762,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "E",
+            "rentSide": 160700,
+            "shownRentSide": 1607,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 180247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1802,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "F",
+            "rentSide": 164700,
+            "shownRentSide": 1647,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 184247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1842,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "G",
+            "rentSide": 168700,
+            "shownRentSide": 1687,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 188247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1882,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "H",
+            "rentSide": 174700,
+            "shownRentSide": 1747,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 194247,
+                "repayment": 158247,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 19547,
+                "shownBuySide": 1942,
+                "shownDifference": 195
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          }
+        ]
+      },
+      "captions": [
+        {
+          "topic": "rent",
+          "kind": "trend",
+          "values": {
+            "topic": "rent",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-10",
+            "toPeriod": "2026-10",
+            "fromValue": "1279",
+            "toValue": "1387",
+            "amount": "108",
+            "percent": "8.4",
+            "provisionalPoints": "2"
+          }
+        },
+        {
+          "topic": "price",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "290600",
+            "toValue": "297800",
+            "amount": "7200",
+            "percent": "2.5",
+            "provisionalPoints": "12"
+          }
+        },
+        {
+          "topic": "affordability",
+          "kind": "trend",
+          "values": {
+            "topic": "affordability",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2024",
+            "toPeriod": "2025",
+            "fromValue": "8.27",
+            "toValue": "8.44",
+            "amount": "0.17",
+            "provisionalPoints": "0"
+          }
+        },
+        {
+          "topic": "tenure",
+          "kind": "single-point",
+          "values": {
+            "topic": "tenure",
+            "pattern": "single-point",
+            "period": "2021",
+            "ownedOutright": "25.7",
+            "ownedWithMortgage": "30.3",
+            "socialRented": "17.7",
+            "privateRented": "24.6",
+            "other": "1.6"
+          }
+        }
+      ],
+      "tenureShares": {
+        "ownedOutright": "25.7",
+        "ownedWithMortgage": "30.3",
+        "socialRented": "17.7",
+        "privateRented": "24.6",
+        "other": "1.6"
+      },
+      "neighbourhoods": [
+        {
+          "code": "E01999011",
+          "label": "Northbridge Centre (synthetic) (011A)",
+          "tenureShares": {
+            "ownedOutright": "16.5",
+            "ownedWithMortgage": "21.4",
+            "socialRented": "32.6",
+            "privateRented": "28.8",
+            "other": "0.6"
+          }
+        },
+        {
+          "code": "E01999012",
+          "label": "Millbrook (synthetic) (012C)",
+          "tenureShares": {
+            "ownedOutright": "37.8",
+            "ownedWithMortgage": "35.3",
+            "socialRented": "9.7",
+            "privateRented": "16.7",
+            "other": "0.5"
+          }
+        },
+        {
+          "code": "E01999013",
+          "label": "Northbridge Fells (synthetic) (013B)",
+          "tenureShares": {
+            "ownedOutright": "47.5",
+            "ownedWithMortgage": "42.8",
+            "socialRented": "2.9",
+            "privateRented": "6.9",
+            "other": "0.0"
+          }
+        }
+      ]
+    },
+    {
+      "code": "E06999002",
+      "bands": [
+        {
+          "band": "A",
+          "yearly": 132000,
+          "monthly": 11000
+        },
+        {
+          "band": "B",
+          "yearly": 154000,
+          "monthly": 12833
+        },
+        {
+          "band": "C",
+          "yearly": 176000,
+          "monthly": 14667
+        },
+        {
+          "band": "D",
+          "yearly": 198000,
+          "monthly": 16500
+        },
+        {
+          "band": "E",
+          "yearly": 242000,
+          "monthly": 20167
+        },
+        {
+          "band": "F",
+          "yearly": 286000,
+          "monthly": 23833
+        },
+        {
+          "band": "G",
+          "yearly": 330000,
+          "monthly": 27500
+        },
+        {
+          "band": "H",
+          "yearly": 396000,
+          "monthly": 33000
+        }
+      ],
+      "rentOrBuy": {
+        "rentPeriod": "2026-08",
+        "rentPointStatus": "provisional",
+        "pricePeriod": "2026-08",
+        "pricePointStatus": "provisional",
+        "byBand": [
+          {
+            "band": "A",
+            "rentSide": 113500,
+            "shownRentSide": 1135,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 118633,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1186,
+                "shownDifference": 51
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "B",
+            "rentSide": 115333,
+            "shownRentSide": 1153,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 120466,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1205,
+                "shownDifference": 52
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "C",
+            "rentSide": 117167,
+            "shownRentSide": 1172,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 122300,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1223,
+                "shownDifference": 51
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "D",
+            "rentSide": 119000,
+            "shownRentSide": 1190,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 124133,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1241,
+                "shownDifference": 51
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "E",
+            "rentSide": 122667,
+            "shownRentSide": 1227,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 127800,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1278,
+                "shownDifference": 51
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "F",
+            "rentSide": 126333,
+            "shownRentSide": 1263,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 131466,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1315,
+                "shownDifference": 52
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "G",
+            "rentSide": 130000,
+            "shownRentSide": 1300,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 135133,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1351,
+                "shownDifference": 51
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "H",
+            "rentSide": 135500,
+            "shownRentSide": 1355,
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 140633,
+                "repayment": 107633,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "comparison": "more",
+                "difference": 5133,
+                "shownBuySide": 1406,
+                "shownDifference": 51
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          }
+        ]
+      },
+      "captions": [
+        {
+          "topic": "rent",
+          "kind": "trend",
+          "values": {
+            "topic": "rent",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "965",
+            "toValue": "1025",
+            "amount": "60",
+            "percent": "6.2",
+            "provisionalPoints": "1"
+          }
+        },
+        {
+          "topic": "price",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "start-point-not-published",
+            "period": "2026-08",
+            "value": "202550",
+            "pointStatus": "provisional"
+          }
+        },
+        {
+          "topic": "affordability",
+          "kind": "trend",
+          "values": {
+            "topic": "affordability",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2024",
+            "toPeriod": "2025",
+            "fromValue": "6.30",
+            "toValue": "6.41",
+            "amount": "0.11",
+            "provisionalPoints": "0"
+          }
+        },
+        {
+          "topic": "tenure",
+          "kind": "single-point",
+          "values": {
+            "topic": "tenure",
+            "pattern": "single-point",
+            "period": "2021",
+            "ownedOutright": "30.5",
+            "ownedWithMortgage": "28.3",
+            "socialRented": "16.2",
+            "privateRented": "23.7",
+            "other": "1.3"
+          }
+        }
+      ],
+      "tenureShares": {
+        "ownedOutright": "30.5",
+        "ownedWithMortgage": "28.3",
+        "socialRented": "16.2",
+        "privateRented": "23.7",
+        "other": "1.3"
+      },
+      "neighbourhoods": [
+        {
+          "code": "E01999021",
+          "label": "Southvale Quay (synthetic) (021A)",
+          "tenureShares": {
+            "ownedOutright": "27.8",
+            "ownedWithMortgage": "26.8",
+            "socialRented": "17.3",
+            "privateRented": "27.7",
+            "other": "0.4"
+          }
+        }
+      ]
+    },
+    {
+      "code": "E07999001",
+      "bands": [
+        {
+          "band": "A",
+          "yearly": 156000,
+          "monthly": 13000
+        },
+        {
+          "band": "B",
+          "yearly": 182000,
+          "monthly": 15167
+        },
+        {
+          "band": "C",
+          "yearly": 208000,
+          "monthly": 17333
+        },
+        {
+          "band": "D",
+          "yearly": 234000,
+          "monthly": 19500
+        },
+        {
+          "band": "E",
+          "yearly": 286000,
+          "monthly": 23833
+        },
+        {
+          "band": "F",
+          "yearly": 338000,
+          "monthly": 28167
+        },
+        {
+          "band": "G",
+          "yearly": 390000,
+          "monthly": 32500
+        },
+        {
+          "band": "H",
+          "yearly": 468000,
+          "monthly": 39000
+        }
+      ],
+      "rentOrBuy": {
+        "rentMissingReason": "no-record-in-source",
+        "pricePeriod": "2026-08",
+        "pricePointStatus": "provisional",
+        "byBand": [
+          {
+            "band": "A",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 133200,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1332
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "B",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 135367,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1354
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "C",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 137533,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1375
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "D",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 139700,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1397
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "E",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 144033,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1440
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "F",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 148367,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1484
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "G",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 152700,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1527
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          },
+          {
+            "band": "H",
+            "buySides": [
+              {
+                "product": "2-year-fixed",
+                "buySide": 159200,
+                "repayment": 120200,
+                "rateBand": {
+                  "maxLoanToValuePercent": 90,
+                  "rateBasisPoints": 510,
+                  "month": "2026-10"
+                },
+                "shownBuySide": 1592
+              },
+              {
+                "product": "5-year-fixed",
+                "problem": "rate-band-unavailable"
+              }
+            ]
+          }
+        ]
+      },
+      "captions": [
+        {
+          "topic": "rent",
+          "kind": "missing",
+          "values": {
+            "topic": "rent",
+            "pattern": "missing",
+            "reason": "no-record-in-source"
+          }
+        },
+        {
+          "topic": "price",
+          "kind": "trend",
+          "values": {
+            "topic": "price",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-08",
+            "toPeriod": "2026-08",
+            "fromValue": "221400",
+            "toValue": "226200",
+            "amount": "4800",
+            "percent": "2.2",
+            "provisionalPoints": "12"
+          }
+        },
+        {
+          "topic": "affordability",
+          "kind": "trend",
+          "values": {
+            "topic": "affordability",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2024",
+            "toPeriod": "2025",
+            "fromValue": "6.92",
+            "toValue": "7.03",
+            "amount": "0.11",
+            "provisionalPoints": "0"
+          }
+        },
+        {
+          "topic": "tenure",
+          "kind": "single-point",
+          "values": {
+            "topic": "tenure",
+            "pattern": "single-point",
+            "period": "2021",
+            "ownedOutright": "35.0",
+            "ownedWithMortgage": "31.0",
+            "socialRented": "12.2",
+            "privateRented": "20.7",
+            "other": "1.2"
+          }
+        }
+      ],
+      "tenureShares": {
+        "ownedOutright": "35.0",
+        "ownedWithMortgage": "31.0",
+        "socialRented": "12.2",
+        "privateRented": "20.7",
+        "other": "1.2"
+      },
+      "neighbourhoods": [
+        {
+          "code": "E01999031",
+          "label": "Eastmere Green (synthetic) (031A)",
+          "tenureShares": {
+            "ownedOutright": "37.7",
+            "ownedWithMortgage": "29.1",
+            "socialRented": "11.2",
+            "privateRented": "21.6",
+            "other": "0.5"
+          }
+        }
+      ]
+    },
+    {
+      "code": "E07999002",
+      "bands": [],
+      "rentOrBuy": {
+        "rentMissingReason": "no-record-in-source",
+        "priceMissingReason": "no-record-in-source",
+        "councilTaxMissingReason": "no-record-in-source",
+        "byBand": [
+          {
+            "band": "A",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          },
+          {
+            "band": "B",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          },
+          {
+            "band": "C",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          },
+          {
+            "band": "D",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          },
+          {
+            "band": "E",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          },
+          {
+            "band": "F",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          },
+          {
+            "band": "G",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          },
+          {
+            "band": "H",
+            "buySides": [],
+            "problem": "council-tax-missing"
+          }
+        ]
+      },
+      "captions": [
+        {
+          "topic": "rent",
+          "kind": "missing",
+          "values": {
+            "topic": "rent",
+            "pattern": "missing",
+            "reason": "no-record-in-source"
+          }
+        },
+        {
+          "topic": "price",
+          "kind": "missing",
+          "values": {
+            "topic": "price",
+            "pattern": "missing",
+            "reason": "no-record-in-source"
+          }
+        },
+        {
+          "topic": "affordability",
+          "kind": "missing",
+          "values": {
+            "topic": "affordability",
+            "pattern": "missing",
+            "reason": "no-record-in-source"
+          }
+        },
+        {
+          "topic": "tenure",
+          "kind": "missing",
+          "values": {
+            "topic": "tenure",
+            "pattern": "missing",
+            "reason": "no-record-in-source"
+          }
+        }
+      ],
+      "neighbourhoods": []
+    }
+  ],
+  "search": [
+    {
+      "query": "Afonbryn (synthetic)",
+      "kind": "not-covered",
+      "matches": []
+    },
+    {
+      "query": "Capital (synthetic)",
+      "kind": "choose",
+      "matches": [
+        {
+          "councilCode": "E06999001",
+          "label": "Capital (synthetic), Greater Capital (synthetic) (Northbridge (synthetic))"
+        },
+        {
+          "councilCode": "E06999002",
+          "label": "Capital (synthetic), Greater Capital (synthetic) (Southvale (synthetic))"
+        }
+      ]
+    },
+    {
+      "query": "East Westshire Borough (synthetic)",
+      "kind": "council",
+      "matches": [
+        {
+          "councilCode": "E07999001",
+          "label": "Eastmere (synthetic), Westshire (synthetic)",
+          "note": "former-name"
+        }
+      ]
+    },
+    {
+      "query": "Eastmere (synthetic)",
+      "kind": "council",
+      "matches": [
+        {
+          "councilCode": "E07999001",
+          "label": "Eastmere (synthetic), Westshire (synthetic)"
+        }
+      ]
+    },
+    {
+      "query": "Eastmere Westmere Fields (synthetic)",
+      "kind": "choose",
+      "matches": [
+        {
+          "councilCode": "E07999001",
+          "label": "Eastmere Westmere Fields (synthetic), Westshire (synthetic) (Eastmere (synthetic))"
+        },
+        {
+          "councilCode": "E07999002",
+          "label": "Eastmere Westmere Fields (synthetic), Westshire (synthetic) (Westmere (synthetic))"
+        }
+      ]
+    },
+    {
+      "query": "Newbury (synthetic)",
+      "kind": "choose",
+      "matches": [
+        {
+          "councilCode": "E07999001",
+          "label": "Newbury (synthetic), Westshire (synthetic)"
+        },
+        {
+          "councilCode": "E06999002",
+          "label": "Newbury (synthetic), Southshire (synthetic)"
+        }
+      ]
+    },
+    {
+      "query": "Northbridge (synthetic)",
+      "kind": "council",
+      "matches": [
+        {
+          "councilCode": "E06999001",
+          "label": "Northbridge (synthetic)"
+        }
+      ]
+    },
+    {
+      "query": "Southvale (synthetic)",
+      "kind": "council",
+      "matches": [
+        {
+          "councilCode": "E06999002",
+          "label": "Southvale (synthetic)"
+        }
+      ]
+    },
+    {
+      "query": "Westmere (synthetic)",
+      "kind": "council",
+      "matches": [
+        {
+          "councilCode": "E07999002",
+          "label": "Westmere (synthetic), Westshire (synthetic)"
+        }
+      ]
+    },
+    {
+      "query": "Westshire (synthetic)",
+      "kind": "choose",
+      "matches": [
+        {
+          "councilCode": "E07999001",
+          "label": "Eastmere (synthetic), Westshire (synthetic)"
+        },
+        {
+          "councilCode": "E07999002",
+          "label": "Westmere (synthetic), Westshire (synthetic)"
+        }
+      ]
+    },
+    {
+      "query": "NB1 4XY",
+      "kind": "council-for-postcode",
+      "matches": [
+        {
+          "councilCode": "E06999001"
+        }
+      ]
+    },
+    {
+      "query": "SV2 3AB",
+      "kind": "council-for-postcode",
+      "matches": [
+        {
+          "councilCode": "E06999002"
+        }
+      ]
+    }
+  ]
+}

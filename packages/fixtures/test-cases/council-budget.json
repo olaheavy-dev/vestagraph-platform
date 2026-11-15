@@ -1,0 +1,386 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "each-side-below-budget",
+      "description": "Budget £2,000 a month; rent side £1,567 and both buy sides below it: all within.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 199999
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 200000 pence."
+        },
+        {
+          "n": 2,
+          "description": "Rent side 156700 <= 200000: within."
+        },
+        {
+          "n": 3,
+          "description": "Buy 190000 <= 200000 and 199999 <= 200000: both within."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "within"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "each-side-equal-to-budget",
+      "description": "Budget £1,567 a month equal to the rent side and to both buy sides: equal is within.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 156700,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 156700
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 156700
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 156700 pence."
+        },
+        {
+          "n": 2,
+          "description": "Every side is 156700, and 156700 <= 156700, so within (equal counts as within)."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "within"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "each-side-above-budget",
+      "description": "Budget £1,500 a month; rent side one penny over, buy sides well over: all above.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 150000,
+        "rentSidePence": 150001,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 150001
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 230000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 150000 pence."
+        },
+        {
+          "n": 2,
+          "description": "150001 > 150000 (one penny over): above. 230000 > 150000: above."
+        }
+      ],
+      "expected": {
+        "rent": "above",
+        "buy": {
+          "2-year-fixed": "above",
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "mixed-sides",
+      "description": "Rent within, one buy side within, the other above.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 200000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 200001
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 200000 pence."
+        },
+        {
+          "n": 2,
+          "description": "Rent 156700: within. 2-year 200000: equal, within. 5-year 200001: above."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "eastmere-rent-missing",
+      "description": "Eastmere (synthetic) has no rent figure: the rent side is no answer, not within; the buy side is still checked.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": null,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 210000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Rent side is missing (no figure), so there is nothing to compare: no answer."
+        },
+        {
+          "n": 2,
+          "description": "190000 <= 200000 within; 210000 > 200000 above."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {
+          "2-year-fixed": "within",
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "eastmere-rent-missing-buy-side-above-budget",
+      "description": "No rent figure and one buy side above the budget: the rent side has no answer (never within); the buy side above is above, the one at the budget is within.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 150000,
+        "rentSidePence": null,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 160000
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 150000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Budget 150000 pence; no rent side, so no answer for rent."
+        },
+        {
+          "n": 2,
+          "description": "Buy 160000 > 150000: above. Buy 150000 <= 150000: within (equal is within)."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {
+          "2-year-fixed": "above",
+          "5-year-fixed": "within"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "buy-side-figure-missing",
+      "description": "A buy side with no figure (no rate band or no price) is no answer for that product only.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 210000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "2-year has no figure: no answer, not within."
+        },
+        {
+          "n": 2,
+          "description": "Rent 156700 within; 5-year 210000 above."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {
+          "2-year-fixed": null,
+          "5-year-fixed": "above"
+        },
+        "problem": null
+      }
+    },
+    {
+      "id": "buying-problem-hides-buy-sides",
+      "description": "When the rent-or-buy result has a problem, it has no buy sides, so the buy answers are empty; the rent side is still checked.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 200000,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": "deposit-negative",
+        "buySides": []
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "No buy sides, so no buy answers."
+        },
+        {
+          "n": 2,
+          "description": "Rent 156700 <= 200000 within."
+        }
+      ],
+      "expected": {
+        "rent": "within",
+        "buy": {},
+        "problem": null
+      }
+    },
+    {
+      "id": "zero-budget",
+      "description": "A budget of zero is a problem and no side is compared.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": 0,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Zero is not positive: problem budget-not-positive, no answers."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {},
+        "problem": "budget-not-positive"
+      }
+    },
+    {
+      "id": "negative-budget",
+      "description": "A negative budget is a problem and no side is compared.",
+      "rule": {
+        "source": "Founder decision (b), 23 Oct 2026: \"'Within budget' means total at or below £1,600; exactly £1,600 is within\" (made for the B1 story budget), extended by analogy to the City Explorer budget check (the agent's call, for the founder to confirm in pull request A); a side with no figure gives no answer, never within (AGENTS rule 7); a budget of zero or below is a problem",
+        "url": "packages/fixtures/test-cases/README.md"
+      },
+      "inputs": {
+        "budgetMonthlyPence": -1,
+        "rentSidePence": 156700,
+        "rentOrBuyProblem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 190000
+          }
+        ]
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Negative is not positive: problem budget-not-positive, no answers."
+        }
+      ],
+      "expected": {
+        "rent": null,
+        "buy": {},
+        "problem": "budget-not-positive"
+      }
+    }
+  ]
+}

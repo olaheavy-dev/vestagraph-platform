@@ -1,0 +1,1562 @@
+{
+  "$schema": "../schema/council-area.schema.json",
+  "councils": [
+    {
+      "code": "E06999001",
+      "name": "Northbridge (synthetic)",
+      "nation": "england",
+      "tier": "unitary",
+      "population": {
+        "status": "recorded",
+        "value": 312400,
+        "level": {
+          "kind": "local-authority",
+          "name": "Northbridge (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS mid-year population estimates",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/bulletins/populationestimatesforenglandandwales/mid2025",
+          "edition": "mid-2025",
+          "period": "mid-2025",
+          "synthetic": true
+        }
+      },
+      "bands": {
+        "status": "recorded",
+        "value": {
+          "A": 144000,
+          "B": 168000,
+          "C": 192000,
+          "D": 216000,
+          "E": 264000,
+          "F": 312000,
+          "G": 360000,
+          "H": 432000
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Northbridge (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like MHCLG council tax levels, Table 9",
+          "url": "https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2026-to-2027",
+          "edition": "2026 to 2027",
+          "period": "2026 to 2027",
+          "synthetic": true
+        }
+      },
+      "rentSeries": {
+        "status": "recorded",
+        "unit": "pence-per-month",
+        "points": [
+          {
+            "period": "2024-11",
+            "value": 118000,
+            "status": "recorded"
+          },
+          {
+            "period": "2024-12",
+            "value": 118900,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-01",
+            "value": 119800,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-02",
+            "value": 120700,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-03",
+            "value": 121600,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-04",
+            "value": 122500,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-05",
+            "value": 123400,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-06",
+            "value": 124300,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-07",
+            "value": 125200,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-08",
+            "value": 126100,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-09",
+            "value": 127000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-10",
+            "value": 127900,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-11",
+            "value": 128800,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-12",
+            "value": 129700,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-01",
+            "value": 130600,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-02",
+            "value": 131500,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-03",
+            "value": 132400,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-04",
+            "value": 133300,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-05",
+            "value": 134200,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-06",
+            "value": 135100,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-07",
+            "value": 136000,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-08",
+            "value": 136900,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-09",
+            "value": 137800,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-10",
+            "value": 138700,
+            "status": "provisional"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Northbridge (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
+          "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/priceindexofprivaterentsukmonthlypricestatistics",
+          "edition": "October 2026 edition",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "priceSeries": {
+        "status": "recorded",
+        "unit": "pence",
+        "points": [
+          {
+            "period": "2024-09",
+            "value": 28400000,
+            "status": "recorded"
+          },
+          {
+            "period": "2024-10",
+            "value": 28460000,
+            "status": "recorded"
+          },
+          {
+            "period": "2024-11",
+            "value": 28520000,
+            "status": "recorded"
+          },
+          {
+            "period": "2024-12",
+            "value": 28580000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-01",
+            "value": 28640000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-02",
+            "value": 28700000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-03",
+            "value": 28760000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-04",
+            "value": 28820000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-05",
+            "value": 28880000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-06",
+            "value": 28940000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-07",
+            "value": 29000000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-08",
+            "value": 29060000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-09",
+            "value": 29120000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-10",
+            "value": 29180000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-11",
+            "value": 29240000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-12",
+            "value": 29300000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-01",
+            "value": 29360000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-02",
+            "value": 29420000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-03",
+            "value": 29480000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-04",
+            "value": 29540000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-05",
+            "value": 29600000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-06",
+            "value": 29660000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-07",
+            "value": 29720000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-08",
+            "value": 29780000,
+            "status": "provisional"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Northbridge (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the UK House Price Index",
+          "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+          "edition": "August 2026 data",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "affordabilitySeries": {
+        "status": "recorded",
+        "unit": "ratio",
+        "points": [
+          {
+            "period": "2019",
+            "value": "7.41",
+            "status": "recorded"
+          },
+          {
+            "period": "2020",
+            "value": "7.62",
+            "status": "recorded"
+          },
+          {
+            "period": "2021",
+            "value": "8.05",
+            "status": "recorded"
+          },
+          {
+            "period": "2022",
+            "value": "8.31",
+            "status": "recorded"
+          },
+          {
+            "period": "2023",
+            "value": "8.12",
+            "status": "recorded"
+          },
+          {
+            "period": "2024",
+            "value": "8.27",
+            "status": "recorded"
+          },
+          {
+            "period": "2025",
+            "value": "8.44",
+            "status": "recorded"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Northbridge (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS housing affordability in England and Wales (median, workplace-based)",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingaffordabilityinenglandandwales/2025",
+          "edition": "2025 release",
+          "period": "year ending September",
+          "synthetic": true
+        }
+      },
+      "tenure": {
+        "status": "recorded",
+        "value": {
+          "ownedOutright": 31200,
+          "ownedWithMortgage": 36800,
+          "socialRented": 21500,
+          "privateRented": 29900,
+          "other": 1900
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Northbridge (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+          "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+          "edition": "Census 2021, version 3",
+          "period": "2021",
+          "synthetic": true
+        }
+      },
+      "connectivity": {
+        "status": "recorded",
+        "value": {
+          "score": "71.4",
+          "decile": 8
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Northbridge (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+          "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+          "edition": "2025",
+          "period": "Q4 2024",
+          "synthetic": true
+        }
+      },
+      "neighbourhoods": [
+        {
+          "code": "E01999011",
+          "shortCode": "011A",
+          "largerAreaName": "Northbridge Centre (synthetic)",
+          "facts": {
+            "connectivity": {
+              "status": "recorded",
+              "value": {
+                "score": "84.2",
+                "decile": 9
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Northbridge Centre (synthetic) 011A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+                "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+                "edition": "2025",
+                "period": "Q4 2024",
+                "synthetic": true
+              }
+            },
+            "deprivation": {
+              "status": "recorded",
+              "value": {
+                "decile": 3,
+                "rank": 9120,
+                "ofAreas": 32844,
+                "edition": "Synthetic edition"
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Northbridge Centre (synthetic) 011A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the English Indices of Deprivation",
+                "url": "https://www.gov.uk/government/collections/english-indices-of-deprivation",
+                "edition": "synthetic edition",
+                "period": "synthetic",
+                "synthetic": true
+              }
+            },
+            "tenure": {
+              "status": "recorded",
+              "value": {
+                "ownedOutright": 310,
+                "ownedWithMortgage": 402,
+                "socialRented": 611,
+                "privateRented": 540,
+                "other": 12
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Northbridge Centre (synthetic) 011A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+                "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+                "edition": "Census 2021, version 3",
+                "period": "2021",
+                "synthetic": true
+              }
+            }
+          }
+        },
+        {
+          "code": "E01999012",
+          "shortCode": "012C",
+          "largerAreaName": "Millbrook (synthetic)",
+          "facts": {
+            "connectivity": {
+              "status": "recorded",
+              "value": {
+                "score": "63.0",
+                "decile": 6
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Millbrook (synthetic) 012C"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+                "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+                "edition": "2025",
+                "period": "Q4 2024",
+                "synthetic": true
+              }
+            },
+            "deprivation": {
+              "status": "recorded",
+              "value": {
+                "decile": 6,
+                "rank": 19840,
+                "ofAreas": 32844,
+                "edition": "Synthetic edition"
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Millbrook (synthetic) 012C"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the English Indices of Deprivation",
+                "url": "https://www.gov.uk/government/collections/english-indices-of-deprivation",
+                "edition": "synthetic edition",
+                "period": "synthetic",
+                "synthetic": true
+              }
+            },
+            "tenure": {
+              "status": "recorded",
+              "value": {
+                "ownedOutright": 702,
+                "ownedWithMortgage": 655,
+                "socialRented": 180,
+                "privateRented": 311,
+                "other": 9
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Millbrook (synthetic) 012C"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+                "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+                "edition": "Census 2021, version 3",
+                "period": "2021",
+                "synthetic": true
+              }
+            }
+          }
+        },
+        {
+          "code": "E01999013",
+          "shortCode": "013B",
+          "largerAreaName": "Northbridge Fells (synthetic)",
+          "facts": {
+            "connectivity": {
+              "status": "recorded",
+              "value": {
+                "score": "29.8",
+                "decile": 2
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Northbridge Fells (synthetic) 013B"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+                "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+                "edition": "2025",
+                "period": "Q4 2024",
+                "synthetic": true
+              }
+            },
+            "deprivation": {
+              "status": "recorded",
+              "value": {
+                "decile": 8,
+                "rank": 27310,
+                "ofAreas": 32844,
+                "edition": "Synthetic edition"
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Northbridge Fells (synthetic) 013B"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the English Indices of Deprivation",
+                "url": "https://www.gov.uk/government/collections/english-indices-of-deprivation",
+                "edition": "synthetic edition",
+                "period": "synthetic",
+                "synthetic": true
+              }
+            },
+            "tenure": {
+              "status": "recorded",
+              "value": {
+                "ownedOutright": 655,
+                "ownedWithMortgage": 590,
+                "socialRented": 40,
+                "privateRented": 95,
+                "other": 0
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Northbridge Fells (synthetic) 013B"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+                "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+                "edition": "Census 2021, version 3",
+                "period": "2021",
+                "synthetic": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "E06999002",
+      "name": "Southvale (synthetic)",
+      "nation": "england",
+      "tier": "unitary",
+      "population": {
+        "status": "recorded",
+        "value": 158900,
+        "level": {
+          "kind": "local-authority",
+          "name": "Southvale (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS mid-year population estimates",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/bulletins/populationestimatesforenglandandwales/mid2025",
+          "edition": "mid-2025",
+          "period": "mid-2025",
+          "synthetic": true
+        }
+      },
+      "bands": {
+        "status": "recorded",
+        "value": {
+          "A": 132000,
+          "B": 154000,
+          "C": 176000,
+          "D": 198000,
+          "E": 242000,
+          "F": 286000,
+          "G": 330000,
+          "H": 396000
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Southvale (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like MHCLG council tax levels, Table 9",
+          "url": "https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2026-to-2027",
+          "edition": "2026 to 2027",
+          "period": "2026 to 2027",
+          "synthetic": true
+        }
+      },
+      "rentSeries": {
+        "status": "recorded",
+        "unit": "pence-per-month",
+        "points": [
+          {
+            "period": "2025-07",
+            "value": 96000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-08",
+            "value": 96500,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-09",
+            "value": 97000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-10",
+            "value": 97500,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-11",
+            "value": 98000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-12",
+            "value": 98500,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-01",
+            "value": 99000,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-02",
+            "value": 99500,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-03",
+            "value": 100000,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-04",
+            "value": 100500,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-05",
+            "value": 101000,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-06",
+            "value": 101500,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-07",
+            "value": 102000,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-08",
+            "value": 102500,
+            "status": "provisional"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Southvale (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
+          "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/priceindexofprivaterentsukmonthlypricestatistics",
+          "edition": "October 2026 edition",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "priceSeries": {
+        "status": "recorded",
+        "unit": "pence",
+        "points": [
+          {
+            "period": "2025-07",
+            "value": 19800000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-08",
+            "status": "not-published"
+          },
+          {
+            "period": "2025-09",
+            "value": 19870000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-10",
+            "value": 19905000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-11",
+            "value": 19940000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-12",
+            "value": 19975000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-01",
+            "value": 20010000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-02",
+            "value": 20045000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-03",
+            "value": 20080000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-04",
+            "value": 20115000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-05",
+            "value": 20150000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-06",
+            "value": 20185000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-07",
+            "value": 20220000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-08",
+            "value": 20255000,
+            "status": "provisional"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Southvale (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the UK House Price Index",
+          "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+          "edition": "August 2026 data",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "affordabilitySeries": {
+        "status": "recorded",
+        "unit": "ratio",
+        "points": [
+          {
+            "period": "2023",
+            "value": "6.12",
+            "status": "recorded"
+          },
+          {
+            "period": "2024",
+            "value": "6.30",
+            "status": "recorded"
+          },
+          {
+            "period": "2025",
+            "value": "6.41",
+            "status": "recorded"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Southvale (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS housing affordability in England and Wales (median, workplace-based)",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingaffordabilityinenglandandwales/2025",
+          "edition": "2025 release",
+          "period": "year ending September",
+          "synthetic": true
+        }
+      },
+      "tenure": {
+        "status": "recorded",
+        "value": {
+          "ownedOutright": 18400,
+          "ownedWithMortgage": 17100,
+          "socialRented": 9800,
+          "privateRented": 14300,
+          "other": 800
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Southvale (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+          "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+          "edition": "Census 2021, version 3",
+          "period": "2021",
+          "synthetic": true
+        }
+      },
+      "connectivity": {
+        "status": "recorded",
+        "value": {
+          "score": "48.5",
+          "decile": 5
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Southvale (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+          "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+          "edition": "2025",
+          "period": "Q4 2024",
+          "synthetic": true
+        }
+      },
+      "neighbourhoods": [
+        {
+          "code": "E01999021",
+          "shortCode": "021A",
+          "largerAreaName": "Southvale Quay (synthetic)",
+          "facts": {
+            "connectivity": {
+              "status": "recorded",
+              "value": {
+                "score": "55.1",
+                "decile": 5
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Southvale Quay (synthetic) 021A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+                "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+                "edition": "2025",
+                "period": "Q4 2024",
+                "synthetic": true
+              }
+            },
+            "deprivation": {
+              "status": "recorded",
+              "value": {
+                "decile": 5,
+                "rank": 15200,
+                "ofAreas": 32844,
+                "edition": "Synthetic edition"
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Southvale Quay (synthetic) 021A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the English Indices of Deprivation",
+                "url": "https://www.gov.uk/government/collections/english-indices-of-deprivation",
+                "edition": "synthetic edition",
+                "period": "synthetic",
+                "synthetic": true
+              }
+            },
+            "tenure": {
+              "status": "recorded",
+              "value": {
+                "ownedOutright": 402,
+                "ownedWithMortgage": 388,
+                "socialRented": 250,
+                "privateRented": 401,
+                "other": 6
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Southvale Quay (synthetic) 021A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+                "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+                "edition": "Census 2021, version 3",
+                "period": "2021",
+                "synthetic": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "E07999001",
+      "name": "Eastmere (synthetic)",
+      "nation": "england",
+      "tier": "district",
+      "county": "Westshire (synthetic)",
+      "formedOn": "2023-04-01",
+      "formerNames": [
+        "East Westshire Borough (synthetic)"
+      ],
+      "population": {
+        "status": "recorded",
+        "value": 98700,
+        "level": {
+          "kind": "local-authority",
+          "name": "Eastmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS mid-year population estimates",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/bulletins/populationestimatesforenglandandwales/mid2025",
+          "edition": "mid-2025",
+          "period": "mid-2025",
+          "synthetic": true
+        }
+      },
+      "bands": {
+        "status": "recorded",
+        "value": {
+          "A": 156000,
+          "B": 182000,
+          "C": 208000,
+          "D": 234000,
+          "E": 286000,
+          "F": 338000,
+          "G": 390000,
+          "H": 468000
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Eastmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like MHCLG council tax levels, Table 9",
+          "url": "https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2026-to-2027",
+          "edition": "2026 to 2027",
+          "period": "2026 to 2027",
+          "synthetic": true
+        }
+      },
+      "rentSeries": {
+        "status": "no-record-in-source",
+        "unit": "pence-per-month",
+        "points": [],
+        "level": {
+          "kind": "local-authority",
+          "name": "Eastmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
+          "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/priceindexofprivaterentsukmonthlypricestatistics",
+          "edition": "October 2026 edition",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "priceSeries": {
+        "status": "recorded",
+        "unit": "pence",
+        "points": [
+          {
+            "period": "2025-07",
+            "value": 22100000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-08",
+            "value": 22140000,
+            "status": "recorded"
+          },
+          {
+            "period": "2025-09",
+            "value": 22180000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-10",
+            "value": 22220000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-11",
+            "value": 22260000,
+            "status": "provisional"
+          },
+          {
+            "period": "2025-12",
+            "value": 22300000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-01",
+            "value": 22340000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-02",
+            "value": 22380000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-03",
+            "value": 22420000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-04",
+            "value": 22460000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-05",
+            "value": 22500000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-06",
+            "value": 22540000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-07",
+            "value": 22580000,
+            "status": "provisional"
+          },
+          {
+            "period": "2026-08",
+            "value": 22620000,
+            "status": "provisional"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Eastmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the UK House Price Index",
+          "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+          "edition": "August 2026 data",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "affordabilitySeries": {
+        "status": "recorded",
+        "unit": "ratio",
+        "points": [
+          {
+            "period": "2019",
+            "value": "5.88",
+            "status": "recorded"
+          },
+          {
+            "period": "2020",
+            "value": "5.97",
+            "status": "recorded"
+          },
+          {
+            "period": "2021",
+            "value": "6.20",
+            "status": "recorded"
+          },
+          {
+            "period": "2022",
+            "value": "6.55",
+            "status": "recorded"
+          },
+          {
+            "period": "2023",
+            "value": "6.71",
+            "status": "recorded",
+            "methodBreakBefore": true
+          },
+          {
+            "period": "2024",
+            "value": "6.92",
+            "status": "recorded"
+          },
+          {
+            "period": "2025",
+            "value": "7.03",
+            "status": "recorded"
+          }
+        ],
+        "level": {
+          "kind": "local-authority",
+          "name": "Eastmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS housing affordability in England and Wales (median, workplace-based)",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingaffordabilityinenglandandwales/2025",
+          "edition": "2025 release",
+          "period": "year ending September",
+          "synthetic": true
+        }
+      },
+      "tenure": {
+        "status": "recorded",
+        "value": {
+          "ownedOutright": 14900,
+          "ownedWithMortgage": 13200,
+          "socialRented": 5200,
+          "privateRented": 8800,
+          "other": 500
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Eastmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+          "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+          "edition": "Census 2021, version 3",
+          "period": "2021",
+          "synthetic": true
+        }
+      },
+      "connectivity": {
+        "status": "recorded",
+        "value": {
+          "score": "39.2",
+          "decile": 3
+        },
+        "level": {
+          "kind": "local-authority",
+          "name": "Eastmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+          "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+          "edition": "2025",
+          "period": "Q4 2024",
+          "synthetic": true
+        }
+      },
+      "neighbourhoods": [
+        {
+          "code": "E01999031",
+          "shortCode": "031A",
+          "largerAreaName": "Eastmere Green (synthetic)",
+          "facts": {
+            "connectivity": {
+              "status": "recorded",
+              "value": {
+                "score": "41.0",
+                "decile": 4
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Eastmere Green (synthetic) 031A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+                "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+                "edition": "2025",
+                "period": "Q4 2024",
+                "synthetic": true
+              }
+            },
+            "deprivation": {
+              "status": "no-record-in-source",
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Eastmere Green (synthetic) 031A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the English Indices of Deprivation",
+                "url": "https://www.gov.uk/government/collections/english-indices-of-deprivation",
+                "edition": "synthetic edition",
+                "period": "synthetic",
+                "synthetic": true
+              }
+            },
+            "tenure": {
+              "status": "recorded",
+              "value": {
+                "ownedOutright": 402,
+                "ownedWithMortgage": 310,
+                "socialRented": 120,
+                "privateRented": 230,
+                "other": 5
+              },
+              "level": {
+                "kind": "neighbourhood",
+                "name": "Eastmere Green (synthetic) 031A"
+              },
+              "source": {
+                "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+                "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+                "edition": "Census 2021, version 3",
+                "period": "2021",
+                "synthetic": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "code": "E07999002",
+      "name": "Westmere (synthetic)",
+      "nation": "england",
+      "tier": "district",
+      "county": "Westshire (synthetic)",
+      "population": {
+        "status": "no-record-in-source",
+        "level": {
+          "kind": "local-authority",
+          "name": "Westmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS mid-year population estimates",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/bulletins/populationestimatesforenglandandwales/mid2025",
+          "edition": "mid-2025",
+          "period": "mid-2025",
+          "synthetic": true
+        }
+      },
+      "bands": {
+        "status": "no-record-in-source",
+        "level": {
+          "kind": "local-authority",
+          "name": "Westmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like MHCLG council tax levels, Table 9",
+          "url": "https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2026-to-2027",
+          "edition": "2026 to 2027",
+          "period": "2026 to 2027",
+          "synthetic": true
+        }
+      },
+      "rentSeries": {
+        "status": "no-record-in-source",
+        "unit": "pence-per-month",
+        "points": [],
+        "level": {
+          "kind": "local-authority",
+          "name": "Westmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
+          "url": "https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/priceindexofprivaterentsukmonthlypricestatistics",
+          "edition": "October 2026 edition",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "priceSeries": {
+        "status": "no-record-in-source",
+        "unit": "pence",
+        "points": [],
+        "level": {
+          "kind": "local-authority",
+          "name": "Westmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the UK House Price Index",
+          "url": "https://www.gov.uk/government/statistical-data-sets/uk-house-price-index-data-downloads-august-2026--2",
+          "edition": "August 2026 data",
+          "period": "monthly",
+          "synthetic": true
+        }
+      },
+      "affordabilitySeries": {
+        "status": "no-record-in-source",
+        "unit": "ratio",
+        "points": [],
+        "level": {
+          "kind": "local-authority",
+          "name": "Westmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the ONS housing affordability in England and Wales (median, workplace-based)",
+          "url": "https://www.ons.gov.uk/peoplepopulationandcommunity/housing/bulletins/housingaffordabilityinenglandandwales/2025",
+          "edition": "2025 release",
+          "period": "year ending September",
+          "synthetic": true
+        }
+      },
+      "tenure": {
+        "status": "no-record-in-source",
+        "level": {
+          "kind": "local-authority",
+          "name": "Westmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the Census 2021 tenure table TS054",
+          "url": "https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/3",
+          "edition": "Census 2021, version 3",
+          "period": "2021",
+          "synthetic": true
+        }
+      },
+      "connectivity": {
+        "status": "no-record-in-source",
+        "level": {
+          "kind": "local-authority",
+          "name": "Westmere (synthetic)"
+        },
+        "source": {
+          "label": "Synthetic sample, shaped like the DfT transport connectivity metric",
+          "url": "https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric",
+          "edition": "2025",
+          "period": "Q4 2024",
+          "synthetic": true
+        }
+      },
+      "neighbourhoods": []
+    }
+  ],
+  "places": [
+    {
+      "name": "Northbridge (synthetic)",
+      "county": "Northshire (synthetic)",
+      "region": "North (synthetic)",
+      "nation": "england",
+      "councilCodes": [
+        "E06999001"
+      ]
+    },
+    {
+      "name": "Newbury (synthetic)",
+      "county": "Westshire (synthetic)",
+      "region": "West (synthetic)",
+      "nation": "england",
+      "councilCodes": [
+        "E07999001"
+      ]
+    },
+    {
+      "name": "Newbury (synthetic)",
+      "county": "Southshire (synthetic)",
+      "region": "South (synthetic)",
+      "nation": "england",
+      "councilCodes": [
+        "E06999002"
+      ]
+    },
+    {
+      "name": "Westshire (synthetic)",
+      "county": "Westshire (synthetic)",
+      "region": "West (synthetic)",
+      "nation": "england",
+      "councilCodes": [
+        "E07999001",
+        "E07999002"
+      ]
+    },
+    {
+      "name": "Eastmere Westmere Fields (synthetic)",
+      "county": "Westshire (synthetic)",
+      "region": "West (synthetic)",
+      "nation": "england",
+      "councilCodes": [
+        "E07999001",
+        "E07999002"
+      ]
+    },
+    {
+      "name": "Capital (synthetic)",
+      "county": "Greater Capital (synthetic)",
+      "region": "Capital (synthetic)",
+      "nation": "england",
+      "councilCodes": [
+        "E06999001",
+        "E06999002"
+      ]
+    },
+    {
+      "name": "Afonbryn (synthetic)",
+      "county": "Gwynfa (synthetic)",
+      "region": "Wales (synthetic)",
+      "nation": "wales",
+      "councilCodes": [
+        "W06999001"
+      ]
+    }
+  ],
+  "postcodes": [
+    {
+      "postcode": "NB1 4XY",
+      "councilCode": "E06999001"
+    },
+    {
+      "postcode": "SV2 3AB",
+      "councilCode": "E06999002"
+    }
+  ],
+  "rateBands": [
+    {
+      "product": "2-year-fixed",
+      "maxLoanToValuePercent": 60,
+      "rateBasisPoints": 410,
+      "month": "2026-10",
+      "source": {
+        "label": "Synthetic sample, shaped like Bank of England quoted household interest rates",
+        "url": "https://www.bankofengland.co.uk/statistics/visual-summaries/quoted-household-interest-rates",
+        "edition": "October 2026",
+        "period": "2026-10",
+        "synthetic": true
+      }
+    },
+    {
+      "product": "2-year-fixed",
+      "maxLoanToValuePercent": 75,
+      "rateBasisPoints": 430,
+      "month": "2026-10",
+      "source": {
+        "label": "Synthetic sample, shaped like Bank of England quoted household interest rates",
+        "url": "https://www.bankofengland.co.uk/statistics/visual-summaries/quoted-household-interest-rates",
+        "edition": "October 2026",
+        "period": "2026-10",
+        "synthetic": true
+      }
+    },
+    {
+      "product": "2-year-fixed",
+      "maxLoanToValuePercent": 85,
+      "rateBasisPoints": 470,
+      "month": "2026-10",
+      "source": {
+        "label": "Synthetic sample, shaped like Bank of England quoted household interest rates",
+        "url": "https://www.bankofengland.co.uk/statistics/visual-summaries/quoted-household-interest-rates",
+        "edition": "October 2026",
+        "period": "2026-10",
+        "synthetic": true
+      }
+    },
+    {
+      "product": "2-year-fixed",
+      "maxLoanToValuePercent": 90,
+      "rateBasisPoints": 510,
+      "month": "2026-10",
+      "source": {
+        "label": "Synthetic sample, shaped like Bank of England quoted household interest rates",
+        "url": "https://www.bankofengland.co.uk/statistics/visual-summaries/quoted-household-interest-rates",
+        "edition": "October 2026",
+        "period": "2026-10",
+        "synthetic": true
+      }
+    },
+    {
+      "product": "2-year-fixed",
+      "maxLoanToValuePercent": 95,
+      "rateBasisPoints": 560,
+      "month": "2026-10",
+      "source": {
+        "label": "Synthetic sample, shaped like Bank of England quoted household interest rates",
+        "url": "https://www.bankofengland.co.uk/statistics/visual-summaries/quoted-household-interest-rates",
+        "edition": "October 2026",
+        "period": "2026-10",
+        "synthetic": true
+      }
+    },
+    {
+      "product": "5-year-fixed",
+      "maxLoanToValuePercent": 75,
+      "rateBasisPoints": 450,
+      "month": "2026-10",
+      "source": {
+        "label": "Synthetic sample, shaped like Bank of England quoted household interest rates",
+        "url": "https://www.bankofengland.co.uk/statistics/visual-summaries/quoted-household-interest-rates",
+        "edition": "October 2026",
+        "period": "2026-10",
+        "synthetic": true
+      }
+    },
+    {
+      "product": "5-year-fixed",
+      "maxLoanToValuePercent": 95,
+      "rateBasisPoints": 540,
+      "month": "2026-10",
+      "source": {
+        "label": "Synthetic sample, shaped like Bank of England quoted household interest rates",
+        "url": "https://www.bankofengland.co.uk/statistics/visual-summaries/quoted-household-interest-rates",
+        "edition": "October 2026",
+        "period": "2026-10",
+        "synthetic": true
+      }
+    }
+  ]
+}

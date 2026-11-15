@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/generated-council-result.schema.json",
+  "title": "Council figures (generated/council-result.json)",
+  "description": "Every figure the City Explorer design canvas quotes, worked out by the area package and the cost engine from data/council-area.json; nothing here is typed by hand (AGENTS.md rule 2). Money is whole pence. A whole number is an integer; a number that is not whole is an exact decimal string, never a float. A figure that is not known is left out, never written as zero (AGENTS.md rule 7).",
+  "type": "object",
+  "required": ["$schema", "formatVersion", "exampleInputs", "councils", "search"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "formatVersion": { "const": 1 },
+    "exampleInputs": {
+      "type": "object",
+      "required": ["depositPercent", "termYears"],
+      "properties": {
+        "depositPercent": { "$ref": "#/$defs/wholeOrDecimal" },
+        "termYears": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
+    "councils": { "type": "array", "items": { "$ref": "#/$defs/council" } },
+    "search": { "type": "array", "items": { "$ref": "#/$defs/searchCase" } }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "wholeOrDecimal": {
+      "oneOf": [
+        { "type": "integer" },
+        { "type": "string", "pattern": "^-?[0-9]+\\.[0-9]+$" }
+      ]
+    },
+    "pence": { "type": "integer" },
+    "positivePence": { "type": "integer", "minimum": 1, "maximum": 9223372036854775807 },
+    "shownPounds": { "type": "integer" },
+    "shareText": {
+      "description": "A tenure share to one decimal place, as text: 35.0, never 35.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]$"
+    },
+    "buyingProblem": {
+      "enum": [
+        "council-tax-missing",
+        "deposit-negative",
+        "deposit-too-large",
+        "term-out-of-range",
+        "rate-negative",
+        "rate-too-high",
+        "rate-invalid"
+      ]
+    },
+    "sideProblem": { "enum": ["rate-band-unavailable", "price-not-positive"] },
+    "gapStatus": { "enum": ["no-record-in-source", "source-failed", "not-covered"] },
+    "missingReason": {
+      "enum": ["no-record-in-source", "source-failed", "not-covered", "latest-not-published"]
+    },
+    "band": { "enum": ["A", "B", "C", "D", "E", "F", "G", "H"] },
+    "tenureShares": {
+      "type": "object",
+      "required": ["ownedOutright", "ownedWithMortgage", "socialRented", "privateRented", "other"],
+      "properties": {
+        "ownedOutright": { "$ref": "#/$defs/shareText" },
+        "ownedWithMortgage": { "$ref": "#/$defs/shareText" },
+        "socialRented": { "$ref": "#/$defs/shareText" },
+        "privateRented": { "$ref": "#/$defs/shareText" },
+        "other": { "$ref": "#/$defs/shareText" }
+      },
+      "additionalProperties": false
+    },
+    "council": {
+      "type": "object",
+      "required": ["code", "bands", "rentOrBuy", "captions", "neighbourhoods"],
+      "properties": {
+        "code": { "type": "string", "minLength": 1 },
+        "bands": {
+          "description": "Empty when the council's council tax bands are a gap.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["band", "yearly", "monthly"],
+            "properties": {
+              "band": { "$ref": "#/$defs/band" },
+              "yearly": { "$ref": "#/$defs/pence" },
+              "monthly": { "$ref": "#/$defs/pence" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "rentOrBuy": {
+          "type": "object",
+          "required": ["byBand"],
+          "properties": {
+            "rentPeriod": { "type": "string", "minLength": 1 },
+            "rentPointStatus": { "enum": ["recorded", "provisional"] },
+            "rentMissingReason": { "$ref": "#/$defs/missingReason" },
+            "pricePeriod": { "type": "string", "minLength": 1 },
+            "pricePointStatus": { "enum": ["recorded", "provisional"] },
+            "priceMissingReason": { "$ref": "#/$defs/missingReason" },
+            "councilTaxMissingReason": { "$ref": "#/$defs/gapStatus" },
+            "byBand": { "type": "array", "items": { "$ref": "#/$defs/rentOrBuyBand" } }
+          },
+          "additionalProperties": false
+        },
+        "captions": { "type": "array", "items": { "$ref": "#/$defs/caption" } },
+        "tenureShares": { "$ref": "#/$defs/tenureShares" },
+        "neighbourhoods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["code", "label"],
+            "properties": {
+              "code": { "type": "string", "minLength": 1 },
+              "label": { "type": "string", "minLength": 1 },
+              "tenureShares": { "$ref": "#/$defs/tenureShares" },
+              "tenureMissingReason": { "$ref": "#/$defs/gapStatus" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "rentOrBuyBand": {
+      "type": "object",
+      "required": ["band", "buySides"],
+      "properties": {
+        "band": { "$ref": "#/$defs/band" },
+        "rentSide": { "$ref": "#/$defs/positivePence" },
+        "shownRentSide": { "$ref": "#/$defs/shownPounds" },
+        "buySides": { "type": "array", "items": { "$ref": "#/$defs/buySide" } },
+        "problem": { "$ref": "#/$defs/buyingProblem" }
+      },
+      "additionalProperties": false
+    },
+    "buySide": {
+      "type": "object",
+      "required": ["product"],
+      "properties": {
+        "product": { "enum": ["2-year-fixed", "5-year-fixed"] },
+        "buySide": { "$ref": "#/$defs/positivePence" },
+        "repayment": { "$ref": "#/$defs/positivePence" },
+        "rateBand": {
+          "type": "object",
+          "required": ["maxLoanToValuePercent", "rateBasisPoints", "month"],
+          "properties": {
+            "maxLoanToValuePercent": { "type": "integer" },
+            "rateBasisPoints": { "type": "integer" },
+            "month": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        },
+        "comparison": { "enum": ["more", "less", "about-the-same"] },
+        "difference": { "$ref": "#/$defs/pence" },
+        "shownBuySide": { "$ref": "#/$defs/shownPounds" },
+        "shownDifference": { "$ref": "#/$defs/shownPounds" },
+        "problem": { "$ref": "#/$defs/sideProblem" }
+      },
+      "additionalProperties": false
+    },
+    "caption": {
+      "type": "object",
+      "required": ["topic", "kind", "values"],
+      "properties": {
+        "topic": { "enum": ["rent", "price", "affordability", "tenure"] },
+        "kind": { "enum": ["trend", "missing", "not-comparable", "single-point"] },
+        "values": { "type": "object", "additionalProperties": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "searchCase": {
+      "type": "object",
+      "required": ["query", "kind", "matches"],
+      "properties": {
+        "query": { "type": "string", "minLength": 1 },
+        "kind": {
+          "enum": ["council", "choose", "not-found", "not-covered", "council-for-postcode"]
+        },
+        "matches": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["councilCode"],
+            "properties": {
+              "councilCode": { "type": "string", "minLength": 1 },
+              "label": { "type": "string", "minLength": 1 },
+              "note": { "enum": ["former-name", "not-covered"] }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

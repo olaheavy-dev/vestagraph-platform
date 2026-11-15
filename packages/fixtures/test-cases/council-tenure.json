@@ -1,0 +1,182 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "northbridge",
+      "description": "Northbridge's recorded counts (data/council-area.json): total 121300; shares add to 99.9, not 100.",
+      "rule": {
+        "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "counts": {
+          "ownedOutright": 31200,
+          "ownedWithMortgage": 36800,
+          "socialRented": 21500,
+          "privateRented": 29900,
+          "other": 1900
+        }
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Total = 31200 + 36800 + 21500 + 29900 + 1900 = 121300 (= 1213 x 100)."
+        },
+        {
+          "n": 2,
+          "description": "31200 / 1213 = 25.7214 -> 25.7 (below half). 36800 / 1213 = 30.3380 -> 30.3. 21500 / 1213 = 17.7246 -> 17.7. 29900 / 1213 = 24.6496 -> 24.6 (0.0496 above the tenth is below half)."
+        },
+        {
+          "n": 3,
+          "description": "1900 / 1213 = 1.5664 -> 1.6 (rounds up)."
+        },
+        {
+          "n": 4,
+          "description": "25.7 + 30.3 + 17.7 + 24.6 + 1.6 = 99.9."
+        }
+      ],
+      "expected": {
+        "shares": {
+          "ownedOutright": "25.7",
+          "ownedWithMortgage": "30.3",
+          "socialRented": "17.7",
+          "privateRented": "24.6",
+          "other": "1.6"
+        },
+        "sumOfShares": "99.9"
+      }
+    },
+    {
+      "id": "exact-halves-round-away-from-zero",
+      "description": "Test-only counts, total 2000: four shares land exactly on a half tenth; each rounds up (round-half-to-even would give 0.2, 0.4, 0.0 and 49.2). Shares add to 100.2.",
+      "rule": {
+        "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "counts": {
+          "ownedOutright": 5,
+          "ownedWithMortgage": 9,
+          "socialRented": 1,
+          "privateRented": 1000,
+          "other": 985
+        }
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Total = 5 + 9 + 1 + 1000 + 985 = 2000, so share = count / 20."
+        },
+        {
+          "n": 2,
+          "description": "5 / 20 = 0.25 -> 0.3. 9 / 20 = 0.45 -> 0.5. 1 / 20 = 0.05 -> 0.1 (halves away from zero)."
+        },
+        {
+          "n": 3,
+          "description": "1000 / 20 = 50.0. 985 / 20 = 49.25 -> 49.3."
+        },
+        {
+          "n": 4,
+          "description": "0.3 + 0.5 + 0.1 + 50.0 + 49.3 = 100.2."
+        }
+      ],
+      "expected": {
+        "shares": {
+          "ownedOutright": "0.3",
+          "ownedWithMortgage": "0.5",
+          "socialRented": "0.1",
+          "privateRented": "50.0",
+          "other": "49.3"
+        },
+        "sumOfShares": "100.2"
+      }
+    },
+    {
+      "id": "thirds-with-zero-counts",
+      "description": "Test-only counts 1, 1, 1, 0, 0: thirds round down to 33.3; a recorded count of zero is a share of 0.0 (a recorded zero, not a gap). Shares add to 99.9.",
+      "rule": {
+        "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "counts": {
+          "ownedOutright": 1,
+          "ownedWithMortgage": 1,
+          "socialRented": 1,
+          "privateRented": 0,
+          "other": 0
+        }
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Total = 3."
+        },
+        {
+          "n": 2,
+          "description": "1 / 3 x 100 = 33.333... -> 33.3 for each of three."
+        },
+        {
+          "n": 3,
+          "description": "0 / 3 x 100 = 0.0."
+        },
+        {
+          "n": 4,
+          "description": "33.3 x 3 = 99.9."
+        }
+      ],
+      "expected": {
+        "shares": {
+          "ownedOutright": "33.3",
+          "ownedWithMortgage": "33.3",
+          "socialRented": "33.3",
+          "privateRented": "0.0",
+          "other": "0.0"
+        },
+        "sumOfShares": "99.9"
+      }
+    },
+    {
+      "id": "two-thirds-round-up",
+      "description": "Test-only counts 2, 1, 0, 0, 0: 66.666... rounds up to 66.7, 33.333... rounds down to 33.3. Shares add to 100.0.",
+      "rule": {
+        "source": "Rounding rule from the City Explorer plan (Task 7): each share is count / total x 100 worked exactly, shown to one decimal place, halves rounded away from zero; shares are not forced to total 100 (the board says so). Counts are inputs from data/council-area.json or test-only.",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "counts": {
+          "ownedOutright": 2,
+          "ownedWithMortgage": 1,
+          "socialRented": 0,
+          "privateRented": 0,
+          "other": 0
+        }
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Total = 3."
+        },
+        {
+          "n": 2,
+          "description": "2 / 3 x 100 = 66.666... -> 66.7. 1 / 3 x 100 = 33.333... -> 33.3."
+        },
+        {
+          "n": 3,
+          "description": "66.7 + 33.3 = 100.0."
+        }
+      ],
+      "expected": {
+        "shares": {
+          "ownedOutright": "66.7",
+          "ownedWithMortgage": "33.3",
+          "socialRented": "0.0",
+          "privateRented": "0.0",
+          "other": "0.0"
+        },
+        "sumOfShares": "100.0"
+      }
+    }
+  ]
+}

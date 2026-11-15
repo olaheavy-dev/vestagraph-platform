@@ -1,0 +1,403 @@
+{
+  "$schema": "../schema/area-test-case.schema.json",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "northbridge-band-a",
+      "description": "Northbridge (synthetic) band A: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "A",
+        "yearlyPence": 144000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band A is 144000 pence (a recorded input, £1,440)."
+        },
+        {
+          "n": 2,
+          "description": "144000 / 12 = 12000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 12000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 144000,
+        "monthlyPence": 12000
+      }
+    },
+    {
+      "id": "northbridge-band-b",
+      "description": "Northbridge (synthetic) band B: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "B",
+        "yearlyPence": 168000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band B is 168000 pence (a recorded input, £1,680)."
+        },
+        {
+          "n": 2,
+          "description": "168000 / 12 = 14000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 14000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 168000,
+        "monthlyPence": 14000
+      }
+    },
+    {
+      "id": "northbridge-band-c",
+      "description": "Northbridge (synthetic) band C: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "C",
+        "yearlyPence": 192000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band C is 192000 pence (a recorded input, £1,920)."
+        },
+        {
+          "n": 2,
+          "description": "192000 / 12 = 16000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 16000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 192000,
+        "monthlyPence": 16000
+      }
+    },
+    {
+      "id": "northbridge-band-d",
+      "description": "Northbridge (synthetic) band D: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "D",
+        "yearlyPence": 216000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band D is 216000 pence (a recorded input, £2,160)."
+        },
+        {
+          "n": 2,
+          "description": "216000 / 12 = 18000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 18000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 216000,
+        "monthlyPence": 18000
+      }
+    },
+    {
+      "id": "northbridge-band-e",
+      "description": "Northbridge (synthetic) band E: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "E",
+        "yearlyPence": 264000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band E is 264000 pence (a recorded input, £2,640)."
+        },
+        {
+          "n": 2,
+          "description": "264000 / 12 = 22000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 22000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 264000,
+        "monthlyPence": 22000
+      }
+    },
+    {
+      "id": "northbridge-band-f",
+      "description": "Northbridge (synthetic) band F: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "F",
+        "yearlyPence": 312000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band F is 312000 pence (a recorded input, £3,120)."
+        },
+        {
+          "n": 2,
+          "description": "312000 / 12 = 26000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 26000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 312000,
+        "monthlyPence": 26000
+      }
+    },
+    {
+      "id": "northbridge-band-g",
+      "description": "Northbridge (synthetic) band G: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "G",
+        "yearlyPence": 360000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band G is 360000 pence (a recorded input, £3,600)."
+        },
+        {
+          "n": 2,
+          "description": "360000 / 12 = 30000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 30000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 360000,
+        "monthlyPence": 30000
+      }
+    },
+    {
+      "id": "northbridge-band-h",
+      "description": "Northbridge (synthetic) band H: the published yearly amount and its exact monthly amount.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999001",
+        "band": "H",
+        "yearlyPence": 432000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Published yearly amount for band H is 432000 pence (a recorded input, £4,320)."
+        },
+        {
+          "n": 2,
+          "description": "432000 / 12 = 36000 exactly, nothing to round.",
+          "rounding": "none needed",
+          "value": 36000
+        }
+      ],
+      "expected": {
+        "yearlyPence": 432000,
+        "monthlyPence": 36000
+      }
+    },
+    {
+      "id": "southvale-band-b-rounds-down",
+      "description": "Southvale (synthetic) band B: 154000 / 12 leaves a third of a penny, which rounds down.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999002",
+        "band": "B",
+        "yearlyPence": 154000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12 x 12833 = 153996; 154000 - 153996 = 4 left over, so 154000 / 12 = 12833.333..."
+        },
+        {
+          "n": 2,
+          "description": "The part over is .333, below a half, so it rounds down.",
+          "rounding": "nearest penny, halves away from zero",
+          "value": 12833
+        }
+      ],
+      "expected": {
+        "yearlyPence": 154000,
+        "monthlyPence": 12833
+      }
+    },
+    {
+      "id": "southvale-band-c-rounds-up",
+      "description": "Southvale (synthetic) band C: 176000 / 12 leaves two thirds of a penny, which rounds up.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E06999002",
+        "band": "C",
+        "yearlyPence": 176000
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12 x 14666 = 175992; 176000 - 175992 = 8 left over, so 176000 / 12 = 14666.666..."
+        },
+        {
+          "n": 2,
+          "description": "The part over is .667, above a half, so it rounds up.",
+          "rounding": "nearest penny, halves away from zero",
+          "value": 14667
+        }
+      ],
+      "expected": {
+        "yearlyPence": 176000,
+        "monthlyPence": 14667
+      }
+    },
+    {
+      "id": "exact-half-penny-6-pence",
+      "description": "6 pence a year: 6 / 12 = 0.5 exactly, so it rounds away from zero.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "yearlyPence": 6
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12 x 0 = 0; 6 - 0 = 6 left over, which is exactly half of 12, so 6 / 12 = 0.5"
+        },
+        {
+          "n": 2,
+          "description": "Exactly half rounds away from zero, up to 1.",
+          "rounding": "halves away from zero",
+          "value": 1
+        }
+      ],
+      "expected": {
+        "yearlyPence": 6,
+        "monthlyPence": 1
+      }
+    },
+    {
+      "id": "exact-half-penny-18-pence",
+      "description": "18 pence a year: 18 / 12 = 1.5 exactly, so it rounds away from zero.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "yearlyPence": 18
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12 x 1 = 12; 18 - 12 = 6 left over, which is exactly half of 12, so 18 / 12 = 1.5"
+        },
+        {
+          "n": 2,
+          "description": "Exactly half rounds away from zero, up to 2.",
+          "rounding": "halves away from zero",
+          "value": 2
+        }
+      ],
+      "expected": {
+        "yearlyPence": 18,
+        "monthlyPence": 2
+      }
+    },
+    {
+      "id": "exact-half-penny-30-pence",
+      "description": "30 pence a year: 30 / 12 = 2.5 exactly, so it rounds away from zero.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "yearlyPence": 30
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "12 x 2 = 24; 30 - 24 = 6 left over, which is exactly half of 12, so 30 / 12 = 2.5"
+        },
+        {
+          "n": 2,
+          "description": "Exactly half rounds away from zero, up to 3.",
+          "rounding": "halves away from zero",
+          "value": 3
+        }
+      ],
+      "expected": {
+        "yearlyPence": 30,
+        "monthlyPence": 3
+      }
+    },
+    {
+      "id": "westmere-bands-gap",
+      "description": "Westmere (synthetic) has no council tax record in its source: no yearly amount and no monthly figure, never £0.",
+      "rule": {
+        "source": "Council tax band amounts are published yearly (inputs); monthly = yearly / 12 rounded once to the nearest penny, halves away from zero (decision 0021)",
+        "url": "docs/decisions/0034-rounding-boundary-cases.md"
+      },
+      "inputs": {
+        "councilCode": "E07999002",
+        "band": "D"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "The bands fact has status no-record-in-source and carries no value."
+        },
+        {
+          "n": 2,
+          "description": "With no yearly amount there is nothing to divide, so there is no monthly figure either (rule 7: a gap is not zero)."
+        }
+      ],
+      "expected": {
+        "yearlyPence": null,
+        "monthlyPence": null
+      }
+    }
+  ]
+}
