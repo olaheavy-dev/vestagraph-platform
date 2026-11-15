@@ -331,6 +331,7 @@
   - `Match(council_code, label, note: "former-name"|None)`
 - **Search rules:**
   - Matching is case and space insensitive, on exact names, never fuzzy.
+  - Real data (stage 5b) comes from OS Open Names settlements joined to councils through a tested name-mapping table (founder: "Use it, match by name (Recommended)"; three attribution lines; quarterly refresh). The sample places in this plan stay synthetic.
   - The search looks at council names, `formerNames` (giving note `former-name`) and places.
   - Several councils, or several same-name places, give `choose`, each labelled "<place>, <county>".
   - A non-England place gives `not-covered`.

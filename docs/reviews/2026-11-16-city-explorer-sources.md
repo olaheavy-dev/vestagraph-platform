@@ -124,7 +124,7 @@ The founder chose "Check OS Open Names first" (see Questions, 3), so it was read
 Council tax: the final value for Lewes, revisions after March 2026; Bank of England: Moneyfacts rights, whether other term and band combinations exist; Nomis licence line; Open Parliament Licence text; boundary file sizes and the LSOA BGC layer's existence; post-2021 council code matching for Census; DfT `LAD22NM` name matching and decile columns; DfT file metadata says `license: TBA`; population table and column names; the affordability bulletin's accreditation and table numbers; whether OS Open Names settlement rows need only the OS attribution line, and which Boundary-Line edition its council names follow; the revision behaviour of the latest rent month.
 
 ## Questions for the founder
-Answered in prompt windows on 15 Nov 2026 (questions 1 to 4); question 5 is new and still to be asked. Questions 1 and 4 are carried into the design and the plan (see "Files changed").
+Answered in prompt windows on 15 Nov 2026 (questions 1 to 5). Questions 1 and 4 are carried into the design and the plan (see "Files changed").
 
 1. **Which mortgage product does the "rent or buy" example use?** A rate has a product (how long it is fixed) and a loan-to-value band (how big the loan is compared with the home's price). The Bank quotes the 2-year fixed at all five bands (60, 75, 85, 90, 95%), the 5-year fixed only at 75% and 95%, and the 3-year and 10-year only at 75%. The options were "2-year fixed (Recommended)", "5-year fixed" and "Both, 2-year and 5-year, where each exists".
    - **Founder's answer: "Both where each exists"** (over "2-year fixed (Recommended)"). Reason, in the founder's words: "People choose between them".
@@ -141,6 +141,7 @@ Answered in prompt windows on 15 Nov 2026 (questions 1 to 4); question 5 is new 
    - **Use OS Open Names settlements, joined to councils by name (Recommended):** town and village search works for about 33,000 English places; the council comes from OS's data; costs a source licence entry and attribution block, a tested name-mapping table (about 4% of rows differ from our council names, mostly "City of ..." and "St." spellings) and a refresh each quarter. Sample data in this plan stays synthetic; only the real data at stage 5b uses it.
    - **Use it, joined by council boundaries instead of names:** the council code comes from a point-in-polygon check, so no name table, but the boundary files must be loaded and the join code is harder to test.
    - **Council names only for now:** no new source or attribution; towns and villages get "search a council or enter a postcode"; revisit later.
+   - **Founder's answer (15 Nov 2026, prompt window): "Use it, match by name (Recommended)".** Town and village search comes from OS Open Names settlements, matched to councils by a tested name table, carrying the three attribution lines, refreshed quarterly; real data at stage 5b, sample data stays synthetic.
 
 ## Files changed
 `docs/reviews/2026-11-16-city-explorer-sources.md` (this note); `docs/references/data-sources.md` (one entry per source, "research, not yet used"); the design (sources table; founder answers; sections 2, 4 and 5 for the founder's answers 1 and 4); the plan (Global Constraints, Tasks 2, 3, 4, 8 and 9, Review Focus); `docs/planning/status.md`.
