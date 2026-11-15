@@ -16,6 +16,7 @@ Overwritten at the end of every session (decision 0050). Last updated: **15 Nov 
 | #272 | The first design batch's specifications: GLANCE, PRIO, TOPIC, DISP, MAP and AREA-28 to AREA-36, every canvas board mapped to scenarios |
 | #273 | AREA-29 and AREA-32 quote the approved states board; the board's border notice in miles (canvas 179); City Explorer brainstorm inputs |
 | #274 | [City Explorer data research](../reviews/2026-11-15-city-explorer-data-research.md): 14 topics checked and ranked |
+| #275 | The founder's first City Explorer brainstorm answers (cost-first summary, topic order, first version, later and dropped topics) and the end-of-session status |
 
 Process issue logged: olaheavy-dev/agent-workflows#22 (a push before the pre-push review, second time). Noticed issues opened: #269, #270, #271.
 
@@ -99,7 +100,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- #275 `docs/city-explorer-brainstorm-answers`: the founder's first City Explorer brainstorm answers and this end-of-session update. Everything else is merged, up to #274.
+- None. Everything is merged, up to #275 (the City Explorer brainstorm answers and this end-of-session update).
 
 ## Start of the next session
 1. **Continue the City Explorer brainstorm** (decision [0055](../decisions/0055-city-explorer-in-the-pilot.md), PD-17; founder, 15 Nov 2026: "go ahead with the brainstorm after merge, wrap up after ypu take the info from me" [sic]). Next in the brainstorm: the ways to build it (approaches, one recommended), then the written design in `docs/superpowers/specs/`, a builder check, the founder's approval, then the design review and plan. **Answers so far** (founder, 15 Nov 2026, prompt windows; the founder typed "Present in the agreed way", and for the topics typed "let us go thru one by one and elect"):
