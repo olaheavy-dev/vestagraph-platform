@@ -214,3 +214,18 @@ def test_rate_band_for_ignores_bands_of_other_products() -> None:
     only_five: list[RateBand] = [b for b in BANDS if b.product == "5-year-fixed"]
 
     assert rate_band_for(Fraction(25), only_five, "2-year-fixed") is None
+
+
+def test_rent_or_buy_half_penny_loan_rounds_away_from_zero() -> None:
+    # 29781390 x 85 / 100 = 25314181.5 exactly: the loan is 25314182, not 25314181.
+    result = _run(price=29781390, deposit="15")
+
+    assert result.buy_sides[0].repayment == Pence(143594)
+    assert result.buy_sides[0].difference == Pence(4894)
+
+
+def test_rent_or_buy_decimal_deposit_rounds_loan_once() -> None:
+    # 29783520 x 66.7 / 100 = 19865607.84: the loan is 19865608, not 19865607.
+    result = _run(price=29783520, deposit="33.3")
+
+    assert [s.repayment for s in result.buy_sides] == [Pence(108177), Pence(110420)]

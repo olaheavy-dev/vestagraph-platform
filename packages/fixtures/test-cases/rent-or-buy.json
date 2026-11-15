@@ -1306,6 +1306,133 @@
         "problem": "council-tax-missing",
         "buySides": []
       }
+    },
+    {
+      "id": "half-penny-loan-rounds-away-from-zero",
+      "description": "Test-only price 29781390 at a 15% deposit: the loan is exactly 25314181.5 pence, which must round up to 25314182 (floor would give 25314181). Loan-to-value 85 is exactly on the 85 grid band.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29781390,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "15",
+        "termYears": 25,
+        "rateBasisPoints": null,
+        "testOnly": true
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) rent 138700 pence a month and band D council tax 216000 / 12 = 18000, so rent side = 156700; the price below is a test-only input chosen to give a fractional-penny loan."
+        },
+        {
+          "n": 2,
+          "description": "Loan = 29781390 x 85 / 100 = 2531418150 / 100 = 25314181.5 exactly, a half penny: rounded once, halves away from zero, 25314182.",
+          "rounding": "exact half rounds up (away from zero)",
+          "value": 25314182
+        },
+        {
+          "n": 3,
+          "description": "Loan-to-value 85 sits on the 85 band: 2-year fixed 470 basis points; the 5-year fixed has no 85 band."
+        },
+        {
+          "n": 4,
+          "description": "i = 470/120000, N = 300: pmt = 25314182 x i x (1+i)^300 / ((1+i)^300 - 1) = 143594 (rounded once). Buy side = 143594 + 18000 = 161594; difference from 156700 = 4894: more.",
+          "value": 161594
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 161594,
+            "repaymentPence": 143594,
+            "rateUsedBasisPoints": 470,
+            "rateUsedMaxLoanToValuePercent": 85,
+            "comparison": "more",
+            "differencePence": 4894,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": null,
+            "repaymentPence": null,
+            "rateUsedBasisPoints": null,
+            "rateUsedMaxLoanToValuePercent": null,
+            "comparison": null,
+            "differencePence": null,
+            "problem": "rate-band-unavailable"
+          }
+        ]
+      }
+    },
+    {
+      "id": "decimal-deposit-rounds-loan-once",
+      "description": "Test-only price 29783520 at a 33.3% deposit (a decimal, read exactly as 333/10): the loan is 19865607.84 pence, which rounds up to 19865608 (floor would give 19865607). Loan-to-value 66.7 takes the 75 band.",
+      "rule": {
+        "source": "Repayment-mortgage formula, OpenStax Contemporary Mathematics section 6.8 (pmt = P i (1+i)^N / ((1+i)^N - 1), i = rate / 12, N = 12 x years); loan = price x (100 - deposit) / 100 rounded once; rate chosen on the whole grid of loan-to-value bands (60, 75, 85, 90, 95): the smallest grid band at or above the loan-to-value, that product's rate at that same band or none; every figure rounded to the nearest penny, halves away from zero (decision 0021). Rate bands are inputs from packages/fixtures/data/council-area.json (synthetic sample shaped like the Bank of England quoted rates).",
+        "url": "https://openstax.org/books/contemporary-mathematics/pages/6-8-the-basics-of-loans"
+      },
+      "inputs": {
+        "rentMonthlyPence": 138700,
+        "pricePence": 29783520,
+        "councilTaxMonthlyPence": 18000,
+        "depositPercent": "33.3",
+        "termYears": 25,
+        "rateBasisPoints": null,
+        "testOnly": true
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "Northbridge (synthetic) rent 138700 pence a month and band D council tax 216000 / 12 = 18000, so rent side = 156700; the price below is a test-only input chosen to give a fractional-penny loan."
+        },
+        {
+          "n": 2,
+          "description": "Loan = 29783520 x (100 - 33.3) / 100 = 29783520 x 66.7 / 100 = 1986560784 / 100 = 19865607.84, rounded once to 19865608.",
+          "rounding": "0.84 of a penny rounds up",
+          "value": 19865608
+        },
+        {
+          "n": 3,
+          "description": "Loan-to-value 66.7: smallest grid band at or above is 75. 2-year fixed 430 basis points, 5-year fixed 450."
+        },
+        {
+          "n": 4,
+          "description": "2-year: pmt = 108177, buy side 126177, difference -30523 (less). 5-year: pmt = 110420, buy side 128420, difference -28280 (less)."
+        }
+      ],
+      "expected": {
+        "rentSidePence": 156700,
+        "problem": null,
+        "buySides": [
+          {
+            "product": "2-year-fixed",
+            "buySidePence": 126177,
+            "repaymentPence": 108177,
+            "rateUsedBasisPoints": 430,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "less",
+            "differencePence": -30523,
+            "problem": null
+          },
+          {
+            "product": "5-year-fixed",
+            "buySidePence": 128420,
+            "repaymentPence": 110420,
+            "rateUsedBasisPoints": 450,
+            "rateUsedMaxLoanToValuePercent": 75,
+            "comparison": "less",
+            "differencePence": -28280,
+            "problem": null
+          }
+        ]
+      }
     }
   ]
 }
