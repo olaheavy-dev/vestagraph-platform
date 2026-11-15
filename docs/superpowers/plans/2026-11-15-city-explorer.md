@@ -445,6 +445,7 @@ Board values come only from `council-result.json` and `council-area.json`: quote
 - [ ] **The "Use in ChatGPT or Claude" page and the landing section (0056):**
   - developer mode explained, with its trade-off;
   - what the host app sees;
+  - what your app sends us, and that we keep only anonymous totals (0057);
   - a link to the privacy notice.
 - [ ] **The widget's full screen on a phone** (CARD-32 to CARD-35).
 

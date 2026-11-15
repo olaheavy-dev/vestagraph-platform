@@ -25,8 +25,8 @@ Overwritten at the end of every session (decision 0050). Last updated: **15 Nov 
 | #283 | City Explorer's implementation plan (`docs/superpowers/plans/2026-11-15-city-explorer.md`), subagent-driven |
 | #284 | Plan Task 1: City Explorer sources research (`docs/reviews/2026-11-16-city-explorer-sources.md`) and the founder's five answers (both mortgage products where each exists; town search from OS Open Names matched by name; all eight published council tax bands) |
 | #285 | Plan Tasks 2 to 9 (PR A): synthetic council sample data, the tested council figures in `vestagraph_area` and `council-result.json`; the founder confirmed its six display and input rules (register line BE-36) |
-| this pull request | End-of-session status and BE-36 |
-| this pull request (`feat/council-shown-pounds-and-types`) | City Explorer: whole-pound siblings for every council money part and house prices split by property type (BE-37) |
+| #287 | End-of-session status and BE-36 |
+| #290 | City Explorer: whole-pound siblings for every council money part and house prices split by property type (BE-37) |
 
 Process issue logged: olaheavy-dev/agent-workflows#22 (a push before the pre-push review, second time). Noticed issues opened: #269, #270, #271. Also olaheavy-dev/agent-workflows#23 (a delegated chore pull request, #280, pushed before its pre-push review). Noticed issues opened later the same day: #279 (backlog row 38i), #281 (validator keyword annotations). Review follow-up opened: #286 (PR A's deferred items: shared JSON helpers, typed-price checks, caption wording, place search).
 
@@ -110,15 +110,13 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- This end-of-session pull request only. Everything else is merged, up to #285.
-- `feat/council-shown-pounds-and-types` (pull request number to come): whole-pound siblings for every council board money part and house prices by property type in `council-result.json` (register line BE-37). Boards quote `shownYearly`, `shownCouncilTax`, `shownRepayment` and draw four price lines from `priceByType`.
+- Proposed decision 0057, ChatGPT call details: anonymous totals only (this pull request; founder merges: privacy rule). Everything else is merged, up to #290.
 
 **Work in progress, not yet a pull request:**
-- City Explorer PR B: the light boards were drawn and reviewed (canvas version 230); the founder's review answers of 15 Nov 2026 were recorded; the redraw waits for the pounds-and-types pull request above.
-- Proposed decision 0057 (ChatGPT usage logging) is being drafted.
+- City Explorer PR B: the light boards were drawn and reviewed (canvas version 230) and the founder's review answers of 15 Nov 2026 recorded; the boards are being redrawn with those answers on #290's data; then a visual pass in Chrome, the founder's review, and the dark versions.
 
 ## Start of the next session
-1. **City Explorer, PR B: the canvas boards** (plan [`2026-11-15-city-explorer.md`](../superpowers/plans/2026-11-15-city-explorer.md) Tasks 10 to 13, subagent-driven as the founder chose). Board values come only from `packages/fixtures/generated/council-result.json` and `council-area.json`. Order: chart style rules on Brand and style; the council page (phone and desktop, light); the neighbourhood page and the states; part 2 (compare in rows, share and print, what changed); the "Use in ChatGPT or Claude" page and its landing section (0056); the widget's full screen on a phone (CARD-32 to CARD-35). The founder reviews the light boards, then the dark versions are drawn. At the founder review, also show the caption wording file (the founder approves caption wording like FE-39; it must handle "rose by £1, 0.0%", #286).
+1. **City Explorer, PR B: the canvas boards** (plan [`2026-11-15-city-explorer.md`](../superpowers/plans/2026-11-15-city-explorer.md) Tasks 10 to 13, subagent-driven as the founder chose). Board values come only from `packages/fixtures/generated/council-result.json` and `council-area.json`. Order: chart style rules on Brand and style; the council page (phone and desktop, light); the neighbourhood page and the states; part 2 (compare in rows, share and print, what changed); the "Use in ChatGPT or Claude" page and its landing section (0056), with its "What your app sends us" section (0057); the widget's full screen on a phone (CARD-32 to CARD-35). The founder reviews the light boards, then the dark versions are drawn. At the founder review, also show the caption wording file (the founder approves caption wording like FE-39; it must handle "rose by £1, 0.0%", #286).
 2. **Then PR C: the specifications** (plan Task 14), after the founder approves the boards.
 3. **Still open for the pilot:** the "Explain this" texts (not written yet, AI-12); a boundary-overlap check for towns that span councils (real data at 5b, sources research); Moneyfacts rights over the Bank of England's quoted rates (not confirmed).
 4. **Done today, for orientation:** the City Explorer brainstorm (#273 to #275), design (#277) and design review (#282); decision 0056, no on-page chat in the pilot (#278); the plan (#283); the sources research (#284); PR A, the tested figures (#285); `types-jsonschema` (#280); the canvas chat boards moved to "Home workspace (later)" (canvas version 180).

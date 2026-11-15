@@ -114,7 +114,7 @@ Decisions first, then the API and the area adapters, then the public site. Items
 | 38j | to open | Pilot features: Explain this, Share a link, Recent postcodes (opt-in), Report a problem; questions to ask; go-check-in-person list |
 | 38k | to open | Pilot extras (pilot design, Goals 5; "wave 2" until 14 Nov 2026, now one pilot phase, PD-16): planning applications nearby, school inspection results with school demand (DfE applications and offers), air quality, compare two postcodes; walking times and timetabled buses per hour (needs DA-08); council tax by band (a tax table, so a founder merge); a family view. Each behind its own switch (research `docs/reviews/2026-11-13-chatgpt-ideas-research.md`) |
 | 38c | to open | Public site: landing (search first), How it works, About the data, privacy notice, accessibility statement (TASKS P1 to P4) |
-| 38d | to open | Stage 5b gate: sources on every fact, no searched postcode in any log, privacy notice and budget cap live, accessibility checks pass; monthly cap, rate limits and the Report a problem bot check live; the tool evaluation set passes (decisions 0051, 0056) |
+| 38d | to open | Stage 5b gate: sources on every fact, no searched postcode in any log, privacy notice and budget cap live, accessibility checks pass; monthly cap, rate limits and the Report a problem bot check live; the tool evaluation set passes; no `_meta` ID, coordinate or device hint in any log or store, and the usage totals follow the minimum count (decisions 0051, 0056, 0057) |
 
 ## Stage 6: the real product
 | # | Issue | Item |
