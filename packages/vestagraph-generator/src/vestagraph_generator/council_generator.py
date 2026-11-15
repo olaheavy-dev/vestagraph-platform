@@ -1,0 +1,209 @@
+"""Reads the council data, asks ``vestagraph_area`` for every figure, makes ``council-result.json``.
+
+Nothing in the file is typed by hand (AGENTS rule 2). The published inputs (a band's yearly
+council tax, a rate band) are copied from the data with their meaning; every calculated figure
+(monthly council tax, repayments, the rent or buy comparison, caption values, tenure shares)
+comes from ``vestagraph_area`` and the cost engine. The output depends only on the data files,
+never on the clock. A whole number is written as an integer and any other exact number as a
+decimal string, never a ``float``. A gap is left out, never written as zero (rule 7).
+"""
+
+import json
+from fractions import Fraction
+from pathlib import Path
+from typing import Any
+
+from vestagraph_area.captions import Caption, caption_for
+from vestagraph_area.council_records import (
+    BAND_LETTERS,
+    TENURE_KEYS,
+    Council,
+    CouncilArea,
+    Series,
+    read_council_area,
+)
+from vestagraph_area.council_tax import band_monthly, band_yearly
+from vestagraph_area.place_search import council_for_postcode, find_councils
+from vestagraph_area.rent_or_buy import BuySide, rent_or_buy
+from vestagraph_area.tenure import tenure_shares_for_fact
+from vestagraph_engine.pence import Pence
+
+from vestagraph_generator.area_generator import json_number
+
+FILE_NAME = "council-result.json"
+
+# The example inputs the design canvas quotes (controller ruling for Task 8): a 10% deposit over
+# 25 years and no typed rate, so each product's quoted rate band is used.
+_DEPOSIT_PERCENT = Fraction(10)
+_TERM_YEARS = 25
+
+
+def _latest_value(series: Series) -> Any:
+    """The series' latest point value; ``None`` when there are no points or it is unpublished."""
+    if series.status != "recorded" or not series.points:
+        return None
+    return series.points[-1].value
+
+
+def _pence(value: int | Fraction | None) -> Pence | None:
+    return None if value is None else Pence(int(value))
+
+
+def _caption(topic: str, series: Series) -> Caption:
+    if not series.points:
+        return Caption("missing", {"topic": topic, "pattern": "missing", "reason": series.status})
+    return caption_for(topic, series, series.points[-1].period)
+
+
+def _shares(shares: dict[str, Fraction]) -> dict[str, int | str]:
+    return {key: json_number(shares[key]) for key in TENURE_KEYS}
+
+
+def _share_text(share: Fraction) -> str:
+    whole, tenths = divmod(round(share * 10), 10)
+    return f"{whole}.{tenths}"
+
+
+def _buy_side(side: BuySide) -> dict[str, Any]:
+    entry: dict[str, Any] = {"product": side.product}
+    if side.buy_side is not None:
+        entry["buySide"] = side.buy_side.value
+    if side.repayment is not None:
+        entry["repayment"] = side.repayment.value
+    if side.rate_used is not None:
+        entry["rateBand"] = {
+            "maxLoanToValuePercent": side.rate_used.max_loan_to_value_percent,
+            "rateBasisPoints": side.rate_used.rate_basis_points,
+            "month": side.rate_used.month,
+        }
+    if side.comparison is not None:
+        entry["comparison"] = side.comparison
+    if side.difference is not None:
+        entry["difference"] = side.difference.value
+    if side.problem is not None:
+        entry["problem"] = side.problem
+    return entry
+
+
+def _bands(council: Council) -> list[dict[str, Any]]:
+    found: list[dict[str, Any]] = []
+    for band in BAND_LETTERS:
+        yearly = band_yearly(council.bands, band)
+        if yearly is not None:
+            found.append(
+                {"band": band, "yearly": yearly.value, "monthly": band_monthly(yearly).value}
+            )
+    return found
+
+
+def _rent_or_buy(council: Council, area: CouncilArea) -> dict[str, Any]:
+    rent = _pence(_latest_value(council.rent_series))
+    price = _pence(_latest_value(council.price_series))
+    by_band: list[dict[str, Any]] = []
+    for band in BAND_LETTERS:
+        yearly = band_yearly(council.bands, band)
+        tax = None if yearly is None else band_monthly(yearly)
+        outcome = rent_or_buy(
+            rent, price, tax, _DEPOSIT_PERCENT, _TERM_YEARS, None, area.rate_bands
+        )
+        entry: dict[str, Any] = {"band": band}
+        if outcome.rent_side is not None:
+            entry["rentSide"] = outcome.rent_side.value
+        entry["buySides"] = [_buy_side(s) for s in outcome.buy_sides]
+        if outcome.problem is not None:
+            entry["problem"] = outcome.problem
+        by_band.append(entry)
+    return {"byBand": by_band}
+
+
+def _captions(council: Council) -> list[dict[str, Any]]:
+    captions: list[tuple[str, str, dict[str, str]]] = []
+    for topic, series in (
+        ("rent", council.rent_series),
+        ("price", council.price_series),
+        ("affordability", council.affordability_series),
+    ):
+        caption = _caption(topic, series)
+        captions.append((topic, caption.kind, caption.values))
+    shares = tenure_shares_for_fact(council.tenure)
+    if shares is not None:
+        # One Census period, so no change over time: a single-point caption (never a trend).
+        values = {
+            "topic": "tenure",
+            "pattern": "single-point",
+            "period": council.tenure.source.period,
+        }
+        values.update({key: _share_text(shares[key]) for key in TENURE_KEYS})
+        captions.append(("tenure", "single-point", values))
+    return [{"topic": t, "kind": k, "values": v} for t, k, v in captions]
+
+
+def _council(council: Council, area: CouncilArea) -> dict[str, Any]:
+    entry: dict[str, Any] = {
+        "code": council.code,
+        "bands": _bands(council),
+        "rentOrBuy": _rent_or_buy(council, area),
+        "captions": _captions(council),
+    }
+    shares = tenure_shares_for_fact(council.tenure)
+    if shares is not None:
+        entry["tenureShares"] = _shares(shares)
+    neighbourhoods: list[dict[str, Any]] = []
+    for hood in sorted(council.neighbourhoods, key=lambda n: n.code):
+        item: dict[str, Any] = {
+            "code": hood.code,
+            "label": f"{hood.larger_area_name} ({hood.short_code})",
+        }
+        hood_shares = tenure_shares_for_fact(hood.tenure)
+        if hood_shares is not None:
+            item["tenureShares"] = _shares(hood_shares)
+        neighbourhoods.append(item)
+    entry["neighbourhoods"] = neighbourhoods
+    return entry
+
+
+def _search(area: CouncilArea) -> list[dict[str, Any]]:
+    queries = {p.name for p in area.places}
+    for council in area.councils:
+        queries.add(council.name)
+        queries.update(council.former_names)
+    found: list[dict[str, Any]] = []
+    for query in sorted(queries):
+        result = find_councils(query, area)
+        matches = []
+        for m in result.matches:
+            match: dict[str, Any] = {"councilCode": m.council_code, "label": m.label}
+            if m.note is not None:
+                match["note"] = m.note
+            matches.append(match)
+        found.append({"query": query, "kind": result.kind, "matches": matches})
+    for entry in sorted(area.postcodes, key=lambda p: p.postcode):
+        code = council_for_postcode(entry.postcode, area)
+        found.append(
+            {
+                "query": entry.postcode,
+                "kind": "council_for_postcode",
+                "matches": [] if code is None else [{"councilCode": code}],
+            }
+        )
+    return found
+
+
+def generate_council(fixtures_directory: Path) -> str:
+    """The text of ``council-result.json``: two-space indent, LF line endings, one final newline.
+
+    Raises ``OSError`` when the data file is missing and ``InvalidAreaDataError`` when it holds
+    something the reader does not understand.
+    """
+    area = read_council_area(fixtures_directory / "data" / "council-area.json")
+    document = {
+        "$schema": "../schema/generated-council-result.schema.json",
+        "formatVersion": 1,
+        "exampleInputs": {
+            "depositPercent": str(_DEPOSIT_PERCENT.numerator),
+            "termYears": _TERM_YEARS,
+        },
+        "councils": [_council(c, area) for c in sorted(area.councils, key=lambda c: c.code)],
+        "search": _search(area),
+    }
+    return json.dumps(document, indent=2, ensure_ascii=False) + "\n"

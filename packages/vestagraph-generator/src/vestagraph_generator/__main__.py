@@ -1,7 +1,8 @@
 """Command line: ``python -m vestagraph_generator [repo-root]`` (ported from the C# ``Program.cs``).
 
-Writes ``costs.json`` and ``area-result.json`` into ``packages/fixtures/generated`` from
-``packages/fixtures/data``. Both are made in memory first, so nothing is written if either cannot
+Writes ``costs.json``, ``area-result.json`` and ``council-result.json`` into
+``packages/fixtures/generated`` from
+``packages/fixtures/data``. All are made in memory first, so nothing is written if any cannot
 be generated.
 Exits 0 on success, 1 when the cost engine reports a problem (its error code is printed), and 2
 when a data file is missing or cannot be understood.
@@ -15,6 +16,7 @@ from vestagraph_area.records import InvalidAreaDataError
 
 from vestagraph_generator.area_generator import FILE_NAME as AREA_FILE_NAME
 from vestagraph_generator.costs_generator import FILE_NAME, run
+from vestagraph_generator.council_generator import FILE_NAME as COUNCIL_FILE_NAME
 from vestagraph_generator.fixture_reader import InvalidDataError
 
 
@@ -39,6 +41,7 @@ def main(argv: list[str], stdout: TextIO, stderr: TextIO, cwd: Path) -> int:
     if exit_code == 0:
         stdout.write(f"Generated {fixtures / 'generated' / FILE_NAME}\n")
         stdout.write(f"Generated {fixtures / 'generated' / AREA_FILE_NAME}\n")
+        stdout.write(f"Generated {fixtures / 'generated' / COUNCIL_FILE_NAME}\n")
     return exit_code
 
 
