@@ -101,7 +101,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- `chore/types-jsonschema`: adds `types-jsonschema` (dev only, register line BE-35) and drops two `# type: ignore` lines.
+- #280 (`chore/types-jsonschema`): adds `types-jsonschema` (dev only, register line BE-35) and drops two `# type: ignore` lines.
 - This pull request: decision [0056](../decisions/0056-no-on-page-chat-in-the-pilot.md) (the on-page AI chat leaves the pilot) and its knock-on edits. Everything before it is merged, up to #277.
 
 ## Start of the next session
