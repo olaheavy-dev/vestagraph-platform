@@ -1,7 +1,7 @@
 # 0055: City Explorer in the pilot
 
 **ID:** PD-17  
-**Status:** Accepted (founder, 14 Nov 2026, in prompt windows)  
+**Status:** Accepted (founder, 14 Nov 2026, in prompt windows) *15 Nov 2026: designed in the [City Explorer design](../superpowers/specs/2026-11-15-city-explorer-design.md), whose chart-led page replaces point 4's "reusing that layout" for the page itself; the AI question in Consequences is answered by [0056](0056-no-on-page-chat-in-the-pilot.md): council tools in ChatGPT and Claude, no on-page chat.*  
 **Date:** 2026-11-14  
 **Stage:** 3 (for the pilot, stage 5b)  
 **Research:** [City Explorer research](../reviews/2026-11-14-city-explorer-research.md)  

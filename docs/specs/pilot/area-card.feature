@@ -41,8 +41,10 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     the host is the display-mode request.
   Pilot scope (decision 0056, 15 Nov 2026): the pilot has no on-page chat, so only the widget for ChatGPT and Claude ships
     in the pilot. The version in our own chat is for the signed-in workspace chat; the scenarios that apply only inside our
-    chat (CARD-22, CARD-23, CARD-27, CARD-28, CARD-31 and the phone chat preview CARD-36 to CARD-42) are tagged @withdrawn
-    and kept with their IDs. Scenarios tagged ui and mcp still run once per version in the widget's case.
+    chat, or compare it with the widget (CARD-02, CARD-22, CARD-23, CARD-27, CARD-28, CARD-31 and the phone chat preview
+    CARD-36 to CARD-42), are tagged @withdrawn and kept with their IDs. In the pilot, a scenario tagged ui and mcp runs in the
+    MCP suite only (the widget); its ui run returns with the workspace chat. CARD-32 to CARD-35 now start from the widget's
+    full-screen view on a phone, and CARD-45 and CARD-46 give the widget its own keyboard and naming checks.
   Phone chat preview (founder, 13 Nov 2026, prompt window: "Preview + Open map", FE-18): in our chat on a
     phone the card is a preview, not a squeezed map: a small map strip with only the postcode centre, the
     number of places and the nearest one, and a full-width "Open map" button (the phone's Expand) that opens
@@ -59,10 +61,10 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     hosts without widgets, no places, reduced motion -> CARD-13, CARD-14, CARD-15
     the widget's sandbox: names as text, messages only from the host, no tool calls, no secrets -> CARD-16 to CARD-19
     no silent change between versions (screenshot test) -> CARD-20
-    Expand: the larger view, keyboard, focus trap, labelled dialog, list rows -> CARD-21 to CARD-24, CARD-27, CARD-28 (CARD-22, CARD-23, CARD-27 and CARD-28 withdrawn for the pilot, 0056)
+    Expand: the larger view, keyboard, focus trap, labelled dialog, list rows -> CARD-21 to CARD-24, CARD-27, CARD-28 (CARD-22, CARD-23, CARD-27 and CARD-28 withdrawn for the pilot, 0056; the widget's keyboard and name: CARD-45, CARD-46)
     full screen in hosts that allow it, leaving it, and no Expand where it can't work -> CARD-25, CARD-26, CARD-29
     an icon beside every place name, matching its pin -> CARD-30
-    on a phone, a closer expanded map that moves by dragging, by choosing a place or by Tab, and zooms, with every place still listed -> CARD-31 to CARD-35 (CARD-31, opened from our chat's preview, withdrawn for the pilot, 0056; CARD-32 to CARD-35 apply to the widget's full-screen view)
+    on a phone, a closer expanded map that moves by dragging, by choosing a place or by Tab, and zooms, with every place still listed -> CARD-31 to CARD-35 (CARD-31, opened from our chat's preview, withdrawn for the pilot, 0056; CARD-32 to CARD-35 start from the widget's full-screen view)
     in the phone chat, a preview with Open map instead of a squeezed map -> CARD-36 to CARD-42 (withdrawn for the pilot, 0056)
     at most 10 places, up to 5 km, the map fitted to them, also in a sparse area -> CARD-43, CARD-44
 
@@ -74,7 +76,8 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     Then every place is drawn at its listed straight-line distance within 2% and in its listed bearing, in list order, or is named "off the map"
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui
+  # Withdrawn for the pilot (0056): there is no second version to compare until the workspace chat.
+  @ui @withdrawn
   Scenario: CARD-02 both versions draw the same places in the same positions
     Given the same nearby places result for a sample postcode
     When our chat card and the widget are both drawn from it
@@ -263,6 +266,19 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     When the card is shown
     Then no Expand button is shown, and the compact card keeps every place, its list and its details
 
+  # Added 15 Nov 2026 (decision 0056): the widget's own keyboard and naming checks, now that CARD-23 and CARD-28 (our chat) are withdrawn.
+  @mcp
+  Scenario: CARD-45 the widget's expanded view works with the keyboard and returns focus
+    Given the widget is drawn in a host that lists fullscreen as an available display mode
+    When the user reaches "Expand" with Tab, opens it with Enter, then chooses "Close" with the keyboard
+    Then focus moves to the expanded view's heading when it opens, every control inside it is reachable with Tab, and focus returns to the "Expand" button when the widget is inline again
+
+  @mcp
+  Scenario: CARD-46 the widget's expanded view is named for a screen reader
+    Given the widget is in full screen with the expanded view for a sample postcode
+    When a screen reader reads the view
+    Then it is a region named "Nearest places to <postcode>"
+
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @mcp
   Scenario: CARD-30 every place name has its category icon beside it, matching its pin
@@ -278,30 +294,30 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     Then the map opens full screen with the place pins, at a larger scale than the desktop compact card, with the postcode centre in the middle of the visible part
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui
+  @mcp
   Scenario: CARD-32 on a phone the expanded map moves by dragging
-    Given the expanded map is open on a 390 px wide screen
+    Given the widget's expanded view is open in full screen (CARD-25) on a 390 px wide screen
     When the user drags the map
     Then the visible part moves with the drag, and the list below still shows every place
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui
+  @mcp
   Scenario: CARD-33 the zoom buttons change the scale and keep every place at its distance
-    Given the expanded map is open on a 390 px wide screen
+    Given the widget's expanded view is open in full screen (CARD-25) on a 390 px wide screen
     When the user chooses "Zoom in" and then "Zoom out"
     Then the scale changes each time, and every place stays at its listed distance and bearing within 2%
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui
+  @mcp
   Scenario: CARD-34 choosing a place, or tabbing to its pin, moves the map to show it
-    Given the expanded map is open on a 390 px wide screen and one place is outside the visible part
+    Given the widget's expanded view is open in full screen (CARD-25) on a 390 px wide screen and one place is outside the visible part
     When the user chooses that place in the list, or moves to its pin with Tab
     Then the map moves so that pin is fully visible and not covered, with no dragging needed
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui
+  @mcp
   Scenario: CARD-35 a place scrolled out of view is not off the map
-    Given the expanded map is open on a 390 px wide screen and one place is outside the visible part
+    Given the widget's expanded view is open in full screen (CARD-25) on a 390 px wide screen and one place is outside the visible part
     When the map is shown
     Then that place is not labelled "off the map", and it is reachable by dragging, by its list row or by Tab
 
