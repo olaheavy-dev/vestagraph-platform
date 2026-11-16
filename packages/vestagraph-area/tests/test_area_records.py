@@ -38,7 +38,22 @@ def test_read_registry_committed_data_returns_every_topic() -> None:
     assert noise.official_route is not None
     radon = next(t for t in registry.topics if t.key == "radon")
     assert (radon.counted, radon.kind, radon.record_topics) == (True, "area-figures", ("radon",))
-    assert radon.review_status == "draft"
+    assert radon.review_status == "reviewed"
+
+
+def test_read_registry_radon_topic_is_reviewed_with_the_approved_check_in_lines() -> None:
+    """Founder decision, 16 Nov 2026 (DA-31, prompt window "Approve, shorten remedy
+    (Recommended)"): the radon wording is approved, and the second check-in line drops the
+    remedy examples, which no cited source backs yet."""
+    registry = read_registry(DATA / "pilot-topics.json")
+
+    radon = next(t for t in registry.topics if t.key == "radon")
+    assert radon.review_status == "reviewed"
+    assert radon.check_in_person == (
+        "Ask the owner or landlord whether radon has been measured in the home, "
+        "and ask to see the result.",
+        "Ask whether anything has been fitted to reduce radon.",
+    )
 
 
 def test_read_postcode_area_committed_data_returns_postcodes_and_records() -> None:
