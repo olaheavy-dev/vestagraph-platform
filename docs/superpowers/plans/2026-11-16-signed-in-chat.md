@@ -9,6 +9,7 @@
 - Draw light boards at 390 and 1440 px on a new canvas page, the founder reviews them, then draw dark versions.
 - Write the specifications: three new feature files, plus a keep, replace or retire review of every withdrawn chat and card scenario.
 - No product code. Sign-in, the API, the agent and the database are built at 5b after AI-09, IN-02 and DA-03.
+- The bot check provider and the Python library that checks Better Auth's tokens (0058 builder notes) are named in the 5b build plan, not here; the founder approves any package that is not pre-approved.
 
 **Tech Stack:** The design canvas artifact (https://claude.ai/artifact/MpvQNDVYCePp4iWM3j3Jx4, version 332 onwards). Gherkin run by pytest-bdd (`packages/specs/tests`). No new packages.
 
@@ -146,6 +147,7 @@ The canvas page is new: **"Pilot · Signed-in chat"**. The chat boards on "Home 
 - [ ] **First visit (empty)** and **returning user** (new chat, last chat first in the sidebar), desktop and phone:
   - suggested starts that name things the tools can answer;
   - no saved areas yet, with how to save one.
+- [ ] **"Ask more about this" (proposal for the founder):** on the area result's "Explain this" for a signed-in user, a link that opens the workspace chat on that topic; drawn as a proposal and asked at Task 5.
 - [ ] **Acceptance:**
   - every figure has a source stamp and level;
   - "Not known" appears where the sample data has a gap (NB7 1RR);
@@ -208,6 +210,7 @@ One board, phone frames, each state with its cause, reassurance and one action:
 
 ### Task 5: Founder review, dark versions, PR 2
 - [ ] The founder reviews the light boards in a prompt window, one area at a time. Fix what comes back, and record any changed answer as a register line.
+- [ ] Ask the founder, in a prompt window, whether "Ask more about this" comes back for signed-in users (0058 open item), with the Task 2 proposal board as the example.
 - [ ] Draw the dark versions (slate ink) of every board, at the light board's x plus 8000, same y.
 - [ ] Check every board in Chrome at 390 and 1440.
 - [ ] **PR 2:**
@@ -298,8 +301,8 @@ Each feature's description follows `area-chat.feature`'s header shape:
   - **Kept:** only scenarios whose text still holds word for word. A kept scenario loses `@withdrawn` and keeps its other tags.
   - **Retired:** anything only about the anonymous on-page chat; it stays `@withdrawn`.
   - **The header:** "Modes: anyone, with no account" becomes signed-in users only, pointing to 0058 and the new files.
-- [ ] **Step 3: "Ask more about this" (CHAT-52, CHAT-53, 0058's open item):** for signed-in users, a topic's "Explain this" link opens the workspace chat on that topic. Keep or replace by the same rule as Step 2.
-- [ ] **Step 4:** Run `make check`. Expected: pass. Then `grep -c "@withdrawn" docs/specs/pilot/area-chat.feature` equals the number of retired plus replaced rows in the table.
+- [ ] **Step 3: "Ask more about this" (CHAT-52, CHAT-53, 0058's open item):** follow the founder's answer from Task 5. Keep or replace by the same rule as Step 2.
+- [ ] **Step 4:** Run `make check`. Expected: pass. Then `grep -cE '^\s+@.*\bwithdrawn\b' docs/specs/pilot/area-chat.feature` (tag lines only; the header also contains the word) equals the number of retired plus replaced rows in the table.
 
 ### Task 8: Knock-on documents, review and merge (PR 3)
 - [ ] **`.design/prototype/INFORMATION_ARCHITECTURE.md`:**

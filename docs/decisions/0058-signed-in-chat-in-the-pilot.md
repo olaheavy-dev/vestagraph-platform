@@ -151,3 +151,5 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 - A dropped connection on our side does not count.
 - The monthly IN-05 cap has its own state: "Chat is paused for this month, the area check still works".
 - Deleting a saved area leaves past chats readable, with their stored widgets.
+
+Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes in the records": a withdrawn scenario whose meaning changes stays `@withdrawn` with "Replaced by <new ID>" and the new meaning gets a new ID, because docs/specs/README.md rule 2 never reuses an ID. This refines choice 7's agent's call: an answer stopped by the output guard is a completed answer, not a failure on our side, so it counts; Regenerate is a message the user sends, so it counts; a dropped connection or server error on our side does not.
