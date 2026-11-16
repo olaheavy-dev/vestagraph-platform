@@ -32,7 +32,7 @@ Date: 11 Nov 2026 (phase 5 of the design flow)
   _Depends on: H1–H3._
 - [ ] **H6 Immersive map** (founder, 11 Nov 2026): a 3D switch (tilt and approximate building heights), category filters with icons, a legend, a hover card on desktop and a tap card on phones, all on the sample map. Crime and flood stay off the map.
 - [ ] **H7 Public landing, desktop and phone** (decision 0046): search first, the sample 3D map with a summary card, and account features in a "Coming next · not available yet" panel. **Design passes 2 and 3 (11 Nov 2026):**
-  - a labelled postcode box with hint text and "Not ready to type? Try an example" (since 14 Nov 2026, FE-37: placeholder "Enter a postcode", no hint, "Try a sample");
+  - a labelled postcode box with hint text and "Not ready to type? Try an example" (since 14 Nov 2026, FE-37: placeholder "Enter a postcode", no hint, "Try a sample"; one box for a postcode or a town since 15 Nov 2026: label "Postcode, town or city", placeholder "Enter a postcode or town", button "Search");
   - a "Data from" strip with source names only (no logos, which could read as endorsement);
   - "How it works" as three illustrated steps;
   - "How to read a result": a Schools card from the sample data (labelled Sample) with four numbered callouts, replacing generic feature columns (since 14 Nov 2026 a showcase card with leader lines, FE-36);

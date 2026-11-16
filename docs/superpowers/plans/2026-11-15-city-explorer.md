@@ -398,7 +398,7 @@
 
 ### Task 10: Canvas, chart style and the council page (light)
 Board values come only from `council-result.json` and `council-area.json`: quote, never work out.
-- [ ] **Brand and style:** chart rules:
+- [x] **Brand and style:** chart rules:
   - line, bar and stacked bar;
   - the provisional pattern;
   - the "not published" gap;
@@ -406,7 +406,7 @@ Board values come only from `council-result.json` and `council-area.json`: quote
   - focus and tap values;
   - the table view;
   - greyscale print.
-- [ ] **Council page, phone (390) and desktop (1440), Northbridge:**
+- [x] **Council page, phone (390) and desktop (1440), Northbridge:**
   - header and population line;
   - the band picker on D;
   - "What it costs here";
@@ -417,15 +417,15 @@ Board values come only from `council-result.json` and `council-area.json`: quote
   - the tenure bar;
   - the neighbourhood map with its list;
   - "How we got this".
-- [ ] **Acceptance:**
+- [x] **Acceptance:**
   - no verdict words;
   - every figure shows its level and period;
   - "repayment and council tax only" and "the averages describe different homes" are on the board;
   - touch targets are at least 44 px.
 
 ### Task 11: Canvas, neighbourhood page and states (light)
-- [ ] **Neighbourhood result page,** phone and desktop. It reuses the area result's layout and shows only published neighbourhood facts. For a topic that needs a postcode, it shows "Check a postcode in this neighbourhood to see this". It includes the postcode box and the way back. The official deprivation rank and decile appear as published, with 0054's notes ("relative, not absolute"; "describes the neighbourhood, not a street").
-- [ ] **States board.** Every state in the design's States list:
+- [x] **Neighbourhood result page,** phone and desktop. It reuses the area result's layout and shows only published neighbourhood facts. For a topic that needs a postcode, it shows "Check a postcode in this neighbourhood to see this". It includes the postcode box and the way back. The official deprivation rank and decile appear as published, with 0054's notes ("relative, not absolute"; "describes the neighbourhood, not a street").
+- [x] **States board.** Every state in the design's States list:
   - working out / couldn't work this out;
   - one side missing (Eastmere);
   - no rate band;
@@ -439,20 +439,31 @@ Board values come only from `council-result.json` and `council-area.json`: quote
   - a council replaced during the pilot.
 
 ### Task 12: Canvas, part 2 boards and the how-to page (light)
-- [ ] **Compare** in rows (Northbridge and Southvale), phone and desktop.
-- [ ] **Share and print:** the printout states the example inputs.
-- [ ] **"What changed since your last visit":** the consent off and on, a revised month, the Clear button.
-- [ ] **The "Use in ChatGPT or Claude" page and the landing section (0056):**
+- [x] **Compare** in rows (Northbridge and Southvale), phone and desktop.
+- [x] **Share and print:** the printout states the example inputs.
+- [x] **"What changed since your last visit":** the consent off and on, a revised month, the Clear button.
+- [x] **The "Use in ChatGPT or Claude" page and the landing section (0056):**
   - developer mode explained, with its trade-off;
   - what the host app sees;
   - what your app sends us, and that we keep only anonymous totals (0057);
   - a link to the privacy notice.
-- [ ] **The widget's full screen on a phone** (CARD-32 to CARD-35).
+- [x] **The widget's full screen on a phone** (CARD-32 to CARD-35).
 
 ### Task 13: Founder review, dark versions, PR B
-- [ ] The founder reviews the light boards; fix what comes back.
-- [ ] Draw the dark versions (slate ink).
+- [x] The founder reviews the light boards; fix what comes back.
+- [x] Draw the dark versions (slate ink).
 - [ ] **PR B:** the status file (canvas version, boards added), plus any register notes from the review.
+
+
+**Founder, 15 Nov 2026 (prompt window, "Copy layout, new boards (Recommended)"):** the City Explorer boards are new boards that copy the layout and parts of existing boards; the originals are untouched.
+
+**As drawn (15 Nov 2026, canvas version 332).** Light boards first, then dark versions after the founder accepted the light ones. The "Use in ChatGPT or Claude" steps follow the corrected research (`docs/reviews/2026-11-15-use-in-assistant-research.md`), so "developer mode explained" in Task 12 became "adding a custom MCP server as a plugin, with its trade-off".
+- **Dark versions** (the founder, 15 Nov 2026, typed: "go ahead with the dark versions"): 17 boards in all: ChartRulesDark and CouncilPage, CouncilPageDesktop, CouncilBudgetValue, NeighbourhoodPage, NeighbourhoodPageDesktop, CouncilStates, CouncilCompare, CouncilCompareDesktop, CouncilWhatChanged, CouncilWhatChangedDesktop, CouncilAboutData, UseInAssistant, UseInAssistantPhone, LandingAssistantSection, LandingAssistantSectionPhone, AreaCardWidgetFullPhone (the widget on a phone); no dark printout (FE-50).
+- **Brand and style:** ChartRules (chart rules, with dash patterns on the four price lines: solid, long dash, short dash, dotted, plus direct labels), ChartRulesDark.
+- **Pilot · City Explorer:** row 1 CouncilPage (phone, topic rows that open sheets) and CouncilPageDesktop; CouncilBudgetValue; CouncilPrint (light only, paper); row 2 NeighbourhoodPage and NeighbourhoodPageDesktop, CouncilStates (24 frames); row 3 CouncilCompare and CouncilCompareDesktop, CouncilWhatChanged and CouncilWhatChangedDesktop, CouncilAboutData (the DfT status). Dark versions of every one of these except the printout sit at the light board's x plus 8000, same y.
+- **Pilot · public area check:** UseInAssistant (desktop) and UseInAssistantPhone, LandingAssistantSection and LandingAssistantSectionPhone, AreaCardWidgetFullPhone (the widget on a phone), each with a dark version in a "Pilot 6 · dark" row; "Sample data: a made-up town" added to every widget board (new and existing); the four landing boards' hero changed to one box (FE-37) with the four approved rewordings and the FAQ answer "Do you keep my search?".
+- **Founder's review changes (15 Nov 2026):** whole pounds for the council parts (generator, #290); house prices split by property type (#290); the phone council page as topic rows that open sheets; one coverage line only; DfT status only on About the data; the four captions approved; typed rate limit 20%; tenure rounding line; dash patterns; one search box for postcode or town; research before approving placeholders. Register lines are in `docs/decisions/README.md` (FE-37 amended, FE-43 to FE-50, DA-21, BE-38, PD-19).
+- **Placeholders left on boards** (waiting on testing, the build or the privacy notice; the list is from the R2 redraw report and was not re-checked against every live board): ChatGPT widget support, the Claude card for a URL-added connector, developer mode per account, ChatGPT Free, Plus and Pro availability and "No authentication" per plan, the server address, the example questions, the privacy notice link.
 
 ### Task 14: PR C, specifications
 - [ ] Write the specification files:
