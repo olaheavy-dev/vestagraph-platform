@@ -50,7 +50,8 @@ def test_read_registry_radon_topic_is_reviewed_with_the_approved_check_in_lines(
     radon = next(t for t in registry.topics if t.key == "radon")
     assert radon.review_status == "reviewed"
     assert radon.check_in_person == (
-        "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result.",
+        "Ask the owner or landlord whether radon has been measured in the home, "
+        "and ask to see the result.",
         "Ask whether anything has been fitted to reduce radon.",
     )
 
