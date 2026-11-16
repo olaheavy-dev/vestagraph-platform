@@ -1,7 +1,7 @@
 @screen @buying @renting
 Feature: Ask about this area (the pilot's area chat panel)
   Withdrawn for the pilot by decision 0056 (15 Nov 2026): the pilot has no on-page chat. Every scenario is tagged @withdrawn and kept, with its ID, for the signed-in workspace chat.
-  16 Nov 2026, proposed decision 0058: the chat returns to the pilot for signed-in users only; these scenarios are reviewed in its specification step.
+  16 Nov 2026, decision 0058: the chat returns to the pilot for signed-in users only; these scenarios are reviewed in its specification step.
   Question it answers: "What do the sources say about this area, in plain words?"
   Modes: both (and anyone, with no account; decisions 0046 and 0051)
   Fixtures: home WALES-1 (outside England); the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`

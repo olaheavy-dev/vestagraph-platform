@@ -44,10 +44,10 @@ Prompt windows unless marked typed; the founder's own words in quotes.
 
 ## Non-goals
 - Later topics (air quality, new homes, travel to work, universities) and dropped ones (broadband and mobile, life expectancy, earnings).
-- Accounts, saved councils on a server, email alerts (0046: no accounts in the pilot; *16 Nov 2026, proposed 0058: an optional sign-in for the chat and saved areas, including councils; email alerts still out*).
+- Accounts, saved councils on a server, email alerts (0046: no accounts in the pilot; *16 Nov 2026, 0058: an optional sign-in for the chat and saved areas, including councils; email alerts still out*).
 - Wales, Scotland and Northern Ireland: "not yet covered" (rule 6), though the data contract keeps a nation field.
 - Price or rent forecasts of any kind.
-- An on-page AI chat (moved to the signed-in workspace after the pilot, founder 15 Nov 2026; *16 Nov 2026, proposed 0058: the signed-in chat is in the pilot; the public pages still have none*).
+- An on-page AI chat (moved to the signed-in workspace after the pilot, founder 15 Nov 2026; *16 Nov 2026, 0058: the signed-in chat is in the pilot; the public pages still have none*).
 - Searching by street or house: that is the postcode check's job.
 
 ## Anti-goals (a failure even if it looks good)
