@@ -31,3 +31,29 @@ A fresh-context design reviewer compared the pilot's canvas boards (version 356)
 
 ## Founder's decision
 Prompt window, 16 Nov 2026, choosing three of four: "Quick fixes now (Recommended)", "Design pass before the gate (Recommended)" and "Research the data gaps" (not "Record only, decide later"). The design pass is planned in [`2026-11-16-benchmark-design-pass.md`](../superpowers/plans/2026-11-16-benchmark-design-pass.md).
+
+## Re-run after the design pass (16 Nov 2026)
+A fresh-context design reviewer repeated the 20-area comparison against the redrawn boards at canvas version 394 (the later fixes, up to version 405, were visual: clipping, overlaps, dark styling and trimmed notes, and change no area's rating; the pass is recorded in [`2026-11-16-benchmark-design-pass.md`](../superpowers/plans/2026-11-16-benchmark-design-pass.md)).
+
+**New tally (20 areas): 12 better, 6 level, 2 worse (was 11 better, 4 level, 5 worse).**
+
+| Area | Before | After | What changed |
+|---|---|---|---|
+| Desktop result | Level | **Better** | Place header with the map, At a glance as a row of facts with level and source, a jump row, the right column used. |
+| Flood depth | Worse | Level (partly) | Flood outlines and the official checker link are drawn, with the warning check kept apart from flood risk. Still not in its own topic or on the printout. |
+| Maps | Worse | Level | 3D by default plus a flat OpenStreetMap-style map (FE-68), overlay switches, list view, rings per FE-42. No real basemap yet. |
+| Area printout | Worse | Level | Cover, At a glance, every topic (missing ones as "Not known"), questions, check in person and a sources page. Maps on the printout are still small. |
+| Breadth of topics | Worse | Worse (narrowed) | Radon, listed buildings and conservation areas, noise, broadband coverage and council rent are added, and coal mining, mobile coverage and planning rules are "Check this" rows. The competitor still has more sections. |
+| Facts about the home itself | Worse | Worse | Unchanged: the pilot is about the area, not the home (see the ranked gaps). |
+| Landing, phone result, recorded crime, missing data and "not covered", states, compare, monthly cost, chat, sign-in, accessibility, trust signals | Better | Better | Unchanged. |
+| Topic detail, account pages, overall visual craft | Level | Level | Unchanged. |
+
+**Caveats, said plainly.** The boards use synthetic sample data for a made-up town ("Sample data: a made-up town"), so nothing here shows real figures. Nothing is built: this compares designs on a canvas, not a running product. The new layers and topics are sample outlines and records shaped like the official sources; their real licences, coverage and quality are still to be checked. Contrast, screen-reader behaviour and whether people prefer facts to a score are still not verifiable from designs.
+
+**Remaining gaps, ranked**
+1. Real data and licences for the new topics and layers (research note DA-22 to DA-29), then the data pipeline.
+2. Flood in its own topic and on the printout, at the same depth as the map outlines.
+3. Facts about the home itself: the pilot shows the area only. Whether to add the energy certificate by certificate number (DA-09) and an index-adjusted past sale (BE-34) is a founder decision.
+4. The real basemap: price self-hosted OpenStreetMap tiles first (DA-25, IN-02).
+5. Maps on the printout.
+6. Account items: a data download and a reminder before idle deletion (0058).
