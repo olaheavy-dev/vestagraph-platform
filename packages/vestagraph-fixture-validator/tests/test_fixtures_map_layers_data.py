@@ -6,6 +6,7 @@ east and north of the postcode centre; nothing is calculated here except an inte
 distance, worked as x squared plus y squared against 500 squared (250,000).
 """
 
+import itertools
 import json
 import re
 from typing import Any
@@ -216,7 +217,7 @@ def _covers(outline: list[list[int]], point: tuple[int, int]) -> bool:
     """
     px, py = point
     inside = False
-    for (x1, y1), (x2, y2) in zip(outline, outline[1:], strict=False):
+    for (x1, y1), (x2, y2) in itertools.pairwise(outline):
         dx, dy = x2 - x1, y2 - y1
         on_line = dx * (py - y1) - dy * (px - x1) == 0
         if on_line and min(x1, x2) <= px <= max(x1, x2) and min(y1, y2) <= py <= max(y1, y2):
