@@ -230,6 +230,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     When the user chooses "Expand"
     Then a larger view opens with every place at the same true distance and bearing as on the compact card (the drawing is larger, the distances are not), and the same places in the list
 
+  # Replaced by CARD-47 (16 Nov 2026, 0058).
   @ui
   # Layering (FE-26): the expanded card is the one allowed layer above the chat drawer or sheet, because it
   # is the chat's own answer; closing it returns to the chat.

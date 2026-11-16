@@ -20,6 +20,7 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     GitHub with no verified email -> AUTH-11
     one account per verified email, never linked on an unverified one, never because a provider is trusted -> AUTH-12, AUTH-13, AUTH-14
     signed out on a public page: the entry and Save lead to sign-in -> AUTH-15
+    the public "Ask about this area" entry carries the AI badge (FE-13) -> AUTH-26
     back where they were, and the action finished -> AUTH-16, AUTH-17
     the session expires while typing -> AUTH-18
     no postcode in any sign-in request -> AUTH-19, AUTH-20
@@ -183,3 +184,10 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     Given a user signed out, or signed out everywhere, and the 15-minute token they held has not yet expired
     When a request with that token sends a message or saves an area
     Then the server refuses it because the session no longer exists, no model call is made and nothing is stored
+
+  # FE-13 (founder: "AI badge on the entry"), kept for the pilot by 0058. Replaces CHAT-03 (with WCHAT-08).
+  @ui
+  Scenario: AUTH-26 the "Ask about this area" entry on Check an area carries the AI badge
+    Given the user, signed in or signed out, is on Check an area
+    When the user checks a complete postcode (fixture NB1 4XY)
+    Then the "Ask about this area" entry shows the "AI" badge (FE-13)

@@ -36,8 +36,9 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     deleting a chat while it streams -> WCHAT-57
     logs and traces -> WCHAT-58, WCHAT-59, WCHAT-63, WCHAT-64; the fixed reply counts -> WCHAT-65
     nothing in a request address -> WCHAT-60, WCHAT-66; keyboard, screen reader and loading -> WCHAT-61, WCHAT-62
-    the output guard's claim classes, a score with numbers from the results, the bare word allowed, invented numbers -> WCHAT-67, WCHAT-68, WCHAT-69, WCHAT-70
-    the message limit, the turn limit and the token limit; the server refuses once paused -> WCHAT-71, WCHAT-72, WCHAT-73, WCHAT-74
+    the output guard's claim classes (good, verified or approved, the best, a recommendation), a score with numbers from the results, the bare word allowed, invented numbers -> WCHAT-67, WCHAT-78, WCHAT-79, WCHAT-80, WCHAT-68, WCHAT-69, WCHAT-70
+    the message limit and the turn limit, on the page and at the server; the token limit; the server refuses once paused -> WCHAT-71, WCHAT-81, WCHAT-72, WCHAT-82, WCHAT-73, WCHAT-74
+    suggested starts with no model call -> WCHAT-83; the text answer lists the widget's places -> WCHAT-84; the rate-limit store holds only anonymised, expiring keys -> WCHAT-85
     nothing of a chat kept in the browser beyond the tab -> WCHAT-75
     "Ask more about this" with no explanation, and for a user who has used today's 15 -> WCHAT-76, WCHAT-77
 
@@ -72,7 +73,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the user closes it
     Then focus returns to the "Open full result" button that opened it, and the chat is as it was
 
-  # Replaces CHAT-10 (suggested questions with no AI call), with WCHAT-55.
+  # Replaces CHAT-10 (suggested questions), with WCHAT-55 and WCHAT-83.
   @ui
   Scenario: WCHAT-06 on a first visit the chat shows suggested starts and how to save an area
     Given a signed-in user has no chats and no saved areas
@@ -86,7 +87,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the workspace page loads
     Then a new empty chat is open, the sidebar lists the last chat first, and no earlier message is shown in the chat
 
-  # Replaces CHAT-04 (the disclaimer said chats aren't saved) and CHAT-03 (the AI label), with AUTH-15.
+  # Replaces CHAT-04 (the disclaimer said chats aren't saved) and CHAT-03 (the AI label), with AUTH-26 and AUTH-15.
   @ui
   Scenario: WCHAT-08 the chat carries the AI label, the disclaimer and the display control
     Given a signed-in user is on the workspace page
@@ -114,7 +115,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the user reloads the page and reopens that chat
     Then the stored chat shows only the sentences that were shown and the notice, and the user's count for the day has gone up by one
 
-  # Replaces CHAT-31 to CHAT-33 (the area card).
+  # Replaces CHAT-31 to CHAT-33 (the area card), with WCHAT-84, CARD-01, CARD-07 and CARD-08.
   @ui
   Scenario: WCHAT-12 the widget is drawn from the tool result's kind
     Given a signed-in user has asked about nearby places for a sample postcode (NB1 4XY)
@@ -468,15 +469,36 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Scenario: WCHAT-66 "Ask more about this" carries neither the postcode nor the question in any address
     Given a user on Check an area for a sample postcode (NB1 4XY) chooses "Ask more about this", signed in or, signed out, through sign-in
     When the workspace page opens on that topic
-    Then no request on the way carries the postcode or the topic question in its URL path, query string or Referer header, and the postcode is held in the tab only
+    Then no request on the way carries the postcode or the topic question in its URL path, query string or Referer header, and the postcode is held only in the tab's session storage, as part of the return target (FE-56, WCHAT-75)
 
   # Added 16 Nov 2026 (Task 7, the review of the withdrawn chat scenarios): the rules below were in CHAT scenarios whose text no longer holds, and no scenario above carried them.
-  # Replaces CHAT-39, CHAT-40, CHAT-42 and CHAT-43.
+  # Replaces CHAT-39.
   @ui
-  Scenario: WCHAT-67 a sentence that calls the area good, verified, approved or the best, or recommends buying, is stopped
+  Scenario: WCHAT-67 a sentence that calls the area good is stopped
     Given a signed-in user has a sample postcode open (NB1 4XY)
-    When the stand-in reply has a sentence that calls the area "a good area", "verified", "approved" or "the best" for families, or says "you should buy here"
-    Then the output guard stops each such sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
+    When the stand-in reply has a sentence that calls the area "a good area"
+    Then the output guard stops that sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
+
+  # Replaces CHAT-40.
+  @ui
+  Scenario: WCHAT-78 a sentence that calls the area verified or approved is stopped
+    Given a signed-in user has a sample postcode open (NB1 4XY)
+    When the stand-in reply has a sentence that says the area is "verified" or "approved"
+    Then the output guard stops that sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
+
+  # Replaces CHAT-43.
+  @ui
+  Scenario: WCHAT-79 a sentence that ranks the area as the best is stopped
+    Given a signed-in user has a sample postcode open (NB1 4XY)
+    When the stand-in reply has a sentence that calls the area "the best" for families
+    Then the output guard stops that sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
+
+  # Replaces CHAT-42.
+  @ui
+  Scenario: WCHAT-80 a sentence with a recommendation is stopped
+    Given a signed-in user has a sample postcode open (NB1 4XY)
+    When the stand-in reply has a sentence that says "you should buy here"
+    Then the output guard stops that sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
 
   # Replaces CHAT-41.
   @ui
@@ -499,19 +521,33 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the stand-in reply has a sentence stating a fact with a number that none of its tool results contains, other than the radius in use, a count or total a tool returned, or a date in the results
     Then the output guard stops that sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
 
-  # Replaces CHAT-21 and CHAT-46.
+  # Replaces CHAT-21.
   @ui
-  Scenario: WCHAT-71 a message over the message limit is not sent, and the server refuses it
+  Scenario: WCHAT-71 a message over the message limit is not sent
     Given a signed-in user has a chat open
-    When the user types a message longer than the message limit, and the same message is also sent straight to the server
-    Then an inline message under the message box says it is too long and nothing is sent, and the server refuses the direct request with no model call
+    When the user types a message longer than the message limit and sends it
+    Then an inline message under the message box says it is too long, and nothing is sent
 
-  # Replaces CHAT-22 and CHAT-47.
+  # Replaces CHAT-46.
   @ui
-  Scenario: WCHAT-72 after the turn limit a chat takes no more messages, and the server refuses one more
+  Scenario: WCHAT-81 the server refuses a message over the message limit
+    Given a chat request for a signed-in user is sent straight to the server, not through the page
+    When its message is longer than the message limit
+    Then the server refuses it, and no model call is made
+
+  # Replaces CHAT-22.
+  @ui
+  Scenario: WCHAT-72 after the turn limit a chat takes no more messages
     Given a signed-in user has sent as many messages in one chat as the turn limit allows
-    When the last answer has been shown, and one more message for that chat is sent straight to the server
-    Then the message box is turned off with a message saying this chat has reached its limit and offering one action, "New chat", and the server refuses the direct request with no model call
+    When the last answer has been shown
+    Then the message box is turned off, with a message saying this chat has reached its limit and offering one action, "New chat"
+
+  # Replaces CHAT-47.
+  @ui
+  Scenario: WCHAT-82 the server refuses a turn over the turn limit
+    Given a chat request for a signed-in user is sent straight to the server, not through the page
+    When it would be one turn more than the turn limit allows in that chat
+    Then the server refuses it, and no model call is made
 
   # Replaces CHAT-37.
   @ui
@@ -532,7 +568,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Scenario: WCHAT-75 no chat text is kept in the browser beyond the tab
     Given a signed-in user has sent a question and received an answer
     When the browser's local storage, IndexedDB and cookies, and the tab's session storage, are read
-    Then no chat text or postcode is in local storage, IndexedDB or any cookie, and session storage holds at most the return target and an unsent draft
+    Then no chat text or postcode is in local storage, IndexedDB or any cookie, and the tab's session storage holds at most the return target (the page, the postcode and the pending action, FE-56; never in an address, WCHAT-66) and an unsent draft
 
   # Replaces CHAT-53 (its second half; the pause for everyone is WCHAT-56). Agent's default of 14 Nov 2026, carried over.
   @ui
@@ -547,3 +583,24 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Given a signed-in user has used 15 messages today
     When the user chooses "Ask more about this" under a topic's "Explain this"
     Then the workspace chat opens on that topic with the question filled in and not sent, and shows "Chat is paused for today, the area check still works", with no model call
+
+  # Replaces CHAT-10 (its "no AI call made for them").
+  @ui
+  Scenario: WCHAT-83 the suggested starts are made with no model call
+    Given a signed-in user has no chats and no saved areas
+    When the workspace page loads and shows its suggested starts (WCHAT-06)
+    Then the fake AI provider received no request
+
+  # Replaces CHAT-31 (its "the full text answer, which lists the same places"); on a phone, CARD-42.
+  @ui
+  Scenario: WCHAT-84 on desktop the text answer lists the same places as the nearby widget
+    Given a signed-in user on a 1440 px wide screen has asked about nearby places for a sample postcode (NB1 4XY)
+    When the answer and its nearby widget are shown
+    Then the text answer lists every place the widget shows, and no other
+
+  # Replaces CHAT-35 (its rate-limit store rule).
+  @ui
+  Scenario: WCHAT-85 the rate-limit store holds only anonymised keys that expire
+    Given signed-in users have sent messages from several client addresses
+    When the rate-limit store is read
+    Then every key is anonymised (no raw IP address, no email, no message text) and every key has an expiry

@@ -16,15 +16,16 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
   Elsewhere: renaming a chat from the sidebar is WCHAT-44, the sidebar's own chat list is WCHAT-46, saving an area and the 20 limit are WCHAT-47 to WCHAT-50, a deleted saved area's past chats are WCHAT-53, a chat deleted while it streams is WCHAT-57, its traces are WCHAT-64; Sign out and Sign out everywhere are AUTH-22 to AUTH-24.
   Required states (plan docs/superpowers/plans/2026-11-16-signed-in-chat.md Task 3 and Task 7 step 1; Review Focus 2; FE-53, FE-65, FE-66; AGENTS.md rules 5 and 7):
     the /account overview with its own pages -> ACCT-01
-    saved areas: the list of up to 20, remove with Undo -> ACCT-02, ACCT-03
+    saved areas: the list of up to 20 and its limit line, remove with Undo -> ACCT-02, ACCT-22, ACCT-03
     chats: newest 20 then "Show more", grouped by day, title search and nothing found -> ACCT-04, ACCT-05, ACCT-06
     rename a chat -> ACCT-07; delete one chat with Undo -> ACCT-08
-    Undo is a request to the server; the server commits after 10 seconds, even if the browser closes -> ACCT-09, ACCT-10
+    Undo is a request to the server; the server hides the item at once and commits after 10 seconds, even if the browser closes -> ACCT-09, ACCT-26, ACCT-10
+    the saved-area Remove and Undo requests keep the postcode out of every address and log -> ACCT-27
     "Delete all chats" asks first, and what it deletes -> ACCT-11, ACCT-12
-    the Email link row has no Remove -> ACCT-13; the last of Google and GitHub can't be removed -> ACCT-14
-    deleting the account needs a fresh sign-in -> ACCT-15
+    the Email link row has no Remove -> ACCT-13; the last of Google and GitHub can't be removed, on the page and at the server, and with both either can go -> ACCT-14, ACCT-23, ACCT-24
+    deleting the account needs a fresh sign-in -> ACCT-15, ACCT-25
     deleting removes chats, saved areas, the daily count, traces, the sign-in tables and the email service's copy -> ACCT-16
-    nothing is written after the delete, even with an unexpired token (Review Focus 2) -> ACCT-17
+    nothing is written after the delete, even with an unexpired token (Review Focus 2) -> ACCT-17; a pending email link stops working -> ACCT-28
     retention shown on the page; chats after 12 months, idle accounts after 24 months, traces after 30 days -> ACCT-18, ACCT-19, ACCT-20 (traces: WCHAT-63)
     empty: no saved areas, no chats -> ACCT-21
 
@@ -40,7 +41,13 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
   Scenario: ACCT-02 the saved areas page lists every saved area, with no paging
     Given a signed-in user has 20 saved areas (fixture to add, #302)
     When the user opens /account/areas
-    Then all 20 are listed on one page with no "Show more" and no pages, each with Remove, and the line says the limit is 20 and to remove one before saving another
+    Then all 20 are listed on one page with no "Show more" and no pages, each with Remove
+
+  @ui
+  Scenario: ACCT-22 the saved areas page states the limit of 20
+    Given a signed-in user has saved areas
+    When the user opens /account/areas
+    Then a line says an account can keep up to 20 saved areas (FE-53) and that, at 20, one must be removed before saving another
 
   @ui
   Scenario: ACCT-03 removing a saved area hides it at once with Undo, and past chats stay
@@ -115,19 +122,37 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
     When the user opens /account
     Then the Email link row has no Remove button and says "An email link always reaches your account at this verified address. To stop it, delete your account."
 
-  # The last-method rule counts only Google and GitHub; the server checks it too.
+  # The last-method rule counts only Google and GitHub (0058, board-review note); the email link is not counted, and it still works.
   @ui
   Scenario: ACCT-14 the last of Google and GitHub can't be removed
     Given a signed-in user's account has Google as its only Google or GitHub method, alongside the email link
-    When the user opens /account, and a request to remove Google is also sent straight to the server
-    Then Google's Remove is turned off and the row says why it can't be removed and how to change it (sign in another way first, or delete the account), and the server refuses the request and keeps the method
+    When the user opens /account
+    Then Google's Remove is turned off, and the row says it is the last of Google and GitHub on this account so it can't be removed, and that to remove it the user can link GitHub first or delete the account
+
+  @ui
+  Scenario: ACCT-23 the server refuses to remove the last of Google and GitHub
+    Given a signed-in user's account has GitHub as its only Google or GitHub method, alongside the email link
+    When a request to remove GitHub is sent straight to the server
+    Then the server refuses it and GitHub stays linked
+
+  @ui
+  Scenario: ACCT-24 with both Google and GitHub linked, either one can be removed
+    Given a signed-in user's account has Google, GitHub and the email link
+    When the user chooses Remove on Google
+    Then Google is removed, GitHub and the email link stay, and GitHub's Remove is now turned off as the last of Google and GitHub (the email link is not counted)
 
   # Delete account, step 1 and 2: a fresh sign-in confirms it is the user.
   @ui
   Scenario: ACCT-15 deleting the account needs a fresh sign-in, and nothing is deleted before it
     Given a signed-in user chooses Delete account
     When the page lists what will be deleted and asks the user to sign in again, and the user cancels at that step
-    Then nothing has been deleted and the account is unchanged; the account is deleted only after a fresh sign-in with one of its methods succeeds, and an existing session alone is not enough
+    Then nothing has been deleted and the account is unchanged
+
+  @ui
+  Scenario: ACCT-25 an existing session alone can't delete the account
+    Given a signed-in user has not signed in again since choosing Delete account
+    When a delete-account request is sent with only the existing session, from the page or straight to the server
+    Then the server refuses it and nothing is deleted; the account is deleted only after a fresh sign-in with one of its methods succeeds
 
   # 0058 choice 6 and Builder notes: one database holds Better Auth's tables and ours, so deleting is one operation.
   @ui
@@ -167,3 +192,24 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
     Given a signed-in user has no saved areas and no chats
     When the user opens /account, /account/areas and /account/chats
     Then each list shows the kit's empty state with a small illustration, plain words and one action back to the chat
+
+  # 0058, board-review ruling: the server hides the item at once, not only the page.
+  @ui
+  Scenario: ACCT-26 within the 10 seconds a deleted item is hidden everywhere, not only on the page
+    Given a signed-in user has just deleted a chat, or removed a saved area, and 10 seconds have not passed since the request
+    When the page is reloaded, the account is opened in another tab, and the chat list and saved-areas list are requested straight from the server
+    Then none of them shows or returns the item
+
+  # Postcodes never in a URL or a log (0014, 0046).
+  @ui
+  Scenario: ACCT-27 removing a saved area and undoing it keep the postcode out of every address and log
+    Given a signed-in user has saved "NB7 1RR"
+    When the user removes it on /account/areas and then chooses Undo
+    Then both requests name the saved area by its ID, with the postcode in no URL path, query string or Referer header, and no server, hosting or error-report log entry contains the postcode
+
+  # Review Focus 2 and 3: the verification rows go with the account (ACCT-16).
+  @ui
+  Scenario: ACCT-28 an email link sent before the account was deleted no longer signs in
+    Given a user asked for an email link and then, within its 5 minutes (SE-06), deleted their account
+    When the email link is opened
+    Then the page says the link has expired or been used, nobody is signed in, and no new account is created
