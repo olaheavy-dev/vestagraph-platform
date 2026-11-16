@@ -1081,7 +1081,7 @@
       },
       "level": {
         "kind": "grid-square",
-        "squareMetres": 1000
+        "sideMetres": 1000
       },
       "coverage": "Great Britain and Northern Ireland",
       "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",
@@ -1554,7 +1554,7 @@
       "label": "Radon lookup failed; not known right now",
       "level": {
         "kind": "grid-square",
-        "squareMetres": 1000
+        "sideMetres": 1000
       },
       "coverage": "Great Britain and Northern Ireland",
       "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",

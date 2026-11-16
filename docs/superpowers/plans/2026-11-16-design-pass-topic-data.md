@@ -24,7 +24,7 @@
 ### 1.2 `postcode-area.json`: new records
 **Schema (`schema/postcode-area.schema.json`):**
 - Add `radon`, `broadband-coverage` and `council-rent` to the topic enum.
-- Add a level kind `grid-square` with a required integer `squareMetres` (minimum 1).
+- Add a level kind `grid-square` with a required integer `sideMetres` (minimum 1).
 - Add three value definitions, each with `additionalProperties: false` and one `if`/`then` per topic:
   - `radonValue`: required `classLabel` (string, at least 1 character, as published) and `edition` (`^\d{4}$`). No measured-level or per-home field.
   - `broadbandCoverageValue`: required `gigabitCapablePercent` (a decimal string), `premises` (`all` or `residential`) and `snapshot` (`^\d{4}-\d{2}$`). No `technology` or full-fibre field.
@@ -128,7 +128,7 @@ One branch (`feat/design-pass-topic-data`), one PR, with `make check` green afte
   - radon is accepted;
   - radon without an edition is rejected;
   - a radon measured-level field is rejected;
-  - a grid-square level without `squareMetres` is rejected;
+  - a grid-square level without `sideMetres` is rejected;
   - broadband coverage is accepted;
   - a full-fibre field on broadband coverage is rejected;
   - a broadband percent given as a number is rejected;
@@ -230,3 +230,4 @@ These are marked `draft` and are asked for in the design pass's founder review (
 - **Map positions** use `prefixItems` with `minItems` and `maxItems` of 2, not `items: false`: an existing validator test forbids `items: false`. Closed outlines are checked by a data test, as a schema cannot compare the first and last position.
 - **Coverage** of the new records states the source's coverage: radon "Great Britain and Northern Ireland", broadband coverage "United Kingdom", council rent "England and Wales (council level)".
 - The "Checks" step's pre-push review and Codex are done by the controller, not in this branch.
+- **Grid-square level field (16 Nov 2026, Codex review of #309):** the property is `sideMetres` (the square's side length in metres), not `squareMetres`, which read as an area. Sections 1.2 and Task 1 use the new name.

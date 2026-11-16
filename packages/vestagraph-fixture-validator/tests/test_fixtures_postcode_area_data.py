@@ -247,7 +247,7 @@ def test_postcode_area_radon_square_is_one_kilometre() -> None:
     radon = [i for i in _items() if i["topic"] == "radon"]
     assert {i["postcode"] for i in radon} == {"NB1 4XY", "NB7 1RR"}
     for item in radon:
-        assert item["level"] == {"kind": "grid-square", "squareMetres": 1000}, item["id"]
+        assert item["level"] == {"kind": "grid-square", "sideMetres": 1000}, item["id"]
 
 
 def test_postcode_area_radon_limit_says_indicative_not_definitive() -> None:

@@ -231,7 +231,7 @@ def _radon_item() -> Json:
     item["id"] = "NB1-4XY-AREA-RADON-1"
     item["topic"] = "radon"
     item["value"] = {"classLabel": "Class 2 (synthetic example)", "edition": "2022"}
-    item["level"] = {"kind": "grid-square", "squareMetres": 1000}
+    item["level"] = {"kind": "grid-square", "sideMetres": 1000}
     return item
 
 
@@ -269,10 +269,12 @@ def test_validate_instance_postcode_area_radon_measured_level_field_is_rejected(
     assert mentions(_problems(item), "measuredBecquerelsPerCubicMetre")
 
 
-def test_validate_instance_postcode_area_grid_square_no_square_metres_is_rejected() -> None:
+def test_validate_instance_postcode_area_grid_square_level_without_side_metres_is_rejected() -> (
+    None
+):
     item = _radon_item()
     item["level"] = {"kind": "grid-square"}
-    assert mentions(_problems(item), "squareMetres")
+    assert mentions(_problems(item), "sideMetres")
 
 
 def test_validate_instance_postcode_area_broadband_coverage_is_accepted() -> None:

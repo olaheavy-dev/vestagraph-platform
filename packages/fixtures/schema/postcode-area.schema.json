@@ -99,9 +99,10 @@
           "type": "string",
           "minLength": 1
         },
-        "squareMetres": {
+        "sideMetres": {
           "type": "integer",
-          "minimum": 1
+          "minimum": 1,
+          "description": "The length of the grid square's side in metres (1000 for a 1 km square), not its area."
         }
       },
       "allOf": [
@@ -155,7 +156,7 @@
           },
           "then": {
             "required": [
-              "squareMetres"
+              "sideMetres"
             ]
           }
         }
