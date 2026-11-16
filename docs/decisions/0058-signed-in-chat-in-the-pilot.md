@@ -137,7 +137,7 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 - **The Python library** that checks Better Auth's tokens (EdDSA): named in the plan; if it is not pre-approved, the founder approves it.
 - **Access requests:** how a user's right of access (UK GDPR) is met, and data portability if the lawful basis is consent or contract; a download button on the account page is optional, settled in the privacy work.
 - **Cookies (PECR):** the check of Better Auth's sign-in session cookies against PECR moves from stage 6 (0014) to a 5b launch blocker.
-- **"Explain this":** whether its "Ask more about this" link (removed by 0056) comes back for signed-in users; a design-step question.
+- **"Explain this":** whether its "Ask more about this" link (removed by 0056) comes back for signed-in users; a design-step question. *16 Nov 2026: settled, for everyone ([FE-58](README.md)).*
 
 ## Consequences
 - More work before the pilot gate: the signed-in chat's boards and specifications, sign-in, the account page and the chat's evaluation set; then, in the build, Better Auth, the token check, the database, the chat agent and its limits.
@@ -155,7 +155,7 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes in the records": a withdrawn scenario whose meaning changes stays `@withdrawn` with "Replaced by <new ID>" and the new meaning gets a new ID, because docs/specs/README.md rule 2 never reuses an ID. This refines choice 7's agent's call: an answer stopped by the output guard is a completed answer, not a failure on our side, so it counts; Regenerate is a message the user sends, so it counts; a dropped connection or server error on our side does not.
 
 **Note, 16 Nov 2026 (board review):** the founder's answers while reviewing the boards are recorded as register lines FE-57 to FE-66 and SE-06 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These are the agent's calls made while drawing, open to the founder:
-- Deleting one chat or one saved area happens at once, with Undo held for 10 seconds. It commits when the toast ends, the user leaves the page or the tab closes; the chat's traces are deleted when it commits.
+- Deleting one chat or one saved area (ruling): the server hides the item at once and commits the delete itself 10 seconds after the request, so it happens even if the browser closes or crashes; Undo is a request to the server before then; the message does not pause on hover or focus. The chat's traces are deleted when it commits.
 - "Delete all chats" asks first.
 - "Chat unavailable right now" is a warning.
 - The email-link method has no Remove: an email link always reaches the account at its verified address.

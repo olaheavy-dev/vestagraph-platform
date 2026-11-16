@@ -215,7 +215,7 @@ The founder asked: "do we have beautiful error states, alerts, spinner, that are
 - [x] **Loading:**
   - skeletons shaped like each widget (area card, Nearby list, council figures, compare table);
   - the button label change;
-  - the chat's "Writing…" indicator in the brand: the mint doorway dot from the logo pulsing gently, still under reduced motion, announced once.
+  - the chat's "Writing…" indicator in the brand: the clay hearth dot on its own beside the word (not the logo mark), pulsing gently; under reduced motion it stops and stays still at full strength; announced once.
   - No generic spinners.
 - [x] **Full-page states:** page not found, something went wrong, offline, and signed out. Each has a small isometric illustration in the Imagery style, plain words and one action.
 - [x] **Empty states:** no saved areas, no chats, and nothing found, each with a small isometric illustration.
@@ -294,7 +294,10 @@ Each feature's description follows `area-chat.feature`'s header shape:
     - a duplicate after postcode formatting;
     - the `list_saved_areas` tool returns typed data, never prompt text;
     - "compare my two saved areas".
-  - **Past chats:** stored widget with its date and Update (Review Focus 4); titles; rename.
+  - **Past chats:** stored widget with its date and Update (Review Focus 4); titles; rename. Update makes no model call and doesn't count toward the 15 (FE-62).
+  - **Countries:** Isle of Man and Channel Islands show "Not covered" (FE-60).
+  - **Compare:** "Compare another area" asks which side to replace (FE-57).
+  - **"Ask more about this":** for everyone, and replaced by the pause line when the chat is paused for everyone (FE-58).
   - **Deleting while streaming:** delete a chat while it streams.
   - **Logs and traces:** no message text, postcode or tool argument in any ordinary log; a trace holds them for at most 30 days.
 - [ ] **Step 3:** Cite figures by ID only: area facts by postcode and topic from `area-result.json`, council figures by figure ID from `council-result.json`.
@@ -314,6 +317,10 @@ Each feature's description follows `area-chat.feature`'s header shape:
   - the last sign-in method can't be removed;
   - deleting the account needs a fresh sign-in;
   - deleting removes chats, saved areas, the daily count, traces, the sign-in tables and the email service's copy, with nothing written afterwards (Review Focus 2);
+  - the `/account` overview with its own pages `/account/areas` and `/account/chats` (FE-66);
+  - chats: newest 20 then "Show more", grouped Today, This week, This month and Older, with title search (FE-65);
+  - deleting one chat or one saved area hides it at once with Undo, as 0058's board-review ruling says (the server commits after 10 seconds); "Delete all chats" confirms first;
+  - the email-link method has no Remove;
   - retention: chats deleted 12 months after last use, traces after 30 days, idle accounts after 24 months, with "use" as defined in 0058 choice 6.
 - [ ] **Step 2: Review CHAT-01 to CHAT-53 and the withdrawn CARD scenarios** (CARD-02, 22, 23, 27, 28, 31, 36 to 42). Put the review table in the feature's description: ID, then keep, replace or retire, then the reason, then the new ID. Known outcomes from the design review:
   - **Replaced:** CHAT-04 ("Chats aren't saved"), CHAT-06 and CHAT-38 (drawer and dialog), CHAT-17 (current area only), CHAT-23 and CHAT-45 (bot check on each chat request), CHAT-25 and CHAT-26 (cleared on a new postcode or reload), CHAT-34 (no trace), CHAT-35 (no copy kept), CARD-22.
@@ -325,11 +332,11 @@ Each feature's description follows `area-chat.feature`'s header shape:
 
 ### Task 8: Knock-on documents, review and merge (PR 3)
 - [ ] **`.design/prototype/INFORMATION_ARCHITECTURE.md`:**
-  - routes `/sign-in`, `/chat` and `/account` (a postcode only after `#`);
+  - routes `/sign-in`, `/chat`, `/account`, `/account/areas` and `/account/chats` (a postcode only after `#`);
   - the sidebar and side panel in "Layering";
   - the sign-in entry on the area result and the council page.
 - [ ] **`docs/specs/README.md`:** layout rows for the three new files and the `area-chat.feature` row.
 - [ ] **AI-03:** list the WCHAT scenarios that are evaluation cases in `workspace-chat.feature`'s description, and add a line to backlog row 38f.
 - [ ] **Pre-flight:** search for CHAT IDs, "Chats aren't saved", "anyone, with no account" and "drawer" in live documents, and fix anything stale.
-- [ ] **Map criteria to scenarios:** every state in Tasks 2 to 4 and every Review Focus line names its scenario ID. A state with no scenario is a gap; fix it before the review.
+- [ ] **Map criteria to scenarios:** every state in Tasks 2 to 5 (including 4b), register lines FE-57 to FE-66 and SE-06, and every Review Focus line names its scenario ID. A state with no scenario is a gap; fix it before the review.
 - [ ] Run `make check`, the pre-push review (Code Review Rules), the status file update, the PR, Codex, then merge.
