@@ -212,7 +212,7 @@ One branch (`feat/design-pass-topic-data`), one PR, with `make check` green afte
 1. **Radon topic.**
    - Name: "Radon".
    - Gap question: "Has radon been measured in the home, and what was the result?"
-   - Check in person: "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result." and "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
+   - Check in person: "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result." and "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation." *16 Nov 2026, founder: approved with the remedy examples dropped (DA-31); as built: "Ask whether anything has been fitted to reduce radon."*
 2. **Radon record.**
    - Label: "Radon potential, the 1 km square around this postcode (synthetic)".
    - Link text: "Get a radon report for an address from UKradon (paid)".
