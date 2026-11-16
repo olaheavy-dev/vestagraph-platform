@@ -188,11 +188,12 @@ Feature: Check an area
   # Changed 14 Nov 2026 (FE-33, DA-12): no status label on the flood row (founder: "No exceptions"); About the data shows it (AREA-25).
   # Changed again 14 Nov 2026 (DA-12): the flood row keeps its check time (founder: "keep time for the flood"); its limit sits in the page's one "How we got this" (FE-34).
   # Changed 14 Nov 2026 (FE-34, one per page): "This is not a flood risk check" is in the page's "How we got this" section, not under the flood topic.
+  # Changed 16 Nov 2026 (FE-69, founder: "Approve, printout flood wording (Recommended)"): the sentence now reads "The warning check is not a flood risk check", so it is clear it is the warning check, not flood risk, that is meant.
   Scenario: AREA-21 the flood row's official warnings link is its source stamp, with the check time but no label
     Given the user is on Check an area and our flood copy was refreshed within the last hour
     When the user views the flood row
     Then it shows the warnings in force "when we last checked, at <time>", its official warnings link is the Environment Agency source stamp (DA-12: no separate GOV.UK warnings link), no status word, and the word "live" and any "clear" or "safe" label are not shown
-    And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "This is not a flood risk check" sits in the short "How we got this" note at the bottom of the result, with no "How we got this" under the flood topic itself (FE-34)
+    And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "The warning check is not a flood risk check" sits in the short "How we got this" note at the bottom of the result, with no "How we got this" under the flood topic itself (FE-34)
 
   @ui
   # Changed 14 Nov 2026 (FE-33, DA-12): the check time is on About the data, with no "Old" word (founder: "Dates only, no notes").
@@ -248,7 +249,7 @@ Feature: Check an area
     Given the user has checked a sample postcode in England
     When the results are shown
     Then no topic carries its own "How we got this", each topic ends with its source links only
-    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked and that this is not a flood risk check, the wider areas some figures are published for, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
+    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked and that the warning check is not a flood risk check, the wider areas some figures are published for, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
     And it then shows one line per topic with its icon, name and source links (route-only topics show their official link), and the link "How each source works and what it can't tell you: About the data →"
 
   # Added 14 Nov 2026 (first design batch, B22): each state below gives its cause, a line of reassurance and one action.
