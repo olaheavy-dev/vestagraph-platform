@@ -33,7 +33,7 @@ A fresh-context design reviewer compared the pilot's canvas boards (version 356)
 Prompt window, 16 Nov 2026, choosing three of four: "Quick fixes now (Recommended)", "Design pass before the gate (Recommended)" and "Research the data gaps" (not "Record only, decide later"). The design pass is planned in [`2026-11-16-benchmark-design-pass.md`](../superpowers/plans/2026-11-16-benchmark-design-pass.md).
 
 ## Re-run after the design pass (16 Nov 2026)
-A fresh-context design reviewer repeated the 20-area comparison against the redrawn boards (canvas version 405; the pass is recorded in [`2026-11-16-benchmark-design-pass.md`](../superpowers/plans/2026-11-16-benchmark-design-pass.md)).
+A fresh-context design reviewer repeated the 20-area comparison against the redrawn boards at canvas version 394 (the later fixes, up to version 405, were visual: clipping, overlaps, dark styling and trimmed notes, and change no area's rating; the pass is recorded in [`2026-11-16-benchmark-design-pass.md`](../superpowers/plans/2026-11-16-benchmark-design-pass.md)).
 
 **New tally (20 areas): 12 better, 6 level, 2 worse (was 11 better, 4 level, 5 worse).**
 
