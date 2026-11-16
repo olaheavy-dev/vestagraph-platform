@@ -117,7 +117,7 @@ The founder typed: "Everything we are building has to be scalable, performant, s
 - **AI-03:** the chat's evaluation cases return to the pilot.
 - **FE-13** (AI badge) and **FE-18** (phone chat preview) apply to the signed-in chat in the pilot.
 - **The withdrawn chat scenarios** (CHAT-01 to CHAT-53 and the withdrawn CARD scenarios) are reviewed for the signed-in chat in the specification step: kept and re-tagged where they still fit, rewritten where the side panel or sign-in changes them, keeping their IDs.
-- **The canvas:** the chat boards on "Home workspace (later)" are redrawn for the pilot's signed-in chat (side panel, sidebar, sign-in, account page, paused state), light and dark (drawn 16 Nov 2026 on 'Pilot · Signed-in chat', canvas version 353).
+- **The canvas:** the chat boards on "Home workspace (later)" are redrawn for the pilot's signed-in chat (side panel, sidebar, sign-in, account page, paused state), light and dark (drawn 16 Nov 2026 on 'Pilot · Signed-in chat', canvas version 355).
 - **The pilot gate (0052)** also checks the signed-in chat's boards and specifications.
 
 ## Builder notes (agent's calls, open to the founder)
