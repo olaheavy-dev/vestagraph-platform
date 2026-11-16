@@ -138,7 +138,7 @@
           },
           {
             "topicKey": "radon",
-            "text": "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
+            "text": "Ask whether anything has been fitted to reduce radon."
           },
           {
             "topicKey": "council-tax-by-band",
@@ -658,7 +658,7 @@
           },
           {
             "topicKey": "radon",
-            "text": "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
+            "text": "Ask whether anything has been fitted to reduce radon."
           },
           {
             "topicKey": "council-tax-by-band",

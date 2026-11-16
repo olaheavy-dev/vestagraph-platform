@@ -233,9 +233,9 @@
       "gapQuestionTemplate": "Has radon been measured in the home, and what was the result?",
       "checkInPerson": [
         "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result.",
-        "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
+        "Ask whether anything has been fitted to reduce radon."
       ],
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "council-tax-by-band",
