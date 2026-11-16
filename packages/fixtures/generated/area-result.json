@@ -5,10 +5,10 @@
     {
       "postcode": "NB1 4XY",
       "glance": {
-        "found": 15,
+        "found": 16,
         "notKnown": 0,
-        "coverageFound": 15,
-        "coverageTotal": 15,
+        "coverageFound": 16,
+        "coverageTotal": 16,
         "questions": [
           {
             "recordId": "NB1-4XY-AREA-AMENITY-6",
@@ -131,6 +131,14 @@
           {
             "topicKey": "air-quality",
             "text": "Check whether the windows can be opened comfortably on the road side."
+          },
+          {
+            "topicKey": "radon",
+            "text": "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result."
+          },
+          {
+            "topicKey": "radon",
+            "text": "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
           },
           {
             "topicKey": "council-tax-by-band",
@@ -261,6 +269,10 @@
         },
         {
           "key": "air-quality",
+          "outcome": "found"
+        },
+        {
+          "key": "radon",
           "outcome": "found"
         },
         {
@@ -483,9 +495,9 @@
       "postcode": "NB7 1RR",
       "glance": {
         "found": 12,
-        "notKnown": 2,
+        "notKnown": 3,
         "coverageFound": 12,
-        "coverageTotal": 14,
+        "coverageTotal": 15,
         "questions": [
           {
             "recordId": "NB7-1RR-AREA-BUS-DEPARTURES-1",
@@ -510,6 +522,10 @@
           {
             "recordId": "NB7-1RR-AREA-AIR-QUALITY-1",
             "text": "What is the air like around the home on busy days and at busy times of day?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-RADON-1",
+            "text": "Has radon been measured in the home, and what was the result?"
           },
           {
             "recordId": "NB7-1RR-AREA-AFFORDABILITY-1",
@@ -636,6 +652,14 @@
           {
             "topicKey": "air-quality",
             "text": "Check whether the windows can be opened comfortably on the road side."
+          },
+          {
+            "topicKey": "radon",
+            "text": "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result."
+          },
+          {
+            "topicKey": "radon",
+            "text": "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
           },
           {
             "topicKey": "council-tax-by-band",
@@ -767,6 +791,10 @@
         {
           "key": "air-quality",
           "outcome": "found"
+        },
+        {
+          "key": "radon",
+          "outcome": "not-known"
         },
         {
           "key": "council-tax-by-band",

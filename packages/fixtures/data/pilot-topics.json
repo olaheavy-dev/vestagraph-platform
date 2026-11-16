@@ -215,6 +215,21 @@
       "reviewStatus": "reviewed"
     },
     {
+      "key": "radon",
+      "name": "Radon",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "radon"
+      ],
+      "gapQuestionTemplate": "Has radon been measured in the home, and what was the result?",
+      "checkInPerson": [
+        "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result.",
+        "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
       "key": "council-tax-by-band",
       "name": "Council tax by band",
       "kind": "area-figures",

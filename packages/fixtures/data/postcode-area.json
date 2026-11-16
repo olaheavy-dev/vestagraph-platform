@@ -1069,6 +1069,34 @@
       }
     },
     {
+      "id": "NB1-4XY-AREA-RADON-1",
+      "postcode": "NB1 4XY",
+      "topic": "radon",
+      "status": "recorded",
+      "label": "Radon potential, the 1 km square around this postcode (synthetic)",
+      "value": {
+        "classLabel": "Class 2 (synthetic example)",
+        "edition": "2022"
+      },
+      "level": {
+        "kind": "grid-square",
+        "squareMetres": 1000
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",
+      "link": {
+        "url": "https://www.ukradon.org/services/address_search",
+        "text": "Get a radon report for an address from UKradon (paid)"
+      },
+      "note": "Class names are to be confirmed from the download.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the BGS and UKHSA Indicative Atlas of Radon",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
       "id": "NB1-4XY-AREA-COUNCIL-TAX-1",
       "postcode": "NB1 4XY",
       "topic": "council-tax",
@@ -1496,6 +1524,25 @@
       "source": {
         "origin": "official-dataset",
         "label": "Synthetic sample, shaped like the Defra modelled background air pollution maps",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-RADON-1",
+      "postcode": "NB7 1RR",
+      "topic": "radon",
+      "status": "source-failed",
+      "label": "Radon lookup failed; not known right now",
+      "level": {
+        "kind": "grid-square",
+        "squareMetres": 1000
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the BGS and UKHSA Indicative Atlas of Radon",
         "date": "2026-10-23",
         "synthetic": true
       }

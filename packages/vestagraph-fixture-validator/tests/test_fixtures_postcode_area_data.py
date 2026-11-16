@@ -63,6 +63,7 @@ _NEW_TOPIC_LEVEL_KINDS = {
     "air-quality": "neighbourhood",
     "council-tax": "local-authority",
     "affordability": "local-authority",
+    "radon": "grid-square",
 }
 
 
@@ -233,3 +234,31 @@ def test_postcode_area_checked_at_is_a_valid_offset_datetime() -> None:
         assert parsed.tzinfo is not None
         # 23 Oct 2026 is in British Summer Time, one hour ahead of UTC.
         assert parsed.utcoffset() == timedelta(hours=1)
+
+
+# Radon (design pass Task 6a, register DA-23). Source: the BGS and UKHSA Indicative Atlas of Radon
+# publishes a class per 1 km grid square, so a recorded radon item states a 1,000 m square, and
+# its limit text uses the register's own phrases word for word.
+def test_postcode_area_radon_square_is_one_kilometre() -> None:
+    radon = [i for i in _items() if i["topic"] == "radon"]
+    assert {i["postcode"] for i in radon} == {"NB1 4XY", "NB7 1RR"}
+    for item in radon:
+        assert item["level"] == {"kind": "grid-square", "squareMetres": 1000}, item["id"]
+
+
+def test_postcode_area_radon_limit_says_indicative_not_definitive() -> None:
+    radon = [i for i in _items() if i["topic"] == "radon"]
+    assert radon
+    for item in radon:
+        text = item["doesNotEstablish"]
+        assert "Indicative, not definitive" in text, item["id"]
+        assert "Only a measurement in the home gives its radon level" in text, item["id"]
+        assert "A low class does not mean no radon" in text, item["id"]
+
+
+def test_postcode_area_radon_records_are_one_recorded_and_one_failed_lookup() -> None:
+    by_postcode = {i["postcode"]: i for i in _items() if i["topic"] == "radon"}
+    assert by_postcode["NB1 4XY"]["status"] == "recorded"
+    assert by_postcode["NB1 4XY"]["value"]["edition"] == "2022"
+    assert by_postcode["NB7 1RR"]["status"] == "source-failed"
+    assert "value" not in by_postcode["NB7 1RR"]
