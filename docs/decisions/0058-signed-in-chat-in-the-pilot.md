@@ -86,7 +86,7 @@ The builder check found that "nothing from a chat in any trace" conflicts with t
 - **Short-lived traces with text:** full traces including the words, kept 30 days, visible only to the founder, then deleted.
 - **Users can opt in to share:** metadata only, plus a "report this answer" flag that sends one chat for review.
 
-**Chosen: "Short-lived traces with text"** (over the agent's recommendation): chat traces may include the words of the conversation and the tool calls; they are kept for **30 days**, then deleted; only the founder can see them; the privacy notice says so. Deleting a chat or an account also deletes its traces, where the tracing tool allows (to be confirmed when it is chosen). *Agent's call:* the AI tests (AI-03) still use only conversations we write; traces are never copied into the tests without a later decision. Where the traces are stored (our own database or a tracing service, which would hold personal data) is decided with AI-09 and IN-02.
+**Chosen: "Short-lived traces with text"** (over the agent's recommendation): chat traces may include the words of the conversation and the tool calls; they are kept for **30 days**, then deleted; only the founder can see them; the privacy notice says so. Deleting a chat or an account also deletes its traces: a tracing tool is chosen only if it can delete one user's or one chat's traces on request, so the delete promise in choice 6 holds without a 30-day exception. *Agent's call:* the AI tests (AI-03) still use only conversations we write; traces are never copied into the tests without a later decision. Where the traces are stored (our own database or a tracing service, which would hold personal data) is decided with AI-09 and IN-02.
 
 ## Decision
 The pilot gains a **signed-in chat workspace**:
@@ -135,7 +135,8 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 - **Lawful basis** for accounts, chats and saved areas, and whether a DPIA (data protection impact assessment) is needed for an AI chat that stores user text: to be worked out from the ICO's guidance in the privacy work before launch (SE-02), not assumed here.
 - **What the AI provider keeps** of chat text and for how long: checked against the provider's terms when AI-01 is decided.
 - **The Python library** that checks Better Auth's tokens (EdDSA): named in the plan; if it is not pre-approved, the founder approves it.
-- **Data export:** whether the account page offers a download of the user's data (UK GDPR right of access), settled in the privacy work.
+- **Access requests:** how a user's right of access (UK GDPR) is met, and data portability if the lawful basis is consent or contract; a download button on the account page is optional, settled in the privacy work.
+- **Cookies (PECR):** the check of Better Auth's sign-in session cookies against PECR moves from stage 6 (0014) to a 5b launch blocker.
 - **"Explain this":** whether its "Ask more about this" link (removed by 0056) comes back for signed-in users; a design-step question.
 
 ## Consequences

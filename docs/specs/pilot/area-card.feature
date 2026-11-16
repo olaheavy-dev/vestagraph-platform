@@ -39,7 +39,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     apply to the expanded view, since the preview shows no place pins.
   The expanded view keeps every guarantee of CARD-11, CARD-12 and CARD-16 to CARD-19; its only message to
     the host is the display-mode request.
-  Pilot scope (decision 0056, 15 Nov 2026): the pilot has no on-page chat, so only the widget for ChatGPT and Claude ships
+  Pilot scope (decision 0056, 15 Nov 2026): the pilot has no on-page chat, so only the widget for ChatGPT and Claude ships (16 Nov 2026, proposed decision 0058: the signed-in chat returns to the pilot; the withdrawn card scenarios are reviewed in its specification step)
     in the pilot. The version in our own chat is for the signed-in workspace chat; the scenarios that apply only inside our
     chat, or compare it with the widget (CARD-02, CARD-22, CARD-23, CARD-27, CARD-28, CARD-31 and the phone chat preview
     CARD-36 to CARD-42), are tagged @withdrawn and kept with their IDs. In the pilot, a scenario tagged ui and mcp runs in the
