@@ -259,6 +259,10 @@ def test_council_figures_rent_council_without_a_rent_caption_value_is_reported()
 
 
 def test_council_figures_rent_gap_for_an_unmapped_postcode_is_accepted() -> None:
-    _, item = _broken("NB7-1RR-AREA-COUNCIL-RENT-1")
+    # A gap for a postcode with no council link is not checked against any council, so changing
+    # its level name must not produce a rent finding.
+    postcode_area, item = _broken("NB7-1RR-AREA-COUNCIL-RENT-1")
     assert item["status"] == "no-record-in-source"
-    assert _mismatches(load("postcode-area"), load("council-area")) == []
+    item["level"]["areaName"] = "Another Council (synthetic)"
+    found = _mismatches(postcode_area, load("council-area"))
+    assert [line for line in found if "COUNCIL-RENT" in line] == []

@@ -27,7 +27,7 @@ Specifications for changed screens follow in the pilot specification files, in t
 
 ## Review Focus
 1. **A striking desktop header** must not reintroduce a score or verdict. Big figures are published facts with their level and source.
-2. **The printout lists all 15 topics,** including missing ones as "Not known" pages, never dropped silently.
+2. **The printout lists every topic in `pilot-topics.json` (21 now, 16 counted; was 15, DA-31, 16 Nov 2026),** including missing ones as "Not known" pages, never dropped silently.
 3. **The real basemap** keeps a list view as its accessible equivalent, and its attribution text follows the tile licence.
 4. **A "check this" row** never implies we checked anything ("we haven't checked this; here is the official service").
 
@@ -52,7 +52,7 @@ Specifications for changed screens follow in the pilot specification files, in t
 ### Task 4: Printout redraw (AreaExport, FE-21)
 - [ ] Add a cover: postcode, date, and the sample or data date.
 - [ ] Put At a glance on page 1.
-- [ ] Include all 15 topics, with missing ones shown as "Not known".
+- [ ] Include every topic in `pilot-topics.json` (21, of which 16 counted; was 15 before DA-31, 16 Nov 2026), with missing ones shown as "Not known".
 - [ ] Add questions to ask and check in person.
 - [ ] Add a sources page with each source's date and status (FE-33 printout rule).
 - [ ] Use greyscale-safe charts and readable type sizes (12 pt or more in print).
@@ -62,7 +62,7 @@ Specifications for changed screens follow in the pilot specification files, in t
 
 ### Task 6a: Sample data for the new topics (before any board shows their figures)
 Added after Codex's review of #306 (rule 2: a figure on a board is quoted from the data files, never typed).
-- [ ] For each topic marked "add" (DA-22 flood outlines, DA-23 radon band, DA-24 listed buildings and conservation areas, DA-27 noise layer, DA-28 broadband by postcode, DA-29 council rent), add synthetic inputs to `packages/fixtures/data/` in the shape of the official source. Each input has its source labelled "Synthetic sample, shaped like <real source>", its level (1 km square, postcode, council), its period and its schema in `packages/fixtures/schemas/`.
+- [x] (Built 16 Nov 2026, DA-31, branch feat/design-pass-topic-data) For each topic marked "add" (DA-22 flood outlines, DA-23 radon band, DA-24 listed buildings and conservation areas, DA-27 noise layer, DA-28 broadband by postcode, DA-29 council rent), add synthetic inputs to `packages/fixtures/data/` in the shape of the official source. Each input has its source labelled "Synthetic sample, shaped like <real source>", its level (1 km square, postcode, council), its period and its schema in `packages/fixtures/schemas/`.
 - [ ] Where a shown value is calculated, the generator produces it in the generated files, test-first.
 - [ ] Run `make check` (`generated-check` and `validate`). This is its own small code PR (Codex review) and comes before Task 6b.
 

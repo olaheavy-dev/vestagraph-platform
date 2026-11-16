@@ -308,3 +308,17 @@ def test_postcode_area_council_rent_limit_says_council_wide_not_this_street() ->
         text = item["doesNotEstablish"]
         assert "council-wide average, not this street" in text, item["id"]
         assert "what any one home would rent for" in text, item["id"]
+
+
+# Coverage describes what the source covers, not the sample postcode's nation (research note
+# docs/reviews/2026-11-16-data-gaps-research.md: radon line 78, council rent line 117).
+def test_postcode_area_new_topic_records_state_their_sources_coverage() -> None:
+    expected = {
+        "radon": "Great Britain and Northern Ireland",
+        "broadband-coverage": "United Kingdom",
+        "council-rent": "England and Wales (council level)",
+    }
+    checked = [i for i in _items() if i["topic"] in expected]
+    assert len(checked) == 6
+    for item in checked:
+        assert item["coverage"] == expected[item["topic"]], item["id"]

@@ -1,6 +1,6 @@
 # Design pass Task 6a: sample data for the new topics (plan)
 
-> **For agentic workers:** REQUIRED SUB-SKILL: superpowers:subagent-driven-development or superpowers:executing-plans, with test-driven-development and the project's test-first skill. Steps use checkbox (`- [ ]`) syntax.
+> **For agentic workers:** REQUIRED SUB-SKILL: superpowers:subagent-driven-development or superpowers:executing-plans, with test-driven-development and the project's test-first skill. Steps use checkbox (`- [x]`) syntax.
 
 **Goal:** add the synthetic inputs that the design pass's boards (Task 6b of [`2026-11-16-benchmark-design-pass.md`](2026-11-16-benchmark-design-pass.md)) need for the topics the founder marked "add" (register lines DA-22, DA-23, DA-24, DA-27, DA-28, DA-29), so that no board types a figure by hand (rule 2).
 
@@ -124,7 +124,7 @@ Everything new is quoted. `area-result.json` changes only because the existing t
 One branch (`feat/design-pass-topic-data`), one PR, with `make check` green after each task.
 
 ### Task 1: Schema groundwork
-- [ ] **Tests first**, in the rejection-test files, each breaking one thing:
+- [x] **Tests first**, in the rejection-test files, each breaking one thing:
   - radon is accepted;
   - radon without an edition is rejected;
   - a radon measured-level field is rejected;
@@ -140,38 +140,38 @@ One branch (`feat/design-pass-topic-data`), one PR, with `make check` green afte
   - map layers on a route-only topic are accepted.
 
   Name each test `test_validate_instance_<file>_<condition>_<result>`.
-- [ ] Then change the schemas. Existing data must still validate.
+- [x] Then change the schemas. Existing data must still validate.
 
 ### Task 2: Radon
-- [ ] Rework `area-glance.json` for NB1 (16, 0, 16 of 16) and NB7 (radon not known, plus its question), showing the working and citing FE-38, FE-39 and FE-41.
-- [ ] Add the radon topic and its two records, then run `make generate`.
-- [ ] Update the record counts in `test_area_records.py`, `_NEW_TOPIC_LEVEL_KINDS` (`radon: grid-square`) and the GLANCE-01, 03 and 04 scenarios in `docs/specs/pilot/area-glance.feature`.
-- [ ] Add these tests:
+- [x] Rework `area-glance.json` for NB1 (16, 0, 16 of 16) and NB7 (radon not known, plus its question), showing the working and citing FE-38, FE-39 and FE-41.
+- [x] Add the radon topic and its two records, then run `make generate`.
+- [x] Update the record counts in `test_area_records.py`, `_NEW_TOPIC_LEVEL_KINDS` (`radon: grid-square`) and the GLANCE-01, 03 and 04 scenarios in `docs/specs/pilot/area-glance.feature`.
+- [x] Add these tests:
   - `test_postcode_area_radon_square_is_one_kilometre`;
   - `test_postcode_area_radon_limit_says_indicative_not_definitive`;
   - `test_read_registry_committed_data_returns_every_topic` (radon is counted).
 
 ### Task 3: Broadband replaced (DA-28)
-- [ ] Rework `area-glance.json` and `priority-results.json` first.
-- [ ] Replace the records, remove the speed priority end to end (1.5), regenerate, and update the PRIO and GLANCE scenarios.
-- [ ] Add these tests:
+- [x] Rework `area-glance.json` and `priority-results.json` first.
+- [x] Replace the records, remove the speed priority end to end (1.5), regenerate, and update the PRIO and GLANCE scenarios.
+- [x] Add these tests:
   - `test_postcode_area_broadband_coverage_percent_is_at_most_100`;
   - `test_postcode_area_broadband_coverage_limit_says_not_full_fibre`;
   - a test that no priority measure reads a broadband record.
 
 ### Task 4: Council rent by council link (DA-29)
-- [ ] Add the records, and `council-rent` to `housing-affordability`.
-- [ ] Extend `test_fixtures_council_consistency.py`:
+- [x] Add the records, and `council-rent` to `housing-affordability`.
+- [x] Extend `test_fixtures_council_consistency.py`:
   - rent is included in the real-file check and the guard;
   - a different council code is reported;
   - a status that differs from `rentSeries.status` is reported;
   - recorded rent for an unmapped postcode is reported;
   - recorded rent's council has a rent caption value in `council-result.json`.
-- [ ] The `area-glance.json` notes show NB7's rent gap being deduplicated.
+- [x] The `area-glance.json` notes show NB7's rent gap being deduplicated.
 
 ### Task 5: Map layers (DA-22, DA-24, DA-27)
-- [ ] Add the new schema and data file, and `mapLayers` on three topics.
-- [ ] **Schema rejection tests:**
+- [x] Add the new schema and data file, and `mapLayers` on three topics.
+- [x] **Schema rejection tests:**
   - a valid layer is accepted;
   - a recorded layer without features is rejected;
   - a gap layer with features is rejected;
@@ -185,7 +185,7 @@ One branch (`feat/design-pass-topic-data`), one PR, with `make check` green afte
   - a listed building with an outline is rejected;
   - an unknown frame is rejected;
   - a missing caption is rejected.
-- [ ] **Data tests:**
+- [x] **Data tests:**
   - every outline is closed;
   - every position is inside its window;
   - windows are 500 m;
@@ -202,10 +202,10 @@ One branch (`feat/design-pass-topic-data`), one PR, with `make check` green afte
   - no safe, unsafe, verified or approved wording appears.
 
 ### Task 6: Documents and close-out
-- [ ] **READMEs:** in `packages/fixtures/README.md`, add a map-layers section, the new topics, `grid-square` and the rent quoting path, and the DA-30 note on rent.
-- [ ] **Register (`docs/decisions/README.md`):** DA-31 (this data contract and the founder's three answers), plus "as built" notes on DA-22, DA-23, DA-24, DA-27, DA-28 and DA-29.
-- [ ] **Status file:** update `docs/planning/status.md`.
-- [ ] **Pre-flight:** search for "15 topics", "15 of 15", `predictedMaxDownloadMbps`, `download-mbps`, `SAMPLE-PRIORITY-BROADBAND` and the DA IDs; fix anything stale in live documents.
+- [x] **READMEs:** in `packages/fixtures/README.md`, add a map-layers section, the new topics, `grid-square` and the rent quoting path, and the DA-30 note on rent.
+- [x] **Register (`docs/decisions/README.md`):** DA-31 (this data contract and the founder's three answers), plus "as built" notes on DA-22, DA-23, DA-24, DA-27, DA-28 and DA-29.
+- [x] **Status file:** update `docs/planning/status.md`.
+- [x] **Pre-flight:** search for "15 topics", "15 of 15", `predictedMaxDownloadMbps`, `download-mbps`, `SAMPLE-PRIORITY-BROADBAND` and the DA IDs; fix anything stale in live documents.
 - [ ] **Checks:** `make check`, the pre-push Opus review, then Codex.
 
 ## 3. New wording for founder approval (FE-39)
@@ -224,3 +224,9 @@ One branch (`feat/design-pass-topic-data`), one PR, with `make check` green afte
 5. **Map layers:** the six layer labels, and the caption and limit text beyond the register phrases.
 
 These are marked `draft` and are asked for in the design pass's founder review (Task 7).
+
+## As built (16 Nov 2026)
+- **NB7 broadband coverage** is `no-record-in-source`, which counts as found under FE-38 (found = recorded, stale or no-record-in-source). So NB7 1RR is found 12, not known 3 (flood, radon, transport connectivity), total 15, with 11 questions (13 gap records; the two flood records share one question, and the rent gap shares the affordability question). Section 1.4's "broadband coverage is not known" is superseded by this.
+- **Map positions** use `prefixItems` with `minItems` and `maxItems` of 2, not `items: false`: an existing validator test forbids `items: false`. Closed outlines are checked by a data test, as a schema cannot compare the first and last position.
+- **Coverage** of the new records states the source's coverage: radon "Great Britain and Northern Ireland", broadband coverage "United Kingdom", council rent "England and Wales (council level)".
+- The "Checks" step's pre-push review and Codex are done by the controller, not in this branch.

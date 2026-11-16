@@ -1083,7 +1083,7 @@
         "kind": "grid-square",
         "squareMetres": 1000
       },
-      "coverage": "England",
+      "coverage": "Great Britain and Northern Ireland",
       "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",
       "link": {
         "url": "https://www.ukradon.org/services/address_search",
@@ -1192,7 +1192,7 @@
         "kind": "local-authority",
         "areaName": "Northbridge (synthetic)"
       },
-      "coverage": "England",
+      "coverage": "England and Wales (council level)",
       "doesNotEstablish": "A council-wide average, not this street. It does not say what any one home would rent for.",
       "source": {
         "origin": "official-dataset",
@@ -1556,7 +1556,7 @@
         "kind": "grid-square",
         "squareMetres": 1000
       },
-      "coverage": "England",
+      "coverage": "Great Britain and Northern Ireland",
       "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",
       "source": {
         "origin": "official-dataset",
@@ -1651,7 +1651,7 @@
         "kind": "local-authority",
         "areaName": "Fellshire Council (synthetic)"
       },
-      "coverage": "England",
+      "coverage": "England and Wales (council level)",
       "doesNotEstablish": "A council-wide average, not this street. It does not say what any one home would rent for.",
       "source": {
         "origin": "official-dataset",
