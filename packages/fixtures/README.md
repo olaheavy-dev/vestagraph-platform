@@ -69,6 +69,7 @@ Items that only describe a home (`council-tax-band`, `energy-certificate`, `ener
 - **Distances are inputs** with the method "straight-line from the postcode centre, synthetic". Live distances will come from the pilot's tested geometry module, not from this file.
 - **Worked miles figures for later UI tests** (metres divided by 1609.344, one decimal): 2400 m is 1.49, shown "1.5 miles"; 3100 m is 1.93, "1.9 miles"; 4600 m is 2.86, "2.9 miles".
 - Tests: `test_fixtures_postcode_area_schema_rejection.py` (the schema refuses bad records) and `test_fixtures_postcode_area_data.py` (levels, the exact mile, the flood time, unique IDs across both area files, listed postcodes, the sparse rules).
+- Council-level records (`council-tax`, `affordability`) for a postcode that `council-area.json` maps to a council repeat that council's figures, status and name; `council-area.json` is the source (DA-30, #299) and `test_fixtures_council_consistency.py` fails `make check` on a difference.
 
 ## Council area data (City Explorer)
 
@@ -77,6 +78,7 @@ Items that only describe a home (`council-tax-band`, `energy-certificate`, `ener
 - **Councils:** Northbridge (unitary, complete, 24 monthly rent and price points, three neighbourhoods), Southvale (unitary, one price point `not-published`), Eastmere (district in Westshire, formed 2023-04-01 with a former name, rents `no-record-in-source`, an affordability series with `methodBreakBefore`) and Westmere (district, every fact a gap, council tax `bands` a gap).
 - **Gaps:** a status other than `recorded` carries no `value` (rule 7); a series with a gap status has no points; a point with status `not-published` has no value.
 - **Also in the file:** `places` (place names with nation and council codes), `postcodes` (postcode to council) and `rateBands` (2-year fixed at 60, 75, 85, 90 and 95%, 5-year fixed at 75 and 95%, as basis points).
+- **Source for council-wide figures (DA-30):** `postcode-area.json` copies a council's band charges, affordability ratio and name for each postcode listed in `postcodes`; change them here first, then the copy (`test_fixtures_council_consistency.py` checks they agree).
 
 ## Pilot topics and sample priorities (first design batch)
 

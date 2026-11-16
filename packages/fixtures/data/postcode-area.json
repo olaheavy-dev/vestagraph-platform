@@ -1073,48 +1073,48 @@
       "postcode": "NB1 4XY",
       "topic": "council-tax",
       "status": "recorded",
-      "label": "Council tax charges by band, Northbridge City Council (synthetic)",
+      "label": "Council tax charges by band, Northbridge (synthetic)",
       "value": {
-        "authorityName": "Northbridge City Council (synthetic)",
+        "authorityName": "Northbridge (synthetic)",
         "taxYear": "2026-27",
         "bands": [
           {
             "band": "A",
-            "annualCharge": "1412.10"
+            "annualCharge": "1440.00"
           },
           {
             "band": "B",
-            "annualCharge": "1647.45"
+            "annualCharge": "1680.00"
           },
           {
             "band": "C",
-            "annualCharge": "1882.80"
+            "annualCharge": "1920.00"
           },
           {
             "band": "D",
-            "annualCharge": "2118.15"
+            "annualCharge": "2160.00"
           },
           {
             "band": "E",
-            "annualCharge": "2588.85"
+            "annualCharge": "2640.00"
           },
           {
             "band": "F",
-            "annualCharge": "3059.55"
+            "annualCharge": "3120.00"
           },
           {
             "band": "G",
-            "annualCharge": "3530.25"
+            "annualCharge": "3600.00"
           },
           {
             "band": "H",
-            "annualCharge": "4236.30"
+            "annualCharge": "4320.00"
           }
         ]
       },
       "level": {
         "kind": "local-authority",
-        "areaName": "Northbridge City Council (synthetic)"
+        "areaName": "Northbridge (synthetic)"
       },
       "coverage": "England",
       "doesNotEstablish": "Charges by band for the whole council. They do not establish which band any one home is in or the bill for it.",
@@ -1130,16 +1130,16 @@
       "postcode": "NB1 4XY",
       "topic": "affordability",
       "status": "recorded",
-      "label": "House price to earnings ratio, Northbridge City (synthetic)",
+      "label": "House price to earnings ratio, Northbridge (synthetic)",
       "value": {
-        "areaName": "Northbridge City (synthetic)",
+        "areaName": "Northbridge (synthetic)",
         "year": 2025,
         "measure": "Median house price to median gross annual workplace-based earnings (synthetic example)",
-        "ratio": "7.9"
+        "ratio": "8.44"
       },
       "level": {
         "kind": "local-authority",
-        "areaName": "Northbridge City Council (synthetic)"
+        "areaName": "Northbridge (synthetic)"
       },
       "coverage": "England",
       "doesNotEstablish": "A published ratio for a whole local authority. It does not establish whether any one home is affordable for any one household.",
