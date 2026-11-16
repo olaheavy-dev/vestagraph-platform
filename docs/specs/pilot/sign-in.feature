@@ -3,7 +3,7 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
   Added 16 Nov 2026 (decision 0058, register lines SE-06, FE-56, FE-60). Anonymous visitors still use the public pages with no account (decisions 0046 and 0051); signing in is needed only to chat and to save areas.
   Question it answers: "How do I sign in, and what happens to where I was and what I was doing?"
   Modes: both
-  Fixtures: home WALES-1 is not used here; the postcode in the return scenarios is a sample postcode from `packages/fixtures/data/postcode-area.json` (NB1 4XY); figures: none.
+  Fixtures: the postcode in the return scenarios is a sample postcode from `packages/fixtures/data/postcode-area.json` (NB1 4XY); figures: none.
     The accounts, the sign-in email and the users in these scenarios are made up for the test run (rule 5): no real address, no real provider account.
   Where: the sign-in page (a full page on a phone and on desktop, FE-63), reached from "Ask about this area" (or "Ask more about this", FE-58) and Save when signed out, and from the chat's own entry. The email link, its states and the GitHub no-email state are drawn on the canvas page "Pilot · Signed-in chat" (SignedInSignIn, SignedInEmailStates, SignedInGitHubNoEmail, SignedInPublicEntry and their phone, desktop and Dark versions).
   Methods: Google, GitHub and "Email me a link" (decision 0058). The email link works once and lasts 5 minutes (SE-06).
@@ -62,7 +62,7 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
   Scenario: AUTH-06 "Check your email" reads the same for a known and an unknown address
     Given one address has an account and another has none
     When the user asks for an email link with each address
-    Then both times the page shows the same "Check your email" screen with the same words, and the two responses are identical to the page
+    Then both times the page shows the same "Check your email" screen with the same words, the two responses are identical to the page, and they take the same time within the test's tolerance, so timing does not reveal whether an account exists
 
   @ui
   Scenario: AUTH-07 an expired email link says so and offers one action
@@ -87,14 +87,14 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
   Scenario: AUTH-10 when the email service is down the page says so and offers another way in
     Given the email service is unavailable
     When the user asks for an email link
-    Then the page says the link could not be sent, with no error detail and no address repeated, and offers one action: use Google or GitHub, or try again
+    Then the page says the link could not be sent, with no error detail and no address repeated, and offers one action: try again (Google and GitHub stay on the page)
 
   # B22: cause, reassurance, one action.
   @ui
   Scenario: AUTH-11 GitHub with no verified email says why and offers another way in
     Given a GitHub account whose email is neither verified nor shared
     When the user continues with GitHub
-    Then no account is created, and the page says GitHub shared no verified email, that nothing was saved, and offers one action: use Google or an email link
+    Then no account is created, and the page says GitHub shared no verified email, that nothing was saved, and offers one action: use Google (an email link is on the sign-in page)
 
   @ui
   Scenario: AUTH-12 two methods with the same verified email reach the same account
@@ -160,10 +160,10 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     Then no entry contains "token=" or the token's value
 
   @ui
-  Scenario: AUTH-22 signing out ends the session and the next page load sends Cache-Control: no-store
+  Scenario: AUTH-22 signing out ends the session and signed-in pages are never cached
     Given the user is signed in
-    When the user signs out and any signed-in page is requested again
-    Then the response carries "Cache-Control: no-store", and the back button does not show the signed-in page from the browser's cache
+    When the user signs out and then presses Back
+    Then every signed-in page and the sign-out response carry "Cache-Control: no-store", and after sign-out the back button does not show the signed-in page
 
   @ui
   Scenario: AUTH-23 signing out clears the chat sidebar from the page
