@@ -249,7 +249,8 @@
       "kind": "area-figures",
       "counted": true,
       "recordTopics": [
-        "affordability"
+        "affordability",
+        "council-rent"
       ],
       "gapQuestionTemplate": "How do house prices here compare with what people earn locally, and how has that changed?",
       "checkInPerson": [

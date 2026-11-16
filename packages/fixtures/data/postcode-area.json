@@ -1180,6 +1180,28 @@
       }
     },
     {
+      "id": "NB1-4XY-AREA-COUNCIL-RENT-1",
+      "postcode": "NB1 4XY",
+      "topic": "council-rent",
+      "status": "recorded",
+      "label": "Average private rent, Northbridge (synthetic)",
+      "value": {
+        "councilCode": "E06999001"
+      },
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Northbridge (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A council-wide average, not this street. It does not say what any one home would rent for.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
       "id": "NB7-1RR-AREA-TRANSPORT-STOP-1",
       "postcode": "NB7 1RR",
       "topic": "transport-stop",
@@ -1615,6 +1637,25 @@
       "source": {
         "origin": "official-dataset",
         "label": "Synthetic sample, shaped like the ONS house price to workplace-based earnings ratio",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-COUNCIL-RENT-1",
+      "postcode": "NB7 1RR",
+      "topic": "council-rent",
+      "status": "no-record-in-source",
+      "label": "No average private rent for this area in this source (synthetic)",
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Fellshire Council (synthetic)"
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A council-wide average, not this street. It does not say what any one home would rent for.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
         "date": "2026-10-23",
         "synthetic": true
       }

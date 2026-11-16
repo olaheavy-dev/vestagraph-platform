@@ -67,6 +67,7 @@ _NEW_TOPIC_LEVEL_KINDS = {
     "affordability": "local-authority",
     "radon": "grid-square",
     "broadband-coverage": "postcode",
+    "council-rent": "local-authority",
 }
 
 
@@ -289,3 +290,21 @@ def test_postcode_area_broadband_coverage_limit_says_not_full_fibre() -> None:
 def test_postcode_area_old_predicted_speed_broadband_records_are_gone() -> None:
     assert [i["id"] for i in _items() if i["topic"] == "broadband"] == []
     assert all("predictedMaxDownloadMbps" not in json.dumps(i, default=str) for i in _items())
+
+
+# Council rent by council link (design pass Task 6a, register DA-29 and DA-30). The record is a link
+# to a council: it never carries a rent figure, so no second copy can disagree with
+# council-area.json (the figure is read from council-result.json).
+def test_postcode_area_council_rent_is_a_link_with_no_figure() -> None:
+    rent = [i for i in _items() if i["topic"] == "council-rent"]
+    assert {i["postcode"] for i in rent} == {"NB1 4XY", "NB7 1RR"}
+    for item in rent:
+        assert set(item.get("value", {})) <= {"councilCode"}, item["id"]
+        assert "pence" not in json.dumps(item).lower(), item["id"]
+
+
+def test_postcode_area_council_rent_limit_says_council_wide_not_this_street() -> None:
+    for item in (i for i in _items() if i["topic"] == "council-rent"):
+        text = item["doesNotEstablish"]
+        assert "council-wide average, not this street" in text, item["id"]
+        assert "what any one home would rent for" in text, item["id"]
