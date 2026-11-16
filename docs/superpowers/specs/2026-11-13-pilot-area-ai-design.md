@@ -4,7 +4,7 @@
 
 > **Note, 15 Nov 2026 ([0056](../../decisions/0056-no-on-page-chat-in-the-pilot.md)):** the on-page chat (goal 3) and its safeguards left the pilot and move to the signed-in workspace chat. The pilot keeps the area tools, the public MCP server and pre-written Explain this, and gains a "Use in ChatGPT or Claude" how-to page. The text below is kept as approved on 13 Nov 2026; read chat passages as the workspace chat.
 >
-> **Note, 16 Nov 2026 ([0058](../../decisions/0058-signed-in-chat-in-the-pilot.md), Proposed):** the chat comes back into the pilot for signed-in users only, with this design's chat safeguards (the bot check moves to sign-up); anonymous visitors still get no chat.
+> **Note, 16 Nov 2026 ([0058](../../decisions/0058-signed-in-chat-in-the-pilot.md), accepted 16 Nov 2026):** the chat comes back into the pilot for signed-in users only, with this design's chat safeguards (the bot check moves to sign-up); anonymous visitors still get no chat.
 
 
 ## Intent
