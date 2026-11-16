@@ -47,9 +47,12 @@ Feature: Check an area
     every source unavailable, the rows stay, one line to About the data -> AREA-31, AREA-34
     a search that crosses the border, places across it may be missing (B9) -> AREA-32, AREA-35
     a sparse area, the map opens on its places, the outer ring labelled with the search distance (FE-42) -> AREA-33, AREA-36
+    the "Ask about this area" entry with its AI badge and an active Save for the area, leading signed-out visitors to sign-in (0058) -> AUTH-15, AUTH-16, AUTH-17, AUTH-26 (sign-in.feature)
     (each of these states gives its cause, a line of reassurance and one action, B22)
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
+    16 Nov 2026 (0058): saving an area is live: Save on the result and "Ask about this area" lead signed-out
+    visitors to sign-in and back (AUTH-15 to AUTH-17, AUTH-26); saving a home still waits.
 
   # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
   Scenario: AREA-01 a postcode outside England is not yet covered

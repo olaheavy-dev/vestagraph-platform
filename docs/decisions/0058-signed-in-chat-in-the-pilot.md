@@ -154,6 +154,8 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 
 Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes in the records": a withdrawn scenario whose meaning changes stays `@withdrawn` with "Replaced by <new ID>" and the new meaning gets a new ID, because docs/specs/README.md rule 2 never reuses an ID. This refines choice 7's agent's call: an answer stopped by the output guard is a completed answer, not a failure on our side, so it counts; Regenerate is a message the user sends, so it counts; a dropped connection or server error on our side does not.
 
+*16 Nov 2026 (PR 3):* the withdrawn-scenario review is done in the specification pull request under this new-ID rule: of the 53 CHAT scenarios, 2 are kept, 50 are replaced by new IDs and 1 is retired (table in `docs/specs/pilot/area-chat.feature`). The "rewritten … keeping their IDs" wording in "What this changes in the records" is superseded by this rule.
+
 **Note, 16 Nov 2026 (board review):** the founder's answers while reviewing the boards are recorded as register lines FE-57 to FE-66 and SE-06 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These are the agent's calls made while drawing, open to the founder:
 - Deleting one chat or one saved area (ruling): the server hides the item at once and commits the delete itself 10 seconds after the request, so it happens even if the browser closes or crashes; Undo is a request to the server before then; the message does not pause on hover or focus. The chat's traces are deleted when it commits.
 - "Delete all chats" asks first.
@@ -161,3 +163,4 @@ Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes
 - The email-link method has no Remove: an email link always reaches the account at its verified address.
 - A dropped connection on our side does not count, and Retry counts only if the answer completes.
 - The 15 messages are counted in one atomic step per account.
+- *16 Nov 2026 (final review of the specifications):* a signed-out or revoked session is refused on every API request, reads as well as writes: the API checks that the session still exists, not only the token (AUTH-24, AUTH-25, AUTH-27; one database lookup per request); and an answer the user stops counts toward the 15, because the model was used (WCHAT-108).
