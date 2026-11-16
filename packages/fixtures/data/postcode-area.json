@@ -659,24 +659,25 @@
       }
     },
     {
-      "id": "NB1-4XY-AREA-BROADBAND-1",
+      "id": "NB1-4XY-AREA-BROADBAND-COVERAGE-1",
       "postcode": "NB1 4XY",
-      "topic": "broadband",
+      "topic": "broadband-coverage",
       "status": "recorded",
-      "label": "Predicted broadband availability",
+      "label": "Premises with gigabit-capable broadband available, this postcode (synthetic)",
       "value": {
-        "technology": "full-fibre",
-        "predictedMaxDownloadMbps": 900,
-        "predictedMaxUploadMbps": 110
+        "gigabitCapablePercent": "86",
+        "premises": "all",
+        "snapshot": "2026-01"
       },
       "level": {
         "kind": "postcode"
       },
       "coverage": "United Kingdom",
-      "doesNotEstablish": "Predicted availability, not a measured speed, a tested line or a record of outages.",
+      "doesNotEstablish": "The share of premises in this postcode where providers say gigabit-capable broadband is available. It can't say whether a home has full fibre or a working connection, or what speed you would get.",
+      "note": "Column names are to be confirmed from the download.",
       "source": {
         "origin": "official-dataset",
-        "label": "Synthetic sample, shaped like the Ofcom broadband availability data",
+        "label": "Synthetic sample, shaped like the Ofcom Connected Nations postcode data",
         "date": "2026-10-23",
         "synthetic": true
       }
@@ -1323,24 +1324,19 @@
       }
     },
     {
-      "id": "NB7-1RR-AREA-BROADBAND-1",
+      "id": "NB7-1RR-AREA-BROADBAND-COVERAGE-1",
       "postcode": "NB7 1RR",
-      "topic": "broadband",
-      "status": "recorded",
-      "label": "Predicted broadband availability",
-      "value": {
-        "technology": "fibre-to-the-cabinet",
-        "predictedMaxDownloadMbps": 80,
-        "predictedMaxUploadMbps": 20
-      },
+      "topic": "broadband-coverage",
+      "status": "no-record-in-source",
+      "label": "No broadband coverage figure for this postcode in this source (synthetic)",
       "level": {
         "kind": "postcode"
       },
       "coverage": "United Kingdom",
-      "doesNotEstablish": "Predicted availability, not a measured speed, a tested line or a record of outages.",
+      "doesNotEstablish": "The share of premises in this postcode where providers say gigabit-capable broadband is available. It can't say whether a home has full fibre or a working connection, or what speed you would get.",
       "source": {
         "origin": "official-dataset",
-        "label": "Synthetic sample, shaped like the Ofcom broadband availability data",
+        "label": "Synthetic sample, shaped like the Ofcom Connected Nations postcode data",
         "date": "2026-10-23",
         "synthetic": true
       }

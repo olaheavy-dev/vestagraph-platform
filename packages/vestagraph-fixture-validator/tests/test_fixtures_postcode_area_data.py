@@ -20,7 +20,9 @@ _ALLOWED_TOPICS = {
     "flood",
     "sold-price",
     "amenity",
-    "broadband",
+    # "broadband" (the predicted-speed record) is left out: the postcode sample replaced it with
+    # "broadband-coverage" (plan 2026-11-16-design-pass-topic-data.md, section 1.5); area.json
+    # keeps it.
     "planning",
 }
 _CENTRE_METHOD = "straight-line from the postcode centre, synthetic"
@@ -64,6 +66,7 @@ _NEW_TOPIC_LEVEL_KINDS = {
     "council-tax": "local-authority",
     "affordability": "local-authority",
     "radon": "grid-square",
+    "broadband-coverage": "postcode",
 }
 
 
@@ -262,3 +265,27 @@ def test_postcode_area_radon_records_are_one_recorded_and_one_failed_lookup() ->
     assert by_postcode["NB1 4XY"]["value"]["edition"] == "2022"
     assert by_postcode["NB7 1RR"]["status"] == "source-failed"
     assert "value" not in by_postcode["NB7 1RR"]
+
+
+# Broadband coverage (design pass Task 6a, register DA-28). The Ofcom Connected Nations postcode
+# data gives a percentage of premises, so it can never be above 100 (a share of premises).
+def test_postcode_area_broadband_coverage_percent_is_at_most_100() -> None:
+    coverage = [i for i in _items() if i["topic"] == "broadband-coverage" and "value" in i]
+    assert coverage
+    for item in coverage:
+        percent = number(item["value"]["gigabitCapablePercent"])
+        assert 0 <= percent <= 100, item["id"]
+
+
+def test_postcode_area_broadband_coverage_limit_says_not_full_fibre() -> None:
+    coverage = [i for i in _items() if i["topic"] == "broadband-coverage"]
+    assert {i["postcode"] for i in coverage} == {"NB1 4XY", "NB7 1RR"}
+    for item in coverage:
+        text = item["doesNotEstablish"]
+        assert "full fibre" in text, item["id"]
+        assert "what speed you would get" in text, item["id"]
+
+
+def test_postcode_area_old_predicted_speed_broadband_records_are_gone() -> None:
+    assert [i["id"] for i in _items() if i["topic"] == "broadband"] == []
+    assert all("predictedMaxDownloadMbps" not in json.dumps(i, default=str) for i in _items())

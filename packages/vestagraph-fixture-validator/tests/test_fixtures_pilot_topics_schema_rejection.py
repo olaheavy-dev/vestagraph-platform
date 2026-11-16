@@ -50,3 +50,15 @@ def test_validate_instance_pilot_topics_radon_record_topic_is_accepted() -> None
     document = copy.deepcopy(load("pilot-topics"))
     _topic(document, "flood")["recordTopics"].append("radon")
     assert _problems(document) == []
+
+
+def test_validate_instance_pilot_topics_old_broadband_record_topic_is_rejected() -> None:
+    document = copy.deepcopy(load("pilot-topics"))
+    _topic(document, "flood")["recordTopics"].append("broadband")
+    assert mentions(_problems(document), "recordTopics")
+
+
+def test_validate_instance_pilot_topics_broadband_coverage_record_topic_is_accepted() -> None:
+    document = copy.deepcopy(load("pilot-topics"))
+    _topic(document, "flood")["recordTopics"].append("broadband-coverage")
+    assert _problems(document) == []

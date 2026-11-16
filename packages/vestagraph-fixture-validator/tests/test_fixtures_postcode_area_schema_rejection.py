@@ -317,3 +317,23 @@ def test_validate_instance_postcode_area_council_rent_gap_with_value_is_rejected
     item = _council_rent_item()
     item["status"] = "no-record-in-source"
     assert mentions(_problems(item), "value")
+
+
+def test_validate_instance_postcode_area_old_broadband_topic_is_rejected() -> None:
+    item = _broadband_coverage_item()
+    item["topic"] = "broadband"
+    assert mentions(_problems(item), "topic")
+
+
+def test_validate_instance_sample_priorities_download_speed_measure_is_rejected() -> None:
+    priority: Json = {
+        "id": "SAMPLE-PRIORITY-TEST",
+        "topicKey": "broadband",
+        "measure": "download-mbps",
+        "limit": {"value": "100", "unit": "mbps"},
+        "synthetic": True,
+    }
+    problems = validate_instance(
+        {"priorities": [priority]}, "sample-priorities.schema.json", schema_directory()
+    )
+    assert mentions(problems, "measure")

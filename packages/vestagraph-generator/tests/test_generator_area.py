@@ -49,7 +49,7 @@ def test_run_area_data_with_missing_topic_exits_two_and_writes_nothing(tmp_path:
     copy_data_to(tmp_path)
     path = tmp_path / "packages" / "fixtures" / "data" / "postcode-area.json"
     document = read_json(path)
-    document["area"] = [r for r in document["area"] if r["topic"] != "broadband"]
+    document["area"] = [r for r in document["area"] if r["topic"] != "broadband-coverage"]
     write_json(path, document)
     generated = tmp_path / "packages" / "fixtures" / "generated"
     generated.mkdir()

@@ -188,7 +188,7 @@
       "kind": "area-figures",
       "counted": true,
       "recordTopics": [
-        "broadband"
+        "broadband-coverage"
       ],
       "gapQuestionTemplate": "Which broadband provider and speed do people living here use, and how reliable is it?",
       "checkInPerson": [

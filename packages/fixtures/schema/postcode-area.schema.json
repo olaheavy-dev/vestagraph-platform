@@ -199,7 +199,6 @@
             "flood",
             "sold-price",
             "amenity",
-            "broadband",
             "planning",
             "deprivation-rank",
             "transport-connectivity",
@@ -402,25 +401,6 @@
             "properties": {
               "value": {
                 "$ref": "area.schema.json#/$defs/amenityValue"
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "topic": {
-                "const": "broadband"
-              }
-            },
-            "required": [
-              "topic"
-            ]
-          },
-          "then": {
-            "properties": {
-              "value": {
-                "$ref": "area.schema.json#/$defs/broadbandValue"
               }
             }
           }

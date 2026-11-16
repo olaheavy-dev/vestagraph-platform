@@ -41,7 +41,7 @@
         },
         {
           "n": 7,
-          "description": "The other eleven counted topics each have recorded records only, found (planning-nearby, crime, sold-nearby, broadband, air-quality, radon, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space). radon: NB1-4XY-AREA-RADON-1 is recorded, so found with no question."
+          "description": "The other eleven counted topics each have recorded records only, found (planning-nearby, crime, sold-nearby, broadband (its broadband-coverage record), air-quality, radon, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space). radon: NB1-4XY-AREA-RADON-1 is recorded, so found with no question."
         },
         {
           "n": 8,
@@ -164,11 +164,11 @@
         },
         {
           "n": 8,
-          "description": "sold-nearby, air-quality and housing-affordability each hold one no-record-in-source record: found, one question each. planning-nearby, crime, broadband, council-tax-by-band, deprivation and places-of-worship are recorded: found."
+          "description": "sold-nearby, broadband, air-quality and housing-affordability each hold one no-record-in-source record (broadband: NB7-1RR-AREA-BROADBAND-COVERAGE-1): found, one question each. planning-nearby, crime, council-tax-by-band, deprivation and places-of-worship are recorded: found."
         },
         {
           "n": 9,
-          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12. Not known = 3 (flood, radon, transport-connectivity). Coverage total 12 + 3 = 15. Gap records 11 (bus-departures 1, amenity 2, school-demand 1, flood 1, flood-risk-postcode 1, sold-price 1, air-quality 1, radon 1, affordability 1, transport-connectivity 1, green-space 1); the two flood records share one (topic, text), so 11 - 1 = 10 questions.",
+          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12 (broadband is found: no-record-in-source counts as found, FE-38). Not known = 3 (flood, radon, transport-connectivity). Coverage total 12 + 3 = 15. Gap records 12 (bus-departures 1, amenity 2, school-demand 1, flood 1, flood-risk-postcode 1, sold-price 1, broadband-coverage 1, air-quality 1, radon 1, affordability 1, transport-connectivity 1, green-space 1); the two flood records share one (topic, text), so 12 - 1 = 11 questions.",
           "value": 15
         },
         {
@@ -229,6 +229,11 @@
             "topicKey": "sold-nearby",
             "recordId": "NB7-1RR-AREA-SOLD-PRICE-1",
             "text": "Can you tell me about homes that have sold nearby recently and how they compare?"
+          },
+          {
+            "topicKey": "broadband",
+            "recordId": "NB7-1RR-AREA-BROADBAND-COVERAGE-1",
+            "text": "Which broadband provider and speed do people living here use, and how reliable is it?"
           },
           {
             "topicKey": "air-quality",

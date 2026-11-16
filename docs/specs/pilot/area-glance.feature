@@ -59,8 +59,9 @@ Feature: At a glance (the first thing on an area result)
     And area result "NB7 1RR" has topic "transport-connectivity" with outcome "not-known"
 
   # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
-  Scenario: GLANCE-04 the sparse postcode asks a question for its missing amenity and its failed radon lookup
+  Scenario: GLANCE-04 the sparse postcode asks a question for its missing amenity, its missing broadband coverage and its failed radon lookup
     Then area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-AMENITY-2"
+    And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-BROADBAND-COVERAGE-1"
     And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-RADON-1"
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY, NB7 1RR)

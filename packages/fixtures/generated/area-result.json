@@ -460,11 +460,6 @@
       ],
       "priorities": [
         {
-          "priorityId": "SAMPLE-PRIORITY-BROADBAND",
-          "outcome": "meets",
-          "nearestRecordId": null
-        },
-        {
           "priorityId": "SAMPLE-PRIORITY-CHILDCARE",
           "outcome": "not-known",
           "nearestRecordId": null
@@ -518,6 +513,10 @@
           {
             "recordId": "NB7-1RR-AREA-SOLD-PRICE-1",
             "text": "Can you tell me about homes that have sold nearby recently and how they compare?"
+          },
+          {
+            "recordId": "NB7-1RR-AREA-BROADBAND-COVERAGE-1",
+            "text": "Which broadband provider and speed do people living here use, and how reliable is it?"
           },
           {
             "recordId": "NB7-1RR-AREA-AIR-QUALITY-1",
@@ -841,11 +840,6 @@
       ],
       "busesPerHour": [],
       "priorities": [
-        {
-          "priorityId": "SAMPLE-PRIORITY-BROADBAND",
-          "outcome": "misses",
-          "nearestRecordId": null
-        },
         {
           "priorityId": "SAMPLE-PRIORITY-CHILDCARE",
           "outcome": "not-known",
