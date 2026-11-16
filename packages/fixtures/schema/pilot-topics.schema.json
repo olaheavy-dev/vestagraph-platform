@@ -79,7 +79,6 @@
               "flood",
               "sold-price",
               "amenity",
-              "broadband",
               "planning",
               "deprivation-rank",
               "transport-connectivity",
@@ -89,7 +88,10 @@
               "affordability",
               "flood-risk-postcode",
               "school-demand",
-              "bus-departures"
+              "bus-departures",
+              "radon",
+              "broadband-coverage",
+              "council-rent"
             ]
           },
           "description": "The postcode-area.json topic values this pilot topic reads. Empty for route-only topics."
@@ -145,6 +147,22 @@
           "type": "string",
           "pattern": "^[^{}]*(\\{subject\\}[^{}]*)?$",
           "description": "Plain, neutral question for a record that is a gap (no record in the source, source failed, not covered), with at most one {subject} slot filled from subtypeNames or the topic's plain name. Never a record label."
+        },
+        "mapLayers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "flood-zones",
+              "surface-water",
+              "listed-buildings",
+              "conservation-areas",
+              "road-noise",
+              "rail-noise"
+            ]
+          },
+          "description": "The map layers (map-layers.json) this topic shows. Never read by the counts."
         }
       },
       "allOf": [

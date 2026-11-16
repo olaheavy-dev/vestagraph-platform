@@ -38,18 +38,16 @@ Feature: Priorities (what matters to you, on an area result)
     And area result "NB1 4XY" has priority "SAMPLE-PRIORITY-GP" with nearest record "NB1-4XY-AREA-AMENITY-10"
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY)
-  Scenario: PRIO-02 the rail, primary school and broadband limits are met in the normal sample postcode
+  Scenario: PRIO-02 the rail and primary school limits are met in the normal sample postcode
     Then area result "NB1 4XY" has priority "SAMPLE-PRIORITY-RAIL" with outcome "meets"
     And area result "NB1 4XY" has priority "SAMPLE-PRIORITY-RAIL" with nearest record "NB1-4XY-AREA-TRANSPORT-STOP-2"
     And area result "NB1 4XY" has priority "SAMPLE-PRIORITY-PRIMARY" with outcome "meets"
     And area result "NB1 4XY" has priority "SAMPLE-PRIORITY-PRIMARY" with nearest record "NB1-4XY-AREA-SCHOOL-1"
-    And area result "NB1 4XY" has priority "SAMPLE-PRIORITY-BROADBAND" with outcome "meets"
 
   # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
-  Scenario: PRIO-03 the sparse postcode misses the primary school and broadband limits
+  Scenario: PRIO-03 the sparse postcode misses the primary school limit
     Then area result "NB7 1RR" has priority "SAMPLE-PRIORITY-PRIMARY" with outcome "misses"
     And area result "NB7 1RR" has priority "SAMPLE-PRIORITY-PRIMARY" with nearest record "NB7-1RR-AREA-SCHOOL-1"
-    And area result "NB7 1RR" has priority "SAMPLE-PRIORITY-BROADBAND" with outcome "misses"
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY, NB7 1RR)
   Scenario: PRIO-04 a childcare limit is not known for both sample postcodes
@@ -65,9 +63,9 @@ Feature: Priorities (what matters to you, on an area result)
   Scenario: PRIO-06 the priorities sheet and panel list the ready-made limits
     Given the result for a sample postcode is open
     When the visitor opens "Set priorities" (a sheet on a phone, a panel on desktop, FE-26)
-    Then the ready-made limits are listed: GP surgery, pharmacy, primary school, secondary school, railway station, bus stop, supermarket, park or green space, childcare provider, hospital, broadband speed
+    Then the ready-made limits are listed: GP surgery, pharmacy, primary school, secondary school, railway station, bus stop, supermarket, park or green space, childcare provider, hospital
     And each has an editable number and unit
-    And each has a line saying what it uses: walking time, straight-line distance or predicted speed
+    And each has a line saying what it uses: walking time or straight-line distance
 
   @ui
   Scenario: PRIO-07 an empty or non-numeric limit shows its message and is not sent

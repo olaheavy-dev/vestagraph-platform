@@ -659,24 +659,25 @@
       }
     },
     {
-      "id": "NB1-4XY-AREA-BROADBAND-1",
+      "id": "NB1-4XY-AREA-BROADBAND-COVERAGE-1",
       "postcode": "NB1 4XY",
-      "topic": "broadband",
+      "topic": "broadband-coverage",
       "status": "recorded",
-      "label": "Predicted broadband availability",
+      "label": "Premises with gigabit-capable broadband available, this postcode (synthetic)",
       "value": {
-        "technology": "full-fibre",
-        "predictedMaxDownloadMbps": 900,
-        "predictedMaxUploadMbps": 110
+        "gigabitCapablePercent": "86",
+        "premises": "all",
+        "snapshot": "2026-01"
       },
       "level": {
         "kind": "postcode"
       },
       "coverage": "United Kingdom",
-      "doesNotEstablish": "Predicted availability, not a measured speed, a tested line or a record of outages.",
+      "doesNotEstablish": "The share of premises in this postcode where providers say gigabit-capable broadband is available. It can't say whether a home has full fibre or a working connection, or what speed you would get.",
+      "note": "Column names are to be confirmed from the download.",
       "source": {
         "origin": "official-dataset",
-        "label": "Synthetic sample, shaped like the Ofcom broadband availability data",
+        "label": "Synthetic sample, shaped like the Ofcom Connected Nations postcode data",
         "date": "2026-10-23",
         "synthetic": true
       }
@@ -1069,6 +1070,34 @@
       }
     },
     {
+      "id": "NB1-4XY-AREA-RADON-1",
+      "postcode": "NB1 4XY",
+      "topic": "radon",
+      "status": "recorded",
+      "label": "Radon potential, the 1 km square around this postcode (synthetic)",
+      "value": {
+        "classLabel": "Class 2 (synthetic example)",
+        "edition": "2022"
+      },
+      "level": {
+        "kind": "grid-square",
+        "sideMetres": 1000
+      },
+      "coverage": "Great Britain and Northern Ireland",
+      "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",
+      "link": {
+        "url": "https://www.ukradon.org/services/address_search",
+        "text": "Get a radon report for an address from UKradon (paid)"
+      },
+      "note": "Class names are to be confirmed from the download.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the BGS and UKHSA Indicative Atlas of Radon",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
       "id": "NB1-4XY-AREA-COUNCIL-TAX-1",
       "postcode": "NB1 4XY",
       "topic": "council-tax",
@@ -1146,6 +1175,28 @@
       "source": {
         "origin": "official-dataset",
         "label": "Synthetic sample, shaped like the ONS house price to workplace-based earnings ratio",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-AREA-COUNCIL-RENT-1",
+      "postcode": "NB1 4XY",
+      "topic": "council-rent",
+      "status": "recorded",
+      "label": "Average private rent, Northbridge (synthetic)",
+      "value": {
+        "councilCode": "E06999001"
+      },
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Northbridge (synthetic)"
+      },
+      "coverage": "England and Wales (council level)",
+      "doesNotEstablish": "A council-wide average, not this street. It does not say what any one home would rent for.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
         "date": "2026-10-23",
         "synthetic": true
       }
@@ -1295,24 +1346,19 @@
       }
     },
     {
-      "id": "NB7-1RR-AREA-BROADBAND-1",
+      "id": "NB7-1RR-AREA-BROADBAND-COVERAGE-1",
       "postcode": "NB7 1RR",
-      "topic": "broadband",
-      "status": "recorded",
-      "label": "Predicted broadband availability",
-      "value": {
-        "technology": "fibre-to-the-cabinet",
-        "predictedMaxDownloadMbps": 80,
-        "predictedMaxUploadMbps": 20
-      },
+      "topic": "broadband-coverage",
+      "status": "no-record-in-source",
+      "label": "No broadband coverage figure for this postcode in this source (synthetic)",
       "level": {
         "kind": "postcode"
       },
       "coverage": "United Kingdom",
-      "doesNotEstablish": "Predicted availability, not a measured speed, a tested line or a record of outages.",
+      "doesNotEstablish": "The share of premises in this postcode where providers say gigabit-capable broadband is available. It can't say whether a home has full fibre or a working connection, or what speed you would get.",
       "source": {
         "origin": "official-dataset",
-        "label": "Synthetic sample, shaped like the Ofcom broadband availability data",
+        "label": "Synthetic sample, shaped like the Ofcom Connected Nations postcode data",
         "date": "2026-10-23",
         "synthetic": true
       }
@@ -1501,6 +1547,25 @@
       }
     },
     {
+      "id": "NB7-1RR-AREA-RADON-1",
+      "postcode": "NB7 1RR",
+      "topic": "radon",
+      "status": "source-failed",
+      "label": "Radon lookup failed; not known right now",
+      "level": {
+        "kind": "grid-square",
+        "sideMetres": 1000
+      },
+      "coverage": "Great Britain and Northern Ireland",
+      "doesNotEstablish": "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the BGS and UKHSA Indicative Atlas of Radon",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
       "id": "NB7-1RR-AREA-COUNCIL-TAX-1",
       "postcode": "NB7 1RR",
       "topic": "council-tax",
@@ -1572,6 +1637,25 @@
       "source": {
         "origin": "official-dataset",
         "label": "Synthetic sample, shaped like the ONS house price to workplace-based earnings ratio",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-AREA-COUNCIL-RENT-1",
+      "postcode": "NB7 1RR",
+      "topic": "council-rent",
+      "status": "no-record-in-source",
+      "label": "No average private rent for this area in this source (synthetic)",
+      "level": {
+        "kind": "local-authority",
+        "areaName": "Fellshire Council (synthetic)"
+      },
+      "coverage": "England and Wales (council level)",
+      "doesNotEstablish": "A council-wide average, not this street. It does not say what any one home would rent for.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the ONS Price Index of Private Rents",
         "date": "2026-10-23",
         "synthetic": true
       }

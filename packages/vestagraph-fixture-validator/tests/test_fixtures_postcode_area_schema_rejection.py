@@ -223,3 +223,119 @@ def test_validate_instance_postcode_area_flood_risk_decimal_count_is_rejected() 
     item["value"]["counts"][0]["properties"] = 6.5
 
     assert mentions(_problems(item), "properties")
+
+
+# Radon, broadband coverage and council rent (design pass Task 6a, register DA-23, DA-28, DA-29).
+def _radon_item() -> Json:
+    item = _valid_item()
+    item["id"] = "NB1-4XY-AREA-RADON-1"
+    item["topic"] = "radon"
+    item["value"] = {"classLabel": "Class 2 (synthetic example)", "edition": "2022"}
+    item["level"] = {"kind": "grid-square", "sideMetres": 1000}
+    return item
+
+
+def _broadband_coverage_item() -> Json:
+    item = _valid_item()
+    item["id"] = "NB1-4XY-AREA-BROADBAND-COVERAGE-1"
+    item["topic"] = "broadband-coverage"
+    item["value"] = {"gigabitCapablePercent": "86", "premises": "all", "snapshot": "2026-01"}
+    item["level"] = {"kind": "postcode"}
+    return item
+
+
+def _council_rent_item() -> Json:
+    item = _valid_item()
+    item["id"] = "NB1-4XY-AREA-COUNCIL-RENT-1"
+    item["topic"] = "council-rent"
+    item["value"] = {"councilCode": "E06999001"}
+    item["level"] = {"kind": "local-authority", "areaName": "Northbridge (synthetic)"}
+    return item
+
+
+def test_validate_instance_postcode_area_radon_is_accepted() -> None:
+    assert _problems(_radon_item()) == []
+
+
+def test_validate_instance_postcode_area_radon_without_edition_is_rejected() -> None:
+    item = _radon_item()
+    del item["value"]["edition"]
+    assert mentions(_problems(item), "edition")
+
+
+def test_validate_instance_postcode_area_radon_measured_level_field_is_rejected() -> None:
+    item = _radon_item()
+    item["value"]["measuredBecquerelsPerCubicMetre"] = 120
+    assert mentions(_problems(item), "measuredBecquerelsPerCubicMetre")
+
+
+def test_validate_instance_postcode_area_grid_square_level_without_side_metres_is_rejected() -> (
+    None
+):
+    item = _radon_item()
+    item["level"] = {"kind": "grid-square"}
+    assert mentions(_problems(item), "sideMetres")
+
+
+def test_validate_instance_postcode_area_broadband_coverage_is_accepted() -> None:
+    assert _problems(_broadband_coverage_item()) == []
+
+
+def test_validate_instance_postcode_area_broadband_coverage_full_fibre_field_is_rejected() -> None:
+    item = _broadband_coverage_item()
+    item["value"]["fullFibrePercent"] = "40"
+    assert mentions(_problems(item), "fullFibrePercent")
+
+
+def test_validate_instance_postcode_area_broadband_coverage_number_percent_is_rejected() -> None:
+    item = _broadband_coverage_item()
+    item["value"]["gigabitCapablePercent"] = 86
+    assert mentions(_problems(item), "gigabitCapablePercent")
+
+
+def test_validate_instance_postcode_area_broadband_coverage_snapshot_no_month_is_rejected() -> None:
+    item = _broadband_coverage_item()
+    item["value"]["snapshot"] = "2026"
+    assert mentions(_problems(item), "snapshot")
+
+
+def test_validate_instance_postcode_area_council_rent_is_accepted() -> None:
+    assert _problems(_council_rent_item()) == []
+
+
+def test_validate_instance_postcode_area_council_rent_with_pence_is_rejected() -> None:
+    item = _council_rent_item()
+    item["value"]["rentPence"] = 125000
+    assert mentions(_problems(item), "rentPence")
+
+
+def test_validate_instance_postcode_area_council_rent_without_council_code_is_rejected() -> None:
+    item = _council_rent_item()
+    del item["value"]["councilCode"]
+    assert mentions(_problems(item), "councilCode")
+
+
+def test_validate_instance_postcode_area_council_rent_gap_with_value_is_rejected() -> None:
+    item = _council_rent_item()
+    item["status"] = "no-record-in-source"
+    assert mentions(_problems(item), "value")
+
+
+def test_validate_instance_postcode_area_old_broadband_topic_is_rejected() -> None:
+    item = _broadband_coverage_item()
+    item["topic"] = "broadband"
+    assert mentions(_problems(item), "topic")
+
+
+def test_validate_instance_sample_priorities_download_speed_measure_is_rejected() -> None:
+    priority: Json = {
+        "id": "SAMPLE-PRIORITY-TEST",
+        "topicKey": "broadband",
+        "measure": "download-mbps",
+        "limit": {"value": "100", "unit": "mbps"},
+        "synthetic": True,
+    }
+    problems = validate_instance(
+        {"priorities": [priority]}, "sample-priorities.schema.json", schema_directory()
+    )
+    assert mentions(problems, "measure")

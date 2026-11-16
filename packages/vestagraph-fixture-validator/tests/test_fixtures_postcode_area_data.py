@@ -20,7 +20,9 @@ _ALLOWED_TOPICS = {
     "flood",
     "sold-price",
     "amenity",
-    "broadband",
+    # "broadband" (the predicted-speed record) is left out: the postcode sample replaced it with
+    # "broadband-coverage" (plan 2026-11-16-design-pass-topic-data.md, section 1.5); area.json
+    # keeps it.
     "planning",
 }
 _CENTRE_METHOD = "straight-line from the postcode centre, synthetic"
@@ -63,6 +65,9 @@ _NEW_TOPIC_LEVEL_KINDS = {
     "air-quality": "neighbourhood",
     "council-tax": "local-authority",
     "affordability": "local-authority",
+    "radon": "grid-square",
+    "broadband-coverage": "postcode",
+    "council-rent": "local-authority",
 }
 
 
@@ -233,3 +238,87 @@ def test_postcode_area_checked_at_is_a_valid_offset_datetime() -> None:
         assert parsed.tzinfo is not None
         # 23 Oct 2026 is in British Summer Time, one hour ahead of UTC.
         assert parsed.utcoffset() == timedelta(hours=1)
+
+
+# Radon (design pass Task 6a, register DA-23). Source: the BGS and UKHSA Indicative Atlas of Radon
+# publishes a class per 1 km grid square, so a recorded radon item states a 1,000 m square, and
+# its limit text uses the register's own phrases word for word.
+def test_postcode_area_radon_square_is_one_kilometre() -> None:
+    radon = [i for i in _items() if i["topic"] == "radon"]
+    assert {i["postcode"] for i in radon} == {"NB1 4XY", "NB7 1RR"}
+    for item in radon:
+        assert item["level"] == {"kind": "grid-square", "sideMetres": 1000}, item["id"]
+
+
+def test_postcode_area_radon_limit_says_indicative_not_definitive() -> None:
+    radon = [i for i in _items() if i["topic"] == "radon"]
+    assert radon
+    for item in radon:
+        text = item["doesNotEstablish"]
+        assert "Indicative, not definitive" in text, item["id"]
+        assert "Only a measurement in the home gives its radon level" in text, item["id"]
+        assert "A low class does not mean no radon" in text, item["id"]
+
+
+def test_postcode_area_radon_records_are_one_recorded_and_one_failed_lookup() -> None:
+    by_postcode = {i["postcode"]: i for i in _items() if i["topic"] == "radon"}
+    assert by_postcode["NB1 4XY"]["status"] == "recorded"
+    assert by_postcode["NB1 4XY"]["value"]["edition"] == "2022"
+    assert by_postcode["NB7 1RR"]["status"] == "source-failed"
+    assert "value" not in by_postcode["NB7 1RR"]
+
+
+# Broadband coverage (design pass Task 6a, register DA-28). The Ofcom Connected Nations postcode
+# data gives a percentage of premises, so it can never be above 100 (a share of premises).
+def test_postcode_area_broadband_coverage_percent_is_at_most_100() -> None:
+    coverage = [i for i in _items() if i["topic"] == "broadband-coverage" and "value" in i]
+    assert coverage
+    for item in coverage:
+        percent = number(item["value"]["gigabitCapablePercent"])
+        assert 0 <= percent <= 100, item["id"]
+
+
+def test_postcode_area_broadband_coverage_limit_says_not_full_fibre() -> None:
+    coverage = [i for i in _items() if i["topic"] == "broadband-coverage"]
+    assert {i["postcode"] for i in coverage} == {"NB1 4XY", "NB7 1RR"}
+    for item in coverage:
+        text = item["doesNotEstablish"]
+        assert "full fibre" in text, item["id"]
+        assert "what speed you would get" in text, item["id"]
+
+
+def test_postcode_area_old_predicted_speed_broadband_records_are_gone() -> None:
+    assert [i["id"] for i in _items() if i["topic"] == "broadband"] == []
+    assert all("predictedMaxDownloadMbps" not in json.dumps(i, default=str) for i in _items())
+
+
+# Council rent by council link (design pass Task 6a, register DA-29 and DA-30). The record is a link
+# to a council: it never carries a rent figure, so no second copy can disagree with
+# council-area.json (the figure is read from council-result.json).
+def test_postcode_area_council_rent_is_a_link_with_no_figure() -> None:
+    rent = [i for i in _items() if i["topic"] == "council-rent"]
+    assert {i["postcode"] for i in rent} == {"NB1 4XY", "NB7 1RR"}
+    for item in rent:
+        assert set(item.get("value", {})) <= {"councilCode"}, item["id"]
+        assert "pence" not in json.dumps(item).lower(), item["id"]
+
+
+def test_postcode_area_council_rent_limit_says_council_wide_not_this_street() -> None:
+    for item in (i for i in _items() if i["topic"] == "council-rent"):
+        text = item["doesNotEstablish"]
+        assert "council-wide average, not this street" in text, item["id"]
+        assert "what any one home would rent for" in text, item["id"]
+
+
+# Coverage describes what the source covers, not the sample postcode's nation (research note
+# docs/reviews/2026-11-16-data-gaps-research.md: radon line 78, council rent line 117).
+def test_postcode_area_new_topic_records_state_their_sources_coverage() -> None:
+    expected = {
+        "radon": "Great Britain and Northern Ireland",
+        "broadband-coverage": "United Kingdom",
+        "council-rent": "England and Wales (council level)",
+    }
+    checked = [i for i in _items() if i["topic"] in expected]
+    assert len(checked) == 6
+    for item in checked:
+        assert item["coverage"] == expected[item["topic"]], item["id"]

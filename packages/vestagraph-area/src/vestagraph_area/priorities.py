@@ -1,12 +1,11 @@
 """Priority results (FE-40): meets, misses or not known, proved by priority-results.json.
 
 Matching comes first: only records whose topic carries the measure (transport-stop, school and
-amenity for distances and walking times; broadband for speeds), then the priority's subtype, then
+amenity for distances and walking times), then the priority's subtype, then
 its filter, which applies only to records that have a value (a gap record passes it, because its
 lookup may have held a match). Then the rules run in this order:
 
-1. A recorded or stale record whose measure is at or under the limit: meets (for a download
-   speed, at or above the limit).
+1. A recorded or stale record whose measure is at or under the limit: meets.
 2. A distance limit over 5,000 m (the search limit, FE-12): not-known-beyond-search, whether or
    not any record matched.
 3. No matching record: not-known.
@@ -37,7 +36,6 @@ _HAS_VALUE = ("recorded", "stale")
 _MEASURES: dict[str, tuple[str, tuple[str, ...]]] = {
     "walking-minutes": ("walkingMinutes", ("minutes",)),
     "distance": ("distanceMetres", ("metres", "miles")),
-    "download-mbps": ("predictedMaxDownloadMbps", ("mbps",)),
 }
 
 
@@ -85,7 +83,6 @@ def priority_result(priority: Priority, records: Sequence[AreaRecord]) -> Priori
     if priority.limit_unit not in units:
         message = f"measure '{priority.measure}' cannot have a limit in '{priority.limit_unit}'"
         raise ValueError(message)
-    is_speed = priority.measure == "download-mbps"
     is_distance = priority.measure == "distance"
     limit = priority.limit_value
     if is_distance:
@@ -93,9 +90,9 @@ def priority_result(priority: Priority, records: Sequence[AreaRecord]) -> Priori
 
     matching = [r for r in records if _matches(priority, r)]
     measured = [(m, r.id) for r in matching if (m := _measure(r, field)) is not None]
-    meeting = [(m, i) for m, i in measured if (m >= limit if is_speed else m <= limit)]
+    meeting = [(m, i) for m, i in measured if m <= limit]
     if meeting:
-        return PriorityResult("meets", None if is_speed else min(meeting)[1])
+        return PriorityResult("meets", min(meeting)[1])
     if is_distance and limit > SEARCH_LIMIT_METRES:
         return PriorityResult("not-known-beyond-search", None)
     if not matching:
@@ -106,5 +103,5 @@ def priority_result(priority: Priority, records: Sequence[AreaRecord]) -> Priori
     if any(r.status == "source-failed" for r in matching):
         return PriorityResult("not-known", None)
     if with_value:
-        return PriorityResult("misses", None if is_speed else min(measured)[1])
+        return PriorityResult("misses", min(measured)[1])
     return PriorityResult("not-known", None)

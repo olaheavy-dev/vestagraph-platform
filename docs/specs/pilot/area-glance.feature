@@ -40,6 +40,7 @@ Feature: At a glance (the first thing on an area result)
     Then area result "NB1 4XY" has topic "sold-nearby" with outcome "found"
     Then area result "NB1 4XY" has topic "broadband" with outcome "found"
     Then area result "NB1 4XY" has topic "air-quality" with outcome "found"
+    Then area result "NB1 4XY" has topic "radon" with outcome "found"
     Then area result "NB1 4XY" has topic "council-tax-by-band" with outcome "found"
     Then area result "NB1 4XY" has topic "housing-affordability" with outcome "found"
     Then area result "NB1 4XY" has topic "deprivation" with outcome "found"
@@ -52,13 +53,16 @@ Feature: At a glance (the first thing on an area result)
     And area result "NB1 4XY" asks the gap question for record "NB1-4XY-AREA-FLOOD-1"
 
   # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
-  Scenario: GLANCE-03 the sparse postcode's flood and transport connectivity are not known
+  Scenario: GLANCE-03 the sparse postcode's flood, radon and transport connectivity are not known
     Then area result "NB7 1RR" has topic "flood" with outcome "not-known"
+    And area result "NB7 1RR" has topic "radon" with outcome "not-known"
     And area result "NB7 1RR" has topic "transport-connectivity" with outcome "not-known"
 
   # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
-  Scenario: GLANCE-04 the sparse postcode asks a question for its missing amenity
+  Scenario: GLANCE-04 the sparse postcode asks a question for its missing amenity, its missing broadband coverage and its failed radon lookup
     Then area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-AMENITY-2"
+    And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-BROADBAND-COVERAGE-1"
+    And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-RADON-1"
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY, NB7 1RR)
   Scenario: GLANCE-05 topics we only link to, the family view and a not-covered topic are left out of the coverage total

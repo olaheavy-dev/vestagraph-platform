@@ -16,8 +16,8 @@
       "steps": [
         {
           "n": 1,
-          "description": "Counted topics, in registry order (family-view and the four route-only topics (five uncounted topics) are counted: false and ignored): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
-          "value": 15
+          "description": "Counted topics, in registry order (family-view and the four route-only topics (five uncounted topics) are counted: false and ignored): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, radon, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
+          "value": 16
         },
         {
           "n": 2,
@@ -41,12 +41,12 @@
         },
         {
           "n": 7,
-          "description": "The other ten counted topics each have recorded records only, found (planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space)."
+          "description": "The other eleven counted topics each have recorded records only, found (planning-nearby, crime, sold-nearby, broadband (its broadband-coverage record), air-quality, radon, council-tax-by-band, housing-affordability (its affordability and council-rent records, both recorded), deprivation, transport-connectivity, green-space). radon: NB1-4XY-AREA-RADON-1 is recorded, so found with no question."
         },
         {
           "n": 8,
-          "description": "found 15, not known 0, coverage 15 of 15. Questions: only the two no-record-in-source records, in registry then file order; their (topic, text) pairs differ, so de-duplication removes nothing.",
-          "value": 15
+          "description": "found 16, not known 0, coverage 16 of 16. Questions: only the two no-record-in-source records, in registry then file order; their (topic, text) pairs differ, so de-duplication removes nothing. The recorded radon record adds none.",
+          "value": 16
         },
         {
           "n": 9,
@@ -54,19 +54,19 @@
         },
         {
           "n": 10,
-          "description": "Check in person, in registry order: the 15 counted topics (whatever their outcome) and the four route-only topics (council-tax-band-home, mobile-by-network, noise, ground-and-mining). family-view is an uncounted grouping, not route-only, so it is left out. 15 + 4 = 19 lists; the lists are never counted (FE-41).",
-          "value": 19
+          "description": "Check in person, in registry order: the 16 counted topics (whatever their outcome) and the four route-only topics (council-tax-band-home, mobile-by-network, noise, ground-and-mining). family-view is an uncounted grouping, not route-only, so it is left out. 16 + 4 = 20 lists; the lists are never counted (FE-41).",
+          "value": 20
         },
         {
           "n": 11,
-          "description": "Ownership: every NB1 4XY record is read by exactly one counted topic (transport-stop and bus-departures: getting-around; amenity by subtype: everyday-places or places-of-worship; school, school-inspection, school-demand: schools; flood and flood-risk-postcode: flood; each other record topic: its one topic). family-view also reads school, school-demand and childcare and park amenities, but it is uncounted."
+          "description": "Ownership: every NB1 4XY record is read by exactly one counted topic (transport-stop and bus-departures: getting-around; amenity by subtype: everyday-places or places-of-worship; school, school-inspection, school-demand: schools; flood and flood-risk-postcode: flood; radon: radon; each other record topic: its one topic). family-view also reads school, school-demand and childcare and park amenities, but it is uncounted."
         }
       ],
       "expected": {
-        "found": 15,
+        "found": 16,
         "notKnown": 0,
-        "coverageFound": 15,
-        "coverageTotal": 15,
+        "coverageFound": 16,
+        "coverageTotal": 16,
         "outcomes": {
           "getting-around": "found",
           "everyday-places": "found",
@@ -78,6 +78,7 @@
           "sold-nearby": "found",
           "broadband": "found",
           "air-quality": "found",
+          "radon": "found",
           "council-tax-by-band": "found",
           "housing-affordability": "found",
           "deprivation": "found",
@@ -107,6 +108,7 @@
           "sold-nearby",
           "broadband",
           "air-quality",
+          "radon",
           "council-tax-by-band",
           "housing-affordability",
           "deprivation",
@@ -133,8 +135,8 @@
       "steps": [
         {
           "n": 1,
-          "description": "Same 15 counted topics as NB1 4XY.",
-          "value": 15
+          "description": "Same 16 counted topics as NB1 4XY.",
+          "value": 16
         },
         {
           "n": 2,
@@ -154,7 +156,7 @@
         },
         {
           "n": 6,
-          "description": "transport-connectivity: its only record is source-failed: not known, one question."
+          "description": "transport-connectivity: its only record is source-failed: not known, one question. radon: its only record (NB7-1RR-AREA-RADON-1) is source-failed: not known, one question (the radon gap question)."
         },
         {
           "n": 7,
@@ -162,12 +164,12 @@
         },
         {
           "n": 8,
-          "description": "sold-nearby, air-quality and housing-affordability each hold one no-record-in-source record: found, one question each. planning-nearby, crime, broadband, council-tax-by-band, deprivation and places-of-worship are recorded: found."
+          "description": "sold-nearby, broadband, air-quality and housing-affordability each hold no-record-in-source records (housing-affordability holds two: affordability and council-rent) (broadband: NB7-1RR-AREA-BROADBAND-COVERAGE-1): found, one question each. planning-nearby, crime, council-tax-by-band, deprivation and places-of-worship are recorded: found."
         },
         {
           "n": 9,
-          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12. Not known = 2 (flood, transport-connectivity). Coverage total 12 + 2 = 14. Gap records 10 (bus-departures 1, amenity 2, school-demand 1, flood 1, flood-risk-postcode 1, sold-price 1, air-quality 1, affordability 1, transport-connectivity 1, green-space 1); the two flood records share one (topic, text), so 10 - 1 = 9 questions.",
-          "value": 14
+          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12 (broadband is found: no-record-in-source counts as found, FE-38). Not known = 3 (flood, radon, transport-connectivity). Coverage total 12 + 3 = 15. Gap records 13 (bus-departures 1, amenity 2, school-demand 1, flood 1, flood-risk-postcode 1, sold-price 1, broadband-coverage 1, air-quality 1, radon 1, affordability 1, council-rent 1, transport-connectivity 1, green-space 1). Two pairs share a (topic, text): the two flood records, and affordability with council-rent (one housing-affordability template, no slot, so the rent gap is deduplicated with the affordability gap, which comes first in file order and keeps its id). So 13 - 2 = 11 questions.",
+          "value": 15
         },
         {
           "n": 10,
@@ -175,15 +177,15 @@
         },
         {
           "n": 11,
-          "description": "Check in person, in registry order: the 15 counted topics, including green-space (not covered: data can't show it, so checking in person matters most), and the four route-only topics; family-view left out. 19 lists, never counted.",
-          "value": 19
+          "description": "Check in person, in registry order: the 16 counted topics, including green-space (not covered: data can't show it, so checking in person matters most) and radon, and the four route-only topics; family-view left out. 20 lists, never counted.",
+          "value": 20
         }
       ],
       "expected": {
         "found": 12,
-        "notKnown": 2,
+        "notKnown": 3,
         "coverageFound": 12,
-        "coverageTotal": 14,
+        "coverageTotal": 15,
         "outcomes": {
           "getting-around": "found",
           "everyday-places": "found",
@@ -195,6 +197,7 @@
           "sold-nearby": "found",
           "broadband": "found",
           "air-quality": "found",
+          "radon": "not-known",
           "council-tax-by-band": "found",
           "housing-affordability": "found",
           "deprivation": "found",
@@ -228,9 +231,19 @@
             "text": "Can you tell me about homes that have sold nearby recently and how they compare?"
           },
           {
+            "topicKey": "broadband",
+            "recordId": "NB7-1RR-AREA-BROADBAND-COVERAGE-1",
+            "text": "Which broadband provider and speed do people living here use, and how reliable is it?"
+          },
+          {
             "topicKey": "air-quality",
             "recordId": "NB7-1RR-AREA-AIR-QUALITY-1",
             "text": "What is the air like around the home on busy days and at busy times of day?"
+          },
+          {
+            "topicKey": "radon",
+            "recordId": "NB7-1RR-AREA-RADON-1",
+            "text": "Has radon been measured in the home, and what was the result?"
           },
           {
             "topicKey": "housing-affordability",
@@ -259,6 +272,7 @@
           "sold-nearby",
           "broadband",
           "air-quality",
+          "radon",
           "council-tax-by-band",
           "housing-affordability",
           "deprivation",

@@ -87,7 +87,8 @@
             "radius",
             "postcode",
             "neighbourhood",
-            "local-authority"
+            "local-authority",
+            "grid-square"
           ]
         },
         "radiusMetres": {
@@ -97,6 +98,11 @@
         "areaName": {
           "type": "string",
           "minLength": 1
+        },
+        "sideMetres": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "The length of the grid square's side in metres (1000 for a 1 km square), not its area."
         }
       },
       "allOf": [
@@ -134,6 +140,23 @@
           "then": {
             "required": [
               "areaName"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "grid-square"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "sideMetres"
             ]
           }
         }
@@ -177,7 +200,6 @@
             "flood",
             "sold-price",
             "amenity",
-            "broadband",
             "planning",
             "deprivation-rank",
             "transport-connectivity",
@@ -187,7 +209,10 @@
             "affordability",
             "flood-risk-postcode",
             "school-demand",
-            "bus-departures"
+            "bus-departures",
+            "radon",
+            "broadband-coverage",
+            "council-rent"
           ]
         },
         "level": {
@@ -377,25 +402,6 @@
             "properties": {
               "value": {
                 "$ref": "area.schema.json#/$defs/amenityValue"
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "topic": {
-                "const": "broadband"
-              }
-            },
-            "required": [
-              "topic"
-            ]
-          },
-          "then": {
-            "properties": {
-              "value": {
-                "$ref": "area.schema.json#/$defs/broadbandValue"
               }
             }
           }
@@ -621,6 +627,63 @@
             "properties": {
               "value": {
                 "$ref": "#/$defs/schoolDemandValue"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "radon"
+              }
+            },
+            "required": [
+              "topic"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/radonValue"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "broadband-coverage"
+              }
+            },
+            "required": [
+              "topic"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/broadbandCoverageValue"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "council-rent"
+              }
+            },
+            "required": [
+              "topic"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/councilRentValue"
               }
             }
           }
@@ -967,6 +1030,68 @@
         "publishedPlaceNumber": {
           "type": "integer",
           "minimum": 0
+        }
+      }
+    },
+    "radonValue": {
+      "type": "object",
+      "description": "The published radon potential class for the 1 km grid square around a postcode, as published (register DA-23). Indicative, not a measurement of any home: there is no measured-level or per-home field.",
+      "required": [
+        "classLabel",
+        "edition"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "classLabel": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The class as published (class names to be confirmed from the download)."
+        },
+        "edition": {
+          "type": "string",
+          "pattern": "^\\d{4}$"
+        }
+      }
+    },
+    "broadbandCoverageValue": {
+      "type": "object",
+      "description": "The share of premises in a postcode where providers say gigabit-capable broadband is available, as published (register DA-28). Not a speed, not full fibre and not a measured connection.",
+      "required": [
+        "gigabitCapablePercent",
+        "premises",
+        "snapshot"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "gigabitCapablePercent": {
+          "type": "string",
+          "pattern": "^[0-9]+(\\.[0-9]+)?$",
+          "description": "Decimal string, as published."
+        },
+        "premises": {
+          "enum": [
+            "all",
+            "residential"
+          ]
+        },
+        "snapshot": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}$",
+          "description": "The data month, for example 2026-01."
+        }
+      }
+    },
+    "councilRentValue": {
+      "type": "object",
+      "description": "A link from a postcode to its council, whose private rent caption lives in council-area.json and council-result.json (register DA-29, DA-30). A link only: no pence, period or figure is copied here.",
+      "required": [
+        "councilCode"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "councilCode": {
+          "type": "string",
+          "pattern": "^[EWSN]0[0-9]{7}$"
         }
       }
     }

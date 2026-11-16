@@ -132,7 +132,11 @@
         "Look at the building work or empty plots around the home.",
         "Check the council planning page for later updates."
       ],
-      "reviewStatus": "reviewed"
+      "reviewStatus": "reviewed",
+      "mapLayers": [
+        "listed-buildings",
+        "conservation-areas"
+      ]
     },
     {
       "key": "flood",
@@ -149,7 +153,11 @@
         "Ask neighbours about past flooding.",
         "Look for damp marks, tide lines or flood protection on the property."
       ],
-      "reviewStatus": "reviewed"
+      "reviewStatus": "reviewed",
+      "mapLayers": [
+        "flood-zones",
+        "surface-water"
+      ]
     },
     {
       "key": "crime",
@@ -188,7 +196,7 @@
       "kind": "area-figures",
       "counted": true,
       "recordTopics": [
-        "broadband"
+        "broadband-coverage"
       ],
       "gapQuestionTemplate": "Which broadband provider and speed do people living here use, and how reliable is it?",
       "checkInPerson": [
@@ -215,6 +223,21 @@
       "reviewStatus": "reviewed"
     },
     {
+      "key": "radon",
+      "name": "Radon",
+      "kind": "area-figures",
+      "counted": true,
+      "recordTopics": [
+        "radon"
+      ],
+      "gapQuestionTemplate": "Has radon been measured in the home, and what was the result?",
+      "checkInPerson": [
+        "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result.",
+        "Ask whether anything has been fitted to reduce radon, such as a sump or extra underfloor ventilation."
+      ],
+      "reviewStatus": "draft"
+    },
+    {
       "key": "council-tax-by-band",
       "name": "Council tax by band",
       "kind": "area-figures",
@@ -234,7 +257,8 @@
       "kind": "area-figures",
       "counted": true,
       "recordTopics": [
-        "affordability"
+        "affordability",
+        "council-rent"
       ],
       "gapQuestionTemplate": "How do house prices here compare with what people earn locally, and how has that changed?",
       "checkInPerson": [
@@ -339,7 +363,11 @@
         "label": "Government road and rail noise mapping (gov.uk)",
         "url": "https://www.gov.uk/government/publications/strategic-noise-mapping-2022"
       },
-      "reviewStatus": "reviewed"
+      "reviewStatus": "reviewed",
+      "mapLayers": [
+        "road-noise",
+        "rail-noise"
+      ]
     },
     {
       "key": "ground-and-mining",

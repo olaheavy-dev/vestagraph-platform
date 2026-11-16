@@ -1,0 +1,381 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/map-layers.schema.json",
+  "title": "Synthetic map layer outlines (data/map-layers.json)",
+  "description": "Synthetic outlines and points for the area map layers, one entry per postcode and layer (register DA-22, DA-24, DA-27, DA-31). Positions are whole metres east and north of the postcode centre. A layer describes an area and never a home: there is no field for whether a point is inside an outline, no count or area, no risk or rating and no noise figure for a home. A gap layer carries no features (rule 7). No counted topic reads this file.",
+  "type": "object",
+  "required": [
+    "frame",
+    "layers"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "frame": {
+      "const": "metres-from-postcode-centre"
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/layerEntry"
+      }
+    }
+  },
+  "$defs": {
+    "position": {
+      "type": "array",
+      "description": "[metresEast, metresNorth] from the postcode centre, whole metres.",
+      "prefixItems": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "integer"
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "outline": {
+      "type": "array",
+      "description": "A closed outline: at least four positions, the last the same as the first (checked by the data tests, which a schema cannot express).",
+      "minItems": 4,
+      "items": {
+        "$ref": "#/$defs/position"
+      }
+    },
+    "floodZoneFeature": {
+      "type": "object",
+      "required": [
+        "zone",
+        "outline"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "zone": {
+          "enum": [
+            "2",
+            "3"
+          ]
+        },
+        "outline": {
+          "$ref": "#/$defs/outline"
+        }
+      }
+    },
+    "surfaceWaterFeature": {
+      "type": "object",
+      "required": [
+        "band",
+        "outline"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "band": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The likelihood band as published (names to be confirmed from the download)."
+        },
+        "outline": {
+          "$ref": "#/$defs/outline"
+        }
+      }
+    },
+    "listedBuildingFeature": {
+      "type": "object",
+      "required": [
+        "name",
+        "grade",
+        "point"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "grade": {
+          "enum": [
+            "I",
+            "II*",
+            "II"
+          ]
+        },
+        "point": {
+          "$ref": "#/$defs/position"
+        }
+      }
+    },
+    "conservationAreaFeature": {
+      "type": "object",
+      "required": [
+        "name",
+        "outline"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outline": {
+          "$ref": "#/$defs/outline"
+        }
+      }
+    },
+    "noiseFeature": {
+      "type": "object",
+      "description": "A modelled Lden band. The band is a published range as text, never a figure for one home.",
+      "required": [
+        "metric",
+        "band",
+        "outline"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "metric": {
+          "const": "Lden"
+        },
+        "band": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outline": {
+          "$ref": "#/$defs/outline"
+        }
+      }
+    },
+    "layerEntry": {
+      "type": "object",
+      "required": [
+        "id",
+        "postcode",
+        "layer",
+        "status",
+        "label",
+        "caption",
+        "period",
+        "level",
+        "coverage",
+        "doesNotEstablish",
+        "source"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "allOf": [
+            {
+              "$ref": "common.schema.json#/$defs/id"
+            },
+            {
+              "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*-LAYER(-[A-Z]+)+-[0-9]+$"
+            }
+          ],
+          "description": "POSTCODE-LAYER-KIND-N, for example NB1-4XY-LAYER-FLOOD-ZONES-1."
+        },
+        "postcode": {
+          "type": "string",
+          "pattern": "^[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][A-Z]{2}$"
+        },
+        "layer": {
+          "enum": [
+            "flood-zones",
+            "surface-water",
+            "listed-buildings",
+            "conservation-areas",
+            "road-noise",
+            "rail-noise"
+          ]
+        },
+        "status": {
+          "$ref": "area.schema.json#/$defs/areaItem/properties/status"
+        },
+        "label": {
+          "$ref": "area.schema.json#/$defs/areaItem/properties/label"
+        },
+        "caption": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "The short limit shown on the map itself."
+        },
+        "period": {
+          "$ref": "common.schema.json#/$defs/partialDate",
+          "description": "The month or year the layer describes, for example 2026-10, or 2021 for modelled noise."
+        },
+        "level": {
+          "type": "object",
+          "required": [
+            "kind",
+            "radiusMetres"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "radius"
+            },
+            "radiusMetres": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        },
+        "coverage": {
+          "$ref": "area.schema.json#/$defs/areaItem/properties/coverage"
+        },
+        "doesNotEstablish": {
+          "$ref": "area.schema.json#/$defs/areaItem/properties/doesNotEstablish"
+        },
+        "link": {
+          "$ref": "area.schema.json#/$defs/areaItem/properties/link"
+        },
+        "note": {
+          "$ref": "area.schema.json#/$defs/areaItem/properties/note"
+        },
+        "features": {
+          "type": "array",
+          "minItems": 1
+        },
+        "source": {
+          "$ref": "area.schema.json#/$defs/areaItem/properties/source"
+        }
+      },
+      "allOf": [
+        {
+          "description": "Only recorded and stale layers carry features; every gap status must not (rule 7: a gap is never an empty map that reads as clean).",
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "recorded",
+                  "stale"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "features"
+            ]
+          },
+          "else": {
+            "properties": {
+              "features": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "layer": {
+                "const": "flood-zones"
+              }
+            },
+            "required": [
+              "layer"
+            ]
+          },
+          "then": {
+            "properties": {
+              "features": {
+                "items": {
+                  "$ref": "#/$defs/floodZoneFeature"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "layer": {
+                "const": "surface-water"
+              }
+            },
+            "required": [
+              "layer"
+            ]
+          },
+          "then": {
+            "properties": {
+              "features": {
+                "items": {
+                  "$ref": "#/$defs/surfaceWaterFeature"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "layer": {
+                "const": "listed-buildings"
+              }
+            },
+            "required": [
+              "layer"
+            ]
+          },
+          "then": {
+            "properties": {
+              "features": {
+                "items": {
+                  "$ref": "#/$defs/listedBuildingFeature"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "layer": {
+                "const": "conservation-areas"
+              }
+            },
+            "required": [
+              "layer"
+            ]
+          },
+          "then": {
+            "properties": {
+              "features": {
+                "items": {
+                  "$ref": "#/$defs/conservationAreaFeature"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "layer": {
+                "enum": [
+                  "road-noise",
+                  "rail-noise"
+                ]
+              }
+            },
+            "required": [
+              "layer"
+            ]
+          },
+          "then": {
+            "properties": {
+              "features": {
+                "items": {
+                  "$ref": "#/$defs/noiseFeature"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

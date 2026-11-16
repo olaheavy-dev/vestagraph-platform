@@ -52,16 +52,6 @@
       "synthetic": true
     },
     {
-      "id": "SAMPLE-PRIORITY-BROADBAND",
-      "topicKey": "broadband",
-      "measure": "download-mbps",
-      "limit": {
-        "value": "100",
-        "unit": "mbps"
-      },
-      "synthetic": true
-    },
-    {
       "id": "SAMPLE-PRIORITY-HOSPITAL",
       "topicKey": "everyday-places",
       "subtype": "hospital",

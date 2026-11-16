@@ -36,6 +36,9 @@ def test_read_registry_committed_data_returns_every_topic() -> None:
     assert "childcare" in family.record_subtypes
     noise = next(t for t in registry.topics if t.key == "noise")
     assert noise.official_route is not None
+    radon = next(t for t in registry.topics if t.key == "radon")
+    assert (radon.counted, radon.kind, radon.record_topics) == (True, "area-figures", ("radon",))
+    assert radon.review_status == "draft"
 
 
 def test_read_postcode_area_committed_data_returns_postcodes_and_records() -> None:
@@ -43,7 +46,7 @@ def test_read_postcode_area_committed_data_returns_postcodes_and_records() -> No
 
     assert area.postcodes == ("NB1 4XY", "NB7 1RR")
     assert area.unknown_postcodes == ("NB9 9ZZ",)
-    assert len(area.records) == 57
+    assert len(area.records) == 61
     childcare = next(r for r in area.records if r.id == "NB1-4XY-AREA-AMENITY-6")
     assert (childcare.subtype, childcare.status, childcare.value) == (
         "childcare",
@@ -62,7 +65,7 @@ def test_read_sample_priorities_committed_data_returns_exact_limits() -> None:
         "distance",
     )
     assert (str(rail.limit_value), rail.limit_unit) == ("3/2", "miles")
-    assert len(priorities) == 6
+    assert len(priorities) == 5
 
 
 def test_read_postcode_area_bus_departures_unknown_stop_raises_invalid_area_data(
@@ -390,8 +393,8 @@ def test_read_sample_priorities_subtype_on_topic_without_subtypes_raises_invalid
     tmp_path: Path,
 ) -> None:
     data = read_json(DATA / "sample-priorities.json")
-    broadband = next(p for p in data["priorities"] if p["topicKey"] == "broadband")
-    broadband["subtype"] = "full-fibre"
+    rail = next(p for p in data["priorities"] if p["id"] == "SAMPLE-PRIORITY-RAIL")
+    rail["subtype"] = "full-fibre"
 
     with pytest.raises(InvalidAreaDataError, match="full-fibre"):
         read_sample_priorities(
@@ -429,7 +432,7 @@ def test_read_sample_priorities_measure_that_cannot_apply_to_topic_raises_invali
 def test_read_sample_priorities_committed_data_fits_the_registry() -> None:
     registry = read_registry(DATA / "pilot-topics.json")
 
-    assert len(read_sample_priorities(DATA / "sample-priorities.json", registry)) == 6
+    assert len(read_sample_priorities(DATA / "sample-priorities.json", registry)) == 5
 
 
 def test_records_of_family_view_includes_schools_and_its_amenity_subtypes() -> None:

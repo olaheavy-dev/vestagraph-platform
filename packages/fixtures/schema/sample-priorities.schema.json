@@ -68,8 +68,7 @@
         "measure": {
           "enum": [
             "walking-minutes",
-            "distance",
-            "download-mbps"
+            "distance"
           ]
         },
         "limit": {
@@ -88,8 +87,7 @@
               "enum": [
                 "minutes",
                 "metres",
-                "miles",
-                "mbps"
+                "miles"
               ]
             }
           }

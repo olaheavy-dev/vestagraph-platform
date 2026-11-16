@@ -12,6 +12,7 @@ from vestagraph_area.priorities import (
     priority_result,
 )
 from vestagraph_area.records import (
+    MEASURE_RECORD_TOPICS,
     AreaRecord,
     Priority,
     read_postcode_area,
@@ -148,9 +149,18 @@ def test_priority_result_recorded_with_null_value_is_not_known() -> None:
     assert _result("recorded-with-null-value-is-not-known").outcome == "not-known"
 
 
-def test_priority_result_broadband_has_no_nearest_record() -> None:
-    assert _result("broadband-above-limit-meets").nearest_record_id is None
-    assert _result("broadband-below-limit-misses").nearest_record_id is None
+def test_measure_record_topics_no_measure_reads_a_broadband_record() -> None:
+    # Founder's answer, 16 Nov 2026 ("Replace it now", plan 2026-11-16-design-pass-topic-data.md):
+    # the predicted-speed priority is gone, so no priority measure reads a broadband record.
+    assert "download-mbps" not in MEASURE_RECORD_TOPICS
+    carried = {topic for topics in MEASURE_RECORD_TOPICS.values() for topic in topics}
+    assert not {"broadband", "broadband-coverage"} & carried
+
+
+def test_read_sample_priorities_committed_data_has_no_broadband_priority() -> None:
+    assert all("BROADBAND" not in priority_id for priority_id in PRIORITIES)
+    assert all(p.topic_key != "broadband" for p in PRIORITIES.values())
+    assert all(p.measure != "download-mbps" for p in PRIORITIES.values())
 
 
 def test_priority_result_search_limit_is_five_thousand_metres() -> None:

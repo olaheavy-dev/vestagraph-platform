@@ -29,7 +29,6 @@ KNOWN_STATUSES = frozenset(
 MEASURE_RECORD_TOPICS: dict[str, tuple[str, ...]] = {
     "walking-minutes": ("transport-stop", "school", "amenity"),
     "distance": ("transport-stop", "school", "amenity"),
-    "download-mbps": ("broadband",),
 }
 # A limit is typed as plain ASCII digits with an optional decimal part: no sign, no spaces, no
 # exponent, no fraction bar and no other script's digits.
