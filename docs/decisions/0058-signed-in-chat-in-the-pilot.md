@@ -117,7 +117,7 @@ The founder typed: "Everything we are building has to be scalable, performant, s
 - **AI-03:** the chat's evaluation cases return to the pilot.
 - **FE-13** (AI badge) and **FE-18** (phone chat preview) apply to the signed-in chat in the pilot.
 - **The withdrawn chat scenarios** (CHAT-01 to CHAT-53 and the withdrawn CARD scenarios) are reviewed for the signed-in chat in the specification step: kept and re-tagged where they still fit, rewritten where the side panel or sign-in changes them, keeping their IDs.
-- **The canvas:** the chat boards on "Home workspace (later)" are redrawn for the pilot's signed-in chat (side panel, sidebar, sign-in, account page, paused state), light and dark.
+- **The canvas:** the chat boards on "Home workspace (later)" are redrawn for the pilot's signed-in chat (side panel, sidebar, sign-in, account page, paused state), light and dark (drawn 16 Nov 2026 on 'Pilot · Signed-in chat', canvas version 353).
 - **The pilot gate (0052)** also checks the signed-in chat's boards and specifications.
 
 ## Builder notes (agent's calls, open to the founder)
@@ -153,3 +153,11 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 - Deleting a saved area leaves past chats readable, with their stored widgets.
 
 Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes in the records": a withdrawn scenario whose meaning changes stays `@withdrawn` with "Replaced by <new ID>" and the new meaning gets a new ID, because docs/specs/README.md rule 2 never reuses an ID. This refines choice 7's agent's call: an answer stopped by the output guard is a completed answer, not a failure on our side, so it counts; Regenerate is a message the user sends, so it counts; a dropped connection or server error on our side does not.
+
+**Note, 16 Nov 2026 (board review):** the founder's answers while reviewing the boards are recorded as register lines FE-57 to FE-66 and SE-06 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These are the agent's calls made while drawing, open to the founder:
+- Deleting one chat or one saved area happens at once, with Undo held for 10 seconds. It commits when the toast ends, the user leaves the page or the tab closes; the chat's traces are deleted when it commits.
+- "Delete all chats" asks first.
+- "Chat unavailable right now" is a warning.
+- The email-link method has no Remove: an email link always reaches the account at its verified address.
+- A dropped connection on our side does not count, and Retry counts only if the answer completes.
+- The 15 messages are counted in one atomic step per account.
