@@ -1,6 +1,6 @@
 # Status
 
-Overwritten at the end of every session (decision 0050). Last updated: **16 Nov 2026 (PR B #295 and decision 0058, signed-in chat in the pilot, #296, merged; 0058 accepted)**.
+Overwritten at the end of every session (decision 0050). Last updated: **16 Nov 2026 (PR B #295 and decision 0058, signed-in chat in the pilot, #296 and #297, merged; 0058 accepted; the signed-in chat plan and the founder's answers are in their own pull request)**.
 
 ## Where we are
 - **Signed-in chat in the pilot: decision [0058](../decisions/0058-signed-in-chat-in-the-pilot.md) (PD-20), Accepted (founder, 16 Nov 2026: "Merge and accept 0058 (Recommended)"; merged as #296).** Founder's choices (15 and 16 Nov 2026, typed and prompt windows): the chat is for signed-in users only, and public pages and anonymous visitors are unchanged; signing in keeps the account, chat history and saved areas ("Account + history + saved areas", over the agent's "Account only"); the screen is a sidebar, the chat and a right side panel with the full result ("Both: chat plus a side panel", over "Chat is the workspace"); sources and "Not known" on every fact, the chat remembers saved areas, and live widgets you can act on; sign-in with Better Auth ("Better Auth (Recommended)", approving the `better-auth` package) through Google, GitHub and an email link (over "Google + GitHub"); chats kept 12 months after last use; idle accounts deleted after 24 months; 15 messages per account a day (over 30); the chat calls the same tool functions as the MCP server; chat traces with text kept 30 days, founder-only ("Short-lived traces with text", over "metadata only"). The founder asked how widgets are chosen; the agent explained that widgets follow the tool result's `kind`, not the question (recorded in 0058). Eight answers to the design review (16 Nov 2026) are in the register as AI-13, FE-51 to FE-56 and OP-05. Still open: the email-sending service, hosting and the database (IN-02, DA-03), the lawful basis and a DPIA, what the AI provider keeps, and data export.
@@ -16,6 +16,7 @@ Overwritten at the end of every session (decision 0050). Last updated: **16 Nov 
 |---|---|
 | #295 | City Explorer PR B: canvas boards recorded (version 332), founder answers, end-of-session status |
 | #296 | Decision 0058, signed-in chat in the pilot (accepted by the founder the same day) |
+| #297 | Decision 0058 accepted (status and notes) |
 
 ## Done on 15 Nov 2026
 | Pull request | What merged |

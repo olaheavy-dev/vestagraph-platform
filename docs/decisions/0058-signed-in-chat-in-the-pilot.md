@@ -145,7 +145,7 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 - **Reversible:** the chat can be switched off without touching the public pages; accounts are harder to take back once users exist, which is why deletion and retention are fixed now.
 - **Revisit if** AI costs pass IN-05's cap in the pilot, sign-up abuse appears, or the AI-09 trial changes what the chat can do safely.
 
-**Note, 16 Nov 2026 (design review, before the boards):** the founder's answers to the design review's questions are recorded as register lines AI-13, FE-51 to FE-56 and OP-05 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These are the builder notes, the agent's calls, open to the founder:
+**Note, 16 Nov 2026 (design review, before the boards):** the founder's answers to the design review's questions are recorded as register lines AI-13, FE-51 to FE-56 and OP-05 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These are the agent's calls, open to the founder:
 - A returning user opens a new chat, with the last chat first in the sidebar.
 - An answer stopped by the guard counts toward the 15 messages a day, and so does a regenerate.
 - A dropped connection on our side does not count.
