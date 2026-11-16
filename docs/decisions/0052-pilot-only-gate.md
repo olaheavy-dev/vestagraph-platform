@@ -35,3 +35,5 @@ Finish every specification and pass the whole stage 3 gate first. Slowest; today
 - **The private prototype (stage 5) for the home workspace** comes after the pilot. The pilot's own screens are built on real data in stage 5b, not first as a fixture-only prototype; the area fixtures still serve the tests.
 - **Doc 04 §9 and the status file** show the pilot track first.
 - **Revisit if** the pilot's build shows that the home screens' design changes the shared components (the app shell, the topic summary or the map) enough to rework the pilot.
+
+**Note, 16 Nov 2026 ([0058](0058-signed-in-chat-in-the-pilot.md), Proposed; applies once the founder accepts it):** the pilot gate also checks the signed-in chat's boards and specifications.

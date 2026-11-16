@@ -52,3 +52,5 @@ Fastest to something public, but it loses the design reference that 0045 exists 
 - `.design/prototype/` gains the Check an area screen (H5) and its build task; the information architecture gains the public route `/area` (postcode in the URL fragment, so it never reaches a log).
 - Business use (#151) is answered by the same public page; any business-only feature still needs its own record.
 - **Revisit if** running costs exceed the IN-05 cap, a key source's licence rules out public use, or the study shows the area check isn't what draws people in.
+
+**Note, 16 Nov 2026 ([0058](0058-signed-in-chat-in-the-pilot.md), Proposed; applies once the founder accepts it):** accounts (SE-01) arrive in the pilot, for the signed-in chat and saved areas (postcodes and councils) only. Saved homes, costs, questions, compare-homes and "what changed" for a home still wait for the home workspace.
