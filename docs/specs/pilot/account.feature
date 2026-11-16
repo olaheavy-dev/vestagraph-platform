@@ -19,11 +19,11 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
     saved areas: the list of up to 20 and its limit line, remove with Undo -> ACCT-02, ACCT-22, ACCT-03
     chats: newest 20 then "Show more", grouped by day, title search and nothing found -> ACCT-04, ACCT-05, ACCT-06
     rename a chat -> ACCT-07; delete one chat with Undo -> ACCT-08
-    Undo is a request to the server; the server hides the item at once and commits after 10 seconds, even if the browser closes -> ACCT-09, ACCT-26, ACCT-10
-    the saved-area Remove and Undo requests keep the postcode out of every address and log -> ACCT-27
+    Undo is a request to the server; the server hides the item at once and commits after 10 seconds, even if the browser closes -> ACCT-09, ACCT-26, ACCT-32, ACCT-33, ACCT-10
+    the saved-area Remove and Undo requests keep the postcode out of every address and log -> ACCT-27, ACCT-34
     "Delete all chats" asks first, and what it deletes -> ACCT-11, ACCT-12
-    the Email link row has no Remove -> ACCT-13; the last of Google and GitHub can't be removed, on the page and at the server, and with both either can go -> ACCT-14, ACCT-23, ACCT-24
-    deleting the account needs a fresh sign-in -> ACCT-15, ACCT-25
+    the Email link row has no Remove -> ACCT-13; the last of Google and GitHub can't be removed, on the page and at the server, and with both either can go, and what stays -> ACCT-14, ACCT-23, ACCT-24, ACCT-29, ACCT-30
+    deleting the account needs a fresh sign-in -> ACCT-15, ACCT-25, ACCT-31
     deleting removes chats, saved areas, the daily count, traces, the sign-in tables and the email service's copy -> ACCT-16
     nothing is written after the delete, even with an unexpired token (Review Focus 2) -> ACCT-17; a pending email link stops working -> ACCT-28
     retention shown on the page; chats after 12 months, idle accounts after 24 months, traces after 30 days -> ACCT-18, ACCT-19, ACCT-20 (traces: WCHAT-63)
@@ -139,7 +139,19 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
   Scenario: ACCT-24 with both Google and GitHub linked, either one can be removed
     Given a signed-in user's account has Google, GitHub and the email link
     When the user chooses Remove on Google
-    Then Google is removed, GitHub and the email link stay, and GitHub's Remove is now turned off as the last of Google and GitHub (the email link is not counted)
+    Then Google is removed
+
+  @ui
+  Scenario: ACCT-29 after Google is removed, GitHub and the email link stay linked
+    Given a signed-in user's account has Google, GitHub and the email link, and the user has removed Google
+    When the user opens /account
+    Then GitHub and the email link are still listed as linked
+
+  @ui
+  Scenario: ACCT-30 after Google is removed, GitHub's Remove is turned off as the last of Google and GitHub
+    Given a signed-in user's account has Google, GitHub and the email link, and the user has removed Google
+    When the user opens /account
+    Then GitHub's Remove is turned off, and the row says it is the last of Google and GitHub on this account (the email link is not counted)
 
   # Delete account, step 1 and 2: a fresh sign-in confirms it is the user.
   @ui
@@ -152,7 +164,13 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
   Scenario: ACCT-25 an existing session alone can't delete the account
     Given a signed-in user has not signed in again since choosing Delete account
     When a delete-account request is sent with only the existing session, from the page or straight to the server
-    Then the server refuses it and nothing is deleted; the account is deleted only after a fresh sign-in with one of its methods succeeds
+    Then the server refuses it and nothing is deleted
+
+  @ui
+  Scenario: ACCT-31 the account is deleted only after a fresh sign-in with one of its methods succeeds
+    Given a signed-in user has chosen Delete account and been asked to sign in again
+    When the fresh sign-in with one of the account's methods succeeds
+    Then the account is deleted, and not before that sign-in
 
   # 0058 choice 6 and Builder notes: one database holds Better Auth's tables and ours, so deleting is one operation.
   @ui
@@ -197,15 +215,33 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
   @ui
   Scenario: ACCT-26 within the 10 seconds a deleted item is hidden everywhere, not only on the page
     Given a signed-in user has just deleted a chat, or removed a saved area, and 10 seconds have not passed since the request
-    When the page is reloaded, the account is opened in another tab, and the chat list and saved-areas list are requested straight from the server
-    Then none of them shows or returns the item
+    When the page is reloaded
+    Then the reloaded page does not show the item
+
+  @ui
+  Scenario: ACCT-32 within the 10 seconds a deleted item is hidden in another tab
+    Given a signed-in user has just deleted a chat, or removed a saved area, and 10 seconds have not passed since the request
+    When the account is opened in another tab
+    Then the other tab does not show the item
+
+  @ui
+  Scenario: ACCT-33 within the 10 seconds the server's lists do not return a deleted item
+    Given a signed-in user has just deleted a chat, or removed a saved area, and 10 seconds have not passed since the request
+    When the chat list and the saved-areas list are requested straight from the server
+    Then neither response contains the item
 
   # Postcodes never in a URL or a log (0014, 0046).
   @ui
   Scenario: ACCT-27 removing a saved area and undoing it keep the postcode out of every address and log
     Given a signed-in user has saved "NB7 1RR"
     When the user removes it on /account/areas and then chooses Undo
-    Then both requests name the saved area by its ID, with the postcode in no URL path, query string or Referer header, and no server, hosting or error-report log entry contains the postcode
+    Then both requests name the saved area by its ID, with the postcode in no URL path, query string or Referer header
+
+  @ui
+  Scenario: ACCT-34 removing a saved area and undoing it leave no postcode in any log
+    Given a signed-in user has saved "NB7 1RR"
+    When the user removes it on /account/areas and then chooses Undo
+    Then no server, hosting or error-report log entry contains the postcode
 
   # Review Focus 2 and 3: the verification rows go with the account (ACCT-16).
   @ui

@@ -8,7 +8,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Fixtures to add (issue #302): a source with a newer edition than a stored widget (WCHAT-40), a tool that fails alone (WCHAT-31) and a list of 20 saved areas (WCHAT-48, WCHAT-49); the test setup builds them, and the build adds any data they need.
   Where: the workspace page. On desktop (1440 px) a left sidebar (saved areas, past chats, New chat, the account link), the chat in the middle, and the full area result in a side panel on the right, a labelled region. On a phone (390 px) the sidebar is a drawer and "Open full result" opens the panel as a modal sheet. Boards: SignedInChatDesktop, SignedInChatPhone, SignedInChatCompare, SignedInChatComparePhone, SignedInChatFirstVisit, SignedInChatReturning, SignedInChatFirstVisitPhone, SignedInChatAskMore, SignedInChatStates, SignedInChatStates2 and FeedbackKit, each with its Dark twin, on the canvas page "Pilot · Signed-in chat".
   Entry and labels: the AI badge and the header line "Answers are written by AI from the sources below" (FE-13), with the disclaimer, which now says chats are saved for 12 months and can be deleted, and a link to the privacy notice. The display control (light, dark) sits in the chat header (FE-59). Sources show as the source's icon, name and link (FE-33); the limits sit in the page's one "How we got this" (FE-34). Every widget says "Sample data: a made-up town".
-  The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). Also AI-03 cases: WCHAT-19 to WCHAT-22, WCHAT-31 and WCHAT-34.
+  The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). Also AI-03 evaluation cases (they need the real model, so the evaluation set runs them as well as, or instead of, the fake-provider scenarios; backlog row 38f): WCHAT-19 to WCHAT-22, WCHAT-31, WCHAT-34, and the guard scenarios WCHAT-67 to WCHAT-70 and WCHAT-78 to WCHAT-80 (the model must not produce what the guard stops).
   Fixed replies (register line AI-11): the "is it safe", score, advice and best-area questions are answered by text we wrote and reviewed, not the model (WCHAT-19).
   The ui tag also covers server checks (logs, server storage, refusals, counts, tokens): they run in the same playwright-bdd suite against the running stack (SP-03). Every scenario here is @ui.
   Limits: the message limit, the turn limit, the token limit per answer, the rate limits and the monthly cap (IN-05) are numbers chosen in the build; these scenarios name them, never their values. The numbers fixed by the founder are named by register line: 15 messages per account per day (0058), the warning at message 14 (FE-55), at most 20 saved areas (FE-53), 2 seconds and 6 seconds at the 95th percentile (OP-05), titles from the first words (FE-54), 12 months and 30 days (0058).
@@ -41,6 +41,8 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     suggested starts with no model call -> WCHAT-83; the text answer lists the widget's places -> WCHAT-84; the rate-limit store holds only anonymised, expiring keys -> WCHAT-85
     nothing of a chat kept in the browser beyond the tab -> WCHAT-75
     "Ask more about this" with no explanation, and for a user who has used today's 15 -> WCHAT-76, WCHAT-77
+    widget actions: Compare with… for two areas and two councils, Open full result on desktop, Print -> WCHAT-86, WCHAT-87, WCHAT-88, WCHAT-89
+    the feedback kit: skeletons, no spinners, reduced motion, notices, full-page states -> WCHAT-90, WCHAT-91, WCHAT-92
 
   # Replaces CHAT-38 (desktop drawer) and CHAT-06 (phone sheet); the side panel is now part of the page.
   @ui
@@ -604,3 +606,50 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Given signed-in users have sent messages from several client addresses
     When the rate-limit store is read
     Then every key is anonymised (no raw IP address, no email, no message text) and every key has an expiry
+
+  # Added in the criteria-to-scenario check (plan Task 2: widget actions; FE-52).
+  @ui
+  Scenario: WCHAT-86 "Compare with…" on a single-area widget asks for the second area and draws the compare table
+    Given a signed-in user has a Nearby widget for "NB1 4XY"
+    When the user chooses "Compare with…" and enters "NB7 1RR"
+    Then a compare table of both areas is drawn from the tool results, each side with its own levels and source stamps, and "Not known" where a record is missing
+
+  # Plan Task 2: two councils in rows. Councils are in council-result.json (E06999001 Northbridge, E06999002 Southvale).
+  @ui
+  Scenario: WCHAT-87 two councils are compared in a table with each side's own levels and stamps
+    Given a signed-in user has a widget for council "E06999001"
+    When the user chooses "Compare with…" and enters council "E06999002"
+    Then a compare table of the two councils is drawn from the tool results, each side with its own level and source stamps, and no verdict words
+
+  @ui
+  Scenario: WCHAT-88 "Open full result" on desktop loads that result into the side panel
+    Given a signed-in user is on desktop with a widget for "NB1 4XY" in the chat
+    When the user chooses "Open full result"
+    Then the side panel shows the full area result for "NB1 4XY", and the chat stays as it was
+
+  @ui
+  Scenario: WCHAT-89 Print on a widget prints that result without the sidebar or the chat
+    Given a signed-in user has a widget for "NB1 4XY"
+    When the user chooses Print
+    Then the printed page holds the result with its source stamps and the "Sample data: a made-up town" line, and not the sidebar, the composer or other messages
+
+  # Task 4b, FE-64: no generic spinners.
+  @ui
+  Scenario: WCHAT-90 loading shows skeletons shaped like the widget and no spinner
+    Given a signed-in user has asked a question and the tool result has not yet arrived
+    When the page is waiting
+    Then a skeleton shaped like the widget that will arrive is shown, no spinner is shown, and under reduced motion the skeleton and the "Writing…" dot are still
+
+  # Task 4b, FE-64, register line B22.
+  @ui
+  Scenario: WCHAT-91 each notice has its cause, a reassurance and one action of at least 44 px, announced politely
+    Given the page shows an information, warning or error notice
+    When a screen reader reaches it and the user looks for the action
+    Then it says the cause, a reassurance and one action at least 44 px high, announced with role "status" or, for an error, role "alert"
+
+  # Task 4b, FE-64: full-page states.
+  @ui
+  Scenario: WCHAT-92 the full-page states give plain words and one action
+    Given the user reaches a page that does not exist, a server error, a lost connection or a signed-out workspace
+    When the page is shown
+    Then each shows a small isometric illustration, plain words saying what happened and one action (go back, try again, reload or sign in)

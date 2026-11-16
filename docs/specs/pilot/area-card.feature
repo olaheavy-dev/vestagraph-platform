@@ -1,7 +1,7 @@
 @screen @buying @renting
 Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Claude, and later in our own workspace chat)
   Question it answers: "Where are the nearest places, at a glance?"
-  Modes: both (and anyone, with no account; decisions 0046 and 0051)
+  Modes: both (and anyone, with no account, in ChatGPT and Claude; and signed-in users in the workspace chat, decision 0058; decisions 0046 and 0051)
   Fixtures: the postcode-level sample area data, `packages/fixtures/data/postcode-area.json` (NB1 4XY normal,
     NB7 1RR sparse); figures: none (distances and positions come from the area tools' tested geometry module).
   What it is: the nearest places from the nearby places tool's result (area-tools.feature), drawn as a
