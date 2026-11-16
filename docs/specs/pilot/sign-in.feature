@@ -19,14 +19,14 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     email service unavailable -> AUTH-10
     GitHub with no verified email -> AUTH-11
     one account per verified email, never linked on an unverified one, never because a provider is trusted -> AUTH-12, AUTH-13, AUTH-14
-    signed out on a public page: the entry and Save lead to sign-in -> AUTH-15
+    signed out on a public page: the entry and Save lead to sign-in -> AUTH-15 (an area result), AUTH-28 (a council page)
     the public "Ask about this area" entry carries the AI badge (FE-13) -> AUTH-26
     back where they were, and the action finished -> AUTH-16, AUTH-17
     the session expires while typing -> AUTH-18
     no postcode in any sign-in request -> AUTH-19, AUTH-20
     the magic-link token is in no log -> AUTH-21
     sign out -> AUTH-22, AUTH-23; Sign out everywhere -> AUTH-24
-    a revoked session's unexpired token refused on a write -> AUTH-25
+    a revoked session's unexpired token refused on every request: a write -> AUTH-25, a read -> AUTH-27
 
   @ui
   Scenario: AUTH-01 the sign-in page offers Google, GitHub and an email link
@@ -176,7 +176,7 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
   Scenario: AUTH-24 Sign out everywhere ends every session of the account
     Given the user is signed in on two devices
     When the user chooses "Sign out everywhere" on one
-    Then both devices are signed out, and the next request from the other device is refused as signed out
+    Then both devices are signed out, and the next request from the other device, a read or a write, is refused as signed out (AUTH-25, AUTH-27)
 
   # Review Focus 2: the 15-minute token may not have expired yet.
   @ui
@@ -191,3 +191,17 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     Given the user, signed in or signed out, is on Check an area
     When the user checks a complete postcode (fixture NB1 4XY)
     Then the "Ask about this area" entry shows the "AI" badge (FE-13)
+
+  # Review Focus 2, final review (16 Nov 2026): the API checks that the session still exists on every request, reads too, not only the token (0058, 16 Nov board-review note; agent's call, open to the founder).
+  @ui
+  Scenario: AUTH-27 a revoked session's unexpired token is refused on a read
+    Given a user signed out, or signed out everywhere, and the 15-minute token they held has not yet expired
+    When a request with that token lists the chats, opens a past chat or lists the saved areas
+    Then the server refuses it because the session no longer exists, and the response holds no chat, message or saved area
+
+  # Plan Task 3 and the site plan: the council page's entry and Save lead to sign-in like the area result's (AUTH-15).
+  @ui
+  Scenario: AUTH-28 on a council page, the chat entry and Save lead to sign-in when signed out
+    Given the user is signed out and has opened the council page for council "E06999001"
+    When the user chooses "Ask about this area" or Save
+    Then the sign-in page opens, and the council page is still there to return to

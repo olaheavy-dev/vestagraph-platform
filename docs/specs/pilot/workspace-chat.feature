@@ -1,14 +1,14 @@
 @screen @buying @renting
 Feature: The workspace chat (the pilot's signed-in chat, saved areas and past chats)
-  Added 16 Nov 2026 (decision 0058; register lines AI-11, AI-13, FE-13, FE-33, FE-34, FE-51 to FE-62, OP-05). It replaces the withdrawn on-page chat in area-chat.feature: where a scenario below carries the meaning of a CHAT scenario, a comment says "Replaces CHAT-nn", and the CHAT scenario stays `@withdrawn` and is not edited (plan, Global Constraints).
+  Added 16 Nov 2026 (decision 0058; register lines AI-11, AI-13, FE-13, FE-33, FE-34, FE-51 to FE-62, FE-64, FE-65, OP-05). It replaces the withdrawn on-page chat in area-chat.feature: where a scenario below carries the meaning of a CHAT scenario, a comment says "Replaces CHAT-nn", and the CHAT scenario stays `@withdrawn` and is not edited (plan, Global Constraints).
   Question it answers: "What do the sources say about this area or council, in plain words, and can I keep what I find?"
   Modes: both. Signed in only: anyone not signed in goes through sign-in first (sign-in.feature, FE-56).
   Fixtures: postcodes NB1 4XY, NB7 1RR and NB9 9ZZ (an unknown postcode) in `packages/fixtures/data/postcode-area.json`, with their results in `packages/fixtures/generated/area-result.json`; home WALES-1 stands in for a postcode outside England (that file is England only, rule 6); councils by code in `packages/fixtures/data/council-area.json` and `packages/fixtures/generated/council-result.json` (E06999001 and E06999002; the search "Capital (synthetic)" matches both). Figures: none typed here. A scenario that needs a figure names the postcode and topic, or the council code and figure, never the number (rule 2).
     Fixtures to add (issue #302): no postcode exists for the Isle of Man or the Channel Islands (WCHAT-37, WCHAT-38). A synthetic postcode for each must be added to postcode-area.json, with its nation field, before those scenarios can run.
-    Fixtures to add (issue #302): a source with a newer edition than a stored widget (WCHAT-40), a tool that fails alone (WCHAT-31) and a list of 20 saved areas (WCHAT-48, WCHAT-49); the test setup builds them, and the build adds any data they need.
+    Fixtures to add (issue #302): a source with a newer edition than a stored widget (WCHAT-40), a tool that fails alone (WCHAT-31), a source that is Unavailable when a stored widget is updated (WCHAT-110) and a list of 20 saved areas (WCHAT-48, WCHAT-49); the test setup builds them, and the build adds any data they need.
   Where: the workspace page. On desktop (1440 px) a left sidebar (saved areas, past chats, New chat, the account link), the chat in the middle, and the full area result in a side panel on the right, a labelled region. On a phone (390 px) the sidebar is a drawer and "Open full result" opens the panel as a modal sheet. Boards: SignedInChatDesktop, SignedInChatPhone, SignedInChatCompare, SignedInChatComparePhone, SignedInChatFirstVisit, SignedInChatReturning, SignedInChatFirstVisitPhone, SignedInChatAskMore, SignedInChatStates, SignedInChatStates2 and FeedbackKit, each with its Dark twin, on the canvas page "Pilot · Signed-in chat".
   Entry and labels: the AI badge and the header line "Answers are written by AI from the sources below" (FE-13), with the disclaimer, which now says chats are saved for 12 months and can be deleted, and a link to the privacy notice. The display control (light, dark) sits in the chat header (FE-59). Sources show as the source's icon, name and link (FE-33); the limits sit in the page's one "How we got this" (FE-34). Every widget says "Sample data: a made-up town".
-  The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). Also AI-03 evaluation cases (they need the real model, so the evaluation set runs them as well as, or instead of, the fake-provider scenarios; backlog row 38f): WCHAT-19 to WCHAT-22, WCHAT-31, WCHAT-34, and the guard scenarios WCHAT-67 to WCHAT-70 and WCHAT-78 to WCHAT-80 (the model must not produce what the guard stops).
+  The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). Also AI-03 evaluation cases (they need the real model, so the evaluation set runs them as well as, or instead of, the fake-provider scenarios; backlog row 38f): WCHAT-19 to WCHAT-22, WCHAT-31, WCHAT-33, WCHAT-34, WCHAT-39, WCHAT-84 (their text depends on the model's words), and the guard scenarios WCHAT-67 to WCHAT-70 and WCHAT-78 to WCHAT-80 (the model must not produce what the guard stops).
   Fixed replies (register line AI-11): the "is it safe", score, advice and best-area questions are answered by text we wrote and reviewed, not the model (WCHAT-19).
   The ui tag also covers server checks (logs, server storage, refusals, counts, tokens): they run in the same playwright-bdd suite against the running stack (SP-03). Every scenario here is @ui.
   Limits: the message limit, the turn limit, the token limit per answer, the rate limits and the monthly cap (IN-05) are numbers chosen in the build; these scenarios name them, never their values. The numbers fixed by the founder are named by register line: 15 messages per account per day (0058), the warning at message 14 (FE-55), at most 20 saved areas (FE-53), 2 seconds and 6 seconds at the 95th percentile (OP-05), titles from the first words (FE-54), 12 months and 30 days (0058).
@@ -19,30 +19,32 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     first visit (empty) -> WCHAT-06; returning user -> WCHAT-07
     the AI label, disclaimer and display control -> WCHAT-08
     sentence by sentence; the guard-stopped sentence -> WCHAT-09, WCHAT-10, WCHAT-11
-    the widget from the tool result's kind; its figures from the tool result -> WCHAT-12, WCHAT-13
+    the widget from the tool result's kind; its figures from the tool result; a differing figure in the text stopped -> WCHAT-12, WCHAT-13, WCHAT-102
     the speed targets -> WCHAT-14
-    Stop, a dropped connection, Retry and Regenerate -> WCHAT-15, WCHAT-16, WCHAT-17, WCHAT-18
+    Stop, a dropped connection, Retry and Regenerate, and which of them count -> WCHAT-15, WCHAT-108, WCHAT-16, WCHAT-17, WCHAT-18, WCHAT-107
     the sources' stamps; "Not known"; a source unavailable; a tool failed; council-level fact -> WCHAT-30 to WCHAT-34
     the fixed reply to "is this area safe?" -> WCHAT-19
     text as data (prompt injection) -> WCHAT-20, WCHAT-21
     the model's rules: no scores, sums, advice or other places -> WCHAT-22
-    the daily cap: warning at 14, message 15, two tabs, midnight reset, monthly state, unavailable -> WCHAT-23 to WCHAT-28
+    the daily cap: warning at 14, message 15, two tabs, midnight reset (summer time and the clock-change day), monthly state, unavailable -> WCHAT-23 to WCHAT-28, WCHAT-95
     rate limits and refusals with no model call -> WCHAT-29
     postcode outside England, Isle of Man, Channel Islands, ended postcode, two matching councils -> WCHAT-35 to WCHAT-39
-    saved areas: save, 20, the 21st, duplicate, the tool's typed data, compare my two saved areas, deleted saved area -> WCHAT-47 to WCHAT-53
-    past chats: stored widget with date and Update; titles; rename; the same chat in two tabs -> WCHAT-40 to WCHAT-46
+    saved areas: save, 20, the 21st, duplicate, the tool's typed data (the signed-in user's own only), compare my two saved areas, deleted saved area -> WCHAT-47 to WCHAT-53, WCHAT-93
+    past chats: stored widget with date and Update, Update when the source is now Unavailable; titles; rename; the same chat in two tabs; grouping and title search in the sidebar; the sidebar's 5 then 10 more -> WCHAT-40 to WCHAT-46, WCHAT-110, WCHAT-103, WCHAT-104, WCHAT-98
+    another account's chat: refused as not found -> WCHAT-94 (and ACCT-35, ACCT-36)
     Compare another area -> WCHAT-54
-    "Ask more about this" -> WCHAT-55, WCHAT-56
-    deleting a chat while it streams -> WCHAT-57
+    "Ask more about this" -> WCHAT-55, WCHAT-105, WCHAT-106, WCHAT-56
+    deleting a chat while it streams -> WCHAT-57, WCHAT-100, WCHAT-101
     logs and traces -> WCHAT-58, WCHAT-59, WCHAT-63, WCHAT-64; the fixed reply counts -> WCHAT-65
-    nothing in a request address -> WCHAT-60, WCHAT-66; keyboard, screen reader and loading -> WCHAT-61, WCHAT-62
+    nothing in a request address or a log from the widget and sidebar actions -> WCHAT-60, WCHAT-66, WCHAT-96, WCHAT-97; keyboard, screen reader and loading -> WCHAT-61, WCHAT-62
     the output guard's claim classes (good, verified or approved, the best, a recommendation), a score with numbers from the results, the bare word allowed, invented numbers -> WCHAT-67, WCHAT-78, WCHAT-79, WCHAT-80, WCHAT-68, WCHAT-69, WCHAT-70
     the message limit and the turn limit, on the page and at the server; the token limit; the server refuses once paused -> WCHAT-71, WCHAT-81, WCHAT-72, WCHAT-82, WCHAT-73, WCHAT-74
     suggested starts with no model call -> WCHAT-83; the text answer lists the widget's places -> WCHAT-84; the rate-limit store holds only anonymised, expiring keys -> WCHAT-85
     nothing of a chat kept in the browser beyond the tab -> WCHAT-75
     "Ask more about this" with no explanation, and for a user who has used today's 15 -> WCHAT-76, WCHAT-77
-    widget actions: Compare with… for two areas and two councils, Open full result on desktop, Print -> WCHAT-86, WCHAT-87, WCHAT-88, WCHAT-89
-    the feedback kit: skeletons, no spinners, reduced motion, notices, full-page states -> WCHAT-90, WCHAT-91, WCHAT-92
+    widget actions: Compare with… for two areas and two councils, Open full result on desktop, Print and its closing "How we got this" page -> WCHAT-86, WCHAT-87, WCHAT-88, WCHAT-89, WCHAT-99
+    the feedback kit: skeletons, no spinners, reduced motion, a button's label change while it loads, notices, full-page states -> WCHAT-90, WCHAT-109, WCHAT-91, WCHAT-92
+    the composer stays above the on-screen keyboard on a phone -> no scenario: keyboard overlap is not reliable to emulate in Playwright, so the visual review checks it at 390 px
 
   # Replaces CHAT-38 (desktop drawer) and CHAT-06 (phone sheet); the side panel is now part of the page.
   @ui
@@ -75,7 +77,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the user closes it
     Then focus returns to the "Open full result" button that opened it, and the chat is as it was
 
-  # Replaces CHAT-10 (suggested questions), with WCHAT-55 and WCHAT-83.
+  # Replaces CHAT-10 (suggested questions), with WCHAT-55, WCHAT-83 and WCHAT-106.
   @ui
   Scenario: WCHAT-06 on a first visit the chat shows suggested starts and how to save an area
     Given a signed-in user has no chats and no saved areas
@@ -128,7 +130,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Scenario: WCHAT-13 the widget's figures come from the tool result, not from the text
     Given the stand-in reply's text states a distance that differs from the tool result's
     When the widget is drawn
-    Then the widget shows the tool result's figures for postcode "NB1 4XY", never the text's, and the existing invented-numbers output guard (decision 0025's output guards; WCHAT-70, which replaces the withdrawn CHAT-16) stops the sentence whose figure differs from the tool result, so it is never shown
+    Then the widget shows the tool result's figures for postcode "NB1 4XY", never the text's
 
   # OP-05.
   @ui
@@ -146,7 +148,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   @ui
   Scenario: WCHAT-16 a dropped connection keeps the partial answer and offers Retry
     Given an answer is streaming
-    When the connection drops
+    When the connection drops on our side
     Then the part already shown stays, a notice says the connection dropped, and one action, Retry, is offered
 
   @ui
@@ -156,10 +158,10 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Then it is unchanged by that message
 
   @ui
-  Scenario: WCHAT-18 Retry counts only if the answer completes, and Regenerate counts as a message
-    Given a user has used Retry after a dropped connection and Regenerate on another answer
+  Scenario: WCHAT-18 Retry counts only if the answer completes
+    Given a user has used Retry after a dropped connection on our side, once where the answer completed and once where it failed on our side again
     When the user's count for the day is read
-    Then Retry added one only because its answer completed, and Regenerate added one as a message the user sent
+    Then it went up by one, for the Retry whose answer completed
 
   # Replaces CHAT-11 and CHAT-50.
   @ui
@@ -172,7 +174,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Scenario: WCHAT-65 the fixed reply counts toward the day's 15
     Given a signed-in user has sent a message today
     When the fixed reply of WCHAT-19 has been shown
-    Then the user's count for the day has gone up by one, as for any message (0058, builder notes)
+    Then the user's count for the day has gone up by one, as for any message (0058 choice 7, agent's call)
 
   # Replaces CHAT-18 and CHAT-44.
   @ui
@@ -211,15 +213,22 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   # Review Focus 1: the count is one atomic database step.
   @ui
   Scenario: WCHAT-25 two tabs sending message 15 at the same moment: only one is accepted
-    Given a signed-in user has sent 14 messages today and has two tabs open
-    When both tabs send a message at the same moment
+    Given a signed-in user has sent 14 messages today and has two tabs open, each in a different chat (so WCHAT-45's lock does not apply)
+    When both tabs send a message at the same moment, or two requests are sent straight to the server at the same moment
     Then one is accepted and answered, the other gets "Chat is paused for today, the area check still works" with no model call, and the count for the day is 15
 
   @ui
-  Scenario: WCHAT-26 the daily count resets at midnight Europe/London, including on a clock-change day
-    Given a signed-in user has used 15 messages, on Sunday 25 October 2026, when the clocks go back and the day has 25 hours
-    When the clock passes midnight Europe/London that night
-    Then the user can send again, and the count started again at that midnight, not at a fixed 24 hours after the first message and not at midnight UTC
+  Scenario: WCHAT-26 the daily count resets at midnight Europe/London, which is 23:00 UTC in summer time
+    Given a signed-in user has used 15 messages on Saturday 24 October 2026, a British Summer Time day (the test sets the server's clock)
+    When the clock passes 23:00 UTC that night, which is midnight Europe/London
+    Then the user can send again, because the count started again at that midnight, not at 00:00 UTC and not a fixed 24 hours after the first message
+
+  # The clock-change day: the clocks go back at 02:00 BST on Sunday 25 October 2026, a 25-hour day; its first hour, 00:00 to 01:00 BST, is still 24 October in UTC.
+  @ui
+  Scenario: WCHAT-95 on the day the clocks go back, a message just after London midnight counts toward the London day
+    Given a signed-in user used 15 messages on Saturday 24 October 2026 (the test sets the server's clock)
+    When the user sends a message at 00:30 BST on Sunday 25 October 2026, which is 23:30 UTC on 24 October
+    Then it is accepted and counted toward 25 October (Europe/London), not toward 24 October (UTC)
 
   @ui
   Scenario: WCHAT-27 when the monthly cap is reached the chat shows its own paused state
@@ -343,10 +352,10 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Then the second tab says "This chat is open in another tab" with the one action Reload, and sends nothing
 
   @ui
-  Scenario: WCHAT-46 a returning user's past chats are grouped and searchable by title
+  Scenario: WCHAT-46 a returning user's past chats are grouped by Europe/London days in the sidebar
     Given a signed-in user has chats from today, this week, this month and earlier
-    When the user opens the chat list and searches a word from a title
-    Then the chats are grouped Today, This week, This month and Older by Europe/London days (FE-65), only titles that match are listed, and the search word is in no URL and no log (FE-65)
+    When the user opens the sidebar's chat list
+    Then the chats are grouped Today, This week, This month and Older by Europe/London days, with weeks starting on Monday (FE-65)
 
   # Saved areas.
   @ui
@@ -400,12 +409,12 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Then the chat asks which side to replace, with the choices "Replace NB1 4XY" and "Replace NB7 1RR", and the table stays at two areas
 
   # FE-58.
-  # Replaces CHAT-52, with WCHAT-66.
+  # Replaces CHAT-52, with WCHAT-105 and WCHAT-66.
   @ui
-  Scenario: WCHAT-55 "Ask more about this" opens the chat on that topic, and leads signed-out users through sign-in
-    Given a user has opened a topic's "Explain this" on Check an area
+  Scenario: WCHAT-55 "Ask more about this" opens a signed-in user's chat on that topic
+    Given a signed-in user has opened a topic's "Explain this" on Check an area
     When the user chooses "Ask more about this"
-    Then a signed-in user's workspace chat opens on that topic with a question filled in and not sent, a signed-out user goes through sign-in first and then to the same place (FE-56), and no model call is made by either step
+    Then the workspace chat opens on that topic with a question filled in and not sent
 
   # Replaces CHAT-53 (the pause, now for everyone), with WCHAT-76 and WCHAT-77.
   @ui
@@ -414,18 +423,19 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When a user opens a topic's "Explain this"
     Then the link is replaced by the pause line ("Chat is paused for this month, the area check still works." or "Chat unavailable right now")
 
+  # The hide at once, the server's commit 10 seconds after the request and Undo are ACCT-26, ACCT-10 and ACCT-09, as for any deleted chat.
   @ui
-  Scenario: WCHAT-57 deleting a chat while it streams stops the answer and stores nothing more
+  Scenario: WCHAT-57 deleting a chat while it streams stops the answer
     Given an answer is streaming in a chat
     When the user deletes that chat
-    Then the stream stops, the chat is hidden at once, nothing more of it is stored, and the server commits the delete 10 seconds after the request, so it is gone then even if the browser closes, and Undo, a request to the server before then, brings it back
+    Then the stream stops and no more sentences appear
 
   # Replaces CHAT-34, CHAT-35 and CHAT-36.
   @ui
-  Scenario: WCHAT-58 no ordinary log holds message text, a postcode, a tool argument or a raw IP address
-    Given a signed-in user sends a question and the fake AI provider then fails with an error that quotes it
+  Scenario: WCHAT-58 no ordinary log holds message text, a postcode, a place name, a tool argument, a tool result or a raw IP address
+    Given a signed-in user sends a question about a sample postcode (NB1 4XY) whose tool results name places, and the fake AI provider then fails with an error that quotes it
     When the server, application, hosting and error-report entries are searched
-    Then none contains the message text, the postcode, a tool argument or a raw IP address, and the page shows "Chat unavailable right now" with none of them
+    Then none contains the message text, the postcode, a place name from the tool results, a tool argument, a tool result or a raw IP address (0058 choice 4), and the page shows "Chat unavailable right now" with none of them
 
   @ui
   Scenario: WCHAT-59 a trace holds the message text and only the founder can read it
@@ -642,7 +652,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
 
   # Task 4b, FE-64, register line B22.
   @ui
-  Scenario: WCHAT-91 each notice has its cause, a reassurance and one action of at least 44 px, announced politely
+  Scenario: WCHAT-91 each notice has its cause, a reassurance and one action of at least 44 px, announced as a status or, for an error, as an alert
     Given the page shows an information, warning or error notice
     When a screen reader reaches it and the user looks for the action
     Then it says the cause, a reassurance and one action at least 44 px high, announced with role "status" or, for an error, role "alert"
@@ -653,3 +663,118 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Given the user reaches a page that does not exist, a server error, a lost connection or a signed-out workspace
     When the page is shown
     Then each shows a small isometric illustration, plain words saying what happened and one action (go back, try again, reload or sign in)
+
+  # Added 16 Nov 2026 (final review of the specifications): access control, splits of scenarios with several outcomes, and gaps.
+  # OWASP's broken access control (0058 "Secure"): the server checks that every ID belongs to the signed-in account.
+  @ui
+  Scenario: WCHAT-93 the saved-areas tool returns only the signed-in user's saved areas
+    Given two signed-in users each have saved areas, user A "NB1 4XY" and user B "NB7 1RR"
+    When the model calls the saved-areas tool in user A's chat (fake AI provider)
+    Then the tool result holds user A's saved areas only, and none of user B's
+
+  @ui
+  Scenario: WCHAT-94 a message or an Update sent to another account's chat is refused as not found
+    Given user B has a chat with a widget, and user A is signed in
+    When user A sends a message to that chat, or chooses Update on its widget, by the chat's ID, straight to the server
+    Then the server refuses each as not found, no model call is made, and user B's chat is unchanged
+
+  # 0014, 0046, plan Global Constraints: no postcode in any address or log, for every request the workspace page makes.
+  @ui
+  Scenario: WCHAT-96 the widget and sidebar actions carry no postcode in any address
+    Given a signed-in user has a widget for a sample postcode (NB1 4XY) and has saved it
+    When the user chooses Save, Update, Open full result, Compare with… and Print, and opens the saved area from the sidebar
+    Then no request the page makes carries the postcode in its URL path, query string or Referer header
+
+  @ui
+  Scenario: WCHAT-97 the widget and sidebar actions leave no postcode in any log
+    Given a signed-in user has a widget for a sample postcode (NB1 4XY) and has saved it
+    When the user chooses Save, Update, Open full result, Compare with… and Print, and opens the saved area from the sidebar
+    Then no server, application, hosting or error-report log entry contains the postcode
+
+  # FE-65 (agent's call, open to the founder).
+  @ui
+  Scenario: WCHAT-98 the sidebar shows 5 chats, and "Show more" adds 10 at a time
+    Given a signed-in user has more than 15 chats
+    When the user opens the sidebar and chooses "Show more"
+    Then the sidebar first lists the newest 5 chats, and "Show more" adds the next 10 below them
+
+  # FE-34: the printed summary (FE-06, FE-21) has nothing to open, so it ends with a "How we got this" page. Proposed wording, for the founder's copy review.
+  @ui
+  Scenario: WCHAT-99 a printed widget ends with a "How we got this" page
+    Given a signed-in user has a widget for "NB1 4XY"
+    When the user chooses Print
+    Then the printout ends with a "How we got this" page listing each shown topic's sources and limits
+
+  @ui
+  Scenario: WCHAT-100 a chat deleted while it streams stores nothing more of the answer
+    Given an answer is streaming in a chat
+    When the user deletes that chat
+    Then the server stores nothing more of that answer after the delete request
+
+  @ui
+  Scenario: WCHAT-101 Undo on a chat deleted while it streamed brings it back as it stood
+    Given a user deleted a chat while its answer streamed, and 10 seconds have not passed since the request
+    When the user chooses Undo
+    Then the chat is back in the sidebar with the part of the answer stored before the delete, and no new answer is started
+
+  # The invented-numbers output guard (decision 0025's output guards; WCHAT-70, which replaces the withdrawn CHAT-16).
+  @ui
+  Scenario: WCHAT-102 a sentence whose figure differs from the tool result is stopped
+    Given the stand-in reply's text states a distance that differs from the tool result's for postcode "NB1 4XY"
+    When the reply streams
+    Then the output guard stops that sentence and it never appears
+
+  # FE-65: the sidebar's title search (the account page's is ACCT-06).
+  @ui
+  Scenario: WCHAT-103 the sidebar's search lists only chats whose title matches
+    Given a signed-in user has chats with different titles
+    When the user searches the sidebar for a word from one title
+    Then only the chats whose title contains that word are listed
+
+  @ui
+  Scenario: WCHAT-104 the sidebar's search word is in no address and no log
+    Given a signed-in user has chats with different titles
+    When the user searches the sidebar for a word
+    Then the word is sent in the request body, in no URL path, query string or Referer header, and no log entry contains it (FE-65)
+
+  # FE-56, FE-58. Replaces CHAT-52 (its signed-out half), split from WCHAT-55.
+  @ui
+  Scenario: WCHAT-105 "Ask more about this" leads a signed-out user through sign-in to the chat on that topic
+    Given a signed-out user has opened a topic's "Explain this" on Check an area
+    When the user chooses "Ask more about this" and signs in
+    Then the workspace chat opens on that topic with a question filled in and not sent
+
+  # Replaces CHAT-10 (its "no AI call" for the filled-in question), split from WCHAT-55.
+  @ui
+  Scenario: WCHAT-106 "Ask more about this" makes no model call
+    Given a user, signed in or signed out, has opened a topic's "Explain this" on Check an area
+    When the user chooses "Ask more about this", signing in first if signed out, and the chat opens
+    Then the fake AI provider received no request
+
+  # 0058 choice 7 and its builder notes: Regenerate is a message the user sends.
+  @ui
+  Scenario: WCHAT-107 Regenerate counts as a message
+    Given a signed-in user has an answer and chooses Regenerate on it
+    When the new answer completes and the user's count for the day is read
+    Then the count has gone up by one
+
+  # 0058 choice 7 (only messages the user sends count): a stopped answer used the model, so it counts (agent's call, open to the founder).
+  @ui
+  Scenario: WCHAT-108 an answer the user stopped counts toward the day's 15
+    Given a signed-in user has sent a message and chosen Stop while its answer streamed
+    When the user's count for the day is read
+    Then it has gone up by one for that message
+
+  # FE-64: loading is skeletons and a button label change, never a spinner. The label is proposed wording.
+  @ui
+  Scenario: WCHAT-109 a button that is waiting changes its label and shows no spinner
+    Given a signed-in user has chosen Save on a widget and the request has not yet finished
+    When the button is shown
+    Then its label says it is working (for example "Saving…") and no spinner is shown
+
+  # Rule 7: Unavailable is said, the stored figures stay dated, and nothing looks current.
+  @ui
+  Scenario: WCHAT-110 Update when the source is now Unavailable keeps the stored figures, dated
+    Given a past chat's widget is open and its source is now Unavailable (fixture to add, #302)
+    When the user chooses Update
+    Then the widget says the source is Unavailable now and keeps the stored figures with their original source date, never shown as current

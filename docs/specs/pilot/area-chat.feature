@@ -13,7 +13,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     CHAT-07 | replace | opened from the on-page panel; sources now in the workspace chat | WCHAT-30
     CHAT-08 | replace | the same rule in the workspace chat | WCHAT-31, WCHAT-34
     CHAT-09 | replace | the same rule in the workspace chat | WCHAT-32
-    CHAT-10 | replace | the panel opened on one postcode's gaps; the workspace offers suggested starts, and "Ask more about this" fills in a topic question, with no AI call | WCHAT-06, WCHAT-55, WCHAT-83
+    CHAT-10 | replace | the panel opened on one postcode's gaps; the workspace offers suggested starts, and "Ask more about this" fills in a topic question, with no AI call | WCHAT-06, WCHAT-55, WCHAT-83, WCHAT-106
     CHAT-11 | replace | the fixed reply now in the workspace chat, and it counts toward the 15 | WCHAT-19
     CHAT-12 | replace | the model's rules, combined | WCHAT-22
     CHAT-13 | replace | the model's rules, combined | WCHAT-22
@@ -55,7 +55,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     CHAT-49 | replace | the server refuses once the user's 15 or the monthly cap is used | WCHAT-74
     CHAT-50 | replace | the fixed replies in the workspace chat | WCHAT-19
     CHAT-51 | replace | the bare word allowed, sentence by sentence | WCHAT-69
-    CHAT-52 | replace | "Ask more about this" for everyone (FE-58): signed-in users open the workspace chat on the topic, signed-out users sign in first | WCHAT-55, WCHAT-66
+    CHAT-52 | replace | "Ask more about this" for everyone (FE-58): signed-in users open the workspace chat on the topic, signed-out users sign in first | WCHAT-55, WCHAT-105, WCHAT-66
     CHAT-53 | replace | the pause is now for everyone (monthly cap, outage) or the user's own 15; no link where the explanation is not yet available | WCHAT-56, WCHAT-76, WCHAT-77
   Question it answers: "What do the sources say about this area, in plain words?"
   Modes: both; the chat is for signed-in users only (decision 0058). The two kept scenarios (CHAT-01, CHAT-02) are about Check an area, which stays open to anyone with no account (decisions 0046 and 0058)
@@ -178,7 +178,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     When the user asks about flood warnings
     Then the answer says the flood source is "Unavailable" and that this is not the same as no warning, and it shows no "none" and no zero
 
-  # Replaced by WCHAT-06, WCHAT-55, WCHAT-83 (16 Nov 2026, 0058).
+  # Replaced by WCHAT-06, WCHAT-55, WCHAT-83, WCHAT-106 (16 Nov 2026, 0058).
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui @withdrawn
   Scenario: CHAT-10 suggested questions come from the gaps
@@ -242,7 +242,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     When the stand-in reply says "Not a safety rating" (the tools' own wording) or names a place such as "Safestore", and makes no claim about the area
     Then the output guard lets that reply through
 
-  # Replaced by WCHAT-55, WCHAT-66 (16 Nov 2026, 0058).
+  # Replaced by WCHAT-55, WCHAT-105, WCHAT-66 (16 Nov 2026, 0058).
   # Added 14 Nov 2026 (AI-12 amended): "Explain this" stays pre-written and links to the chat for more.
   @ui @withdrawn
   Scenario: CHAT-52 "Ask more about this" opens the chat focused on that topic

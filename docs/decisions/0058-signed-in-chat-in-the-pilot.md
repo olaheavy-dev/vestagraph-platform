@@ -163,3 +163,4 @@ Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes
 - The email-link method has no Remove: an email link always reaches the account at its verified address.
 - A dropped connection on our side does not count, and Retry counts only if the answer completes.
 - The 15 messages are counted in one atomic step per account.
+- *16 Nov 2026 (final review of the specifications):* a signed-out or revoked session is refused on every API request, reads as well as writes: the API checks that the session still exists, not only the token (AUTH-24, AUTH-25, AUTH-27; one database lookup per request); and an answer the user stops counts toward the 15, because the model was used (WCHAT-108).

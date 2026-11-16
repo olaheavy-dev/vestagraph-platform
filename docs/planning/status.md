@@ -124,7 +124,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- Signed-in chat, PR 3: the specifications (this pull request, documentation only): `sign-in.feature` (AUTH-01 to AUTH-26), `workspace-chat.feature` (WCHAT-01 to WCHAT-92), `account.feature` (ACCT-01 to ACCT-34), the withdrawn-scenario review of `area-chat.feature` (2 kept, 50 replaced, 1 retired), and the knock-on documents. Everything else is merged, up to #301.
+- Signed-in chat, PR 3: the specifications (this pull request, documentation only): `sign-in.feature` (AUTH-01 to AUTH-28), `workspace-chat.feature` (WCHAT-01 to WCHAT-110), `account.feature` (ACCT-01 to ACCT-42), the withdrawn-scenario review of `area-chat.feature` (2 kept, 50 replaced, 1 retired), and the knock-on documents. Everything else is merged, up to #301.
 
 ## Start of the next session
 0. **First, merge this pull request (the signed-in chat specifications, PR 3)** once Codex is clean. Then City Explorer PR C (item 2).

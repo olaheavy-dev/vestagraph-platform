@@ -188,6 +188,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     When the visitor looks at Explain this
     Then it reads "Explanation not yet available"
     # No "Ask more about this" link in the pilot: there is no chat to open (AI-12, decision 0056, 15 Nov 2026).
+    # 16 Nov 2026 (0058, FE-58): the chat is back for signed-in users and "Ask more about this" returns for everyone, except under an explanation that is not yet available (WCHAT-55, WCHAT-76, WCHAT-105).
 
   @ui
   Scenario: TOPIC-12 a route-only topic says it is not yet covered

@@ -11,14 +11,15 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
   Sign-in methods (0058, board-review note): the Email link row has no Remove. The rule that the last sign-in method can't be removed counts only Google and GitHub.
   "Use" (0058 choice 6): a chat is used when it is opened or a message is sent in it, and is deleted 12 months after the later of the two. An account is used by any request with a valid sign-in, and is deleted 24 months after the last one, with no warning email. Traces are kept 30 days (0058 choice 9; WCHAT-63).
   The server checks in these scenarios (database rows, deletion jobs, refusals, logs) are tagged @ui, as in workspace-chat.feature: they run in the same playwright-bdd suite against the running stack (SP-03). Time-based scenarios set the server's clock in the test; they never wait.
-  Copy: the fixed texts are "Undo available for 10 seconds", "An email link always reaches your account at this verified address. To stop it, delete your account." and the chat texts in workspace-chat.feature. Every other quoted message is proposed wording from the boards, finalised in the build.
+  Copy: the fixed texts are the chat texts in workspace-chat.feature. Every quoted message here, including "Undo available for 10 seconds" and "An email link always reaches your account at this verified address. To stop it, delete your account.", is proposed wording from the boards (drawn at the board review, open to the founder), finalised in the build.
   AI: no scenario here calls a model, so none is an AI-03 case.
-  Elsewhere: renaming a chat from the sidebar is WCHAT-44, the sidebar's own chat list is WCHAT-46, saving an area and the 20 limit are WCHAT-47 to WCHAT-50, a deleted saved area's past chats are WCHAT-53, a chat deleted while it streams is WCHAT-57, its traces are WCHAT-64; Sign out and Sign out everywhere are AUTH-22 to AUTH-24.
+  Elsewhere: renaming a chat from the sidebar is WCHAT-44, the sidebar's own chat list is WCHAT-46, WCHAT-98, WCHAT-103 and WCHAT-104, saving an area and the 20 limit are WCHAT-47 to WCHAT-50, a deleted saved area's past chats are WCHAT-53, a chat deleted while it streams is WCHAT-57, WCHAT-100 and WCHAT-101, its traces are WCHAT-64; Sign out and Sign out everywhere are AUTH-22 to AUTH-25 and AUTH-27.
   Required states (plan docs/superpowers/plans/2026-11-16-signed-in-chat.md Task 3 and Task 7 step 1; Review Focus 2; FE-53, FE-65, FE-66; AGENTS.md rules 5 and 7):
     the /account overview with its own pages -> ACCT-01
     saved areas: the list of up to 20 and its limit line, remove with Undo -> ACCT-02, ACCT-22, ACCT-03
-    chats: newest 20 then "Show more", grouped by day, title search and nothing found -> ACCT-04, ACCT-05, ACCT-06
-    rename a chat -> ACCT-07; delete one chat with Undo -> ACCT-08
+    chats: newest 20 then "Show more", grouped by day, title search, the number found, nothing found, search words in no address or log -> ACCT-04, ACCT-05, ACCT-06, ACCT-37, ACCT-38, ACCT-39
+    rename a chat -> ACCT-07; delete one chat with Undo: hidden at once, the toast and its announcement, focus on Undo, no pause -> ACCT-08, ACCT-40, ACCT-41, ACCT-42
+    another account's chat or saved area, by its ID: refused as not found -> ACCT-35, ACCT-36 (and WCHAT-93, WCHAT-94)
     Undo is a request to the server; the server hides the item at once and commits after 10 seconds, even if the browser closes -> ACCT-09, ACCT-26, ACCT-32, ACCT-33, ACCT-10
     the saved-area Remove and Undo requests keep the postcode out of every address and log -> ACCT-27, ACCT-34
     "Delete all chats" asks first, and what it deletes -> ACCT-11, ACCT-12
@@ -71,10 +72,10 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
 
   # FE-65: the founder chose title search; search words never travel in an address or reach a log.
   @ui
-  Scenario: ACCT-06 the chats page searches by title, and a search with no match shows "nothing found"
+  Scenario: ACCT-06 the chats page searches by title
     Given a signed-in user is on /account/chats
-    When the user searches a word from one chat's title, and then a word in no title
-    Then the first search lists only the chats whose title contains the word and announces the number found once, the second shows the kit's "nothing found" empty state, and the search words are sent in the request body, never in a URL, and appear in no log
+    When the user searches a word from one chat's title
+    Then only the chats whose title contains the word are listed
 
   # FE-54. Renaming from the sidebar is WCHAT-44.
   @ui
@@ -85,10 +86,10 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
 
   # 0058, board-review ruling: one delete happens at once with Undo, not a confirm.
   @ui
-  Scenario: ACCT-08 deleting one chat hides it at once and offers Undo
+  Scenario: ACCT-08 deleting one chat hides it at once, with no confirm first
     Given a signed-in user is on /account/chats
     When the user chooses Delete on a chat
-    Then the chat is hidden at once from every list, the Undo toast says it is deleted with its cards and the records kept to fix faults, the status region says once "Undo available for 10 seconds", focus moves to the 44 px "Undo" button, the toast does not pause while the pointer or focus is on it, and nothing asks to confirm first
+    Then the chat is hidden at once from every list, and nothing asks to confirm first
 
   @ui
   Scenario: ACCT-09 Undo asks the server to keep the item, before the 10 seconds end
@@ -249,3 +250,54 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
     Given a user asked for an email link and then, within its 5 minutes (SE-06), deleted their account
     When the email link is opened
     Then the page says the link has expired or been used, nobody is signed in, and no new account is created
+
+  # Added 16 Nov 2026 (final review of the specifications). OWASP's broken access control (0058 "Secure"): the server checks that every ID belongs to the signed-in account, and answers "not found" so it does not reveal that the ID exists.
+  @ui
+  Scenario: ACCT-35 a request about another account's chat is refused as not found
+    Given user B has a chat, and user A is signed in
+    When user A sends requests to open, rename, delete and undo the delete of that chat by its ID, straight to the server
+    Then the server refuses each as not found, and user B's chat is unchanged
+
+  @ui
+  Scenario: ACCT-36 a request about another account's saved area is refused as not found
+    Given user B has saved "NB7 1RR", and user A is signed in
+    When user A sends requests to open, remove and undo the removal of that saved area by its ID, straight to the server
+    Then the server refuses each as not found, and user B's saved area is unchanged
+
+  # Split from ACCT-06.
+  @ui
+  Scenario: ACCT-37 the chats page announces the number of chats found once
+    Given a signed-in user is on /account/chats
+    When the user searches a word from one chat's title
+    Then the status region announces the number found once
+
+  @ui
+  Scenario: ACCT-38 a chat search with no match shows "nothing found"
+    Given a signed-in user is on /account/chats
+    When the user searches a word in no chat's title
+    Then the kit's "nothing found" empty state is shown
+
+  @ui
+  Scenario: ACCT-39 the chats page's search words are in no address and no log
+    Given a signed-in user is on /account/chats
+    When the user searches a word
+    Then the word is sent in the request body, in no URL path, query string or Referer header, and no log entry contains it (FE-65)
+
+  # Split from ACCT-08 (0058, board-review ruling).
+  @ui
+  Scenario: ACCT-40 the Undo toast says what was deleted, and its time is announced once
+    Given a signed-in user is on /account/chats
+    When the user chooses Delete on a chat
+    Then the Undo toast says the chat is deleted with its cards and the records kept to fix faults, and the status region says once "Undo available for 10 seconds"
+
+  @ui
+  Scenario: ACCT-41 after deleting one chat, focus moves to Undo
+    Given a signed-in user is on /account/chats
+    When the user chooses Delete on a chat
+    Then focus moves to the toast's "Undo" button, which is at least 44 px high
+
+  @ui
+  Scenario: ACCT-42 the Undo toast does not pause on hover or focus
+    Given a signed-in user has just deleted a chat and the pointer and focus are on the Undo toast
+    When 10 seconds have passed since the delete request (the test sets the server's clock)
+    Then Undo is no longer available and the server has committed the delete (ACCT-10)
