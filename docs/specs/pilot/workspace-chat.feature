@@ -36,6 +36,10 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     deleting a chat while it streams -> WCHAT-57
     logs and traces -> WCHAT-58, WCHAT-59, WCHAT-63, WCHAT-64; the fixed reply counts -> WCHAT-65
     nothing in a request address -> WCHAT-60, WCHAT-66; keyboard, screen reader and loading -> WCHAT-61, WCHAT-62
+    the output guard's claim classes, a score with numbers from the results, the bare word allowed, invented numbers -> WCHAT-67, WCHAT-68, WCHAT-69, WCHAT-70
+    the message limit, the turn limit and the token limit; the server refuses once paused -> WCHAT-71, WCHAT-72, WCHAT-73, WCHAT-74
+    nothing of a chat kept in the browser beyond the tab -> WCHAT-75
+    "Ask more about this" with no explanation, and for a user who has used today's 15 -> WCHAT-76, WCHAT-77
 
   # Replaces CHAT-38 (desktop drawer) and CHAT-06 (phone sheet); the side panel is now part of the page.
   @ui
@@ -68,18 +72,21 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the user closes it
     Then focus returns to the "Open full result" button that opened it, and the chat is as it was
 
+  # Replaces CHAT-10 (suggested questions with no AI call), with WCHAT-55.
   @ui
   Scenario: WCHAT-06 on a first visit the chat shows suggested starts and how to save an area
     Given a signed-in user has no chats and no saved areas
     When the workspace page loads
     Then the chat shows suggested starts that name things the tools can answer, and the sidebar says there are no saved areas yet and how to save one
 
+  # Replaces CHAT-25 (a new postcode cleared the chat; chats are now kept), with WCHAT-40.
   @ui
   Scenario: WCHAT-07 a returning user opens a new chat with the last chat first in the sidebar
     Given a signed-in user has past chats and saved areas
     When the workspace page loads
     Then a new empty chat is open, the sidebar lists the last chat first, and no earlier message is shown in the chat
 
+  # Replaces CHAT-04 (the disclaimer said chats aren't saved) and CHAT-03 (the AI label), with AUTH-15.
   @ui
   Scenario: WCHAT-08 the chat carries the AI label, the disclaimer and the display control
     Given a signed-in user is on the workspace page
@@ -93,12 +100,14 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the fake AI provider returns a stand-in reply of several sentences
     Then the sentences appear one at a time, each only after it has passed the output guard, and never half a sentence
 
+  # Replaces CHAT-15.
   @ui
   Scenario: WCHAT-10 a sentence the guard stops never appears, and the answer ends with a notice
     Given the stand-in reply has a first sentence that is fine and a second that claims the area is "safe"
     When the reply streams
     Then the first sentence stays on screen, the second never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
 
+  # Replaces CHAT-26 (a reload started an empty chat), with WCHAT-75.
   @ui
   Scenario: WCHAT-11 a guard-stopped answer is stored as shown and counts toward the day's 15
     Given an answer stopped partway by the output guard (WCHAT-10)
@@ -116,7 +125,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Scenario: WCHAT-13 the widget's figures come from the tool result, not from the text
     Given the stand-in reply's text states a distance that differs from the tool result's
     When the widget is drawn
-    Then the widget shows the tool result's figures for postcode "NB1 4XY", never the text's, and the existing invented-numbers output guard (decision 0025's output guards; the withdrawn CHAT-16) stops the sentence whose figure differs from the tool result, so it is never shown
+    Then the widget shows the tool result's figures for postcode "NB1 4XY", never the text's, and the existing invented-numbers output guard (decision 0025's output guards; WCHAT-70, which replaces the withdrawn CHAT-16) stops the sentence whose figure differs from the tool result, so it is never shown
 
   # OP-05.
   @ui
@@ -189,6 +198,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the user sends the 14th and its answer completes
     Then the chat says "1 message left today", and the box still sends
 
+  # Replaces CHAT-19 (a site-wide daily cap; now 15 per account), with WCHAT-27.
   @ui
   Scenario: WCHAT-24 message 15 is answered, and then the chat is paused for today
     Given a signed-in user has sent 14 messages today
@@ -214,19 +224,21 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When a signed-in user opens the chat
     Then it shows "Chat is paused for this month, the area check still works." with no reopening date (FE-61), no message can be sent, and "Ask more about this" is replaced by the same line (WCHAT-56)
 
+  # Replaces CHAT-20, and CHAT-36 with WCHAT-58.
   @ui
   Scenario: WCHAT-28 when the AI provider fails or the chat is switched off the chat says so
     Given the fake AI provider fails, or the chat is switched off
     When a signed-in user sends a question
     Then the chat shows "Chat unavailable right now" as a warning with no provider error detail, no message text and no postcode, and the area result is still shown
 
+  # Replaces CHAT-24 and CHAT-48.
   @ui
   Scenario: WCHAT-29 a request over a rate limit is refused with no model call
     Given a signed-in user has reached the rate limit for their account, or the client has reached the limit for its address
     When a message is sent, from the page or straight to the server
     Then the server refuses it on top of the daily cap, the page says "Too many questions just now · Try again in a few minutes", and the fake AI provider received no request
 
-  # Facts. Replaces CHAT-07 to CHAT-10.
+  # Facts. Replaces CHAT-07 to CHAT-09 (CHAT-10 is WCHAT-06 and WCHAT-55).
   @ui
   Scenario: WCHAT-30 every claim in an answer shows its source stamp
     Given a signed-in user asks about a recorded topic for a sample postcode (NB1 4XY, topic "flood")
@@ -257,7 +269,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the user asks about something none of the tools returns, such as a school's teaching quality beyond the recorded inspection
     Then the answer says "Not known from our sources" and offers a question to ask instead, and states no fact that is not in a tool result
 
-  # Places. Replaces CHAT-01 and CHAT-02.
+  # Places. The chat's version of CHAT-01 and CHAT-02, which still hold word for word and are kept (the data check, and no entry on Check an area outside England).
   @ui
   Scenario: WCHAT-35 a postcode outside England is "not yet covered", with nothing to ask about
     Given a signed-in user enters the postcode of home "WALES-1"
@@ -385,12 +397,14 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Then the chat asks which side to replace, with the choices "Replace NB1 4XY" and "Replace NB7 1RR", and the table stays at two areas
 
   # FE-58.
+  # Replaces CHAT-52, with WCHAT-66.
   @ui
   Scenario: WCHAT-55 "Ask more about this" opens the chat on that topic, and leads signed-out users through sign-in
     Given a user has opened a topic's "Explain this" on Check an area
     When the user chooses "Ask more about this"
     Then a signed-in user's workspace chat opens on that topic with a question filled in and not sent, a signed-out user goes through sign-in first and then to the same place (FE-56), and no model call is made by either step
 
+  # Replaces CHAT-53 (the pause, now for everyone), with WCHAT-76 and WCHAT-77.
   @ui
   Scenario: WCHAT-56 when the chat is paused for everyone "Ask more about this" is replaced by the pause line
     Given the chat is paused for everyone (the monthly cap or an outage)
@@ -428,18 +442,21 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the server commits the delete, 10 seconds after the request
     Then the chat's traces are deleted with it
 
+  # Replaces CHAT-27.
   @ui
   Scenario: WCHAT-60 no chat request carries the postcode or the message text in its address
     Given a signed-in user has a postcode open
     When the user sends a question
     Then no request the page makes carries the postcode or the message text in its URL path, query string or Referer header
 
+  # Replaces CHAT-28.
   @ui
   Scenario: WCHAT-61 the chat works with the keyboard alone
     Given a signed-in user is on the workspace page
     When the user sends a question, uses Stop and opens and closes the side panel using only the keyboard
     Then each step works, Stop is reachable, and focus returns to the control that opened the panel when it closes
 
+  # Replaces CHAT-29 and CHAT-30.
   @ui
   Scenario: WCHAT-62 "Writing…" is announced once and the full answer once, never word by word
     Given a signed-in user has sent a question
@@ -452,3 +469,81 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Given a user on Check an area for a sample postcode (NB1 4XY) chooses "Ask more about this", signed in or, signed out, through sign-in
     When the workspace page opens on that topic
     Then no request on the way carries the postcode or the topic question in its URL path, query string or Referer header, and the postcode is held in the tab only
+
+  # Added 16 Nov 2026 (Task 7, the review of the withdrawn chat scenarios): the rules below were in CHAT scenarios whose text no longer holds, and no scenario above carried them.
+  # Replaces CHAT-39, CHAT-40, CHAT-42 and CHAT-43.
+  @ui
+  Scenario: WCHAT-67 a sentence that calls the area good, verified, approved or the best, or recommends buying, is stopped
+    Given a signed-in user has a sample postcode open (NB1 4XY)
+    When the stand-in reply has a sentence that calls the area "a good area", "verified", "approved" or "the best" for families, or says "you should buy here"
+    Then the output guard stops each such sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
+
+  # Replaces CHAT-41.
+  @ui
+  Scenario: WCHAT-68 a score is stopped even when its numbers appear in the tool results
+    Given a signed-in user has a sample postcode open and the stand-in tool results contain the numbers 4 and 10
+    When the stand-in reply has a sentence saying the area scores "4 out of 10"
+    Then the output guard stops that sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
+
+  # Replaces CHAT-51 (M1): the guard blocks claims, not the bare word.
+  @ui
+  Scenario: WCHAT-69 the word "safe" in source wording or a place name is not stopped
+    Given a signed-in user has a sample postcode open
+    When the stand-in reply says "Not a safety rating" (the tools' own wording) or names a place such as "Safestore", and makes no claim about the area
+    Then the output guard lets those sentences through
+
+  # Replaces CHAT-16 (M2): "a number that is not in the tool results" means digits or number words that state a fact.
+  @ui
+  Scenario: WCHAT-70 a sentence with a number that is not in the tool results is stopped
+    Given a signed-in user has a sample postcode open
+    When the stand-in reply has a sentence stating a fact with a number that none of its tool results contains, other than the radius in use, a count or total a tool returned, or a date in the results
+    Then the output guard stops that sentence, it never appears, and the answer ends with the notice "Couldn't answer that one · Try asking another way"
+
+  # Replaces CHAT-21 and CHAT-46.
+  @ui
+  Scenario: WCHAT-71 a message over the message limit is not sent, and the server refuses it
+    Given a signed-in user has a chat open
+    When the user types a message longer than the message limit, and the same message is also sent straight to the server
+    Then an inline message under the message box says it is too long and nothing is sent, and the server refuses the direct request with no model call
+
+  # Replaces CHAT-22 and CHAT-47.
+  @ui
+  Scenario: WCHAT-72 after the turn limit a chat takes no more messages, and the server refuses one more
+    Given a signed-in user has sent as many messages in one chat as the turn limit allows
+    When the last answer has been shown, and one more message for that chat is sent straight to the server
+    Then the message box is turned off with a message saying this chat has reached its limit and offering one action, "New chat", and the server refuses the direct request with no model call
+
+  # Replaces CHAT-37.
+  @ui
+  Scenario: WCHAT-73 every answer is capped at the token limit
+    Given a signed-in user has a chat open
+    When the user sends a question
+    Then the request the server sent to the fake AI provider sets the answer's maximum length to the token limit per answer
+
+  # Replaces CHAT-49.
+  @ui
+  Scenario: WCHAT-74 the server refuses a message sent straight to it once the chat is paused
+    Given a signed-in user has used 15 messages today, or the monthly cap (IN-05) has been reached
+    When a chat request is sent straight to the server, not through the page
+    Then the server refuses it, no model call is made, and the user's count for the day is unchanged
+
+  # Replaces CHAT-26 (what the browser keeps). The tab's session storage holds only the return target and an unsent draft (FE-56, AUTH-18).
+  @ui
+  Scenario: WCHAT-75 no chat text is kept in the browser beyond the tab
+    Given a signed-in user has sent a question and received an answer
+    When the browser's local storage, IndexedDB and cookies, and the tab's session storage, are read
+    Then no chat text or postcode is in local storage, IndexedDB or any cookie, and session storage holds at most the return target and an unsent draft
+
+  # Replaces CHAT-53 (its second half; the pause for everyone is WCHAT-56). Agent's default of 14 Nov 2026, carried over.
+  @ui
+  Scenario: WCHAT-76 "Ask more about this" is not shown under a topic whose explanation is not yet available
+    Given a topic on Check an area whose explanation reads "Explanation not yet available"
+    When the user opens that topic's "Explain this"
+    Then no "Ask more about this" link is shown under it
+
+  # Replaces CHAT-53 (its first half, now per account: the daily 15 is the user's own, 0058).
+  @ui
+  Scenario: WCHAT-77 "Ask more about this" for a user who has used today's 15 opens the chat paused for today
+    Given a signed-in user has used 15 messages today
+    When the user chooses "Ask more about this" under a topic's "Explain this"
+    Then the workspace chat opens on that topic with the question filled in and not sent, and shows "Chat is paused for today, the area check still works", with no model call

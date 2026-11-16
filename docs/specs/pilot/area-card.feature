@@ -12,7 +12,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     result, of the kinds asked for (any kind when none is named), nearest first, at most 10, looked up to 5 km (FE-12), and the map's scale fits the places shown, so a
     sparse area still gets a useful card; it is never a fixed radius such as 1 km.
   Two versions (founder, 13 Nov 2026: "Two versions", FE-15): a component in our own chat
-    (area-chat.feature, CHAT-31 to CHAT-33) and a widget for ChatGPT and Claude (the open MCP Apps
+    (workspace-chat.feature, WCHAT-12; it replaced the withdrawn CHAT-31 to CHAT-33) and a widget for ChatGPT and Claude (the open MCP Apps
     standard, a ui:// resource, decision 0037). A scenario tagged with both ui and mcp runs once per
     version: our chat component in the playwright-bdd suite (ui), the widget in the MCP suite (mcp).
     CARD-02 compares the two versions in one test and runs in the ui suite, which loads the widget
@@ -39,12 +39,29 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     apply to the expanded view, since the preview shows no place pins.
   The expanded view keeps every guarantee of CARD-11, CARD-12 and CARD-16 to CARD-19; its only message to
     the host is the display-mode request.
-  Pilot scope (decision 0056, 15 Nov 2026): the pilot has no on-page chat, so only the widget for ChatGPT and Claude ships (16 Nov 2026, decision 0058: the signed-in chat returns to the pilot; the withdrawn card scenarios are reviewed in its specification step)
-    in the pilot. The version in our own chat is for the signed-in workspace chat; the scenarios that apply only inside our
+  Pilot scope: decision 0056 (15 Nov 2026) took the on-page chat out of the pilot, so the scenarios that apply only inside our
     chat, or compare it with the widget (CARD-02, CARD-22, CARD-23, CARD-27, CARD-28, CARD-31 and the phone chat preview
-    CARD-36 to CARD-42), are tagged @withdrawn and kept with their IDs. In the pilot, a scenario tagged ui and mcp runs in the
-    MCP suite only (the widget); its ui run returns with the workspace chat. CARD-32 to CARD-35 now start from the widget's
-    full-screen view on a phone, and CARD-45 and CARD-46 give the widget its own keyboard and naming checks.
+    CARD-36 to CARD-42), were tagged @withdrawn. Decision 0058 (16 Nov 2026) brings our chat back for signed-in users as the
+    workspace chat (workspace-chat.feature; the card is its nearby widget, WCHAT-12, and the phone chat preview FE-18 applies
+    to it), so both versions ship in the pilot and a scenario tagged ui and mcp runs in both suites again. CARD-32 to CARD-35
+    start from the widget's full-screen view on a phone, and CARD-45 and CARD-46 give the widget its own keyboard and naming checks.
+  Review of the withdrawn card scenarios (16 Nov 2026, plan docs/superpowers/plans/2026-11-16-signed-in-chat.md, Task 7): a
+    scenario whose text still holds word for word ("our chat" is now the workspace chat) is kept and loses @withdrawn; one whose
+    meaning changed stays @withdrawn, unedited, and is replaced by a new ID (docs/specs/README.md rule 2). Kept 11, replaced 1, retired 0.
+    ID | keep / replace / retire | reason | new ID
+    CARD-02 | keep | our chat card and the widget are both drawn again | —
+    CARD-22 | replace | the expanded view opened "over the chat drawer"; the workspace has no drawer, it has a side panel | CARD-47
+    CARD-23 | keep | holds in the workspace chat | —
+    CARD-27 | keep | holds in the workspace chat | —
+    CARD-28 | keep | holds in the workspace chat | —
+    CARD-31 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
+    CARD-36 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
+    CARD-37 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
+    CARD-38 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
+    CARD-39 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
+    CARD-40 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
+    CARD-41 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
+    CARD-42 | keep | the phone chat preview applies to the workspace chat (FE-18, 0058) | —
   Phone chat preview (founder, 13 Nov 2026, prompt window: "Preview + Open map", FE-18): in our chat on a
     phone the card is a preview, not a squeezed map: a small map strip with only the postcode centre, the
     number of places and the nearest one, and a full-width "Open map" button (the phone's Expand) that opens
@@ -61,11 +78,11 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     hosts without widgets, no places, reduced motion -> CARD-13, CARD-14, CARD-15
     the widget's sandbox: names as text, messages only from the host, no tool calls, no secrets -> CARD-16 to CARD-19
     no silent change between versions (screenshot test) -> CARD-20
-    Expand: the larger view, keyboard, focus trap, labelled dialog, list rows -> CARD-21 to CARD-24, CARD-27, CARD-28 (CARD-22, CARD-23, CARD-27 and CARD-28 withdrawn for the pilot, 0056; the widget's keyboard and name: CARD-45, CARD-46)
+    Expand: the larger view, keyboard, focus trap, labelled dialog, list rows -> CARD-21, CARD-23, CARD-24, CARD-27, CARD-28, CARD-47 (CARD-22 replaced by CARD-47, 0058; the widget's keyboard and name: CARD-45, CARD-46)
     full screen in hosts that allow it, leaving it, and no Expand where it can't work -> CARD-25, CARD-26, CARD-29
     an icon beside every place name, matching its pin -> CARD-30
-    on a phone, a closer expanded map that moves by dragging, by choosing a place or by Tab, and zooms, with every place still listed -> CARD-31 to CARD-35 (CARD-31, opened from our chat's preview, withdrawn for the pilot, 0056; CARD-32 to CARD-35 start from the widget's full-screen view)
-    in the phone chat, a preview with Open map instead of a squeezed map -> CARD-36 to CARD-42 (withdrawn for the pilot, 0056)
+    on a phone, a closer expanded map that moves by dragging, by choosing a place or by Tab, and zooms, with every place still listed -> CARD-31 to CARD-35 (CARD-31 opens from our chat's preview; CARD-32 to CARD-35 start from the widget's full-screen view)
+    in the phone chat, a preview with Open map instead of a squeezed map -> CARD-36 to CARD-42 (in the workspace chat, 0058)
     at most 10 places, up to 5 km, the map fitted to them, also in a sparse area -> CARD-43, CARD-44
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
@@ -76,8 +93,8 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     Then every place is drawn at its listed straight-line distance within 2% and in its listed bearing, in list order, or is named "off the map"
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  # Withdrawn for the pilot (0056): there is no second version to compare until the workspace chat.
-  @ui @withdrawn
+  # Withdrawn by 0056; kept again 16 Nov 2026 (0058): the workspace chat draws the second version.
+  @ui
   Scenario: CARD-02 both versions draw the same places in the same positions
     Given the same nearby places result for a sample postcode
     When our chat card and the widget are both drawn from it
@@ -222,7 +239,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     When the user chooses "Expand" on a 1280 px wide screen, and "Open map" on a 390 px wide screen
     Then it opens as a dialog over the chat drawer on the wide screen, and full screen on the phone, each with a "Close" button
 
-  @ui @withdrawn
+  @ui
   Scenario: CARD-23 the expanded view works with the keyboard and returns focus
     Given the compact card is drawn in our chat for a sample postcode
     When the user reaches "Expand" with Tab, opens it with Enter, then presses Escape
@@ -248,13 +265,13 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     When the user chooses "Close"
     Then the widget sends ui/request-display-mode with inline and shows the compact card again
 
-  @ui @withdrawn
+  @ui
   Scenario: CARD-27 focus stays inside the expanded view while it is open
     Given the expanded view is open in our chat
     When the user presses Tab and Shift+Tab past its last and first controls
     Then focus moves round the controls inside the view only, and the chat behind it cannot be reached or read out
 
-  @ui @withdrawn
+  @ui
   Scenario: CARD-28 the expanded view is a labelled dialog
     Given the compact card is drawn in our chat for a sample postcode
     When the user chooses "Expand"
@@ -287,7 +304,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     Then each place in the list, and the selected place, shows its category icon beside its name, the same icon and colour as its pin on the map
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui @withdrawn
+  @ui
   Scenario: CARD-31 on a phone the expanded map opens closer, centred on the postcode
     Given the preview is shown in our chat for a sample postcode on a 390 px wide screen
     When the user chooses "Open map"
@@ -322,7 +339,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     Then that place is not labelled "off the map", and it is reachable by dragging, by its list row or by Tab
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui @withdrawn
+  @ui
   Scenario: CARD-36 in the phone chat the card is a preview, not a squeezed map
     Given an answer about nearby places in our chat on a 390 px wide screen
     When the answer is shown
@@ -332,40 +349,39 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
   @ui
   # The count is the number of places the card shows, from the tool result (TOOLS-43), not a sum of figures; the distance is the
   # farthest shown place's listed distance, quoted, not calculated (AGENTS.md rule 2).
-  @withdrawn
   Scenario: CARD-37 the preview's count comes from the tool result
     Given an answer about nearby places in our chat on a 390 px wide screen
     When the preview is shown
     Then "Nearest <n> places · up to <distance>" uses the number of places the card shows (at most 10) and the listed distance of the farthest of them, and reads "Nearest place · <distance>" when there is one
 
-  @ui @withdrawn
+  @ui
   Scenario: CARD-38 Open map opens the full-screen view
     Given the preview is shown in our chat on a 390 px wide screen
     When the user chooses "Open map"
     Then the expanded view opens full screen (CARD-31)
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui @withdrawn
+  @ui
   Scenario: CARD-39 the preview's nearest place is the result's nearest
     Given an answer about nearby places in our chat on a 390 px wide screen
     When the preview is shown
     Then "Closest:" names the first place of the nearby places result, which lists places nearest first (TOOLS-42), with its listed distance
 
-  @ui @withdrawn
+  @ui
   Scenario: CARD-40 Close returns focus to Open map
     Given the full-screen view was opened from "Open map" on a 390 px wide screen
     When the user chooses "Close"
     Then focus returns to the "Open map" button
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui @withdrawn
+  @ui
   Scenario: CARD-41 the preview's map strip is hidden from screen readers, and Open map says what it opens
     Given the preview is shown in our chat on a 390 px wide screen
     When a screen reader moves through the preview
     Then the map strip is skipped as decorative, and the button is announced as "Open map, nearest <n> places up to <distance>, button", or "Open map, nearest place, <distance>, button" when there is one
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
-  @ui @withdrawn
+  @ui
   Scenario: CARD-42 on a phone the list of places stays in the answer
     Given the preview is shown in our chat on a 390 px wide screen
     When the answer is shown
@@ -385,3 +401,11 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     Given a sparse sample postcode whose nearest places are between 1 and 5 km away
     When the card is drawn
     Then it shows those places, at most 10, with the map's scale fitted so every pin is on the map at its listed distance and bearing within 2%
+
+  # Replaces CARD-22 (16 Nov 2026, 0058): the chat drawer is gone; the workspace has a side panel on desktop and a modal sheet on a phone.
+  # Layering (FE-26): the expanded card is the one allowed layer above the chat, because it is the chat's own answer; closing it returns to the chat.
+  @ui
+  Scenario: CARD-47 in the workspace chat the expanded view is a dialog on desktop and full screen on a phone
+    Given an answer about nearby places in the workspace chat
+    When the user chooses "Expand" on a 1440 px wide screen, and "Open map" on a 390 px wide screen
+    Then it opens as a dialog over the chat and the side panel on the wide screen, and full screen on the phone, each with a "Close" button that returns to the chat

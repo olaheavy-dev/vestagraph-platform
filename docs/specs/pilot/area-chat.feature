@@ -1,9 +1,65 @@
 @screen @buying @renting
 Feature: Ask about this area (the pilot's area chat panel)
-  Withdrawn for the pilot by decision 0056 (15 Nov 2026): the pilot has no on-page chat. Every scenario is tagged @withdrawn and kept, with its ID, for the signed-in workspace chat.
-  16 Nov 2026, decision 0058: the chat returns to the pilot for signed-in users only; these scenarios are reviewed in its specification step.
+  Withdrawn for the pilot by decision 0056 (15 Nov 2026): the pilot has no on-page chat, and anonymous visitors get no AI calls.
+  16 Nov 2026, decision 0058: the chat returns to the pilot for signed-in users only, as the workspace chat (workspace-chat.feature, WCHAT-), with sign-in (sign-in.feature, AUTH-) and the account pages (account.feature, ACCT-). This file is kept for its IDs.
+  Review (16 Nov 2026, plan docs/superpowers/plans/2026-11-16-signed-in-chat.md, Task 7): a scenario whose text still holds word for word is kept and loses @withdrawn; a scenario whose meaning changed stays @withdrawn, unedited, and is replaced by a new ID (docs/specs/README.md rule 2); one only about the anonymous on-page chat is retired and stays @withdrawn. Kept 2, replaced 50, retired 1.
+    ID | keep / replace / retire | reason | new ID
+    CHAT-01 | keep | the data check still holds: a postcode outside England is not yet covered | —
+    CHAT-02 | keep | Check an area still has an "Ask about this area" entry (it leads to sign-in or the workspace, AUTH-15), and outside England it is not shown | —
+    CHAT-03 | replace | there is no on-page panel to start closed; the entry leads to sign-in or the workspace, whose header carries the AI label | AUTH-15, WCHAT-08
+    CHAT-04 | replace | the disclaimer said "Chats aren't saved"; chats are now kept 12 months and can be deleted | WCHAT-08
+    CHAT-05 | retire | only about closing the on-page panel over the area result | —
+    CHAT-06 | replace | the phone bottom sheet over the area result is now the workspace's drawer and modal sheet | WCHAT-03, WCHAT-04, WCHAT-05
+    CHAT-07 | replace | opened from the on-page panel; sources now in the workspace chat | WCHAT-30
+    CHAT-08 | replace | the same rule in the workspace chat | WCHAT-31, WCHAT-34
+    CHAT-09 | replace | the same rule in the workspace chat | WCHAT-32
+    CHAT-10 | replace | the panel opened on one postcode's gaps; the workspace offers suggested starts, and "Ask more about this" fills in a topic question, with no AI call | WCHAT-06, WCHAT-55
+    CHAT-11 | replace | the fixed reply now in the workspace chat, and it counts toward the 15 | WCHAT-19
+    CHAT-12 | replace | the model's rules, combined | WCHAT-22
+    CHAT-13 | replace | the model's rules, combined | WCHAT-22
+    CHAT-14 | replace | the model's rules, combined | WCHAT-22
+    CHAT-15 | replace | the guard now stops one sentence and the answer ends with a notice (AI-13) | WCHAT-10
+    CHAT-16 | replace | the invented-numbers guard, sentence by sentence | WCHAT-70
+    CHAT-17 | replace | the chat is no longer the current area only: it covers the areas the tools return, saved areas and compare (0004 amended by 0058) | WCHAT-22
+    CHAT-18 | replace | the same rule in the workspace chat | WCHAT-20
+    CHAT-19 | replace | a site-wide daily AI cap became 15 messages per account per day and the monthly cap's own state | WCHAT-24, WCHAT-27
+    CHAT-20 | replace | the same state in the workspace chat, now a warning | WCHAT-28
+    CHAT-21 | replace | the message limit in the workspace chat | WCHAT-71
+    CHAT-22 | replace | the turn limit per chat, now with "New chat" | WCHAT-72
+    CHAT-23 | replace | no bot check on a chat message; it moved to sign-up and each email-link request (0058) | AUTH-03, AUTH-04, AUTH-05
+    CHAT-24 | replace | rate limits now per account and per client | WCHAT-29
+    CHAT-25 | replace | a new postcode cleared the chat; chats are now kept and one chat can cover several areas (FE-52) | WCHAT-07, WCHAT-40
+    CHAT-26 | replace | a reload started an empty chat; a stored chat now reopens, and only the tab holds the return target and a draft | WCHAT-11, WCHAT-75
+    CHAT-27 | replace | the same rule from the workspace page | WCHAT-60
+    CHAT-28 | replace | keyboard use of the workspace, with Stop and the side panel | WCHAT-61
+    CHAT-29 | replace | announced once, not word by word, because answers stream (AI-13) | WCHAT-62
+    CHAT-30 | replace | the "Writing…" indicator from the Feedback kit (FE-64) | WCHAT-62
+    CHAT-31 | replace | the widget is chosen by the tool result's kind | WCHAT-12
+    CHAT-32 | replace | the card's positions are checked in both versions by CARD-01 | WCHAT-12, CARD-01
+    CHAT-33 | replace | the card's sources and no shading are checked in both versions | WCHAT-12, CARD-07, CARD-08
+    CHAT-34 | replace | traces now hold chat text for 30 days, founder only (0058 choice 9); ordinary logs still hold none | WCHAT-58, WCHAT-59
+    CHAT-35 | replace | the server now keeps chats, 12 months after last use, and traces 30 days | WCHAT-59, WCHAT-63, ACCT-19
+    CHAT-36 | replace | the same rule in the workspace chat | WCHAT-28, WCHAT-58
+    CHAT-37 | replace | the same rule in the workspace chat | WCHAT-73
+    CHAT-38 | replace | the desktop drawer is now the workspace's side panel | WCHAT-01, WCHAT-02
+    CHAT-39 | replace | the guard's claim classes, sentence by sentence | WCHAT-67
+    CHAT-40 | replace | the guard's claim classes, sentence by sentence | WCHAT-67
+    CHAT-41 | replace | a score stopped even with numbers from the results, sentence by sentence | WCHAT-68
+    CHAT-42 | replace | the guard's claim classes, sentence by sentence | WCHAT-67
+    CHAT-43 | replace | the guard's claim classes, sentence by sentence | WCHAT-67
+    CHAT-44 | replace | the same rule, combined with text as data | WCHAT-20
+    CHAT-45 | replace | no bot check on a chat request; it moved to sign-up and each email-link request (0058) | AUTH-03, AUTH-05
+    CHAT-46 | replace | the message limit, page and server together | WCHAT-71
+    CHAT-47 | replace | the turn limit, page and server together | WCHAT-72
+    CHAT-48 | replace | rate limits, page and server together | WCHAT-29
+    CHAT-49 | replace | the server refuses once the user's 15 or the monthly cap is used | WCHAT-74
+    CHAT-50 | replace | the fixed replies in the workspace chat | WCHAT-19
+    CHAT-51 | replace | the bare word allowed, sentence by sentence | WCHAT-69
+    CHAT-52 | replace | "Ask more about this" for everyone (FE-58): signed-in users open the workspace chat on the topic, signed-out users sign in first | WCHAT-55, WCHAT-66
+    CHAT-53 | replace | the pause is now for everyone (monthly cap, outage) or the user's own 15; no link where the explanation is not yet available | WCHAT-56, WCHAT-76, WCHAT-77
   Question it answers: "What do the sources say about this area, in plain words?"
-  Modes: both (and anyone, with no account; decisions 0046 and 0051)
+  Modes: both; the chat is for signed-in users only (decision 0058). The two kept scenarios (CHAT-01, CHAT-02) are about Check an area, which stays open to anyone with no account (decisions 0046 and 0058)
+  From here on, the description is the on-page chat as specified before 0056, kept as the record of the withdrawn scenarios; the workspace chat's own description is in workspace-chat.feature.
   Fixtures: home WALES-1 (outside England); the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
     (NB1 4XY, NB7 1RR, NB9 9ZZ); figures: none (the chat never calculates; decision 0004).
   Where: on Check an area only (the landing has no result: it hands a complete postcode to Check an area,
@@ -59,11 +115,10 @@ Feature: Ask about this area (the pilot's area chat panel)
     "Ask more about this" from a topic's "Explain this" opens the chat on that topic -> CHAT-52, CHAT-53
 
   # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
-  @withdrawn
   Scenario: CHAT-01 a postcode outside England is not yet covered, so there is nothing to ask about
     Then home "WALES-1" has coverage "not-yet-covered"
 
-  @ui @withdrawn
+  @ui
   Scenario: CHAT-02 outside England there is no chat entry
     Given the user is on Check an area
     When the user checks the postcode of home "WALES-1"

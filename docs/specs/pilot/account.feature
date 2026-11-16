@@ -1,0 +1,169 @@
+@screen @buying @renting
+Feature: Your account (the pilot's account pages: saved areas, chats, sign-in methods and deleting)
+  Added 16 Nov 2026 (decision 0058 choices 1 and 6, its Builder notes and its 16 Nov board-review note; register lines FE-53, FE-65, FE-66 and SE-06).
+  Question it answers: "What does Vestagraph keep about me, and how do I change or delete it?"
+  Modes: both. Signed in only: anyone not signed in goes through sign-in first (sign-in.feature, FE-56).
+  Fixtures: saved areas are sample postcodes from `packages/fixtures/data/postcode-area.json` (NB1 4XY, NB7 1RR); figures: none.
+    The accounts, emails, chats and saved areas in these scenarios are made up for the test run (rule 5): no real address, no real provider account.
+    Fixtures to add (issue #302): an account with 20 saved areas (ACCT-02) and one with more than 20 chats spread over today, this week, this month and earlier (ACCT-04, ACCT-05); the test setup builds them.
+  Where: `/account` is an overview: the newest 3 saved areas and the newest 3 chats, each with "See all", the sign-in methods, Sign out, Sign out everywhere, how long things are kept, and Delete account. `/account/areas` lists every saved area and `/account/chats` lists the chats (FE-66). Boards: SignedInAccount, SignedInAccountPhone, SignedInAccountAreas, SignedInAccountAreasPhone, SignedInAccountChats and SignedInAccountChatsPhone, each with its Dark twin, on the canvas page "Pilot · Signed-in chat"; the Undo toast and the confirm dialog are FeedbackKit's, on "Brand and style".
+  Deleting one item (0058, board-review ruling): deleting one chat or removing one saved area hides it at once and shows the kit's Undo toast; the server commits the delete itself 10 seconds after the request, so it happens even if the browser closes or crashes; Undo is a request to the server before then; the toast does not pause on hover or focus. "Delete all chats" asks first instead.
+  Sign-in methods (0058, board-review note): the Email link row has no Remove. The rule that the last sign-in method can't be removed counts only Google and GitHub.
+  "Use" (0058 choice 6): a chat is used when it is opened or a message is sent in it, and is deleted 12 months after the later of the two. An account is used by any request with a valid sign-in, and is deleted 24 months after the last one, with no warning email. Traces are kept 30 days (0058 choice 9; WCHAT-63).
+  The server checks in these scenarios (database rows, deletion jobs, refusals, logs) are tagged @ui, as in workspace-chat.feature: they run in the same playwright-bdd suite against the running stack (SP-03). Time-based scenarios set the server's clock in the test; they never wait.
+  Copy: the fixed texts are "Undo available for 10 seconds", "An email link always reaches your account at this verified address. To stop it, delete your account." and the chat texts in workspace-chat.feature. Every other quoted message is proposed wording from the boards, finalised in the build.
+  AI: no scenario here calls a model, so none is an AI-03 case.
+  Elsewhere: renaming a chat from the sidebar is WCHAT-44, the sidebar's own chat list is WCHAT-46, saving an area and the 20 limit are WCHAT-47 to WCHAT-50, a deleted saved area's past chats are WCHAT-53, a chat deleted while it streams is WCHAT-57, its traces are WCHAT-64; Sign out and Sign out everywhere are AUTH-22 to AUTH-24.
+  Required states (plan docs/superpowers/plans/2026-11-16-signed-in-chat.md Task 3 and Task 7 step 1; Review Focus 2; FE-53, FE-65, FE-66; AGENTS.md rules 5 and 7):
+    the /account overview with its own pages -> ACCT-01
+    saved areas: the list of up to 20, remove with Undo -> ACCT-02, ACCT-03
+    chats: newest 20 then "Show more", grouped by day, title search and nothing found -> ACCT-04, ACCT-05, ACCT-06
+    rename a chat -> ACCT-07; delete one chat with Undo -> ACCT-08
+    Undo is a request to the server; the server commits after 10 seconds, even if the browser closes -> ACCT-09, ACCT-10
+    "Delete all chats" asks first, and what it deletes -> ACCT-11, ACCT-12
+    the Email link row has no Remove -> ACCT-13; the last of Google and GitHub can't be removed -> ACCT-14
+    deleting the account needs a fresh sign-in -> ACCT-15
+    deleting removes chats, saved areas, the daily count, traces, the sign-in tables and the email service's copy -> ACCT-16
+    nothing is written after the delete, even with an unexpired token (Review Focus 2) -> ACCT-17
+    retention shown on the page; chats after 12 months, idle accounts after 24 months, traces after 30 days -> ACCT-18, ACCT-19, ACCT-20 (traces: WCHAT-63)
+    empty: no saved areas, no chats -> ACCT-21
+
+  # FE-66.
+  @ui
+  Scenario: ACCT-01 the account overview shows the newest 3 of each with "See all", and links to their own pages
+    Given a signed-in user has 10 saved areas and more than 3 chats
+    When the user opens /account
+    Then the page shows the newest 3 saved areas with the count "10 of 20" and "See all" to /account/areas, the newest 3 chats with "See all" to /account/chats, the sign-in methods, Sign out, Sign out everywhere, how long things are kept and Delete account
+
+  # FE-53, FE-65: at most 20, so no paging.
+  @ui
+  Scenario: ACCT-02 the saved areas page lists every saved area, with no paging
+    Given a signed-in user has 20 saved areas (fixture to add, #302)
+    When the user opens /account/areas
+    Then all 20 are listed on one page with no "Show more" and no pages, each with Remove, and the line says the limit is 20 and to remove one before saving another
+
+  @ui
+  Scenario: ACCT-03 removing a saved area hides it at once with Undo, and past chats stay
+    Given a signed-in user has saved "NB7 1RR" and has a past chat about it
+    When the user chooses Remove on "NB7 1RR" on /account/areas
+    Then "NB7 1RR" is hidden at once from every list, the Undo toast says the area is no longer saved and that past chats about it stay as they are, with "Undo available for 10 seconds", and nothing asks to confirm first
+
+  # FE-65: the account page shows the newest 20, then "Show more" loads the next 20 in place.
+  @ui
+  Scenario: ACCT-04 the chats page shows the newest 20, then "Show more" adds the next 20
+    Given a signed-in user has more than 20 chats (fixture to add, #302)
+    When the user opens /account/chats and chooses "Show more"
+    Then the newest 20 are listed first, the next 20 are added in place below them, focus moves to the first new chat, and a status line says how many are shown out of the total
+
+  # FE-65: Europe/London calendar days; the week starts on Monday.
+  @ui
+  Scenario: ACCT-05 chats are grouped Today, This week, This month and Older by Europe/London days
+    Given a signed-in user has chats last used today, earlier this week, earlier this month and before this month (fixture to add, #302)
+    When the user opens /account/chats
+    Then they are listed under Today, This week, This month and Older, using Europe/London calendar days and weeks that start on Monday, newest first within each group
+
+  # FE-65: the founder chose title search; search words never travel in an address or reach a log.
+  @ui
+  Scenario: ACCT-06 the chats page searches by title, and a search with no match shows "nothing found"
+    Given a signed-in user is on /account/chats
+    When the user searches a word from one chat's title, and then a word in no title
+    Then the first search lists only the chats whose title contains the word and announces the number found once, the second shows the kit's "nothing found" empty state, and the search words are sent in the request body, never in a URL, and appear in no log
+
+  # FE-54. Renaming from the sidebar is WCHAT-44.
+  @ui
+  Scenario: ACCT-07 the user can rename a chat on the chats page
+    Given a signed-in user is on /account/chats
+    When the user chooses Rename on a chat, types a new title and chooses "Save name"
+    Then the chat shows the new title on /account/chats, in the sidebar and on /account, and it stays after a reload
+
+  # 0058, board-review ruling: one delete happens at once with Undo, not a confirm.
+  @ui
+  Scenario: ACCT-08 deleting one chat hides it at once and offers Undo
+    Given a signed-in user is on /account/chats
+    When the user chooses Delete on a chat
+    Then the chat is hidden at once from every list, the Undo toast says it is deleted with its cards and the records kept to fix faults, the status region says once "Undo available for 10 seconds", focus moves to the 44 px "Undo" button, the toast does not pause while the pointer or focus is on it, and nothing asks to confirm first
+
+  @ui
+  Scenario: ACCT-09 Undo asks the server to keep the item, before the 10 seconds end
+    Given a signed-in user has just deleted a chat, or removed a saved area, and 10 seconds have not passed since the request
+    When the user chooses Undo with a tap or with Enter
+    Then the page sends the server an undo request, the item is back in every list, focus returns to the restored row, and after the 10 seconds nothing of it has been deleted
+
+  # The server commits; the browser's toast is only the way to send Undo.
+  @ui
+  Scenario: ACCT-10 the server commits a delete 10 seconds after the request, even if the browser closes
+    Given a signed-in user deleted a chat, or removed a saved area, and closed the browser straight after
+    When 10 seconds have passed since the delete request (the test sets the server's clock)
+    Then the server has deleted it on its own, with no further request from the browser, and a chat's traces are deleted with it (WCHAT-64)
+
+  @ui
+  Scenario: ACCT-11 "Delete all chats" asks first, and Cancel deletes nothing
+    Given a signed-in user has 3 chats and is on /account/chats
+    When the user chooses "Delete all chats…" and then Cancel
+    Then a dialog first asks "Delete all chats?", says it deletes all 3 chats, their cards and the records kept to fix faults, that saved areas stay and that it can't be undone, and after Cancel all 3 chats are still there
+
+  @ui
+  Scenario: ACCT-12 confirming "Delete all chats" deletes every chat and its traces, and saved areas stay
+    Given a signed-in user has chats with traces and has saved areas
+    When the user chooses "Delete all chats…" and confirms
+    Then every chat of that account and every trace of those chats is deleted, the chat lists show the kit's empty state, and every saved area is still there
+
+  # 0058, board-review note: an email link always reaches the account at its verified address.
+  @ui
+  Scenario: ACCT-13 the Email link sign-in method has no Remove
+    Given a signed-in user's account has Google and the email link as sign-in methods
+    When the user opens /account
+    Then the Email link row has no Remove button and says "An email link always reaches your account at this verified address. To stop it, delete your account."
+
+  # The last-method rule counts only Google and GitHub; the server checks it too.
+  @ui
+  Scenario: ACCT-14 the last of Google and GitHub can't be removed
+    Given a signed-in user's account has Google as its only Google or GitHub method, alongside the email link
+    When the user opens /account, and a request to remove Google is also sent straight to the server
+    Then Google's Remove is turned off and the row says why it can't be removed and how to change it (sign in another way first, or delete the account), and the server refuses the request and keeps the method
+
+  # Delete account, step 1 and 2: a fresh sign-in confirms it is the user.
+  @ui
+  Scenario: ACCT-15 deleting the account needs a fresh sign-in, and nothing is deleted before it
+    Given a signed-in user chooses Delete account
+    When the page lists what will be deleted and asks the user to sign in again, and the user cancels at that step
+    Then nothing has been deleted and the account is unchanged; the account is deleted only after a fresh sign-in with one of its methods succeeds, and an existing session alone is not enough
+
+  # 0058 choice 6 and Builder notes: one database holds Better Auth's tables and ours, so deleting is one operation.
+  @ui
+  Scenario: ACCT-16 deleting the account removes everything kept about the user
+    Given a signed-in user with chats, traces, saved areas and a daily message count has confirmed Delete account with a fresh sign-in
+    When the delete has finished
+    Then the database holds no row for that user in the chats, saved areas and daily count tables or Better Auth's user, session, account and verification tables, the trace store holds none of their traces, the email-sending service has been asked to delete its copy of the address, and the page says what was deleted, that the user is signed out and that Check an area and City Explorer stay open with no account
+
+  # Review Focus 2: the 15-minute token may not have expired yet.
+  @ui
+  Scenario: ACCT-17 nothing is written for a deleted account, even with a token that has not expired
+    Given a user deleted their account while another tab held a 15-minute token that has not yet expired and an answer was streaming there
+    When that tab sends a message, saves an area or the streamed answer ends
+    Then the server refuses each write because the account no longer exists, no model call is made, and no row, count or trace for that user is written after the delete
+
+  # 0058 choice 6: the rules are on the account page and in the privacy notice.
+  @ui
+  Scenario: ACCT-18 the account page says how long each thing is kept
+    Given a signed-in user is on /account
+    When the page has loaded
+    Then it says chats are deleted 12 months after their last use, the records of chats kept to fix faults are kept 30 days and only the person who runs Vestagraph can see them, and an account not used for 24 months is deleted with everything in it and no reminder, with a link to the privacy notice
+
+  @ui
+  Scenario: ACCT-19 a chat is deleted 12 months after it was last opened or last had a message sent, whichever is later
+    Given a chat last had a message sent 13 months ago and was last opened 11 months ago (the test sets the server's clock)
+    When the deletion job runs now, and again 1 month and 1 day later
+    Then the chat is kept on the first run, because its last use was opening it 11 months ago, and deleted with its traces on the second
+
+  @ui
+  Scenario: ACCT-20 an account is deleted 24 months after its last use, with no warning email
+    Given an account whose last request with a valid sign-in was 24 months and 1 day ago (the test sets the server's clock)
+    When the deletion job runs
+    Then the account is deleted with everything ACCT-16 lists, no email is sent to the user, and an account whose session made a valid request 23 months ago is kept
+
+  @ui
+  Scenario: ACCT-21 with no saved areas or no chats the pages show how to start
+    Given a signed-in user has no saved areas and no chats
+    When the user opens /account, /account/areas and /account/chats
+    Then each list shows the kit's empty state with a small illustration, plain words and one action back to the chat
