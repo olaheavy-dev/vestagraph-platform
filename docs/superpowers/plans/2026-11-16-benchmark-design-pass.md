@@ -35,7 +35,7 @@ Specifications for changed screens follow in the pilot specification files, in t
 
 ### Task 1: Quick fixes (done 16 Nov 2026)
 - [x] Remove decision and register IDs from user-facing text.
-- [x] Reword the landing headline. It is proposed wording for the founder to approve.
+- [x] Reword the landing headline (approved, FE-67). It is proposed wording for the founder to approve.
 - [x] Make "(synthetic)" and "(sample)" consistent in user text.
 - [x] Hide "Explanation not yet available" until AI-12's texts exist.
 

@@ -35,7 +35,7 @@ Searched `docs/references/data-sources.md`, the DA- lines (and related FE- lines
 - **Basemap:** FE-03 ("OpenStreetMap tiles we store and serve from our own domain", "price it first"); `data-sources.md` lines 27 and 90 to 97 (OSM public tiles "Not suitable for production"); DA-06 and DA-08 for geocoding and routing.
 - **Design review:** `docs/reviews/2026-11-14-pilot-design-review.md` line 70 (B30) already asks that each topic the competitor shows is "either covered or explicitly routed".
 
-Two repository statements are now stale (for the main session to fix in a later pull request, not here):
+Two repository statements are now stale (fixed in the same pull request as this note):
 1. `data-sources.md` line 166 calls PIPR "official statistics in development". ONS's bulletin says "On 20 May 2026, PIPR data became "official statistics" and are no longer considered to be "in development"". The 21 Oct 2026 workbook cover, as read in `2026-11-16-city-explorer-sources.md`, still says "in development", so the two ONS sources disagree; quote the bulletin and note the workbook wording.
 2. `data-sources.md` line 145 says radon has no reuse terms. BGS publishes the radon Indicative Atlas under OGL (topic 4).
 
