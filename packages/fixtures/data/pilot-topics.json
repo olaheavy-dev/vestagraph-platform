@@ -132,7 +132,11 @@
         "Look at the building work or empty plots around the home.",
         "Check the council planning page for later updates."
       ],
-      "reviewStatus": "reviewed"
+      "reviewStatus": "reviewed",
+      "mapLayers": [
+        "listed-buildings",
+        "conservation-areas"
+      ]
     },
     {
       "key": "flood",
@@ -149,7 +153,11 @@
         "Ask neighbours about past flooding.",
         "Look for damp marks, tide lines or flood protection on the property."
       ],
-      "reviewStatus": "reviewed"
+      "reviewStatus": "reviewed",
+      "mapLayers": [
+        "flood-zones",
+        "surface-water"
+      ]
     },
     {
       "key": "crime",
@@ -355,7 +363,11 @@
         "label": "Government road and rail noise mapping (gov.uk)",
         "url": "https://www.gov.uk/government/publications/strategic-noise-mapping-2022"
       },
-      "reviewStatus": "reviewed"
+      "reviewStatus": "reviewed",
+      "mapLayers": [
+        "road-noise",
+        "rail-noise"
+      ]
     },
     {
       "key": "ground-and-mining",

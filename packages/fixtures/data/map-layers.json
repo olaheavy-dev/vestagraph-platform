@@ -1,0 +1,499 @@
+{
+  "$schema": "../schema/map-layers.schema.json",
+  "frame": "metres-from-postcode-centre",
+  "layers": [
+    {
+      "id": "NB1-4XY-LAYER-FLOOD-ZONES-1",
+      "postcode": "NB1 4XY",
+      "layer": "flood-zones",
+      "status": "recorded",
+      "label": "Flood Zones 2 and 3 near this postcode (synthetic)",
+      "caption": "Describes an area, not one property; ignores flood defences",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Zones are drawn for land, not for one property, and ignore flood defences. Land outside the zones is not shown as free of flooding.",
+      "features": [
+        {
+          "zone": "3",
+          "outline": [
+            [
+              -300,
+              -250
+            ],
+            [
+              -100,
+              -350
+            ],
+            [
+              150,
+              -280
+            ],
+            [
+              200,
+              -150
+            ],
+            [
+              -50,
+              -100
+            ],
+            [
+              -250,
+              -150
+            ],
+            [
+              -300,
+              -250
+            ]
+          ]
+        },
+        {
+          "zone": "2",
+          "outline": [
+            [
+              -380,
+              -280
+            ],
+            [
+              -100,
+              -450
+            ],
+            [
+              300,
+              -350
+            ],
+            [
+              420,
+              -100
+            ],
+            [
+              100,
+              50
+            ],
+            [
+              -300,
+              -50
+            ],
+            [
+              -380,
+              -280
+            ]
+          ]
+        }
+      ],
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Environment Agency Flood Map for Planning (Flood Zones 2 and 3)",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-LAYER-SURFACE-WATER-1",
+      "postcode": "NB1 4XY",
+      "layer": "surface-water",
+      "status": "recorded",
+      "label": "Surface water flooding extent near this postcode (synthetic)",
+      "caption": "Describes an area, not one property",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "The map shows where surface water could pool after heavy rain, for an area and not for one property. Land outside the bands is not shown as free of surface water flooding.",
+      "note": "Band names are to be confirmed from the download.",
+      "features": [
+        {
+          "band": "High",
+          "outline": [
+            [
+              50,
+              150
+            ],
+            [
+              150,
+              120
+            ],
+            [
+              220,
+              200
+            ],
+            [
+              130,
+              280
+            ],
+            [
+              40,
+              240
+            ],
+            [
+              50,
+              150
+            ]
+          ]
+        },
+        {
+          "band": "Medium",
+          "outline": [
+            [
+              0,
+              100
+            ],
+            [
+              200,
+              60
+            ],
+            [
+              300,
+              180
+            ],
+            [
+              200,
+              340
+            ],
+            [
+              20,
+              320
+            ],
+            [
+              -40,
+              200
+            ],
+            [
+              0,
+              100
+            ]
+          ]
+        }
+      ],
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Environment Agency Risk of Flooding from Surface Water map",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-LAYER-LISTED-BUILDINGS-1",
+      "postcode": "NB1 4XY",
+      "layer": "listed-buildings",
+      "status": "recorded",
+      "label": "Listed buildings near this postcode (synthetic)",
+      "caption": "No result does not mean no constraint; a listing point, not the protected extent",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A point marks where a listed building is recorded, not the extent of what is protected. No point shown does not mean no listing or other constraint applies.",
+      "features": [
+        {
+          "name": "The Old Mill (synthetic)",
+          "grade": "II",
+          "point": [
+            -120,
+            180
+          ]
+        },
+        {
+          "name": "St Aidan's Church (synthetic)",
+          "grade": "II*",
+          "point": [
+            260,
+            -90
+          ]
+        }
+      ],
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Planning Data Platform's listed building and conservation area datasets",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-LAYER-CONSERVATION-AREAS-1",
+      "postcode": "NB1 4XY",
+      "layer": "conservation-areas",
+      "status": "recorded",
+      "label": "Conservation areas near this postcode (synthetic)",
+      "caption": "No result does not mean no constraint",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "An outline shows a designated conservation area. No outline does not mean no constraint: other rules and designations can still apply.",
+      "features": [
+        {
+          "name": "Northbridge Old Town (synthetic)",
+          "outline": [
+            [
+              -350,
+              100
+            ],
+            [
+              -150,
+              60
+            ],
+            [
+              50,
+              120
+            ],
+            [
+              80,
+              320
+            ],
+            [
+              -120,
+              400
+            ],
+            [
+              -340,
+              300
+            ],
+            [
+              -350,
+              100
+            ]
+          ]
+        }
+      ],
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Planning Data Platform's listed building and conservation area datasets",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-LAYER-ROAD-NOISE-1",
+      "postcode": "NB1 4XY",
+      "layer": "road-noise",
+      "status": "recorded",
+      "label": "Modelled road noise near this postcode (synthetic)",
+      "caption": "Modelled for 2021, not measured",
+      "period": "2021",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A modelled estimate for 2021 from traffic data, not measured at any home. It does not give a noise figure for this home.",
+      "note": "Band names are to be confirmed from the download.",
+      "features": [
+        {
+          "metric": "Lden",
+          "band": "55.0-59.9",
+          "outline": [
+            [
+              -480,
+              -120
+            ],
+            [
+              480,
+              -100
+            ],
+            [
+              480,
+              110
+            ],
+            [
+              -480,
+              100
+            ],
+            [
+              -480,
+              -120
+            ]
+          ]
+        },
+        {
+          "metric": "Lden",
+          "band": "60.0-64.9",
+          "outline": [
+            [
+              -450,
+              -40
+            ],
+            [
+              450,
+              -20
+            ],
+            [
+              450,
+              40
+            ],
+            [
+              -450,
+              20
+            ],
+            [
+              -450,
+              -40
+            ]
+          ]
+        }
+      ],
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Defra strategic noise maps, round 4",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB1-4XY-LAYER-RAIL-NOISE-1",
+      "postcode": "NB1 4XY",
+      "layer": "rail-noise",
+      "status": "no-record-in-source",
+      "label": "Modelled rail noise near this postcode (synthetic)",
+      "caption": "Modelled for 2021, not measured",
+      "period": "2021",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A modelled estimate for 2021 from train data, not measured at any home. It does not give a noise figure for this home.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Defra strategic noise maps, round 4",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-LAYER-FLOOD-ZONES-1",
+      "postcode": "NB7 1RR",
+      "layer": "flood-zones",
+      "status": "no-record-in-source",
+      "label": "Flood Zones 2 and 3 near this postcode (synthetic)",
+      "caption": "Describes an area, not one property; ignores flood defences",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "Zones are drawn for land, not for one property, and ignore flood defences. Land outside the zones is not shown as free of flooding.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Environment Agency Flood Map for Planning (Flood Zones 2 and 3)",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-LAYER-SURFACE-WATER-1",
+      "postcode": "NB7 1RR",
+      "layer": "surface-water",
+      "status": "source-failed",
+      "label": "Surface water flooding extent near this postcode (synthetic)",
+      "caption": "Describes an area, not one property",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "The map shows where surface water could pool after heavy rain, for an area and not for one property. Land outside the bands is not shown as free of surface water flooding.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Environment Agency Risk of Flooding from Surface Water map",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-LAYER-LISTED-BUILDINGS-1",
+      "postcode": "NB7 1RR",
+      "layer": "listed-buildings",
+      "status": "no-record-in-source",
+      "label": "Listed buildings near this postcode (synthetic)",
+      "caption": "No result does not mean no constraint; a listing point, not the protected extent",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A point marks where a listed building is recorded, not the extent of what is protected. No point shown does not mean no listing or other constraint applies.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Planning Data Platform's listed building and conservation area datasets",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-LAYER-CONSERVATION-AREAS-1",
+      "postcode": "NB7 1RR",
+      "layer": "conservation-areas",
+      "status": "not-covered",
+      "label": "Conservation areas near this postcode (synthetic)",
+      "caption": "No result does not mean no constraint",
+      "period": "2026-10",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "An outline shows a designated conservation area. No outline does not mean no constraint: other rules and designations can still apply.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Planning Data Platform's listed building and conservation area datasets",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-LAYER-ROAD-NOISE-1",
+      "postcode": "NB7 1RR",
+      "layer": "road-noise",
+      "status": "source-failed",
+      "label": "Modelled road noise near this postcode (synthetic)",
+      "caption": "Modelled for 2021, not measured",
+      "period": "2021",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A modelled estimate for 2021 from traffic data, not measured at any home. It does not give a noise figure for this home.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Defra strategic noise maps, round 4",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    },
+    {
+      "id": "NB7-1RR-LAYER-RAIL-NOISE-1",
+      "postcode": "NB7 1RR",
+      "layer": "rail-noise",
+      "status": "no-record-in-source",
+      "label": "Modelled rail noise near this postcode (synthetic)",
+      "caption": "Modelled for 2021, not measured",
+      "period": "2021",
+      "level": {
+        "kind": "radius",
+        "radiusMetres": 500
+      },
+      "coverage": "England",
+      "doesNotEstablish": "A modelled estimate for 2021 from train data, not measured at any home. It does not give a noise figure for this home.",
+      "source": {
+        "origin": "official-dataset",
+        "label": "Synthetic sample, shaped like the Defra strategic noise maps, round 4",
+        "date": "2026-10-23",
+        "synthetic": true
+      }
+    }
+  ]
+}
