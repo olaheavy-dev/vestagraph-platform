@@ -144,7 +144,7 @@ The page opens as **one row per topic with its headline fact** (founder review, 
 Limits (register line FE-34, 14 Nov 2026, replacing FE-28): there is **no visible limit line** on the landing cards, the rows or the top of a topic's sheet or panel. Each result page (Check an area, Nearby, Nearby desktop, Nearby › Schools) has **one** short **"How we got this"** section at the bottom of the result (FE-24, FE-34 one per page, founder 14 Nov 2026: "One per page"; amended the same day, founder: "General page + short note (Recommended)" and "I pick B but add the icons"): a short paragraph on what is specific to this search, one line per topic with its icon, name and source links, and the link "How each source works and what it can't tell you: About the data →". Each topic's method, limits and coverage live on the general About the data page. Topics carry no "How we got this" of their own, and area cards and chat answers just carry source links. A missing value is still said on the row, never zero (rule 7).
 
 #### Layering (register line FE-26, founder, 14 Nov 2026: "one at a time")
-One rule for what shows where; the feature files point here (CHAT-06, CHAT-38, CARD-22). *15 Nov 2026 (0056): the chat lines below apply to the signed-in workspace chat; the pilot has no on-page chat.*
+One rule for what shows where; the feature files point here (CHAT-06, CHAT-38, CARD-22). *15 Nov 2026 (0056): the chat lines below apply to the signed-in workspace chat; the pilot has no on-page chat.* *16 Nov 2026 (proposed 0058): that signed-in chat is in the pilot, for signed-in users only; its screens are drawn in the 0058 design step.*
 - **Desktop:** the topic list is on the left. The right column is the map until a topic opens, then that topic's side panel (with its own small map) replaces it. The area chat opens as a drawer over the right column; closing it returns to what was there.
 - **Phone:** one sheet at a time. Opening the chat from inside a topic replaces the topic sheet, and Back returns to it.
 - The card's Expand or Open map view is the chat's own answer, so it may sit above the chat; closing it returns to the chat.
@@ -268,7 +268,7 @@ In the private prototype the landing can also link the two example homes; the pu
 | Demo story control | Example story · Demo | Never "simulation" in product copy |
 | Sample data marker | Sample data | Everywhere fixtures are shown |
 | Assistant entry | Ask about this home | No "Copilot", no "AI" badge |
-| Area assistant entry (workspace chat, later; not in the pilot, 0056) | Ask about this area | "AI" badge on the entry and "Answers are written by AI from the sources below" in the header (FE-13); no "Copilot" |
+| Area assistant entry (workspace chat; not on the public pages, 0056; signed-in users in the pilot, proposed 0058) | Ask about this area | "AI" badge on the entry and "Answers are written by AI from the sources below" in the header (FE-13); no "Copilot" |
 | Paid tier (simulated) | Move pass | A labelled hypothesis, doc 02 §8 |
 | Forbidden labels | — | Never "verified", "safe", "approved", scores or "best" (rule 4) |
 

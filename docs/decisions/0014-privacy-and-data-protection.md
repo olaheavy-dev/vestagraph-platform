@@ -56,3 +56,5 @@ Supporting rules:
 
 ## Consequences
 The anonymous free view stays cheap, privacy-friendly and simple to explain. "Pick up where you left off" across devices requires saving a home (and probably an account). The data design keeps public-data tables separate from user tables from the start.
+
+**Note, 16 Nov 2026 ([0058](0058-signed-in-chat-in-the-pilot.md), Proposed; applies once the founder accepts it):** for users who sign in, "store user data only when a home is saved" gains three exceptions: the account itself, saved areas (stored only when saved), and chats (kept 12 months after last use; chat traces with text kept 30 days, founder-only). Idle accounts are deleted after 24 months. Anonymous visitors are unchanged: no AI calls and nothing kept about them.
