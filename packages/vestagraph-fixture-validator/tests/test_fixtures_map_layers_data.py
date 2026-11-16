@@ -3,9 +3,11 @@
 Every expected value below comes from the plan's table (docs/superpowers/plans/
 2026-11-16-design-pass-topic-data.md, section 1.3), not from the data. Positions are whole metres
 east and north of the postcode centre; nothing is calculated here except an integer square
-distance, worked as x squared plus y squared against 500 squared (250,000).
+distance, worked as x squared plus y squared against 500 squared (250,000), and an integer
+point-in-outline test (cross products, no division).
 """
 
+import itertools
 import json
 import re
 from typing import Any
@@ -206,3 +208,54 @@ def test_map_layers_no_gap_layer_says_no_risk() -> None:
             continue
         text = f"{lay['label']} {lay['caption']} {lay['doesNotEstablish']}".lower()
         assert "no risk" not in text, lay["id"]
+
+
+def _covers(outline: list[list[int]], point: tuple[int, int]) -> bool:
+    """True when the point is inside the outline (even-odd rule) or exactly on an edge.
+
+    Whole-metre integers only, so there is no rounding: the crossing test compares
+    (px - x1) * dy with (py - y1) * dx instead of dividing.
+    """
+    px, py = point
+    inside = False
+    for (x1, y1), (x2, y2) in itertools.pairwise(outline):
+        dx, dy = x2 - x1, y2 - y1
+        on_line = dx * (py - y1) - dy * (px - x1) == 0
+        if on_line and min(x1, x2) <= px <= max(x1, x2) and min(y1, y2) <= py <= max(y1, y2):
+            return True
+        if (y1 > py) != (y2 > py):
+            left_of_crossing = (px - x1) * dy < (py - y1) * dx
+            if left_of_crossing == (dy > 0):
+                inside = not inside
+    return inside
+
+
+def test_map_layers_sample_outlines_do_not_cover_the_postcode_centre() -> None:
+    """No NB1 4XY outline covers the postcode centre (0, 0).
+
+    Founder decision, 16 Nov 2026 (prompt window, "Move the sample shapes", over "Allow it, with a
+    caption"): the design boards must never appear to show the postcode centre inside a flood zone
+    or noise band, so the synthetic outlines stay clear of it (DA-31). The real map may still show
+    a postcode inside an outline; this only governs the sample data.
+    """
+    checked = 0
+    for lay in _layers():
+        for feature in lay.get("features", []):
+            if "outline" in feature:
+                checked += 1
+                assert not _covers(feature["outline"], (0, 0)), (lay["id"], feature)
+    assert checked == 7
+
+
+def test_map_layers_centre_check_reports_an_outline_moved_over_the_centre() -> None:
+    """Break one thing: a copy of a real outline shifted over (0, 0) must be reported."""
+    outline = _layer("NB1 4XY", "road-noise")["features"][0]["outline"]
+    xs = [p[0] for p in outline]
+    ys = [p[1] for p in outline]
+    shift_x = -(min(xs) + max(xs)) // 2
+    shift_y = -(min(ys) + max(ys)) // 2
+    moved = [[x + shift_x, y + shift_y] for x, y in outline]
+    assert _covers(moved, (0, 0))
+    on_edge = [[0, -10], [0, 10], [50, 10], [50, -10], [0, -10]]
+    assert _covers(on_edge, (0, 0))
+    assert not _covers([[10, 10], [50, 10], [50, 50], [10, 10]], (0, 0))
