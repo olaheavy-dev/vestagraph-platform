@@ -3,7 +3,8 @@
 Every expected value below comes from the plan's table (docs/superpowers/plans/
 2026-11-16-design-pass-topic-data.md, section 1.3), not from the data. Positions are whole metres
 east and north of the postcode centre; nothing is calculated here except an integer square
-distance, worked as x squared plus y squared against 500 squared (250,000).
+distance, worked as x squared plus y squared against 500 squared (250,000), and an integer
+point-in-outline test (cross products, no division).
 """
 
 import itertools
