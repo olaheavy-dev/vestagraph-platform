@@ -60,9 +60,15 @@ Specifications for changed screens follow in the pilot specification files, in t
 ### Task 5: Basemap style (MapDesktop, MapPhone)
 - [ ] Following the research note's basemap choice: draw the real map style in light and dark, with its attribution, the list view as the accessible equivalent, and slots for flood and planning overlays where Task 2 allows.
 
-### Task 6: "Check this" rows and new topics
-- [ ] For each topic the founder marks "check row", add a row in the area result and the printout: what it is, why it matters, and a ↗ link to the official service, with no data and no implied result.
-- [ ] For each topic marked "add", add the topic in the area result's design with sample data shaped like the source. The fixtures and specifications follow in their own PR.
+### Task 6a: Sample data for the new topics (before any board shows their figures)
+Added after Codex's review of #306 (rule 2: a figure on a board is quoted from the data files, never typed).
+- [ ] For each topic marked "add" (DA-22 flood outlines, DA-23 radon band, DA-24 listed buildings and conservation areas, DA-27 noise layer, DA-28 broadband by postcode, DA-29 council rent), add synthetic inputs to `packages/fixtures/data/` in the shape of the official source. Each input has its source labelled "Synthetic sample, shaped like <real source>", its level (1 km square, postcode, council), its period and its schema in `packages/fixtures/schemas/`.
+- [ ] Where a shown value is calculated, the generator produces it in the generated files, test-first.
+- [ ] Run `make check` (`generated-check` and `validate`). This is its own small code PR (Codex review) and comes before Task 6b.
+
+### Task 6b: "Check this" rows and new topics on the boards
+- [ ] For each topic the founder marked "check row" (DA-26 coal mining, DA-22's checker link, DA-24's Article 4 and tree orders, DA-28's mobile checker), add a row in the area result and the printout: what it is, why it matters, and a ↗ link to the official service, with no data and no implied result.
+- [ ] For each topic marked "add", draw it in the area result's design quoting only the Task 6a fixtures by ID. Until those fixtures exist, a topic's board shows its missing-data state ("Not known"), never a figure. Specifications follow in their own PR.
 
 ### Task 7: Founder review, dark versions, PR
 - [ ] The founder reviews in prompt windows.
