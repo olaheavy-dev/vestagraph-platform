@@ -153,6 +153,7 @@ Loading; council not found; place name matching several councils; a source missi
 - **Canvas:** chart style rules first, then the council page (phone and desktop, light and dark), the neighbourhood map and the neighbourhood result page, the states, and for part 2 compare, share and what changed.
 - **Landing spec:** `docs/specs/screens/01-landing.feature`'s section list gains the council link (in the plan).
 - **Site plan:** `.design/prototype/INFORMATION_ARCHITECTURE.md` gains the council page and neighbourhood page routes, and links from the landing ("No postcode yet? Explore a council area", a link under the postcode box), the area result ("About <council>") and the footer.
+  *17 Nov 2026, PR C: dropped as the agent's call, open to the founder, because the landing's one box now takes a town (FE-37) and no landing board draws the link; the council link stays in the footer (LAND-20).*
 
 ## Sources to check before build (DA-05, `data-sources.md`)
 | Source | For | Open point | Research result (15 Nov 2026) |

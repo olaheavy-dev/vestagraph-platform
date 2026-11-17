@@ -5,6 +5,10 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   Fixtures: home WALES-1 (outside England); the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
     (NB1 4XY normal, NB7 1RR sparse, NB9 9ZZ unknown); figures: none (no tool calculates anything except the
     straight-line distance, which comes from the area tools' tested geometry module; design, Accuracy).
+    Council tools (TOOLS-44 to TOOLS-63, added 17 Nov 2026): councils by code in `packages/fixtures/data/council-area.json`
+    (inputs, each with its source) and `packages/fixtures/generated/council-result.json` (`search`); E06999001 Northbridge,
+    E06999002 Southvale, E07999001 Eastmere (no published rent) and E07999002 Westmere (nothing recorded). Figures: none
+    typed (rule 2); the council tools return the published figures held in `council-area.json`, quoted from the file.
   What it is: a public, read-only MCP server with no key or sign-in, for public area data only
     (decision 0051 point 1). The same area tools serve the Check an area page and, in the pilot, ChatGPT and Claude only: the
     on-page chat left the pilot (decision 0056, 15 Nov 2026) and will use them in the signed-in workspace (design, goal 1). The tools read only our stored copies of each source, never the live source on a
@@ -12,6 +16,27 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     build (design, "Left to the builder"); these scenarios name each tool by its job:
     the find-area tool, the nearby places tool, the area topic tool, the explain-source tool and the
     questions-for-gaps tool. The home-level tools (#117, stage 6) are separate.
+  Council tools (added 17 Nov 2026; decisions 0051, 0055, 0056 and 0058; design `docs/superpowers/specs/2026-11-15-city-explorer-design.md`,
+    "Council facts in ChatGPT and Claude"): two more tools beside the area tools in the same public server, named by
+    their job: the find-council tool (a council, city or town name, or one postcode, to a council) and the council facts
+    tool (one council's published figures). They return only a council's published figures, each with its source, edition
+    and level: population, council tax by band, average private rent and average price as published (price also by property
+    type), the affordability ratio, who rents and who owns, and transport connectivity (the fields of `council-area.json`).
+    They never return anything worked from a visitor's inputs: no rent or buy, repayment, monthly amount, difference or
+    other cost figure, because the keyless server holds public area data only (0051, "No home, cost..."; design, agent's
+    call) and an AI never calculates a figure (0004). They read only our stored copies (TOOLS-22), carry the same rule in
+    every description (TOOLS-18), and share the server's read-only, key-free, limit, monthly-cap and no-log rules, which
+    already say "every tool" (TOOLS-16, TOOLS-17, TOOLS-23 to TOOLS-28, TOOLS-37; extended for the council tools in
+    TOOLS-61 and TOOLS-62). The signed-in chat calls the same tool functions inside the API (0058, choice 8; TOOLS-60). The
+    neighbourhood page's facts are not a tool in this file: the design lists council figures only.
+  AI evaluation cases (register AI-03; backlog row 38f). The scenarios here test what our server returns and declares, not the
+    host's model (above). For the council tools, the evaluation set also runs these with a real model, each checking that
+    the model's answer quotes only what the tool returned and adds no figure: TOOLS-47 (a name that matches two councils:
+    both are offered, none is chosen), TOOLS-55 (a figure with no record is said to have none, never given as zero or
+    guessed), TOOLS-57 (no trend is described across a method break), TOOLS-58 (asked for a cost of buying or renting, the
+    model says the tools do not provide one and works none out) and TOOLS-59 (asked which of two councils is cheaper or
+    better, the model gives each council's own figures and picks none). TOOLS-21 and the guard words of the output rules
+    stay with the area tools' cases.
   The host's own model (ChatGPT, Claude) is outside our control (decision 0037): these scenarios check
     what our server returns and declares, never the host's wording.
   Clients and setup (checked 13 Nov 2026; recorded per host in docs/planning/mcp-host-support.md when
@@ -58,6 +83,9 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     stored copies only; sources whose licence forbids keyless access not served -> TOOLS-22, TOOLS-36
     global and per-host limits; the monthly budget cap; oversized requests; foreign Origin -> TOOLS-23, TOOLS-24, TOOLS-37, TOOLS-33, TOOLS-34
     no postcode or argument in logs, nothing stored, errors never repeat input, no postcode in URLs -> TOOLS-25 to TOOLS-28
+    council tools: a council by name, an ambiguous name, a place not covered, a postcode to its council -> TOOLS-44 to TOOLS-51
+    council tools: published figures with source, edition and level; a field with no record; a method break -> TOOLS-52 to TOOLS-57
+    council tools: no cost figure, no ranking, the same functions as the chat, no name in logs, the monthly cap, stored copies only -> TOOLS-58 to TOOLS-63
 
   # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
   Scenario: TOOLS-01 a postcode outside England is not yet covered
@@ -336,3 +364,118 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     Given an assistant is connected to the area tools
     When it calls the nearby places tool for the nearest 10 places, naming no kind, for a sample postcode
     Then the result holds at most 10 places, of any kind, nearest first, none farther than 5 km
+
+  # Council tools (added 17 Nov 2026). Data scenarios (no tag) check the fixture each tool answers from; the @mcp scenario after each says what the tool returns.
+  Scenario: TOOLS-44 the council search knows Northbridge by name
+    Then council search "Northbridge (synthetic)" has kind "council"
+    And council search "Northbridge (synthetic)" lists council "E06999001"
+
+  @mcp
+  Scenario: TOOLS-45 the find-council tool returns the council for a name, with its code
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with the name of council "E06999001"
+    Then the result names that one council with its code, as `search` in `council-result.json` lists it (TOOLS-44), and holds no figure
+
+  Scenario: TOOLS-46 a name that two councils share is a choice
+    Then council search "Capital (synthetic)" has kind "choose"
+    And council search "Capital (synthetic)" lists council "E06999001"
+    And council search "Capital (synthetic)" lists council "E06999002"
+
+  # Matches WCHAT-39 (the chat's version of the same case).
+  @mcp
+  Scenario: TOOLS-47 a name that matches two councils lists both and picks neither
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with "Capital (synthetic)"
+    Then the result lists councils "E06999001" and "E06999002" to choose from, chooses none, and holds no figure
+
+  Scenario: TOOLS-48 a place outside England is not covered
+    Then council search "Afonbryn (synthetic)" has kind "not-covered"
+
+  @mcp
+  Scenario: TOOLS-49 the find-council tool says not yet covered for a place outside England
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with "Afonbryn (synthetic)"
+    Then the result says "not yet covered" for that nation and holds no council and no figure
+
+  Scenario: TOOLS-50 a sample postcode leads to its council
+    Then council search "NB1 4XY" has kind "council-for-postcode"
+    And council search "NB1 4XY" lists council "E06999001"
+
+  @mcp
+  Scenario: TOOLS-51 the find-council tool turns one postcode into its council
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with the postcode "NB1 4XY"
+    Then the result names council "E06999001" as that postcode's council (TOOLS-50), and the postcode appears in no link in the result (TOOLS-28)
+
+  Scenario: TOOLS-52 a complete council has all seven published fields recorded
+    Then council "E06999001" has field "population" with status "recorded"
+    And council "E06999001" has field "bands" with status "recorded"
+    And council "E06999001" has field "rentSeries" with status "recorded"
+    And council "E06999001" has field "priceSeries" with status "recorded"
+    And council "E06999001" has field "affordabilitySeries" with status "recorded"
+    And council "E06999001" has field "tenure" with status "recorded"
+    And council "E06999001" has field "connectivity" with status "recorded"
+
+  @mcp
+  Scenario: TOOLS-53 every published figure carries its source, edition and level
+    Given an assistant is connected to the area tools
+    When it calls the council facts tool for council "E06999001"
+    Then each figure is the value recorded for that field in `council-area.json` (TOOLS-52), with its source, its edition or period and its level (for example the council area), and the result quotes no figure the file does not hold
+
+  Scenario: TOOLS-54 Eastmere has no published rent and Westmere has nothing recorded
+    Then council "E07999001" has field "rentSeries" with status "no-record-in-source"
+    And council "E07999002" has field "population" with status "no-record-in-source"
+    And council "E07999002" has field "bands" with status "no-record-in-source"
+
+  # Wording proposed (agent's), finalised in the build; the council page's own wording for a missing figure is in city-explorer.feature.
+  @mcp
+  Scenario: TOOLS-55 a field with no record is said to have none, never shown as zero
+    Given an assistant is connected to the area tools
+    When it calls the council facts tool for council "E07999001"
+    Then the rent field says it has no record in its source (TOOLS-54), with no value, no zero, no "none" on its own and no stand-in from another council
+
+  Scenario: TOOLS-56 Eastmere's affordability series marks a method break
+    Then council "E07999001" series "affordabilitySeries" marks a method break
+
+  @mcp
+  Scenario: TOOLS-57 a method break in a series is marked in the result
+    Given an assistant is connected to the area tools
+    When it calls the council facts tool for council "E07999001"
+    Then the affordability series carries the method break at the point the file marks (TOOLS-56), so no change is stated across it
+
+  @mcp
+  Scenario: TOOLS-58 the council tools return no cost figure
+    Given an assistant is connected to the area tools
+    When it calls the council facts tool for council "E06999001" and the call asks for the cost of renting or buying
+    Then the result holds the published figures only, with no rent side, buy side, repayment, monthly amount or difference, and says those are on the council page and not provided by the tools
+
+  @mcp
+  Scenario: TOOLS-59 asked about two councils, each result holds that council's own figures and no ranking
+    Given an assistant is connected to the area tools
+    When it calls the council facts tool for council "E06999001" and again for council "E06999002"
+    Then each result holds only its own council's figures, and neither result nor any description ranks, scores, totals or compares the two (decision 0054)
+
+  # Decision 0058, choice 8: the chat calls the tool functions directly; the public server's per-host caps do not limit signed-in users.
+  @mcp
+  Scenario: TOOLS-60 the signed-in chat and the public server return the same council result
+    Given the public server and the signed-in chat's tool call use the same tool package
+    When both ask the council facts tool for council "E06999001"
+    Then the two results are identical, and the chat's call is not counted against the public server's per-host limit
+
+  @mcp
+  Scenario: TOOLS-61 no council name or postcode typed to the council tools reaches a log
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with a council name and then with a postcode, and one call fails
+    Then no server, application, hosting, tracing or error-report entry contains the name, the postcode or any other argument (extends TOOLS-25)
+
+  @mcp
+  Scenario: TOOLS-62 when the monthly budget cap is reached the council tools refuse without a lookup
+    Given the IN-05 monthly budget cap has been reached
+    When an assistant calls the council facts tool
+    Then the call is refused with "Vestagraph's area tools are paused for now", and no lookup is made (TOOLS-37)
+
+  @mcp
+  Scenario: TOOLS-63 the council tools answer from stored copies when every live source is down
+    Given every live source is unreachable
+    When an assistant calls the council facts tool for council "E06999001"
+    Then the result comes from the stored copy with its edition and level, and no request is made to a live source (extends TOOLS-22)
