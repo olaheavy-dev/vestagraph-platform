@@ -72,7 +72,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   @ui
   Scenario: CITY-03 the postcode box opens the postcode result
     Given the user has opened the council page for council "E06999001"
-    When the user types a postcode in the box labelled "Check a postcode here" and chooses "Check"
+    When the user types a postcode in the box labelled "Check a postcode here" and chooses "Search"
     Then the postcode result opens
     And the line under the box reads "Opens the postcode result; it says if the postcode is in another council area."
 
@@ -81,7 +81,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then council search "SV2 3AB" has kind "council-for-postcode"
     And council search "SV2 3AB" lists council "E06999002"
 
-  # The boards differ on this button: CouncilPage draws "Check" (CITY-03), CouncilStates board 10 draws "Search" (this scenario). Each scenario follows its own board; the founder picks one label when the build starts (reported in PR C).
+  # Founder decision, 17 Nov 2026 (prompt window, FE-70): the council page's postcode button reads "Search", chosen over the agent's recommendation "Check". CouncilStates board 10 already draws "Search"; the CouncilPage board still draws "Check" and is to be redrawn (#318).
   @ui
   Scenario: CITY-05 a postcode from another council says which council it is in and still opens
     Given the user has opened the council page for council "E06999001"

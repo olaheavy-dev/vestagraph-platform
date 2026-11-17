@@ -147,11 +147,12 @@ Feature: Landing
     Then step 1 is titled "Type a postcode or town" with "Any postcode, town or city in England. No account, nothing to install."
     And step 2, "See what’s around", reads "For a postcode: transport, shops, parks, health, schools, places of worship, flood warnings and recorded crime. For a town or city: its council’s published figures. Each with its source."
 
+  # Founder's wording, 17 Nov 2026 (prompt window, FE-49 amended): the clause "unless you sign in and save an area" was added because signed-in users can save areas (0058). The landing FAQ boards still show the old answer and are to be redrawn (#318).
   @ui
   Scenario: LAND-19 the FAQ answers "Do you keep my search?" for a postcode or a place name
     Given the user is not signed in
     When the user opens "Do you keep my search?" in Questions
-    Then it reads "No. What you type, a postcode or a place name, is only used to show your result. We don’t keep it or link it to you."
+    Then it reads "No. What you type, a postcode or a place name, is only used to show your result. We don’t keep it or link it to you, unless you sign in and save an area."
 
   # The boards draw a footer of How it works, About the data, Privacy and Accessibility. The site plan's footer also lists "Explore council areas" (0055) and "Use in ChatGPT or Claude" (0056); neither is drawn on the landing boards, so this scenario is proposed wording, finalised in the build.
   @ui
