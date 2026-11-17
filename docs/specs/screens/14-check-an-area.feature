@@ -57,6 +57,7 @@ Feature: Check an area
     a sparse area, the map opens on its places, the outer ring labelled with the search distance (FE-42) -> AREA-33, AREA-36
     the "Ask about this area" entry with its AI badge and an active Save for the area, leading signed-out visitors to sign-in (0058) -> AUTH-15, AUTH-16, AUTH-17, AUTH-26 (sign-in.feature)
     the desktop result: place header with the map, At a glance as a row of facts, the counts line, the jump row, the right column, and an opened topic in place of the right column (FE-26, 16 Nov 2026) -> AREA-37 to AREA-43
+    the place header's "About <council>" link to City Explorer -> AREA-48; About the data and City Explorer's own sources -> AREA-49
     About the data with the design pass's new sources, dates only -> AREA-44, AREA-45
     the sparse area's gaps and not-known rows for radon, broadband coverage and council rent -> AREA-46, AREA-47 (radon: TOPIC-29; questions: GLANCE-04)
     (each of these states gives its cause, a line of reassurance and one action, B22)
@@ -427,3 +428,18 @@ Feature: Check an area
     And Broadband reads "No broadband coverage figure for this postcode in this source"
     And Housing affordability has two gap rows: "No affordability ratio for this area in this source" and "No average private rent for this area in this source"
     And none of them reads as zero, none or a clean result (rule 7)
+
+  # Added 17 Nov 2026 (City Explorer plan Task 14c; design `docs/superpowers/specs/2026-11-15-city-explorer-design.md`, "The way back": the area result links to its council's page, "About <council>"; decision 0055). The council comes from the postcode (`council-result.json` search: NB1 4XY leads to E06999001, checked in TOOLS-50). Not drawn on the desktop place header board (AreaResultDesktop shows the postcode and "Northbridge, England" with no link; the result's topic row has "See Northbridge in City Explorer →", TOPIC-33 in `area-topics.feature`, DA-29): the link is the design's, with wording "About" and the council's name, proposed and open to the founder.
+  @ui
+  Scenario: AREA-48 the desktop place header links to the council's City Explorer page
+    Given the user has checked the sample postcode "NB1 4XY" on desktop
+    When the user chooses the "About Northbridge (sample)" link in the place header
+    Then the City Explorer page for council "E06999001" opens, and the council's name in the link is quoted from `council-area.json`, never typed
+    And the postcode is not carried in the address (decision 0014)
+
+  # City Explorer's own About the data (CouncilAboutData: its sources, editions and statuses) is fully specified in `city-explorer-part-2.feature`, CITY2-58 to CITY2-72, and is linked from "How we got this" on the council and neighbourhood pages (CITY2-71). This page's About the data stays the one general page of the area result (FE-34, AREA-25), so nothing is duplicated; the AboutData board lists no source that only City Explorer uses.
+  @ui
+  Scenario: AREA-49 City Explorer's sources are on City Explorer's About the data, not repeated here
+    Given the user is on Check an area and has opened About the data
+    When the visitor looks for the sources City Explorer shows for a council
+    Then the page lists only the area result's topics with their sources and data dates, and a source that only City Explorer uses (CITY2-58 to CITY2-68) is described on City Explorer's own About the data, not on this page
