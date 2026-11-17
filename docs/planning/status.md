@@ -17,9 +17,10 @@ Overwritten at the end of every session (decision 0050). Last updated: **17 Nov 
 | #315 | Specifications for the design-pass screens: AREA-37 to AREA-47, TOPIC-26 to TOPIC-40, MAP-14 to MAP-26 and the new `area-printout.feature` (PRINT-01 to PRINT-20), with two data steps; Codex's two findings fixed (TOPIC-03 matches the desktop right column; About the data's noise line is general) |
 | #316 | End-of-session status (17 Nov 2026, morning) |
 | #320 | City Explorer PR C, the specifications (plan Task 14): `city-explorer.feature` (CITY-01 to CITY-111), `city-explorer-neighbourhood.feature` (HOOD-01 to HOOD-41), `city-explorer-part-2.feature` (CITY2-01 to CITY2-72), `use-in-chatgpt-or-claude.feature` (HOWTO-01 to HOWTO-40), LAND-14 to LAND-20 (LAND-12 withdrawn), TOOLS-44 to TOOLS-63, AREA-48 and AREA-49, council and neighbourhood data steps; the founder's two answers (FE-70 "Search" button, FE-49 FAQ clause); Codex found no issues on either commit |
-| (this) | End-of-session status (17 Nov 2026, evening) |
+| #321 | End-of-session status (17 Nov 2026, evening) |
+| (this) | Status: local branch tidy-up recorded |
 
-Also done: the Chrome check of the four boards fixed at canvas version 405 (all OK). Noticed issues opened: #314 (the Flood topic panel board still says "No map yet"), #317 (the desktop council board's postcode placeholder conflicts with FE-37), #318 (states, controls and two redraws the City Explorer specifications describe but no board draws), #319 (area-tools: decision 0057's filter and totals, once 0057 is accepted). Founder answers (prompt window): the council page's postcode button reads "Search" (FE-70, over the agent's "Check"); the FAQ "Do you keep my search?" ends "…unless you sign in and save an area." (FE-49 amended).
+Also done: seven stale local branches deleted on the founder's machine (#28, #31, #32, #35, #39 and #46 were merged; #38 was closed on 7 Nov 2026 as stale after the move to Python, and its content stays visible in that pull request); only `main` remains locally. Also: the Chrome check of the four boards fixed at canvas version 405 (all OK). Noticed issues opened: #314 (the Flood topic panel board still says "No map yet"), #317 (the desktop council board's postcode placeholder conflicts with FE-37), #318 (states, controls and two redraws the City Explorer specifications describe but no board draws), #319 (area-tools: decision 0057's filter and totals, once 0057 is accepted). Founder answers (prompt window): the council page's postcode button reads "Search" (FE-70, over the agent's "Check"); the FAQ "Do you keep my search?" ends "…unless you sign in and save an area." (FE-49 amended).
 
 ## Done on 16 Nov 2026
 | Pull request | What merged |
@@ -142,7 +143,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- The end-of-session status (this pull request, documentation only). Everything else is merged, up to #320.
+- The status update for the branch tidy-up (this pull request, documentation only). Everything else is merged, up to #321.
 
 ## Start of the next session
 0. **Read this section, then start the pilot gate (item 6).** City Explorer's specifications merged as #320 (item 2). The signed-in chat track and the design pass are finished on the canvas. The chat track: decision [0058](../decisions/0058-signed-in-chat-in-the-pilot.md) (accepted), the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md) (all tasks done), the canvas page "Pilot · Signed-in chat" (canvas version 356, 23 light and 23 dark boards, plus FeedbackKit and FeedbackKitDark on "Brand and style") and the three specification files. The agent's calls made on the founder's behalf are listed in 0058's dated notes and the register (FE-57 to FE-66, SE-06) as "open to the founder"; the founder may reopen any of them.
