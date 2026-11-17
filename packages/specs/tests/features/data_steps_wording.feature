@@ -25,3 +25,7 @@ Feature: Every data step wording runs against the real data (proof for issue #19
     And area result "NB1 4XY" has a display distance for record "NB1-4XY-AREA-SCHOOL-1"
     And area result "NB1 4XY" counts buses for stop "NB1-4XY-AREA-TRANSPORT-STOP-1" on route "12" at hour 8
     And postcode record "NB1-4XY-AREA-SCHOOL-INSPECTION-1" has status "stale"
+
+  Scenario: WORD-04 the map layer steps accept the documented wording
+    Then map layer "NB1-4XY-LAYER-FLOOD-ZONES-1" has status "recorded"
+    And topic "flood" draws map layer "flood-zones"

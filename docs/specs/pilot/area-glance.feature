@@ -79,6 +79,7 @@ Feature: At a glance (the first thing on an area result)
     And area result "NB7 1RR" has topic "green-space" with outcome "not-covered"
     And area result "NB7 1RR" leaves topic "green-space" out of the coverage total
 
+  # Changed 16 Nov 2026 (design pass): this is the phone layout. On desktop At a glance sits under the place header as a row of facts with a counts line (AREA-37 to AREA-43), and the printout prints it on page 1 (PRINT-02). The counts are the same quoted values; none is typed here.
   @ui
   Scenario: GLANCE-06 At a glance comes first on the result
     Given the result for a sample postcode is open

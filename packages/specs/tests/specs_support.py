@@ -22,6 +22,7 @@ _AREA = "packages/fixtures/data/area.json"
 _AREA_RESULT = "packages/fixtures/generated/area-result.json"
 _PILOT_TOPICS = "packages/fixtures/data/pilot-topics.json"
 _POSTCODE_AREA = "packages/fixtures/data/postcode-area.json"
+_MAP_LAYERS = "packages/fixtures/data/map-layers.json"
 
 
 @dataclass(frozen=True)
@@ -43,6 +44,8 @@ class _Loaded:
     area_results: dict[str, Json]
     postcode_records: dict[str, Json]
     topic_keys: frozenset[str]
+    map_layers: dict[str, Json]
+    topic_map_layers: dict[str, frozenset[str]]
 
 
 def repository_root() -> Path:
@@ -96,6 +99,8 @@ def _load() -> _Loaded:
     area = {item["id"]: item for item in _read(_AREA)["area"]}
     area_results = {item["postcode"]: item for item in _read(_AREA_RESULT)["postcodes"]}
     postcode_records = {item["id"]: item for item in _read(_POSTCODE_AREA)["area"]}
+    map_layers = {item["id"]: item for item in _read(_MAP_LAYERS)["layers"]}
+    topics = _read(_PILOT_TOPICS)["topics"]
     return _Loaded(
         figures,
         scenarios,
@@ -105,7 +110,9 @@ def _load() -> _Loaded:
         area,
         area_results,
         postcode_records,
-        frozenset(item["key"] for item in _read(_PILOT_TOPICS)["topics"]),
+        frozenset(item["key"] for item in topics),
+        map_layers,
+        {item["key"]: frozenset(item.get("mapLayers", [])) for item in topics},
     )
 
 
@@ -335,6 +342,27 @@ class DataSteps:
         assert actual == status, (
             f'Postcode record "{record_id}" has status "{actual}", not "{status}", '
             f"in {_POSTCODE_AREA}."
+        )
+
+    def then_map_layer_has_status(self, layer_id: str, status: str) -> None:
+        layer = _load().map_layers.get(layer_id)
+        assert layer is not None, (
+            f'Map layer "{layer_id}" is not in {_MAP_LAYERS}. '
+            "Check the ID against that file; layers are cited by ID and never typed."
+        )
+        actual = layer.get("status")
+        assert actual == status, (
+            f'Map layer "{layer_id}" has status "{actual}", not "{status}", in {_MAP_LAYERS}.'
+        )
+
+    def then_topic_draws_map_layer(self, topic_key: str, layer_kind: str) -> None:
+        layers = _load().topic_map_layers.get(topic_key)
+        assert layers is not None, (
+            f'Topic "{topic_key}" is not in {_PILOT_TOPICS}. Check the key against that file.'
+        )
+        assert layer_kind in layers, (
+            f'Topic "{topic_key}" does not list map layer "{layer_kind}" in {_PILOT_TOPICS}; '
+            f"it lists {sorted(layers)}."
         )
 
     def _require_figure(self, figure_id: str) -> Json:

@@ -29,6 +29,12 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Flood -> TOPIC-08, TOPIC-17, TOPIC-18, TOPIC-19
     Explain this, reviewed text or not yet available -> TOPIC-11, TOPIC-24
     route-only topic -> TOPIC-12
+    design pass, 16 Nov 2026 (canvas version 405; plan docs/superpowers/plans/2026-11-16-benchmark-design-pass.md Task 6b; DA-22 to DA-31, FE-69):
+      Radon (counted; 1 km square; indicative, not definitive; UKradon link) -> TOPIC-26 to TOPIC-29
+      Broadband as the gigabit-capable share of premises, no full-fibre claim -> TOPIC-30, TOPIC-31
+      council-wide rent inside Housing affordability, from the council by link -> TOPIC-32 to TOPIC-34
+      Check this rows (long-term flood risk, Article 4 and tree preservation orders, council tax band of a home, mobile, coal mining, noise), never implying a check -> TOPIC-35 to TOPIC-39
+      the map layers each topic draws -> TOPIC-40
 
   @ui
   Scenario: TOPIC-01 every topic opens in the same order
@@ -72,10 +78,11 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And no warning status from an old copy is shown (AREA-07, FE-38)
 
   @ui
-  Scenario: TOPIC-03 on desktop a topic opens as a panel in place of the map
+  # Changed 17 Nov 2026 (Codex review of the design-pass specifications): the desktop result keeps the map in its header, so an opened topic replaces the right column (AREA-43; FE-26 note, agent's call, open to the founder).
+  Scenario: TOPIC-03 on desktop a topic opens as a panel in place of the right column
     Given the result for a sample postcode is open on desktop
     When the visitor opens a topic
-    Then a panel opens beside the list in place of the map
+    Then a panel opens beside the list in place of the right column (Check in person and places), and the map stays in the header (AREA-43)
     And only one topic is open at a time (FE-26)
     And focus moves to the panel's heading
 
@@ -155,11 +162,12 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     When the visitor opens "Flood"
     Then the properties-by-likelihood counts are quoted from record "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1"
 
+  # Note, 16 Nov 2026 (FE-68, DA-22; design pass): flood outlines are a layer of the 2D street map on the Map screen (MAP-13, MAP-19); the Flood panel board still says "No map yet" (canvas follow-up: issue #314).
   @ui
-  Scenario: TOPIC-19 Flood shows no map until flood outlines are recorded
+  Scenario: TOPIC-19 the Flood panel draws no map of its own
     Given the result for "NB1 4XY" is open
     When the visitor opens "Flood"
-    Then no map is shown for the topic until flood outlines are recorded (FE-25)
+    Then the Flood panel draws no map of its own; flood outlines are on the Map screen's 2D map (MAP-19)
 
   @ui
   Scenario: TOPIC-09 a "no record in this source" gap shows its search distance
@@ -190,9 +198,134 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     # No "Ask more about this" link in the pilot: there is no chat to open (AI-12, decision 0056, 15 Nov 2026).
     # 16 Nov 2026 (0058, FE-58): the chat is back for signed-in users and "Ask more about this" returns for everyone, except under an explanation that is not yet available (WCHAT-55, WCHAT-76, WCHAT-105).
 
+  # Changed 16 Nov 2026 (design pass, FE-69): these rows now read "Check this: we haven't checked it" with what the thing is, why it matters and the official link (TOPIC-35 to TOPIC-39); the Noise row also says road noise is a map layer (TOPIC-38). They sit under the heading "Not yet covered here".
   @ui
   Scenario: TOPIC-12 a route-only topic says it is not yet covered
     Given the result for a sample postcode is open
     When the visitor opens a topic we only link to
-    Then it reads "Not yet covered" with its official link
+    Then it sits under "Not yet covered here" and reads "Check this: we haven't checked it" (TOPIC-37, TOPIC-38) with its official link
     And no facts are shown for it
+
+  # ---- Design pass, 16 Nov 2026: new topics and rows (canvas version 405) ----
+
+  # Radon (DA-23, DA-31, FE-69). Wording approved by the founder with the remedy examples dropped; the record's label ("Radon potential, the 1 km square around this postcode (synthetic)") stays proposed until the next wording review (DA-31 note).
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY NB1-4XY-AREA-RADON-1, grid-square level of 1000 m)
+  Scenario: TOPIC-26 the normal sample postcode has a recorded radon band for its 1 km square
+    Then postcode record "NB1-4XY-AREA-RADON-1" has status "recorded"
+    And area result "NB1 4XY" has topic "radon" with outcome "found"
+
+  @ui
+  Scenario: TOPIC-27 the Radon topic quotes the band as published for the 1 km square
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Radon"
+    Then the fact reads "Radon potential: " followed by the class and "edition" quoted from record "NB1-4XY-AREA-RADON-1" as published
+    And the area it covers reads "The 1 km square around this postcode"
+    And the limit reads "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon."
+    And the link "Get a radon report for an address from UKradon (paid) ↗" is shown
+    And the source stamp is "BGS and UKHSA" (the short name is still proposed, FE-69)
+    And no per-home radon level, verdict or "safe" or "low risk" label is shown
+
+  @ui
+  Scenario: TOPIC-28 the Radon topic asks one question and lists two reviewed checks
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Radon"
+    Then "What to do next" lists the check in person "Ask the owner or landlord whether radon has been measured in the home, and ask to see the result." and "Ask whether anything has been fitted to reduce radon."
+    And the gap question "Has radon been measured in the home, and what was the result?" appears in Questions to ask only when radon is not known for the postcode (FE-39, FE-69)
+
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-RADON-1, source-failed)
+  Scenario: TOPIC-29 a failed radon lookup is not known and asks its question
+    Then postcode record "NB7-1RR-AREA-RADON-1" has status "source-failed"
+    And area result "NB7 1RR" has topic "radon" with outcome "not-known"
+    And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-RADON-1"
+
+  # Broadband coverage replaces the predicted-speed record ("Replace it now", DA-28, DA-31). The limit text beyond DA-28's phrase is proposed (DA-31 section 3).
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY recorded; NB7 1RR no record in this source)
+  Scenario: TOPIC-30 broadband coverage is recorded for the normal postcode and has no record for the sparse one
+    Then postcode record "NB1-4XY-AREA-BROADBAND-COVERAGE-1" has status "recorded"
+    And postcode record "NB7-1RR-AREA-BROADBAND-COVERAGE-1" has status "no-record-in-source"
+
+  @ui
+  Scenario: TOPIC-31 Broadband is the gigabit-capable share of premises and makes no full-fibre claim
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Broadband"
+    Then the fact reads "Gigabit-capable broadband available at " followed by the percentage, "of all premises" or "of residential premises", and the snapshot month in brackets, all quoted from record "NB1-4XY-AREA-BROADBAND-COVERAGE-1"
+    And the area it covers reads "This postcode"
+    And the limit reads "The share of premises in this postcode where providers say gigabit-capable broadband is available. It can't say whether a home has full fibre or a working connection, or what speed you would get."
+    And no download speed, full-fibre claim or "fast" or "slow" label is shown
+    And a postcode with no record reads "No broadband coverage figure for this postcode in this source", never zero (rule 7)
+
+  # Council-wide rent (DA-29, DA-30). The figure is never copied: it is read from `council-result.json` through the council code of record NB1-4XY-AREA-COUNCIL-RENT-1 (`councils[code == councilCode]`, rent caption `toValue` and `toPeriod`, `rentOrBuy.rentPointStatus`), and "provisional" comes from that status.
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY recorded, NB7 1RR no record in this source)
+  Scenario: TOPIC-32 council rent is recorded for the normal postcode and has no record for the sparse one
+    Then postcode record "NB1-4XY-AREA-COUNCIL-RENT-1" has status "recorded"
+    And postcode record "NB7-1RR-AREA-COUNCIL-RENT-1" has status "no-record-in-source"
+
+  @ui
+  Scenario: TOPIC-33 Housing affordability shows the council-wide rent, labelled, with a City Explorer link
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Housing affordability"
+    Then a second line reads "Council-wide average private rent: " followed by the monthly figure, the month and "provisional" where its status says so, all quoted from `council-result.json` for the council named by record "NB1-4XY-AREA-COUNCIL-RENT-1" and never copied or typed (DA-30)
+    And the area it covers reads "Council area: " followed by the council's name
+    And it says "A council-wide average, not this street. It does not say what any one home would rent for."
+    And the link "See " followed by the council's name and " in City Explorer →" opens that council's City Explorer page (DA-29)
+    And the source stamp is "Office for National Statistics"
+
+  @ui
+  Scenario: TOPIC-34 a missing council rent reads as a gap, never zero
+    Given the result for "NB7 1RR" is open
+    When the visitor opens "Housing affordability"
+    Then the rent line reads "No average private rent for this area in this source"
+    And when the rent caption in `council-result.json` is missing the rent shows "Not known", never a figure (DA-31 section 1.2)
+    And it shares the affordability question rather than asking a second one
+
+  # "Check this" rows (DA-22, DA-24, DA-26, DA-28; FE-69 "Approve as written"): what it is, why it matters, a link to the official service, no data of ours and nothing implying we checked.
+  @ui
+  Scenario: TOPIC-35 the long-term flood risk row says we haven't checked it
+    Given the result for "NB1 4XY" is open
+    When the visitor reads the Flood row
+    Then a row marked "Check this" reads "Long-term flood risk" with "We haven't checked this. The official service covers rivers and the sea, surface water, reservoirs and groundwater where data is available, and shows the risk of an area, not a specific property." and the link "Check your long-term flood risk (gov.uk) ↗"
+    And it shows no result, status or colour for the home or postcode
+
+  @ui
+  Scenario: TOPIC-36 planning shows an Article 4 and tree preservation orders row
+    Given the result for "NB1 4XY" is open
+    When the visitor reads the Planning nearby row
+    Then a row marked "Check this" reads "Article 4 directions and tree preservation orders" with "We haven't checked these. An Article 4 direction can remove some building work a homeowner could otherwise do without planning permission, and a tree preservation order protects particular trees. The council holds both." and the link "Find your council's planning team ↗"
+    And no result is shown for this address, and "no result does not mean no constraint" is never contradicted (DA-24)
+
+  @ui
+  Scenario: TOPIC-37 the topics we only link to read Check this under "Not yet covered here"
+    Given the result for a sample postcode is open
+    When the visitor reads "Not yet covered here"
+    Then it says "We haven't checked these for this postcode. Each one says what it is and links to the official place to check."
+    And "Council tax band of a home" reads "Check this: we haven't checked it" with "The council tax band of an exact address. It sets that home's council tax charge." and the link "Check the council tax band of a home (gov.uk) ↗"
+    And "Mobile by network" reads "Check this: we haven't checked it" with "How strong each network's mobile signal is at an address. It matters if you rely on calls or mobile data at home." and the link "Ofcom's coverage checker ↗" (DA-28)
+    And "Ground and mining" reads "Check this: we haven't checked it" with "Whether a home is in an area affected by past coal mining. It can matter for the ground the home sits on." and the link "Check if a property is affected by coal mining (gov.uk) ↗" (DA-26)
+    And none of them (Noise: TOPIC-38) shows a fact, a count or a status for the postcode
+
+  # The founder approved the Noise row's "Check this for a home" wording in the FE-69 window, then the agent corrected the rail sentence on the same day (rule 1; FE-69 agent correction).
+  @ui
+  Scenario: TOPIC-38 the Noise row says road noise is a map layer and does not say there is no rail noise
+    Given the result for "NB1 4XY" is open
+    When the visitor reads the Noise row
+    Then it reads "Check this for a home" and "Road noise is shown as a layer on the map (modelled for 2021, not measured). The source has no record of rail noise for this postcode. That does not mean there is no rail noise. For a home, check in person." with the link "Government road and rail noise mapping (gov.uk) ↗"
+    And it does not read "rail noise isn't in this source"
+    And no noise level, decibel figure or band is shown for the home
+
+  @ui
+  Scenario: TOPIC-39 no Check this row implies that we checked anything
+    Given the result for a sample postcode is open
+    When the visitor reads any row marked "Check this"
+    Then the row says "We haven't checked" or "Check this: we haven't checked it", or, for noise, "Check this for a home"
+    And it shows no tick, no colour for a result, no "clear", "safe", "verified" or "approved", and no count (rules 4 and 7)
+    And it is left out of At a glance's counts and of the coverage total (GLANCE-05)
+    And its link says it goes to an official service and carries no postcode unless it says so (AREA-18)
+
+  # fixture: packages/fixtures/data/pilot-topics.json (the layers each topic lists under `mapLayers`)
+  Scenario: TOPIC-40 each topic lists the map layers it draws on the 2D map
+    Then topic "flood" draws map layer "flood-zones"
+    And topic "flood" draws map layer "surface-water"
+    And topic "planning-nearby" draws map layer "listed-buildings"
+    And topic "planning-nearby" draws map layer "conservation-areas"
+    And topic "noise" draws map layer "road-noise"
+    And topic "noise" draws map layer "rail-noise"
