@@ -26,6 +26,14 @@ Feature: Check an area
   Changed 14 Nov 2026 (FE-34, FE-24): each source's method, limits and coverage live on one general About
     the data page, the same for every postcode (AREA-25); each result ends with a short "How we got this"
     note with one line per topic and a link to that page (AREA-27).
+  Changed 16 Nov 2026 (the benchmark design pass, canvas version 405, plan
+    docs/superpowers/plans/2026-11-16-benchmark-design-pass.md, Tasks 3 to 7; FE-26 dated note, FE-68, FE-69, DA-22 to
+    DA-31): the desktop result has a place header with the map, At a glance as a row of facts, a jump row and a right
+    column (AREA-37 to AREA-43); the new topics, their rows and the Check this rows are in `area-topics.feature`
+    (TOPIC-26 to TOPIC-40); every map keeps FE-42's 3D style and the Map screen adds a flat 2D map with layers
+    (`area-map.feature`, MAP-14 to MAP-26); the printout is `area-printout.feature` (PRINT-01 to PRINT-20); About the
+    data and the NB7 1RR states are AREA-44 to AREA-48. Where wording is still proposed (FE-69's short list) a comment
+    on the scenario says so.
   Required states (doc 03 §5, the information architecture's "Check an area" and AGENTS.md rule 7):
     the postcode never reaches a log (decisions 0014, 0046) -> AREA-03, AREA-15
     an outbound link says where it goes and whether it carries the postcode (FE-11) -> AREA-18
@@ -48,6 +56,9 @@ Feature: Check an area
     a search that crosses the border, places across it may be missing (B9) -> AREA-32, AREA-35
     a sparse area, the map opens on its places, the outer ring labelled with the search distance (FE-42) -> AREA-33, AREA-36
     the "Ask about this area" entry with its AI badge and an active Save for the area, leading signed-out visitors to sign-in (0058) -> AUTH-15, AUTH-16, AUTH-17, AUTH-26 (sign-in.feature)
+    the desktop result: place header with the map, At a glance as a row of facts, the counts line, the jump row, the right column, and an opened topic in place of the right column (FE-26, 16 Nov 2026) -> AREA-37 to AREA-43
+    About the data with the design pass's new sources, dates only -> AREA-44, AREA-45
+    the sparse area's gaps and not-known rows for radon, broadband coverage and council rent -> AREA-46, AREA-47, AREA-48
     (each of these states gives its cause, a line of reassurance and one action, B22)
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
@@ -128,18 +139,20 @@ Feature: Check an area
 
   @ui
   # Changed 14 Nov 2026 (FE-33): the closing page gives each source's date and no status word.
+  # Changed 16 Nov 2026 (design pass, FE-21): the printout is now a cover, At a glance, every topic and a Sources and credits page; its full specification is `area-printout.feature` (PRINT-01 to PRINT-20). This scenario keeps the example postcode's "Sample data" header and the "Not known right now" rule.
   Scenario: AREA-12 the printout of the example postcode keeps every topic, including gaps, and says "Sample data"
     Given the user has checked the example sample postcode and one topic has no current copy
     When the user chooses "Print or save as PDF"
-    Then the print page lists every topic with its source's name, the topic with no copy prints as "Not known right now", the closing "How we got this" page gives each source's data date, with no status word, and the header says "Sample data"
+    Then the print page lists every topic with its source's name, the topic with no copy prints as "Not known right now", the "How we got this" pages give each topic's method and limits, the closing "Sources and credits" page gives each source's data date, with no status word, and the header says "Sample data"
 
   # Split 14 Nov 2026 (C5): real postcodes are real data, so "Sample data" belongs only to the example.
   @ui
   # Changed 14 Nov 2026 (FE-33): the closing page gives each source's date and no status word.
+  # Changed 16 Nov 2026 (design pass, FE-21): see PRINT-01 to PRINT-20; the cover's made-at time is PRINT-01.
   Scenario: AREA-20 the printout of any other postcode shows when it was made, not "Sample data"
     Given the user has checked a postcode that is not the example and one topic has no current copy
     When the user chooses "Print or save as PDF"
-    Then the print page header shows the time the report was made, each topic shows its source's name, the topic with no copy prints as "Not known right now", the closing "How we got this" page gives each source's data date, with no status word, and nothing says "Sample data"
+    Then the print page header shows the time the report was made, each topic shows its source's name, the topic with no copy prints as "Not known right now", the "How we got this" pages give each topic's method and limits, the closing "Sources and credits" page gives each source's data date, with no status word, and nothing says "Sample data"
 
   @ui
   Scenario: AREA-16 a not covered postcode prints as not covered
@@ -219,6 +232,7 @@ Feature: Check an area
     Then About the data is one general page, the same for every postcode, listing every source the area check uses as a topic row with its icon, name, official link and the date of the data we hold, and no status word (Cached, Fallback, Old or Unavailable)
     And a source we hold no current copy of says "We hold no current copy" instead of a date, and the flood source shows when we last checked
     And each row opens to that topic's method, what it can't tell you and its coverage, and "How At a glance is counted" and "How priorities are checked" are rows at the top
+    # Changed 16 Nov 2026 (design pass): the rows now include the new sources, AREA-44.
 
   # Added 14 Nov 2026 (FE-33): the stamp on a fact.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
@@ -243,14 +257,15 @@ Feature: Check an area
 
   # Added 14 Nov 2026 (FE-34, one per page).
   # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)" and "I pick B but add the icons"): the section is a short note, not every topic's method and limits.
+  # Changed 16 Nov 2026 (design pass): the note names the 1 km square for radon and says what the Check this rows are; the founder approved "The warning check is not a flood risk check" (FE-69), while the other added sentences are still proposed wording (FE-69, "Still proposed"). The Check this rows are listed in the note with their official links.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: AREA-27 the postcode result ends with a short "How we got this" and a link to About the data
     Given the user has checked a sample postcode in England
     When the results are shown
     Then no topic carries its own "How we got this", each topic ends with its source links only
-    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked and that the warning check is not a flood risk check, the wider areas some figures are published for, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
-    And it then shows one line per topic with its icon, name and source links (route-only topics show their official link), and the link "How each source works and what it can't tell you: About the data →"
+    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked and that the warning check is not a flood risk check, the wider areas some figures are published for (the neighbourhood and the council area, and the 1 km square around the postcode for radon), that rows marked "Check this" link to an official service and this address has not been looked up there, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
+    And it then shows one line per topic with its icon, name and source links (route-only and "Check this" topics show their official link), and the link "How each source works and what it can't tell you: About the data →"
 
   # Added 14 Nov 2026 (first design batch, B22): each state below gives its cause, a line of reassurance and one action.
   @ui
@@ -311,3 +326,109 @@ Feature: Check an area
     Given the user has checked the sample postcode "NB7 1RR"
     When the user opens the map view
     Then the outer ring is labelled with the search distance, quoted from the source named above and never typed here
+
+  # Added 16 Nov 2026 (design pass, Task 3 "As drawn", FE-26 dated note; board AreaResultDesktop).
+  @ui
+  Scenario: AREA-37 the desktop result opens with a place header holding the map
+    Given the user has checked the sample postcode "NB1 4XY" on desktop
+    When the results are shown
+    Then the top of the page is a place header with the postcode, the area name and its level, the sample note "Sample data: a made-up town" and the places map
+    And the postcode and area name are quoted from `postcode-area.json`, never typed
+    And the map follows the area map rules in `area-map.feature` (MAP-01 to MAP-13) and stays in the header
+    And no score, band or verdict appears in the header
+
+  # Added 16 Nov 2026 (Task 3). Plan's acceptance: every big figure is quoted from `area-result.json` with its stamp (rule 2). The four figures are the nearest bus stop, the railway station, the nearest GP surgery and the primary school (the same records the priorities use, PRIO-01 and PRIO-02).
+  # fixture: packages/fixtures/generated/area-result.json (NB1 4XY)
+  Scenario: AREA-38 each big figure of At a glance has a recorded distance to quote
+    Then area result "NB1 4XY" has a display distance for record "NB1-4XY-AREA-TRANSPORT-STOP-1"
+    And area result "NB1 4XY" has a display distance for record "NB1-4XY-AREA-TRANSPORT-STOP-2"
+    And area result "NB1 4XY" has a display distance for record "NB1-4XY-AREA-AMENITY-10"
+    And area result "NB1 4XY" has a display distance for record "NB1-4XY-AREA-SCHOOL-1"
+
+  @ui
+  Scenario: AREA-39 on desktop At a glance is a row of facts, each with its level and source stamp
+    Given the user has checked the sample postcode "NB1 4XY" on desktop
+    When At a glance is shown
+    Then it shows a row of facts, each a big figure with the place's name, its level ("From the postcode centre", DA-14) and its source stamp (the source's icon, name and ↗, FE-33)
+    And each figure is the display distance quoted from `area-result.json` for the records named in AREA-38, in metres under 1 mile and in miles from 1 mile (FE-27)
+    And no figure is a score, a band, a verdict or a total, and none is typed by hand
+
+  # The counts line replaces the 3+1 grid on desktop (Task 3). Counts are quoted from `area-result.json` (`glance.found`, `glance.notKnown`, `glance.coverageFound`, `glance.coverageTotal` and the length of `glance.questions`); none is typed here (rule 2; GLANCE-06 is the phone layout).
+  @ui
+  Scenario: AREA-40 the desktop counts line shows found, not known and questions to ask
+    Given the user has checked a sample postcode on desktop
+    When At a glance is shown
+    Then a compact line shows the found count, "Not known: <count> topics" and "Questions to ask: <count>", each quoted from `area-result.json`
+    And a count of zero reads "None to list" and has no link (GLANCE-10)
+    And a count above zero opens the list of its items (GLANCE-07)
+    And the coverage line "<found> of <total> topics returned facts. Topics we don't cover yet are listed at the end, with official links." is quoted from `area-result.json`
+    And "Things to check in person" shows no count (FE-41)
+
+  @ui
+  Scenario: AREA-41 the jump row links to every topic and to Questions to ask and Check in person
+    Given the user has checked a sample postcode on desktop
+    When the visitor looks at the "Jump to" row
+    Then it lists "Questions to ask" and "Check in person" first, then every counted topic in the registry order of `pilot-topics.json`, then "Not yet covered here"
+    And choosing an item moves to that part of the page and moves focus to its heading
+    And it can be reached and operated by keyboard
+
+  # FE-26 dated note, 16 Nov 2026: "agent's call, open to the founder".
+  @ui
+  Scenario: AREA-42 the right column under the map holds Check in person and the places
+    Given the user has checked a sample postcode on desktop and no topic is open
+    When the result is shown
+    Then the right column holds "Check in person" (the fixed reviewed lists from `pilot-topics.json`, FE-39) and "Places on the map, nearest first" with each place's distance quoted from `area-result.json`
+    And "Questions to ask" with its gap questions and "Ask about this area" and "What matters to you · Set priorities" sit in the left column
+    And a filter that hides a kind of place says so in the list, for example "Police hidden by your filter"
+
+  # Agent's call, open to the founder (FE-26 dated note, Task 3 "As drawn"). If the founder prefers the panel to open beside the list instead, this scenario is the one to change.
+  @ui
+  Scenario: AREA-43 on desktop an opened topic replaces the right column and the map stays in the header
+    Given the user has checked a sample postcode on desktop and no topic is open
+    When the visitor opens a topic
+    Then the topic's panel takes the place of the right column (Check in person and the places)
+    And the map stays in the place header
+    And only one topic is open at a time (FE-26)
+    And when the topic closes the right column returns with its previous state
+    And focus moves to the panel's heading when it opens, and Escape closes it and returns focus to the row (TOPIC-03, TOPIC-15)
+
+  # Added 16 Nov 2026 (Task 6b "As drawn", FE-33 dates only). Dates come from `postcode-area.json` and `map-layers.json`.
+  # About the data's source label pattern and the short source name "BGS and UKHSA" are still proposed wording (FE-69, "Still proposed").
+  @ui
+  Scenario: AREA-44 About the data lists the design pass's new sources with dates only
+    Given the user is on Check an area and has opened About the data
+    When the visitor looks at the new topic rows
+    Then Radon lists its source (BGS and UKHSA radon atlas) with the data date of its edition, Broadband lists "Ofcom Connected Nations: postcode coverage" with its snapshot month, Housing affordability lists the ONS Price Index of Private Rents, Flood lists the EA Flood Map for Planning and the EA surface water map, Planning nearby lists "Planning Data Platform: planning applications, listed buildings, conservation areas", and Noise lists "Defra strategic noise maps, round 4" with the year it was modelled
+    And every date is quoted from the records and layers named by ID in `postcode-area.json` and `map-layers.json`, and no status word is shown (FE-33)
+    And the topics we link to only (council tax band of a home, mobile by network, ground and mining) read "We don't hold this yet" with their official link
+
+  @ui
+  Scenario: AREA-45 About the data says rail noise is not recorded for this postcode without saying there is none
+    Given the user is on Check an area and has opened About the data
+    When the visitor opens "Noise"
+    Then it reads "Road noise is shown as a layer on the map (modelled for 2021, not measured). The source has no record of rail noise for this postcode. That does not mean there is no rail noise." (FE-69, agent correction of 16 Nov 2026)
+    And it does not read "rail noise isn't in this source"
+
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR); NB7 1RR is found 12, not known 3 out of 15 counted topics: quoted from `area-result.json` and worked out in `test-cases/area-glance.json` (DA-31 "As built"), never typed in a scenario.
+  Scenario: AREA-46 the sparse postcode's radon lookup is not known and its broadband coverage and council rent have no record
+    Then postcode record "NB7-1RR-AREA-RADON-1" has status "source-failed"
+    And postcode record "NB7-1RR-AREA-BROADBAND-COVERAGE-1" has status "no-record-in-source"
+    And postcode record "NB7-1RR-AREA-COUNCIL-RENT-1" has status "no-record-in-source"
+    And area result "NB7 1RR" has topic "radon" with outcome "not-known"
+    And area result "NB7 1RR" has topic "broadband" with outcome "found"
+    And area result "NB7 1RR" has topic "housing-affordability" with outcome "found"
+
+  # The wording of the gap rows is still proposed (FE-69, "the wording for the NB7 gaps"); the rows follow the approved states board's pattern.
+  @ui
+  Scenario: AREA-47 the sparse area's gaps page lists radon, broadband coverage and council rent without reading as a clean result
+    Given the user has checked the sample postcode "NB7 1RR"
+    When the visitor reads "Gaps on this page"
+    Then Radon reads "Not known right now" with "We don't hold a current copy of this source."
+    And Broadband reads "No broadband coverage figure for this postcode in this source"
+    And Housing affordability has two gap rows: "No affordability ratio for this area in this source" and "No average private rent for this area in this source"
+    And none of them reads as zero, none or a clean result (rule 7)
+
+  # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
+  Scenario: AREA-48 the sparse postcode asks one question for the radon lookup and one for the missing broadband coverage
+    Then area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-RADON-1"
+    And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-BROADBAND-COVERAGE-1"
