@@ -78,10 +78,11 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And no warning status from an old copy is shown (AREA-07, FE-38)
 
   @ui
-  Scenario: TOPIC-03 on desktop a topic opens as a panel in place of the map
+  # Changed 17 Nov 2026 (Codex review of the design-pass specifications): the desktop result keeps the map in its header, so an opened topic replaces the right column (AREA-43; FE-26 note, agent's call, open to the founder).
+  Scenario: TOPIC-03 on desktop a topic opens as a panel in place of the right column
     Given the result for a sample postcode is open on desktop
     When the visitor opens a topic
-    Then a panel opens beside the list in place of the map
+    Then a panel opens beside the list in place of the right column (Check in person and places), and the map stays in the header (AREA-43)
     And only one topic is open at a time (FE-26)
     And focus moves to the panel's heading
 

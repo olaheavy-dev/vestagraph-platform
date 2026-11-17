@@ -403,10 +403,12 @@ Feature: Check an area
     And the topics we link to only (council tax band of a home, mobile by network, ground and mining) read "We don't hold this yet" with their official link
 
   @ui
-  Scenario: AREA-45 About the data says rail noise is not recorded for this postcode without saying there is none
+  # Changed 17 Nov 2026 (Codex review): About the data is the same for every postcode (FE-34, AREA-25), so it states the noise source's general coverage, not one postcode's result; the postcode-specific wording lives in TOPIC-38 and MAP-23. Wording proposed (agent's), open to the founder.
+  Scenario: AREA-45 About the data describes the noise source in general and never says a gap means no noise
     Given the user is on Check an area and has opened About the data
     When the visitor opens "Noise"
-    Then it reads "Road noise is shown as a layer on the map (modelled for 2021, not measured). The source has no record of rail noise for this postcode. That does not mean there is no rail noise." (FE-69, agent correction of 16 Nov 2026)
+    Then it reads "Road and rail noise are modelled map layers (2021, not measured). The source may have no record for a postcode; that does not mean there is no noise."
+    And it names no postcode and no single result
     And it does not read "rail noise isn't in this source"
 
   # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR); the counts are quoted from `area-result.json` (`glance`) and worked in `test-cases/area-glance.json` (DA-31 "As built"), never typed in a scenario. Radon's record and outcome are checked in TOPIC-29 and the gap questions in GLANCE-04.
