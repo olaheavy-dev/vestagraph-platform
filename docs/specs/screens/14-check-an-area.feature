@@ -32,7 +32,7 @@ Feature: Check an area
     column (AREA-37 to AREA-43); the new topics, their rows and the Check this rows are in `area-topics.feature`
     (TOPIC-26 to TOPIC-40); every map keeps FE-42's 3D style and the Map screen adds a flat 2D map with layers
     (`area-map.feature`, MAP-14 to MAP-26); the printout is `area-printout.feature` (PRINT-01 to PRINT-20); About the
-    data and the NB7 1RR states are AREA-44 to AREA-48. Where wording is still proposed (FE-69's short list) a comment
+    data and the NB7 1RR states are AREA-44 to AREA-47. Where wording is still proposed (FE-69's short list) a comment
     on the scenario says so.
   Required states (doc 03 §5, the information architecture's "Check an area" and AGENTS.md rule 7):
     the postcode never reaches a log (decisions 0014, 0046) -> AREA-03, AREA-15
@@ -58,7 +58,7 @@ Feature: Check an area
     the "Ask about this area" entry with its AI badge and an active Save for the area, leading signed-out visitors to sign-in (0058) -> AUTH-15, AUTH-16, AUTH-17, AUTH-26 (sign-in.feature)
     the desktop result: place header with the map, At a glance as a row of facts, the counts line, the jump row, the right column, and an opened topic in place of the right column (FE-26, 16 Nov 2026) -> AREA-37 to AREA-43
     About the data with the design pass's new sources, dates only -> AREA-44, AREA-45
-    the sparse area's gaps and not-known rows for radon, broadband coverage and council rent -> AREA-46, AREA-47, AREA-48
+    the sparse area's gaps and not-known rows for radon, broadband coverage and council rent -> AREA-46, AREA-47 (radon: TOPIC-29; questions: GLANCE-04)
     (each of these states gives its cause, a line of reassurance and one action, B22)
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
@@ -368,7 +368,7 @@ Feature: Check an area
   Scenario: AREA-41 the jump row links to every topic and to Questions to ask and Check in person
     Given the user has checked a sample postcode on desktop
     When the visitor looks at the "Jump to" row
-    Then it lists "Questions to ask" and "Check in person" first, then every counted topic in the registry order of `pilot-topics.json`, then "Not yet covered here"
+    Then it lists "Questions to ask" and "Check in person" first, then every topic shown on the result in registry order of `pilot-topics.json` (the counted topics and the Family view), then "Not yet covered here"
     And choosing an item moves to that part of the page and moves focus to its heading
     And it can be reached and operated by keyboard
 
@@ -409,12 +409,10 @@ Feature: Check an area
     Then it reads "Road noise is shown as a layer on the map (modelled for 2021, not measured). The source has no record of rail noise for this postcode. That does not mean there is no rail noise." (FE-69, agent correction of 16 Nov 2026)
     And it does not read "rail noise isn't in this source"
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR); NB7 1RR is found 12, not known 3 out of 15 counted topics: quoted from `area-result.json` and worked out in `test-cases/area-glance.json` (DA-31 "As built"), never typed in a scenario.
-  Scenario: AREA-46 the sparse postcode's radon lookup is not known and its broadband coverage and council rent have no record
-    Then postcode record "NB7-1RR-AREA-RADON-1" has status "source-failed"
-    And postcode record "NB7-1RR-AREA-BROADBAND-COVERAGE-1" has status "no-record-in-source"
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR); the counts are quoted from `area-result.json` (`glance`) and worked in `test-cases/area-glance.json` (DA-31 "As built"), never typed in a scenario. Radon's record and outcome are checked in TOPIC-29 and the gap questions in GLANCE-04.
+  Scenario: AREA-46 the sparse postcode's broadband coverage and council rent have no record in the source
+    Then postcode record "NB7-1RR-AREA-BROADBAND-COVERAGE-1" has status "no-record-in-source"
     And postcode record "NB7-1RR-AREA-COUNCIL-RENT-1" has status "no-record-in-source"
-    And area result "NB7 1RR" has topic "radon" with outcome "not-known"
     And area result "NB7 1RR" has topic "broadband" with outcome "found"
     And area result "NB7 1RR" has topic "housing-affordability" with outcome "found"
 
@@ -427,8 +425,3 @@ Feature: Check an area
     And Broadband reads "No broadband coverage figure for this postcode in this source"
     And Housing affordability has two gap rows: "No affordability ratio for this area in this source" and "No average private rent for this area in this source"
     And none of them reads as zero, none or a clean result (rule 7)
-
-  # fixture: packages/fixtures/generated/area-result.json (NB7 1RR)
-  Scenario: AREA-48 the sparse postcode asks one question for the radon lookup and one for the missing broadband coverage
-    Then area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-RADON-1"
-    And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-BROADBAND-COVERAGE-1"

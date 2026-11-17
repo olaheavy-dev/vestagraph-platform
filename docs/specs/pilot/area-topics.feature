@@ -161,12 +161,12 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     When the visitor opens "Flood"
     Then the properties-by-likelihood counts are quoted from record "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1"
 
-  # Note, 16 Nov 2026 (FE-68, DA-22; design pass): flood outlines are now a layer of the 2D street map on the Map screen (MAP-13, MAP-18), and the Flood panel board still draws no map of its own ("No map yet"), so this scenario stands for the topic panel.
+  # Note, 16 Nov 2026 (FE-68, DA-22; design pass): flood outlines are a layer of the 2D street map on the Map screen (MAP-13, MAP-19); the Flood panel board still says "No map yet" (canvas follow-up: issue #314).
   @ui
-  Scenario: TOPIC-19 Flood shows no map until flood outlines are recorded
+  Scenario: TOPIC-19 the Flood panel draws no map of its own
     Given the result for "NB1 4XY" is open
     When the visitor opens "Flood"
-    Then no map is shown for the topic until flood outlines are recorded (FE-25)
+    Then the Flood panel draws no map of its own; flood outlines are on the Map screen's 2D map (MAP-19)
 
   @ui
   Scenario: TOPIC-09 a "no record in this source" gap shows its search distance
@@ -202,7 +202,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   Scenario: TOPIC-12 a route-only topic says it is not yet covered
     Given the result for a sample postcode is open
     When the visitor opens a topic we only link to
-    Then it reads "Not yet covered" with its official link
+    Then it sits under "Not yet covered here" and reads "Check this: we haven't checked it" (TOPIC-37, TOPIC-38) with its official link
     And no facts are shown for it
 
   # ---- Design pass, 16 Nov 2026: new topics and rows (canvas version 405) ----
@@ -300,7 +300,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And "Council tax band of a home" reads "Check this: we haven't checked it" with "The council tax band of an exact address. It sets that home's council tax charge." and the link "Check the council tax band of a home (gov.uk) ↗"
     And "Mobile by network" reads "Check this: we haven't checked it" with "How strong each network's mobile signal is at an address. It matters if you rely on calls or mobile data at home." and the link "Ofcom's coverage checker ↗" (DA-28)
     And "Ground and mining" reads "Check this: we haven't checked it" with "Whether a home is in an area affected by past coal mining. It can matter for the ground the home sits on." and the link "Check if a property is affected by coal mining (gov.uk) ↗" (DA-26)
-    And none of the four shows a fact, a count or a status for the postcode
+    And none of them (Noise: TOPIC-38) shows a fact, a count or a status for the postcode
 
   # The founder approved the Noise row's "Check this for a home" wording in the FE-69 window, then the agent corrected the rail sentence on the same day (rule 1; FE-69 agent correction).
   @ui

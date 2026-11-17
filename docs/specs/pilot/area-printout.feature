@@ -14,11 +14,12 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     that text on a page of its own.
   Redrawn 16 Nov 2026 (the benchmark design pass, canvas version 405, board `AreaExport`, 22 pages; plan
     docs/superpowers/plans/2026-11-16-benchmark-design-pass.md Task 4 "As drawn"). Agent's calls, open to the
-    founder: the printout lists every topic in `pilot-topics.json` (21 topics, 16 of them counted, DA-31; none
+    founder: the printout lists every topic in `pilot-topics.json` (every topic, counted or not, DA-31; none
     dropped silently, a missing one prints as "Not known"), and the sources page gives dates only, following
     FE-33's later amendment ("Dates only, no notes") over the plan's "date and status". The printout has no
     dark twin, by design. The printout's Family view, route-only and method lines are still proposed wording
     (FE-69, "Still proposed").
+  The cover is page 1 of the printout; At a glance is on it (PRINT-01, PRINT-02).
   Rule 2: no count, distance, date or page number is typed in a scenario; the page quotes them from
     `area-result.json` and the records named by ID, and page numbers are worked out by the print layout.
   Rule 7: a topic whose data is not known prints as "Not known", with the reason, and never as zero, a favourable
@@ -50,7 +51,7 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
   Scenario: PRINT-02 At a glance is on page 1 with its map and key
     Given the user has chosen "Print or save as PDF" for the sample postcode "NB1 4XY"
     When the user reads page 1
-    Then a flat numbered map shows the places with a key (postcode centre, getting around, shops, health, schools, parks, places of worship)
+    Then the 3D map in FE-42's style (MAP-14), numbered, shows the places with a key (postcode centre, getting around, shops, health, schools, parks, places of worship)
     And a line under it says the rings show straight-line distance from the postcode centre, not a walking route, names the 500 m and 1 mile rings and the search limit quoted from `display_distance`, says "Numbers match the topic pages", lists any place that is "Not on the map", says "Crime and flood are not mapped" and carries "Map data © OpenStreetMap contributors"
     And below the map At a glance shows the found of total line, the found, "Not known: <count> topics" and "Questions to ask: <count>" counts quoted from `area-result.json`, with the pages of the questions and of the check-in-person lists, and "Things to check in person" with no count (FE-41)
     And it shows the same four facts as the desktop At a glance (AREA-38, AREA-39), each with its source name and no ↗ (PRINT-18)
@@ -65,7 +66,7 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
 
   # fixture: packages/fixtures/data/pilot-topics.json (the registry: every topic, counted or not; the counted ones are in `area-result.json`)
   # The contents are generated from the registry. Counted topics are checked here by outcome; the topics we only link to are checked by GLANCE-05.
-  Scenario: PRINT-04 every counted topic is printed, found or not known, none left out
+  Scenario: PRINT-04 counted topics print found, not known or not covered, never dropped (registry: PRINT-05)
     Then area result "NB1 4XY" has topic "getting-around" with outcome "found"
     And area result "NB1 4XY" has topic "radon" with outcome "found"
     And area result "NB1 4XY" has topic "housing-affordability" with outcome "found"
@@ -160,11 +161,10 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
 
   # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1 and NB7-1RR-AREA-RADON-1, source-failed)
   # The board's NB7 1RR example is a specimen page marked "State example, not part of the NB1 4XY printout".
-  Scenario: PRINT-14 the postcode with failed lookups has its flood and radon records as not known
+  Scenario: PRINT-14 the postcode with a failed flood lookup has its flood record as not known
+    # Radon's failed record and outcome are checked once, in TOPIC-29.
     Then postcode record "NB7-1RR-AREA-FLOOD-1" has status "source-failed"
-    And postcode record "NB7-1RR-AREA-RADON-1" has status "source-failed"
     And area result "NB7 1RR" has topic "flood" with outcome "not-known"
-    And area result "NB7 1RR" has topic "radon" with outcome "not-known"
 
   @ui
   Scenario: PRINT-15 a topic whose data is not known prints its own page with the reason and no zero
@@ -200,9 +200,9 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     And a link prints its text with its full address underneath, as in PRINT-09 and PRINT-10
 
   @ui
-  Scenario: PRINT-19 every page has the same footer with its page number
+  Scenario: PRINT-19 every page, including the cover (page 1), has the same footer with its page number
     Given the user has chosen "Print or save as PDF" for the sample postcode "NB1 4XY"
-    When the user looks at the foot of any page after the cover
+    When the user looks at the foot of any page, the cover being page 1
     Then it reads "Vestagraph · area summary for " followed by the postcode, "sample data" for the example postcode, the made-at time, and "Page " followed by the page number and "of" the number of pages, both worked out by the print layout (a specimen page is footed "State example" and "not part of" the postcode's printout)
 
   @ui
