@@ -29,3 +29,18 @@ Feature: Every data step wording runs against the real data (proof for issue #19
   Scenario: WORD-04 the map layer steps accept the documented wording
     Then map layer "NB1-4XY-LAYER-FLOOD-ZONES-1" has status "recorded"
     And topic "flood" draws map layer "flood-zones"
+
+  Scenario: WORD-05 the council steps accept the documented wording
+    Then council "E07999001" has field "rentSeries" with status "no-record-in-source"
+    And council "E07999001" series "affordabilitySeries" marks a method break
+    And council "E07999002" at band "D" has problem "council-tax-missing"
+    And council "E07999001" at band "D" has no rent side
+    And council "E06999001" at band "D" for product "5-year-fixed" has problem "rate-band-unavailable"
+    And council "E06999001" at band "D" for product "2-year-fixed" has comparison "more"
+    And council "E07999001" at band "D" for product "2-year-fixed" has no comparison
+    And council "E06999001" caption "rent" has pattern "trend-rose"
+    And council "E06999001" caption "price:terraced" has pattern "trend-fell"
+    And council "E07999001" caption "price:flat" has reason "no-record-in-source"
+    And council search "Capital (synthetic)" has kind "choose"
+    And council search "Capital (synthetic)" lists council "E06999001"
+    And council search "East Westshire Borough (synthetic)" lists council "E07999001" with note "former-name"

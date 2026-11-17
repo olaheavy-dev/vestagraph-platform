@@ -152,3 +152,89 @@ def then_map_layer_has_status(data_steps: DataSteps, layer_id: str, status: str)
 @then(parsers.parse('topic "{topic_key}" draws map layer "{layer_kind}"'))
 def then_topic_draws_map_layer(data_steps: DataSteps, topic_key: str, layer_kind: str) -> None:
     data_steps.then_topic_draws_map_layer(topic_key, layer_kind)
+
+
+@then(parsers.parse('council "{code}" has field "{field}" with status "{status}"'))
+def then_council_has_field_with_status(
+    data_steps: DataSteps, code: str, field: str, status: str
+) -> None:
+    data_steps.then_council_has_field_with_status(code, field, status)
+
+
+@then(parsers.parse('council "{code}" series "{series}" marks a method break'))
+def then_council_series_marks_method_break(data_steps: DataSteps, code: str, series: str) -> None:
+    data_steps.then_council_series_marks_method_break(code, series)
+
+
+@then(parsers.parse('council "{code}" at band "{band:w}" has problem "{problem}"'))
+def then_council_band_has_problem(
+    data_steps: DataSteps, code: str, band: str, problem: str
+) -> None:
+    data_steps.then_council_band_has_problem(code, band, problem)
+
+
+@then(parsers.parse('council "{code}" at band "{band:w}" has no rent side'))
+def then_council_band_has_no_rent_side(data_steps: DataSteps, code: str, band: str) -> None:
+    data_steps.then_council_band_has_no_rent_side(code, band)
+
+
+@then(
+    parsers.parse(
+        'council "{code}" at band "{band:w}" for product "{product}" has problem "{problem}"'
+    )
+)
+def then_council_product_has_problem(
+    data_steps: DataSteps, code: str, band: str, product: str, problem: str
+) -> None:
+    data_steps.then_council_product_has_key(code, band, product, "problem", problem)
+
+
+@then(
+    parsers.parse(
+        'council "{code}" at band "{band:w}" for product "{product}" has comparison "{comparison}"'
+    )
+)
+def then_council_product_has_comparison(
+    data_steps: DataSteps, code: str, band: str, product: str, comparison: str
+) -> None:
+    data_steps.then_council_product_has_key(code, band, product, "comparison", comparison)
+
+
+@then(parsers.parse('council "{code}" caption "{topic}" has pattern "{pattern}"'))
+def then_council_caption_has_pattern(
+    data_steps: DataSteps, code: str, topic: str, pattern: str
+) -> None:
+    data_steps.then_council_caption_has_key(code, topic, "pattern", pattern)
+
+
+@then(parsers.parse('council "{code}" caption "{topic}" has reason "{reason}"'))
+def then_council_caption_has_reason(
+    data_steps: DataSteps, code: str, topic: str, reason: str
+) -> None:
+    data_steps.then_council_caption_has_key(code, topic, "reason", reason)
+
+
+@then(parsers.parse('council search "{query}" has kind "{kind}"'))
+def then_council_search_has_kind(data_steps: DataSteps, query: str, kind: str) -> None:
+    data_steps.then_council_search_has_kind(query, kind)
+
+
+@then(parsers.parse('council search "{query}" lists council "{code}"'))
+def then_council_search_lists_council(data_steps: DataSteps, query: str, code: str) -> None:
+    data_steps.then_council_search_lists_council(query, code)
+
+
+@then(parsers.parse('council search "{query}" lists council "{code}" with note "{note}"'))
+def then_council_search_lists_council_with_note(
+    data_steps: DataSteps, query: str, code: str, note: str
+) -> None:
+    data_steps.then_council_search_lists_council(query, code, note)
+
+
+@then(
+    parsers.parse('council "{code}" at band "{band:w}" for product "{product}" has no comparison')
+)
+def then_council_product_has_no_comparison(
+    data_steps: DataSteps, code: str, band: str, product: str
+) -> None:
+    data_steps.then_council_product_has_no_comparison(code, band, product)

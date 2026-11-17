@@ -494,3 +494,210 @@ def test_then_topic_draws_map_layer_unknown_topic_fails_naming_the_key(steps: Da
         steps.then_topic_draws_map_layer("no-such-topic", "road-noise")
 
     assert "no-such-topic" in str(failure.value)
+
+
+# City Explorer council steps (plan Task 14a): a passing and a failing case per wording, against
+# the committed council-area.json and council-result.json.
+_NORTH = "E06999001"
+_EAST = "E07999001"
+_WEST = "E07999002"
+
+
+def test_then_council_field_status_matching_status_passes(steps: DataSteps) -> None:
+    steps.then_council_has_field_with_status(_EAST, "rentSeries", "no-record-in-source")
+
+
+def test_then_council_field_status_wrong_status_fails_naming_code_and_field(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_has_field_with_status(_EAST, "rentSeries", "recorded")
+
+    assert _EAST in str(failure.value)
+    assert "rentSeries" in str(failure.value)
+
+
+def test_then_council_field_status_unknown_council_fails_naming_the_code(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_has_field_with_status("E06000000", "bands", "recorded")
+
+    assert "E06000000" in str(failure.value)
+
+
+def test_then_council_field_status_unknown_field_fails_naming_the_field(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_has_field_with_status(_NORTH, "nope", "recorded")
+
+    assert "nope" in str(failure.value)
+
+
+def test_then_council_series_method_break_marked_passes(steps: DataSteps) -> None:
+    steps.then_council_series_marks_method_break(_EAST, "affordabilitySeries")
+
+
+def test_then_council_series_method_break_unmarked_fails_naming_the_series(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_series_marks_method_break(_NORTH, "affordabilitySeries")
+
+    assert "affordabilitySeries" in str(failure.value)
+
+
+def test_then_council_band_problem_matching_problem_passes(steps: DataSteps) -> None:
+    steps.then_council_band_has_problem(_WEST, "D", "council-tax-missing")
+
+
+def test_then_council_band_problem_band_without_problem_fails_naming_the_band(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_band_has_problem(_NORTH, "D", "council-tax-missing")
+
+    assert 'band "D"' in str(failure.value)
+
+
+def test_then_council_band_problem_unknown_band_fails_naming_the_band(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_band_has_problem(_NORTH, "Z", "council-tax-missing")
+
+    assert '"Z"' in str(failure.value)
+
+
+def test_then_council_band_no_rent_side_missing_rent_passes(steps: DataSteps) -> None:
+    steps.then_council_band_has_no_rent_side(_EAST, "D")
+
+
+def test_then_council_band_no_rent_side_council_with_rent_fails_naming_the_council(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_band_has_no_rent_side(_NORTH, "D")
+
+    assert _NORTH in str(failure.value)
+
+
+def test_then_council_product_key_matching_problem_passes(steps: DataSteps) -> None:
+    steps.then_council_product_has_key(
+        _NORTH, "D", "5-year-fixed", "problem", "rate-band-unavailable"
+    )
+
+
+def test_then_council_product_key_matching_comparison_passes(steps: DataSteps) -> None:
+    steps.then_council_product_has_key(_NORTH, "D", "2-year-fixed", "comparison", "more")
+
+
+def test_then_council_product_key_wrong_value_fails_naming_the_product(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_product_has_key(_NORTH, "D", "2-year-fixed", "comparison", "less")
+
+    assert "2-year-fixed" in str(failure.value)
+
+
+def test_then_council_product_key_unknown_product_fails_naming_the_product(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_product_has_key(_NORTH, "D", "10-year-fixed", "problem", "x")
+
+    assert "10-year-fixed" in str(failure.value)
+
+
+def test_then_council_caption_pattern_matching_pattern_passes(steps: DataSteps) -> None:
+    steps.then_council_caption_has_key(_NORTH, "rent", "pattern", "trend-rose")
+
+
+def test_then_council_caption_pattern_of_a_property_type_passes(steps: DataSteps) -> None:
+    steps.then_council_caption_has_key(_NORTH, "price:terraced", "pattern", "trend-fell")
+
+
+def test_then_council_caption_reason_matching_reason_passes(steps: DataSteps) -> None:
+    steps.then_council_caption_has_key(_EAST, "price:flat", "reason", "no-record-in-source")
+
+
+def test_then_council_caption_wrong_pattern_fails_naming_the_topic(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_caption_has_key(_NORTH, "rent", "pattern", "trend-fell")
+
+    assert '"rent"' in str(failure.value)
+
+
+def test_then_council_caption_unknown_topic_fails_naming_the_topic(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_caption_has_key(_NORTH, "nope", "pattern", "x")
+
+    assert "nope" in str(failure.value)
+
+
+def test_then_council_caption_unknown_council_fails_naming_the_code(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_caption_has_key("E06000000", "rent", "pattern", "x")
+
+    assert "E06000000" in str(failure.value)
+
+
+def test_then_council_search_kind_matching_kind_passes(steps: DataSteps) -> None:
+    steps.then_council_search_has_kind("Capital (synthetic)", "choose")
+
+
+def test_then_council_search_kind_wrong_kind_fails_naming_the_query(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_search_has_kind("Capital (synthetic)", "council")
+
+    assert "Capital (synthetic)" in str(failure.value)
+
+
+def test_then_council_search_kind_unknown_query_fails_naming_the_query(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_search_has_kind("Midvale", "not-found")
+
+    assert "Midvale" in str(failure.value)
+
+
+def test_then_council_search_lists_council_listed_council_passes(steps: DataSteps) -> None:
+    steps.then_council_search_lists_council("Capital (synthetic)", _NORTH)
+
+
+def test_then_council_search_lists_council_note_matching_passes(steps: DataSteps) -> None:
+    steps.then_council_search_lists_council(
+        "East Westshire Borough (synthetic)", _EAST, "former-name"
+    )
+
+
+def test_then_council_search_lists_council_unlisted_council_fails_naming_the_code(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_search_lists_council("Capital (synthetic)", _EAST)
+
+    assert _EAST in str(failure.value)
+
+
+def test_then_council_search_lists_council_wrong_note_fails_naming_the_note(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_search_lists_council("Eastmere (synthetic)", _EAST, "former-name")
+
+    assert "former-name" in str(failure.value)
+
+
+def test_then_council_product_no_comparison_one_side_missing_passes(steps: DataSteps) -> None:
+    steps.then_council_product_has_no_comparison(_EAST, "D", "2-year-fixed")
+
+
+def test_then_council_product_no_comparison_with_a_comparison_fails_naming_the_council(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_product_has_no_comparison(_NORTH, "D", "2-year-fixed")
+
+    assert _NORTH in str(failure.value)

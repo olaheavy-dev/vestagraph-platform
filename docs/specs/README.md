@@ -67,6 +67,13 @@ The design skills' working notes in `.design/<feature>/` (decision 0031) feed th
   - `Then topic "<topic key>" draws map layer "<flood-zones | surface-water | listed-buildings | conservation-areas | road-noise | rail-noise>"` (the topic lists that layer kind under `mapLayers` in `packages/fixtures/data/pilot-topics.json`)
   - `Then home "<home ID>" has coverage "<covered | not-yet-covered>"`
 
+  - `Then council "<code>" has field "<population | bands | rentSeries | priceSeries | affordabilitySeries | tenure | connectivity>" with status "<recorded | no-record-in-source | ...>"` (a council in `packages/fixtures/data/council-area.json`, cited by code)
+  - `Then council "<code>" series "<rentSeries | priceSeries | affordabilitySeries>" marks a method break` (a point carries `methodBreakBefore`)
+  - `Then council "<code>" at band "<A to H>" has problem "<problem>"` and `... has no rent side` (`packages/fixtures/generated/council-result.json`, `rentOrBuy.byBand`; for example `council-tax-missing`)
+  - `Then council "<code>" at band "<A to H>" for product "<2-year-fixed | 5-year-fixed>" has problem "<problem>"` or `has comparison "<more | less | about-the-same>"` or `has no comparison` (the figure is never typed)
+  - `Then council "<code>" caption "<rent | price | affordability | tenure | price:<detached | semiDetached | terraced | flat>>" has pattern "<pattern>"` or `has reason "<reason>"` (the generated captions' values)
+  - `Then council search "<query>" has kind "<council | choose | council-for-postcode | not-covered | ...>"`, `lists council "<code>"` and `lists council "<code>" with note "<note>"` (`search` in `council-result.json`, the query as written there)
+
   `Given home ... is at story step N` accepts any step from a scenario's `fromStep` to its `toStep` (for B1, step 2 is `from-step-1`) and then requires every figure ID cited in that scenario to start with `<home>.<scenario>.`. `has status` and `shows no amount` apply to cost lines only, not totals. The wording in decision 0043's example is illustrative; this list is the contract.
   A step with no matching wording makes the scenario fail as undefined: add the step to `packages/specs/tests/specs_steps.py` (with tests), rather than rewording the scenario around it.
 
