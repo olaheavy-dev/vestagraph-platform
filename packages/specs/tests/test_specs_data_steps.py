@@ -807,3 +807,18 @@ def test_then_council_lists_no_neighbourhoods_council_with_some_fails_naming_the
         steps.then_council_lists_no_neighbourhoods(_NORTH)
 
     assert _NORTH in str(failure.value)
+
+
+def test_then_council_neighbourhood_tenure_shares_empty_shares_fails_naming_the_neighbourhood(
+    steps: DataSteps, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import specs_support
+
+    council = specs_support._load().council_results[_NORTH]
+    entry = council["neighbourhoods"][0]
+    monkeypatch.setitem(entry, "tenureShares", None)
+
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_neighbourhood_has_tenure_shares(_NORTH, _NORTH_CENTRE)
+
+    assert _NORTH_CENTRE in str(failure.value)

@@ -23,7 +23,7 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
     connectivity score and decile -> `council-area.json` <council code> / neighbourhoods / <LSOA code> / facts / connectivity / value (score, decile), with its level and source (edition, period)
     deprivation decile, rank and number of areas -> `council-area.json` <council code> / neighbourhoods / <LSOA code> / facts / deprivation / value (decile, rank, ofAreas, edition), quoted as published
     tenure shares (five) -> `council-result.json` <council code> / neighbourhoods / <LSOA code> / tenureShares (input counts: `council-area.json` facts / tenure / value)
-    the neighbourhood tenure sentence -> not generated yet (issue #294); until then its percentage is the privatelyRented share above
+    the neighbourhood tenure sentence -> not generated yet (issue #294); until then its percentage is the privateRented share above
     neighbourhood names and codes -> `council-result.json` <council code> / neighbourhoods (label, code)
     the council's population -> `council-area.json` <council code> / population
     the At a glance counts -> not generated yet (noticed issue)
@@ -97,9 +97,9 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
   @ui
   Scenario: HOOD-09 the connectivity score is quoted on DfT's scale with its area, quarter and edition
     Given the user has opened the neighbourhood page for neighbourhood "E01999011" of council "E06999001"
-    When the user reads "Transport connectivity", headed "Neighbourhood level · Q4 2024"
+    When the user reads "Transport connectivity", headed "Neighbourhood level · <period>", the period quoted from the connectivity fact's `source` (period)
     Then it shows "Connectivity" and "<score> on a scale of 0 to 100" quoted from `council-area.json` for "E06999001" / "E01999011" (connectivity score)
-    And the line under it reads "Neighbourhood · Northbridge Centre (sample) (011A) · Q4 2024 (edition 2025) · 100 is the most connected on DfT’s scale"
+    And the line under it reads "Neighbourhood · Northbridge Centre (sample) (011A) · <period> (edition <edition>) · 100 is the most connected on DfT’s scale"
     And no "provisional" or "Experimental Statistics" tag sits beside the figure (FE-45)
 
   @ui
@@ -107,7 +107,7 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
     Given the user has opened the neighbourhood page for neighbourhood "E01999011" of council "E06999001"
     When the user reads "Transport connectivity"
     Then it shows "Connectivity decile" and the decile quoted from `council-area.json` for "E06999001" / "E01999011" (connectivity decile)
-    And the line under it reads "Neighbourhood · Northbridge Centre (sample) (011A) · Q4 2024 · decile 10 is the most connected tenth of areas, decile 1 the least connected tenth"
+    And the line under it reads "Neighbourhood · Northbridge Centre (sample) (011A) · <period> · decile 10 is the most connected tenth of areas, decile 1 the least connected tenth"
     # The research did not confirm the decile columns in the real DfT file; the build checks they exist before the page quotes a decile.
 
   @ui

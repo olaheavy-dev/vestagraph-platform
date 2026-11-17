@@ -38,7 +38,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
   Required states (doc 03 §5; AGENTS.md rules 1, 4, 6 and 7; plan Review Focus 1 to 7):
     loading: compare and what changed load with the council page (CITY-94)
     empty: no second council picked -> CITY2-05; what changed with the setting off -> CITY2-46; with nothing kept after Clear -> CITY2-52
-    ambiguous match: not applicable (compare lists the three sample councils; a place name is searched on the council search, CITY-09 to CITY-16)
+    ambiguous match: not applicable (the compare board lists three of the four sample councils, Northbridge, Southvale and Eastmere; a place name is searched on the council search, CITY-09 to CITY-16)
     not covered: not applicable (a council outside England is not offered; CITY-19, CITY-20)
     not found: a council that cannot be found is the council page's state (CITY-21)
     partial answer: a council with no rent, a council with no council tax, a price type with no 12-month change, no rate for a product -> CITY2-10, CITY2-11, CITY2-15, CITY2-16, CITY2-21 to CITY2-24, CITY2-45
@@ -67,7 +67,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
   Scenario: CITY2-03 each council is picked from a list of the sample councils, in the data's order
     Given the user has opened compare from the council page for council "E06999001"
     When the user opens the lists "First council" and "Second council"
-    Then each lists "Northbridge (sample)", "Southvale (sample)" and "Eastmere (sample)", in the data's order, not a ranking
+    Then each lists "Northbridge (sample)", "Southvale (sample)" and "Eastmere (sample)", in the data's order, not a ranking (the canvas boards CouncilCompare and CouncilCompareDesktop list these three; Westmere, with nothing recorded, is not drawn in a list)
     And no list is sorted or filtered by a figure
 
   @ui
@@ -113,7 +113,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     Given the user has picked "Northbridge (sample)" and "Southvale (sample)"
     When the user reads "Average price by property type"
     Then "Detached", "Semi-detached", "Terraced" and "Flat" each hold both councils' average price for that type, quoted from `priceSeries` / `byType` (BE-37)
-    And Northbridge's figure carries its own 12-month sentence quoted from `E06999001 / priceByType` (for example "average price rose … in the 12 months to August 2026", or "fell" for the terraced type, as that caption's pattern says)
+    And Northbridge's figure carries its own 12-month sentence quoted from `E06999001 / priceByType` (for example "average price rose … in the 12 months to <pricePeriod>", the period quoted from `E06999001 / priceByType` (values), or "fell" for the terraced type, as that caption's pattern says)
     And no figure or caption compares one type with another, or one council with the other
 
   Scenario: CITY2-10 Southvale has no 12-month price change for any type
@@ -206,10 +206,10 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
 
   @ui
   Scenario: CITY2-24 a council with no council tax has no side, no comparison and no zero in compare
-    Given the user has picked "Northbridge (sample)" and "Westmere (sample)"
+    Given the user has picked "Northbridge (sample)" and a council whose council tax is not recorded, as Westmere "E07999002" is (the board's lists do not offer Westmere; this holds if the lists come to offer it)
     When the user reads the council tax and rent or buy rows
-    Then Westmere's cells say what the council page says for a missing source (CITY-52, CITY-53; wording to be confirmed on a compare board)
-    And no rent side, buy side, comparison or council tax figure is shown for Westmere, and nothing is shown as £0
+    Then that council's cells say what the council page says for a missing source (CITY-52, CITY-53; wording to be confirmed on a compare board)
+    And no rent side, buy side, comparison or council tax figure is shown for that council, and nothing is shown as £0
 
   @ui
   Scenario: CITY2-25 "How we got this" in compare says each figure's area and period and that nothing is ranked
