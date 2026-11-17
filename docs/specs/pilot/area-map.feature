@@ -8,7 +8,7 @@ Feature: Area maps (the quiet 3D map on every area map)
   What it is: the style every area map uses (register line FE-42; it sets the look for the real map too, FE-03):
     our places in full-colour 3D, other houses and trees faded, a label on hover or keyboard focus, a
     map zoomed to fit the places found, and three dashed rings. Crime is never drawn on a map (FE-25, B5);
-    crime is never drawn; flood outlines are a 2D-map layer only (MAP-13, MAP-19). Every map has a list, and the desktop map has a legend and place list beside it
+    flood outlines are a 2D-map layer only (MAP-13, MAP-19). Every map has a list, and the desktop map has a legend and place list beside it
     (design docs/superpowers/specs/2026-11-14-first-design-batch-design.md, Constraints and the planning notes).
   Changed 16 Nov 2026 (the benchmark design pass, canvas version 405, plan
     docs/superpowers/plans/2026-11-16-benchmark-design-pass.md Task 5; FE-68, DA-22, DA-24, DA-25, DA-27, DA-31, FE-69):
@@ -129,7 +129,7 @@ Feature: Area maps (the quiet 3D map on every area map)
     When the map is shown
     Then it is zoomed to fit the places found, with the dashed rings at 500 m and 1 mile in view
     And the outer ring at the search limit comes into view when the visitor zooms out (MAP-09)
-    And the map says in its own words that the rings are straight-line distance, not a walking route, and names the search limit in miles, quoted from `display_distance` (MAP-08): the Map screen "Dashed rings are straight-line distance, not a walking route. Search limit: 3.1 miles, zoom out to see the outer ring.", the desktop result "Rings show straight-line distance from the postcode centre, not a walking route. Search limit: 3.1 miles, zoom out to see the outer ring.", and the printout "Rings show straight-line distance from the postcode centre: 500 m and 1 mile. Search limit: 3.1 miles." (the printout also says "Crime and flood are not mapped.")
+    And the map says in its own words that the rings are straight-line distance, not a walking route, and names the search limit in miles, quoted from `display_distance` (MAP-08): the Map screen "Dashed rings are straight-line distance, not a walking route. Search limit: <search limit in miles from display_distance>, zoom out to see the outer ring.", the desktop result "Rings show straight-line distance from the postcode centre, not a walking route. Search limit: <search limit in miles from display_distance>, zoom out to see the outer ring.", and the printout "Rings show straight-line distance from the postcode centre: 500 m and 1 mile. Search limit: <search limit in miles from display_distance>." (the printout also says "Crime and flood are not mapped.")
 
   # The data has no coordinates, only a distance from the postcode centre (design pass data plan, section 1.1), so a pin's distance is its recorded distance; its direction is drawn for legibility and is not a fact (the approved states board says the same of its sample map).
   @ui
