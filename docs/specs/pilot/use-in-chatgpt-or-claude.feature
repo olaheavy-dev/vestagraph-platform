@@ -241,7 +241,7 @@ Feature: Use in ChatGPT or Claude (the pilot's how-to page and its landing secti
   Scenario: HOWTO-32 the landing section is a short card after "How to read a result" and before "Coming next"
     Given the user is on the landing page
     When the user scrolls from "How to read a result" to "Coming next, with a free account"
-    Then the section between them is a card labelled "Use Vestagraph in ChatGPT or Claude", and the postcode box is still the first control on the page (LAND-11)
+    Then the section between them is a card labelled "Use Vestagraph in ChatGPT or Claude", and the search box is still the first control on the page (LAND-11)
 
   @ui
   Scenario: HOWTO-33 the landing section says what it is in one line, with what Vestagraph keeps in small print

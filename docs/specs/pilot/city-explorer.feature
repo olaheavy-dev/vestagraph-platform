@@ -80,6 +80,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then council search "SV2 3AB" has kind "council-for-postcode"
     And council search "SV2 3AB" lists council "E06999002"
 
+  # The boards differ on this button: CouncilPage draws "Check" (CITY-03), CouncilStates board 10 draws "Search" (this scenario). Each scenario follows its own board; the founder picks one label when the build starts (reported in PR C).
   @ui
   Scenario: CITY-05 a postcode from another council says which council it is in and still opens
     Given the user has opened the council page for council "E06999001"
@@ -272,8 +273,8 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-31 the average rent and the average price show their area, month and provisional status
     Given the user has opened the council page for council "E06999001"
     When the page has loaded
-    Then "Average rent" shows its figure quoted from the newest point of `E06999001 rentSeries` as "a month", with "Council area · October 2026 (provisional)"
-    And "Average price" shows its figure quoted from the newest point of `E06999001 priceSeries`, with "Council area · August 2026 (provisional)"
+    Then "Average rent" shows its figure quoted from the newest point of `E06999001 rentSeries` as "a month", with "Council area · <rentPeriod> (provisional)"
+    And "Average price" shows its figure quoted from the newest point of `E06999001 priceSeries`, with "Council area · <pricePeriod> (provisional)"
     And the months and the word "provisional" come from `E06999001 / rentOrBuy` (rentPeriod, rentPointStatus, pricePeriod, pricePointStatus)
 
   # FE-44: one line under the cost summary, counted from the topic rows' recorded statuses. Its generator field waits for issue #292 (rule 2), so the data step is not written yet.
@@ -301,7 +302,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then "Rent" shows `E06999001 / rentOrBuy / byBand / D / shownRentSide` with "rent <rent> + council tax <council tax>"
     And "Buy · 2-year fixed" shows `shownBuySide` of the 2-year fixed with "repayment <repayment> + council tax <council tax>"
     And the line above reads "Example inputs, editable. The same council tax is on both sides, because whoever lives in a home normally pays it."
-    And under each side "Council area · rent October 2026 and price August 2026 (both provisional)"
+    And under each side "Council area · rent <rentPeriod> and price <pricePeriod> (both provisional)"
     And the council tax on the two sides is the same figure for the band picked
 
   Scenario: CITY-35 buying the average-priced home costs more a month than the average rent at Northbridge
@@ -316,12 +317,11 @@ Feature: City Explorer council page (one page per council: search, what it costs
 
   # Proposed wording (no board yet): the spec's patterns "less" and "about the same as", each worked out by tested code. No sample council gives either, so there is no data scenario; the tested module covers both (plan Task 4).
   @ui
-  Scenario: CITY-37 when buying costs less, or about the same, the sentence says so
-    Given a council whose generated comparison for the product is "less" or "about-the-same"
+  Scenario: CITY-37 when buying costs less, the sentence says so
+    Given a council whose generated comparison for the product is "less"
     When the user reads under the two sides
-    Then "less" reads "On these inputs, buying the average-priced home costs <difference> less a month than the average rent."
-    And "about-the-same" reads "On these inputs, buying the average-priced home costs about the same a month as the average rent." with no figure
-    And neither sentence says which is better, and none says "cheaper"
+    Then it reads "On these inputs, buying the average-priced home costs <difference> less a month than the average rent."
+    And the sentence does not say which is better, and does not say "cheaper"
 
   @ui
   Scenario: CITY-38 rent or buy says it is not the full cost and that the averages describe different homes
@@ -430,7 +430,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And no rent figure, difference sentence or budget label for rent is drawn, and nothing is £0
 
   # Review Focus 6: the band's published amount is a gap, so there is no side, comparison or budget label.
-  Scenario: CITY-52 Westmere has no council tax, so no band has a side or a comparison
+  Scenario: CITY-52 Westmere has no council tax, so bands A and D have no side or comparison
     Then council "E07999002" has field "bands" with status "no-record-in-source"
     And council "E07999002" at band "D" has problem "council-tax-missing"
     And council "E07999002" at band "A" has problem "council-tax-missing"
@@ -518,8 +518,8 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-63 private rents is a monthly line with its caption and the provisional months marked
     Given the user has opened the council page for council "E06999001" on desktop
     When the user reads "Private rents"
-    Then a monthly line shows the series from `E06999001 rentSeries`, headed "Council area · monthly, November 2024 to October 2026"
-    And the caption reads "Average rent rose <amount> (<percent>%) in the 12 months to October 2026. The latest 2 months are provisional and may change.", with the amount and percent quoted from `E06999001 / captions / rent`
+    Then a monthly line shows the series from `E06999001 rentSeries`, headed "Council area · monthly, <first month> to <last month>", the months quoted from `E06999001 rentSeries`
+    And the caption reads "Average rent rose <amount> (<percent>%) in the 12 months to <period>. The latest 2 months are provisional and may change.", with the amount and percent quoted from `E06999001 / captions / rent`
     And "Move along the months" shows a month's value with "provisional" where it is
 
   @ui
@@ -527,8 +527,8 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Given the user has opened the council page for council "E06999001" on desktop
     When the user reads "House prices"
     Then four lines, "Detached", "Semi-detached", "Terraced" and "Flat", use a solid, a long-dash, a short-dash and a dotted stroke with direct labels (FE-47), so colour is never the only difference
-    And the heading reads "Council area · monthly, September 2024 to August 2026 · average price of each property type"
-    And "Move along the months" shows each type's average price for the month, "August 2026 · provisional", quoted from `E06999001 priceSeries / byType`
+    And the heading reads "Council area · monthly, <first month> to <last month> · average price of each property type", the months quoted from `E06999001 priceSeries`
+    And "Move along the months" shows each type's average price for the month, "<latest month> · provisional", quoted from `E06999001 priceSeries / byType`
 
   Scenario: CITY-65 the detached caption at Northbridge is a rise and each type has its own caption
     Then council "E06999001" caption "price:detached" has pattern "trend-rose"
@@ -542,7 +542,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-67 each type's caption names the type and its own change, and none compares types
     Given the user has opened the council page for council "E06999001" on desktop
     When the user reads under the house prices chart
-    Then each type has a line "<Type>: average price rose <amount> (<percent>%) in the 12 months to August 2026." quoted from `E06999001 / priceByType`
+    Then each type has a line "<Type>: average price rose <amount> (<percent>%) in the 12 months to <period>." quoted from `E06999001 / priceByType` (values, toPeriod)
     And the terraced line reads "fell" in place of "rose" (CITY-66)
     And "The latest 12 months are provisional and may change."
     And no sentence compares one type with another
@@ -554,7 +554,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-69 an unchanged price says was unchanged
     Given the user has opened the house prices of council "E07999001"
     When the user reads the terraced caption
-    Then it reads "Terraced: average price was unchanged in the 12 months to August 2026."
+    Then it reads "Terraced: average price was unchanged in the 12 months to <period>." with the period quoted from the caption's values (toPeriod)
     And "unchanged" uses its stated threshold, not the threshold of "about the same" in rent or buy
 
   # Review Focus 4 (a missing point is a gap, not zero): a type a council has no figure for.
@@ -580,9 +580,9 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-73 a type's 12-month change that is not published says so and its line has a visible gap
     Given the user has opened the house prices of council "E06999002"
     When the user reads the chart and the captions
-    Then each type reads "<Type>: the UK House Price Index doesn’t publish this for Southvale (sample) in August 2025, so there is no 12-month change."
+    Then each type reads "<Type>: the UK House Price Index doesn’t publish this for Southvale (sample) in <start month>, so there is no 12-month change.", the month quoted from the caption's values
     And each type's line stops before a dashed "?" slot for that month and restarts after it, with nothing drawn across it
-    And each type still shows its latest value, "August 2026 · provisional"
+    And each type still shows its latest value, "<latest month> · provisional"
 
   Scenario: CITY-74 the affordability caption at Northbridge is a rise
     Then council "E06999001" caption "affordability" has pattern "trend-rose"
@@ -591,8 +591,8 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-75 the affordability ratio is a yearly line with a caption that names both ends
     Given the user has opened the council page for council "E06999001" on desktop
     When the user reads "Affordability ratio"
-    Then a yearly line shows the series from `E06999001 affordabilitySeries`, headed "Council area · yearly, year ending September, 2019 to 2025 · median house price to median earnings, workplace-based"
-    And the caption reads "The ratio rose <amount>, from <first> in 2024 to <last> in 2025." (DA-21), quoted from `E06999001 / captions / affordability`
+    Then a yearly line shows the series from `E06999001 affordabilitySeries`, headed "Council area · yearly, year ending September, <first year> to <last year> · median house price to median earnings, workplace-based"
+    And the caption reads "The ratio rose <amount>, from <first> in <first year> to <last> in <last year>." (DA-21), quoted from `E06999001 / captions / affordability`
     And "Move along the years" shows a year's ratio
 
   # The break is in the input; the generated captions for Eastmere's latest pair sit after it, so they are trends.
@@ -676,7 +676,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then a map shows the neighbourhoods inside the council, with "Choose a neighbourhood" and a list naming each as "<larger area’s name> (<code>)" quoted from `E06999001 / neighbourhoods` (label)
     And the heading reads "Neighbourhood level · inside Northbridge (sample) council area · named by the larger area and its code"
     And the map shapes are not tab stops; the list is
-    And the line "The map shows the 3 neighbourhoods in this sample for Northbridge (sample). It is not coloured by any figure." gives the count from the list
+    And the line "The map shows the <count> neighbourhoods in this sample for Northbridge (sample). It is not coloured by any figure." gives the count from the list
 
   @ui
   Scenario: CITY-88 choosing a neighbourhood opens a small panel with focus on its heading
@@ -846,3 +846,11 @@ Feature: City Explorer council page (one page per council: search, what it costs
     When the user opens "Display" and chooses the dark theme
     Then every state above reads the same in the dark theme, in WCAG 2.2 AA contrast
     And the theme and text size are remembered on this device only, as on the postcode result
+
+  # Split from CITY-37 (IDs are permanent): the "about the same" sentence, proposed wording.
+  @ui
+  Scenario: CITY-109 when buying costs about the same, the sentence says so with no figure
+    Given a council whose generated comparison for the product is "about-the-same"
+    When the user reads under the two sides
+    Then it reads "On these inputs, buying the average-priced home costs about the same a month as the average rent." with no figure
+    And the sentence does not say which is better, and does not say "cheaper"

@@ -113,7 +113,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     Given the user has picked "Northbridge (sample)" and "Southvale (sample)"
     When the user reads "Average price by property type"
     Then "Detached", "Semi-detached", "Terraced" and "Flat" each hold both councils' average price for that type, quoted from `priceSeries` / `byType` (BE-37)
-    And Northbridge's figure carries its own 12-month sentence quoted from `E06999001 / priceByType` (for example "average price rose … in the 12 months to <pricePeriod>", the period quoted from `E06999001 / priceByType` (values), or "fell" for the terraced type, as that caption's pattern says)
+    And Northbridge's figure carries its own 12-month sentence quoted from `E06999001 / priceByType` (for example "average price rose … in the 12 months to <pricePeriod>", the period quoted from `toPeriod` at `councils` entry "E06999001" / `priceByType` / <type> / `values` in `council-result.json`, or "fell" for the terraced type, as that caption's pattern says)
     And no figure or caption compares one type with another, or one council with the other
 
   Scenario: CITY2-10 Southvale has no 12-month price change for any type

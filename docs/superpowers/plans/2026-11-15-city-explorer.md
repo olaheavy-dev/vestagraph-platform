@@ -466,15 +466,16 @@ Board values come only from `council-result.json` and `council-area.json`: quote
 - **Placeholders left on boards** (waiting on testing, the build or the privacy notice; the list is from the R2 redraw report and was not re-checked against every live board): ChatGPT widget support, the Claude card for a URL-added connector, developer mode per account, ChatGPT Free, Plus and Pro availability and "No authentication" per plan, the server address, the example questions, the privacy notice link.
 
 ### Task 14: PR C, specifications
-- [ ] Write the specification files:
+- [x] Write the specification files:
   - `docs/specs/pilot/city-explorer.feature` (council page, search, rent or buy, budget, captions, states, privacy);
   - `docs/specs/pilot/city-explorer-neighbourhood.feature`;
   - `docs/specs/pilot/city-explorer-part-2.feature` (compare, share and print, what changed, council tools);
   - `docs/specs/pilot/use-in-chatgpt-or-claude.feature`.
 
   Use scenario ID prefixes `CITY-`, `HOOD-`, `CITY2-` and `HOWTO-`. Map every board to its scenarios, and every figure to a `council-result.json` ID.
-- [ ] Update the section list in `docs/specs/screens/01-landing.feature` (the council link and the how-to section) and the specs README.
-- [ ] Add council tools to `docs/specs/pilot/area-tools.feature`: published figures only (0051, 0056), with their AI evaluation cases (AI-03) listed.
-- [ ] Add the area result's "About <council>" link to `docs/specs/pilot/area-display.feature` (or the area result spec that owns its header), and City Explorer's sources to About the data's scenarios.
-- [ ] Check `.design/prototype/INFORMATION_ARCHITECTURE.md` still matches the boards (the routes were added in #282).
+- [x] Update the section list in `docs/specs/screens/01-landing.feature` (the council link and the how-to section) and the specs README.
+- [x] Add council tools to `docs/specs/pilot/area-tools.feature`: published figures only (0051, 0056), with their AI evaluation cases (AI-03) listed.
+- [x] Add the area result's "About <council>" link to `docs/specs/pilot/area-display.feature` (or the area result spec that owns its header), and City Explorer's sources to About the data's scenarios.
+- [x] Check `.design/prototype/INFORMATION_ARCHITECTURE.md` still matches the boards (the routes were added in #282).
+  Four IA fixes made: the landing "No postcode yet?" link dropped, the How it works step wording, the landing section wording (board text) and the how-to link list; plus a note on the Check an area box staying postcode-only.
 - [ ] Run `make check`, the pre-push review, Codex, then merge.
