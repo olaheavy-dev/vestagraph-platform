@@ -2,10 +2,11 @@
 Feature: City Explorer council page (one page per council: search, what it costs, rent or buy, your budget, charts and their captions, states, privacy)
   Question it answers: "What does it cost to live in this council area each month, to rent or to buy, and how do I get from the council down to a postcode?"
   Modes: both (and anyone, with no account; decisions 0046 and 0055)
-  Added 17 Nov 2026 (PR C of the City Explorer plan, Task 14a; decisions 0053, 0054 and 0055; register lines FE-37, FE-43 to FE-45, FE-47, FE-48, FE-50, DA-21, BE-38, PD-19). The design is `docs/superpowers/specs/2026-11-15-city-explorer-design.md` (the council page sections); the neighbourhood result page is `city-explorer-neighbourhood.feature` (HOOD), and compare, share and print, what changed and the council tools are `city-explorer-part-2.feature` (CITY2); both are separate pull-request tasks and are not written here.
+  Added 17 Nov 2026 (PR C of the City Explorer plan, Task 14a; decisions 0053, 0054 and 0055; register lines FE-37, FE-43 to FE-45, FE-47, FE-48, FE-50, DA-21, BE-38, PD-19). The design is `docs/superpowers/specs/2026-11-15-city-explorer-design.md` (the council page sections); the neighbourhood result page is `city-explorer-neighbourhood.feature` (HOOD), and compare, share and print, what changed and the council tools are `city-explorer-part-2.feature` (CITY2); they are written in `city-explorer-neighbourhood.feature` and `city-explorer-part-2.feature`, not here.
   Fixtures: councils by code in `packages/fixtures/data/council-area.json` (inputs, each with its source) and `packages/fixtures/generated/council-result.json` (every calculated figure). The sample councils: E06999001 Northbridge (complete, unitary, three neighbourhoods), E06999002 Southvale (price start point not published), E07999001 Eastmere (district, formed 2023-04-01 from "East Westshire Borough", no published rent, one property type with no record, a method break in the affordability series) and E07999002 Westmere (district, nothing recorded: no council tax, rent, price, ratio, tenure or connectivity). The data names read "(synthetic)"; the boards print the same names with "(sample)", and every scenario here quotes the board's text. The postcode SV2 3AB belongs to E06999002.
   Figures: none typed here (AGENTS.md rule 2). A scenario that needs a figure names the council code and the generated field (the figure map below); the page quotes the number from the file.
   Where: the page for one council, titled with its name (for example "Northbridge Council area"; the boards show "Northbridge (sample)"). Boards, on the canvas page "Pilot · City Explorer" (design canvas version 407, each with its Dark twin): CouncilPage (phone), CouncilPageDesktop, CouncilBudgetValue (phone and desktop) and CouncilStates (26 states, phone width; the same messages sit in the desktop page's content area). The printout (CouncilPrint, FE-50), compare, what changed, About the data and the neighbourhood boards belong to the other City Explorer features.
+  "The council search" (agent's call, open to the founder, 17 Nov 2026): no board draws a page of its own for searching councils. In these scenarios "the council search" is the landing page's one search box (FE-37, `01-landing.feature` LAND-14 to LAND-16), with the ambiguous, not-covered and not-found messages of CouncilStates shown where its result goes. "← Check another place" on a council page returns to the landing page with the box ready, and the landing footer's "Explore council areas" opens the same box (LAND-20).
   Rule 7: a missing figure is never shown as zero, a flat line, a favourable value or a clean result. A caption needs both end points. A difference needs both sides.
   Rule 4 and 0054: no ranking of councils, no "1st of N", no score drawn on a map, no combined score, no verdict words. The sentences under each chart are built by tested rules from the generated figures, never by AI.
   Sign-in: on this page the chat entry and Save lead to sign-in when signed out (AUTH-28 in `sign-in.feature` owns that scenario, for council E06999001; not repeated here).
@@ -17,7 +18,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     CouncilPage, phone: the header and the postcode box -> CITY-01, CITY-03; cost summary then topic rows -> CITY-23; the open House prices sheet -> CITY-24, CITY-64 to CITY-67; the other sheets -> CITY-25; band picker as a select -> CITY-27; Band D example, rent, price -> CITY-28, CITY-31; rent or buy -> CITY-34, CITY-38; budget empty -> CITY-55; neighbourhoods row -> CITY-87; How we got this -> CITY-91 to CITY-93
     CouncilPageDesktop: layout and wrap -> CITY-26; band chips -> CITY-27; the charts and their captions -> CITY-61 to CITY-86; neighbourhoods map, list and panel -> CITY-87 to CITY-90
     CouncilBudgetValue, phone and desktop: a typed budget -> CITY-56, CITY-57; the box's privacy line -> CITY-59
-    CouncilStates 1 Loading -> CITY-94; 2 Council not found -> CITY-21; 3 Place in more than one council -> CITY-09, CITY-10; 4 Places sharing a name -> CITY-11, CITY-12; 5 London search -> CITY-13, CITY-14; 6 County search -> CITY-15, CITY-16; 7 Former council name -> CITY-17, CITY-18; 8 Series starts at a council merger -> CITY-98; 9 Not covered (Wales) -> CITY-19, CITY-20; 10 Postcode in another council -> CITY-04, CITY-05; 11 A source missing for this council -> CITY-52, CITY-53; 12 Provisional edition -> CITY-83; 13 Stale edition -> CITY-95; 14 Figure published only for the county -> CITY-96; 15 Broken series -> CITY-76 to CITY-78; 16 Council replaced -> CITY-97; 17 One side missing -> CITY-50, CITY-51; 18 No rate band -> CITY-39, CITY-40, CITY-41; 19 Working out -> CITY-47, CITY-49; 20 Couldn’t work this out -> CITY-48; 21 Invalid budget -> CITY-58; 22 Invalid deposit, rate or term -> CITY-42 to CITY-45; 23 Offline -> CITY-99; 24 All sources down -> CITY-100; 25 A property type not published -> CITY-70, CITY-71; 26 A type’s 12-month change not published -> CITY-72, CITY-73
+    CouncilStates 1 Loading -> CITY-94; 2 Council not found -> CITY-21; 3 Place in more than one council -> CITY-09, CITY-10; 4 Places sharing a name -> CITY-11, CITY-12; 5 London search -> CITY-13, CITY-14; 6 County search -> CITY-15, CITY-16; 7 Former council name -> CITY-17, CITY-18; 8 Series starts at a council merger -> CITY-98; 9 Not covered (Wales) -> CITY-19, CITY-20; 10 Postcode in another council -> CITY-04, CITY-05; 11 A source missing for this council -> CITY-52, CITY-53; 12 Provisional edition -> CITY-83; 13 Stale edition -> CITY-95; 14 Figure published only for the county -> CITY-96; 15 Broken series -> CITY-76 to CITY-78; 16 Council replaced -> CITY-97; 17 One side missing -> CITY-50, CITY-51; 18 No rate band -> CITY-39, CITY-40, CITY-41; 19 Working out -> CITY-47, CITY-49; 20 Couldn’t work this out -> CITY-48; 21 Invalid budget -> CITY-58; 22 Invalid deposit, rate or term -> CITY-42 to CITY-45; 23 Offline -> CITY-99; 24 All sources down -> CITY-100; 25 A property type not published -> CITY-70, CITY-71; 26 A type’s 12-month change not published -> CITY-72, CITY-73; a small loan's band (Review Focus 2) -> CITY-111; the all-eight-bands answer -> CITY-110
 
   Figure map (every figure a scenario mentions -> its ID; the page quotes the value, the scenario never types it). `council-result.json` figures are cited as <council code> / <path>; inputs as the field in `council-area.json`:
     population -> `council-area.json` <code> / population
@@ -107,7 +108,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Given the user is on the council search
     When the user searches for "Northbridge (sample)"
     Then the page for council "E06999001" opens, titled with the council's name
-    And the page has a link "← Check another place"
+    And the page has a link "← Check another place", which returns to the landing page's one search box
 
   Scenario: CITY-09 a place in two councils lists both
     Then council search "Eastmere Westmere Fields (synthetic)" has kind "choose"
@@ -197,7 +198,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And it says "Nothing is wrong with your search. It may be spelt another way, or be outside England."
     And the one action is "Search again"
 
-  # FE-37 (amended 15 Nov 2026): one box on the landing page for a postcode or a town. The landing page's own scenarios (LAND, with the hero wording) are written in the landing specification task; here the behaviour that reaches this page.
+  # FE-37 (amended 15 Nov 2026): one box on the landing page for a postcode or a town. The landing page's own scenarios (LAND, with the hero wording) are LAND-14 to LAND-20 in `01-landing.feature`; here the behaviour that reaches this page.
   @ui
   Scenario: CITY-22 the one search box sends a postcode to the area check and a place to a council page
     Given the user is on the landing page
@@ -258,16 +259,25 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And the line above the figures reads "Changing the band changes the council tax line, rent or buy and the budget check. The averages are for the council area."
 
   # The eight published band amounts are inputs (no band rule table, nothing derived from Band D; founder "Record all eight bands").
-  Scenario: CITY-29 all eight band amounts are recorded for Northbridge
+  Scenario: CITY-29 the band amounts are recorded for Northbridge and Southvale
     Then council "E06999001" has field "bands" with status "recorded"
     And council "E06999002" has field "bands" with status "recorded"
 
   @ui
-  Scenario: CITY-30 changing the band changes the council tax line, rent or buy and the budget check with no request
-    Given the user has opened the council page for council "E06999001" with a budget typed
+  Scenario: CITY-30 on the example inputs, changing the band changes the council tax line and rent or buy with no request
+    Given the user has opened the council page for council "E06999001" with no budget typed and the example inputs unchanged
     When the user picks another band
-    Then the council tax line, the two sides of rent or buy and the within-or-above labels change to that band's figures from the generated file
-    And no request goes to the server for the change (the figures for all eight bands are already on the page)
+    Then the council tax line and the two sides of rent or buy change to that band's figures quoted from `E06999001 / bands / <band>` and `E06999001 / rentOrBuy / byBand / <band>` in the generated file
+    And no request goes to the server for the change (the page already holds the example-input figures for all eight bands)
+
+  # Agent's call, open to the founder (17 Nov 2026): the server's one answer covers all eight bands. Decision 0053 and CITY-56 keep every calculation out of the browser, so the within-or-above labels and the buy sides for a typed budget or edited inputs are not in the generated file; asking once per change and again per band would make every band pick wait.
+  @ui
+  Scenario: CITY-110 with a budget typed or inputs edited, the server's one answer covers all eight bands, so picking a band needs no new request
+    Given the user has opened the council page for council "E06999001" with a budget typed or an input edited
+    When the server's answer for those inputs has arrived
+    Then that one answer holds the sides, the comparison and the within-or-above labels for all eight bands
+    And picking another band shows that band's figures from the answer already received, with no new request and no calculation in the browser (decision 0053, CITY-56)
+    And while the answer is pending the figures read "Working out…" as in CITY-47
 
   @ui
   Scenario: CITY-31 the average rent and the average price show their area, month and provisional status
@@ -355,6 +365,15 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And the rent side stays
     And no rate is borrowed from another band
 
+  # Review Focus 2, third rule (plan `docs/superpowers/plans/2026-11-15-city-explorer.md`): the bands mean "up to X% loan", so a small loan takes the lowest published band that covers it. The plan's worked example is a 50% loan taking the 60% band; no sample record has it, so it waits for the server check, tested in `vestagraph_area`. Added 17 Nov 2026 at the next free ID.
+  @ui
+  Scenario: CITY-111 a small loan takes the lowest published band that covers it and the note names that band
+    Given the user has opened the council page for council "E06999001"
+    When the user types a deposit whose loan is the plan's Review Focus example, a 50% loan
+    Then the buy side uses the published rate of the lowest band that covers that loan, the 60% band in the plan's example
+    And the rate note names that band: "Rate: the Bank of England’s quoted rate for a 2-year fixed at the <loan band>% loan band (a <deposit>% deposit), October 2026. Editable; a typed rate replaces it."
+    And a band is never borrowed from another product, so a product with no rate at that band still says "No published rate for this deposit size"
+
   @ui
   Scenario: CITY-42 a deposit of 100% or more says no mortgage is needed and the rent side stays
     Given the user has opened the council page for council "E06999001"
@@ -381,7 +400,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-45 while any input is wrong the buy sides and the sentence are hidden and the rent side stays
     Given the user has opened the council page for council "E06999001"
     When the user has typed a wrong deposit, rate or term
-    Then it says "The buy sides and the sentence are hidden while an input is wrong; the rent side stays." in effect, and the rent side shows with its council tax
+    Then it says "The buy sides and the sentence are hidden while an input is wrong; the rent side stays.", and the rent side shows with its council tax
     And a negative, empty or non-numeric value says what is wrong and shows no figure
 
   @ui
@@ -519,7 +538,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Given the user has opened the council page for council "E06999001" on desktop
     When the user reads "Private rents"
     Then a monthly line shows the series from `E06999001 rentSeries`, headed "Council area · monthly, <first month> to <last month>", the months quoted from `E06999001 rentSeries`
-    And the caption reads "Average rent rose <amount> (<percent>%) in the 12 months to <period>. The latest 2 months are provisional and may change.", with the amount and percent quoted from `E06999001 / captions / rent`
+    And the caption reads "Average rent rose <amount> (<percent>%) in the 12 months to <period>. The latest <provisionalPoints> months are provisional and may change.", with the amount, the percent and the count quoted from `E06999001 / captions / rent` (values: amount, percent, provisionalPoints)
     And "Move along the months" shows a month's value with "provisional" where it is
 
   @ui
@@ -544,7 +563,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     When the user reads under the house prices chart
     Then each type has a line "<Type>: average price rose <amount> (<percent>%) in the 12 months to <period>." quoted from `E06999001 / priceByType` (values, toPeriod)
     And the terraced line reads "fell" in place of "rose" (CITY-66)
-    And "The latest 12 months are provisional and may change."
+    And "The latest <provisionalPoints> months are provisional and may change.", the count quoted from the `priceByType` caption's `provisionalPoints`
     And no sentence compares one type with another
 
   Scenario: CITY-68 the terraced caption at Eastmere is unchanged
@@ -580,7 +599,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-73 a type's 12-month change that is not published says so and its line has a visible gap
     Given the user has opened the house prices of council "E06999002"
     When the user reads the chart and the captions
-    Then each type reads "<Type>: the UK House Price Index doesn’t publish this for Southvale (sample) in <start month>, so there is no 12-month change.", the month quoted from the caption's values
+    Then each type reads "<Type>: the UK House Price Index doesn’t publish this for Southvale (sample) in <start month>, so there is no 12-month change.", the month quoted from the input point `2025-08` (status `not-published`) in `council-area.json` E06999002 / priceSeries / points
     And each type's line stops before a dashed "?" slot for that month and restarts after it, with nothing drawn across it
     And each type still shows its latest value, "<latest month> · provisional"
 
@@ -724,7 +743,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Given the user has opened the council page for council "E06999001"
     When the user reads the end of the page
     Then "Use in ChatGPT or Claude →" opens that page (decision 0056)
-    And the council page has no on-page AI chat
+    And the council page has no on-page AI chat (its "Ask about this area" entry goes to the signed-in workspace, AUTH-28)
 
   # The remaining states (CouncilStates boards 1, 13, 14, 16, 8, 23, 24).
   @ui

@@ -444,14 +444,24 @@ class DataSteps:
         if topic.startswith("price:"):
             topic, property_type = "price", topic.removeprefix("price:")
         if property_type is None:
-            caption = _find(council["captions"], "topic", topic)
+            caption = _find(council["captions"], "topic", topic, f'council "{code}" captions')
         else:
-            caption = _find(council["priceByType"], "propertyType", property_type)
+            caption = _find(
+                council["priceByType"],
+                "propertyType",
+                property_type,
+                f'council "{code}" priceByType',
+            )
         assert caption is not None, (
             f'Council "{code}" has no caption for "{topic}"'
             f"{'' if property_type is None else f' type {property_type}'} in {_COUNCIL_RESULT}."
         )
-        actual = caption["values"].get(key)
+        values = caption.get("values")
+        assert isinstance(values, dict), (
+            f'Council "{code}" caption "{topic}" has no "values" to read "{key}" from '
+            f"in {_COUNCIL_RESULT}."
+        )
+        actual = values.get(key)
         assert actual == value, (
             f'Council "{code}" caption "{topic}" has {key} "{actual}", not "{value}", '
             f"in {_COUNCIL_RESULT}."
@@ -489,7 +499,12 @@ class DataSteps:
         self, code: str, neighbourhood: str, fact: str, level: str
     ) -> None:
         record = _require_neighbourhood_fact(code, neighbourhood, fact)
-        actual = record.get("level", {}).get("kind")
+        level_record = record.get("level")
+        assert isinstance(level_record, dict), (
+            f'Council "{code}" neighbourhood "{neighbourhood}" fact "{fact}" has no "level" '
+            f"to read in {_COUNCIL_AREA}."
+        )
+        actual = level_record.get("kind")
         assert actual == level, (
             f'Council "{code}" neighbourhood "{neighbourhood}" fact "{fact}" is at level '
             f'"{actual}", not "{level}", in {_COUNCIL_AREA}.'
@@ -547,8 +562,16 @@ def _require_area_record(record_id: str) -> Json:
     return record
 
 
-def _find(items: list[Json], key: str, value: str) -> Json | None:
-    return next((item for item in items if item[key] == value), None)
+def _find(items: list[Json], key: str, value: str, where: str = "a list") -> Json | None:
+    for item in items:
+        if not isinstance(item, dict) or key not in item:
+            raise AssertionError(
+                f'An entry in {where} has no "{key}" while looking for "{value}". '
+                "Check the entry's shape against the generated file."
+            )
+        if item[key] == value:
+            return item
+    return None
 
 
 def _require_area_result(postcode: str) -> Json:

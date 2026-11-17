@@ -219,7 +219,7 @@ def then_council_search_has_kind(data_steps: DataSteps, query: str, kind: str) -
     data_steps.then_council_search_has_kind(query, kind)
 
 
-@then(parsers.parse('council search "{query}" lists council "{code}"'))
+@then(parsers.parse('council search "{query}" lists council "{code:w}"'))
 def then_council_search_lists_council(data_steps: DataSteps, query: str, code: str) -> None:
     data_steps.then_council_search_lists_council(query, code)
 

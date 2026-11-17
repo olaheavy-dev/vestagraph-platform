@@ -822,3 +822,38 @@ def test_then_council_neighbourhood_tenure_shares_empty_shares_fails_naming_the_
         steps.then_council_neighbourhood_has_tenure_shares(_NORTH, _NORTH_CENTRE)
 
     assert _NORTH_CENTRE in str(failure.value)
+
+
+# Malformed generated data: a descriptive failure naming the council and the key, never a
+# KeyError or AttributeError (security review of PR C, P3).
+def test_then_council_caption_without_values_fails_naming_council_and_key(
+    steps: DataSteps, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    broken = type("Loaded", (), {"council_results": {"X1": {"captions": [{"topic": "rent"}]}}})
+    monkeypatch.setattr(data, "_load", lambda: broken)
+
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_caption_has_key("X1", "rent", "pattern", "trend-rose")
+
+    assert 'Council "X1"' in str(failure.value)
+    assert '"values"' in str(failure.value)
+
+
+def test_then_council_neighbourhood_fact_with_null_level_fails_naming_the_fact(
+    steps: DataSteps, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(data, "_require_neighbourhood_fact", lambda *_args: {"level": None})
+
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_neighbourhood_fact_has_level("X1", "LSOA1", "tenure", "neighbourhood")
+
+    assert 'neighbourhood "LSOA1"' in str(failure.value)
+    assert '"level"' in str(failure.value)
+
+
+def test_find_entry_without_the_key_fails_naming_the_key_and_where() -> None:
+    with pytest.raises(AssertionError) as failure:
+        data._find([{"other": 1}], "topic", "rent", 'council "X1" captions')
+
+    assert '"topic"' in str(failure.value)
+    assert 'council "X1" captions' in str(failure.value)

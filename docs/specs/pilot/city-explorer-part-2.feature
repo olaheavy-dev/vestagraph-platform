@@ -126,7 +126,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
   Scenario: CITY2-11 a council with no 12-month price change says why and draws no change
     Given the user has picked "Northbridge (sample)" and "Southvale (sample)"
     When the user reads the property type rows for Southvale
-    Then Southvale shows its price for each type and "The UK House Price Index doesn’t publish this for Southvale (sample) in August 2025, so there is no 12-month change." (DA-21), and no rise, fall, amount or percentage
+    Then Southvale shows its price for each type and "The UK House Price Index doesn’t publish this for Southvale (sample) in <start month>, so there is no 12-month change." (DA-21), the month quoted from the input point `2025-08` (status `not-published`) in `council-area.json` E06999002 / priceSeries / points, and no rise, fall, amount or percentage
     And on a phone the line "Each type is the average price of that type in that council, as the UK House Price Index publishes it." sits under the four groups, and on desktop "The four property types are each council’s own published average, side by side, with no difference between councils and no ranking."
 
   # Rent or buy (design spec section 4; DA-21): both councils on the same example inputs, each with its own council tax.
@@ -245,7 +245,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     Given the user has opened compare on a phone and on desktop
     When the user works through the page by keyboard
     Then every control can be reached and used, and each is at least 44 px tall, and nothing scrolls sideways
-    And the display control changes the theme and the text size, and each board's dark twin shows the same rows (decision 0049, canvas Dark twins)
+    And the display control changes the theme and the text size, and each board's dark twin shows the same rows (FE-50; the canvas Dark twins)
 
   # Share (design spec: "Share a link": the council in the address, nothing stored; never the budget or edited inputs).
   # No board draws the council Share control opening; the boards show the buttons "Share" (council header) and "Share this comparison" (compare). Proposed behaviour, finalised before build.
@@ -320,7 +320,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     Given the user has chosen the printable summary for council "E06999001"
     When the user reads page 2 under "How the figures changed"
     Then it prints the rent sentence, the four property type sentences ("Detached:", "Semi-detached:", "Terraced:", "Flat:") and the house price to earnings ratio sentence, each quoted from `E06999001 / captions` and `E06999001 / priceByType`
-    And "The latest 2 months are provisional and may change." follows the rent sentence and "The latest 12 months of each price are provisional and may change." follows the types
+    And "The latest <provisionalPoints> months are provisional and may change." follows the rent sentence, the count quoted from `E06999001 / captions / rent` (values / provisionalPoints), and "The latest <provisionalPoints> months of each price are provisional and may change." follows the types, the count quoted from each `priceByType` caption's `provisionalPoints`
 
   @ui
   Scenario: CITY2-40 page 2 prints who rents and who owns with its rounding line

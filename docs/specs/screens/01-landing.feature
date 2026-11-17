@@ -158,4 +158,4 @@ Feature: Landing
   Scenario: LAND-20 the footer links the council pages and the how-to page
     Given the user is not signed in
     When the user reaches the footer of the landing page
-    Then it links "Explore council areas", which opens the City Explorer council search (CITY-07 to CITY-22), and "Use in ChatGPT or Claude", which opens that page (HOWTO-31)
+    Then it links "Explore council areas", which opens the landing page's one search box, the council search (CITY-07 to CITY-22; no board draws a separate search page, agent's call, open to the founder, 17 Nov 2026), and "Use in ChatGPT or Claude", which opens that page (HOWTO-31)
