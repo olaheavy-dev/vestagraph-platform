@@ -701,3 +701,109 @@ def test_then_council_product_no_comparison_with_a_comparison_fails_naming_the_c
         steps.then_council_product_has_no_comparison(_NORTH, "D", "2-year-fixed")
 
     assert _NORTH in str(failure.value)
+
+
+_NORTH_CENTRE = "E01999011"
+_EAST_GREEN = "E01999031"
+
+
+def test_then_council_neighbourhood_fact_status_matching_status_passes(steps: DataSteps) -> None:
+    steps.then_council_neighbourhood_fact_has_status(
+        _EAST, _EAST_GREEN, "deprivation", "no-record-in-source"
+    )
+
+
+def test_then_council_neighbourhood_fact_status_wrong_status_fails_naming_the_fact(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_neighbourhood_fact_has_status(
+            _EAST, _EAST_GREEN, "deprivation", "recorded"
+        )
+
+    assert '"deprivation"' in str(failure.value)
+
+
+def test_then_council_neighbourhood_fact_status_unknown_neighbourhood_fails_naming_it(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_neighbourhood_fact_has_status(_NORTH, "E01000000", "tenure", "recorded")
+
+    assert "E01000000" in str(failure.value)
+
+
+def test_then_council_neighbourhood_fact_status_unknown_fact_fails_naming_the_fact(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_neighbourhood_fact_has_status(_NORTH, _NORTH_CENTRE, "nope", "recorded")
+
+    assert "nope" in str(failure.value)
+
+
+def test_then_council_neighbourhood_fact_level_matching_level_passes(steps: DataSteps) -> None:
+    steps.then_council_neighbourhood_fact_has_level(
+        _NORTH, _NORTH_CENTRE, "connectivity", "neighbourhood"
+    )
+
+
+def test_then_council_neighbourhood_fact_level_wrong_level_fails_naming_the_level(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_neighbourhood_fact_has_level(
+            _NORTH, _NORTH_CENTRE, "connectivity", "local-authority"
+        )
+
+    assert "local-authority" in str(failure.value)
+
+
+def test_then_council_lists_neighbourhood_label_matching_label_passes(steps: DataSteps) -> None:
+    steps.then_council_lists_neighbourhood_with_label(
+        _NORTH, _NORTH_CENTRE, "Northbridge Centre (synthetic) (011A)"
+    )
+
+
+def test_then_council_lists_neighbourhood_label_wrong_label_fails_naming_the_label(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_lists_neighbourhood_with_label(_NORTH, _NORTH_CENTRE, "Millbrook")
+
+    assert "Millbrook" in str(failure.value)
+
+
+def test_then_council_lists_neighbourhood_label_unlisted_neighbourhood_fails_naming_it(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_lists_neighbourhood_with_label(_NORTH, _EAST_GREEN, "x")
+
+    assert _EAST_GREEN in str(failure.value)
+
+
+def test_then_council_neighbourhood_tenure_shares_present_passes(steps: DataSteps) -> None:
+    steps.then_council_neighbourhood_has_tenure_shares(_NORTH, _NORTH_CENTRE)
+
+
+def test_then_council_neighbourhood_tenure_shares_unlisted_neighbourhood_fails_naming_it(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_neighbourhood_has_tenure_shares(_NORTH, _EAST_GREEN)
+
+    assert _EAST_GREEN in str(failure.value)
+
+
+def test_then_council_lists_no_neighbourhoods_empty_list_passes(steps: DataSteps) -> None:
+    steps.then_council_lists_no_neighbourhoods("E07999002")
+
+
+def test_then_council_lists_no_neighbourhoods_council_with_some_fails_naming_the_council(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_lists_no_neighbourhoods(_NORTH)
+
+    assert _NORTH in str(failure.value)

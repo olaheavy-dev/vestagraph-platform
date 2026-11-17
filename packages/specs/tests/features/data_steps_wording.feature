@@ -44,3 +44,10 @@ Feature: Every data step wording runs against the real data (proof for issue #19
     And council search "Capital (synthetic)" has kind "choose"
     And council search "Capital (synthetic)" lists council "E06999001"
     And council search "East Westshire Borough (synthetic)" lists council "E07999001" with note "former-name"
+
+  Scenario: WORD-06 the neighbourhood steps accept the documented wording
+    Then council "E07999001" neighbourhood "E01999031" has fact "deprivation" with status "no-record-in-source"
+    And council "E06999001" neighbourhood "E01999011" has fact "connectivity" at level "neighbourhood"
+    And council "E06999001" lists neighbourhood "E01999011" with label "Northbridge Centre (synthetic) (011A)"
+    And council "E06999001" neighbourhood "E01999011" has tenure shares
+    And council "E07999002" lists no neighbourhoods

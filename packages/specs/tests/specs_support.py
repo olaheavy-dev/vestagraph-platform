@@ -476,6 +476,54 @@ class DataSteps:
             f'not "{note}", in {_COUNCIL_RESULT}.'
         )
 
+    def then_council_neighbourhood_fact_has_status(
+        self, code: str, neighbourhood: str, fact: str, status: str
+    ) -> None:
+        record = _require_neighbourhood_fact(code, neighbourhood, fact)
+        assert record.get("status") == status, (
+            f'Council "{code}" neighbourhood "{neighbourhood}" fact "{fact}" has status '
+            f'"{record.get("status")}", not "{status}", in {_COUNCIL_AREA}.'
+        )
+
+    def then_council_neighbourhood_fact_has_level(
+        self, code: str, neighbourhood: str, fact: str, level: str
+    ) -> None:
+        record = _require_neighbourhood_fact(code, neighbourhood, fact)
+        actual = record.get("level", {}).get("kind")
+        assert actual == level, (
+            f'Council "{code}" neighbourhood "{neighbourhood}" fact "{fact}" is at level '
+            f'"{actual}", not "{level}", in {_COUNCIL_AREA}.'
+        )
+
+    def then_council_lists_neighbourhood_with_label(
+        self, code: str, neighbourhood: str, label: str
+    ) -> None:
+        entry = _find(_require_council_result(code)["neighbourhoods"], "code", neighbourhood)
+        assert entry is not None, (
+            f'Council "{code}" does not list neighbourhood "{neighbourhood}" in {_COUNCIL_RESULT}.'
+        )
+        assert entry.get("label") == label, (
+            f'Council "{code}" neighbourhood "{neighbourhood}" has label "{entry.get("label")}", '
+            f'not "{label}", in {_COUNCIL_RESULT}.'
+        )
+
+    def then_council_neighbourhood_has_tenure_shares(self, code: str, neighbourhood: str) -> None:
+        entry = _find(_require_council_result(code)["neighbourhoods"], "code", neighbourhood)
+        assert entry is not None, (
+            f'Council "{code}" does not list neighbourhood "{neighbourhood}" in {_COUNCIL_RESULT}.'
+        )
+        assert entry.get("tenureShares"), (
+            f'Council "{code}" neighbourhood "{neighbourhood}" has no tenure shares in '
+            f"{_COUNCIL_RESULT}; missing shares are never shown as zero (rule 7)."
+        )
+
+    def then_council_lists_no_neighbourhoods(self, code: str) -> None:
+        listed = _require_council_result(code)["neighbourhoods"]
+        assert not listed, (
+            f'Council "{code}" lists {len(listed)} neighbourhoods in {_COUNCIL_RESULT}; '
+            "this step expects none."
+        )
+
     def _require_figure(self, figure_id: str) -> Json:
         figure = try_get_figure(figure_id)
         assert figure is not None, (
@@ -527,6 +575,29 @@ def _require_council(code: str) -> Json:
         "Check the code against that file; councils are cited by code."
     )
     return council
+
+
+def _require_council_result(code: str) -> Json:
+    council = _load().council_results.get(code)
+    assert council is not None, (
+        f'Council "{code}" is not in {_COUNCIL_RESULT}. '
+        "Check the code against that file; councils are cited by code."
+    )
+    return council
+
+
+def _require_neighbourhood_fact(code: str, neighbourhood: str, fact: str) -> Json:
+    entry = _find(_require_council(code)["neighbourhoods"], "code", neighbourhood)
+    assert entry is not None, (
+        f'Council "{code}" has no neighbourhood "{neighbourhood}" in {_COUNCIL_AREA}. '
+        "Neighbourhoods are cited by their LSOA code."
+    )
+    record = entry["facts"].get(fact)
+    assert isinstance(record, dict), (
+        f'Neighbourhood "{neighbourhood}" has no fact "{fact}" in {_COUNCIL_AREA}. '
+        "Check the fact name against that file."
+    )
+    return record
 
 
 def _require_council_band(code: str, band: str) -> Json:

@@ -238,3 +238,44 @@ def then_council_product_has_no_comparison(
     data_steps: DataSteps, code: str, band: str, product: str
 ) -> None:
     data_steps.then_council_product_has_no_comparison(code, band, product)
+
+
+@then(
+    parsers.parse(
+        'council "{code}" neighbourhood "{neighbourhood}" has fact "{fact}" with status "{status}"'
+    )
+)
+def then_council_neighbourhood_fact_has_status(
+    data_steps: DataSteps, code: str, neighbourhood: str, fact: str, status: str
+) -> None:
+    data_steps.then_council_neighbourhood_fact_has_status(code, neighbourhood, fact, status)
+
+
+@then(
+    parsers.parse(
+        'council "{code}" neighbourhood "{neighbourhood}" has fact "{fact}" at level "{level}"'
+    )
+)
+def then_council_neighbourhood_fact_has_level(
+    data_steps: DataSteps, code: str, neighbourhood: str, fact: str, level: str
+) -> None:
+    data_steps.then_council_neighbourhood_fact_has_level(code, neighbourhood, fact, level)
+
+
+@then(parsers.parse('council "{code}" lists neighbourhood "{neighbourhood}" with label "{label}"'))
+def then_council_lists_neighbourhood_with_label(
+    data_steps: DataSteps, code: str, neighbourhood: str, label: str
+) -> None:
+    data_steps.then_council_lists_neighbourhood_with_label(code, neighbourhood, label)
+
+
+@then(parsers.parse('council "{code}" neighbourhood "{neighbourhood}" has tenure shares'))
+def then_council_neighbourhood_has_tenure_shares(
+    data_steps: DataSteps, code: str, neighbourhood: str
+) -> None:
+    data_steps.then_council_neighbourhood_has_tenure_shares(code, neighbourhood)
+
+
+@then(parsers.parse('council "{code}" lists no neighbourhoods'))
+def then_council_lists_no_neighbourhoods(data_steps: DataSteps, code: str) -> None:
+    data_steps.then_council_lists_no_neighbourhoods(code)
