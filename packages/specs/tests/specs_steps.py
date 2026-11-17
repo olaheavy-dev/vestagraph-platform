@@ -142,3 +142,13 @@ def then_area_result_counts_buses(
 @then(parsers.parse('postcode record "{record_id}" has status "{status}"'))
 def then_postcode_record_has_status(data_steps: DataSteps, record_id: str, status: str) -> None:
     data_steps.then_postcode_record_has_status(record_id, status)
+
+
+@then(parsers.parse('map layer "{layer_id}" has status "{status}"'))
+def then_map_layer_has_status(data_steps: DataSteps, layer_id: str, status: str) -> None:
+    data_steps.then_map_layer_has_status(layer_id, status)
+
+
+@then(parsers.parse('topic "{topic_key}" draws map layer "{layer_kind}"'))
+def then_topic_draws_map_layer(data_steps: DataSteps, topic_key: str, layer_kind: str) -> None:
+    data_steps.then_topic_draws_map_layer(topic_key, layer_kind)

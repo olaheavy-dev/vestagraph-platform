@@ -455,3 +455,42 @@ def test_then_postcode_record_status_unknown_record_fails_naming_the_id(
         steps.then_postcode_record_has_status("NB1-4XY-NOPE", "stale")
 
     assert "NB1-4XY-NOPE" in str(failure.value)
+
+
+def test_then_map_layer_has_status_matching_status_passes(steps: DataSteps) -> None:
+    steps.then_map_layer_has_status("NB1-4XY-LAYER-FLOOD-ZONES-1", "recorded")
+
+
+def test_then_map_layer_has_status_wrong_status_fails_naming_the_id(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_map_layer_has_status("NB1-4XY-LAYER-FLOOD-ZONES-1", "not-covered")
+
+    assert "NB1-4XY-LAYER-FLOOD-ZONES-1" in str(failure.value)
+
+
+def test_then_map_layer_has_status_unknown_layer_fails_naming_the_id(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_map_layer_has_status("NB1-4XY-LAYER-NOPE-1", "recorded")
+
+    assert "NB1-4XY-LAYER-NOPE-1" in str(failure.value)
+
+
+def test_then_topic_draws_map_layer_listed_layer_passes(steps: DataSteps) -> None:
+    steps.then_topic_draws_map_layer("noise", "road-noise")
+
+
+def test_then_topic_draws_map_layer_layer_of_another_topic_fails_naming_both(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_topic_draws_map_layer("noise", "flood-zones")
+
+    assert "noise" in str(failure.value)
+    assert "flood-zones" in str(failure.value)
+
+
+def test_then_topic_draws_map_layer_unknown_topic_fails_naming_the_key(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_topic_draws_map_layer("no-such-topic", "road-noise")
+
+    assert "no-such-topic" in str(failure.value)
