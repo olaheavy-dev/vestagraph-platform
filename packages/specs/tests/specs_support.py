@@ -381,14 +381,15 @@ class DataSteps:
 
     def then_topic_is_route_only(self, topic_key: str) -> None:
         topic = _require_topic(topic_key)
-        assert topic.get("kind") == "route-only" and topic.get("counted") is False, (
-            f'Topic "{topic_key}" is not an uncounted route-only topic in {_PILOT_TOPICS}.'
-        )
+        message = f'Topic "{topic_key}" is not an uncounted route-only topic in {_PILOT_TOPICS}.'
+        assert topic.get("kind") == "route-only", message
+        assert topic.get("counted") is False, message
 
     def then_topic_opens_vestagraph_page(self, topic_key: str, route: str) -> None:
         actual = _require_topic(topic_key).get("vestagraphRoute")
         assert actual == route, (
-            f'Topic "{topic_key}" has Vestagraph route "{actual}", not "{route}", in {_PILOT_TOPICS}.'
+            f'Topic "{topic_key}" has Vestagraph route "{actual}", not "{route}", '
+            f"in {_PILOT_TOPICS}."
         )
 
     def then_energy_certificate_has_outcome(self, number: str, outcome: str) -> None:
@@ -434,9 +435,9 @@ class DataSteps:
     def then_energy_certificate_improvements_in_order_no_total(self, number: str) -> None:
         certificate = _require_energy_certificate(number)
         improvements = certificate.get("improvements")
-        assert isinstance(improvements, list) and improvements, (
-            f'Energy certificate "{number}" has no improvements in {_ENERGY_RESULT}.'
-        )
+        message = f'Energy certificate "{number}" has no improvements in {_ENERGY_RESULT}.'
+        assert isinstance(improvements, list), message
+        assert improvements, message
         sequence = [item["sequence"] for item in improvements]
         assert sequence == sorted(sequence), (
             f'Energy certificate "{number}" improvements are not in the certificate\'s '
