@@ -6,7 +6,7 @@ Feature: Use in ChatGPT or Claude (the pilot's how-to page and its landing secti
   Fixtures: none. The page quotes no figure; where it names a council figure it names the field (`packages/fixtures/data/council-area.json`) and never a number (AGENTS.md rule 2).
   Boards, on the canvas page "Pilot · public area check" (design canvas version 407): UseInAssistant (desktop, 1280 wide) and UseInAssistantPhone (390 wide); LandingAssistantSection and LandingAssistantSectionPhone (the landing's short section); AreaCardWidgetFullPhone (the widget on a phone, `area-card.feature`). Each has its Dark twin in the "Pilot 6 · dark" row. Quoted strings below are the canvas's, word for word (apostrophes as drawn).
   Route: chosen at build (no route is drawn; the City Explorer routes are in `.design/prototype/INFORMATION_ARCHITECTURE.md`).
-  Wording status: the boards still hold placeholders for facts only testing, the build or the privacy notice can answer: the public server address (set when the server is built), the example question for each app (written at build), whether the area card shows in ChatGPT for a server you add yourself, whether it shows in Claude for a connector added by address, whether developer mode still exists for an account and what switching it on changes, whether ChatGPT Free, Plus and Pro can add a server, and whether "No authentication" is offered on every plan. The page never states an unconfirmed fact (rule 1): each stays a visible "not known" line, or is left out, until it is tested (HOWTO-06, HOWTO-19, HOWTO-22, HOWTO-24 and HOWTO-28). Not drawn on any board, so proposed wording that is finalised in the build: the page's "what the tools do not do" line (HOWTO-08), the link from each area result (HOWTO-29) and the footer link on pages other than the how-to page (HOWTO-31). The ChatGPT steps are the corrected ones in `area-tools.feature` (checked 15 Nov 2026 against OpenAI's documentation, `docs/reviews/2026-11-15-use-in-assistant-research.md`); they are not derived again here. The admin-permission facts for ChatGPT Business and Enterprise come from a search summary of a help page that returned 403, so they are "to confirm in the real app" (area-tools.feature, 0056's 15 Nov 2026 note).
+  Wording status: the boards still hold placeholders for facts only testing, the build or the privacy notice can answer: the public server address (set when the server is built), the example question for each app (written at build), whether the area card shows in ChatGPT for a server you add yourself, whether it shows in Claude for a connector added by address, whether developer mode still exists for an account and what switching it on changes, whether ChatGPT Free, Plus and Pro can add a server, and whether "No authentication" is offered on every plan. The page never states an unconfirmed fact (rule 1): each stays a visible "not known" line, or is left out, until it is tested (HOWTO-06, HOWTO-19, HOWTO-22, HOWTO-24 and HOWTO-28). Not drawn on any board, so proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (issue #318 stays open until the boards are drawn), finalised in the build: the page's "what the tools do not do" line (HOWTO-08), the link from each area result (HOWTO-29) and the footer link on pages other than the how-to page (HOWTO-31). The ChatGPT steps are the corrected ones in `area-tools.feature` (checked 15 Nov 2026 against OpenAI's documentation, `docs/reviews/2026-11-15-use-in-assistant-research.md`); they are not derived again here. The admin-permission facts for ChatGPT Business and Enterprise come from a search summary of a help page that returned 403, so they are "to confirm in the real app" (area-tools.feature, 0056's 15 Nov 2026 note).
   What the page says about what is sent and kept follows decision 0057 (the "What the Use in ChatGPT or Claude page says" section); the wording follows OpenAI's "may send" and the founder's ruling on 0057 (anonymous daily totals, "fewer than 10" below 10, complementary suppression). 0057 is proposed wording until the privacy notice (SE-02) is final.
   Rule 4 and 0054: the page never calls an area, a council or a home "verified", "safe" or "approved" and gives no verdict, score or ranking of its own.
 
@@ -74,7 +74,7 @@ Feature: Use in ChatGPT or Claude (the pilot's how-to page and its landing secti
     When the user reads the lines about the area card in ChatGPT and about connectors in Claude
     Then the ChatGPT line links "OpenAI: ChatGPT UI", and the Claude lines link "Anthropic: interactive tools in Claude" and "Anthropic: fuller in-chat apps"
 
-  # Proposed wording (not drawn on a board): the board's closing line there says only what the tools return and that the assistant's wording is outside Vestagraph's control. The tools' limits are TOOLS-58 (no cost figure), TOOLS-38 (no listing) and TOOLS-59 (no ranking).
+  # Proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (not drawn on a board): the board's closing line there says only what the tools return and that the assistant's wording is outside Vestagraph's control. The tools' limits are TOOLS-58 (no cost figure), TOOLS-38 (no listing) and TOOLS-59 (no ranking).
   @ui
   Scenario: HOWTO-08 the page says what the tools do not do
     Given the user has opened "Use in ChatGPT or Claude"
@@ -214,7 +214,7 @@ Feature: Use in ChatGPT or Claude (the pilot's how-to page and its landing secti
     Then each shows "Try a question:" followed by one example question, and no question appears until it has been run against the tools
 
   # Where the page is linked from (decision 0056 point 2): each area result, each City Explorer page and the footer. The landing section is below.
-  # Not drawn on the area result boards: proposed wording, "Use in ChatGPT or Claude →", as the council boards draw it.
+  # Not drawn on the area result boards: proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), "Use in ChatGPT or Claude →", as the council boards draw it.
   @ui
   Scenario: HOWTO-29 each area result links to the page
     Given the user has checked a postcode in England and the result is shown
@@ -228,7 +228,7 @@ Feature: Use in ChatGPT or Claude (the pilot's how-to page and its landing secti
     When the user chooses "Use in ChatGPT or Claude →"
     Then "Use in ChatGPT or Claude" opens (CITY-93, HOOD-34)
 
-  # The how-to page's own footer lists the link as the last item; the other pages' footer is proposed wording (decision 0056, IA "Landing" item 9).
+  # The how-to page's own footer lists the link as the last item; the other pages' footer is proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (decision 0056, IA "Landing" item 9).
   @ui
   Scenario: HOWTO-31 the footer links the page
     Given the user is on any page of the site with the footer

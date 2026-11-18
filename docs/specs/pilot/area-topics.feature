@@ -78,7 +78,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And no warning status from an old copy is shown (AREA-07, FE-38)
 
   @ui
-  # Changed 17 Nov 2026 (Codex review of the design-pass specifications): the desktop result keeps the map in its header, so an opened topic replaces the right column (AREA-43; FE-26 note, agent's call, open to the founder).
+  # Changed 17 Nov 2026 (Codex review of the design-pass specifications): the desktop result keeps the map in its header, so an opened topic replaces the right column (AREA-43; FE-26 note, agent's call, approved by the founder on 18 Nov 2026: "Keep all (Recommended)").
   Scenario: TOPIC-03 on desktop a topic opens as a panel in place of the right column
     Given the result for a sample postcode is open on desktop
     When the visitor opens a topic
@@ -222,7 +222,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And the area it covers reads "The 1 km square around this postcode"
     And the limit reads "Indicative, not definitive: the class is the highest found anywhere in this 1 km square, not a test of this home. Only a measurement in the home gives its radon level. A low class does not mean no radon."
     And the link "Get a radon report for an address from UKradon (paid) ↗" is shown
-    And the source stamp is "BGS and UKHSA" (the short name is still proposed, FE-69)
+    And the source stamp is "BGS and UKHSA" (the short name was approved by the founder on 18 Nov 2026, FE-69)
     And no per-home radon level, verdict or "safe" or "low risk" label is shown
 
   @ui

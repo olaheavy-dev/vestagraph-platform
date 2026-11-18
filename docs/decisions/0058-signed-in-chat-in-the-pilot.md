@@ -64,7 +64,7 @@ Prices from each provider's own page, read 16 Nov 2026 (US dollars):
 
 ### 6. Keeping and deleting
 - **Saved chats:** "12 months after last use (Recommended)": a chat is deleted 12 months after it was last opened or last had a message sent, whichever is later.
-- **Unused accounts:** "Delete after 24 months idle (Recommended)": the whole account (email, name, saved areas, chats) is removed 24 months after the last sign-in, without a warning email. *Agent's call:* any request with a valid sign-in counts as use, so a session that stays signed in keeps the account.
+- **Unused accounts:** "Delete after 24 months idle (Recommended)": the whole account (email, name, saved areas, chats) is removed 24 months after the last sign-in, without a warning email. *Agent's call:* any request with a valid sign-in counts as use, so a session that stays signed in keeps the account. *18 Nov 2026: approved by the founder (prompt window, "Keep all (Recommended)").*
 - **Always:** a user can delete any chat, or the whole account, themselves, at any time, and the rules above are in the privacy notice and on the account page.
 
 ### 7. Daily cap
@@ -72,7 +72,7 @@ Prices from each provider's own page, read 16 Nov 2026 (US dollars):
 - **15 messages a day.**
 - **60 messages a day.**
 
-**Chosen: "15 messages a day"** (over the agent's recommendation): 15 chat messages per account per day. When it is reached, the chat says it is paused for today (the wording is a design step) and the rest of the site keeps working. *Agent's call (open to the founder):* only messages the user sends count; the fixed AI-11 reply counts like any message, and a message that fails on our side does not; the count resets at midnight UK time; it is stored in the database with the account. The monthly cap in pounds for the whole pilot stays IN-05's, set by the founder before launch.
+**Chosen: "15 messages a day"** (over the agent's recommendation): 15 chat messages per account per day. When it is reached, the chat says it is paused for today (the wording is a design step) and the rest of the site keeps working. *Agent's call (open to the founder when written; now the founder's decision, 18 Nov 2026):* only messages the user sends count; the fixed AI-11 reply counts like any message, and a message that fails on our side does not; the count resets at midnight UK time; it is stored in the database with the account. *18 Nov 2026: approved by the founder (prompt window, "Keep all (Recommended)").* The monthly cap in pounds for the whole pilot stays IN-05's, set by the founder before launch.
 
 ### 8. How the chat gets its facts
 - **Call the tool functions directly (recommended by the agent):** the chat agent and the public MCP server share one Python package of area and council tools; the chat calls them inside the API.
@@ -86,7 +86,7 @@ The builder check found that "nothing from a chat in any trace" conflicts with t
 - **Short-lived traces with text:** full traces including the words, kept 30 days, visible only to the founder, then deleted.
 - **Users can opt in to share:** metadata only, plus a "report this answer" flag that sends one chat for review.
 
-**Chosen: "Short-lived traces with text"** (over the agent's recommendation): chat traces may include the words of the conversation and the tool calls; they are kept for **30 days**, then deleted; only the founder can see them; the privacy notice says so. Deleting a chat or an account also deletes its traces: a tracing tool is chosen only if it can delete one user's or one chat's traces on request, so the delete promise in choice 6 holds without a 30-day exception. *Agent's call:* the AI tests (AI-03) still use only conversations we write; traces are never copied into the tests without a later decision. Where the traces are stored (our own database or a tracing service, which would hold personal data) is decided with AI-09 and IN-02.
+**Chosen: "Short-lived traces with text"** (over the agent's recommendation): chat traces may include the words of the conversation and the tool calls; they are kept for **30 days**, then deleted; only the founder can see them; the privacy notice says so. Deleting a chat or an account also deletes its traces: a tracing tool is chosen only if it can delete one user's or one chat's traces on request, so the delete promise in choice 6 holds without a 30-day exception. *Agent's call:* the AI tests (AI-03) still use only conversations we write; traces are never copied into the tests without a later decision. *18 Nov 2026: approved by the founder (prompt window, "Keep all (Recommended)").* Where the traces are stored (our own database or a tracing service, which would hold personal data) is decided with AI-09 and IN-02.
 
 ## Decision
 The pilot gains a **signed-in chat workspace**:
@@ -120,7 +120,9 @@ The founder typed: "Everything we are building has to be scalable, performant, s
 - **The canvas:** the chat boards on "Home workspace (later)" are redrawn for the pilot's signed-in chat (side panel, sidebar, sign-in, account page, paused state), light and dark (drawn 16 Nov 2026 on 'Pilot · Signed-in chat', canvas version 356).
 - **The pilot gate (0052)** also checks the signed-in chat's boards and specifications.
 
-## Builder notes (agent's calls, open to the founder)
+## Builder notes (agent's calls, approved by the founder on 18 Nov 2026)
+
+*18 Nov 2026: the founder approved all the agent's calls in this record, in these builder notes, in the dated notes below and in choices 6, 7 and 9 (prompt window, "Keep all (Recommended)"). They were the agent's calls, open to the founder, when written; they are now the founder's decisions.*
 From the builder check on 16 Nov 2026; a builder could settle these without changing what is built, so the agent did:
 - **Who stores what:** Better Auth's tables (user, session, account, verification) and our own tables (chats, saved areas, daily counts) live in one database, kept apart from the public-data tables (0014's design rule), in separate schemas. The FastAPI API owns our tables and the deletion jobs and enforces the cap; Next.js only runs sign-in. Which database and where it is hosted stays with DA-03 and IN-02.
 - **One account per email:** signing in with Google, GitHub or an email link that carries the same verified email address reaches the same account (Better Auth account linking); unverified emails are never linked.
@@ -145,7 +147,7 @@ From the builder check on 16 Nov 2026; a builder could settle these without chan
 - **Reversible:** the chat can be switched off without touching the public pages; accounts are harder to take back once users exist, which is why deletion and retention are fixed now.
 - **Revisit if** AI costs pass IN-05's cap in the pilot, sign-up abuse appears, or the AI-09 trial changes what the chat can do safely.
 
-**Note, 16 Nov 2026 (design review, before the boards):** the founder's answers to the design review's questions are recorded as register lines AI-13, FE-51 to FE-56 and OP-05 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These are the agent's calls, open to the founder:
+**Note, 16 Nov 2026 (design review, before the boards):** the founder's answers to the design review's questions are recorded as register lines AI-13, FE-51 to FE-56 and OP-05 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These were the agent's calls, open to the founder; the founder approved them on 18 Nov 2026 ("Keep all (Recommended)"):
 - A returning user opens a new chat, with the last chat first in the sidebar.
 - An answer stopped by the guard counts toward the 15 messages a day, and so does a regenerate.
 - A dropped connection on our side does not count.
@@ -156,11 +158,11 @@ Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes
 
 *16 Nov 2026 (PR 3):* the withdrawn-scenario review is done in the specification pull request under this new-ID rule: of the 53 CHAT scenarios, 2 are kept, 50 are replaced by new IDs and 1 is retired (table in `docs/specs/pilot/area-chat.feature`). The "rewritten … keeping their IDs" wording in "What this changes in the records" is superseded by this rule.
 
-**Note, 16 Nov 2026 (board review):** the founder's answers while reviewing the boards are recorded as register lines FE-57 to FE-66 and SE-06 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These are the agent's calls made while drawing, open to the founder:
+**Note, 16 Nov 2026 (board review):** the founder's answers while reviewing the boards are recorded as register lines FE-57 to FE-66 and SE-06 in the [register](README.md), with the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md). These were the agent's calls made while drawing, open to the founder; the founder approved them on 18 Nov 2026 ("Keep all (Recommended)"):
 - Deleting one chat or one saved area (ruling): the server hides the item at once and commits the delete itself 10 seconds after the request, so it happens even if the browser closes or crashes; Undo is a request to the server before then; the message does not pause on hover or focus. The chat's traces are deleted when it commits.
 - "Delete all chats" asks first.
 - "Chat unavailable right now" is a warning.
 - The email-link method has no Remove: an email link always reaches the account at its verified address.
 - A dropped connection on our side does not count, and Retry counts only if the answer completes.
 - The 15 messages are counted in one atomic step per account.
-- *16 Nov 2026 (final review of the specifications):* a signed-out or revoked session is refused on every API request, reads as well as writes: the API checks that the session still exists, not only the token (AUTH-24, AUTH-25, AUTH-27; one database lookup per request); and an answer the user stops counts toward the 15, because the model was used (WCHAT-108).
+- *16 Nov 2026 (final review of the specifications):* a signed-out or revoked session is refused on every API request, reads as well as writes: the API checks that the session still exists, not only the token (AUTH-24, AUTH-25, AUTH-27; one database lookup per request); and an answer the user stops counts toward the 15, because the model was used (WCHAT-108). *18 Nov 2026: approved by the founder (prompt window, "Keep all (Recommended)").*

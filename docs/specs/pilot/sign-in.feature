@@ -192,7 +192,7 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     When the user checks a complete postcode (fixture NB1 4XY)
     Then the "Ask about this area" entry shows the "AI" badge (FE-13)
 
-  # Review Focus 2, final review (16 Nov 2026): the API checks that the session still exists on every request, reads too, not only the token (0058, 16 Nov board-review note; agent's call, open to the founder).
+  # Review Focus 2, final review (16 Nov 2026): the API checks that the session still exists on every request, reads too, not only the token (0058, 16 Nov board-review note; agent's call, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
   @ui
   Scenario: AUTH-27 a revoked session's unexpired token is refused on a read
     Given a user signed out, or signed out everywhere, and the 15-minute token they held has not yet expired

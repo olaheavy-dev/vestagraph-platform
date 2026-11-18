@@ -8,7 +8,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
   Where: compare opens from the council page's "Compare" (CITY-06); share and print from "Share" and from the compare page; what changed sits at the top of a council page under the council's name; About the data is linked from "How we got this" on the council and neighbourhood pages. Boards, on the canvas page "Pilot · City Explorer" (design canvas version 407): CouncilCompare (phone) and CouncilCompareDesktop; CouncilPrint (the A4 printout, light only, FE-50, no Dark twin); CouncilWhatChanged (phone, three states) and CouncilWhatChangedDesktop; CouncilAboutData. Every board other than CouncilPrint has its Dark twin.
   Rule 7: a missing figure is never shown as zero, a flat value, a favourable value or a clean result. A difference needs both sides.
   Rule 4 and 0054: compare shows two councils side by side in the order the visitor picked them. It never sorts, ranks or totals them, has no "cheaper" or winner label and no calculated difference between the two councils.
-  Wording status: the board texts quoted below are the canvas's. Not drawn on any board, so proposed wording that is finalised before build: the council "Share a link" control and its confirmation (CITY2-30 to CITY2-32; the boards show only the buttons "Share" and "Share this comparison"), a compare page before a second council is picked (CITY2-05), a council with a gap picked in compare (CITY2-22, CITY2-24), the offline message in compare (CITY2-27) and the note for a replaced council's records (CITY2-57). The "was" figure, the newer edition's name and date and the "revised" label in what changed are placeholders on the boards, because no sample record has an earlier edition or a revision (CITY2-48, CITY2-49). The dates on the About the data board are quoted from the sources research (`docs/reviews/2026-11-16-city-explorer-sources.md`); the page quotes them from the sources' own records once the generator carries them. The Share control's address for a shared comparison (where the two councils go) is not decided in the design spec; CITY2-32 fixes only what the address never holds.
+  Wording status: the board texts quoted below are the canvas's. Not drawn on any board, so proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (issue #318 stays open until the boards are drawn), finalised before build: the council "Share a link" control and its confirmation (CITY2-30 to CITY2-32; the boards show only the buttons "Share" and "Share this comparison"), a compare page before a second council is picked (CITY2-05), a council with a gap picked in compare (CITY2-22, CITY2-24), the offline message in compare (CITY2-27) and the note for a replaced council's records (CITY2-57). The "was" figure, the newer edition's name and date and the "revised" label in what changed are placeholders on the boards, because no sample record has an earlier edition or a revision (CITY2-48, CITY2-49). The dates on the About the data board are quoted from the sources research (`docs/reviews/2026-11-16-city-explorer-sources.md`); the page quotes them from the sources' own records once the generator carries them. The Share control's address for a shared comparison (where the two councils go) is not decided in the design spec; CITY2-32 fixes only what the address never holds.
   Data scenarios (no tag) check the facts in `council-area.json` and `council-result.json` with the council steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page or in the browser.
 
   Board-to-scenario map (each board has a Dark twin that shows the same states, except the printout; CITY2-29, CITY2-43):
@@ -77,7 +77,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     Then every row shows Southvale's figure first and Northbridge's second, each figure unchanged
     And no row is re-sorted and no label changes
 
-  # No board draws the page before a second council is picked: proposed wording, finalised before build (as the council page's empty states).
+  # No board draws the page before a second council is picked: proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), finalised before build (as the council page's empty states).
   @ui
   Scenario: CITY2-05 before a second council is picked compare shows no rows and no figure
     Given the user has opened compare from the council page for council "E06999001"
@@ -248,12 +248,12 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     And the display control changes the theme and the text size, and each board's dark twin shows the same rows (FE-50; the canvas Dark twins)
 
   # Share (design spec: "Share a link": the council in the address, nothing stored; never the budget or edited inputs).
-  # No board draws the council Share control opening; the boards show the buttons "Share" (council header) and "Share this comparison" (compare). Proposed behaviour, finalised before build.
+  # No board draws the council Share control opening; the boards show the buttons "Share" (council header) and "Share this comparison" (compare). Proposed behaviour, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), finalised before build.
   @ui
   Scenario: CITY2-30 Share on a council page offers a link to the council and a printable summary
     Given the user has opened the council page for council "E06999001"
     When the user chooses "Share" in the header
-    Then the choices are a link to the council and the printable summary (the proposed wording is finalised before build)
+    Then the choices are a link to the council and the printable summary (the proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), is finalised before build)
     And no account is needed
 
   @ui
@@ -446,7 +446,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     Then "What changed since your last visit" sits under "Northbridge (sample)" and its population line, in each of its three states
     And "← Check another place" stays above the council's name
 
-  # A council replaced during the pilot (CITY-97): its "what changed" records are dropped with a note (design spec). No board draws the note: proposed wording, finalised before build.
+  # A council replaced during the pilot (CITY-97): its "what changed" records are dropped with a note (design spec). No board draws the note: proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), finalised before build.
   @ui
   Scenario: CITY2-57 the records of a replaced council are dropped with a note
     Given the setting is on and a council the user viewed has been replaced by a new council

@@ -32,8 +32,8 @@ Feature: Check an area
     column (AREA-37 to AREA-43); the new topics, their rows and the Check this rows are in `area-topics.feature`
     (TOPIC-26 to TOPIC-40); every map keeps FE-42's 3D style and the Map screen adds a flat 2D map with layers
     (`area-map.feature`, MAP-14 to MAP-26); the printout is `area-printout.feature` (PRINT-01 to PRINT-20); About the
-    data and the NB7 1RR states are AREA-44 to AREA-47. Where wording is still proposed (FE-69's short list) a comment
-    on the scenario says so.
+    data and the NB7 1RR states are AREA-44 to AREA-47. FE-69's short list of proposed wording was approved on 18 Nov 2026
+    (founder, "Approve as written (Recommended)"), so no wording here is still proposed.
   Required states (doc 03 §5, the information architecture's "Check an area" and AGENTS.md rule 7):
     the postcode never reaches a log (decisions 0014, 0046) -> AREA-03, AREA-15
     an outbound link says where it goes and whether it carries the postcode (FE-11) -> AREA-18
@@ -258,7 +258,7 @@ Feature: Check an area
 
   # Added 14 Nov 2026 (FE-34, one per page).
   # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)" and "I pick B but add the icons"): the section is a short note, not every topic's method and limits.
-  # Changed 16 Nov 2026 (design pass): the note names the 1 km square for radon and says what the Check this rows are; the founder approved "The warning check is not a flood risk check" (FE-69), while the other added sentences are still proposed wording (FE-69, "Still proposed"). The Check this rows are listed in the note with their official links.
+  # Changed 16 Nov 2026 (design pass): the note names the 1 km square for radon and says what the Check this rows are; the founder approved "The warning check is not a flood risk check" (FE-69), and the other added sentences were approved too on 18 Nov 2026 (FE-69, founder, "Approve as written (Recommended)"). The Check this rows are listed in the note with their official links.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: AREA-27 the postcode result ends with a short "How we got this" and a link to About the data
@@ -373,7 +373,7 @@ Feature: Check an area
     And choosing an item moves to that part of the page and moves focus to its heading
     And it can be reached and operated by keyboard
 
-  # FE-26 dated note, 16 Nov 2026: "agent's call, open to the founder".
+  # FE-26 dated note, 16 Nov 2026: "agent's call"; approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)").
   @ui
   Scenario: AREA-42 the right column under the map holds Check in person and the places
     Given the user has checked a sample postcode on desktop and no topic is open
@@ -382,7 +382,7 @@ Feature: Check an area
     And "Questions to ask" with its gap questions and "Ask about this area" and "What matters to you · Set priorities" sit in the left column
     And a filter that hides a kind of place says so in the list, for example "Police hidden by your filter"
 
-  # Agent's call, open to the founder (FE-26 dated note, Task 3 "As drawn"). If the founder prefers the panel to open beside the list instead, this scenario is the one to change.
+  # Agent's call, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"; FE-26 dated note, Task 3 "As drawn"). If the founder later prefers the panel to open beside the list instead, this scenario is the one to change.
   @ui
   Scenario: AREA-43 on desktop an opened topic replaces the right column and the map stays in the header
     Given the user has checked a sample postcode on desktop and no topic is open
@@ -394,7 +394,7 @@ Feature: Check an area
     And focus moves to the panel's heading when it opens, and Escape closes it and returns focus to the row (TOPIC-03, TOPIC-15)
 
   # Added 16 Nov 2026 (Task 6b "As drawn", FE-33 dates only). Dates come from `postcode-area.json` and `map-layers.json`.
-  # About the data's source label pattern and the short source name "BGS and UKHSA" are still proposed wording (FE-69, "Still proposed").
+  # About the data's source label pattern and the short source name "BGS and UKHSA" were proposed wording, approved by the founder on 18 Nov 2026 (FE-69, "Approve as written (Recommended)").
   @ui
   Scenario: AREA-44 About the data lists the design pass's new sources with dates only
     Given the user is on Check an area and has opened About the data
@@ -404,7 +404,7 @@ Feature: Check an area
     And the topics we link to only (council tax band of a home, mobile by network, ground and mining) read "We don't hold this yet" with their official link
 
   @ui
-  # Changed 17 Nov 2026 (Codex review): About the data is the same for every postcode (FE-34, AREA-25), so it states the noise source's general coverage, not one postcode's result; the postcode-specific wording lives in TOPIC-38 and MAP-23. Wording proposed (agent's), open to the founder.
+  # Changed 17 Nov 2026 (Codex review): About the data is the same for every postcode (FE-34, AREA-25), so it states the noise source's general coverage, not one postcode's result; the postcode-specific wording lives in TOPIC-38 and MAP-23. Wording proposed by the agent, approved by the founder on 18 Nov 2026 (FE-69, "Approve as written (Recommended)").
   Scenario: AREA-45 About the data describes the noise source in general and never says a gap means no noise
     Given the user is on Check an area and has opened About the data
     When the visitor opens "Noise"
@@ -419,7 +419,7 @@ Feature: Check an area
     And area result "NB7 1RR" has topic "broadband" with outcome "found"
     And area result "NB7 1RR" has topic "housing-affordability" with outcome "found"
 
-  # The wording of the gap rows is still proposed (FE-69, "the wording for the NB7 gaps"); the rows follow the approved states board's pattern.
+  # The wording of the gap rows was approved by the founder on 18 Nov 2026 (FE-69, "the wording for the NB7 gaps"); the rows follow the approved states board's pattern.
   @ui
   Scenario: AREA-47 the sparse area's gaps page lists radon, broadband coverage and council rent without reading as a clean result
     Given the user has checked the sample postcode "NB7 1RR"
@@ -429,7 +429,7 @@ Feature: Check an area
     And Housing affordability has two gap rows: "No affordability ratio for this area in this source" and "No average private rent for this area in this source"
     And none of them reads as zero, none or a clean result (rule 7)
 
-  # Added 17 Nov 2026 (City Explorer plan Task 14c; design `docs/superpowers/specs/2026-11-15-city-explorer-design.md`, "The way back": the area result links to its council's page, "About <council>"; decision 0055). The council comes from the postcode (`council-result.json` search: NB1 4XY leads to E06999001, checked in TOOLS-50). Not drawn on the desktop place header board (AreaResultDesktop shows the postcode and "Northbridge, England" with no link; the result's topic row has "See Northbridge in City Explorer →", TOPIC-33 in `area-topics.feature`, DA-29): the link is the design's, with wording "About" and the council's name, proposed and open to the founder.
+  # Added 17 Nov 2026 (City Explorer plan Task 14c; design `docs/superpowers/specs/2026-11-15-city-explorer-design.md`, "The way back": the area result links to its council's page, "About <council>"; decision 0055). The council comes from the postcode (`council-result.json` search: NB1 4XY leads to E06999001, checked in TOOLS-50). Not drawn on the desktop place header board (AreaResultDesktop shows the postcode and "Northbridge, England" with no link; the result's topic row has "See Northbridge in City Explorer →", TOPIC-33 in `area-topics.feature`, DA-29): the link is the design's, with wording "About" and the council's name, proposed by the agent and approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)").
   @ui
   Scenario: AREA-48 the desktop place header links to the council's City Explorer page
     Given the user has checked the sample postcode "NB1 4XY" on desktop
