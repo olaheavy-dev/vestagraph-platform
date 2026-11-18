@@ -16,7 +16,7 @@
       "steps": [
         {
           "n": 1,
-          "description": "Counted topics, in registry order (family-view and the four route-only topics (five uncounted topics) are counted: false and ignored): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, radon, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
+          "description": "Counted topics, in registry order (family-view and the five route-only topics (six uncounted topics) are counted: false and ignored; working from pilot-topics.json: 22 topics - 6 uncounted = 16 counted): getting-around, everyday-places, places-of-worship, schools, planning-nearby, flood, crime, sold-nearby, broadband, air-quality, radon, council-tax-by-band, housing-affordability, deprivation, transport-connectivity, green-space.",
           "value": 16
         },
         {
@@ -54,8 +54,8 @@
         },
         {
           "n": 10,
-          "description": "Check in person, in registry order: the 16 counted topics (whatever their outcome) and the five route-only topics (council-tax-band-home, energy-certificate-home, mobile-by-network, noise, ground-and-mining). family-view is an uncounted grouping, not route-only, so it is left out. 16 + 5 = 21 lists; the lists are never counted (FE-41).",
-          "value": 20
+          "description": "Check in person, in registry order: the 16 counted topics (whatever their outcome) and the five route-only topics (council-tax-band-home, energy-certificate-home, mobile-by-network, noise, ground-and-mining). family-view is an uncounted grouping, not route-only, so it is left out. Working from pilot-topics.json: 22 topics, of which 16 counted, 5 route-only and 1 uncounted grouping (family-view); 16 + 5 = 21 lists; the lists are never counted (FE-41).",
+          "value": 21
         },
         {
           "n": 11,
@@ -178,8 +178,8 @@
         },
         {
           "n": 11,
-          "description": "Check in person, in registry order: the 16 counted topics, including green-space (not covered: data can't show it, so checking in person matters most) and radon, and the four route-only topics; family-view left out. 20 lists, never counted.",
-          "value": 20
+          "description": "Check in person, in registry order: the 16 counted topics, including green-space (not covered: data can't show it, so checking in person matters most) and radon, and the five route-only topics (council-tax-band-home, energy-certificate-home, mobile-by-network, noise, ground-and-mining); family-view left out. Working from pilot-topics.json: 16 counted + 5 route-only = 21 lists, never counted.",
+          "value": 21
         }
       ],
       "expected": {

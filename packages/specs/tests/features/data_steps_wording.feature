@@ -63,3 +63,4 @@ Feature: Every data step wording runs against the real data (proof for issue #19
     And energy certificate "0000-0000-0000-0000-0007" shows "parts" as missing
     And energy certificate "0000-0000-0000-0000-0005" shows no ratings, costs, parts or improvements
     And energy certificate "0000-0000-0000-0000-0001" lists improvements in its own order with no total
+    And energy certificate "0000-0000-0000-0000-0001" has an inspection date

@@ -105,6 +105,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
 
   Scenario: ENERGY-10 the current sample is shown and is not more than 10 years old
     Then energy certificate "0000-0000-0000-0000-0001" has outcome "shown"
+    And energy certificate "0000-0000-0000-0000-0001" has an inspection date
     And energy certificate "0000-0000-0000-0000-0001" is not more than 10 years old
     And energy certificate "0000-0000-0000-0000-0001" has status line "none"
 
@@ -120,7 +121,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
   Scenario: ENERGY-12 a current certificate shows its date, type and size from the certificate
     Given the visitor has searched for the sample number "0000-0000-0000-0000-0001"
     When the visitor reads the line under the title
-    Then it shows the property type, the total floor area and "valid until" with the certificate's `validUntil`, all quoted from the file
+    Then it shows the property type, the total floor area, "inspected" with the certificate's `inspectionDate` and "valid until" with its `validUntil`, all quoted from the file
     And it shows no address, street, town or postcode
 
   @ui
@@ -337,7 +338,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
   Scenario: ENERGY-43 How we got this names the register, the date and what the certificate can't tell
     Given the visitor has searched for the sample number "0000-0000-0000-0000-0001"
     When the visitor opens "How we got this"
-    Then it names the energy certificate register, its open government licence, the certificate's valid-until date and that the figures are estimates from the certificate
+    Then it names the energy certificate register, its open government licence, the certificate's inspection date and valid-until date and that the figures are estimates from the certificate
     And it says what a certificate can't tell the visitor, and that we don't show or keep the address
 
   @ui
@@ -365,7 +366,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
   Scenario: ENERGY-47 the printout ends with its sources page and the privacy line
     Given the visitor has chosen "Print or save as PDF" for the sample number "0000-0000-0000-0000-0001"
     When the visitor reads the last page
-    Then it is the sources page, with dates only (FE-33), and it says "Privacy: this summary was made in your browser. Vestagraph didn't store your search."
+    Then it is the sources page, with dates only (FE-33), and it says, in its own proposed line, "Vestagraph looked up this certificate for you and didn't keep the number." (not the area printout's "made in your browser" line, because the register needs Vestagraph's server, AREA-17 does not apply)
     And the suggested file name of the PDF doesn't contain the certificate number
 
   # ---- Display, accessibility and layouts ----

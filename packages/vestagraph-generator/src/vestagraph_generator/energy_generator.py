@@ -68,6 +68,7 @@ def _shown(certificate: Certificate, tables: CodeTables, today: date) -> dict[st
     entry: dict[str, Any] = {
         "number": certificate.number,
         "outcome": "shown",
+        "inspectionDate": certificate.inspection_date.isoformat(),
         "validUntil": valid_until(certificate.registration_date).isoformat(),
         "moreThanTenYearsOld": is_more_than_ten_years_old(certificate.registration_date, today),
     }

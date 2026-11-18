@@ -409,6 +409,12 @@ class DataSteps:
             f'Energy certificate "{number}" has no validUntil date in {_ENERGY_RESULT}.'
         )
 
+    def then_energy_certificate_has_inspection_date(self, number: str) -> None:
+        value = _require_energy_certificate(number).get("inspectionDate")
+        assert isinstance(value, str), (
+            f'Energy certificate "{number}" has no inspectionDate in {_ENERGY_RESULT}.'
+        )
+
     def then_energy_certificate_has_status_line(self, number: str, status: str) -> None:
         line = _require_energy_certificate(number).get("statusLine")
         actual = "none" if line is None else line.get("status")

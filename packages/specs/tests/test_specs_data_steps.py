@@ -857,3 +857,17 @@ def test_find_entry_without_the_key_fails_naming_the_key_and_where() -> None:
 
     assert '"topic"' in str(failure.value)
     assert 'council "X1" captions' in str(failure.value)
+
+
+def test_then_energy_certificate_inspection_date_shown_sample_passes(steps: DataSteps) -> None:
+    steps.then_energy_certificate_has_inspection_date(_EPC_A)
+
+
+def test_then_energy_certificate_inspection_date_not_shown_sample_fails_naming_the_number(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_energy_certificate_has_inspection_date(_EPC_E)
+
+    assert _EPC_E in str(failure.value)
+

@@ -328,3 +328,8 @@ def then_energy_certificate_shows_no_facts(data_steps: DataSteps, number: str) -
 )
 def then_energy_certificate_improvements_in_order(data_steps: DataSteps, number: str) -> None:
     data_steps.then_energy_certificate_improvements_in_order_no_total(number)
+
+
+@then(parsers.parse('energy certificate "{number}" has an inspection date'))
+def then_energy_certificate_has_inspection_date(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_has_inspection_date(number)

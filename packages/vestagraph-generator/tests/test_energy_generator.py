@@ -33,6 +33,12 @@ def test_generate_energy_sample_a_valid_until_2035_04_04() -> None:
     assert "statusLine" not in sample
 
 
+def test_generate_energy_sample_a_inspection_date_2025_04_04() -> None:
+    sample = _result()[_number("A")]
+
+    assert sample["inspectionDate"] == "2025-04-04"
+
+
 def test_generate_energy_sample_b_more_than_ten_years_old_true() -> None:
     sample = _result()[_number("B")]
 

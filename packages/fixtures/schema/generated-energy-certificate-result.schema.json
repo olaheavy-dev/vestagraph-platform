@@ -62,7 +62,7 @@
         {
           "type": "object",
           "required": [
-            "number", "outcome", "validUntil", "moreThanTenYearsOld", "currentRating",
+            "number", "outcome", "inspectionDate", "validUntil", "moreThanTenYearsOld", "currentRating",
             "potentialRating", "propertyType", "builtForm", "totalFloorAreaSquareMetres",
             "costs", "parts", "improvements"
           ],
@@ -70,6 +70,7 @@
           "properties": {
             "number": { "$ref": "#/$defs/number" },
             "outcome": { "const": "shown" },
+            "inspectionDate": { "$ref": "common.schema.json#/$defs/fullDate" },
             "validUntil": { "$ref": "common.schema.json#/$defs/fullDate" },
             "moreThanTenYearsOld": { "type": "boolean" },
             "statusLine": {
