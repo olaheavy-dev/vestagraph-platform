@@ -197,6 +197,14 @@
             "text": "Check the band on the official page for the exact address."
           },
           {
+            "topicKey": "energy-certificate-home",
+            "text": "Ask the owner or landlord for the energy certificate number, which is printed on the certificate."
+          },
+          {
+            "topicKey": "energy-certificate-home",
+            "text": "Check the certificate on the official page, and look at its date."
+          },
+          {
             "topicKey": "mobile-by-network",
             "text": "Check signal on your own phone in each room."
           },
@@ -715,6 +723,14 @@
           {
             "topicKey": "council-tax-band-home",
             "text": "Check the band on the official page for the exact address."
+          },
+          {
+            "topicKey": "energy-certificate-home",
+            "text": "Ask the owner or landlord for the energy certificate number, which is printed on the certificate."
+          },
+          {
+            "topicKey": "energy-certificate-home",
+            "text": "Check the certificate on the official page, and look at its date."
           },
           {
             "topicKey": "mobile-by-network",

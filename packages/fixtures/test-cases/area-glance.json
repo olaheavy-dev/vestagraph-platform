@@ -54,7 +54,7 @@
         },
         {
           "n": 10,
-          "description": "Check in person, in registry order: the 16 counted topics (whatever their outcome) and the four route-only topics (council-tax-band-home, mobile-by-network, noise, ground-and-mining). family-view is an uncounted grouping, not route-only, so it is left out. 16 + 4 = 20 lists; the lists are never counted (FE-41).",
+          "description": "Check in person, in registry order: the 16 counted topics (whatever their outcome) and the five route-only topics (council-tax-band-home, energy-certificate-home, mobile-by-network, noise, ground-and-mining). family-view is an uncounted grouping, not route-only, so it is left out. 16 + 5 = 21 lists; the lists are never counted (FE-41).",
           "value": 20
         },
         {
@@ -115,6 +115,7 @@
           "transport-connectivity",
           "green-space",
           "council-tax-band-home",
+          "energy-certificate-home",
           "mobile-by-network",
           "noise",
           "ground-and-mining"
@@ -279,6 +280,7 @@
           "transport-connectivity",
           "green-space",
           "council-tax-band-home",
+          "energy-certificate-home",
           "mobile-by-network",
           "noise",
           "ground-and-mining"

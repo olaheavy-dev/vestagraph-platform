@@ -279,3 +279,52 @@ def then_council_neighbourhood_has_tenure_shares(
 @then(parsers.parse('council "{code}" lists no neighbourhoods'))
 def then_council_lists_no_neighbourhoods(data_steps: DataSteps, code: str) -> None:
     data_steps.then_council_lists_no_neighbourhoods(code)
+
+
+@then(parsers.parse('topic "{topic_key}" is route-only and not counted'))
+def then_topic_is_route_only(data_steps: DataSteps, topic_key: str) -> None:
+    data_steps.then_topic_is_route_only(topic_key)
+
+
+@then(parsers.parse('topic "{topic_key}" opens the Vestagraph page "{route}"'))
+def then_topic_opens_vestagraph_page(data_steps: DataSteps, topic_key: str, route: str) -> None:
+    data_steps.then_topic_opens_vestagraph_page(topic_key, route)
+
+
+@then(parsers.parse('energy certificate "{number}" has outcome "{outcome}"'))
+def then_energy_certificate_has_outcome(data_steps: DataSteps, number: str, outcome: str) -> None:
+    data_steps.then_energy_certificate_has_outcome(number, outcome)
+
+
+@then(parsers.parse('energy certificate "{number}" is more than 10 years old'))
+def then_energy_certificate_is_old(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_age(number, True)
+
+
+@then(parsers.parse('energy certificate "{number}" is not more than 10 years old'))
+def then_energy_certificate_is_not_old(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_age(number, False)
+
+
+@then(parsers.parse('energy certificate "{number}" has status line "{status}"'))
+def then_energy_certificate_has_status_line(
+    data_steps: DataSteps, number: str, status: str
+) -> None:
+    data_steps.then_energy_certificate_has_status_line(number, status)
+
+
+@then(parsers.parse('energy certificate "{number}" shows "{field}" as missing'))
+def then_energy_certificate_shows_missing(data_steps: DataSteps, number: str, field: str) -> None:
+    data_steps.then_energy_certificate_shows_missing(number, field)
+
+
+@then(parsers.parse('energy certificate "{number}" shows no ratings, costs, parts or improvements'))
+def then_energy_certificate_shows_no_facts(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_shows_no_facts(number)
+
+
+@then(
+    parsers.parse('energy certificate "{number}" lists improvements in its own order with no total')
+)
+def then_energy_certificate_improvements_in_order(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_improvements_in_order_no_total(number)

@@ -41,6 +41,18 @@ def test_read_registry_committed_data_returns_every_topic() -> None:
     assert radon.review_status == "reviewed"
 
 
+def test_read_registry_vestagraph_route_read() -> None:
+    registry = read_registry(DATA / "pilot-topics.json")
+
+    energy = next(t for t in registry.topics if t.key == "energy-certificate-home")
+    assert (energy.kind, energy.counted) == ("route-only", False)
+    assert energy.vestagraph_route == "/energy-certificate"
+    assert energy.official_route is not None
+    assert energy.official_route.url == "https://www.gov.uk/find-energy-certificate"
+    council_tax = next(t for t in registry.topics if t.key == "council-tax-band-home")
+    assert council_tax.vestagraph_route is None
+
+
 def test_read_registry_radon_topic_is_reviewed_with_the_approved_check_in_lines() -> None:
     """Founder decision, 16 Nov 2026 (DA-31, prompt window "Approve, shorten remedy
     (Recommended)"): the radon wording is approved, and the second check-in line drops the
