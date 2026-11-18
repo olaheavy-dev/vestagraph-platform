@@ -15,7 +15,8 @@ Overwritten at the end of every session (decision 0050). Last updated: **18 Nov 
 | Pull request | What merged |
 |---|---|
 | #323 | The founder's answers to the pre-gate to-dos recorded, and the backend's functional programming style (BE-39) |
-| (this) | Aspire 17 for #94; the CLI updated to 17.0.0 |
+| #324 | Aspire 17 for #94; the CLI updated to 17.0.0 |
+| (this) | uv exclude-newer 7 days (WW-20) |
 
 The founder's six answers (18 Nov 2026, prompt windows): (1) the agent's calls on the signed-in chat (0058, FE-51 to FE-66, SE-06, AI-13, OP-05): "Keep all (Recommended)"; (2) the agent's calls in the design pass (desktop topic replaces the right column, the printout lists every topic, the Sources page shows dates only): "Keep all (Recommended)"; (3) the agent's calls and proposed wording in City Explorer PR C (#320): "Keep all (Recommended)" (#318 stays open because the boards are not drawn; only the wording is approved); (4) the chat's wording (WCHAT-89, WCHAT-92, WCHAT-99, WCHAT-109 and `account.feature`'s two texts): "Approve as written (Recommended)"; (5) the design pass's last proposed wording (FE-69, including AREA-45's noise line): "Approve as written (Recommended)"; (6) trade-mark clearance (PD-09): "Leave it for now".
 
@@ -157,7 +158,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- Aspire 17 for #94 (this pull request, documentation only). Everything else is merged, up to #323.
+- uv exclude-newer 7 days (this pull request). Everything else is merged, up to #324.
 
 ## Start of the next session
 0. **Read this section, then draw and specify the energy certificate by certificate number (item 5b), then start the pilot gate (item 6).** City Explorer's specifications merged as #320 (item 2). The signed-in chat track and the design pass are finished on the canvas. The chat track: decision [0058](../decisions/0058-signed-in-chat-in-the-pilot.md) (accepted), the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md) (all tasks done), the canvas page "Pilot · Signed-in chat" (canvas version 356, 23 light and 23 dark boards, plus FeedbackKit and FeedbackKitDark on "Brand and style") and the three specification files. The agent's calls made on the founder's behalf are listed in 0058's dated notes and the register (FE-57 to FE-66, SE-06); the founder approved them all on 18 Nov 2026 ("Keep all (Recommended)") and may still reopen any of them.
