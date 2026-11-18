@@ -1,8 +1,9 @@
 """Checks fixture files against their JSON Schema 2020-12 schemas (decision 0018, BE-07).
 
 Ported from the C# ``FixtureValidator.cs``. Convention: ``data/NAME.json`` is checked against
-``schema/NAME.schema.json``. Any file in ``test-cases/`` or ``generated/`` names its schema in a
-top-level ``$schema`` field (a path relative to the file, such as
+``schema/NAME.schema.json``, and so is ``reference/NAME.json`` (real official data such as code
+tables, kept apart from the invented data). Any file in ``test-cases/`` or ``generated/`` names its
+schema in a top-level ``$schema`` field (a path relative to the file, such as
 ``../schema/test-case.schema.json``).
 
 The two validators must accept and reject exactly the same files, so each place where the Python
@@ -310,12 +311,18 @@ def _validate_file(
 
 
 def validate_fixtures(fixtures_directory: Path) -> list[FixtureProblem]:
-    """Check every data file, test case and generated file under a ``packages/fixtures`` folder."""
+    """Check every data, reference, test-case and generated file under a fixtures folder."""
     problems: list[FixtureProblem] = []
     schema_directory = fixtures_directory / "schema"
     checked_files = 0
 
     for path in _json_files(fixtures_directory / "data"):
+        checked_files += 1
+        expected = path.name.removesuffix(".json") + SCHEMA_SUFFIX
+        problems.extend(_validate_file(path, expected, schema_directory))
+
+    for path in _json_files(fixtures_directory / "reference"):
+        # Real official data (code tables), not invented like data/; same name-to-schema rule.
         checked_files += 1
         expected = path.name.removesuffix(".json") + SCHEMA_SUFFIX
         problems.extend(_validate_file(path, expected, schema_directory))

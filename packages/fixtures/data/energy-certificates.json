@@ -1,0 +1,1096 @@
+{
+  "$schema": "../schema/energy-certificates.schema.json",
+  "nation": "england",
+  "certificates": [
+    {
+      "number": "0000-0000-0000-0000-0001",
+      "schema": "RdSAP-Schema-21.0.1",
+      "country": "england",
+      "kind": "domestic",
+      "status": "entered",
+      "registrationDate": "2025-04-04",
+      "inspectionDate": "2025-04-04",
+      "currentRating": {
+        "value": {
+          "band": "E",
+          "score": 50
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "potentialRating": {
+        "value": {
+          "band": "C",
+          "score": 72
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "propertyTypeCode": {
+        "value": "2",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "builtFormCode": {
+        "value": "4",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "totalFloorAreaSquareMetres": {
+        "value": 55,
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "costs": {
+        "value": {
+          "heating": {
+            "current": {
+              "pence": 36598,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 25034,
+              "period": "year"
+            }
+          },
+          "hotWater": {
+            "current": {
+              "pence": 20040,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 18043,
+              "period": "year"
+            }
+          },
+          "lighting": {
+            "current": {
+              "pence": 12345,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 8423,
+              "period": "year"
+            }
+          }
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "parts": {
+        "value": [
+          {
+            "part": "walls",
+            "description": "Solid brick, as built, no insulation (assumed)",
+            "stars": 1
+          },
+          {
+            "part": "windows",
+            "description": "Fully double glazed",
+            "stars": 3
+          },
+          {
+            "part": "main-heating",
+            "description": "Boiler and radiators, mains gas",
+            "stars": 4
+          },
+          {
+            "part": "heating-controls",
+            "description": "Programmer, room thermostat and TRVs",
+            "stars": 4
+          },
+          {
+            "part": "hot-water",
+            "description": "From main system",
+            "stars": 4
+          },
+          {
+            "part": "lighting",
+            "description": "Low energy lighting in 50% of fixed outlets",
+            "stars": 4
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "improvements": {
+        "value": [
+          {
+            "sequence": 1,
+            "improvementCode": 35,
+            "indicativeCost": "£220 - £250",
+            "typicalSaving": {
+              "pence": 13900,
+              "period": "year"
+            }
+          },
+          {
+            "sequence": 2,
+            "improvementCode": 19,
+            "indicativeCost": "£4,000 - £7,000",
+            "typicalSaving": {
+              "pence": 4900,
+              "period": "year"
+            }
+          },
+          {
+            "sequence": 3,
+            "improvementCode": 34,
+            "indicativeCost": "£8,000 - £10,000",
+            "typicalSaving": {
+              "pence": 28600,
+              "period": "year"
+            }
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-04-04",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0002",
+      "schema": "RdSAP-Schema-17.0",
+      "country": "england",
+      "kind": "domestic",
+      "status": "entered",
+      "registrationDate": "2014-06-10",
+      "inspectionDate": "2014-06-10",
+      "currentRating": {
+        "value": {
+          "band": "D",
+          "score": 60
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "potentialRating": {
+        "value": {
+          "band": "C",
+          "score": 74
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "propertyTypeCode": {
+        "value": "0",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "builtFormCode": {
+        "value": "3",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "totalFloorAreaSquareMetres": {
+        "value": 84,
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "costs": {
+        "value": {
+          "heating": {
+            "current": {
+              "pence": 61200,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 48800,
+              "period": "year"
+            }
+          },
+          "hotWater": {
+            "current": {
+              "pence": 15500,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 14100,
+              "period": "year"
+            }
+          },
+          "lighting": {
+            "current": {
+              "pence": 9800,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 6100,
+              "period": "year"
+            }
+          }
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "parts": {
+        "value": [
+          {
+            "part": "walls",
+            "description": "Cavity wall, as built, no insulation (assumed)",
+            "stars": 2
+          },
+          {
+            "part": "roof",
+            "description": "Pitched, 100 mm loft insulation",
+            "stars": 3
+          },
+          {
+            "part": "main-heating",
+            "description": "Boiler and radiators, mains gas",
+            "stars": 3
+          },
+          {
+            "part": "lighting",
+            "description": "Low energy lighting in 25% of fixed outlets",
+            "stars": 2
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "improvements": {
+        "value": [
+          {
+            "sequence": 1,
+            "improvementCode": 5,
+            "indicativeCost": "£100 - £350",
+            "typicalSaving": {
+              "pence": 4500,
+              "period": "year"
+            }
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.0)",
+          "date": "2014-06-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0003",
+      "schema": "RdSAP-Schema-20.0.0",
+      "country": "england",
+      "kind": "domestic",
+      "status": "superseded",
+      "registrationDate": "2022-09-12",
+      "inspectionDate": "2022-09-11",
+      "currentRating": {
+        "value": {
+          "band": "D",
+          "score": 58
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "potentialRating": {
+        "value": {
+          "band": "B",
+          "score": 84
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "propertyTypeCode": {
+        "value": "1",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "builtFormCode": {
+        "value": "1",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "totalFloorAreaSquareMetres": {
+        "value": 70,
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "costs": {
+        "value": {
+          "heating": {
+            "current": {
+              "pence": 52100,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 39900,
+              "period": "year"
+            }
+          },
+          "hotWater": {
+            "current": {
+              "pence": 17200,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 15900,
+              "period": "year"
+            }
+          },
+          "lighting": {
+            "current": {
+              "pence": 8700,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 5200,
+              "period": "year"
+            }
+          }
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "parts": {
+        "value": [
+          {
+            "part": "walls",
+            "description": "Cavity wall, as built, partial insulation (assumed)",
+            "stars": 3
+          },
+          {
+            "part": "main-heating",
+            "description": "Boiler and radiators, mains gas",
+            "stars": 4
+          },
+          {
+            "part": "lighting",
+            "description": "Low energy lighting in 60% of fixed outlets",
+            "stars": 4
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "improvements": {
+        "value": [
+          {
+            "sequence": 1,
+            "improvementCode": 35,
+            "indicativeCost": "£45 - £90",
+            "typicalSaving": {
+              "pence": 3100,
+              "period": "year"
+            }
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2022-09-12",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0004",
+      "schema": "RdSAP-Schema-20.0.0",
+      "country": "england",
+      "kind": "domestic",
+      "status": "cancelled",
+      "registrationDate": "2023-03-01",
+      "inspectionDate": "2023-02-27",
+      "currentRating": {
+        "value": {
+          "band": "C",
+          "score": 71
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "potentialRating": {
+        "value": {
+          "band": "B",
+          "score": 85
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "propertyTypeCode": {
+        "value": "0",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "builtFormCode": {
+        "value": "2",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "totalFloorAreaSquareMetres": {
+        "value": 96,
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "costs": {
+        "value": {
+          "heating": {
+            "current": {
+              "pence": 44300,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 36500,
+              "period": "year"
+            }
+          },
+          "hotWater": {
+            "current": {
+              "pence": 16100,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 15200,
+              "period": "year"
+            }
+          },
+          "lighting": {
+            "current": {
+              "pence": 7600,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 5000,
+              "period": "year"
+            }
+          }
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "parts": {
+        "value": [
+          {
+            "part": "walls",
+            "description": "Cavity wall, as built, insulated (assumed)",
+            "stars": 4
+          },
+          {
+            "part": "main-heating",
+            "description": "Boiler and radiators, mains gas",
+            "stars": 4
+          },
+          {
+            "part": "lighting",
+            "description": "Low energy lighting in all fixed outlets",
+            "stars": 5
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "improvements": {
+        "value": [
+          {
+            "sequence": 1,
+            "improvementCode": 34,
+            "indicativeCost": "£8,000 - £10,000",
+            "typicalSaving": {
+              "pence": 22400,
+              "period": "year"
+            }
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-20.0.0)",
+          "date": "2023-03-01",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0005",
+      "schema": "CEPC-8.0.0",
+      "country": "england",
+      "kind": "non-domestic",
+      "status": "entered",
+      "registrationDate": "2023-05-17",
+      "inspectionDate": "2023-05-16",
+      "currentRating": {
+        "status": "missing"
+      },
+      "potentialRating": {
+        "status": "missing"
+      },
+      "propertyTypeCode": {
+        "status": "missing"
+      },
+      "builtFormCode": {
+        "status": "missing"
+      },
+      "totalFloorAreaSquareMetres": {
+        "status": "missing"
+      },
+      "costs": {
+        "status": "missing"
+      },
+      "parts": {
+        "status": "missing"
+      },
+      "improvements": {
+        "status": "missing"
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0006",
+      "schema": "RdSAP-Schema-21.0.1",
+      "country": "wales",
+      "kind": "domestic",
+      "status": "entered",
+      "registrationDate": "2025-06-18",
+      "inspectionDate": "2025-06-17",
+      "currentRating": {
+        "value": {
+          "band": "D",
+          "score": 63
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "potentialRating": {
+        "value": {
+          "band": "B",
+          "score": 82
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "propertyTypeCode": {
+        "value": "0",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "builtFormCode": {
+        "value": "2",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "totalFloorAreaSquareMetres": {
+        "value": 88,
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "costs": {
+        "value": {
+          "heating": {
+            "current": {
+              "pence": 48800,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 38100,
+              "period": "year"
+            }
+          },
+          "hotWater": {
+            "current": {
+              "pence": 17900,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 16400,
+              "period": "year"
+            }
+          },
+          "lighting": {
+            "current": {
+              "pence": 9100,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 6000,
+              "period": "year"
+            }
+          }
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "parts": {
+        "value": [
+          {
+            "part": "walls",
+            "description": "Solid brick, as built, no insulation (assumed)",
+            "stars": 1
+          },
+          {
+            "part": "windows",
+            "description": "Fully double glazed",
+            "stars": 3
+          },
+          {
+            "part": "main-heating",
+            "description": "Boiler and radiators, mains gas",
+            "stars": 4
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "improvements": {
+        "value": [
+          {
+            "sequence": 1,
+            "improvementCode": 35,
+            "indicativeCost": "£220 - £250",
+            "typicalSaving": {
+              "pence": 13900,
+              "period": "year"
+            }
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-21.0.1)",
+          "date": "2025-06-18",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0007",
+      "schema": "SAP-Schema-17.1",
+      "country": "england",
+      "kind": "domestic",
+      "status": "entered",
+      "registrationDate": "2021-03-10",
+      "inspectionDate": "2021-03-09",
+      "currentRating": {
+        "value": {
+          "band": "C",
+          "score": 76
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (SAP-Schema-17.1)",
+          "date": "2021-03-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "potentialRating": {
+        "value": {
+          "band": "B",
+          "score": 88
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (SAP-Schema-17.1)",
+          "date": "2021-03-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "propertyTypeCode": {
+        "status": "missing"
+      },
+      "builtFormCode": {
+        "status": "missing"
+      },
+      "totalFloorAreaSquareMetres": {
+        "value": 62,
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (SAP-Schema-17.1)",
+          "date": "2021-03-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "costs": {
+        "value": {
+          "heating": {
+            "current": {
+              "pence": 30200,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 27800,
+              "period": "year"
+            }
+          },
+          "hotWater": {
+            "current": {
+              "pence": 13900,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 13000,
+              "period": "year"
+            }
+          },
+          "lighting": {
+            "current": {
+              "pence": 6400,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 5100,
+              "period": "year"
+            }
+          }
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (SAP-Schema-17.1)",
+          "date": "2021-03-10",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "parts": {
+        "status": "missing"
+      },
+      "improvements": {
+        "status": "missing"
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0008",
+      "schema": "RdSAP-Schema-17.1",
+      "country": "england",
+      "kind": "domestic",
+      "status": "entered",
+      "registrationDate": "2016-02-29",
+      "inspectionDate": "2016-02-29",
+      "currentRating": {
+        "value": {
+          "band": "E",
+          "score": 45
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "potentialRating": {
+        "value": {
+          "band": "C",
+          "score": 70
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "propertyTypeCode": {
+        "value": "0",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "builtFormCode": {
+        "value": "4",
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "totalFloorAreaSquareMetres": {
+        "value": 76,
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "costs": {
+        "value": {
+          "heating": {
+            "current": {
+              "pence": 70400,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 52300,
+              "period": "year"
+            }
+          },
+          "hotWater": {
+            "current": {
+              "pence": 21000,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 17800,
+              "period": "year"
+            }
+          },
+          "lighting": {
+            "current": {
+              "pence": 11200,
+              "period": "year"
+            },
+            "potential": {
+              "pence": 7300,
+              "period": "year"
+            }
+          }
+        },
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "parts": {
+        "value": [
+          {
+            "part": "walls",
+            "description": "Solid brick, as built, no insulation (assumed)",
+            "stars": 1
+          },
+          {
+            "part": "windows",
+            "description": "Fully double glazed",
+            "stars": 3
+          },
+          {
+            "part": "main-heating",
+            "description": "Boiler and radiators, mains gas",
+            "stars": 4
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      },
+      "improvements": {
+        "value": [
+          {
+            "sequence": 1,
+            "improvementCode": 35,
+            "indicativeCost": "£220 - £250",
+            "typicalSaving": {
+              "pence": 13900,
+              "period": "year"
+            }
+          },
+          {
+            "sequence": 2,
+            "improvementCode": 19,
+            "indicativeCost": "£4,000 - £7,000",
+            "typicalSaving": {
+              "pence": 4900,
+              "period": "year"
+            }
+          }
+        ],
+        "source": {
+          "origin": "synthetic",
+          "label": "Synthetic sample, shaped like the energy certificate register (RdSAP-Schema-17.1)",
+          "date": "2016-02-29",
+          "synthetic": true,
+          "citationUrl": "https://get-energy-performance-data.communities.gov.uk/api-technical-documentation/fetch-certificate-data"
+        }
+      }
+    }
+  ]
+}
