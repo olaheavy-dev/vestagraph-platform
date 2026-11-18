@@ -70,10 +70,12 @@ def worked_case(case_id: str) -> dict[str, Any]:
 def copy_data_to(tmp_path: Path) -> Path:
     """Copy the real data files to a new fake repository and return its fixtures folder.
 
-    The fake repository root is ``tmp_path``, with the data under ``packages/fixtures/data``.
+    The fake repository root is ``tmp_path``, with the data under ``packages/fixtures/data`` and
+    the code tables under ``packages/fixtures/reference``.
     """
     fixtures = tmp_path / "packages" / "fixtures"
     shutil.copytree(fixtures_directory() / "data", fixtures / "data")
+    shutil.copytree(fixtures_directory() / "reference", fixtures / "reference")
     return fixtures
 
 
