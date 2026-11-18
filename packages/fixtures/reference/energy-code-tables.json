@@ -38,6 +38,12 @@
       "url": "https://raw.githubusercontent.com/communitiesuk/epb-data-warehouse/d7adc1103f8b3aa08f156b4e14b658f70f83c2f0/api/schemas/xml/RdSAP-Schema-21.0.1/RdSAP/ExternalDefinitions.xml",
       "effectiveDate": "2025-06-03",
       "checked": "2026-11-18"
+    },
+    {
+      "table": "validity",
+      "url": "https://www.legislation.gov.uk/uksi/2012/3118/regulation/9",
+      "effectiveDate": "2013-01-09",
+      "checked": "2026-11-18"
     }
   ]
 }

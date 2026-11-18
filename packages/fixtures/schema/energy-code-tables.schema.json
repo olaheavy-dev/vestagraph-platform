@@ -72,7 +72,8 @@
           "enum": [
             "propertyType",
             "builtForm",
-            "improvement"
+            "improvement",
+            "validity"
           ]
         },
         "url": {
