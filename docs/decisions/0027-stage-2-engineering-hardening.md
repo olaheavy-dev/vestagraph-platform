@@ -30,6 +30,8 @@ The founder approved all of the following.
 
 **Dependabot:** a 7-day `cooldown` before proposing new versions; security updates are exempt and arrive immediately.
 
+*Note, 18 Nov 2026: this stays true for GitHub Actions. For uv, `exclude-newer = "7 days"` in `pyproject.toml` ([WW-20](README.md)) is probably read when Dependabot locks, so a security fix uploaded under 7 days ago may not resolve until exempted (inferred, not tested).*
+
 **Cost engine:**
 - **Explicit rounding:** every calculation names its rounding rule (for example half away from zero) and cites the source of that rule; code always passes `MidpointRounding` explicitly and never relies on the default, which is banker's rounding.
 - **Property-based tests** (FsCheck) for rules that must always hold, such as "total equals the sum of its lines", "no negative costs", and "a higher rent never lowers the monthly cost".

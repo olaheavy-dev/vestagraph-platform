@@ -3,6 +3,11 @@
 
 [tool.uv]
 required-version = ">=0.13.7,<0.14"
+# Skip packages uploaded in the last 7 days, so a manual `uv add` or `uv lock --upgrade`
+# cannot pick up a freshly published malicious release (agent-framework 1.26.1 and 1.26.2,
+# 17 Nov 2026: https://osv.dev/vulnerability/PYSEC-2026-4388). To let an urgent security fix
+# through, add `exclude-newer-package = { <name> = false }` and remove it again once the fix is 7 days old.
+exclude-newer = "7 days"
 
 [tool.uv.workspace]
 members = ["packages/vestagraph-*"]
