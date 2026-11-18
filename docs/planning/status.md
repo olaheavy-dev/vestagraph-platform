@@ -20,6 +20,8 @@ The founder's six answers (18 Nov 2026, prompt windows): (1) the agent's calls o
 
 Seventh answer, same day (prompt window), after the agent re-checked the energy certificate licence page (all fields except address and postcode are OGL v3.0; address data is restricted to energy-performance purposes by Ordnance Survey and Royal Mail): facts about the home, "Draw the EPC now; sale later (Recommended)". The certificate-number boards and specification are added before the pilot gate (DA-09 note); the index-adjusted past sale stays at stage 6 (BE-34).
 
+Eighth answer, same day: the backend uses functional programming, "functional core, imperative shell" in plain Python, extending 0039's engine style to the API (register BE-39; founder chose "B: A plus a helper library later" after asking for research: a small helper library such as `more-itertools` may be proposed when needed, with package approval).
+
 ## Done on 17 Nov 2026
 | Pull request | What merged |
 |---|---|
