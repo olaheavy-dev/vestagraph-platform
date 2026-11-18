@@ -859,7 +859,7 @@ def test_find_entry_without_the_key_fails_naming_the_key_and_where() -> None:
     assert 'council "X1" captions' in str(failure.value)
 
 
-# Energy certificate steps (energy certificate plan Task 4): a passing and a failing case per wording.
+# Energy certificate steps (plan Task 4): a passing and a failing case per wording.
 _EPC_A = "0000-0000-0000-0000-0001"
 _EPC_B = "0000-0000-0000-0000-0002"
 _EPC_C = "0000-0000-0000-0000-0003"
