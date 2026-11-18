@@ -123,6 +123,7 @@ The founder typed: "Everything we are building has to be scalable, performant, s
 ## Builder notes (agent's calls, approved by the founder on 18 Nov 2026)
 
 *18 Nov 2026: the founder approved all the agent's calls in this record, in these builder notes, in the dated notes below and in choices 6, 7 and 9 (prompt window, "Keep all (Recommended)"). They were the agent's calls, open to the founder, when written; they are now the founder's decisions.*
+
 From the builder check on 16 Nov 2026; a builder could settle these without changing what is built, so the agent did:
 - **Who stores what:** Better Auth's tables (user, session, account, verification) and our own tables (chats, saved areas, daily counts) live in one database, kept apart from the public-data tables (0014's design rule), in separate schemas. The FastAPI API owns our tables and the deletion jobs and enforces the cap; Next.js only runs sign-in. Which database and where it is hosted stays with DA-03 and IN-02.
 - **One account per email:** signing in with Google, GitHub or an email link that carries the same verified email address reaches the same account (Better Auth account linking); unverified emails are never linked.

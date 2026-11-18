@@ -24,7 +24,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     type), the affordability ratio, who rents and who owns, and transport connectivity (the fields of `council-area.json`).
     They never return anything worked from a visitor's inputs: no rent or buy, repayment, monthly amount, difference or
     other cost figure, because the keyless server holds public area data only (0051, "No home, cost..."; design, agent's
-    call, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")) and an AI never calculates a figure (0004). They read only our stored copies (TOOLS-22), carry the same rule in
+    call) and an AI never calculates a figure (0004). They read only our stored copies (TOOLS-22), carry the same rule in
     every description (TOOLS-18), and share the server's read-only, key-free, limit, monthly-cap and no-log rules, which
     already say "every tool" (TOOLS-16, TOOLS-17, TOOLS-23 to TOOLS-28, TOOLS-37; extended for the council tools in
     TOOLS-61 and TOOLS-62). The signed-in chat calls the same tool functions inside the API (0058, choice 8; TOOLS-60). The
@@ -66,7 +66,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   What a host is: calls from ChatGPT and Claude arrive from those companies' servers (design, builder
     check answer 5). A host or client is identified by its anonymised network address, never by a
     header the caller sends, such as User-Agent.
-  Copy: quoted messages other than the rule text in the design and 0051 are proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), finalised
+  Copy: quoted messages other than the rule text in the design and 0051 are proposed wording (except the council tools' wording, TOOLS-44 to TOOLS-63, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")), finalised
     in the build.
   Required states (design docs/superpowers/specs/2026-11-13-pilot-area-ai-design.md, decision 0051
     points 1, 3 and 4, AGENTS.md rules 1, 4, 6 and 7):

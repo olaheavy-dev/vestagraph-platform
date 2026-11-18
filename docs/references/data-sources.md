@@ -102,7 +102,7 @@ OGL = Open Government Licence v3.0 (allows commercial reuse with attribution). R
 - Recommendation: defer until onboarding terms are read.
 
 ### EPC register
-- [Service](https://get-energy-performance-data.communities.gov.uk/), [licensing restrictions](https://get-energy-performance-data.communities.gov.uk/guidance/licensing-restrictions), [API guidance](https://get-energy-performance-data.communities.gov.uk/guidance/energy-certificate-data-apis) (checked 11 Nov 2026).
+- [Service](https://get-energy-performance-data.communities.gov.uk/), [licensing restrictions](https://get-energy-performance-data.communities.gov.uk/guidance/licensing-restrictions), [API guidance](https://get-energy-performance-data.communities.gov.uk/guidance/energy-certificate-data-apis) (checked 11 Nov 2026; the licensing restrictions page re-checked 18 Nov 2026: OGL v3.0 for every field except the address and postcode fields).
 - Non-address data (including UPRNs) is OGL. **Address fields belong to Ordnance Survey and Royal Mail** and may be used "solely for specific purposes related to the energy performance of buildings"; "commercial use and general marketing are not covered"; any other use needs a licence from OS and/or Royal Mail. This restricts how Vestagraph may store or show the address text.
 - Bearer token via GOV.UK One Login. Limits and quotas: unverified. Data covers England and Wales; Scotland has a separate register. Certificates may be expired or superseded.
 - Does not establish: actual bills (the figures are standardised estimates), that the certificate is current, or that it matches the selected flat (match by UPRN and show the date).
