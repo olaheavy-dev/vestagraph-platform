@@ -66,7 +66,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   What a host is: calls from ChatGPT and Claude arrive from those companies' servers (design, builder
     check answer 5). A host or client is identified by its anonymised network address, never by a
     header the caller sends, such as User-Agent.
-  Copy: quoted messages other than the rule text in the design and 0051 are proposed wording, finalised
+  Copy: quoted messages other than the rule text in the design and 0051 are proposed wording (except the council tools' wording, TOOLS-44 to TOOLS-63, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")), finalised
     in the build.
   Required states (design docs/superpowers/specs/2026-11-13-pilot-area-ai-design.md, decision 0051
     points 1, 3 and 4, AGENTS.md rules 1, 4, 6 and 7):
@@ -427,7 +427,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     And council "E07999002" has field "population" with status "no-record-in-source"
     And council "E07999002" has field "bands" with status "no-record-in-source"
 
-  # Wording proposed (agent's), finalised in the build; the council page's own wording for a missing figure is in city-explorer.feature.
+  # Wording proposed (agent's), approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), finalised in the build; the council page's own wording for a missing figure is in city-explorer.feature.
   @mcp
   Scenario: TOOLS-55 a field with no record is said to have none, never shown as zero
     Given an assistant is connected to the area tools

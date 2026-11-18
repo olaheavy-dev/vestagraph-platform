@@ -6,7 +6,7 @@ Feature: Landing
     (postcode NB1 4XY); inputs: its recorded distances; figures: none.
   Route: / (the landing is the area check: the one search box, for a postcode or a town, is the main action; decision 0046, FE-37 amended 15 Nov 2026).
   Updated 17 Nov 2026 (PR C of the City Explorer plan, Task 14c; decisions 0055 and 0056; register lines FE-37 amended and FE-49): the postcode box became one box for a postcode, town or city (LAND-01, LAND-02, LAND-11, LAND-14 to LAND-16); the four wording edits and the FAQ answer "Do you keep my search?" are LAND-17 to LAND-19; the City Explorer council link and the how-to section are in the section list below (LAND-20; the section's own scenarios are HOWTO-32 to HOWTO-34). Boards: Landing, LandingDark, LandingPhone and LandingPhoneDark, and LandingAssistantSection and LandingAssistantSectionPhone with their Dark twins, on the canvas page "Pilot · public area check" (design canvas version 407). Quoted strings are the canvas's, word for word.
-  The link "No postcode yet? Explore a council area" under the box (the site plan's item 1, which left "kept or dropped" to this task) is dropped: the one box now takes a town, the boards draw no such link, and a second way in under it would compete with the box (agent's call, open to the founder). The council link stays in the footer (LAND-20).
+  The link "No postcode yet? Explore a council area" under the box (the site plan's item 1, which left "kept or dropped" to this task) is dropped: the one box now takes a town, the boards draw no such link, and a second way in under it would compete with the box (agent's call, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")). The council link stays in the footer (LAND-20).
   Sections, in order, from the information architecture's "Landing": the promise with the search
     box; the hero map; Data from (the source wall); How it works; How to read a result (a showcase card, FE-36); Use in ChatGPT or Claude (a short section with a "How to connect" link, decision 0056; its scenarios are HOWTO-32 to HOWTO-34 in `use-in-chatgpt-or-claude.feature`); Coming next, with a free account; Questions; the footer, with the City Explorer council link "Explore council areas" (decision 0055) and "Use in ChatGPT or Claude" (LAND-20)
     ("Honest by design" removed 14 Nov 2026, FE-35).
@@ -113,7 +113,7 @@ Feature: Landing
     Then the sample card carries no "How we got this" row, and callout 4 reads "How we got this" with "At the bottom of every result: a short note on how this search was worked out. The full method and what each source can't tell you are on About the data."
 
   # Added 17 Nov 2026 (Task 14c). FE-37 amended 15 Nov 2026: a postcode opens the area check; a place name opens its council page or "choose a council"; a place in Wales, Scotland or Northern Ireland says "not yet covered". The behaviour after the box is City Explorer's (CITY-22, CITY-08 to CITY-21); these scenarios check what the landing box sends where.
-  # Replaces LAND-12. The design does not say how a postcode-shaped but incomplete entry is told from a place name: this scenario takes the plain reading (it is searched as a place, and nothing matching it gives CITY-21's "couldn’t find" page). Proposed behaviour (agent's), open to the founder; no postcode format message is shown.
+  # Replaces LAND-12. The design does not say how a postcode-shaped but incomplete entry is told from a place name: this scenario takes the plain reading (it is searched as a place, and nothing matching it gives CITY-21's "couldn’t find" page). Proposed behaviour (agent's), approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"); no postcode format message is shown.
   @ui
   Scenario: LAND-14 text that is not a complete postcode is searched as a place
     Given the user is on the landing page
@@ -154,9 +154,9 @@ Feature: Landing
     When the user opens "Do you keep my search?" in Questions
     Then it reads "No. What you type, a postcode or a place name, is only used to show your result. We don’t keep it or link it to you, unless you sign in and save an area."
 
-  # The boards draw a footer of How it works, About the data, Privacy and Accessibility. The site plan's footer also lists "Explore council areas" (0055) and "Use in ChatGPT or Claude" (0056); neither is drawn on the landing boards, so this scenario is proposed wording, finalised in the build.
+  # The boards draw a footer of How it works, About the data, Privacy and Accessibility. The site plan's footer also lists "Explore council areas" (0055) and "Use in ChatGPT or Claude" (0056); neither is drawn on the landing boards, so this scenario is proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), finalised in the build.
   @ui
   Scenario: LAND-20 the footer links the council pages and the how-to page
     Given the user is not signed in
     When the user reaches the footer of the landing page
-    Then it links "Explore council areas", which opens the landing page's one search box, the council search (CITY-07 to CITY-22; no board draws a separate search page, agent's call, open to the founder, 17 Nov 2026), and "Use in ChatGPT or Claude", which opens that page (HOWTO-31)
+    Then it links "Explore council areas", which opens the landing page's one search box, the council search (CITY-07 to CITY-22; no board draws a separate search page, agent's call, 17 Nov 2026; approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")), and "Use in ChatGPT or Claude", which opens that page (HOWTO-31)

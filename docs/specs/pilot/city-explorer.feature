@@ -6,11 +6,11 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Fixtures: councils by code in `packages/fixtures/data/council-area.json` (inputs, each with its source) and `packages/fixtures/generated/council-result.json` (every calculated figure). The sample councils: E06999001 Northbridge (complete, unitary, three neighbourhoods), E06999002 Southvale (price start point not published), E07999001 Eastmere (district, formed 2023-04-01 from "East Westshire Borough", no published rent, one property type with no record, a method break in the affordability series) and E07999002 Westmere (district, nothing recorded: no council tax, rent, price, ratio, tenure or connectivity). The data names read "(synthetic)"; the boards print the same names with "(sample)", and every scenario here quotes the board's text. The postcode SV2 3AB belongs to E06999002.
   Figures: none typed here (AGENTS.md rule 2). A scenario that needs a figure names the council code and the generated field (the figure map below); the page quotes the number from the file.
   Where: the page for one council, titled with its name (for example "Northbridge Council area"; the boards show "Northbridge (sample)"). Boards, on the canvas page "Pilot · City Explorer" (design canvas version 407, each with its Dark twin): CouncilPage (phone), CouncilPageDesktop, CouncilBudgetValue (phone and desktop) and CouncilStates (26 states, phone width; the same messages sit in the desktop page's content area). The printout (CouncilPrint, FE-50), compare, what changed, About the data and the neighbourhood boards belong to the other City Explorer features.
-  "The council search" (agent's call, open to the founder, 17 Nov 2026): no board draws a page of its own for searching councils. In these scenarios "the council search" is the landing page's one search box (FE-37, `01-landing.feature` LAND-14 to LAND-16), with the ambiguous, not-covered and not-found messages of CouncilStates shown where its result goes. "← Check another place" on a council page returns to the landing page with the box ready, and the landing footer's "Explore council areas" opens the same box (LAND-20).
+  "The council search" (agent's call, 17 Nov 2026; approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")): no board draws a page of its own for searching councils. In these scenarios "the council search" is the landing page's one search box (FE-37, `01-landing.feature` LAND-14 to LAND-16), with the ambiguous, not-covered and not-found messages of CouncilStates shown where its result goes. "← Check another place" on a council page returns to the landing page with the box ready, and the landing footer's "Explore council areas" opens the same box (LAND-20).
   Rule 7: a missing figure is never shown as zero, a flat line, a favourable value or a clean result. A caption needs both end points. A difference needs both sides.
   Rule 4 and 0054: no ranking of councils, no "1st of N", no score drawn on a map, no combined score, no verdict words. The sentences under each chart are built by tested rules from the generated figures, never by AI.
   Sign-in: on this page the chat entry and Save lead to sign-in when signed out (AUTH-28 in `sign-in.feature` owns that scenario, for council E06999001; not repeated here).
-  Wording status: the board texts quoted below are the canvas's. Three sentences have no board yet and are proposed wording, finalised before build: the "less" and the "about the same" patterns of the rent or buy sentence (DA-21 approved only the "more" pattern), and the "not comparable" caption for a change that spans a method break.
+  Wording status: the board texts quoted below are the canvas's. Three sentences have no board yet and are proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (issue #318 stays open until the boards are drawn), finalised before build: the "less" and the "about the same" patterns of the rent or buy sentence (DA-21 approved only the "more" pattern), and the "not comparable" caption for a change that spans a method break.
   Still to draw or generate (the scenarios are written; each carries a comment): the phone sheets for the neighbourhoods map, who rents and who owns, and transport connectivity (FE-43: the boards are not drawn yet, so CITY-25 and its siblings are `@ui` and say so); the coverage line's generator field (FE-44, issue #292, CITY-32).
   Data scenarios (no tag) check the facts in `council-area.json` and `council-result.json` with the council steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page, or is a rule on typed input that the server works out (`vestagraph_area`, 0053) and no sample council records.
 
@@ -270,7 +270,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then the council tax line and the two sides of rent or buy change to that band's figures quoted from `E06999001 / bands / <band>` and `E06999001 / rentOrBuy / byBand / <band>` in the generated file
     And no request goes to the server for the change (the page already holds the example-input figures for all eight bands)
 
-  # Agent's call, open to the founder (17 Nov 2026): the server's one answer covers all eight bands. Decision 0053 and CITY-56 keep every calculation out of the browser, so the within-or-above labels and the buy sides for a typed budget or edited inputs are not in the generated file; asking once per change and again per band would make every band pick wait.
+  # Agent's call (17 Nov 2026; approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")): the server's one answer covers all eight bands. Decision 0053 and CITY-56 keep every calculation out of the browser, so the within-or-above labels and the buy sides for a typed budget or edited inputs are not in the generated file; asking once per change and again per band would make every band pick wait.
   @ui
   Scenario: CITY-110 with a budget typed or inputs edited, the server's one answer covers all eight bands, so picking a band needs no new request
     Given the user has opened the council page for council "E06999001" with a budget typed or an input edited
@@ -325,7 +325,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then it reads "On these inputs, buying the average-priced home costs <difference> more a month than the average rent." with the difference quoted from `shownDifference` of the 2-year fixed (DA-21 approved the "more" pattern)
     And the money is in whole pounds, from the generated file
 
-  # Proposed wording (no board yet): the spec's patterns "less" and "about the same as", each worked out by tested code. No sample council gives either, so there is no data scenario; the tested module covers both (plan Task 4).
+  # Proposed wording (approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"); no board yet): the spec's patterns "less" and "about the same as", each worked out by tested code. No sample council gives either, so there is no data scenario; the tested module covers both (plan Task 4).
   @ui
   Scenario: CITY-37 when buying costs less, the sentence says so
     Given a council whose generated comparison for the product is "less"
@@ -627,7 +627,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And the line is drawn as two parts with no line across the break
     And the text alternative says the parts "are measured differently and are not comparable", with each part's end points quoted from the data and no first-to-last pairing
 
-  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. No sample council produces a not-comparable caption, so this waits for a fixture (proposed wording).
+  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. No sample council produces a not-comparable caption, so this waits for a fixture (proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
   @ui
   Scenario: CITY-78 a change across a method break or with a missing earlier point shows no change figure
     Given a council whose latest two end points lie either side of a method break, or whose month 12 months earlier is not published
@@ -866,7 +866,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then every state above reads the same in the dark theme, in WCAG 2.2 AA contrast
     And the theme and text size are remembered on this device only, as on the postcode result
 
-  # Split from CITY-37 (IDs are permanent): the "about the same" sentence, proposed wording.
+  # Split from CITY-37 (IDs are permanent): the "about the same" sentence, proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)").
   @ui
   Scenario: CITY-109 when buying costs about the same, the sentence says so with no figure
     Given a council whose generated comparison for the product is "about-the-same"

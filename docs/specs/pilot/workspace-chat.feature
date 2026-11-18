@@ -12,7 +12,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Fixed replies (register line AI-11): the "is it safe", score, advice and best-area questions are answered by text we wrote and reviewed, not the model (WCHAT-19).
   The ui tag also covers server checks (logs, server storage, refusals, counts, tokens): they run in the same playwright-bdd suite against the running stack (SP-03). Every scenario here is @ui.
   Limits: the message limit, the turn limit, the token limit per answer, the rate limits and the monthly cap (IN-05) are numbers chosen in the build; these scenarios name them, never their values. The numbers fixed by the founder are named by register line: 15 messages per account per day (0058), the warning at message 14 (FE-55), at most 20 saved areas (FE-53), 2 seconds and 6 seconds at the 95th percentile (OP-05), titles from the first words (FE-54), 12 months and 30 days (0058).
-  Copy: the fixed texts are FE-13's AI label, "1 message left today" (FE-55), "Chat is paused for today, the area check still works", "Chat is paused for this month, the area check still works." (FE-61), "Chat unavailable right now", "Not covered" (FE-60), "Compare another area" and "Compare with…" (FE-52, FE-57). Every other quoted message is proposed wording, finalised in the build.
+  Copy: the fixed texts are FE-13's AI label, "1 message left today" (FE-55), "Chat is paused for today, the area check still works", "Chat is paused for this month, the area check still works." (FE-61), "Chat unavailable right now", "Not covered" (FE-60), "Compare another area" and "Compare with…" (FE-52, FE-57). Every other quoted message is proposed wording, finalised in the build, except that the wording of WCHAT-89, WCHAT-92, WCHAT-99 and WCHAT-109 was approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)").
   Required states (plan Tasks 2 to 4 and 4b, Review Focus 1, 4 and 5, AGENTS.md rules 1, 4 and 7):
     desktop layout with the side panel as a region -> WCHAT-01, WCHAT-02
     phone layout, the sidebar drawer, the panel as a modal sheet -> WCHAT-03, WCHAT-04, WCHAT-05
@@ -174,7 +174,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Scenario: WCHAT-65 the fixed reply counts toward the day's 15
     Given a signed-in user has sent a message today
     When the fixed reply of WCHAT-19 has been shown
-    Then the user's count for the day has gone up by one, as for any message (0058 choice 7, agent's call)
+    Then the user's count for the day has gone up by one, as for any message (0058 choice 7, agent's call, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"))
 
   # Replaces CHAT-18 and CHAT-44.
   @ui
@@ -691,14 +691,14 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the user chooses Save, Update, Open full result, Compare with… and Print, and opens the saved area from the sidebar
     Then no server, application, hosting or error-report log entry contains the postcode
 
-  # FE-65 (agent's call, open to the founder).
+  # FE-65 (agent's call, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
   @ui
   Scenario: WCHAT-98 the sidebar shows 5 chats, and "Show more" adds 10 at a time
     Given a signed-in user has more than 15 chats
     When the user opens the sidebar and chooses "Show more"
     Then the sidebar first lists the newest 5 chats, and "Show more" adds the next 10 below them
 
-  # FE-34: the printed summary (FE-06, FE-21) has nothing to open, so it ends with a "How we got this" page. Proposed wording, for the founder's copy review.
+  # FE-34: the printed summary (FE-06, FE-21) has nothing to open, so it ends with a "How we got this" page. Wording approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)").
   @ui
   Scenario: WCHAT-99 a printed widget ends with a "How we got this" page
     Given a signed-in user has a widget for "NB1 4XY"
@@ -758,14 +758,14 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     When the new answer completes and the user's count for the day is read
     Then the count has gone up by one
 
-  # 0058 choice 7 (only messages the user sends count): a stopped answer used the model, so it counts (agent's call, open to the founder).
+  # 0058 choice 7 (only messages the user sends count): a stopped answer used the model, so it counts (agent's call, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
   @ui
   Scenario: WCHAT-108 an answer the user stopped counts toward the day's 15
     Given a signed-in user has sent a message and chosen Stop while its answer streamed
     When the user's count for the day is read
     Then it has gone up by one for that message
 
-  # FE-64: loading is skeletons and a button label change, never a spinner. The label is proposed wording.
+  # FE-64: loading is skeletons and a button label change, never a spinner. The label's wording was approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)").
   @ui
   Scenario: WCHAT-109 a button that is waiting changes its label and shows no spinner
     Given a signed-in user has chosen Save on a widget and the request has not yet finished

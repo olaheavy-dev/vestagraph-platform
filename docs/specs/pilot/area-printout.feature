@@ -13,12 +13,12 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     (FE-33). Where the on-screen result has something to open, the printout has nothing to open, so it prints
     that text on a page of its own.
   Redrawn 16 Nov 2026 (the benchmark design pass, canvas version 405, board `AreaExport`, 22 pages; plan
-    docs/superpowers/plans/2026-11-16-benchmark-design-pass.md Task 4 "As drawn"). Agent's calls, open to the
-    founder: the printout lists every topic in `pilot-topics.json` (every topic, counted or not, DA-31; none
+    docs/superpowers/plans/2026-11-16-benchmark-design-pass.md Task 4 "As drawn"). Agent's calls, approved by the
+    founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"): the printout lists every topic in `pilot-topics.json` (every topic, counted or not, DA-31; none
     dropped silently, a missing one prints as "Not known"), and the sources page gives dates only, following
     FE-33's later amendment ("Dates only, no notes") over the plan's "date and status". The printout has no
-    dark twin, by design. The printout's Family view, route-only and method lines are still proposed wording
-    (FE-69, "Still proposed").
+    dark twin, by design. The printout's Family view, route-only and method lines were proposed wording, approved by
+    the founder on 18 Nov 2026 (FE-69, "Approve as written (Recommended)").
   The cover is page 1 of the printout; At a glance is on it (PRINT-01, PRINT-02).
   Rule 2: no count, distance, date or page number is typed in a scenario; the page quotes them from
     `area-result.json` and the records named by ID, and page numbers are worked out by the print layout.
@@ -130,7 +130,7 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     And the radon link prints "Get a radon report for an address from UKradon (paid)" with its address in full
     And a short note on the last page lists the pages of every "Check this" row
 
-  # FE-34: the printout "already worked this way": method and limits on closing pages. The sentences added to the opening paragraph and the printout's route-only and Family view lines are still proposed (FE-69).
+  # FE-34: the printout "already worked this way": method and limits on closing pages. The sentences added to the opening paragraph and the printout's route-only and Family view lines were approved by the founder on 18 Nov 2026 (FE-69).
   @ui
   Scenario: PRINT-11 "How we got this" gives each topic's method and limits after the topic pages
     Given the user has chosen "Print or save as PDF" for the sample postcode "NB1 4XY"
