@@ -15,7 +15,7 @@ Overwritten at the end of every session (decision 0050). Last updated: **19 Nov 
 | Pull request | What merged |
 |---|---|
 | #326 | The energy certificate by certificate number (DA-09): samples A to H and code tables, the validity rule (EPB Regulations 2012 reg 9(2)(a) and (b)), `energy-certificate-result.json`, ENERGY-01 to ENERGY-60 with TOPIC-41, PRINT-21, LAND-21 and AREA-50, canvas boards (version 413), records and register lines DA-32 to DA-35. Founder-only merge, approved by the founder (typed: "you have approval to merge"); Codex found no issues |
-| (this) | The founder's copy review of the energy certificate page recorded (19 Nov 2026, prompt windows): all wording approved ("Approve as written (Recommended)" for the found certificate, the states, the ways in, the printout and About the data), "Current" instead of "Now" for the first column of the rating and running costs, DA-32 to DA-35 approved. The canvas boards edit is prepared but not yet published (see the item 0 note). |
+| (this) | The founder's copy review of the energy certificate page recorded (19 Nov 2026, prompt windows): all wording approved ("Approve as written (Recommended)" for the found certificate, the states, the ways in, the printout and About the data), "Current" instead of "Now" for the first column of the rating and running costs, DA-32 to DA-35 approved. Canvas version 414 draws "Current" on the seven energy boards. |
 | (earlier) | Status: #326 merged |
 
 Noticed issues opened: #329 to #335.
@@ -172,7 +172,7 @@ Repository settings changed with the founder's approval: Python added to CodeQL'
 **Correction recorded:** 0049 first said a `uv export` file would be committed; the founder's 9 Nov proof (BE-23) showed dependency review reads `uv.lock` directly, so no export is committed. Re-proved on 12 Nov (PRs #199, #200).
 
 ## Open pull requests
-- This status update (documentation only). #326 merged on 19 Nov 2026.
+- This pull request: the founder's copy review of the energy certificate page (documentation only; canvas version 414).
 
 ## Start of the next session
 0. **Read this section. The energy certificate (item 5b) is merged (#326, 19 Nov 2026); its wording is approved (founder's copy review, 19 Nov 2026, this pull request). Next: the pilot gate (item 6).** Canvas: version 414 has "Current" on the seven energy boards and their design notes marked approved (founder: "Yes, publish it (Recommended)", after the builder's publish was blocked). The final review's "noticed" items are #329 to #335. City Explorer's specifications merged as #320 (item 2). The signed-in chat track and the design pass are finished on the canvas. The chat track: decision [0058](../decisions/0058-signed-in-chat-in-the-pilot.md) (accepted), the [plan](../superpowers/plans/2026-11-16-signed-in-chat.md) (all tasks done), the canvas page "Pilot · Signed-in chat" (canvas version 356, 23 light and 23 dark boards, plus FeedbackKit and FeedbackKitDark on "Brand and style") and the three specification files. The agent's calls made on the founder's behalf are listed in 0058's dated notes and the register (FE-57 to FE-66, SE-06); the founder approved them all on 18 Nov 2026 ("Keep all (Recommended)") and may still reopen any of them.
