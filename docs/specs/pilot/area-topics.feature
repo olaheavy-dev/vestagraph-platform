@@ -212,7 +212,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
 
   # ---- Design pass, 16 Nov 2026: new topics and rows (canvas version 405) ----
 
-  # Radon (DA-23, DA-31, FE-69). Wording approved by the founder with the remedy examples dropped; DA-31 says the record's label ("Radon potential, the 1 km square around this postcode (synthetic)") stays proposed until the next wording review, but FE-69's 18 Nov 2026 approval says nothing on its list is still proposed and does not name the label; which is right is open to the founder (audit P3).
+  # Radon (DA-23, DA-31, FE-69). Wording approved by the founder with the remedy examples dropped; the record's label ("Radon potential, the 1 km square around this postcode (synthetic)") is approved too (ruling 19 Nov 2026 from FE-69 of 16 Nov 2026, where the radon topic "is reviewed"; DA-31 updated). No radon wording is still proposed.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY NB1-4XY-AREA-RADON-1, grid-square level of 1000 m)
   Scenario: TOPIC-26 the normal sample postcode has a recorded radon band for its 1 km square
     Then postcode record "NB1-4XY-AREA-RADON-1" has status "recorded"

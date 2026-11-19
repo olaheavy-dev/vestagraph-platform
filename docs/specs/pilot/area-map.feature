@@ -10,6 +10,9 @@ Feature: Area maps (the quiet 3D map on every area map)
     map zoomed to fit the places found, and three dashed rings. Crime is never drawn on a map (FE-25, B5);
     flood outlines are a 2D-map layer only (MAP-13, MAP-19). Every map has a list, and the desktop map has a legend and place list beside it
     (design docs/superpowers/specs/2026-11-14-first-design-batch-design.md, Constraints and the planning notes).
+  FE-75 coverage (19 Nov 2026, "Show map", MAP-28 to MAP-30): every pilot map that draws tiles loads only when the visitor chooses
+    "Show map": the area result's map column, the Map screen in 3D and 2D, the maps in topic sheets and panels, and the City Explorer council
+    and neighbourhood maps (CITY-113, HOOD-43). The isometric area card and the widget draw no tiles and make no request, so they are exempt.
   Changed 16 Nov 2026 (the benchmark design pass, canvas version 405, plan
     docs/superpowers/plans/2026-11-16-benchmark-design-pass.md Task 5; FE-68, DA-22, DA-24, DA-25, DA-27, DA-31, FE-69):
     every map keeps this 3D style by default, the full Map screen (phone and desktop) adds a "2D" switch to a flat
@@ -247,7 +250,7 @@ Feature: Area maps (the quiet 3D map on every area map)
     And our places are still listed in the place list and the topic, each with its distance and source stamp, and nothing is shown as zero or as a clean result (rule 7)
     And the rest of the page works as before, and "Try again" loads the tiles again once they are reachable (proposed wording)
 
-  # FE-75 (founder, 19 Nov 2026, "Load when opened"): maps load only on the visitor's tap. Added after MAP-27 so no ID moves. Drawn 19 Nov 2026 (canvas version 424): board AreaShowMap on "Pilot · public area check", section "Pilot 10 · Show map on the area result" (desktop and phone, with a Dark twin); the sentence under the button is proposed wording.
+  # FE-75 (founder, 19 Nov 2026, "Load when opened"): maps load only on the visitor's tap. Added after MAP-27 so no ID moves. Drawn 19 Nov 2026 (canvas version 426): board AreaShowMap on "Pilot · public area check", section "Pilot 10" (the area result's desktop map column with its chips and legend, the phone Map screen MapPhone, and a topic panel's Map section; with a Dark twin). The chips and 2D, 3D stay usable while the map is hidden and apply when it loads (agent's call, open to the founder). The sentence under the button is proposed wording.
   @ui
   Scenario: MAP-28 before the visitor chooses "Show map", nothing is requested from OpenFreeMap and the facts and list are complete
     Given the visitor has checked "NB1 4XY" and has not chosen "Show map"
