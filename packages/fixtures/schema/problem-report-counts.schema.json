@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/problem-report-counts.schema.json",
+  "title": "Report a problem daily counts (data/problem-report-counts.json)",
+  "description": "What the Report a problem feature may store: one count per day, source, reason and fact, with no postcode, no time of day, no free text and no user identity. A fact that points to one address or property is counted by topic and council only, never by record. Retention is 90 days.",
+  "type": "object",
+  "required": [
+    "retentionDays",
+    "counts"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "retentionDays": {
+      "const": 90
+    },
+    "counts": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/factCount"
+          },
+          {
+            "$ref": "#/$defs/areaCount"
+          },
+          {
+            "$ref": "#/$defs/councilFigureCount"
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "topicKey": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "A key from data/pilot-topics.json."
+    },
+    "noRecordIdTopics": {
+      "enum": [
+        "sold-nearby",
+        "planning-nearby"
+      ],
+      "description": "Topics whose records point to one address or property: never counted by record ID. Gaps are counted the same way. A test checks that each is a key in pilot-topics.json."
+    },
+    "councilCode": {
+      "type": "string",
+      "pattern": "^[EWSN]0[0-9]{7}$"
+    },
+    "areaCode": {
+      "type": "string",
+      "pattern": "^[EWSN]0[0-9]{7}$",
+      "description": "A public council or neighbourhood (LSOA) code, never an address."
+    },
+    "common": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "$ref": "common.schema.json#/$defs/fullDate"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "enum": [
+            "wrong",
+            "out-of-date",
+            "missing-something"
+          ]
+        },
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "factCount": {
+      "type": "object",
+      "required": [
+        "date",
+        "source",
+        "reason",
+        "count",
+        "topic",
+        "factRecordId",
+        "localAuthority"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "$ref": "common.schema.json#/$defs/fullDate"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "$ref": "#/$defs/common/properties/reason"
+        },
+        "count": {
+          "$ref": "#/$defs/common/properties/count"
+        },
+        "topic": {
+          "$ref": "#/$defs/topicKey"
+        },
+        "factRecordId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "localAuthority": {
+          "$ref": "#/$defs/councilCode"
+        }
+      },
+      "if": {
+        "properties": {
+          "topic": {
+            "$ref": "#/$defs/noRecordIdTopics"
+          }
+        }
+      },
+      "then": {
+        "not": {
+          "required": [
+            "factRecordId"
+          ]
+        }
+      }
+    },
+    "areaCount": {
+      "type": "object",
+      "required": [
+        "date",
+        "source",
+        "reason",
+        "count",
+        "topic",
+        "localAuthority"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "$ref": "common.schema.json#/$defs/fullDate"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "$ref": "#/$defs/common/properties/reason"
+        },
+        "count": {
+          "$ref": "#/$defs/common/properties/count"
+        },
+        "topic": {
+          "$ref": "#/$defs/topicKey"
+        },
+        "localAuthority": {
+          "$ref": "#/$defs/councilCode"
+        }
+      }
+    },
+    "councilFigureCount": {
+      "type": "object",
+      "required": [
+        "date",
+        "source",
+        "reason",
+        "count",
+        "figure",
+        "areaCode",
+        "areaLevel"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "date": {
+          "$ref": "common.schema.json#/$defs/fullDate"
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "$ref": "#/$defs/common/properties/reason"
+        },
+        "count": {
+          "$ref": "#/$defs/common/properties/count"
+        },
+        "figure": {
+          "type": "string",
+          "minLength": 1
+        },
+        "areaCode": {
+          "$ref": "#/$defs/areaCode"
+        },
+        "areaLevel": {
+          "enum": [
+            "council",
+            "neighbourhood"
+          ]
+        }
+      }
+    }
+  }
+}
