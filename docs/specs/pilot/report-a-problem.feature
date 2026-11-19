@@ -5,7 +5,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, section "4. Report a problem with this fact"; plan Tasks 1 and 2; register lines FE-05 (amended), FE-74, DA-12; pilot design `2026-11-13-pilot-area-ai-design.md` goal 7; decisions 0014, 0053). Founder's choices, 19 Nov 2026: "Pick a reason (Recommended)" and "Also City Explorer". The count's data contract is `packages/fixtures/schema/problem-report-counts.schema.json` with the sample `packages/fixtures/data/problem-report-counts.json` (plan Task 1, FE-74).
   Fixtures: the sample counts `packages/fixtures/data/problem-report-counts.json` (the data scenarios quote it by topic, record ID and area code; no count is typed here), and for the gap scenario the sample's sparse postcode NB7 1RR (`area-result.json`). Rule 2: a count's value is never typed or shown in a scenario; the counts are internal and are not on any page (REPORT-28).
   Where it appears (founder's choice 5, and the agent's call for the signed-in chat's side panel, open to the founder): on each fact in a topic's detail (sheet or panel) on the area result (REPORT-01), on compare (REPORT-02), on City Explorer's council page and council compare detail (REPORT-03) and neighbourhood page (REPORT-04), and in the signed-in chat's side panel, which shows the full area result (REPORT-05). Where it does not: summary lines (REPORT-06), the energy certificate page (REPORT-07), the area card and the compare table in the chat (REPORT-08) and the ChatGPT and Claude widget (REPORT-09).
-  Rule 7: a gap ("Not known", "Unavailable", "Not yet covered") can be reported too, and "Missing something" is its natural reason (REPORT-11).
+  Rule 7: a gap (the record's own gap line, "Not known right now", "Not yet covered") can be reported too, and "Missing something" is its natural reason (REPORT-11).
   Rule 5 and 0014: nothing is stored on the visitor's device; "Reported" lives in the page's memory only (REPORT-16).
   Boards: drawn in plan Task 3 (canvas section 'Pilot 8 · Compare, share, report'): a fact with its link, the three choices open, sent, and the failure states; one board each for phone and desktop with its dark twin.
   Wording status: approved by the founder (design, 19 Nov 2026): the reasons "Wrong", "Out of date", "Missing something" and "Report a problem". Proposed, for the founder's copy review before build: "Thanks. We count reports for each fact to see what needs checking. We can't reply." (REPORT-15), "Reported" (REPORT-16), "Couldn't send. Try again." (REPORT-17, REPORT-19) and "You're offline. Try again when you're back online." (REPORT-18), and "Cancel" on the choices (REPORT-14). The design marks these as the agent's wording.
@@ -96,7 +96,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   Scenario: REPORT-11 a gap can be reported, and "Missing something" is its natural reason
     Given the result for "NB7 1RR" is open
     When the visitor opens the "Sold nearby" detail, where its source has no record, and chooses "Report a problem"
-    Then the link is there on "Not known", "Unavailable" and "Not yet covered" as on a fact, and the three reasons are offered
+    Then the link is there on a record's own gap line (for example "No sold prices nearby in this source"), on "Not known right now" and on "Not yet covered", as on a fact, and the three reasons are offered
     And the report is counted by topic and council only, with no record ID (REPORT-22)
 
   # ---- The choices ----
@@ -155,10 +155,10 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
 
   @ui
   Scenario: REPORT-19 a rate limit gives the same wording as a failure, so it reveals nothing
-    Given the visitor has reached the report rate limit (DA-35, 0056)
+    Given the visitor has reached the report rate limit (its number is set at build within the pilot caps; not yet decided)
     When the visitor chooses a reason
     Then the page says "Couldn't send. Try again." exactly as in REPORT-17, with no mention of a limit, a count or a time
-    And no IP address or client key is kept to apply the limit beyond its short memory (0014, 0056)
+    And no IP address or client key is kept to apply the limit beyond a short time in memory, as for the other limits (DA-35, 0056 for the mechanism only; 0014)
 
   # ---- What is sent ----
 
@@ -173,10 +173,10 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
 
   # fixture: packages/fixtures/data/problem-report-counts.json (the fact count: a flood warning area, no address)
   Scenario: REPORT-21 a fact with a record ID that names no address is counted by topic, record and reason
-    Then the problem report counts hold a fact count for topic "flood" with record "SYNTHETIC-FLOOD-1" and reason "out-of-date"
+    Then the problem report counts hold a fact count for topic "flood" with record "NB1-4XY-AREA-FLOOD-1" and reason "out-of-date"
 
-  # fixture: packages/fixtures/data/problem-report-counts.json (sold prices and planning point to one address or site; a gap has no record)
-  Scenario: REPORT-22 a fact that points to one address, or a gap, is counted by topic and council with no record ID
+  # fixture: packages/fixtures/data/problem-report-counts.json (sold prices and planning point to one address or site). A gap with no record has the same shape (design section 4), which the schema allows and the sample does not hold a separate count for; the step cannot tell the two apart, and no new sample is needed.
+  Scenario: REPORT-22 a fact that points to one address is counted by topic and council with no record ID
     Then the problem report counts hold an area count for topic "sold-nearby" with reason "wrong" and no record ID
     And the problem report counts hold an area count for topic "planning-nearby" with reason "missing-something" and no record ID
 

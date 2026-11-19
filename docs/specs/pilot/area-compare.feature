@@ -6,7 +6,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
   Fixtures: the postcode-level sample area data, `packages/fixtures/data/postcode-area.json` (NB1 4XY normal, NB7 1RR sparse, with a failed flood source, NB9 9ZZ unknown, WALES-1 outside England), and the generated `packages/fixtures/generated/area-result.json` (NB1 4XY and NB7 1RR). The compare scenarios draw NB1 4XY first and NB7 1RR second, because the sparse postcode shows gaps well.
   Figures: none typed here (AGENTS.md rule 2). Every count, line and outcome is quoted by record path from `area-result.json`: <postcode> / glance / found, notKnown, coverageFound, coverageTotal; <postcode> / topics / <key> / outcome (the topics in the file's order, the registry order of `pilot-topics.json`). The summary line of each topic is the same text the area result shows (FE-20); `area-result.json` carries the outcome of each topic and the page builds the line from that topic's records, as it does on the area result, so compare adds no figure of its own. Compare works out nothing between the two postcodes.
   Rule 4 and 0054: compare shows the two postcodes in the order the visitor picked them. It never sorts, ranks or totals them, names no "better" or "worse" postcode, and works out no difference between them ("2 more schools"). The only words about the two sides are each side's own facts.
-  Rule 7: a gap on one side is never blank, zero or a clean result. A topic with no record reads "Not known" on that side with that topic's usual reason; a topic whose source is down reads what the area result reads (AREA-07, "Not known right now"); a topic outside the covered area reads "Not yet covered".
+  Rule 7: a gap on one side is never blank, zero or a clean result. Three cases, each with the area result's own approved wording: a topic whose source holds no record reads that record's own gap line (TOPIC-09, AREA-47, for example "No sold prices nearby in this source"; the topic still counts as found); a topic whose source is down reads "Not known right now" (AREA-07); a topic outside the covered area reads "Not yet covered". "Not known" is the label of an outcome (a not-known count, a priority), never a replacement for a record's own gap line.
   Rule 6: a postcode outside England reads "Not yet covered" on its own side (AREA-01, AREA-08).
   Boards: drawn in plan Task 3 (canvas section 'Pilot 8 · Compare, share, report'). Until they are drawn the wording below that is not marked "approved" is the design's or the area result's own wording, and the scenarios cite the canvas version they are checked against when the boards exist.
   Wording status: approved wording is reused from the area result (AREA-04, AREA-05, AREA-07, AREA-08, AREA-30, PRIO) and from compare councils (CITY2-04, CITY2-27). Proposed wording, for the founder's copy review before build: the compare page's heading, subtitle and the empty second-postcode line (COMPARE-01, COMPARE-03), "Compare with another postcode" and "Share this comparison" on the area result and compare (COMPARE-01, COMPARE-29), and the "How we got this" note (COMPARE-28). Each is marked "proposed" at its scenario.
@@ -35,7 +35,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
   @ui
   Scenario: COMPARE-01 "Compare with another postcode" on the area result opens compare with this postcode first
     Given the result for "NB1 4XY" is open
-    When the visitor chooses "Compare with another postcode"
+    When the visitor chooses "Compare with another postcode" (proposed wording)
     Then compare opens with "NB1 4XY" as the first postcode and an empty box for the second, which is never filled in for the visitor
     And the page heading reads "Compare two areas" (proposed wording) with the line "Two postcodes side by side, in the order you picked them. Vestagraph doesn’t rank areas or pick a winner: each row shows each postcode’s own facts." (proposed wording)
     And above it a link goes back to the result for "NB1 4XY"
@@ -84,11 +84,13 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
 
   # At a glance for each (FE-22, FE-41): each side's own counts, never a difference.
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY, NB7 1RR)
-  Scenario: COMPARE-08 the two postcodes' glance counts differ in the sample, so each side has its own
+  Scenario: COMPARE-08 each postcode's topic outcomes come from its own result
     Then area result "NB1 4XY" has topic "flood" with outcome "found"
     And area result "NB7 1RR" has topic "flood" with outcome "not-known"
     And area result "NB7 1RR" has topic "radon" with outcome "not-known"
     And area result "NB7 1RR" has topic "transport-connectivity" with outcome "not-known"
+    And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-BUS-DEPARTURES-1"
+    And area result "NB1 4XY" asks the gap question for record "NB1-4XY-AREA-FLOOD-1"
 
   @ui
   Scenario: COMPARE-09 At a glance is shown for each postcode with its own counts
@@ -111,6 +113,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     When the results arrive
     Then each topic of `area-result.json` <postcode> / topics is one row, in that file's order (the registry order of `pilot-topics.json`), and while loading each row shows a skeleton and no row shows as empty (AREA-06)
     And the order never changes with the postcodes, the priorities or the figures
+    And the "Check this" rows, the route-only topics and the energy certificate row are not on compare: each is a link or a check about one home, not a fact about a postcode, and the topics left out of the coverage total (GLANCE-05) are not rows (agent's call, open to the founder)
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY, NB7 1RR)
   Scenario: COMPARE-12 the two samples have a result for each counted topic, with the same topic keys
@@ -196,12 +199,14 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     Then postcode record "NB1-4XY-AREA-SOLD-PRICE-1" has status "recorded"
     And postcode record "NB7-1RR-AREA-SOLD-PRICE-1" has status "no-record-in-source"
     And postcode record "NB7-1RR-AREA-BROADBAND-COVERAGE-1" has status "no-record-in-source"
+    And area result "NB7 1RR" has topic "sold-nearby" with outcome "found"
 
   @ui
-  Scenario: COMPARE-23 a topic one side lacks reads "Not known" on that side with that topic's usual reason
+  Scenario: COMPARE-23 a topic one side has no record for reads that record's own gap line on that side
     Given the visitor has compared "NB1 4XY" and "NB7 1RR"
     When the visitor reads the "Sold nearby" row
-    Then the "NB7 1RR" side reads "Not known" with the topic's usual no-record reason, as TOPIC-09 sets, and the "NB1 4XY" side shows its own line
+    Then the "NB7 1RR" side reads the record's own gap line as on the area result (TOPIC-09, AREA-47), quoted from the label of `NB7-1RR-AREA-SOLD-PRICE-1` in `postcode-area.json` without "(synthetic)", and the "NB1 4XY" side shows its own line
+    And the topic still counts as found in "NB7 1RR"'s At a glance, and a topic whose outcome is not known (radon or transport connectivity of "NB7 1RR") reads "Not known right now" as COMPARE-25 says
     And nothing is shown as zero, blank or a clean result, and no sentence compares the two
 
   # fixture: packages/fixtures/data/postcode-area.json (NB7-1RR-AREA-FLOOD-1 source-failed)
@@ -209,6 +214,8 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     Then postcode record "NB7-1RR-AREA-FLOOD-1" has status "source-failed"
     And area result "NB1 4XY" has topic "flood" with outcome "found"
     And area result "NB7 1RR" has topic "flood" with outcome "not-known"
+    And area result "NB7 1RR" has topic "radon" with outcome "not-known"
+    And area result "NB7 1RR" has topic "transport-connectivity" with outcome "not-known"
 
   # The design says a down source reads "Unavailable" on that side; the area result's approved wording for the same case is "Not known right now" (AREA-07), so this scenario reuses that wording and the design's word is open to the founder (see the header's Wording status; reported to the founder).
   @ui
@@ -253,7 +260,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     Given a shared compare link holds "nb1 4xy" and a postcode that is incomplete
     When the visitor opens it
     Then both postcodes are searched as if typed, so spaces and lower case are accepted (as AREA-03 and the search accept them), and the incomplete side shows the search's own message of AREA-04 on that side only
-    And the valid side shows its own At a glance and rows, and nothing is stored or logged to open the link
+    And the valid side shows its own At a glance and rows, and nothing is stored or logged to open the link, except the Recent postcodes list when the visitor has turned it on (RECENT-07)
 
   @ui
   Scenario: COMPARE-31 a shared compare link opens with no limits
@@ -266,7 +273,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
   Scenario: COMPARE-32 offline, the results already shown stay and a new postcode waits
     Given the visitor has compared "NB1 4XY" and "NB7 1RR"
     When the device goes offline
-    Then the page says the connection is down (AREA-30; as CITY2-27), and the results already on screen stay unchanged
+    Then the page says "You’re offline" and "This device has no internet connection." and "Results already on screen stay; new searches and changed inputs wait until you’re back online." (the approved wording of CITY2-27 and CITY-99; no "Try again", which AREA-30 offers only on the result), and the results already on screen stay unchanged
     And a new second postcode is held until the device is back online, and no row for it is shown as empty
 
   @ui
@@ -302,3 +309,11 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     Given the visitor has compared "NB1 4XY" and "NB7 1RR"
     When the visitor looks for a way to print
     Then no Print control is offered, because the area printout covers one postcode (a compare printout is a later idea, doc 05)
+
+  # The design's "Jump to" list (design section 1, "Top of the page"); added after the review, so it takes the next ID.
+  @ui
+  Scenario: COMPARE-38 the jump list names each row in the area result's order and sorts nothing
+    Given the visitor has compared "NB1 4XY" and "NB7 1RR"
+    When the visitor opens the topic jump list at the top of the page
+    Then it lists the same topics as the rows, in the same order as `area-result.json` <postcode> / topics (COMPARE-11), and choosing one moves to its row
+    And it is never sorted or filtered by a figure or an outcome, and it has no count or marker on any entry

@@ -881,4 +881,4 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Given the user has opened the council page for council "E06999001" and a sheet, for example council tax by band
     When the user reads each figure and fact in the sheet
     Then each has "Report a problem" (REPORT-03), and a report is counted by the figure's name and the council's code, with no postcode and no address (REPORT-23)
-    And the cost summary's lines, the charts' captions and the printout carry no link
+    And the cost summary's lines, the charts' captions and the printout carry no link (agent's call, open to the founder: the design names only summary lines on the area result)

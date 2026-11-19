@@ -35,8 +35,8 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
       council-wide rent inside Housing affordability, from the council by link -> TOPIC-32 to TOPIC-34
       Check this rows (long-term flood risk, Article 4 and tree preservation orders, council tax band of a home, mobile, coal mining, noise), never implying a check -> TOPIC-35 to TOPIC-39
       the energy certificate of a home row, which opens its own page and shows no result -> TOPIC-41
-    Report a problem on each fact in a topic's detail, and never on a summary line -> TOPIC-42 (the behaviour is `report-a-problem.feature`, REPORT-01 to REPORT-30)
       the map layers each topic draws -> TOPIC-40
+    Report a problem on each fact in a topic's detail, and never on a summary line -> TOPIC-42 (the behaviour is `report-a-problem.feature`, REPORT-01 to REPORT-30)
 
   @ui
   Scenario: TOPIC-01 every topic opens in the same order

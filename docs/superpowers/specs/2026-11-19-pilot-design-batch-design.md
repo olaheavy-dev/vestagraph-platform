@@ -61,7 +61,7 @@ The founder confirmed the agent's playback of every part below ("looks right", 1
 - **Top of the page:** both postcodes with a Swap control (swaps the columns and changes nothing else, as CITY2-04); At a glance for each (the FE-22 and FE-41 counts, quoted for each postcode, never a difference); priority results for each if the visitor has set any (limits sent in the request body only, 0053); a topic jump list.
 - **Priorities on compare** (agent's call, builder check): the limits set on the area result carry over in the page's memory and can be changed on compare with the same controls; with none set, compare shows the "set what matters to you" entry and works fully without it (FE-40). A shared compare link opens with no limits (PRIO-16).
 - **Rows:** every pilot topic in the area result's order; each row has the topic name and each postcode's summary line (the same text as the area result, FE-20), labelled with its postcode. Tap opens a sheet (phone) or panel (desktop) with both postcodes' details one after the other, each with its own source stamp (FE-33).
-- **Gaps:** a topic one side lacks reads "Not known" on that side, with that topic's usual reason (rule 7); a source that is down reads "Unavailable" on that side.
+- **Gaps:** a topic whose source holds no record shows that record's own gap line on that side, as on the area result (for example "No sold prices nearby in this source"; TOPIC-09, AREA-47); a source that is down reads "Not known right now" on that side (AREA-07); a topic outside the covered area reads "Not yet covered" (rule 7). *Corrected 19 Nov 2026 in PR 1 (task review): the earlier lines said "Not known" for a missing topic and "Unavailable" for a source that is down, which contradicted the approved area result wording.*
 - **Never:** sorted, ranked, totalled, coloured as better or worse, or a difference worked out ("2 more schools").
 - **How we got this:** one per page (FE-34), saying both columns come from the same sources and editions, and that nothing is ranked.
 - **Share this comparison:** both postcodes after the `#`, never the limits (PRIO-16's rule extended).
@@ -96,7 +96,7 @@ Phone, 390 px
 ### 3. Recent postcodes
 - Under the search box on the landing and on the area result (agent's call).
 - Off by default: "Remember postcodes on this device" with "Turn on" (PECR consent, 0014 "Recently viewed"); wording mirrors City Explorer's "Remember councils on this device".
-- On: up to 5 postcodes, newest first (agent's call on the number), each a link; "Clear" empties the list; "Turn off" deletes the list and the setting. Kept only in the browser, never sent to us.
+- On: up to 5 postcodes, newest first (agent's call on the number), each a link; "Clear" empties the list; "Turn off" deletes the list and the setting. Kept only in the browser, never sent to us. Kept at most 12 months, like City Explorer's councils; older entries are dropped and the consent text says so (founder, 19 Nov 2026, prompt window: "12 months, like councils (Recommended)", SE-08).
 - Its own setting, separate from "Remember councils on this device", because each purpose is its own PECR consent; City Explorer's scenarios are unchanged (agent's call, builder check). While on, postcodes checked on the area result, entered on compare or opened from a shared link are all added.
 - If browser storage is unavailable (private window, blocked), the setting says it can't be turned on here; the search still works.
 - Named in the privacy notice (section list below).

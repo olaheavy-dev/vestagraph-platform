@@ -7,6 +7,7 @@ specification's quoted IDs against the committed fixtures and the cost engine's 
 A failed check raises ``AssertionError`` with a message that names the ID to fix.
 """
 
+import datetime
 import json
 from dataclasses import dataclass
 from functools import cache
@@ -682,6 +683,10 @@ class DataSteps:
             if item.get("topic") == topic and item.get("reason") == reason
         ]
         assert match, f'No count for topic "{topic}" and reason "{reason}" in {_REPORT_COUNTS}.'
+        without_council = [item for item in match if "localAuthority" not in item]
+        assert not without_council, (
+            f'A count for topic "{topic}" has no localAuthority in {_REPORT_COUNTS}.'
+        )
         with_id = [item for item in match if "factRecordId" in item]
         assert not with_id, (
             f'A count for topic "{topic}" carries a factRecordId in {_REPORT_COUNTS}; '
@@ -717,7 +722,10 @@ class DataSteps:
             )
             assert isinstance(date, str), message
             assert len(date) == 10, message
-            assert date[4] == date[7] == "-", message
+            try:
+                datetime.date.fromisoformat(date)
+            except ValueError:
+                raise AssertionError(message) from None
 
     def then_report_counts_reasons_are_fixed(self) -> None:
         allowed = {"wrong", "out-of-date", "missing-something"}

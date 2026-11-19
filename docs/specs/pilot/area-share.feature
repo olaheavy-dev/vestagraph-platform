@@ -11,7 +11,7 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
 
   Required states (design "States to cover"; AGENTS.md rules 1 and 5; PECR):
     Share: share sheet on a phone -> SHARE-01; copied on desktop -> SHARE-02; copy failed with the link shown and selected -> SHARE-03; only the postcode in the link -> SHARE-04, SHARE-05; opening a shared link -> SHARE-06, SHARE-07
-    Recent postcodes: off by default -> RECENT-01, RECENT-02; on and empty -> RECENT-04; on with entries (up to 5, newest first) -> RECENT-05, RECENT-06; postcodes added from a check, compare and a shared link -> RECENT-07; cleared -> RECENT-08; turned off -> RECENT-09; storage unavailable -> RECENT-10; never sent to us -> RECENT-11; separate from councils -> RECENT-12; keyboard, size, dark twin -> RECENT-13
+    Recent postcodes: off by default -> RECENT-01, RECENT-02; on and empty -> RECENT-04; on with entries (up to 5, newest first) -> RECENT-05, RECENT-06; postcodes added from a check, compare and a shared link -> RECENT-07; cleared -> RECENT-08; older than 12 months dropped -> RECENT-14; turned off -> RECENT-09; storage unavailable -> RECENT-10; never sent to us -> RECENT-11; separate from councils -> RECENT-12; keyboard, size, dark twin -> RECENT-13
 
   # ---- Share a link (design section 2) ----
 
@@ -54,7 +54,7 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
     Given the visitor opens a shared link holding "NB1 4XY"
     When the page has loaded
     Then the result for "NB1 4XY" is shown as if typed, with the same loading, not found and not covered states as a typed search (AREA-05, AREA-06, AREA-08)
-    And nothing about the visit is stored or logged
+    And nothing about the visit is stored or logged, except the Recent postcodes list when the visitor has turned it on (RECENT-07)
 
   @ui
   Scenario: SHARE-07 a shared link with spaces, lower case or an incomplete postcode is handled as typed
@@ -77,7 +77,7 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
     Given the landing or the result for "NB1 4XY" is open and the setting is off
     When the visitor reads under the search box
     Then it says "Remember postcodes on this device" with the action "Turn on" and "Nothing is kept while this is off." (proposed wording)
-    And the consent text reads "This keeps a short list of the postcodes you check, so you can open them again. It is a short browsing history. It stays in this browser and is never sent to us. Anyone using this device can see it. Turning this off clears it." (proposed wording, mirroring City Explorer's consent text, CITY2-46)
+    And the consent text reads "This keeps a short list of the postcodes you check, so you can open them again. It is a short browsing history. It stays in this browser and is never sent to us. Anyone using this device can see it. It is kept until you clear it, at most 12 months. Turning this off clears it." (proposed wording, mirroring City Explorer's consent text, CITY2-46; the 12 months are the founder's decision, 19 Nov 2026, SE-08)
 
   @ui
   Scenario: RECENT-03 turning it on asks nothing else and starts the list empty
@@ -90,7 +90,7 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
   Scenario: RECENT-04 on with nothing kept says so
     Given the setting is on and no postcode has been checked since
     When the visitor reads the setting
-    Then it says the setting is on with nothing kept, and "Postcodes you check from now on are listed here." (proposed wording), with "Turn off" available
+    Then it says "On. Postcodes are kept until you clear them, at most 12 months, and only on this device." and that nothing is kept yet, and "Postcodes you check from now on are listed here." (proposed wording, as CITY2-50), with "Turn off" available
     And no empty list or "0" is shown as a result
 
   @ui
@@ -111,7 +111,7 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
   Scenario: RECENT-07 postcodes checked, entered on compare or opened from a shared link are added while it is on
     Given the setting is on
     When the visitor checks "NB1 4XY", compares "NB1 4XY" with "NB7 1RR" and opens a shared link holding another postcode
-    Then each postcode is added once, newest first, and a postcode that is not found or outside England is not added
+    Then each postcode is added once, newest first, and a postcode that is not found or outside England is not added (agent's call, open to the founder: a postcode with no result is not worth opening again)
     And with the setting off none of these is kept (RECENT-01)
 
   @ui
@@ -155,3 +155,11 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
     When the visitor works through the setting and the list by keyboard
     Then every control (Turn on, a listed postcode, Clear, Turn off) can be reached and used, each at least 44 px tall, with the focus visible, and nothing scrolls sideways at 390 px
     And the dark twin shows the same states in WCAG 2.2 AA contrast
+
+  # Founder's decision, 19 Nov 2026 (prompt window, "12 months, like councils (Recommended)", register line SE-08): the list has the same limit as City Explorer's (CITY2-54).
+  @ui
+  Scenario: RECENT-14 entries older than 12 months are dropped, and nothing is ever sent to us
+    Given the setting is on and a postcode was added more than 12 months ago
+    When the visitor opens the landing or a result
+    Then that postcode is dropped from the list and from the browser, and no list or postcode has been sent to us, in a request, a log or analytics
+    And the consent text says the list is on this device, anyone using it can see it, and it is kept until cleared, at most 12 months (RECENT-02)
