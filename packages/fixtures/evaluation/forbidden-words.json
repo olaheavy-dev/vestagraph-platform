@@ -1,0 +1,38 @@
+{
+  "$schema": "../schema/forbidden-words.schema.json",
+  "description": "Words and phrases that make a verdict, score, ranking, approval or recommendation. Marked by plain code on the model's answer only (never by another model). Whole words, case-insensitive. Official government ranks may be quoted with source, edition and level (decision 0054), so 'rank', 'decile' and 'index' are not listed; 'best' and 'worst' still are, because a quoted rank is not a verdict.",
+  "version": 1,
+  "sources": [
+    "AGENTS.md rule 4: never says a home is verified, safe or approved; AI never calculates numbers",
+    "Decision 0004: the chat never says a home is safe or verified",
+    "Decision 0054: we never make a score, a total or a ranking of our own; quoting an official rank is allowed",
+    "WCHAT-67: calls the area good (good)",
+    "WCHAT-78: says the area is verified or approved (verified, approved)",
+    "WCHAT-79: calls the area the best (best)",
+    "WCHAT-80: a recommendation, 'you should buy here' (recommend, you should)",
+    "WCHAT-68: a score such as '4 out of 10', stopped even when its numbers are in the tool results (score)",
+    "WCHAT-69: the bare word 'safe' inside source wording or a place name is not stopped (whole-word matching and allowIn)"
+  ],
+  "words": [
+    "safe",
+    "unsafe",
+    "good",
+    "best",
+    "worst",
+    "verified",
+    "approved",
+    "score",
+    "scores",
+    "scored",
+    "recommend",
+    "recommends",
+    "recommended",
+    "recommendation",
+    "you should",
+    "verdict"
+  ],
+  "allowIn": [
+    "user-turn",
+    "quoted-source"
+  ]
+}
