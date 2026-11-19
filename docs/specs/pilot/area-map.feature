@@ -30,6 +30,7 @@ Feature: Area maps (the quiet 3D map on every area map)
     design pass (FE-68, FE-42 dated note, DA-22 to DA-27, DA-31):
       3D by default, rings in view, pins at their recorded distances, badges beside pins -> MAP-14, MAP-15, MAP-16
       the 3D and 2D switch, the 2D street map and its attribution -> MAP-17, MAP-18
+    the basemap tiles failing: "map unavailable", the facts still shown (0059) -> MAP-27
       the layers control, its captions and the noise bands -> MAP-19, MAP-20, MAP-26
       layer statuses and gap layers worded from status -> MAP-21, MAP-22, MAP-23
       the list as the accessible equivalent of the 2D map -> MAP-24
@@ -157,7 +158,7 @@ Feature: Area maps (the quiet 3D map on every area map)
     And choosing "2D" shows the flat street map and choosing "3D" returns to the 3D map with the same places and the same filters
     And the switch can be reached and operated by keyboard, and its target is at least 44 px
 
-  # DA-25: OpenStreetMap data, our own hosted tiles, never the public tile servers; ODbL attribution required.
+  # DA-25 amended by DA-37 (0059, 19 Nov 2026): OpenStreetMap data, tiles from OpenFreeMap's public servers (never the OpenStreetMap public tile servers); OpenMapTiles and OpenStreetMap attribution required.
   @ui
   Scenario: MAP-18 the 2D street map is OpenStreetMap-style and carries its attribution
     Given the Map screen is open in the 2D style
@@ -236,3 +237,12 @@ Feature: Area maps (the quiet 3D map on every area map)
     When the visitor reads the Road and rail noise entry
     Then road noise shows its Lden bands as recorded and the caption "Modelled for 2021, not measured"
     And no decibel figure or noise level is given for the postcode or a home (DA-27)
+
+  # Decision 0059 (DA-37): the basemap comes from OpenFreeMap's public servers, which have no SLA, so its failure is a state. Rule 7 and 0029.
+  @ui
+  Scenario: MAP-27 if the basemap tiles cannot be loaded, the map says it is unavailable and every fact still shows
+    Given the visitor has checked "NB1 4XY" and the basemap tiles cannot be loaded (the tile servers are down or the visitor is offline)
+    When the visitor opens a map
+    Then the map area says "Map unavailable right now" (proposed wording) and does not show an empty or broken map
+    And our places are still listed in the place list and the topic, each with its distance and source stamp, and nothing is shown as zero or as a clean result (rule 7)
+    And the rest of the page works as before, and "Try again" loads the tiles again once they are reachable (proposed wording)

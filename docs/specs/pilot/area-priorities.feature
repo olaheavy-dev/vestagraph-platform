@@ -30,7 +30,7 @@ Feature: Priorities (what matters to you, on an area result)
     the ready-made limits and one panel at a time -> PRIO-06, PRIO-13
     no total, count or ranking -> PRIO-08
     not known on the page, never a miss -> PRIO-18
-    privacy of the limits -> PRIO-12, PRIO-15, PRIO-16, PRIO-17, PRIO-19
+    privacy of the limits -> PRIO-12, PRIO-15, PRIO-16, PRIO-17, PRIO-19, PRIO-20
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY)
   Scenario: PRIO-01 the GP limit is met in the normal sample postcode
@@ -126,6 +126,7 @@ Feature: Priorities (what matters to you, on an area result)
   Scenario: PRIO-15 remembering limits is off by default
     Given the priorities sheet is open
     Then "Remember these on this device" is off by default
+    And its consent text reads "This keeps the limits you set, so they are there next time. It stays in this browser and is never sent to us to be stored. Anyone using this device can see it. It is kept until you clear it, at most 12 months. Turning this off clears it." (proposed wording, mirroring RECENT-02 and CITY2-46; the 12 months are the founder's decision, 19 Nov 2026, SE-09; for the founder's copy review)
 
   @ui
   Scenario: PRIO-19 remembered limits come back from the browser only

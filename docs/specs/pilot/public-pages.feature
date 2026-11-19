@@ -12,7 +12,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
 
   Board-to-scenario map (each board has a Dark twin showing the same wording; HOW-14, PRIV-17, A11Y-09):
     HowItWorks (desktop) and HowItWorksPhone: header and sections -> HOW-01 to HOW-11; links -> HOW-04, HOW-08, HOW-09, HOW-12; layout -> HOW-13
-    Privacy and PrivacyPhone: header and the placeholder style -> PRIV-01, PRIV-02, PRIV-03; each section -> PRIV-04 to PRIV-14; links -> PRIV-15; layout, keyboard -> PRIV-16
+    Privacy and PrivacyPhone: header and the placeholder style -> PRIV-01, PRIV-02, PRIV-03; each section -> PRIV-04 to PRIV-14, PRIV-18; links -> PRIV-15; layout, keyboard -> PRIV-16
     Accessibility and AccessibilityPhone: A11Y-01 to A11Y-08
     Landing footer and "How it works" link -> LAND-25, LAND-26
 
@@ -20,7 +20,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     loading, empty, ambiguous match, not covered, not found, stale, source failed, offline: not applicable (three static pages that hold no search and no stored data; they are part of the site)
     placeholder sections (Privacy) -> PRIV-02, PRIV-03, PRIV-14
     untested (Accessibility) -> A11Y-02, A11Y-03, A11Y-04
-    privacy: PRIV-04 to PRIV-13
+    privacy: PRIV-04 to PRIV-13, PRIV-18
     accessibility of the pages themselves: HOW-13, PRIV-16, A11Y-08, A11Y-09
 
   # ---- How it works (design section 5) ----
@@ -139,7 +139,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Scenario: PRIV-02 the sections are in the design's order
     Given the user has opened "Privacy notice"
     When the user reads the page from the top
-    Then the section headings are, in this order: "Who we are", "What we collect and what we never collect", "Remembering things on your device", "Report a problem counts", "The bot check", "Rate limits", "Links to other sites", "Using Vestagraph in ChatGPT or Claude", "Energy certificate numbers", "Signed-in accounts and chat", "Your rights" and "Contact"
+    Then the section headings are, in this order: "Who we are", "What we collect and what we never collect", "Remembering things on your device", "Report a problem counts", "The bot check", "Rate limits", "Links to other sites", "Maps", "Using Vestagraph in ChatGPT or Claude", "Energy certificate numbers", "Signed-in accounts and chat", "Your rights" and "Contact"
     And the headings are proposed wording; the topics and their order are the design's
 
   # SE-07: "The page never shows a placeholder as finished text."
@@ -272,6 +272,16 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     Given the user has chosen the dark theme
     When the user opens "Privacy notice"
     Then the same sections and wording show in WCAG 2.2 AA contrast, and each placeholder is still visibly different from finished text
+
+  # Decision 0059 (DA-37): the basemap comes from OpenFreeMap's public servers. The section sits after "Links to other sites" (PRIV-02). Added after PRIV-17 so no ID moves.
+  @ui
+  Scenario: PRIV-18 "Maps" says each map view sends your IP address and the map area to OpenFreeMap
+    Given the user has opened "Privacy notice"
+    When the user reads "Maps"
+    Then it says the map's background tiles come from OpenFreeMap, a map service run by a company other than us, and that each time a map is shown, your browser asks OpenFreeMap for the tiles for the area on screen, so OpenFreeMap receives your IP address and the area being viewed, under its own terms (0059)
+    And it says OpenFreeMap's page states it uses no cookies, no keys and no accounts (0059)
+    And it says nothing about how long OpenFreeMap keeps IP addresses, which its page does not state, and that line, the lawful basis and the retention wording read exactly "To be written before launch (SE-02)" (0059: terms and IP logging to be confirmed before launch)
+    And it says that if the map cannot load, the facts still show (MAP-27)
 
   # ---- Accessibility (design section 7) ----
 
