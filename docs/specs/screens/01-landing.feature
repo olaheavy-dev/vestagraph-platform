@@ -169,3 +169,18 @@ Feature: Landing
     When the user reads the landing page
     Then it links "Check an energy certificate" to "/energy-certificate", described as "Have a certificate number? See what that home's energy certificate says."
     And the link carries no postcode, no search text and no certificate number
+
+  # Added 19 Nov 2026 (pilot design batch, PR 4; `pilot/public-pages.feature`). LAND-22 to LAND-24 are taken by the area features pull request (#350), so these start at LAND-30. The boards draw the footer of How it works, About the data, Privacy and Accessibility (LAND-20's comment); this scenario only says where its three links go. Proposed wording, for the founder's copy review.
+  @ui
+  Scenario: LAND-30 the footer links How it works, Privacy notice and Accessibility to their pages
+    Given the user is on the landing page
+    When the user reaches the footer
+    Then "How it works" opens "/how-it-works" (HOW-01), "Privacy notice" opens "/privacy" (PRIV-01) and "Accessibility" opens "/accessibility" (A11Y-01)
+    And the links carry no postcode, no search text and no certificate number
+
+  @ui
+  Scenario: LAND-31 the landing's How it works section links to the How it works page
+    Given the user is on the landing page
+    When the user reads "How it works" (LAND-18)
+    Then it offers a link "More on how it works" (proposed wording) that opens "/how-it-works" (HOW-01)
+    And the link carries no postcode or search text
