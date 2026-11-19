@@ -109,12 +109,13 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
     And energy certificate "0000-0000-0000-0000-0001" is not more than 10 years old
     And energy certificate "0000-0000-0000-0000-0001" has status line "none"
 
+  # Changed 19 Nov 2026 (plan Task 5 review): the register link goes to the search page, not the certificate's own page, whose address carries the number (ENERGY-39, decision 0014).
   @ui
   Scenario: ENERGY-11 a current certificate shows its ratings now and potential, quoted
     Given the visitor has searched for the sample number "0000-0000-0000-0000-0001"
     When the result is shown
     Then "Energy rating" shows the band and score of `currentRating` and, after an arrow, those of `potentialRating`, as in `energy-certificate-result.json`
-    And a link "EPC register ↗" goes to the register's page for the certificate on GOV.UK
+    And a link "EPC register ↗" goes to the register's search page on GOV.UK, https://www.gov.uk/find-energy-certificate, which carries no certificate number (ENERGY-39)
     And the rating is shown as the register's band and score, with no word of our own about it
 
   @ui
