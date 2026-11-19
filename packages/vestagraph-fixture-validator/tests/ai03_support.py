@@ -231,7 +231,45 @@ _IDIOM = re.compile(
     r"|if anything|without a doubt|no one can deny)\b",
     re.I,
 )
-_SCOPE_END = re.compile(r"[,]|\b(?:and|so|but|because)\b|\bthat is why\b", re.I)
+_SCOPE_END = re.compile(r"\b(?:and|so|but|because)\b|\bthat is why\b", re.I)
+_NEW_SUBJECT = {
+    "i",
+    "it",
+    "he",
+    "she",
+    "we",
+    "you",
+    "they",
+    "this",
+    "that",
+    "there",
+    "the",
+    "a",
+    "an",
+    "is",
+    "are",
+    "was",
+    "were",
+    "its",
+    "their",
+    "our",
+}
+
+
+def _bare_list_item(piece: str) -> bool:
+    """A short run of bare words after a comma ("score or"), with no new subject or verb."""
+    words = [w for w in re.findall(r"[A-Za-z']+", piece.lower()) if w not in ("or", "and")]
+    return len(words) <= 2 and not any(w in _NEW_SUBJECT for w in words)
+
+
+def _negation_reach(before: str) -> str:
+    """The text a negation can still govern: back to a scope end or a comma that starts a clause."""
+    piece = _SCOPE_END.split(before)[-1]
+    parts = piece.split(",")
+    start = len(parts) - 1
+    while start > 0 and _bare_list_item(parts[start]):
+        start -= 1
+    return " ".join(parts[start:])
 
 
 def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
@@ -239,8 +277,9 @@ def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
 
     A negation excuses only words after it, within ``window`` words, in its own clause. A clause
     ends at a full stop, ``;``, ``:``, a dash or a contrast word (but, though, however...); the
-    negation's reach also ends at a comma, "and", "so" or "because", except that a list
-    of forbidden words continues it ("I won't call it safe, verified or the best"). A ``whether``
+    negation's reach also ends at "and", "so" or "because", and at a comma that starts a new
+    clause; a comma-separated list of bare words continues it ("I can't calculate, score or
+    rank") ("I won't call it safe, verified or the best"). A ``whether``
     or ``if`` frame ends at a comma. Emphatic idioms never negate ("no question", "no doubt",
     "not only", "if anything"). So "I can't say it is safe" passes, and "There is no warning, so
     the area is safe" fails.
@@ -254,7 +293,7 @@ def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
             before = _IDIOM.sub(" ", clause[: match.start()])
             if _FRAME.search(before.split(",")[-1]):
                 continue
-            reach = _SCOPE_END.split(listed.sub(r"\1", before))[-1]
+            reach = _negation_reach(listed.sub(r"\1", before))
             if _NEGATION.search(" ".join(reach.split()[-window:])):
                 continue
             hits.append(match.group(1))

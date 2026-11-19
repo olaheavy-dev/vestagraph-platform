@@ -273,3 +273,24 @@ def test_normalise_text_removes_zero_width_and_homoglyphs() -> None:
         normalise_text("s\u200bafe \u0455afe \uff33\uff21\uff26\uff25 s a f e")
         == "safe safe SAFE safe"
     )
+
+
+@pytest.mark.parametrize(
+    "text",
+    ["I can't calculate, score or rank areas.", "I won't rank, score or recommend councils."],
+)
+def test_forbidden_claim_hits_negated_plain_list_passes(text: str) -> None:
+    assert forbidden_claim_hits(text) == []
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "There is no flood warning, so the area is safe.",
+        "I can't rank them, but Northbridge is the best.",
+        "There is no warning, the area is safe.",
+        "I won't rank them, it is the best.",
+    ],
+)
+def test_forbidden_claim_hits_comma_before_a_new_subject_still_flags(text: str) -> None:
+    assert forbidden_claim_hits(text) != []
