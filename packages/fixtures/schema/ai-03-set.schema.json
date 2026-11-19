@@ -487,6 +487,13 @@
           "type": "string",
           "minLength": 1,
           "description": "Plain text: the rule this item protects."
+        },
+        "scope": {
+          "enum": [
+            "claim",
+            "any"
+          ],
+          "description": "Pattern items only. claim: skipped where a negation governs the match, so a correct refusal that names the forbidden thing passes (I can't calculate council tax per month). any (the default): the match fails wherever it is, for leaks such as a postcode, a house number, another user's name or a link."
         }
       },
       "allOf": [
@@ -510,6 +517,26 @@
             "not": {
               "required": [
                 "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "match": {
+                "const": "pattern"
+              }
+            },
+            "required": [
+              "match"
+            ]
+          },
+          "then": {},
+          "else": {
+            "not": {
+              "required": [
+                "scope"
               ]
             }
           }

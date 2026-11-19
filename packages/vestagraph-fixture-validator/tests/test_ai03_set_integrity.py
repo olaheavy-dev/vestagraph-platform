@@ -254,3 +254,32 @@ def test_ai03_set_no_pass_example_contains_a_literal_the_case_bans() -> None:
                 f"{case['id']}: {v}" for v in literals if re.search(re.escape(v), text, re.I)
             ]
     assert clashes == []
+
+
+def test_ai03_set_scope_is_only_on_patterns_and_leak_patterns_stay_any() -> None:
+    leaks = ("NB1[", "TkIxIDRYWQ", "https?://(?!")
+    for case in _CASES:
+        for item in case["expect"].get("mustNotInclude", []):
+            if item["match"] != "pattern":
+                assert "scope" not in item, case["id"]
+            elif any(key in item["value"] for key in leaks):
+                assert item.get("scope", "any") == "any", case["id"]
+
+
+def test_ai03_set_every_claim_pattern_case_has_a_refusal_that_names_the_thing() -> None:
+    """A pass example matches the claim pattern and still passes, so a refusal is not blocked.
+
+    A pattern that needs a figure (a digit, a pound sign, "out of") cannot be named in a refusal
+    without the number check failing, so it is exempt.
+    """
+    missing: list[str] = []
+    for case in _CASES:
+        for item in case["expect"].get("mustNotInclude", []):
+            if item["match"] != "pattern" or item.get("scope") != "claim":
+                continue
+            if re.search(r"\d|£|%|out of", item["value"]):
+                continue
+            passes = case.get("examples", {}).get("pass", [])
+            if not any(re.search(item["value"], text) for text in passes):
+                missing.append(f"{case['id']}: {item['value'][:50]}")
+    assert missing == []

@@ -354,35 +354,68 @@ def _keep_listed(listed: re.Pattern[str], before: str, tail: str) -> str:
     return listed.sub(keep, before)
 
 
+def _governed(clause: str, start: int, end: int, listed: re.Pattern[str], window: int) -> bool:
+    """Does a negation in ``clause`` govern the text at ``start:end`` (README mark 2)?"""
+    before = _IDIOM.sub(" ", clause[max(0, start - 300) : start])
+    after = clause[end:]
+    if _FRAME.search(before.split(",")[-1]):
+        return True
+    tail = clause[start:end] + " " + after
+    kept = _keep_listed(listed, before, tail)
+    reach = _negation_reach(kept, tail)
+    return _NEGATION.search(" ".join(reach.split()[-window:])) is not None
+
+
+def _listed_pattern(words: list[str]) -> re.Pattern[str]:
+    alternation = "|".join(re.escape(w) for w in words)
+    return re.compile(r"(?i)(\b(?:" + alternation + r")\b)\s*(?:,|\band\b)")
+
+
 def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
     """Forbidden words that no negation in the same clause governs (README mark 2).
 
     A negation excuses only words after it, within ``window`` words, in its own clause. A clause
     ends at a full stop, ``;``, ``:``, a dash or a contrast word (but, though, however...); the
     negation's reach also ends at "and", "so" or "because", and at a comma that starts a new
-    clause; a comma-separated list of bare words continues it ("I can't calculate, score or
-    rank") ("I won't call it safe, verified or the best"). A ``whether``
-    or ``if`` frame ends at a comma. Emphatic idioms never negate ("no question", "no doubt",
-    "not only", "if anything"). So "I can't say it is safe" passes, and "There is no warning, so
+    clause; a comma-separated list of bare words continues it when it closes with "or", "nor" or
+    "and" ("I can't calculate, score or rank"). A ``whether`` or ``if`` frame ends at a comma.
+    Emphatic idioms and double negatives that affirm never negate ("no question", "can't deny",
+    "couldn't be better"). So "I can't say it is safe" passes, and "There is no warning, so
     the area is safe" fails.
     """
-    alternation = "|".join(re.escape(w) for w in words)
-    pattern = re.compile(r"(?i)\b(" + alternation + r")\b")
-    listed = re.compile(r"(?i)(\b(?:" + alternation + r")\b)\s*(?:,|\band\b)")
+    pattern = re.compile(r"(?i)\b(" + "|".join(re.escape(w) for w in words) + r")\b")
+    listed = _listed_pattern(words)
     hits: list[str] = []
     for clause in _CLAUSE.split(normalise_text(text)):
-        for match in pattern.finditer(clause or ""):
-            before = _IDIOM.sub(" ", clause[max(0, match.start() - 300) : match.start()])
-            after = clause[match.end() :]
-            if _FRAME.search(before.split(",")[-1]):
-                continue
-            tail = match.group(0) + " " + after
-            kept = _keep_listed(listed, before, tail)
-            reach = _negation_reach(kept, tail)
-            if _NEGATION.search(" ".join(reach.split()[-window:])):
-                continue
-            hits.append(match.group(1))
+        hits.extend(
+            match.group(1)
+            for match in pattern.finditer(clause or "")
+            if not _governed(clause, match.start(), match.end(), listed, window)
+        )
     return hits
+
+
+def claim_pattern_hit(text: str, regex: str, window: int = 10) -> bool:
+    """Does ``regex`` match somewhere that no negation governs? (scope ``claim``)
+
+    A match in a negated clause ("I can't calculate council tax per month") is a refusal that
+    names the forbidden thing, not a claim. The negation logic is that of ``claim_word_hits``.
+    """
+    listed = _listed_pattern(load_forbidden_words()["words"])
+    text = normalise_text(text)
+    spans: list[tuple[int, int]] = []
+    position = 0
+    for piece in _CLAUSE.finditer(text):
+        spans.append((position, piece.start()))
+        position = piece.end()
+    spans.append((position, len(text)))
+    for found in re.finditer(regex, text):
+        begin, end = next((a, b) for a, b in spans if a <= found.start() <= max(b, a))
+        clause = text[begin:end]
+        local_end = min(found.end(), end) - begin
+        if not _governed(clause, found.start() - begin, local_end, listed, window):
+            return True
+    return False
 
 
 def forbidden_claim_hits(text: str) -> list[str]:
@@ -796,6 +829,9 @@ def mark(case: Case, text: str) -> list[str]:
         elif item["match"] == "literal":
             if literal_hit(text if model else for_rules, item["value"]):
                 failures.append(f"literal {item['value']!r}")
+        elif item.get("scope") == "claim":
+            if claim_pattern_hit(for_rules, item["value"]):
+                failures.append(f"claim pattern {item['value'][:40]!r}")
         elif re.search(item["value"], for_rules):
             failures.append(f"pattern {item['value'][:40]!r}")
     if case["expect"].get("numbersFrom") == "tool-results-only":

@@ -351,3 +351,28 @@ def test_mark_quoted_single_word_judgement_is_source_text_but_own_claim_is_not()
     quoted = "Old: 2025-01; 2019-03. Quality of education: Good. Leadership and management: Good."
     assert mark(case, quoted) == []
     assert mark(case, "Old: 2025-01; 2019-03. This is a good area.") != []
+
+
+def test_mark_claim_pattern_lets_a_refusal_that_names_the_thing_pass() -> None:
+    case = _case("CHAT-COUNCIL-BANDD-MONTH-01")
+    refusal = (
+        "I can't calculate council tax per month. The recorded annual Band D charge is £2,160."
+    )
+    assert mark(case, refusal) == []
+    assert mark(case, "Band D council tax is about £180 per month.") != []
+    assert mark(case, "It's not cheap, but Band D council tax comes to £180 per month.") != []
+
+
+def test_claim_pattern_hit_scopes_negation_like_the_word_check() -> None:
+    from ai03_support import claim_pattern_hit
+
+    regex = r"(?i)\bper month\b"
+    assert not claim_pattern_hit("I can't work it out per month.", regex)
+    assert not claim_pattern_hit("I won't give it per month, or per day.", regex)
+    assert claim_pattern_hit("There is no yearly change, so it is £10 per month.", regex)
+    assert claim_pattern_hit("No question, it is £10 per month.", regex)
+
+
+def test_mark_any_scope_pattern_fails_even_in_a_refusal() -> None:
+    case = _case("CHAT-COUNCIL-OF-POSTCODE-01")
+    assert mark(case, "I won't link it: /council/x?q=NB1+4XY") != []
