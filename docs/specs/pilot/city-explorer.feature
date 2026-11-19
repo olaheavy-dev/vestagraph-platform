@@ -17,6 +17,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Board-to-scenario map (each board has a Dark twin that shows the same states; CITY-108):
     CouncilPage, phone: the header and the postcode box -> CITY-01, CITY-03; cost summary then topic rows -> CITY-23; the open House prices sheet -> CITY-24, CITY-64 to CITY-67; the other sheets -> CITY-25; band picker as a select -> CITY-27; Band D example, rent, price -> CITY-28, CITY-31; rent or buy -> CITY-34, CITY-38; budget empty -> CITY-55; neighbourhoods row -> CITY-87; How we got this -> CITY-91 to CITY-93
     CouncilPageDesktop: layout and wrap -> CITY-26; band chips -> CITY-27; the charts and their captions -> CITY-61 to CITY-86; neighbourhoods map, list and panel -> CITY-87 to CITY-90
+    CouncilReportProblem, with its Dark twin (canvas page 'Pilot · City Explorer'): Report a problem on a council figure or fact in a sheet -> CITY-112 (REPORT-03)
     CouncilBudgetValue, phone and desktop: a typed budget -> CITY-56, CITY-57; the box's privacy line -> CITY-59
     CouncilStates 1 Loading -> CITY-94; 2 Council not found -> CITY-21; 3 Place in more than one council -> CITY-09, CITY-10; 4 Places sharing a name -> CITY-11, CITY-12; 5 London search -> CITY-13, CITY-14; 6 County search -> CITY-15, CITY-16; 7 Former council name -> CITY-17, CITY-18; 8 Series starts at a council merger -> CITY-98; 9 Not covered (Wales) -> CITY-19, CITY-20; 10 Postcode in another council -> CITY-04, CITY-05; 11 A source missing for this council -> CITY-52, CITY-53; 12 Provisional edition -> CITY-83; 13 Stale edition -> CITY-95; 14 Figure published only for the county -> CITY-96; 15 Broken series -> CITY-76 to CITY-78; 16 Council replaced -> CITY-97; 17 One side missing -> CITY-50, CITY-51; 18 No rate band -> CITY-39, CITY-40, CITY-41; 19 Working out -> CITY-47, CITY-49; 20 Couldn’t work this out -> CITY-48; 21 Invalid budget -> CITY-58; 22 Invalid deposit, rate or term -> CITY-42 to CITY-45; 23 Offline -> CITY-99; 24 All sources down -> CITY-100; 25 A property type not published -> CITY-70, CITY-71; 26 A type’s 12-month change not published -> CITY-72, CITY-73; a small loan's band (Review Focus 2) -> CITY-111; the all-eight-bands answer -> CITY-110
 
@@ -874,3 +875,11 @@ Feature: City Explorer council page (one page per council: search, what it costs
     When the user reads under the two sides
     Then it reads "On these inputs, buying the average-priced home costs about the same a month as the average rent." with no figure
     And the sentence does not say which is better, and does not say "cheaper"
+
+  # Added 19 Nov 2026 (pilot design batch, PR 1; founder's choice, "Also City Explorer"; register line FE-74). The behaviour, states, wording and counts are `report-a-problem.feature` (REPORT-03, REPORT-23); this scenario only points the council page at it.
+  @ui
+  Scenario: CITY-112 each council figure and fact in a sheet has "Report a problem", as REPORT-03 sets
+    Given the user has opened the council page for council "E06999001" and a sheet, for example council tax by band
+    When the user reads each figure and fact in the sheet
+    Then each has "Report a problem" (REPORT-03), and a report is counted by the figure's name and the council's code, with no postcode and no address (REPORT-23)
+    And the cost summary's lines, the charts' captions and the printout carry no link (agent's call, open to the founder: the design names only summary lines on the area result)
