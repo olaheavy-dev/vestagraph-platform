@@ -175,6 +175,19 @@
               "required": [
                 "conversation"
               ]
+            },
+            "properties": {
+              "stubs": {
+                "items": {
+                  "properties": {
+                    "channel": {
+                      "not": {
+                        "const": "tool-result"
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         },
@@ -242,9 +255,10 @@
         "questions-for-gaps",
         "find-council",
         "council-facts",
-        "list-saved-areas"
+        "list-saved-areas",
+        "list-tools"
       ],
-      "description": "Tool job names until the build names them."
+      "description": "Tool job names until the build names them. list-tools is the server's tool listing, whose descriptions are marked (TOOLS-18, TOOLS-19). Argument and topic names are provisional and renamed in one pass at the build."
     },
     "turn": {
       "type": "object",
@@ -268,6 +282,7 @@
     },
     "stub": {
       "type": "object",
+      "description": "Inline synthetic data. store-record, saved-area, chat-title, place-name, school-name and council-name replace what the tool or store reads, never what the tool returns. tool-result replaces a tool's output and is allowed in model cases only.",
       "required": [
         "channel",
         "text",
@@ -282,6 +297,7 @@
             "school-name",
             "council-name",
             "saved-area",
+            "store-record",
             "chat-title",
             "earlier-turn"
           ]
@@ -294,6 +310,59 @@
           "const": true
         }
       }
+    },
+    "mustNot": {
+      "type": "object",
+      "required": [
+        "match",
+        "why"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "match": {
+          "enum": [
+            "literal",
+            "pattern",
+            "forbidden-words"
+          ],
+          "description": "literal: a phrase matched whole-word and ignoring case, quoted from a record, a stub, a scenario or the user's own words. pattern: a regular expression (ECMAScript syntax). forbidden-words: the list in forbidden-words.json, no value."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "why": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Plain text: the rule this item protects."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "match": {
+                "enum": [
+                  "literal",
+                  "pattern"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        }
+      ]
     },
     "expect": {
       "type": "object",
@@ -342,9 +411,9 @@
         "mustNotInclude": {
           "type": "array",
           "items": {
-            "type": "string",
-            "minLength": 1
-          }
+            "$ref": "#/$defs/mustNot"
+          },
+          "description": "What the answer or tool result must not contain. Each item is checked by plain code: a literal, a pattern or the forbidden-word list."
         },
         "numbersFrom": {
           "const": "tool-results-only"

@@ -34,7 +34,12 @@ def _document() -> Json:
 
 
 def _case(document: Json, shape: str) -> Json:
-    matches = [c for c in document["cases"] if c["shape"] == shape]
+    """The first rule case of this shape that has a must-include list (a stable choice)."""
+    matches = [
+        c
+        for c in document["cases"]
+        if c["shape"] == shape and c["kind"] == "rule" and c["expect"].get("mustInclude")
+    ]
     assert matches, shape
     return matches[0]
 
@@ -168,3 +173,53 @@ def test_validate_instance_ai03_set_must_include_known_source_forms_are_accepted
         document = _document()
         _case(document, "model")["expect"]["mustInclude"][0]["from"] = source
         assert _problems(document) == [], source
+
+
+def test_validate_instance_ai03_set_must_not_include_plain_string_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["mustNotInclude"] = ["a verdict"]
+    assert mentions(_problems(document), "mustNotInclude")
+
+
+def test_validate_instance_ai03_set_must_not_literal_without_value_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["mustNotInclude"] = [{"match": "literal", "why": "x"}]
+    assert mentions(_problems(document), "value")
+
+
+def test_validate_instance_ai03_set_must_not_forbidden_words_with_value_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["mustNotInclude"] = [
+        {"match": "forbidden-words", "value": "safe", "why": "x"}
+    ]
+    assert mentions(_problems(document), "mustNotInclude")
+
+
+def test_validate_instance_ai03_set_must_not_unknown_match_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["mustNotInclude"] = [
+        {"match": "vibes", "value": "x", "why": "x"}
+    ]
+    assert mentions(_problems(document), "match")
+
+
+def test_validate_instance_ai03_set_must_not_without_why_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["mustNotInclude"] = [{"match": "literal", "value": "x"}]
+    assert mentions(_problems(document), "why")
+
+
+def test_validate_instance_ai03_set_tool_result_stub_in_tool_output_case_is_rejected() -> None:
+    document = _document()
+    _case(document, "tool-output")["stubs"] = [
+        {"channel": "tool-result", "text": "x", "synthetic": True}
+    ]
+    assert mentions(_problems(document), "channel")
+
+
+def test_validate_instance_ai03_set_store_record_stub_in_tool_output_case_is_accepted() -> None:
+    document = _document()
+    _case(document, "tool-output")["stubs"] = [
+        {"channel": "store-record", "text": "x", "synthetic": True}
+    ]
+    assert _problems(document) == []
