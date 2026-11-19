@@ -8,12 +8,12 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
   Rule 4 and 0054: compare shows the two postcodes in the order the visitor picked them. It never sorts, ranks or totals them, names no "better" or "worse" postcode, and works out no difference between them ("2 more schools"). The only words about the two sides are each side's own facts.
   Rule 7: a gap on one side is never blank, zero or a clean result. Three cases, each with the area result's own approved wording: a topic whose source holds no record reads that record's own gap line (TOPIC-09, AREA-47, for example "No sold prices nearby in this source"; the topic still counts as found); a topic whose source is down reads "Not known right now" (AREA-07); a topic outside the covered area reads "Not yet covered". "Not known" is the label of an outcome (a not-known count, a priority), never a replacement for a record's own gap line.
   Rule 6: a postcode outside England reads "Not yet covered" on its own side (AREA-01, AREA-08).
-  Boards: `ComparePhone`, `CompareDesktop` and `CompareStates`, each with a `…Dark` twin, in the canvas section 'Pilot 8 · Compare, share, report' on the page 'Pilot · public area check' (checked against canvas version 1795106253-85fa, 19 Nov 2026). Wording below that is not marked "approved" is the design's or the area result's own wording.
+  Boards: `ComparePhone`, `CompareDesktop` and `CompareStates`, each with a `…Dark` twin, in the canvas section 'Pilot 8 · Compare, share, report' on the page 'Pilot · public area check' (checked against canvas version 1795107206-3e0d, 19 Nov 2026). Wording below that is not marked "approved" is the design's or the area result's own wording.
   Wording status: approved wording is reused from the area result (AREA-04, AREA-05, AREA-07, AREA-08, AREA-30, PRIO) and from compare councils (CITY2-04, CITY2-27). Proposed wording, for the founder's copy review before build: the compare page's heading, subtitle and the empty second-postcode line (COMPARE-01, COMPARE-03), "Compare with another postcode" and "Share this comparison" on the area result and compare (COMPARE-01, COMPARE-29), and the "How we got this" note (COMPARE-28). Each is marked "proposed" at its scenario.
   Data scenarios (no tag) check the sample data with the area result steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page, in the browser or in what the server logs.
 
   Board-to-scenario map (drawn in plan Task 3; each board has a Dark twin, COMPARE-36):
-    Compare, phone and desktop: the way in -> COMPARE-01, COMPARE-02; the postcode boxes and Swap -> COMPARE-03, COMPARE-16, COMPARE-17; At a glance for each -> COMPARE-08, COMPARE-09, COMPARE-10; priorities -> COMPARE-18 to COMPARE-21; the rows -> COMPARE-11 to COMPARE-13; a row's two details -> COMPARE-14; gaps -> COMPARE-22 to COMPARE-27; no ranking -> COMPARE-15; How we got this -> COMPARE-28; Share this comparison -> COMPARE-29 to COMPARE-31; offline -> COMPARE-32; privacy -> COMPARE-33; Report a problem in a detail -> COMPARE-35; keyboard, size, no sideways scroll -> COMPARE-34; dark twin -> COMPARE-36; no Print -> COMPARE-37
+    Compare, phone and desktop: the way in -> COMPARE-01, COMPARE-02; the postcode boxes and Swap -> COMPARE-03, COMPARE-16, COMPARE-17; At a glance for each -> COMPARE-08, COMPARE-09, COMPARE-10; priorities -> COMPARE-18 to COMPARE-21; the rows -> COMPARE-11 to COMPARE-13; a row's two details -> COMPARE-14; gaps -> COMPARE-22 to COMPARE-27; no ranking -> COMPARE-15; How we got this -> COMPARE-28; Share this comparison -> COMPARE-29 to COMPARE-31; offline -> COMPARE-32; too many checks -> COMPARE-39; privacy -> COMPARE-33; Report a problem in a detail -> COMPARE-35; keyboard, size, no sideways scroll -> COMPARE-34; dark twin -> COMPARE-36; no Print -> COMPARE-37
 
   Required states (design "States to cover"; AGENTS.md rules 1, 4, 6 and 7):
     empty second postcode -> COMPARE-03
@@ -23,6 +23,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     a source down on one side -> COMPARE-24, COMPARE-25 (the failed flood source of NB7 1RR, a real sample record)
     a topic missing on one side -> COMPARE-22, COMPARE-23, COMPARE-26, COMPARE-27 (no record in the source; not covered)
     offline -> COMPARE-32
+    too many checks (rate limit) -> COMPARE-39
     swapped -> COMPARE-16
     the same postcode twice -> COMPARE-17
     priorities not set -> COMPARE-18; priorities set -> COMPARE-19, COMPARE-20, COMPARE-21
@@ -96,7 +97,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
   Scenario: COMPARE-09 At a glance is shown for each postcode with its own counts
     Given the visitor has compared "NB1 4XY" and "NB7 1RR"
     When the visitor reads the top of the page
-    Then each postcode has its own At a glance with its "found" and "not known" counts, quoted from `area-result.json` <postcode> / glance / found and notKnown, and its coverage line from coverageFound and coverageTotal
+    Then each postcode has its own At a glance with its "found", "not known" and "Questions to ask" counts, quoted from `area-result.json` <postcode> / glance / found and notKnown and the number of entries in questions (FE-22, FE-41), and its coverage line from coverageFound and coverageTotal
     And no count, line or word says which postcode has more, fewer or better
 
   @ui
@@ -131,7 +132,8 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     Given the visitor has compared "NB1 4XY" and "NB7 1RR"
     When the visitor reads a row, for example "Schools"
     Then the row shows the topic's name once, and each postcode's summary line with its postcode beside it (stacked on a phone, in two columns on desktop)
-    And each summary line is the same text the area result shows for that postcode (FE-20), built from the postcode's own topic records, and compare adds no word or figure of its own
+    And each side carries the same text the area result shows for that postcode (FE-20), built from the postcode's own topic records: the summary line, every extra gap line (for example "Childcare: no record in this source" under Everyday places), the "Not known right now" sentences, and the area line ("From the postcode centre", "Council area: Fellshire", "Neighbourhood: Northbridge Fells 001"), so a gap is never dropped and each figure says which area it covers
+    And compare adds no word or figure of its own
 
   @ui
   Scenario: COMPARE-14 tapping a row opens both details one after the other, each with its own source stamp
@@ -317,3 +319,11 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     When the visitor opens the topic jump list at the top of the page
     Then it lists the same topics as the rows, in the same order as `area-result.json` <postcode> / topics (COMPARE-11), and choosing one moves to its row
     And it is never sorted or filtered by a figure or an outcome, and it has no count or marker on any entry
+
+  # Rate limit (the area result's own state; compare asks the same service for each postcode).
+  @ui
+  Scenario: COMPARE-39 too many checks keeps the results already shown and offers one action
+    Given the visitor has compared "NB1 4XY" and "NB7 1RR"
+    When the service says too many checks have been made
+    Then the page says "Too many checks just now" with "This connection has checked a lot of postcodes in a short time." and "Your results so far are still on screen. Checks open again shortly." (the area result's approved wording), and offers "Try again in a minute"
+    And the rows already shown stay, no row shows as empty, and no limit, count or time is revealed

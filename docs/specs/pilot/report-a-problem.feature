@@ -7,7 +7,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   Where it appears (founder's choice 5, and the agent's call for the signed-in chat's side panel, open to the founder): on each fact in a topic's detail (sheet or panel) on the area result (REPORT-01), on compare (REPORT-02), on City Explorer's council page and council compare detail (REPORT-03) and neighbourhood page (REPORT-04), and in the signed-in chat's side panel, which shows the full area result (REPORT-05). Where it does not: summary lines (REPORT-06), the energy certificate page (REPORT-07), the area card and the compare table in the chat (REPORT-08) and the ChatGPT and Claude widget (REPORT-09).
   Rule 7: a gap (the record's own gap line, "Not known right now", "Not yet covered") can be reported too, and "Missing something" is its natural reason (REPORT-11).
   Rule 5 and 0014: nothing is stored on the visitor's device; "Reported" lives in the page's memory only (REPORT-16).
-  Boards: `ReportProblem` (phone cards and the desktop panel; area topic detail) with `ReportProblemDark`, in the canvas section 'Pilot 8 · Compare, share, report', and `CouncilReportProblem` with `CouncilReportProblemDark` on the page 'Pilot · City Explorer' (section City Explorer 4); canvas version 1795106253-85fa, 19 Nov 2026. Compare's detail with its links is on `ComparePhone` and `CompareDesktop`.
+  Boards: `ReportProblem` (phone cards and the desktop panel; area topic detail) with `ReportProblemDark`, in the canvas section 'Pilot 8 · Compare, share, report', and `CouncilReportProblem` with `CouncilReportProblemDark` on the page 'Pilot · City Explorer' (section City Explorer 4); canvas version 1795107206-3e0d, 19 Nov 2026. Compare's detail with its links is on `ComparePhone` and `CompareDesktop`. REPORT-04 (a neighbourhood fact) and REPORT-05 (the chat's side panel) follow REPORT-01's anatomy and have no board of their own.
   Wording status: approved by the founder (design, 19 Nov 2026): the reasons "Wrong", "Out of date", "Missing something" and "Report a problem". Proposed, for the founder's copy review before build: "Thanks. We count reports for each fact to see what needs checking. We can't reply." (REPORT-15), "Reported" (REPORT-16), "Couldn't send. Try again." (REPORT-17, REPORT-19) and "You're offline. Try again when you're back online." (REPORT-18), and "Cancel" on the choices (REPORT-14). The design marks these as the agent's wording.
   No state here needs a new sample record: each data scenario quotes the sample counts, so no `noticed` issue is open for this feature. A state with no sample (the failures) is a page behaviour, so it is `@ui`.
   Data scenarios (no tag) check the sample counts with the report steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page or in a request.
@@ -105,7 +105,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   Scenario: REPORT-12 the tap opens three fixed choices and Cancel
     Given a fact's "Report a problem" is shown
     When the visitor chooses it
-    Then three choices open, "Wrong", "Out of date" and "Missing something", with "Cancel" (proposed wording), and nothing is sent yet
+    Then three choices open under the heading "What's wrong with this fact?" (proposed wording), "Wrong", "Out of date" and "Missing something", with "Cancel" (proposed wording), and nothing is sent yet
     And no text field is offered, because a report has no free text
 
   @ui

@@ -171,7 +171,7 @@ Feature: Landing
     Then it links "Check an energy certificate" to "/energy-certificate", described as "Have a certificate number? See what that home's energy certificate says."
     And the link carries no postcode, no search text and no certificate number
 
-  # Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, section "3. Recent postcodes"; plan Task 2). The behaviour is RECENT-01 to RECENT-13 in `pilot/area-share.feature`; these three scenarios place it on the landing. Drawn on the `RecentPostcodes` board (canvas version 1795106253-85fa), so the wording is proposed, for the founder's copy review before build.
+  # Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, section "3. Recent postcodes"; plan Task 2). The behaviour is RECENT-01 to RECENT-13 in `pilot/area-share.feature`; these three scenarios place it on the landing. Drawn on the `RecentPostcodes` board (canvas version 1795107206-3e0d), so the wording is proposed, for the founder's copy review before build.
   @ui
   Scenario: LAND-22 under the search box Recent postcodes is off by default and names its consent
     Given the user is not signed in and has never turned Recent postcodes on
