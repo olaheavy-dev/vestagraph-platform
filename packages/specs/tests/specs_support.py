@@ -181,6 +181,15 @@ class StoryPosition:
         return f"{self.home_id}.{self.scenario_id}."
 
 
+_TENURE_SHARE_KEYS = (
+    "ownedOutright",
+    "ownedWithMortgage",
+    "socialRented",
+    "privateRented",
+    "other",
+)
+
+
 class DataSteps:
     """The data steps; the wording that selects each is in ``specs_steps.py``."""
 
@@ -632,6 +641,15 @@ class DataSteps:
             f'Council "{code}" neighbourhood "{neighbourhood}" has no tenure shares in '
             f"{_COUNCIL_RESULT}; missing shares are never shown as zero (rule 7)."
         )
+
+    def then_council_has_tenure_shares(self, code: str) -> None:
+        shares = _require_council_result(code).get("tenureShares")
+        assert isinstance(shares, dict), (
+            f'Council "{code}" has no tenureShares in {_COUNCIL_RESULT}; missing shares are '
+            "never shown as zero (rule 7)."
+        )
+        missing = [key for key in _TENURE_SHARE_KEYS if key not in shares]
+        assert not missing, f'Council "{code}" tenureShares in {_COUNCIL_RESULT} lack {missing}.'
 
     def then_council_lists_no_neighbourhoods(self, code: str) -> None:
         listed = _require_council_result(code)["neighbourhoods"]

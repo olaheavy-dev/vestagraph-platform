@@ -809,6 +809,31 @@ def test_then_council_lists_no_neighbourhoods_council_with_some_fails_naming_the
     assert _NORTH in str(failure.value)
 
 
+def test_then_council_has_tenure_shares_council_with_shares_passes(steps: DataSteps) -> None:
+    steps.then_council_has_tenure_shares(_NORTH)
+
+
+def test_then_council_has_tenure_shares_missing_key_fails_naming_the_key(
+    steps: DataSteps, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    shares = data._load().council_results[_NORTH]["tenureShares"]
+    monkeypatch.delitem(shares, "other")
+
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_has_tenure_shares(_NORTH)
+
+    assert "other" in str(failure.value)
+
+
+def test_then_council_has_tenure_shares_council_without_shares_fails_naming_the_council(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_has_tenure_shares("E07999002")
+
+    assert "E07999002" in str(failure.value)
+
+
 def test_then_council_neighbourhood_tenure_shares_empty_shares_fails_naming_the_neighbourhood(
     steps: DataSteps, monkeypatch: pytest.MonkeyPatch
 ) -> None:

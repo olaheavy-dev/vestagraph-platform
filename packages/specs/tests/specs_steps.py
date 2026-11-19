@@ -276,6 +276,11 @@ def then_council_neighbourhood_has_tenure_shares(
     data_steps.then_council_neighbourhood_has_tenure_shares(code, neighbourhood)
 
 
+@then(parsers.parse('council "{code}" has tenure shares'))
+def then_council_has_tenure_shares(data_steps: DataSteps, code: str) -> None:
+    data_steps.then_council_has_tenure_shares(code)
+
+
 @then(parsers.parse('council "{code}" lists no neighbourhoods'))
 def then_council_lists_no_neighbourhoods(data_steps: DataSteps, code: str) -> None:
     data_steps.then_council_lists_no_neighbourhoods(code)
