@@ -83,6 +83,12 @@ def test_generate_energy_current_certificates_show_registration_date_and_validit
     assert result[_number("A")]["registrationDate"] == "2025-04-04"
     assert result[_number("B")]["registrationDate"] == "2014-06-10"
     assert result[_number("H")]["registrationDate"] == "2016-02-29"
+    # validUntil = registration date + 10 years (A 2025-04-04, B 2014-06-10, G 2021-03-10;
+    # H 2016-02-29 has no 29 February in 2026, so 28 February).
+    assert result[_number("A")]["validUntil"] == "2035-04-04"
+    assert result[_number("B")]["validUntil"] == "2024-06-10"
+    assert result[_number("G")]["validUntil"] == "2031-03-10"
+    assert result[_number("H")]["validUntil"] == "2026-02-28"
 
 
 def test_generate_energy_superseded_and_cancelled_have_a_status_line() -> None:

@@ -418,10 +418,12 @@ class DataSteps:
     def then_energy_certificate_has_valid_until(self, number: str, expected: bool) -> None:
         # Regulation 9(2)(b): only a current certificate has a validity date, with its age.
         certificate = _require_energy_certificate(number)
-        has_dates = "validUntil" in certificate or "moreThanTenYearsOld" in certificate
+        has_valid_until = "validUntil" in certificate
+        has_age = "moreThanTenYearsOld" in certificate
+        has_dates = (has_valid_until and has_age) if expected else (has_valid_until or has_age)
         assert has_dates is expected, (
             f'Energy certificate "{number}" '
-            f"{'has no' if expected else 'has a'} validUntil or moreThanTenYearsOld in "
+            f"{'lacks' if expected else 'has'} validUntil or moreThanTenYearsOld in "
             f"{_ENERGY_RESULT}."
         )
 
