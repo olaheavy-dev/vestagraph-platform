@@ -13,7 +13,7 @@ Tracks: the area check and energy certificate (A), City Explorer (C), the signed
 | 3. AI-03 evaluation set written | **Fails** (not written) | **Fails** (not written) | **Fails** (not written) |
 | 4. No open `review-followup` issue | #286 is open (repository-wide) | #286 is a City Explorer issue | #286 is open (repository-wide) |
 
-Already handled since the audits (this change or the same day): the `noticed` issues #339 (neighbourhood At a glance counts), #340 (council sample data for the states), #341 (earlier edition and revised month), #342 (sample "Explain this" texts) and the spec headers that extend #302 to WCHAT-110, ACCT-04 and ACCT-05 (the body of #302 itself still needs editing); #338 fixes the #286 items and closes it once merged; the founder's decisions of 19 Nov are recorded (PD-21, FE-71, FE-72, AI-14, WW-21, DA-36).
+Already handled since the audits (this change or the same day): the `noticed` issues #339 (neighbourhood At a glance counts), #340 (council sample data for the states), #341 (earlier edition and revised month), #342 (sample "Explain this" texts) and the spec headers that extend #302 to WCHAT-110, ACCT-04 and ACCT-05 (the body of #302 itself still needs editing); #338 merged on 19 Nov and closed #286; the founder's decisions of 19 Nov are recorded (PD-21, FE-71, FE-72, AI-14, WW-21, DA-36).
 
 ## 2. Coverage tables
 
@@ -91,8 +91,8 @@ Required states: AUTH-01 to 28, WCHAT-01 to 110 and ACCT-01 to 42 all resolve; t
 4. **The "Explain this" texts had no fixture and no `noticed` issue** (A). `area-topics.feature:188-198`, `area-tools.feature:171-180`. Now #342.
 5. **The area card inside the signed-in chat is not drawn** (S). `area-card.feature:43-64` and `:85` keep 11 scenarios for the chat; canvas note `s12` still says the old boards moved to "Home workspace (later)"; #303 item 1. Founder: draw it (FE-71).
 6. **The AI-03 evaluation set is not written** (A, C, S). 0052 condition 3; backlog row 38f (`docs/planning/backlog.md:110`). Founder: one set, brainstorm first (AI-14). Section 5 is its starting list.
-7. **#286 `review-followup` is open** (C; blocks all tracks). Founder: fix the now-items, move the 5b items (WW-21); #338 closes it once merged.
-8. **Seven City Explorer scenarios waited for data with no `noticed` issue** (C). HOOD-06, 07 (`city-explorer-neighbourhood.feature:29, 84`), CITY-78, 95 to 98 (`city-explorer.feature:630, 757-784`), CITY2-48, 49 (`city-explorer-part-2.feature:35, 390, 398`). Now #339 to #341, cited in the comments at those lines.
+7. **#286 `review-followup` is open** (C; blocks all tracks). Founder: fix the now-items, move the 5b items (WW-21); #338 closed it (merged 19 Nov).
+8. **Seven City Explorer scenarios waited for data with no `noticed` issue** (C). HOOD-06, 07 (`city-explorer-neighbourhood.feature:29, 84`), CITY-78, 95 to 98 (`city-explorer.feature:631, 758-785`), CITY2-48, 49 (`city-explorer-part-2.feature:35, 390, 398`). Now #339 to #341, cited in the comments at those lines.
 
 ### P2
 
@@ -119,7 +119,7 @@ Required states: AUTH-01 to 28, WCHAT-01 to 110 and ACCT-01 to 42 all resolve; t
 Fixed in this change: fixture `pilot-topics.json` `energy-certificate-home` reviewStatus "draft" to "reviewed" (founder approved the wording 19 Nov); IA energy entry points approved (DA-32); IA lines 41 and 99 (account features live in the pilot; the home page still exists); doc 04 notes for the energy page (lines 67, 209); energy design line 81 (landing link settled); pilot design note for the per-account chat limit (lines 63 to 66); `city-explorer.feature:5` (council tools are in `area-tools.feature`); plan checkboxes for the merged City Explorer, signed-in chat, benchmark and energy plans; the "(fixture to add, #302)" markers on WCHAT-37, 38, 40, 48 and 49; the spec headers citing #339 to #342; SE-01 stage and status; a 0055 note on decision 0052.
 
 Open, small:
-1. `area-topics.feature:212` says the radon label "stays proposed" but `14-check-an-area.feature:35-36` says no wording is proposed after FE-69; confirm and correct one (and DA-31).
+1. `area-topics.feature:213` says the radon label "stays proposed" but `14-check-an-area.feature:35-36` says no wording is proposed after FE-69; confirm and correct one (and DA-31).
 2. No scenario says the public MCP server has no certificate tool and refuses a certificate number (DA-32, 0051). Add a TOOLS scenario.
 3. FE-11's "Satellite view" and "Open in Google Maps" are in no scenario; add to AREA-18's examples.
 4. About the data and Display settings have no desktop board; LAND-20's footer links and the "Use in ChatGPT or Claude" link are undrawn (canvas).
@@ -132,7 +132,7 @@ Open, small:
 
 ## 4. What remains before the gate passes
 
-1. Merge #338 (closes #286).
+1. Done: #338 merged (19 Nov) and #286 closed.
 2. The design batch (PD-21, FE-71, FE-72): a brainstorm, then boards and specifications for Report a problem, Share a link and Recent postcodes, Compare two postcodes, How it works, Privacy and Accessibility; the in-chat area card; the phone neighbourhoods map sheet; the extras' topic scenarios (P2-1); and the canvas fixes (remove the "AI error" frame; retire the old Nearby boards; "Check" to "Search" on the desktop council boards; the placeholder, #317).
 3. The AI-03 brainstorm and the one evaluation set (AI-14), from section 5.
 4. Code: the council tools return `tenureShares` (P2-9).
