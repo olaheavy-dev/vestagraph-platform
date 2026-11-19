@@ -177,7 +177,10 @@
               "const": "council"
             },
             "areaCode": {
-              "$ref": "#/$defs/councilCode"
+              "$ref": "#/$defs/councilCode",
+              "not": {
+                "$ref": "#/$defs/lsoaCode"
+              }
             }
           }
         },

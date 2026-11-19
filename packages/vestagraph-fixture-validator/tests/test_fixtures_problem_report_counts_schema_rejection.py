@@ -17,6 +17,18 @@ def _problems(document: Json) -> list[FixtureProblem]:
     return validate_instance(document, SCHEMA, schema_directory())
 
 
+def _locations(document: Json) -> set[str]:
+    return {p.location for p in _problems(document)}
+
+
+def _assert_only_at(document: Json, record: Json) -> None:
+    """Some problem exists and every problem is inside this one count, nowhere else."""
+    prefix = f"/counts/{document['counts'].index(record)}"
+    found = _locations(document)
+    assert found
+    assert all(loc == prefix or loc.startswith(prefix + "/") for loc in found), found
+
+
 def _record(document: Json, shape: str, key: str | None = None) -> Json:
     """The one sample count picked by shape and key: topic (fact, area) or areaLevel (figure)."""
     matches = [
@@ -126,7 +138,16 @@ def test_validate_instance_problem_report_counts_neighbourhood_with_council_code
     record = _record(document, "councilFigure", "council")
     record["areaLevel"] = "neighbourhood"
     record["areaCode"] = "E06999001"
-    assert _problems(document)
+    _assert_only_at(document, record)
+
+
+def test_validate_instance_problem_report_counts_council_with_neighbourhood_code_is_rejected() -> (
+    None
+):
+    document = _document()
+    record = _record(document, "councilFigure", "neighbourhood")
+    record["areaLevel"] = "council"
+    _assert_only_at(document, record)
 
 
 def test_validate_instance_problem_report_counts_postcode_as_record_id_is_rejected() -> None:
