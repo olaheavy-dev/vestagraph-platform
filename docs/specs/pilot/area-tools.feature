@@ -424,7 +424,9 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   Scenario: TOOLS-53 every published figure carries its source, edition and level
     Given an assistant is connected to the area tools
     When it calls the council facts tool for council "E06999001"
-    Then each figure is the value recorded for that field in `council-area.json` (TOOLS-52), with its source, its edition or period and its level (for example the council area), and the result quotes no figure the file does not hold
+    Then each published figure is the value recorded for that field in `council-area.json` (TOOLS-52), with its source, its edition or period and its level (for example the council area)
+    And the only other figures are the tested tenure shares from `tenureShares` in `council-result.json` (TOOLS-64, TOOLS-65), carrying the tenure counts' source, edition and level
+    And the result quotes no other figure that neither file holds
 
   Scenario: TOOLS-54 Eastmere has no published rent and Westmere has nothing recorded
     Then council "E07999001" has field "rentSeries" with status "no-record-in-source"
