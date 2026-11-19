@@ -247,7 +247,7 @@ Feature: Area maps (the quiet 3D map on every area map)
     And our places are still listed in the place list and the topic, each with its distance and source stamp, and nothing is shown as zero or as a clean result (rule 7)
     And the rest of the page works as before, and "Try again" loads the tiles again once they are reachable (proposed wording)
 
-  # FE-75 (founder, 19 Nov 2026, "Load when opened"): maps load only on the visitor's tap. Added after MAP-27 so no ID moves. The boards do not yet draw "Show map" (plan Task 7).
+  # FE-75 (founder, 19 Nov 2026, "Load when opened"): maps load only on the visitor's tap. Added after MAP-27 so no ID moves. Drawn 19 Nov 2026 (canvas version 424): board AreaShowMap on "Pilot · public area check", section "Pilot 10 · Show map on the area result" (desktop and phone, with a Dark twin); the sentence under the button is proposed wording.
   @ui
   Scenario: MAP-28 before the visitor chooses "Show map", nothing is requested from OpenFreeMap and the facts and list are complete
     Given the visitor has checked "NB1 4XY" and has not chosen "Show map"
