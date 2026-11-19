@@ -179,6 +179,9 @@ def forbidden_hits(text: str, where: str) -> list[str]:
     document = load_forbidden_words()
     if where in document["allowIn"]:
         return []
+    if where != "answer":
+        message = f"Unknown place {where!r}: use 'answer' or one of {document['allowIn']}."
+        raise ValueError(message)
     text = mask_phrases(text, document.get("allowPhrases", []))
     return [
         word
@@ -475,3 +478,51 @@ def include_misses(case: Case, text: str) -> list[str]:
         if not ok:
             missing.append(item["text"])
     return missing
+
+
+# ---- the specifications and the set as a whole ----------------------------------------------
+
+
+def _scenario_tags() -> dict[str, set[str]]:
+    """Scenario ID to its tags: the tag lines directly above ``Scenario: <ID>`` in the specs."""
+    found: dict[str, set[str]] = {}
+    for path in (repository_root() / "docs" / "specs").rglob("*.feature"):
+        lines = path.read_text(encoding="utf-8").split("\n")
+        for index, line in enumerate(lines):
+            match = re.match(r"\s*Scenario(?: Outline)?: ([A-Z]+-\d+)", line)
+            if not match:
+                continue
+            tags: set[str] = set()
+            above = index - 1
+            while above >= 0 and lines[above].strip().startswith("@"):
+                tags.update(lines[above].split())
+                above -= 1
+            found[match.group(1)] = tags
+    return found
+
+
+def ai03_scenario_ids() -> set[str]:
+    """Scenarios tagged ``@ai03``: the ones the set must cover."""
+    return {sid for sid, tags in _scenario_tags().items() if "@ai03" in tags}
+
+
+def withdrawn_scenario_ids() -> set[str]:
+    """Scenarios tagged ``@withdrawn``: no case may cite one."""
+    return {sid for sid, tags in _scenario_tags().items() if "@withdrawn" in tags}
+
+
+def duplicate_ids(cases: list[Case]) -> list[str]:
+    """Case IDs that appear more than once."""
+    seen: set[str] = set()
+    repeated: list[str] = []
+    for case in cases:
+        if case["id"] in seen and case["id"] not in repeated:
+            repeated.append(case["id"])
+        seen.add(case["id"])
+    return repeated
+
+
+def load_cases() -> list[Case]:
+    path = fixtures_directory() / "evaluation" / "ai-03-set.json"
+    cases: list[Case] = json.loads(path.read_text(encoding="utf-8"))["cases"]
+    return cases

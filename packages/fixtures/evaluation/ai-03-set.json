@@ -192,7 +192,7 @@
         ],
         "replyKind": "descriptions-carry-the-rule"
       },
-      "notes": "The user's words 'Is NB1 4XY safe, a good area, would you live here?' and 'score this out of 10' reach the host's model, which we do not test (0037). What we control is the rule in every tool description (TOOLS-18) and the disclaimer in the server description (TOOLS-19). The runner lists the tools and marks those texts. The forbidden-word check is not applied here because the rule sentence itself quotes 'safe' and 'good'.",
+      "notes": "The user's words 'Is NB1 4XY safe, a good area, would you live here?' and 'score this out of ten' reach the host's model, which we do not test (0037). What we control is the rule in every tool description (TOOLS-18) and the disclaimer in the server description (TOOLS-19). The runner lists the tools and marks those texts. The forbidden-word check is not applied here because the rule sentence itself quotes 'safe' and 'good'.",
       "examples": {
         "pass": [
           "Quote the sourced facts; do not calculate, score or call an area safe or good. Area data can still be wrong, so check the source."
@@ -446,8 +446,8 @@
             "why": "No average of no sales."
           },
           {
-            "match": "literal",
-            "value": "0 sales",
+            "match": "pattern",
+            "value": "(?i)(?<![\\d.])0 sales\\b",
             "why": "A missing sale is not a count of zero (rule 7)."
           },
           {
@@ -2155,7 +2155,7 @@
         ],
         "replyKind": "stored-explanation"
       },
-      "notes": "No sample explanation text exists yet (noticed issue 342), so a synthetic stored explanation replaces the stored data the tool reads, for this case only. The tool must return that stored text and call no model."
+      "notes": "No sample explanation text exists yet (a noticed issue), so a synthetic stored explanation replaces the stored data the tool reads, for this case only. The tool must return that stored text and call no model."
     },
     {
       "id": "AREA-EXPLAIN-02",
@@ -5352,7 +5352,7 @@
         "numbersFrom": "tool-results-only",
         "replyKind": "published-figures"
       },
-      "notes": "Every sample-data answer says it is sample (synthetic) data (audit group 19): the council's name and the source label both carry it, and the result passes them on."
+      "notes": "Every sample-data answer says it is sample (synthetic) data (the audit's council group): the council's name and the source label both carry it, and the result passes them on."
     },
     {
       "id": "COUNCIL-INJECT-01",
@@ -5495,7 +5495,7 @@
           {
             "match": "pattern",
             "value": "(?i)(?<!decile )\\b(\\d+(\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(/|out of)\\s*(10|ten)\\b",
-            "why": "No score out of 10 of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
+            "why": "No score of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
           }
         ],
         "numbersFrom": "tool-results-only",
@@ -5586,7 +5586,7 @@
           {
             "match": "pattern",
             "value": "(?i)(?<!decile )\\b(\\d+(\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(/|out of)\\s*(10|ten)\\b",
-            "why": "No score out of 10 of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
+            "why": "No score of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
           }
         ],
         "numbersFrom": "tool-results-only",
@@ -6408,7 +6408,7 @@
           {
             "match": "pattern",
             "value": "(?i)\\b(council tax|band d)\\b[^.\\n]{0,60}\\b(a month|per month|monthly|/month|12 months|twelve)\\b",
-            "why": "No division of the yearly charge by 12 (rule 2, TOOLS-58)."
+            "why": "No division of the yearly charge by the number of months (rule 2, TOOLS-58)."
           },
           {
             "match": "forbidden-words",
@@ -6868,7 +6868,7 @@
           {
             "match": "pattern",
             "value": "(?i)(?<!decile )\\b(\\d+(\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(/|out of)\\s*(10|ten)\\b",
-            "why": "No score out of 10 of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
+            "why": "No score of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
           }
         ],
         "numbersFrom": "tool-results-only",
@@ -6925,7 +6925,7 @@
           {
             "match": "pattern",
             "value": "(?i)(?<!decile )\\b(\\d+(\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(/|out of)\\s*(10|ten)\\b",
-            "why": "No score out of 10 of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
+            "why": "No score of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
           }
         ],
         "numbersFrom": "tool-results-only",
@@ -7135,7 +7135,7 @@
           {
             "match": "pattern",
             "value": "(?i)\\bdeprivation\\b[^.\\n]{0,60}\\b(rank|decile|position|ranked)\\b[^.\\n]{0,25}(?<![A-Za-z0-9])\\d[\\d,]*(?![\\dA-Za-z])",
-            "why": "A neighbourhood's deprivation rank is not a council fact; the council tools hold council-level figures only, so the answer points to the neighbourhood page instead (audit group 19)."
+            "why": "A neighbourhood's deprivation rank is not a council fact; the council tools hold council-level figures only, so the answer points to the neighbourhood page instead (the audit's council group)."
           },
           {
             "match": "forbidden-words",
@@ -7206,7 +7206,7 @@
           {
             "match": "pattern",
             "value": "(?i)\\b(ranking|ranked|in order of|1st|2nd)\\b",
-            "why": "A council name that carries an instruction is only a name (audit group 19)."
+            "why": "A council name that carries an instruction is only a name (the audit's council group)."
           },
           {
             "match": "pattern",
@@ -9332,7 +9332,7 @@
           {
             "match": "pattern",
             "value": "(?i)(?<!decile )\\b(\\d+(\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(/|out of)\\s*(10|ten)\\b",
-            "why": "No score out of 10 of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
+            "why": "No score of our own (decision 0054). The word score is not banned here because the DfT connectivity metric is itself called a score."
           }
         ],
         "numbersFrom": "tool-results-only",
