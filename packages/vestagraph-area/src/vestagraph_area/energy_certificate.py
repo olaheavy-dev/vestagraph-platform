@@ -7,7 +7,12 @@ from fractions import Fraction
 from pathlib import Path
 from typing import Any, Final
 
-from vestagraph_area.records import InvalidAreaDataError, _get, _load, _objects
+from vestagraph_area.json_reader import (
+    InvalidAreaDataError,
+    get_field,
+    load_json_object,
+    object_list,
+)
 
 VALIDITY_YEARS: Final = 10
 
@@ -103,7 +108,7 @@ def decode(code: int, table: Mapping[int, str]) -> str | None:
 
 def _fact(raw: dict[str, Any], key: str, where: str) -> Any | None:
     """The fact's value, or ``None`` when the certificate marks it missing."""
-    fact = _get(raw, key, dict, where)
+    fact = get_field(raw, key, dict, where)
     if fact.get("status") == "missing":
         return None
     if "value" not in fact:
@@ -122,7 +127,7 @@ def _whole(obj: dict[str, Any], key: str, where: str) -> int:
 
 def _date(raw: dict[str, Any], key: str, where: str) -> date:
     try:
-        return date.fromisoformat(_get(raw, key, str, where))
+        return date.fromisoformat(get_field(raw, key, str, where))
     except ValueError as error:
         message = f"{where}: '{key}' is not a date: {error}"
         raise InvalidAreaDataError(message) from error
@@ -132,7 +137,7 @@ def _rating(raw: dict[str, Any], key: str, where: str) -> Rating | None:
     value = _fact(raw, key, where)
     if value is None:
         return None
-    return Rating(_get(value, "band", str, where), _whole(value, "score", where))
+    return Rating(get_field(value, "band", str, where), _whole(value, "score", where))
 
 
 def _code(raw: dict[str, Any], key: str, where: str) -> str | None:
@@ -144,7 +149,7 @@ def _code(raw: dict[str, Any], key: str, where: str) -> str | None:
 
 
 def _pence_of(raw: dict[str, Any], key: str, where: str) -> int:
-    return _whole(_get(raw, key, dict, where), "pence", where)
+    return _whole(get_field(raw, key, dict, where), "pence", where)
 
 
 def _costs(raw: dict[str, Any], where: str) -> dict[str, CostPair] | None:
@@ -153,8 +158,8 @@ def _costs(raw: dict[str, Any], where: str) -> dict[str, CostPair] | None:
         return None
     return {
         part: CostPair(
-            _pence_of(_get(value, part, dict, where), "current", where),
-            _pence_of(_get(value, part, dict, where), "potential", where),
+            _pence_of(get_field(value, part, dict, where), "current", where),
+            _pence_of(get_field(value, part, dict, where), "potential", where),
         )
         for part in _COST_PARTS
     }
@@ -166,8 +171,8 @@ def _parts(raw: dict[str, Any], where: str) -> tuple[Part, ...] | None:
         return None
     return tuple(
         Part(
-            _get(p, "part", str, where),
-            _get(p, "description", str, where),
+            get_field(p, "part", str, where),
+            get_field(p, "description", str, where),
             _whole(p, "stars", where),
         )
         for p in value
@@ -182,7 +187,7 @@ def _improvements(raw: dict[str, Any], where: str) -> tuple[Improvement, ...] | 
         Improvement(
             _whole(i, "sequence", where),
             _whole(i, "improvementCode", where),
-            _get(i, "indicativeCost", str, where),
+            get_field(i, "indicativeCost", str, where),
             _pence_of(i, "typicalSaving", where),
         )
         for i in value
@@ -199,10 +204,10 @@ def _certificate(raw: dict[str, Any]) -> Certificate:
         message = f"{where}: the floor area must be a number."
         raise InvalidAreaDataError(message)
     return Certificate(
-        number=_get(raw, "number", str, where),
-        country=_get(raw, "country", str, where),
-        kind=_get(raw, "kind", str, where),
-        status=_get(raw, "status", str, where),
+        number=get_field(raw, "number", str, where),
+        country=get_field(raw, "country", str, where),
+        kind=get_field(raw, "kind", str, where),
+        status=get_field(raw, "status", str, where),
         registration_date=_date(raw, "registrationDate", where),
         inspection_date=_date(raw, "inspectionDate", where),
         current_rating=_rating(raw, "currentRating", where),
@@ -218,8 +223,8 @@ def _certificate(raw: dict[str, Any]) -> Certificate:
 
 def read_certificates(path: Path) -> tuple[Certificate, ...]:
     """Read ``energy-certificates.json``; refuse a repeated certificate number."""
-    data = _load(path)
-    certificates = tuple(_certificate(raw) for raw in _objects(data, "certificates", path.name))
+    data = load_json_object(path)
+    certificates = tuple(_certificate(raw) for raw in object_list(data, "certificates", path.name))
     numbers = [c.number for c in certificates]
     if len(set(numbers)) != len(numbers):
         message = f"{path.name}: a certificate number appears twice."
@@ -228,7 +233,7 @@ def read_certificates(path: Path) -> tuple[Certificate, ...]:
 
 
 def _table(tables: dict[str, Any], name: str, where: str) -> dict[int, str]:
-    raw = _get(tables, name, dict, where)
+    raw = get_field(tables, name, dict, where)
     found: dict[int, str] = {}
     for key, words in raw.items():
         if not key.isascii() or not key.isdigit() or not isinstance(words, str):
@@ -240,8 +245,8 @@ def _table(tables: dict[str, Any], name: str, where: str) -> dict[int, str]:
 
 def read_code_tables(path: Path) -> CodeTables:
     """Read ``reference/energy-code-tables.json`` (codes become whole numbers)."""
-    data = _load(path)
-    tables = _get(data, "tables", dict, path.name)
+    data = load_json_object(path)
+    tables = get_field(data, "tables", dict, path.name)
     return CodeTables(
         property_type=_table(tables, "propertyType", path.name),
         built_form=_table(tables, "builtForm", path.name),
