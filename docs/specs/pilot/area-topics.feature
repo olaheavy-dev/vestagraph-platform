@@ -35,6 +35,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
       council-wide rent inside Housing affordability, from the council by link -> TOPIC-32 to TOPIC-34
       Check this rows (long-term flood risk, Article 4 and tree preservation orders, council tax band of a home, mobile, coal mining, noise), never implying a check -> TOPIC-35 to TOPIC-39
       the energy certificate of a home row, which opens its own page and shows no result -> TOPIC-41
+    Report a problem on each fact in a topic's detail, and never on a summary line -> TOPIC-42 (the behaviour is `report-a-problem.feature`, REPORT-01 to REPORT-30)
       the map layers each topic draws -> TOPIC-40
 
   @ui
@@ -339,3 +340,11 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     When the visitor reads "Not yet covered here" and opens "Energy certificate of a home"
     Then the row reads "Check this: we haven't checked it" with "The energy certificate of a home: its rating, the certificate's own running-cost estimates and suggested improvements. You need the certificate number." and the link "Check an energy certificate" opens "/energy-certificate", beside the official link "Find an energy certificate (gov.uk) ↗"
     And no rating, cost, status or colour is shown on the row, the postcode is not sent to the page, and the row is left out of At a glance's counts and of the coverage total (GLANCE-05)
+
+  # Added 19 Nov 2026 (pilot design batch, PR 1; design section "4. Report a problem with this fact", register line FE-74). The behaviour, states, wording and counts are `report-a-problem.feature`; this scenario only points the topic detail at it.
+  @ui
+  Scenario: TOPIC-42 each fact in a topic's detail has "Report a problem", as REPORT-01 sets, and the summary line has none
+    Given the result for "NB1 4XY" is open
+    When the visitor opens a topic's detail
+    Then each fact in the detail has "Report a problem" (REPORT-01), after the fact and before its source stamp, and the row's summary line has none (REPORT-06)
+    And a gap ("Not known", "Not yet covered") has the link too (REPORT-11), and the energy certificate row of TOPIC-41 has none, because it opens its own page

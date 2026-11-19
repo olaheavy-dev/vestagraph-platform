@@ -325,3 +325,11 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
     Given the user has opened the neighbourhood page for neighbourhood "E01999011" of council "E06999001"
     When the user chooses "Display" and picks the dark theme and a larger text size
     Then the page shows the same facts, notes and states as the light board, in the dark twin's colours and at the chosen size
+
+  # Added 19 Nov 2026 (pilot design batch, PR 1; founder's choice, "Also City Explorer"; register line FE-74). The behaviour, states, wording and counts are `report-a-problem.feature` (REPORT-04, REPORT-23); this scenario only points the neighbourhood page at it.
+  @ui
+  Scenario: HOOD-42 each neighbourhood fact has "Report a problem", as REPORT-04 sets
+    Given the user has opened the neighbourhood page for neighbourhood "E01999011" of council "E06999001"
+    When the user reads each fact published at neighbourhood level
+    Then each has "Report a problem" (REPORT-04), and a report is counted by the figure's name and the neighbourhood's public code, never an address (REPORT-23)
+    And a fact shown at council level on the page is reported as the council's (REPORT-03)

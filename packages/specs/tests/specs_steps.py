@@ -348,3 +348,57 @@ def then_energy_certificate_has_valid_until(data_steps: DataSteps, number: str) 
 @then(parsers.parse('energy certificate "{number}" has no valid until date'))
 def then_energy_certificate_has_no_valid_until(data_steps: DataSteps, number: str) -> None:
     data_steps.then_energy_certificate_has_valid_until(number, False)
+
+
+@then(parsers.parse("the problem report counts are kept for {days:d} days"))
+def then_report_counts_kept_days(data_steps: DataSteps, days: int) -> None:
+    data_steps.then_report_counts_keep_days(days)
+
+
+@then(
+    parsers.parse(
+        'the problem report counts hold a fact count for topic "{topic}" '
+        'with record "{record_id}" and reason "{reason}"'
+    )
+)
+def then_report_counts_fact_count(
+    data_steps: DataSteps, topic: str, record_id: str, reason: str
+) -> None:
+    data_steps.then_report_counts_hold_fact_count(topic, record_id, reason)
+
+
+@then(
+    parsers.parse(
+        'the problem report counts hold an area count for topic "{topic}" '
+        'with reason "{reason}" and no record ID'
+    )
+)
+def then_report_counts_area_count(data_steps: DataSteps, topic: str, reason: str) -> None:
+    data_steps.then_report_counts_hold_area_count(topic, reason)
+
+
+@then(
+    parsers.parse(
+        'the problem report counts hold a figure count for "{figure}" '
+        'at level "{level}" for area "{area_code}"'
+    )
+)
+def then_report_counts_figure_count(
+    data_steps: DataSteps, figure: str, level: str, area_code: str
+) -> None:
+    data_steps.then_report_counts_hold_figure_count(figure, level, area_code)
+
+
+@then(parsers.parse('no problem report count has a "{field}" field'))
+def then_report_counts_no_field(data_steps: DataSteps, field: str) -> None:
+    data_steps.then_report_counts_have_no_field(field)
+
+
+@then("every problem report count date is a day with no time")
+def then_report_counts_dates(data_steps: DataSteps) -> None:
+    data_steps.then_report_counts_dates_are_days()
+
+
+@then("every problem report count has one of the three fixed reasons")
+def then_report_counts_reasons(data_steps: DataSteps) -> None:
+    data_steps.then_report_counts_reasons_are_fixed()

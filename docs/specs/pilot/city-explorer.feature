@@ -874,3 +874,11 @@ Feature: City Explorer council page (one page per council: search, what it costs
     When the user reads under the two sides
     Then it reads "On these inputs, buying the average-priced home costs about the same a month as the average rent." with no figure
     And the sentence does not say which is better, and does not say "cheaper"
+
+  # Added 19 Nov 2026 (pilot design batch, PR 1; founder's choice, "Also City Explorer"; register line FE-74). The behaviour, states, wording and counts are `report-a-problem.feature` (REPORT-03, REPORT-23); this scenario only points the council page at it.
+  @ui
+  Scenario: CITY-112 each council figure and fact in a sheet has "Report a problem", as REPORT-03 sets
+    Given the user has opened the council page for council "E06999001" and a sheet, for example council tax by band
+    When the user reads each figure and fact in the sheet
+    Then each has "Report a problem" (REPORT-03), and a report is counted by the figure's name and the council's code, with no postcode and no address (REPORT-23)
+    And the cost summary's lines, the charts' captions and the printout carry no link
