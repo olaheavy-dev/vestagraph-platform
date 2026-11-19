@@ -47,6 +47,7 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     When the sign-up request is made
     Then the bot check runs before the account is created, and a failed check creates no account
 
+  # Replaces CHAT-23 (with AUTH-03 and AUTH-05).
   @ui
   Scenario: AUTH-04 each email-link request runs the bot check
     Given the user is on the sign-in page

@@ -40,10 +40,10 @@ None.
    - `area-share.feature`: RECENT-03.
 2. **`area-card.feature`'s review table said "Kept 11", but it lists 12.** Fixed. The round 1 audit keeps its wording, because it is a dated record.
 3. **`workspace-chat.feature`'s Boards line left out SignedInChatAreaCard and SignedInChatAreaCardPhone.** Fixed.
-4. **AUTH-03 and AUTH-05 had no "Replaces" comment** for CHAT-23 and CHAT-45. Fixed in `sign-in.feature`.
+4. **AUTH-03, AUTH-04 and AUTH-05 had no "Replaces" comment** for CHAT-23 and CHAT-45. Fixed in `sign-in.feature`.
 5. **City Explorer headers cited canvas version 426.** Fixed to 427, which is where FE-80 redrew CouncilStates.
 6. **The pilot's `/compare` and the prototype's `/compare?homes=…` shared a route.** Fixed: the prototype moves to `/prototype/compare` (register line FE-83, an agent's call like FE-79). The IA is updated.
-7. **Where City Explorer's search box sits was implicit.** Fixed: council pages carry no search box of their own. The box drawn on CouncilStates is the landing's one search (register line FE-84, an agent's call, open to the founder; `city-explorer.feature` line 9).
+7. **Where City Explorer's search box sits was implicit.** Fixed: council and neighbourhood pages carry no place or council search of their own; their postcode box (CITY-03, CITY-05, FE-70) is separate and unchanged. The box drawn on CouncilStates is the landing's one search (register line FE-84, an agent's call, open to the founder; `city-explorer.feature` line 9).
 8. **CITY2-72 expects a desktop City Explorer About the data page that no board or issue tracked.** Fixed: added to #352 as a draw-first build criterion.
 9. **#302 did not name the codes the AI-03 cases use** (ZZ4 4ZZ for the Isle of Man, ZZ5 5ZZ for the Channel Islands), nor ACCT-02 by ID. Fixed in #302's body. `status.md`'s short summary of #302 now points to #302 as the complete list.
 10. **#318's body still said the compare lists and the compare address were undecided.** Fixed: a comment on #318 records FE-76 and FE-77.
