@@ -984,3 +984,56 @@ def test_then_energy_certificate_inspection_date_not_shown_sample_fails_naming_t
         steps.then_energy_certificate_has_inspection_date(_EPC_E)
 
     assert _EPC_E in str(failure.value)
+
+
+def test_then_report_counts_sample_file_passes_every_shape_check(steps: DataSteps) -> None:
+    steps.then_report_counts_keep_days(90)
+    steps.then_report_counts_hold_fact_count("flood", "SYNTHETIC-FWA-001", "out-of-date")
+    steps.then_report_counts_hold_area_count("sold-nearby", "wrong")
+    steps.then_report_counts_hold_area_count("planning-nearby", "missing-something")
+    steps.then_report_counts_hold_figure_count("council-tax-band-d", "council", "E06999001")
+    steps.then_report_counts_hold_figure_count("deprivation", "neighbourhood", "E01999011")
+    steps.then_report_counts_have_no_field("postcode")
+    steps.then_report_counts_dates_are_days()
+    steps.then_report_counts_reasons_are_fixed()
+    steps.then_report_counts_are_unique()
+
+
+def test_then_report_counts_missing_count_fails_naming_the_topic(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_report_counts_hold_fact_count("flood", "SYNTHETIC-FWA-001", "wrong")
+    assert "flood" in str(failure.value)
+    with pytest.raises(AssertionError):
+        steps.then_report_counts_hold_area_count("flood", "out-of-date")
+    with pytest.raises(AssertionError):
+        steps.then_report_counts_keep_days(365)
+
+
+def test_then_report_counts_field_present_in_a_count_fails_naming_the_field(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_report_counts_have_no_field("topic")
+
+    assert '"topic"' in str(failure.value)
+
+
+def test_then_report_counts_figure_reason_and_date_checks_pass_on_the_sample(
+    steps: DataSteps,
+) -> None:
+    steps.then_report_counts_dates_are_days()
+    steps.then_report_counts_reasons_are_fixed()
+    with pytest.raises(AssertionError) as failure:
+        steps.then_report_counts_hold_figure_count("council-tax-band-d", "neighbourhood", "X")
+
+    assert "council-tax-band-d" in str(failure.value)
+
+
+def test_then_report_counts_are_unique_duplicate_key_fails(
+    steps: DataSteps, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    row = {"date": "2026-11-19", "topic": "flood", "reason": "wrong", "count": 1}
+    monkeypatch.setattr(data, "_report_counts", lambda: [row, {**row, "count": 2}])
+    with pytest.raises(AssertionError) as failure:
+        steps.then_report_counts_are_unique()
+    assert "share the same key" in str(failure.value)

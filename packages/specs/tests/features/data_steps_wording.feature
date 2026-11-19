@@ -64,3 +64,13 @@ Feature: Every data step wording runs against the real data (proof for issue #19
     And energy certificate "0000-0000-0000-0000-0005" shows no ratings, costs, parts or improvements
     And energy certificate "0000-0000-0000-0000-0001" lists improvements in its own order with no total
     And energy certificate "0000-0000-0000-0000-0001" has an inspection date
+
+  Scenario: WORD-08 the problem report count steps accept the documented wording
+    Then the problem report counts are kept for 90 days
+    And the problem report counts hold a fact count for topic "flood" with record "SYNTHETIC-FWA-001" and reason "out-of-date"
+    And the problem report counts hold an area count for topic "sold-nearby" with reason "wrong" and no record ID
+    And the problem report counts hold a figure count for "council-tax-band-d" at level "council" for area "E06999001"
+    And no problem report count has a "postcode" field
+    And every problem report count date is a day with no time
+    And every problem report count has one of the three fixed reasons
+    And no two problem report counts share the same key

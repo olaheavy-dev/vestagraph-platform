@@ -7,6 +7,7 @@ specification's quoted IDs against the committed fixtures and the cost engine's 
 A failed check raises ``AssertionError`` with a message that names the ID to fix.
 """
 
+import datetime
 import json
 from dataclasses import dataclass
 from functools import cache
@@ -26,6 +27,7 @@ _MAP_LAYERS = "packages/fixtures/data/map-layers.json"
 _COUNCIL_AREA = "packages/fixtures/data/council-area.json"
 _COUNCIL_RESULT = "packages/fixtures/generated/council-result.json"
 _ENERGY_RESULT = "packages/fixtures/generated/energy-certificate-result.json"
+_REPORT_COUNTS = "packages/fixtures/data/problem-report-counts.json"
 
 
 @dataclass(frozen=True)
@@ -670,6 +672,101 @@ class DataSteps:
             f'figures here start with "{prefix}".'
         )
         return figure
+
+    # Report a problem (FE-74): the daily count file, `problem-report-counts.json`.
+    def then_report_counts_keep_days(self, days: int) -> None:
+        actual = _read(_REPORT_COUNTS).get("retentionDays")
+        assert actual == days, (
+            f"The problem report counts keep records for {actual} days, not {days}, "
+            f"in {_REPORT_COUNTS}."
+        )
+
+    def then_report_counts_hold_fact_count(self, topic: str, record_id: str, reason: str) -> None:
+        match = [
+            item
+            for item in _report_counts()
+            if item.get("topic") == topic
+            and item.get("factRecordId") == record_id
+            and item.get("reason") == reason
+        ]
+        assert match, (
+            f'No fact count for topic "{topic}", record "{record_id}" and reason "{reason}" '
+            f"in {_REPORT_COUNTS}."
+        )
+
+    def then_report_counts_hold_area_count(self, topic: str, reason: str) -> None:
+        match = [
+            item
+            for item in _report_counts()
+            if item.get("topic") == topic and item.get("reason") == reason
+        ]
+        assert match, f'No count for topic "{topic}" and reason "{reason}" in {_REPORT_COUNTS}.'
+        without_council = [item for item in match if "localAuthority" not in item]
+        assert not without_council, (
+            f'A count for topic "{topic}" has no localAuthority in {_REPORT_COUNTS}.'
+        )
+        with_id = [item for item in match if "factRecordId" in item]
+        assert not with_id, (
+            f'A count for topic "{topic}" carries a factRecordId in {_REPORT_COUNTS}; '
+            "a fact that points to one address is counted by topic and council only."
+        )
+
+    def then_report_counts_hold_figure_count(self, figure: str, level: str, area_code: str) -> None:
+        match = [
+            item
+            for item in _report_counts()
+            if item.get("figure") == figure
+            and item.get("areaLevel") == level
+            and item.get("areaCode") == area_code
+        ]
+        assert match, (
+            f'No council figure count for "{figure}" at level "{level}" for area "{area_code}" '
+            f"in {_REPORT_COUNTS}."
+        )
+
+    def then_report_counts_are_unique(self) -> None:
+        seen: set[str] = set()
+        for item in _report_counts():
+            key = json.dumps({k: v for k, v in item.items() if k != "count"}, sort_keys=True)
+            assert key not in seen, (
+                f"Two problem report counts share the same key in {_REPORT_COUNTS}: {key}. "
+                "A count is the only one for its date, shape fields and reason; "
+                "a per-report row is never stored."
+            )
+            seen.add(key)
+
+    def then_report_counts_have_no_field(self, field: str) -> None:
+        offenders = [item for item in _report_counts() if field in item]
+        assert not offenders, (
+            f'{len(offenders)} problem report count(s) carry a "{field}" field in '
+            f"{_REPORT_COUNTS}; a count never holds it."
+        )
+
+    def then_report_counts_dates_are_days(self) -> None:
+        for item in _report_counts():
+            date = item.get("date")
+            message = (
+                f'A problem report count has the date "{date}" in {_REPORT_COUNTS}; '
+                "it must be a day (YYYY-MM-DD) with no time."
+            )
+            assert isinstance(date, str), message
+            assert len(date) == 10, message
+            try:
+                datetime.date.fromisoformat(date)
+            except ValueError:
+                raise AssertionError(message) from None
+
+    def then_report_counts_reasons_are_fixed(self) -> None:
+        allowed = {"wrong", "out-of-date", "missing-something"}
+        for item in _report_counts():
+            assert item.get("reason") in allowed, (
+                f'A problem report count has the reason "{item.get("reason")}" in '
+                f"{_REPORT_COUNTS}; the fixed reasons are {sorted(allowed)}."
+            )
+
+
+def _report_counts() -> list[Json]:
+    return list(_read(_REPORT_COUNTS)["counts"])
 
 
 def _require_area_record(record_id: str) -> Json:

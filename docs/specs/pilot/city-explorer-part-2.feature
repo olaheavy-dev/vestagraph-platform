@@ -18,6 +18,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     CouncilWhatChanged, phone: 1 Consent off -> CITY2-46, CITY2-47; 2 Consent on, a newer edition and a revised month -> CITY2-48 to CITY2-51; 3 After Clear -> CITY2-52; the list kept and its stamps -> CITY2-50, CITY2-51; turning off, the 12 months, skipped editions -> CITY2-53 to CITY2-55
     CouncilWhatChangedDesktop: the same three states, at the top of the council page -> CITY2-56; a replaced council (no board) -> CITY2-57
     CouncilAboutData: header and intro -> CITY2-58; one row each -> CITY2-59 to CITY2-67, all rows -> CITY2-68; the DfT status only here -> CITY2-69; rows open and close -> CITY2-70; where it is linked from -> CITY2-71; theme and keyboard -> CITY2-72
+    Report a problem in a council compare detail: not drawn here; it is REPORT-03 in `report-a-problem.feature` (FE-74), on the `CouncilReportProblem` board
     Not on a board and not a scenario here: the council tools for ChatGPT and Claude (`area-tools.feature`).
 
   Figure map (every figure a scenario mentions -> its ID; the page quotes the value, the scenario never types it). `council-result.json` figures are cited as <council code> / <path>; inputs as the field in `council-area.json`:
