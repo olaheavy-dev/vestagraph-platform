@@ -5,7 +5,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   Fixtures: home WALES-1 (outside England); the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
     (NB1 4XY normal, NB7 1RR sparse, NB9 9ZZ unknown); figures: none (no tool calculates anything except the
     straight-line distance, which comes from the area tools' tested geometry module; design, Accuracy).
-    Council tools (TOOLS-44 to TOOLS-65, added 17 Nov 2026): councils by code in `packages/fixtures/data/council-area.json`
+    Council tools (TOOLS-44 to TOOLS-63 added 17 Nov 2026; TOOLS-64 to TOOLS-66, 19 Nov 2026 (audit P2-9)): councils by code in `packages/fixtures/data/council-area.json`
     (inputs, each with its source) and `packages/fixtures/generated/council-result.json` (`search`); E06999001 Northbridge,
     E06999002 Southvale, E07999001 Eastmere (no published rent) and E07999002 Westmere (nothing recorded). Figures: none
     typed (rule 2); the council tools return the published figures held in `council-area.json`, quoted from the file.
@@ -29,13 +29,13 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     call) and an AI never calculates a figure (0004). They read only our stored copies (TOOLS-22), carry the same rule in
     every description (TOOLS-18), and share the server's read-only, key-free, limit, monthly-cap and no-log rules, which
     already say "every tool" (TOOLS-16, TOOLS-17, TOOLS-23 to TOOLS-28, TOOLS-37; extended for the council tools in
-    TOOLS-61 and TOOLS-62; the tenure shares, TOOLS-64 and TOOLS-65). The signed-in chat calls the same tool functions inside the API (0058, choice 8; TOOLS-60). The
+    TOOLS-61 and TOOLS-62; the tenure shares, TOOLS-64 to TOOLS-66). The signed-in chat calls the same tool functions inside the API (0058, choice 8; TOOLS-60). The
     neighbourhood page's facts are not a tool in this file: the design lists council figures only.
   AI evaluation cases (register AI-03; backlog row 38f). The scenarios here test what our server returns and declares, not the
     host's model (above). For the council tools, the evaluation set also runs these with a real model, each checking that
     the model's answer quotes only what the tool returned and adds no figure: TOOLS-47 (a name that matches two councils:
     both are offered, none is chosen), TOOLS-55 (a figure with no record is said to have none, never given as zero or
-    guessed), TOOLS-65 (asked what share of homes are rented, the model quotes `tenureShares` and divides nothing), TOOLS-57 (no trend is described across a method break), TOOLS-58 (asked for a cost of buying or renting, the
+    guessed), TOOLS-66 (asked what share of homes are rented, the model quotes `tenureShares` and divides nothing), TOOLS-57 (no trend is described across a method break), TOOLS-58 (asked for a cost of buying or renting, the
     model says the tools do not provide one and works none out) and TOOLS-59 (asked which of two councils is cheaper or
     better, the model gives each council's own figures and picks none). TOOLS-21 and the guard words of the output rules
     stay with the area tools' cases.
@@ -88,7 +88,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     council tools: a council by name, an ambiguous name, a place not covered, a postcode to its council -> TOOLS-44 to TOOLS-51
     council tools: published figures with source, edition and level; a field with no record; a method break -> TOOLS-52 to TOOLS-57
     council tools: no cost figure, no ranking, the same functions as the chat, no name in logs, the monthly cap, stored copies only -> TOOLS-58 to TOOLS-63
-    council tools: tenure shares quoted from the generated file, never divided from counts (audit P2-9) -> TOOLS-64, TOOLS-65
+    council tools: tenure shares quoted from the generated file, never divided from counts (audit P2-9) -> TOOLS-64 to TOOLS-66
 
   # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
   Scenario: TOOLS-01 a postcode outside England is not yet covered
@@ -484,15 +484,19 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     When an assistant calls the council facts tool for council "E06999001"
     Then the result comes from the stored copy with its edition and level, and no request is made to a live source (extends TOOLS-22)
 
+  Scenario: TOOLS-64 Northbridge's tenure shares are generated
+    Then council "E06999001" has tenure shares
+
+  # Wording proposed (agent's), awaiting the founder's copy approval (the rounding line is FE-48, already approved).
   @mcp
-  Scenario: TOOLS-64 Northbridge's tenure result quotes the generated shares, with the rounding line
+  Scenario: TOOLS-65 Northbridge's tenure result quotes the generated shares, with the rounding line
     Given an assistant is connected to the area tools
     When it calls the council facts tool for council "E06999001"
-    Then council "E06999001" has tenure shares
-    And the tenure result quotes the five shares from `E06999001 / tenureShares` in `council-result.json`, beside the published counts, with "Shares are rounded to one decimal place, so they may not add up to 100%." (FE-48), and the tool's description tells the model to quote the shares and never work one out
+    Then the tenure result quotes the five shares from `E06999001 / tenureShares` (TOOLS-64) in `council-result.json`, beside the published counts, with "Shares are rounded to one decimal place, so they may not add up to 100%." (FE-48), and the tool's description tells the model to quote the shares and never work one out
 
+  # Wording proposed (agent's), awaiting the founder's copy approval.
   @mcp
-  Scenario: TOOLS-65 "what share of homes are rented?" is answered from the shares, with nothing to divide
+  Scenario: TOOLS-66 a share of homes rented is already in the tool result, with nothing to divide
     Given an assistant is connected to the area tools
     When it calls the council facts tool for council "E06999001" and the question is what share of homes are rented
-    Then the answer quotes the private rented and social rented shares from `tenureShares` (TOOLS-64), and the result carries no instruction or need to divide the counts
+    Then the result carries the private rented and social rented shares from `tenureShares` with the rounding line, and leaves nothing to divide (the model's answer is an AI-03 case, TOOLS-66 above)

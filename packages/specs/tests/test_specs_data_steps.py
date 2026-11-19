@@ -813,6 +813,20 @@ def test_then_council_has_tenure_shares_council_with_shares_passes(steps: DataSt
     steps.then_council_has_tenure_shares(_NORTH)
 
 
+def test_then_council_has_tenure_shares_missing_key_fails_naming_the_key(
+    steps: DataSteps, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import specs_support
+
+    shares = specs_support._load().council_results[_NORTH]["tenureShares"]
+    monkeypatch.delitem(shares, "other")
+
+    with pytest.raises(AssertionError) as failure:
+        steps.then_council_has_tenure_shares(_NORTH)
+
+    assert "other" in str(failure.value)
+
+
 def test_then_council_has_tenure_shares_council_without_shares_fails_naming_the_council(
     steps: DataSteps,
 ) -> None:
