@@ -37,3 +37,14 @@ Finish every specification and pass the whole stage 3 gate first. Slowest; today
 - **Revisit if** the pilot's build shows that the home screens' design changes the shared components (the app shell, the topic summary or the map) enough to rework the pilot.
 
 **Note, 16 Nov 2026 ([0058](0058-signed-in-chat-in-the-pilot.md), accepted by the founder 16 Nov 2026):** the pilot gate also checks the signed-in chat's boards and specifications.
+
+**Note, 14 Nov 2026 ([0055](0055-city-explorer-in-the-pilot.md)):** City Explorer is part of the pilot, so the gate also checks its boards and specifications (and its AI evaluation cases, 0055 Consequences).
+
+**Note, 19 Nov 2026 (round 1 of the gate: [the pilot gate audit](../reviews/2026-11-19-pilot-gate-audit.md)):** the gate did **not** pass. The founder's answers in prompt windows that day:
+- **Missing pilot features** (Report a problem; Share a link with Recent postcodes; Compare two postcodes; the How it works, Privacy and Accessibility pages): "Design all, before the gate (Recommended)": one design batch (brainstorm, boards, specifications) before the gate; PD-16's single pilot phase stays (register line PD-21).
+- **The area card inside the signed-in chat:** "Draw the card (Recommended)" (FE-71).
+- **#318:** "Map sheet now, rest in tickets (Recommended)": draw the phone neighbourhoods map sheet in the design batch; the other items become acceptance criteria on City Explorer's build tickets (FE-72).
+- **AI-03:** "One set, brainstorm first (Recommended)": one versioned evaluation set for the area tools, the council tools and the signed-in chat (AI-14).
+- **#286** (earlier that day): "Fix now-items, move 5b items (Recommended)" (WW-21), with the caption "less than 0.1%" (DA-36; #338 closes #286).
+
+The gate is re-checked after the design batch, the AI-03 set, and the council tools returning tenure shares.

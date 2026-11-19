@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. Anything numeric also follows `.claude/skills/test-first/` (decision 0031).
 
+> **As merged:** Checkboxes ticked on 19 Nov 2026 (pilot gate audit): PR A merged as #285, PR B as #295 and PR C (Task 14) as #320.
+
 **Goal:** Give City Explorer's council and neighbourhood pages real, tested figures from synthetic sample data. Then draw them on the design canvas, then write their specifications, ready for the pilot gate (0052).
 
 **Architecture:** This is stage 3 work only, the same shape as the first design batch (#259):
@@ -71,7 +73,7 @@
 - Modify: `docs/references/data-sources.md` (one entry per source, marked "research, not yet used")
 - Modify: the design's sources table (each open point answered, or still open with a reason)
 
-- [ ] **Step 1:** For each row of the design's "Sources to check before build", read the publisher's own page and record:
+- [x] **Step 1:** For each row of the design's "Sources to check before build", read the publisher's own page and record:
   - the licence, quoted;
   - the geography and level;
   - the edition and cadence;
@@ -79,7 +81,7 @@
   - what is not confirmed.
 
   The rows are: MHCLG council tax levels (Table 10; per-band amounts; parish precepts in or out), ONS private rents, UK House Price Index (property type by council), the affordability ratio (workplace or residence), Census 2021 tenure (council and LSOA tables), mid-year population, DfT connectivity (scale direction, LSOA and council columns), Bank of England quoted rates by deposit band, council and LSOA boundaries, House of Commons Library MSOA names, LSOA-level facts, and a place-name-to-council lookup.
-- [ ] **Step 2:** For the Bank of England:
+- [x] **Step 2:** For the Bank of England:
   - list the published loan-to-value bands and their series codes;
   - give the latest month;
   - confirm the data is the Bank's own, not LSEG data.
@@ -87,8 +89,8 @@
   - list which products (for example 2-year and 5-year fixed) the Bank quotes for each band.
 
   This fixes the sample data's band list. **Founder question** (prompt window, with a recommendation): which product the example uses.
-- [ ] **Step 3:** For the place-name lookup, pick a recommended source, or "none suitable", giving the licence conflict the design review found. Give the founder a question with options if a choice is needed.
-- [ ] **Step 4:**
+- [x] **Step 3:** For the place-name lookup, pick a recommended source, or "none suitable", giving the licence conflict the design review found. Give the founder a question with options if a choice is needed.
+- [x] **Step 4:**
   - Run the pre-push review.
   - Open PR R with `@codex review`.
   - Update `docs/planning/status.md`.
@@ -120,8 +122,8 @@
   - **RateBand:** `{ "product": "2-year-fixed"|"5-year-fixed", "maxLoanToValuePercent": int, "rateBasisPoints": int, "month": "YYYY-MM", "source" }`. The bands are shaped like the Bank's published ones (Task 1): the 2-year fixed at 60, 75, 85, 90 and 95%; the 5-year fixed at 75 and 95% only.
   - Every rate stays an input, never a calculated figure.
 
-- [ ] **Step 1:** Write the schemas (`additionalProperties: false`; a gap status carries no `value`).
-- [ ] **Step 2:** Write the sample data:
+- [x] **Step 1:** Write the schemas (`additionalProperties: false`; a gap status carries no `value`).
+- [x] **Step 2:** Write the sample data:
   - **Northbridge (synthetic), unitary:** complete, with 24 monthly rent and price points, the last 2 rent and the last 12 price points provisional, and 3 neighbourhoods.
   - **Eastmere (synthetic), district in "Westshire (synthetic)":** `formedOn` 2023-04-01 with a former name, rents `no-record-in-source`, and an affordability series with a `methodBreakBefore`.
   - **Southvale (synthetic):** a council whose price point 12 months back is `not-published`.
@@ -130,8 +132,8 @@
   - **Postcodes:** a short list mapping sample postcodes to councils (`"postcodes": [{postcode, councilCode}]`, NB1 4XY to Northbridge, one to Southvale), for the "postcode in another council" check.
   - **Rate bands:** 2-year fixed at 60, 75, 85, 90 and 95; 5-year fixed at 75 and 95 (as the Bank quotes them, Task 1). The rate values are synthetic and carry their source label.
   - **Council tax bands:** each complete council records all eight band amounts as a `bands` Fact; Westmere's `bands` is a gap (`no-record-in-source`), to test the missing-council-tax case.
-- [ ] **Step 3:** Run `make validate`. Expected: PASS.
-- [ ] **Step 4:** Commit: `feat: council sample data and schema`.
+- [x] **Step 3:** Run `make validate`. Expected: PASS.
+- [x] **Step 4:** Commit: `feat: council sample data and schema`.
 
 ### Task 3: Council records reader and council tax band amounts
 
@@ -157,13 +159,13 @@
   - `band_monthly(yearly: Pence) -> Pence`, which is `yearly.annual_to_monthly()`.
   - An unknown band raises `InvalidAreaDataError`.
 
-- [ ] **Step 1:** Work the cases by hand, with the working shown:
+- [x] **Step 1:** Work the cases by hand, with the working shown:
   - each of the eight sample band amounts and its monthly amount (yearly ÷ 12, rounded once, halves away from zero);
   - a yearly amount leaving exactly half a penny when ÷ 12 (for example 6 pence a year: 6 ÷ 12 = 0.5, which rounds to 1 penny), to show halves away from zero;
   - a yearly amount that divides exactly;
   - a `bands` gap (no amount, no monthly figure).
   - There are no ratio cases: the amounts are published, not derived.
-- [ ] **Step 2:** Write the tests:
+- [x] **Step 2:** Write the tests:
   - `test_band_yearly_returns_the_published_amount_for_each_band`
   - `test_band_yearly_unknown_band_raises`
   - `test_band_yearly_gap_returns_none_not_zero`
@@ -171,9 +173,9 @@
   - `test_band_monthly_exact_half_penny_rounds_away_from_zero`
   - `test_read_council_area_gap_with_value_raises`
   - `test_read_council_area_recorded_bands_missing_a_band_raises`
-- [ ] **Step 3:** Run `uv run pytest packages/vestagraph-area -q -k council`. Expected: FAIL (the module is missing).
-- [ ] **Step 4:** Implement it. Run again. Expected: PASS.
-- [ ] **Step 5:** Commit: `feat: council records reader and council tax band amounts`.
+- [x] **Step 3:** Run `uv run pytest packages/vestagraph-area -q -k council`. Expected: FAIL (the module is missing).
+- [x] **Step 4:** Implement it. Run again. Expected: PASS.
+- [x] **Step 5:** Commit: `feat: council records reader and council tax band amounts`.
 
 ### Task 4: Rent or buy, per month
 
@@ -216,7 +218,7 @@
   - A missing rent or price gives that side `None`, `comparison None` and `difference None`.
   - Each side's `comparison` is "about-the-same" when |buy − rent| < 1000 pence. Otherwise it is "more" or "less" (buy compared with rent).
 
-- [ ] **Step 1:** Work the cases by hand from the Northbridge sample:
+- [x] **Step 1:** Work the cases by hand from the Northbridge sample:
   - deposits of 10% (a 90% loan: the 2-year fixed has a 90% band, the 5-year has none), 20% (an 80% loan, which takes the 85% band: no 5-year rate), 25% (75%: both products), 5% (95%: both products), 40% (60%: 2-year only) and 3% (no band for either);
   - 0%, 100% and −5% deposits;
   - a 0% typed rate;
@@ -227,7 +229,7 @@
   - missing council tax; a typed rate of 2,001 basis points.
 
   Show the engine's formula working for one case.
-- [ ] **Step 2:** Write the tests:
+- [x] **Step 2:** Write the tests:
   - `test_rent_or_buy_worked_cases_match_expected`
   - `test_rate_band_for_two_year_eighty_percent_loan_takes_eighty_five_band`
   - `test_rate_band_for_five_year_without_a_band_at_the_grid_band_is_none`
@@ -243,8 +245,8 @@
   - `test_rent_or_buy_missing_council_tax_is_problem_not_zero`
   - `test_rent_or_buy_rate_above_limit_is_rate_too_high`
   - `test_rent_or_buy_no_rate_band_keeps_rent_side_and_hides_buy_side`
-- [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
-- [ ] **Step 4:** Commit: `feat: rent or buy per month with the rate for the deposit band and product`.
+- [x] **Step 3:** Run them (FAIL), implement, run them again (PASS).
+- [x] **Step 4:** Commit: `feat: rent or buy per month with the rate for the deposit band and product`.
 
 ### Task 5: Plain-words captions
 
@@ -272,19 +274,19 @@
   - For a yearly series (periods `YYYY`), the change is from the previous year; the caption names the two years.
   - Tenure single point: the shares come from `tenure_shares` (Task 7).
 
-- [ ] **Step 1:** Work the cases by hand:
+- [x] **Step 1:** Work the cases by hand:
   - Northbridge rent (rose, with 2 provisional months);
   - a flat month;
   - Southvale price (the end point 12 months back is not published);
   - the Eastmere affordability ratio across its break;
   - a fall.
-- [ ] **Step 2:** Write the tests:
+- [x] **Step 2:** Write the tests:
   - `test_twelve_month_change_worked_cases_match_expected`
   - `test_twelve_month_change_missing_start_point_is_none`
   - `test_twelve_month_change_across_method_break_is_not_comparable`
   - `test_twelve_month_change_rounding_to_zero_is_unchanged`
-- [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
-- [ ] **Step 4:** Commit: `feat: plain-words caption values for council trends`.
+- [x] **Step 3:** Run them (FAIL), implement, run them again (PASS).
+- [x] **Step 4:** Commit: `feat: plain-words caption values for council trends`.
 
 ### Task 6: Budget check
 
@@ -302,16 +304,16 @@
   - A missing side gives `None`, never "within".
   - A budget of zero or below is a `problem`.
 
-- [ ] **Step 1:** Work the cases by hand:
+- [x] **Step 1:** Work the cases by hand:
   - each side below, equal to and above the budget;
   - Eastmere (rent `None`);
   - a zero budget.
-- [ ] **Step 2:** Write the tests:
+- [x] **Step 2:** Write the tests:
   - `test_budget_check_worked_cases_match_expected`
   - `test_budget_check_equal_to_budget_is_within`
   - `test_budget_check_missing_side_is_none_not_within`
-- [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
-- [ ] **Step 4:** Commit: `feat: budget check against rent and buy (within includes the budget)`.
+- [x] **Step 3:** Run them (FAIL), implement, run them again (PASS).
+- [x] **Step 4:** Commit: `feat: budget check against rent and buy (within includes the budget)`.
 
 ### Task 7: Tenure shares and place search
 
@@ -338,8 +340,8 @@
   - The search never picks one for the visitor.
 - **Produces in `place_search.py`:** `council_for_postcode(postcode: str, area: CouncilArea) -> str | None` (from the sample `postcodes` list; at 5b the postcode lookup, DA-06), so the page can say "This postcode is in <council>" and still open its result.
 
-- [ ] **Step 1:** Work the tenure cases by hand: Northbridge, plus a case where the rounded shares total 99.9.
-- [ ] **Step 2:** Write the tests:
+- [x] **Step 1:** Work the tenure cases by hand: Northbridge, plus a case where the rounded shares total 99.9.
+- [x] **Step 2:** Write the tests:
   - `test_tenure_shares_worked_cases_match_expected`
   - `test_find_councils_same_name_in_two_counties_is_choose_with_counties`
   - `test_find_councils_county_lists_its_districts`
@@ -349,8 +351,8 @@
   - `test_find_councils_region_lists_several_councils`
   - `test_find_councils_place_spanning_two_councils_is_choose`
   - `test_council_for_postcode_in_another_council_returns_that_council`
-- [ ] **Step 3:** Run them (FAIL), implement, run them again (PASS).
-- [ ] **Step 4:** Commit: `feat: tenure shares and council search by place name`.
+- [x] **Step 3:** Run them (FAIL), implement, run them again (PASS).
+- [x] **Step 4:** Commit: `feat: tenure shares and council search by place name`.
 
 ### Task 8: Generator writes `council-result.json`
 
@@ -375,26 +377,26 @@
 
 - Every new `council-*.json` and `rent-or-buy.json` test-case file names `../schema/area-test-case.schema.json` (the area worked-case format); `packages/fixtures/test-cases/README.md` lists them.
 
-- [ ] **Step 1:** Write the tests:
+- [x] **Step 1:** Write the tests:
   - `test_run_writes_all_three_generated_files_and_keeps_them`
   - `test_run_council_result_twice_is_byte_identical`
   - `test_run_council_data_invalid_exits_two_and_writes_nothing`
-- [ ] **Step 2:** Run them (FAIL), implement, then run `make generate` and commit the generated file.
-- [ ] **Step 3:** Run `make check`. Expected: PASS.
-- [ ] **Step 4:** Commit: `feat: generator writes council-result.json`.
+- [x] **Step 2:** Run them (FAIL), implement, then run `make generate` and commit the generated file.
+- [x] **Step 3:** Run `make check`. Expected: PASS.
+- [x] **Step 4:** Commit: `feat: generator writes council-result.json`.
 
 ### Task 9: PR A, review and merge
-- [ ] Map each rule and each Review Focus item to its test name in the PR description, with the test-first table.
-- [ ] Ask the founder in a prompt window to review:
+- [x] Map each rule and each Review Focus item to its test name in the PR description, with the test-first table.
+- [x] Ask the founder in a prompt window to review:
   - the £10 "about the same" threshold;
   - the "unchanged" rule;
   - the caption wording file;
   - the 20% typed-rate limit;
   - how the 5-year line is chosen (a rate only where the Bank publishes one at the deposit's own band).
-- [ ] Run the pre-push Opus review with `code-security-reviewer` **before** pushing, and fix its findings.
-- [ ] Push, then comment `@codex review`.
-- [ ] Merge: not a founder merge for the tax rule-table reason (there is no band rule table). Before merging, check that nothing else on the founder-only list is in the PR (a new package, `LICENSE`, `.claude/settings.json`, CI permissions, infrastructure).
-- [ ] Update `docs/planning/status.md` in the PR.
+- [x] Run the pre-push Opus review with `code-security-reviewer` **before** pushing, and fix its findings.
+- [x] Push, then comment `@codex review`.
+- [x] Merge: not a founder merge for the tax rule-table reason (there is no band rule table). Before merging, check that nothing else on the founder-only list is in the PR (a new package, `LICENSE`, `.claude/settings.json`, CI permissions, infrastructure).
+- [x] Update `docs/planning/status.md` in the PR.
 
 ### Task 10: Canvas, chart style and the council page (light)
 Board values come only from `council-result.json` and `council-area.json`: quote, never work out.
@@ -452,7 +454,7 @@ Board values come only from `council-result.json` and `council-area.json`: quote
 ### Task 13: Founder review, dark versions, PR B
 - [x] The founder reviews the light boards; fix what comes back.
 - [x] Draw the dark versions (slate ink).
-- [ ] **PR B:** the status file (canvas version, boards added), plus any register notes from the review.
+- [x] **PR B:** the status file (canvas version, boards added), plus any register notes from the review.
 
 
 **Founder, 15 Nov 2026 (prompt window, "Copy layout, new boards (Recommended)"):** the City Explorer boards are new boards that copy the layout and parts of existing boards; the originals are untouched.
@@ -478,4 +480,4 @@ Board values come only from `council-result.json` and `council-area.json`: quote
 - [x] Add the area result's "About <council>" link to `docs/specs/pilot/area-display.feature` (or the area result spec that owns its header), and City Explorer's sources to About the data's scenarios.
 - [x] Check `.design/prototype/INFORMATION_ARCHITECTURE.md` still matches the boards (the routes were added in #282).
   Four IA fixes made: the landing "No postcode yet?" link dropped, the How it works step wording, the landing section wording (board text) and the how-to link list; plus a note on the Check an area box staying postcode-only.
-- [ ] Run `make check`, the pre-push review, Codex, then merge.
+- [x] Run `make check`, the pre-push review, Codex, then merge.

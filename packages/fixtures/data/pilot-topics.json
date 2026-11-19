@@ -346,7 +346,7 @@
         "url": "https://www.gov.uk/find-energy-certificate"
       },
       "vestagraphRoute": "/energy-certificate",
-      "reviewStatus": "draft"
+      "reviewStatus": "reviewed"
     },
     {
       "key": "mobile-by-network",

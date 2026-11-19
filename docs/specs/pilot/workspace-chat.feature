@@ -5,7 +5,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Modes: both. Signed in only: anyone not signed in goes through sign-in first (sign-in.feature, FE-56).
   Fixtures: postcodes NB1 4XY, NB7 1RR and NB9 9ZZ (an unknown postcode) in `packages/fixtures/data/postcode-area.json`, with their results in `packages/fixtures/generated/area-result.json`; home WALES-1 stands in for a postcode outside England (that file is England only, rule 6); councils by code in `packages/fixtures/data/council-area.json` and `packages/fixtures/generated/council-result.json` (E06999001 and E06999002; the search "Capital (synthetic)" matches both). Figures: none typed here. A scenario that needs a figure names the postcode and topic, or the council code and figure, never the number (rule 2).
     Fixtures to add (issue #302): no postcode exists for the Isle of Man or the Channel Islands (WCHAT-37, WCHAT-38). A synthetic postcode for each must be added to postcode-area.json, with its nation field, before those scenarios can run.
-    Fixtures to add (issue #302): a source with a newer edition than a stored widget (WCHAT-40), a tool that fails alone (WCHAT-31), a source that is Unavailable when a stored widget is updated (WCHAT-110) and a list of 20 saved areas (WCHAT-48, WCHAT-49); the test setup builds them, and the build adds any data they need.
+    Fixtures to add (issue #302): a source with a newer edition than a stored widget (WCHAT-40), a tool that fails alone (WCHAT-31), a source that is Unavailable when a stored widget is updated (WCHAT-110) and a list of 20 saved areas (WCHAT-48, WCHAT-49), plus the chat lists WCHAT-46, WCHAT-98 and WCHAT-103 need (chats in several date groups, more than 15 chats, chats to search; #302 extended 19 Nov 2026); the test setup builds them, and the build adds any data they need.
   Where: the workspace page. On desktop (1440 px) a left sidebar (saved areas, past chats, New chat, the account link), the chat in the middle, and the full area result in a side panel on the right, a labelled region. On a phone (390 px) the sidebar is a drawer and "Open full result" opens the panel as a modal sheet. Boards: SignedInChatDesktop, SignedInChatPhone, SignedInChatCompare, SignedInChatComparePhone, SignedInChatFirstVisit, SignedInChatReturning, SignedInChatFirstVisitPhone, SignedInChatAskMore, SignedInChatStates, SignedInChatStates2 and FeedbackKit, each with its Dark twin, on the canvas page "Pilot · Signed-in chat".
   Entry and labels: the AI badge and the header line "Answers are written by AI from the sources below" (FE-13), with the disclaimer, which now says chats are saved for 12 months and can be deleted, and a link to the privacy notice. The display control (light, dark) sits in the chat header (FE-59). Sources show as the source's icon, name and link (FE-33); the limits sit in the page's one "How we got this" (FE-34). Every widget says "Sample data: a made-up town".
   The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). Also AI-03 evaluation cases (they need the real model, so the evaluation set runs them as well as, or instead of, the fake-provider scenarios; backlog row 38f): WCHAT-19 to WCHAT-22, WCHAT-31, WCHAT-33, WCHAT-34, WCHAT-39, WCHAT-84 (their text depends on the model's words), and the guard scenarios WCHAT-67 to WCHAT-70 and WCHAT-78 to WCHAT-80 (the model must not produce what the guard stops).
@@ -297,13 +297,13 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   # FE-60.
   @ui
   Scenario: WCHAT-37 an Isle of Man postcode shows "Not covered"
-    Given a signed-in user enters an Isle of Man postcode (fixture needed)
+    Given a signed-in user enters an Isle of Man postcode (fixture to add, #302)
     When the chat answers
     Then it says "Not covered", never "not yet covered", and draws no widget
 
   @ui
   Scenario: WCHAT-38 a Channel Islands postcode shows "Not covered"
-    Given a signed-in user enters a Channel Islands postcode (fixture needed)
+    Given a signed-in user enters a Channel Islands postcode (fixture to add, #302)
     When the chat answers
     Then it says "Not covered", never "not yet covered", and draws no widget
 
@@ -316,7 +316,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   # Past chats. Review Focus 4.
   @ui
   Scenario: WCHAT-40 a past chat shows its stored widget with its source date and an Update button
-    Given a past chat holds a widget for a sample postcode (NB1 4XY), and the source has a newer edition (fixture needed)
+    Given a past chat holds a widget for a sample postcode (NB1 4XY), and the source has a newer edition (fixture to add, #302)
     When the user reopens the chat
     Then the widget shows the stored figures with their original source date and an Update button, and nothing on it looks current
 
@@ -366,13 +366,13 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
 
   @ui
   Scenario: WCHAT-48 an account can keep up to 20 saved areas
-    Given a signed-in user has 19 saved areas
+    Given a signed-in user has 19 saved areas (fixture to add, #302)
     When the user saves one more
     Then it is saved, and the account has 20 (FE-53)
 
   @ui
   Scenario: WCHAT-49 saving a 21st area is refused with the one action of removing one first
-    Given a signed-in user has 20 saved areas
+    Given a signed-in user has 20 saved areas (fixture to add, #302)
     When the user tries to save another
     Then nothing is saved, and the message says the limit is reached and offers one action: remove one first
 
