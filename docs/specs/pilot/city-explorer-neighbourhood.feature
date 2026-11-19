@@ -16,6 +16,7 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
   Board-to-scenario map (each board has a Dark twin that shows the same states; HOOD-41):
     NeighbourhoodPage, phone: header and title -> HOOD-02 to HOOD-04; the postcode box -> HOOD-05; At a glance -> HOOD-06, HOOD-07; Published for this neighbourhood: Transport connectivity -> HOOD-08 to HOOD-11, Deprivation -> HOOD-12 to HOOD-16, Who rents, who owns -> HOOD-17 to HOOD-20; Needs a postcode -> HOOD-21 to HOOD-23; Council area facts -> HOOD-24 to HOOD-26; Where it sits -> HOOD-27 to HOOD-29; How we got this -> HOOD-30 to HOOD-33; links at the foot -> HOOD-34
     NeighbourhoodPageDesktop: the same rows, with the map beside the facts -> HOOD-03, HOOD-27
+    CouncilReportProblem (the council board; a neighbourhood fact follows its anatomy, with no board of its own): Report a problem on a neighbourhood fact -> HOOD-42 (REPORT-04)
     Not on a board: the states -> HOOD-36 to HOOD-38; privacy and accessibility -> HOOD-39, HOOD-40; the Dark twins -> HOOD-41
     Not on any board and not a scenario here: "price lines by property type" (see above); the council tools for ChatGPT and Claude belong to `area-tools.feature`.
 

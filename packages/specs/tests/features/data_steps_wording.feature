@@ -73,3 +73,4 @@ Feature: Every data step wording runs against the real data (proof for issue #19
     And no problem report count has a "postcode" field
     And every problem report count date is a day with no time
     And every problem report count has one of the three fixed reasons
+    And no two problem report counts share the same key

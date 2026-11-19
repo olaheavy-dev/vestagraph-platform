@@ -724,6 +724,17 @@ class DataSteps:
             f"in {_REPORT_COUNTS}."
         )
 
+    def then_report_counts_are_unique(self) -> None:
+        seen: set[str] = set()
+        for item in _report_counts():
+            key = json.dumps({k: v for k, v in item.items() if k != "count"}, sort_keys=True)
+            assert key not in seen, (
+                f"Two problem report counts share the same key in {_REPORT_COUNTS}: {key}. "
+                "A count is the only one for its date, shape fields and reason; "
+                "a per-report row is never stored."
+            )
+            seen.add(key)
+
     def then_report_counts_have_no_field(self, field: str) -> None:
         offenders = [item for item in _report_counts() if field in item]
         assert not offenders, (

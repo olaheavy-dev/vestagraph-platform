@@ -17,7 +17,7 @@ Feature: Landing
     a town, city or council name; a place outside England -> LAND-15, LAND-16
     the hero's wording, How it works and the FAQ answer for the one box -> LAND-17 to LAND-19
     the link to Check an energy certificate -> LAND-21
-    Recent postcodes under the search box, off by default, on with its list, storage unavailable -> LAND-22 to LAND-24 (the behaviour is `pilot/area-share.feature`, RECENT-01 to RECENT-13)
+    Recent postcodes under the search box, off by default, on with its list, storage unavailable -> LAND-22 to LAND-24 (the behaviour is `pilot/area-share.feature`, RECENT-01 to RECENT-14)
     the "How to read a result" showcase and where "How we got this" is -> LAND-13
     A complete postcode hands over to Check an area (14-check-an-area.feature), which holds the
     loading, not found, source failed and outside England states.
@@ -171,7 +171,7 @@ Feature: Landing
     Then it links "Check an energy certificate" to "/energy-certificate", described as "Have a certificate number? See what that home's energy certificate says."
     And the link carries no postcode, no search text and no certificate number
 
-  # Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, section "3. Recent postcodes"; plan Task 2). The behaviour is RECENT-01 to RECENT-13 in `pilot/area-share.feature`; these three scenarios place it on the landing. Drawn on the `RecentPostcodes` board (canvas version 1795107206-3e0d), so the wording is proposed, for the founder's copy review before build.
+  # Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, section "3. Recent postcodes"; plan Task 2). The behaviour is RECENT-01 to RECENT-14 in `pilot/area-share.feature`; these three scenarios place it on the landing. Drawn on the `RecentPostcodes` board (canvas version 1795107206-3e0d), so the wording is proposed, for the founder's copy review before build.
   @ui
   Scenario: LAND-22 under the search box Recent postcodes is off by default and names its consent
     Given the user is not signed in and has never turned Recent postcodes on
@@ -184,7 +184,7 @@ Feature: Landing
     Given the user has turned on "Remember postcodes on this device" and has checked postcodes
     When the user opens the landing page
     Then up to 5 postcodes are listed under the search box, newest first, each a link that opens its result with the postcode after "#postcode=" (LAND-03; RECENT-05, RECENT-06)
-    And "Clear" and "Turn off" are available, and the list is never sent to us (RECENT-11)
+    And "Clear" and "Turn off" are available, the list is never sent to us (RECENT-11), and no analytics event, error report or page title holds a postcode from the link (SHARE-05)
 
   @ui
   Scenario: LAND-24 if browser storage is unavailable the landing says Recent postcodes can't be turned on here and the search still works

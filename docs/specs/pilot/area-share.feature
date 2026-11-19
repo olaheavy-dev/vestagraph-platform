@@ -4,12 +4,12 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
   Modes: both (and anyone, with no account; decisions 0014 and 0046)
   Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, sections "2. Share a link" and "3. Recent postcodes"; plan Task 2; decisions 0014, 0053; register lines FE-05, FE-22, FE-73, PD-21; pilot design `2026-11-13-pilot-area-ai-design.md` goal 7). The council versions are `city-explorer-part-2.feature` (Share, CITY2-30 to CITY2-32; "Remember councils on this device", CITY2-46 onward); this feature mirrors their patterns with their own, separate setting. Compare's own Share this comparison is COMPARE-29 to COMPARE-31 in `area-compare.feature`. The landing's Recent postcodes is LAND-22 onwards in `screens/01-landing.feature`.
   Fixtures: none needed. Every scenario is a behaviour of the page or the browser, so every scenario is `@ui`; the postcodes quoted are the sample postcodes NB1 4XY and NB7 1RR (`packages/fixtures/data/postcode-area.json`). No figure is typed or shown (AGENTS.md rule 2).
-  Rule 1 and 5 (PECR, 0014): nothing is stored on the visitor's device until they turn Recent postcodes on. The setting is its own consent, because each purpose is its own PECR consent; it is not shared with "Remember councils on this device".
+  PECR and 0014: nothing is stored on the visitor's device until they turn Recent postcodes on. The setting is its own consent, because each purpose is its own PECR consent; it is not shared with "Remember councils on this device".
   Boards: `ShareStates` and `RecentPostcodes`, each with a `…Dark` twin (canvas section 'Pilot 8 · Compare, share, report', canvas version 1795107206-3e0d, 19 Nov 2026): the area result's header with Share (phone share sheet note, desktop "Link copied", the copy-failed state) and the Recent postcodes panel in its states on the landing and the area result.
-  Wording status: nothing here is drawn on a board yet, so all wording below that the design does not quote is proposed, for the founder's copy review before build. Quoted from the design (approved 19 Nov 2026): "Share", "Link copied", "Couldn't copy. Here's the link to copy yourself", "Remember postcodes on this device", "Turn on", "Clear" and "Turn off". Proposed: the consent text (RECENT-02), the "On" and "Off" lines (RECENT-02, RECENT-05), the "Cleared" lines (RECENT-08) and the unavailable-storage line (RECENT-10).
+  Wording status: drawn on `ShareStates` and `RecentPostcodes`; wording below that the design does not quote is proposed, for the founder's copy review before build. Quoted from the design (approved 19 Nov 2026): "Share", "Link copied", "Couldn't copy. Here's the link to copy yourself", "Remember postcodes on this device", "Turn on", "Clear" and "Turn off". Proposed: the consent text (RECENT-02), the "On" and "Off" lines (RECENT-02, RECENT-05), the "Cleared" lines (RECENT-08) and the unavailable-storage line (RECENT-10).
   No sample record is needed for any state here, so no `noticed` issue is open for this feature.
 
-  Required states (design "States to cover"; AGENTS.md rules 1 and 5; PECR):
+  Required states (design "States to cover"; PECR and 0014):
     Share: share sheet on a phone -> SHARE-01; copied on desktop -> SHARE-02; copy failed with the link shown and selected -> SHARE-03; only the postcode in the link -> SHARE-04, SHARE-05; opening a shared link -> SHARE-06, SHARE-07
     Recent postcodes: off by default -> RECENT-01, RECENT-02; on and empty -> RECENT-04; on with entries (up to 5, newest first) -> RECENT-05, RECENT-06; postcodes added from a check, compare and a shared link -> RECENT-07; cleared -> RECENT-08; older than 12 months dropped -> RECENT-14; turned off -> RECENT-09; storage unavailable -> RECENT-10; never sent to us -> RECENT-11; separate from councils -> RECENT-12; keyboard, size, dark twin -> RECENT-13
 
@@ -48,14 +48,15 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
   Scenario: SHARE-05 the shared link never has a query string
     Given the visitor shares the result for "NB1 4XY"
     When the visitor reads the link
-    Then the query string is empty, so the postcode never reaches a server log or analytics (0014, 0053)
+    Then the query string is empty, so the postcode never reaches a server log (0014, 0053)
+    And no client-side analytics event, error report or page title ever holds the postcode: any such tool strips `location.hash` before it sends anything (as COMPARE-33)
 
   @ui
   Scenario: SHARE-06 opening a shared link runs the search as if the postcode had been typed
     Given the visitor opens a shared link holding "NB1 4XY"
     When the page has loaded
     Then the result for "NB1 4XY" is shown as if typed, with the same loading, not found and not covered states as a typed search (AREA-05, AREA-06, AREA-08)
-    And nothing about the visit is stored or logged, except the Recent postcodes list when the visitor has turned it on (RECENT-07)
+    And nothing about the visit is stored or logged, except the Recent postcodes list when the visitor has turned it on (RECENT-07), and no analytics event, error report or page title holds the postcode (SHARE-05)
 
   @ui
   Scenario: SHARE-07 a shared link with spaces, lower case or an incomplete postcode is handled as typed
@@ -161,6 +162,6 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
   @ui
   Scenario: RECENT-14 entries older than 12 months are dropped, and nothing is ever sent to us
     Given the setting is on and a postcode was added more than 12 months ago
-    When the visitor opens the landing or a result
-    Then that postcode is dropped from the list and from the browser, and no list or postcode has been sent to us, in a request, a log or analytics
+    When the visitor opens any page that reads the list
+    Then an entry older than 12 months is never shown or read, and is dropped from the list and from the browser on every read, and no list or postcode has been sent to us, in a request, a log or analytics
     And the consent text says the list is on this device, anyone using it can see it, and it is kept until cleared, at most 12 months (RECENT-02)

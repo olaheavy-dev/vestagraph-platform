@@ -83,7 +83,7 @@ Phone, 390 px
 ├──────────────────────────────┤
 │ Flood                      › │
 │ A  <summary line>            │
-│ B  Not known                 │
+│ B  Not known right now       │
 └──────────────────────────────┘
 ```
 (Sketch only, with no figures: the counts and lines on the boards are quoted from the generated sample data.)
@@ -104,13 +104,13 @@ Phone, 390 px
 ### 4. Report a problem with this fact
 - A small "Report a problem" link on each fact in a topic's detail (sheet or panel), not on the summary line (agent's call), on the area result, compare, and City Explorer's council and neighbourhood pages and council compare (founder's choice 5). Not on the energy certificate page, the chat's area card or the ChatGPT and Claude widget.
 - **The signed-in chat** (agent's call, pre-push review, open to the founder): the signed-in chat's side panel shows the full area result, so its topic details get the link; chat widgets (the area card and the compare table) do not.
-- It can also be used on a gap ("Not known", "Unavailable", "Not yet covered"), where "Missing something" is the natural reason (agent's call, builder check).
+- It can also be used on a gap (the record's own gap line, "Not known right now" or "Not yet covered"), where "Missing something" is the natural reason (agent's call, builder check).
 - Tap opens three fixed choices: "Wrong", "Out of date", "Missing something" (founder's choice), plus Cancel. Choosing one sends it, behind the invisible bot check, and says: "Thanks. We count reports for each fact to see what needs checking. We can't reply." (agent's wording, for the founder's copy review).
 - **States:** sent ("Reported" on that fact until the page is closed; kept in the page's memory only, nothing stored on the device: agent's call, correcting the agent's earlier "already reported today on this device", which would need PECR consent); bot check failed or server error ("Couldn't send. Try again."); offline ("You're offline. Try again when you're back online."); rate limit reached (same wording as a failure, so it reveals nothing).
 - **What is stored** (pilot design goal 7, plus the reason): one daily count per date, source, topic, fact record ID, local authority and reason. Never the postcode, a per-report row, a time finer than the day, a client key or IP address. Kept 90 days. Part of FE-05. Three shapes (agent's call, builder check):
-  - **A fact with a record ID that names no address** (a school, a GP, a bus stop, a flood warning area): as above.
-  - **A fact that points to one address** (any fact whose record points to one address or property; today sold prices, as goal 7 set, and planning applications, which also name one site) **or a gap with no record** ("Not known", "Unavailable", "Not yet covered"): per date, source, topic, local authority and reason, with no record ID.
-  - **A City Explorer figure** (council or neighbourhood level): per date, source, the figure's name (for example council tax Band D, private rent, average price for flats), the council or neighbourhood code and reason. These codes are public area codes, never an address.
+  - **A fact with a record ID that names a public place or zone** (a school, a GP surgery or other healthcare place, a bus stop, a flood warning area): as above. Only the topics getting-around (a stop), everyday-places (not childcare, which is home-based), schools and flood (a flood warning area) may carry one, and only for a record that is a public place or zone, never one worked out from the postcode (bus departures, flood risk by postcode). The ID is the SOURCE's own public identifier (a school URN, a NaPTAN stop code, a flood warning area code), never Vestagraph's record `id`, which holds the postcode. An allow-list in the schema (`recordIdTopics`) holds this (agent's call, pre-push security review, 19 Nov 2026, open to the founder). The sample data has no source identifiers yet: `noticed` issue #349.
+  - **A fact that points to one address** (any fact whose record points to one address or property; today sold prices, as goal 7 set, and planning applications, which also name one site) **or any other topic** (places of worship, crime, broadband, air quality, radon, council tax, affordability, deprivation, transport connectivity, green space) **or a gap with no record** (the record's own gap line, "Not known right now", "Not yet covered"): per date, source, topic, local authority and reason, with no record ID.
+  - **A City Explorer figure** (council or neighbourhood level): per date, source, the figure's name (for example council tax Band D, private rent, or, for a neighbourhood, deprivation), the council or neighbourhood code and reason. These codes are public area codes, never an address.
 - **The counts stay internal** (agent's call, builder check): never shown on the site or published, so no small-number suppression is needed; read only by the founder to decide what to check. If they are ever published, that needs its own decision (SE-05's small-number rules would apply).
 - The data contract (a JSON Schema for the count record, with a sample file) is written in pull request 1, so the build has one shape to follow.
 

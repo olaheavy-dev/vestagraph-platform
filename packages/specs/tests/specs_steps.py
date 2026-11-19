@@ -407,3 +407,8 @@ def then_report_counts_dates(data_steps: DataSteps) -> None:
 @then("every problem report count has one of the three fixed reasons")
 def then_report_counts_reasons(data_steps: DataSteps) -> None:
     data_steps.then_report_counts_reasons_are_fixed()
+
+
+@then("no two problem report counts share the same key")
+def then_report_counts_unique(data_steps: DataSteps) -> None:
+    data_steps.then_report_counts_are_unique()

@@ -99,12 +99,28 @@ def test_validate_instance_problem_report_counts_planning_with_record_id_is_reje
     assert mentions(_problems(document), "factRecordId")
 
 
-def test_validate_instance_problem_report_counts_banned_topics_exist_in_registry() -> None:
+def test_validate_instance_problem_report_counts_allow_list_topics_exist_in_registry() -> None:
     schema = json.loads((schema_directory() / SCHEMA).read_text(encoding="utf-8"))
-    banned = schema["$defs"]["noRecordIdTopics"]["enum"]
+    allowed = schema["$defs"]["recordIdTopics"]["enum"]
     keys = {topic["key"] for topic in load("pilot-topics")["topics"]}
-    assert banned
-    assert set(banned) <= keys
+    assert allowed
+    assert set(allowed) <= keys
+
+
+def test_validate_instance_problem_report_counts_topic_enum_equals_counted_registry_keys() -> None:
+    schema = json.loads((schema_directory() / SCHEMA).read_text(encoding="utf-8"))
+    counted = {t["key"] for t in load("pilot-topics")["topics"] if t["counted"]}
+    assert set(schema["$defs"]["topicKey"]["enum"]) == counted
+    assert set(schema["$defs"]["recordIdTopics"]["enum"]) <= counted
+
+
+def test_validate_instance_problem_report_counts_record_id_off_the_allow_list_is_rejected() -> None:
+    for topic in ("broadband", "crime", "places-of-worship", "transport-connectivity"):
+        document = _document()
+        record = _record(document, "fact", "flood")
+        record["topic"] = topic
+        record["factRecordId"] = "100001"
+        assert _problems(document), topic
 
 
 def test_validate_instance_problem_report_counts_zero_count_is_rejected() -> None:
@@ -182,3 +198,52 @@ def test_validate_instance_problem_report_counts_real_source_codes_are_accepted(
         document = _document()
         _record(document, "fact")["factRecordId"] = record_id
         assert not _problems(document), record_id
+
+
+def test_validate_instance_problem_report_counts_known_values_only_are_accepted() -> None:
+    for field, value, shape, key in (
+        ("figure", "12-high-street-flat-3-jane-doe", "councilFigure", "council"),
+        ("factRecordId", "JaneDoe_07700900123", "fact", None),
+        ("factRecordId", "12-Acacia-Avenue", "fact", None),
+        ("factRecordId", "NB1--4XY", "fact", None),
+        ("factRecordId", "1" * 5000, "fact", None),
+        ("topic", "nb1-4xy", "fact", None),
+        ("topic", "nb1-4xy", "area", "sold-nearby"),
+        ("source", "jane-doe", "fact", None),
+    ):
+        document = _document()
+        _record(document, shape, key)[field] = value
+        assert _problems(document), (field, value)
+
+
+def test_validate_instance_problem_report_counts_record_id_over_32_characters_is_rejected() -> None:
+    document = _document()
+    _record(document, "fact")["factRecordId"] = "1" * 33
+    assert mentions(_problems(document), "factRecordId")
+    document = _document()
+    _record(document, "fact")["factRecordId"] = "1" * 32
+    assert not _problems(document)
+
+
+def test_validate_instance_problem_report_counts_sample_sources_and_figures_are_known() -> None:
+    schema = json.loads((schema_directory() / SCHEMA).read_text(encoding="utf-8"))
+    sources = set(schema["$defs"]["source"]["enum"])
+    figures = set(schema["$defs"]["figure"]["enum"])
+    for count in _document()["counts"]:
+        assert count["source"] in sources
+        assert count.get("figure", next(iter(figures))) in figures
+
+
+def test_validate_instance_problem_report_counts_identical_rows_are_rejected() -> None:
+    document = _document()
+    document["counts"].append(copy.deepcopy(document["counts"][0]))
+    assert _problems(document)
+
+
+def test_validate_instance_problem_report_counts_neighbourhood_code_as_council_is_rejected() -> (
+    None
+):
+    for code in ("E01999011", "E00012345"):
+        document = _document()
+        _record(document, "fact", "flood")["localAuthority"] = code
+        assert mentions(_problems(document), "localAuthority"), code

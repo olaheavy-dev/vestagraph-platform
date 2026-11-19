@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/problem-report-counts.schema.json",
-  "description": "Sample counts. SYNTHETIC-FWA-001 is a made-up stand-in for a source's own flood warning area code (it has no postcode in it); the sample postcodes' record IDs are not used because they hold the postcode.",
+  "description": "Sample counts. SYNTHETIC-FWA-001 is a made-up stand-in for a source's own flood warning area code (it has no postcode in it): the sample records carry no source identifiers, so no sample record backs a fact count (noticed issue #349). The sample postcodes' record IDs are never used because they hold the postcode. The neighbourhood count is for a figure the neighbourhood publishes (deprivation, in council-area.json).",
   "retentionDays": 90,
   "counts": [
     {
@@ -22,7 +22,7 @@
     },
     {
       "date": "2026-11-19",
-      "source": "council-planning-register",
+      "source": "planning-data-platform",
       "reason": "missing-something",
       "count": 3,
       "topic": "planning-nearby",
@@ -30,7 +30,7 @@
     },
     {
       "date": "2026-11-19",
-      "source": "council-tax-records",
+      "source": "mhclg-council-tax",
       "reason": "wrong",
       "count": 1,
       "figure": "council-tax-band-d",
@@ -39,10 +39,10 @@
     },
     {
       "date": "2026-11-19",
-      "source": "neighbourhood-statistics",
+      "source": "indices-of-deprivation",
       "reason": "out-of-date",
       "count": 1,
-      "figure": "average-price-for-flats",
+      "figure": "deprivation",
       "areaCode": "E01999011",
       "areaLevel": "neighbourhood"
     }

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://vestagraph.invalid/schema/problem-report-counts.schema.json",
   "title": "Report a problem daily counts (data/problem-report-counts.json)",
-  "description": "What the Report a problem feature may store: one count per day, source, reason and fact, with no postcode, no time of day, no free text and no user identity. A fact that points to one address or property is counted by topic and council only, never by record. Retention is 90 days.",
+  "description": "What the Report a problem feature may store: one count per day, source, reason and fact, with no postcode, no time of day, no free text and no user identity. Every key field holds a known value only: a topic key, a source key or a figure key from the lists below, or a source's own public identifier for a place or zone. A count is the only one for its key: no two counts share the same date, shape fields (topic, record ID, council or figure, area code and level) and reason, so a per-report row cannot be stored (a fixture test checks this). Only a topic whose records are public facilities or official zones may be counted by record ID (recordIdTopics); every other topic is counted by topic and council only. Retention is 90 days. The checking of real flood warning area codes against the postcode guard is open: #346.",
   "type": "object",
   "required": [
     "retentionDays",
@@ -33,21 +33,31 @@
             "$ref": "#/$defs/councilFigureCount"
           }
         ]
-      }
+      },
+      "uniqueItems": true
     }
   },
   "$defs": {
     "topicKey": {
-      "type": "string",
-      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-      "description": "A key from data/pilot-topics.json."
-    },
-    "noRecordIdTopics": {
       "enum": [
+        "getting-around",
+        "everyday-places",
+        "places-of-worship",
+        "schools",
+        "planning-nearby",
+        "flood",
+        "crime",
         "sold-nearby",
-        "planning-nearby"
+        "broadband",
+        "air-quality",
+        "radon",
+        "council-tax-by-band",
+        "housing-affordability",
+        "deprivation",
+        "transport-connectivity",
+        "green-space"
       ],
-      "description": "Topics whose records point to one address or property: never counted by record ID. Gaps are counted the same way. A test checks that each is a key in pilot-topics.json."
+      "description": "A key of a counted topic in data/pilot-topics.json (a test checks that this list equals those keys, so they cannot drift). The server accepts only the topic it served on that page."
     },
     "councilCode": {
       "$ref": "council-area.schema.json#/$defs/councilCode"
@@ -78,27 +88,13 @@
           "$ref": "#/$defs/count"
         },
         "topic": {
-          "$ref": "#/$defs/topicKey"
+          "$ref": "#/$defs/recordIdTopics"
         },
         "factRecordId": {
           "$ref": "#/$defs/factRecordId"
         },
         "localAuthority": {
-          "$ref": "#/$defs/councilCode"
-        }
-      },
-      "if": {
-        "properties": {
-          "topic": {
-            "$ref": "#/$defs/noRecordIdTopics"
-          }
-        }
-      },
-      "then": {
-        "not": {
-          "required": [
-            "factRecordId"
-          ]
+          "$ref": "#/$defs/localAuthority"
         }
       }
     },
@@ -130,10 +126,10 @@
           "$ref": "#/$defs/topicKey"
         },
         "localAuthority": {
-          "$ref": "#/$defs/councilCode"
+          "$ref": "#/$defs/localAuthority"
         }
       },
-      "description": "Used for a fact whose record points to one address or property (topics sold-nearby and planning-nearby) and for gaps (Not known, Unavailable, Not yet covered). Counted by topic and council only."
+      "description": "Used for every topic that may not carry a record ID (see recordIdTopics), for a record worked out from a postcode or that is a home-based service, and for gaps (the record's own gap line, Not known right now, Not yet covered). Counted by topic and council only."
     },
     "councilFigureCount": {
       "type": "object",
@@ -203,14 +199,45 @@
       "$ref": "common.schema.json#/$defs/fullDate"
     },
     "source": {
-      "type": "string",
-      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-      "description": "A kebab-case key for the data source (for example environment-agency), never free text."
+      "enum": [
+        "bank-of-england",
+        "bgs-ukhsa-radon",
+        "bus-open-data-service",
+        "census-2021",
+        "council-school-admissions",
+        "defra-air-quality",
+        "dft-transport-connectivity",
+        "environment-agency",
+        "get-information-about-schools",
+        "hm-land-registry",
+        "indices-of-deprivation",
+        "mhclg-council-tax",
+        "naptan",
+        "natural-england",
+        "ofcom",
+        "ofsted",
+        "ons-affordability",
+        "ons-population",
+        "ons-private-rents",
+        "openstreetmap",
+        "planning-data-platform",
+        "police-uk",
+        "uk-house-price-index"
+      ],
+      "description": "A key for a data source, from the sources the pilot's records name (postcode-area.json and council-area.json). Never free text. The server accepts only the source it served with that fact."
     },
     "figure": {
-      "type": "string",
-      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
-      "description": "A kebab-case key for a City Explorer figure (for example council-tax-band-d), never free text."
+      "enum": [
+        "affordability-series",
+        "connectivity",
+        "council-tax-band-d",
+        "deprivation",
+        "population",
+        "price-series",
+        "rent-series",
+        "tenure"
+      ],
+      "description": "A City Explorer figure key, from the field names of council-area.json (council-tax-band-d stands for the bands field). Neighbourhoods publish connectivity, deprivation and tenure only. Never free text."
     },
     "reason": {
       "enum": [
@@ -225,14 +252,31 @@
     },
     "factRecordId": {
       "type": "string",
-      "pattern": "^[A-Za-z0-9_-]+$",
+      "maxLength": 32,
+      "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*$",
       "not": {
-        "pattern": "[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[-_ ]?[0-9][A-Za-z]{2}"
+        "pattern": "[A-Z]{1,2}[0-9][A-Z0-9]?-?[0-9][A-Z]{2}"
       },
-      "description": "A record ID of the source, never a postcode or address: an ID holding a UK postcode-shaped fragment (such as NB1-4XY) is refused. Real source codes such as a school URN (100001) or a NaPTAN stop code (490000077E) do not match the pattern."
+      "description": "The SOURCE's own public identifier for that place or zone (a school URN such as 100001, a NaPTAN stop code such as 490000077E, a flood warning area code), never Vestagraph's record id (which holds the postcode), never a postcode or address. Upper-case letters, digits and single hyphens, at most 32 characters; an ID holding a postcode-shaped fragment (such as NB1-4XY) is refused. Checked against a school URN and a NaPTAN code; flood warning area codes (some have lower-case letters) are still to be checked at 5b (#346). The server also accepts only an ID it served on that page."
     },
     "lsoaCode": {
       "$ref": "council-area.schema.json#/$defs/lsoaCode"
+    },
+    "recordIdTopics": {
+      "enum": [
+        "getting-around",
+        "everyday-places",
+        "schools",
+        "flood"
+      ],
+      "description": "The only topics that may carry a factRecordId, because their records are public facilities or official zones (a stop, a school, a GP surgery or hospital, a flood warning area). Within them, a record that is worked out from a postcode (bus departures, flood risk by postcode) or that is a home-based service (childcare) is counted by topic and council only. Every other topic is counted by topic and council only. A test checks that each is a key in pilot-topics.json."
+    },
+    "localAuthority": {
+      "$ref": "#/$defs/councilCode",
+      "not": {
+        "pattern": "^[EWSN]0[01]"
+      },
+      "description": "A council's code. A neighbourhood (LSOA, E01) or output area (E00) code is refused, because it is far smaller than a council."
     }
   }
 }
