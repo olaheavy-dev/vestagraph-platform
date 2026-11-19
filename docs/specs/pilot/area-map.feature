@@ -38,6 +38,7 @@ Feature: Area maps (the quiet 3D map on every area map)
       the list as the accessible equivalent of the 2D map -> MAP-24
       no screen says whether a home or the postcode centre is inside an outline -> MAP-25
     the basemap tiles failing: "map unavailable", the facts still shown (0059) -> MAP-27
+    before "Show map": no request, the facts and list complete; choosing it loads the map; the choice not remembered (FE-75) -> MAP-28, MAP-29, MAP-30
 
   @ui
   Scenario: MAP-01 our places are full-colour 3D and other houses and trees fade

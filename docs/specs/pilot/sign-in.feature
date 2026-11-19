@@ -40,18 +40,21 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
     When the page has loaded and no message has been sent
     Then one line says what signing in keeps (the account, saved areas and chats, kept 12 months after last use and deletable) and links the privacy notice
 
+  # Replaces CHAT-23 (with AUTH-04 and AUTH-05).
   @ui
   Scenario: AUTH-03 signing up for the first time runs the bot check
     Given a person with no account chooses a sign-in method
     When the sign-up request is made
     Then the bot check runs before the account is created, and a failed check creates no account
 
+  # Replaces CHAT-23 (with AUTH-03 and AUTH-05).
   @ui
   Scenario: AUTH-04 each email-link request runs the bot check
     Given the user is on the sign-in page
     When the user asks for an email link, and then asks for another
     Then the bot check runs on each request, and a failed check sends no email
 
+  # Replaces CHAT-23 and CHAT-45 (with AUTH-03; AUTH-04 also replaces CHAT-23).
   @ui
   Scenario: AUTH-05 a chat message does not run the bot check
     Given the user is signed in and has opened the chat
