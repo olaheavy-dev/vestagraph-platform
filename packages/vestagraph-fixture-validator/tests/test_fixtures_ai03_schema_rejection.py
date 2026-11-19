@@ -143,3 +143,28 @@ def test_validate_fixtures_evaluation_folder_is_checked_against_its_schema(tmp_p
     document["cases"][0]["group"] = 26
     path.write_text(json.dumps(document), encoding="utf-8")
     assert mentions(validate_fixtures(root), "ai-03-set.json: /cases/0/group")
+
+
+def test_validate_instance_ai03_set_tool_output_case_with_conversation_is_rejected() -> None:
+    document = _document()
+    _case(document, "tool-output")["conversation"] = [{"role": "user", "text": "hello"}]
+    assert mentions(_problems(document), "conversation")
+
+
+def test_validate_instance_ai03_set_model_case_with_tool_input_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["toolInput"] = {"tool": "find-area", "arguments": {}}
+    assert mentions(_problems(document), "toolInput")
+
+
+def test_validate_instance_ai03_set_must_include_free_text_source_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["mustInclude"][0]["from"] = "the council's website"
+    assert mentions(_problems(document), "/from")
+
+
+def test_validate_instance_ai03_set_must_include_known_source_forms_are_accepted() -> None:
+    for source in ("NB1-4XY-AREA-CRIME-1", "WCHAT-22", "stubs/0", "generated/area-result.json#/x"):
+        document = _document()
+        _case(document, "model")["expect"]["mustInclude"][0]["from"] = source
+        assert _problems(document) == [], source

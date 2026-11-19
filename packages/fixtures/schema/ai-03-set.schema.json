@@ -170,7 +170,12 @@
           "then": {
             "required": [
               "toolInput"
-            ]
+            ],
+            "not": {
+              "required": [
+                "conversation"
+              ]
+            }
           }
         },
         {
@@ -187,7 +192,12 @@
           "then": {
             "required": [
               "conversation"
-            ]
+            ],
+            "not": {
+              "required": [
+                "toolInput"
+              ]
+            }
           }
         }
       ]
@@ -323,8 +333,8 @@
               },
               "from": {
                 "type": "string",
-                "minLength": 1,
-                "description": "Where the text comes from: a sample record ID, a data or generated file pointer, or a scenario ID."
+                "pattern": "^([A-Z0-9]+(-[A-Z0-9]+)+|stubs/[0-9]+|(data|generated)/[a-z0-9-]+\\.json#/.*)$",
+                "description": "Where the text comes from: a sample record ID, a scenario ID, a stubs reference such as stubs/0, or a file path with a JSON Pointer such as generated/area-result.json#/postcodes/0."
               }
             }
           }
