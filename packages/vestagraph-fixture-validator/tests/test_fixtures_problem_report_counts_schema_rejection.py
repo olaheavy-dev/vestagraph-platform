@@ -166,3 +166,19 @@ def test_validate_instance_problem_report_counts_postcode_as_source_is_rejected(
     document = _document()
     _record(document, "fact", "flood")["source"] = "NB1 4XY"
     assert mentions(_problems(document), "source")
+
+
+def test_validate_instance_problem_report_counts_record_id_containing_postcode_is_rejected() -> (
+    None
+):
+    document = _document()
+    record = _record(document, "fact")
+    record["factRecordId"] = "NB1-4XY-AREA-FLOOD-1"
+    assert mentions(_problems(document), "factRecordId")
+
+
+def test_validate_instance_problem_report_counts_real_source_codes_are_accepted() -> None:
+    for record_id in ("100001", "490000077E", "SYNTHETIC-FWA-001", "E06999001"):
+        document = _document()
+        _record(document, "fact")["factRecordId"] = record_id
+        assert not _problems(document), record_id

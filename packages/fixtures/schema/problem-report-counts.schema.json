@@ -13,6 +13,9 @@
     "$schema": {
       "type": "string"
     },
+    "description": {
+      "type": "string"
+    },
     "retentionDays": {
       "const": 90
     },
@@ -223,7 +226,10 @@
     "factRecordId": {
       "type": "string",
       "pattern": "^[A-Za-z0-9_-]+$",
-      "description": "A record ID, never a postcode or address."
+      "not": {
+        "pattern": "[A-Za-z]{1,2}[0-9][A-Za-z0-9]?[-_ ]?[0-9][A-Za-z]{2}"
+      },
+      "description": "A record ID of the source, never a postcode or address: an ID holding a UK postcode-shaped fragment (such as NB1-4XY) is refused. Real source codes such as a school URN (100001) or a NaPTAN stop code (490000077E) do not match the pattern."
     },
     "lsoaCode": {
       "$ref": "council-area.schema.json#/$defs/lsoaCode"

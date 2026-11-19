@@ -963,7 +963,7 @@ def test_then_energy_certificate_inspection_date_not_shown_sample_fails_naming_t
 
 def test_then_report_counts_sample_file_passes_every_shape_check(steps: DataSteps) -> None:
     steps.then_report_counts_keep_days(90)
-    steps.then_report_counts_hold_fact_count("flood", "NB1-4XY-AREA-FLOOD-1", "out-of-date")
+    steps.then_report_counts_hold_fact_count("flood", "SYNTHETIC-FWA-001", "out-of-date")
     steps.then_report_counts_hold_area_count("sold-nearby", "wrong")
     steps.then_report_counts_hold_area_count("planning-nearby", "missing-something")
     steps.then_report_counts_hold_figure_count("council-tax-band-d", "council", "E06999001")
@@ -977,7 +977,7 @@ def test_then_report_counts_sample_file_passes_every_shape_check(steps: DataStep
 
 def test_then_report_counts_missing_count_fails_naming_the_topic(steps: DataSteps) -> None:
     with pytest.raises(AssertionError) as failure:
-        steps.then_report_counts_hold_fact_count("flood", "NB1-4XY-AREA-FLOOD-1", "wrong")
+        steps.then_report_counts_hold_fact_count("flood", "SYNTHETIC-FWA-001", "wrong")
     assert "flood" in str(failure.value)
     with pytest.raises(AssertionError):
         steps.then_report_counts_hold_area_count("flood", "out-of-date")

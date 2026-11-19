@@ -113,7 +113,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     When the results arrive
     Then each topic of `area-result.json` <postcode> / topics is one row, in that file's order (the registry order of `pilot-topics.json`), and while loading each row shows a skeleton and no row shows as empty (AREA-06)
     And the order never changes with the postcodes, the priorities or the figures
-    And the "Check this" rows, the route-only topics and the energy certificate row are not on compare: each is a link or a check about one home, not a fact about a postcode, and the topics left out of the coverage total (GLANCE-05) are not rows (agent's call, open to the founder)
+    And the "Check this" rows, the route-only topics and the energy certificate row are not on compare: each is a link or a check about one home, not a fact about a postcode, and only the topics the registry marks `counted: false` in `pilot-topics.json` are left out; a topic that is not covered for one postcode (the Green space of "NB7 1RR") stays a row and reads "Not yet covered" on that side (COMPARE-26, COMPARE-27) (agent's call, open to the founder)
 
   # fixture: packages/fixtures/generated/area-result.json (NB1 4XY, NB7 1RR)
   Scenario: COMPARE-12 the two samples have a result for each counted topic, with the same topic keys

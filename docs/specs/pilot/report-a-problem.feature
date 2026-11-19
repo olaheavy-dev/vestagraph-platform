@@ -173,7 +173,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
 
   # fixture: packages/fixtures/data/problem-report-counts.json (the fact count: a flood warning area, no address)
   Scenario: REPORT-21 a fact with a record ID that names no address is counted by topic, record and reason
-    Then the problem report counts hold a fact count for topic "flood" with record "NB1-4XY-AREA-FLOOD-1" and reason "out-of-date"
+    Then the problem report counts hold a fact count for topic "flood" with record "SYNTHETIC-FWA-001" and reason "out-of-date"
 
   # fixture: packages/fixtures/data/problem-report-counts.json (sold prices and planning point to one address or site). A gap with no record has the same shape (design section 4), which the schema allows and the sample does not hold a separate count for; the step cannot tell the two apart, and no new sample is needed.
   Scenario: REPORT-22 a fact that points to one address is counted by topic and council with no record ID

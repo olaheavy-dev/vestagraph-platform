@@ -1,5 +1,6 @@
 {
   "$schema": "../schema/problem-report-counts.schema.json",
+  "description": "Sample counts. SYNTHETIC-FWA-001 is a made-up stand-in for a source's own flood warning area code (it has no postcode in it); the sample postcodes' record IDs are not used because they hold the postcode.",
   "retentionDays": 90,
   "counts": [
     {
@@ -8,7 +9,7 @@
       "reason": "out-of-date",
       "count": 2,
       "topic": "flood",
-      "factRecordId": "NB1-4XY-AREA-FLOOD-1",
+      "factRecordId": "SYNTHETIC-FWA-001",
       "localAuthority": "E06999001"
     },
     {
