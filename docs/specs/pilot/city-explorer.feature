@@ -883,3 +883,12 @@ Feature: City Explorer council page (one page per council: search, what it costs
     When the user reads each figure and fact in the sheet
     Then each has "Report a problem" (REPORT-03), and a report is counted by the figure's name and the council's code, with no postcode and no address (REPORT-23)
     And the cost summary's lines, the charts' captions and the printout carry no link (agent's call, open to the founder: the design names only summary lines on the area result)
+
+  # FE-75 (founder, 19 Nov 2026): the maps on the council and neighbourhood pages load only on a tap. The rules are `area-map.feature` MAP-28 to MAP-30. Added after CITY-112 so no ID moves.
+  @ui
+  Scenario: CITY-113 a council page's map loads only when the user chooses "Show map"
+    Given the user has opened the council page for council "E06999001"
+    When the page loads
+    Then the map area shows "Show map" and nothing is requested from OpenFreeMap until the user chooses it (FE-75; MAP-28 to MAP-30)
+    And the council's facts and the neighbourhood list are complete without the map
+

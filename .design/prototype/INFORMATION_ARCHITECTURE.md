@@ -149,7 +149,7 @@ One rule for what shows where; the feature files point here (WCHAT-01, WCHAT-03 
 - **Phone:** one sheet at a time on the public pages. "Ask more about this" under a topic leaves the sheet for the chat page, `/chat` (after sign-in if signed out), and the browser's Back returns to the topic.
 - In the workspace chat, the card's "Open full result" opens the side panel (desktop) or the modal sheet (phone); closing it returns to the chat (WCHAT-04, WCHAT-05, WCHAT-88).
 
-Each topic detail ends with its source line. On a phone the map is a view inside each topic; on desktop it is a sticky column beside the list, with the selection kept in sync. The basemap tiles come from OpenFreeMap's public servers (decision 0059, DA-37; the privacy notice's "Maps" section names it, and a map that cannot load shows "map unavailable" while every fact still shows, MAP-27). The map has category filters, a legend, a hover card (desktop) or tap card (phone), and an optional 3D switch.
+Each topic detail ends with its source line. On a phone the map is a view inside each topic; on desktop it is a sticky column beside the list, with the selection kept in sync. The basemap tiles come from OpenFreeMap's public servers and are requested only when the visitor chooses "Show map" (FE-75, MAP-28 to MAP-30; decision 0059, DA-37; the privacy notice's "Maps" section names it, and a map that cannot load shows "map unavailable" while every fact still shows, MAP-27). The map has category filters, a legend, a hover card (desktop) or tap card (phone), and an optional 3D switch.
 
 ### Costs
 1. **The monthly hero figure,** with the partial label and what's missing named.

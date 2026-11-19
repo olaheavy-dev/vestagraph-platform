@@ -36,6 +36,8 @@ The founder chose, in two prompt windows on 19 Nov 2026: "Use their public serve
 - **Which maps:** every pilot map, including City Explorer's (0055 makes City Explorer part of the pilot). This is the agent's reading, open to the founder. CITY-89, CITY-104, HOOD-27 and HOOD-39 and the City Explorer design (§68, §172, dated notes) are amended to say so; its boundary files, fonts and chart library stay on our hosting.
 - **Cost:** no tile-hosting cost in IN-02 for the pilot.
 - **Attribution:** OpenMapTiles and OpenStreetMap are credited on the map (MAP-18); MapLibre adds it.
-- **Open to the founder:** whether the map should load only when the visitor opens it (keeps B28 and the visitor's IP address away from OpenFreeMap until they choose, at the cost of an extra tap). Not decided here.
 - **Rule:** the choice follows "free first, within the rules" (WW-22).
 - **Revisit** if OpenFreeMap changes its terms, if its reliability is poor, or before a commercial launch. The exit is self-hosting from its weekly PMTiles files (DA-25's plan).
+
+## Amended 19 Nov 2026
+The founder chose, in a prompt window, "Load when opened" (over the agent's "Load with the result (Recommended)"): every pilot map shows a "Show map" control and nothing is requested from OpenFreeMap until the visitor taps it (register line FE-75; MAP-28 to MAP-30). So B28 holds until the visitor chooses, and the Privacy notice says map data is requested only when the visitor chooses "Show map" (PRIV-18). The choice is not remembered; that is the agent's call, open to the founder. The Privacy and benchmark B28 lines above describe what happens once the map is shown.

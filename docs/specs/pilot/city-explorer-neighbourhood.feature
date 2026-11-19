@@ -334,3 +334,12 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
     When the user reads each fact published at neighbourhood level
     Then each has "Report a problem" (REPORT-04), and a report is counted by the figure's name and the neighbourhood's public code, never an address (REPORT-23)
     And a fact shown at council level on the page is reported as the council's (REPORT-03)
+
+  # FE-75 (founder, 19 Nov 2026): as CITY-113. Added after HOOD-42 so no ID moves.
+  @ui
+  Scenario: HOOD-43 the neighbourhood map loads only when the user chooses "Show map"
+    Given the user has opened the neighbourhood page for neighbourhood "E01999011" of council "E06999001"
+    When the page loads
+    Then the map shows "Show map" and nothing is requested from OpenFreeMap until the user chooses it (FE-75; MAP-28 to MAP-30)
+    And the neighbourhood's facts and the list beside the map are complete without the map
+

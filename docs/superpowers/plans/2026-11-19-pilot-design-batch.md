@@ -151,6 +151,7 @@
 - [ ] **Step 1:** Draw the in-chat card: compact card with Expand, the expanded dialog, the phone preview with "Open map"; phone and desktop, light and dark; matching CARD-02, 23, 27, 28, 31, 36 to 42. Update canvas note `s12`.
 - [ ] **Step 2:** Draw the phone neighbourhoods map sheet (map, list and panel in a sheet at 390 px, FE-43), light and dark.
 - [ ] **Step 3:** Draw Share and Compare in the AreaResult boards' header (light and dark, phone and desktop), as ShareStates draws them (Task 3 review). Canvas tidy-ups: remove the "AI error (CHAT-19 to CHAT-24, CHAT-53)" frame on AreaStatesPilot and its Dark twin; delete the pass B Nearby, NearbySchools and their Dark twins; redraw "Check" as "Search" on the desktop council boards and remove the old placeholder (#317).
+- [ ] **Step 3b:** Draw the "Show map" state (FE-75, MAP-28 to MAP-30) on the area result's map areas and on the City Explorer council and neighbourhood boards (CITY-113, HOOD-43), light and dark, phone and desktop. Redraw HOOD-27's board line as "Map drawing is a placeholder for the street map (OpenFreeMap tiles). It is not coloured by any figure." and update the quoted line in HOOD-27 then.
 - [ ] **Step 4:** Visual review; record the canvas version; update the headers; edit #303 (item 1 done), #318 (the other items as build-ticket criteria, including the desktop "Check"), #317.
 
 ### Task 8: Extras' scenarios and the audit's small items

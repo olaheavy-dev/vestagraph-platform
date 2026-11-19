@@ -246,3 +246,27 @@ Feature: Area maps (the quiet 3D map on every area map)
     Then the map area says "Map unavailable right now" (proposed wording) and does not show an empty or broken map
     And our places are still listed in the place list and the topic, each with its distance and source stamp, and nothing is shown as zero or as a clean result (rule 7)
     And the rest of the page works as before, and "Try again" loads the tiles again once they are reachable (proposed wording)
+
+  # FE-75 (founder, 19 Nov 2026, "Load when opened"): maps load only on the visitor's tap. Added after MAP-27 so no ID moves. The boards do not yet draw "Show map" (plan Task 7).
+  @ui
+  Scenario: MAP-28 before the visitor chooses "Show map", nothing is requested from OpenFreeMap and the facts and list are complete
+    Given the visitor has checked "NB1 4XY" and has not chosen "Show map"
+    When the result is shown
+    Then no request goes to OpenFreeMap or any other tile server
+    And the map area shows a "Show map" control (proposed wording), at least 44 px tall and reachable by keyboard, in place of the map
+    And every place is still in the place list and the topic with its distance and source stamp, so no fact depends on the map (rule 7)
+
+  @ui
+  Scenario: MAP-29 choosing "Show map" loads the map
+    Given the visitor has checked "NB1 4XY" and the "Show map" control is shown
+    When the visitor chooses "Show map"
+    Then the tiles are requested from OpenFreeMap (0059) and the map is drawn with the same places, rings and filters as before
+    And if the tiles cannot be loaded, MAP-27 applies
+
+  # Agent's call, open to the founder: nothing is stored about the choice, so there is nothing to consent to under PECR. A later decision may add a remembered choice, with its consent wording.
+  @ui
+  Scenario: MAP-30 the choice to show the map is not remembered
+    Given the visitor has chosen "Show map" on one result
+    When the visitor checks another postcode or reloads the page
+    Then the map shows "Show map" again and nothing about the earlier choice is stored on the device or sent to us
+
