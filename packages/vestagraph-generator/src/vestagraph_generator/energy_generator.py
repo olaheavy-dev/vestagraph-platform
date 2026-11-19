@@ -25,7 +25,7 @@ from vestagraph_area.energy_certificate import (
     read_code_tables,
     valid_until,
 )
-from vestagraph_area.records import InvalidAreaDataError, _get, _load
+from vestagraph_area.json_reader import InvalidAreaDataError, get_field, load_json_object
 
 from vestagraph_generator.area_generator import json_number
 
@@ -42,11 +42,14 @@ _STATUS_LINES = {
 
 def _snapshot_date(fixtures_directory: Path) -> date:
     """The boards' "today": ``snapshotDate`` in ``snapshot.json``."""
-    snapshot = _get(
-        _load(fixtures_directory / "data" / "snapshot.json"), "snapshot", dict, "snapshot.json"
+    snapshot = get_field(
+        load_json_object(fixtures_directory / "data" / "snapshot.json"),
+        "snapshot",
+        dict,
+        "snapshot.json",
     )
     try:
-        return date.fromisoformat(_get(snapshot, "snapshotDate", str, "snapshot.json"))
+        return date.fromisoformat(get_field(snapshot, "snapshotDate", str, "snapshot.json"))
     except ValueError as error:
         message = f"snapshot.json: snapshotDate is not a date: {error}"
         raise InvalidAreaDataError(message) from error
