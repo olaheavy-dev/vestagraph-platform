@@ -76,8 +76,7 @@ Feature: Ask about this area (the pilot's area chat panel)
   The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply and
     records what the server sent it, so these scenarios test the panel, the server and the guards, not
     the model. Whether the real model follows the rules (declining scores, sums, advice and other places, and
-    rephrased "is it safe" questions) is tested by the AI evaluation set (AI-03); CHAT-12 to CHAT-14 and CHAT-17 are also
-    AI-03 cases.
+    rephrased "is it safe" questions) is tested by the AI evaluation set (AI-03); CHAT-12 to CHAT-14 and CHAT-17 are withdrawn (the AI-03 cases are the scenarios tagged `@ai03`).
   Fixed replies (register line AI-11): the "is it safe", score, advice and best-area questions are answered by
     text we wrote and reviewed, not the model (CHAT-11, CHAT-50).
   The ui tag also covers server checks (logs, server storage, refusals made by the server): they run in the

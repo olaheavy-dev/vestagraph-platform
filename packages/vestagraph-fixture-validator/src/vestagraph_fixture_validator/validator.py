@@ -311,7 +311,7 @@ def _validate_file(
 
 
 def validate_fixtures(fixtures_directory: Path) -> list[FixtureProblem]:
-    """Check every data, reference, test-case and generated file under a fixtures folder."""
+    """Check every data, reference, evaluation, test-case and generated file in a folder."""
     problems: list[FixtureProblem] = []
     schema_directory = fixtures_directory / "schema"
     checked_files = 0
@@ -323,6 +323,12 @@ def validate_fixtures(fixtures_directory: Path) -> list[FixtureProblem]:
 
     for path in _json_files(fixtures_directory / "reference"):
         # Real official data (code tables), not invented like data/; same name-to-schema rule.
+        checked_files += 1
+        expected = path.name.removesuffix(".json") + SCHEMA_SUFFIX
+        problems.extend(_validate_file(path, expected, schema_directory))
+
+    for path in _json_files(fixtures_directory / "evaluation"):
+        # The AI evaluation set (AI-03); same name-to-schema rule. The folder may be absent.
         checked_files += 1
         expected = path.name.removesuffix(".json") + SCHEMA_SUFFIX
         problems.extend(_validate_file(path, expected, schema_directory))

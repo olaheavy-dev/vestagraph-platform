@@ -218,7 +218,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Then postcode record "NB1-4XY-AREA-RADON-1" has status "recorded"
     And area result "NB1 4XY" has topic "radon" with outcome "found"
 
-  @ui
+  @ui @ai03
   Scenario: TOPIC-27 the Radon topic quotes the band as published for the 1 km square
     Given the result for "NB1 4XY" is open
     When the visitor opens "Radon"
@@ -248,7 +248,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Then postcode record "NB1-4XY-AREA-BROADBAND-COVERAGE-1" has status "recorded"
     And postcode record "NB7-1RR-AREA-BROADBAND-COVERAGE-1" has status "no-record-in-source"
 
-  @ui
+  @ui @ai03
   Scenario: TOPIC-31 Broadband is the gigabit-capable share of premises and makes no full-fibre claim
     Given the result for "NB1 4XY" is open
     When the visitor opens "Broadband"

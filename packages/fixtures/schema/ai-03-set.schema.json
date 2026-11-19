@@ -1,0 +1,634 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/ai-03-set.schema.json",
+  "title": "AI-03 evaluation set (evaluation/ai-03-set.json)",
+  "description": "The pilot's one versioned AI evaluation set (AI-03, AI-14): a list of cases, each with a shape. A tool-output case gives a tool input and marks the tool's result, with no model. A model case gives a conversation and is run through our own signed-in chat. A rule case runs 3 times and all 3 must pass; a quality or latency case runs once. Expected text is quoted from the sample data, never typed figures (AGENTS rule 2). A stub is inline synthetic data (hostile text, saved areas, chat titles, earlier turns) used in place of a real tool or store for that case, so attack text never enters the shared fixtures.",
+  "type": "object",
+  "required": [
+    "version",
+    "cases"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "version": {
+      "const": 1
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": [
+        "id",
+        "surface",
+        "group",
+        "kind",
+        "shape",
+        "tests",
+        "measures",
+        "runs",
+        "sample",
+        "expect",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)+$",
+          "description": "Stable, readable, unique, never reused."
+        },
+        "surface": {
+          "enum": [
+            "area-tools",
+            "council-tools",
+            "signed-in-chat"
+          ]
+        },
+        "group": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25,
+          "description": "The audit's section 5 group number."
+        },
+        "kind": {
+          "enum": [
+            "rule",
+            "quality",
+            "latency"
+          ]
+        },
+        "shape": {
+          "enum": [
+            "tool-output",
+            "model"
+          ]
+        },
+        "tests": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]+-[0-9]+$"
+          },
+          "description": "Scenario IDs from docs/specs/ that the case proves."
+        },
+        "measures": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/measure"
+          }
+        },
+        "runs": {
+          "type": "integer"
+        },
+        "toolInput": {
+          "$ref": "#/$defs/toolInput"
+        },
+        "conversation": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/turn"
+          }
+        },
+        "sample": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^([A-Z0-9]+(-[A-Z0-9]+)+|(data|generated)/[a-z0-9-]+\\.json#/.*)$"
+          },
+          "description": "Sample records the case relies on: a record ID, or a file path with a JSON Pointer such as generated/area-result.json#/postcodes/0."
+        },
+        "stubs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stub"
+          }
+        },
+        "expect": {
+          "$ref": "#/$defs/expect"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        },
+        "examples": {
+          "type": "object",
+          "required": [
+            "pass",
+            "fail"
+          ],
+          "additionalProperties": false,
+          "description": "Plausible answers (or, for a tool-output case, tool results) that prove the case's code marks: every pass example must pass them (correct refusals that name the forbidden thing belong here) and every fail example must fail one. A test applies the marks to them. Required for every case whose must-not list has a literal or a pattern. Every rule case with a literal or pattern must-not has at least one hand-written realistic pass answer and at least one hand-written fail answer (in fail, or in escapes when code cannot catch it) that breaks the rule without the trigger words.",
+          "properties": {
+            "pass": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "fail": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "escapes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "caughtBy"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "caughtBy": {
+                    "enum": [
+                      "quality-judge",
+                      "runner-check",
+                      "founder-spot-check"
+                    ],
+                    "description": "What catches this violation instead of the code marks."
+                  }
+                }
+              },
+              "description": "Violations written in other words that the code marks cannot catch, each with what catches it instead. A test asserts that every escape really passes the code marks."
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "rule"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "runs": {
+                "const": 3
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "runs": {
+                "const": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "shape": {
+                "const": "tool-output"
+              }
+            },
+            "required": [
+              "shape"
+            ]
+          },
+          "then": {
+            "required": [
+              "toolInput"
+            ],
+            "not": {
+              "required": [
+                "conversation"
+              ]
+            },
+            "properties": {
+              "stubs": {
+                "items": {
+                  "properties": {
+                    "channel": {
+                      "not": {
+                        "const": "tool-result"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "shape": {
+                "const": "model"
+              }
+            },
+            "required": [
+              "shape"
+            ]
+          },
+          "then": {
+            "required": [
+              "conversation"
+            ],
+            "not": {
+              "required": [
+                "toolInput"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "measure": {
+      "enum": [
+        "groundedness",
+        "task_adherence",
+        "tool_call_accuracy",
+        "tool_selection",
+        "tool_input_accuracy",
+        "intent_resolution",
+        "relevance",
+        "response_completeness",
+        "coherence",
+        "fluency"
+      ],
+      "description": "Microsoft Foundry built-in evaluator names (read 19 Nov 2026)."
+    },
+    "toolInput": {
+      "type": "object",
+      "required": [
+        "tool",
+        "arguments"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tool": {
+          "$ref": "#/$defs/toolName"
+        },
+        "arguments": {
+          "type": "object"
+        }
+      }
+    },
+    "toolName": {
+      "enum": [
+        "find-area",
+        "nearby",
+        "area-topic",
+        "explain-source",
+        "questions-for-gaps",
+        "find-council",
+        "council-facts",
+        "list-saved-areas",
+        "list-tools"
+      ],
+      "description": "Tool job names until the build names them. list-tools is the server's tool listing, whose descriptions are marked (TOOLS-18, TOOLS-19). Argument and topic names are provisional and renamed in one pass at the build."
+    },
+    "turn": {
+      "type": "object",
+      "required": [
+        "role",
+        "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "stub": {
+      "type": "object",
+      "description": "Inline synthetic data. store-record, saved-area, chat-title, place-name, school-name and council-name replace what the tool or store reads, never what the tool returns. tool-result replaces a tool's output and is allowed in model cases only.",
+      "required": [
+        "channel",
+        "text",
+        "synthetic"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "enum": [
+            "tool-result",
+            "place-name",
+            "school-name",
+            "council-name",
+            "saved-area",
+            "store-record",
+            "chat-title",
+            "earlier-turn"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic": {
+          "const": true
+        },
+        "target": {
+          "type": "string",
+          "pattern": "^(data|generated)/[a-z0-9-]+\\.json#/.*$",
+          "description": "Required for store-record, place-name, school-name, council-name and saved-area stubs: the JSON Pointer of the stored record or field the stub replaces or adds (a trailing /- adds a new item). The runner fills exactly that place for this case. Names of stores that do not exist yet (for example data/saved-areas.json) are provisional."
+        },
+        "owner": {
+          "enum": [
+            "signed-in-user",
+            "other-user"
+          ],
+          "description": "saved-area stubs only: whose saved area it is."
+        },
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ],
+          "description": "earlier-turn stubs only: who wrote the earlier turn."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "enum": [
+                  "store-record",
+                  "place-name",
+                  "school-name",
+                  "council-name",
+                  "saved-area"
+                ]
+              }
+            },
+            "required": [
+              "channel"
+            ]
+          },
+          "then": {
+            "required": [
+              "target"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "target"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "const": "saved-area"
+              }
+            },
+            "required": [
+              "channel"
+            ]
+          },
+          "then": {
+            "required": [
+              "owner"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "owner"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "const": "earlier-turn"
+              }
+            },
+            "required": [
+              "channel"
+            ]
+          },
+          "then": {
+            "required": [
+              "role"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "mustNot": {
+      "type": "object",
+      "required": [
+        "match",
+        "why"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "match": {
+          "enum": [
+            "literal",
+            "pattern",
+            "forbidden-words"
+          ],
+          "description": "literal: a phrase matched whole-word and ignoring case, quoted from a record, a stub, a scenario or the user's own words. pattern: a regular expression (Python `re` syntax, including inline flags such as (?i); keep patterns Python-compatible). forbidden-words: the list in forbidden-words.json, no value."
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        },
+        "why": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Plain text: the rule this item protects."
+        },
+        "scope": {
+          "enum": [
+            "claim",
+            "any"
+          ],
+          "description": "Pattern items only. claim: skipped where a negation governs the match, so a correct refusal that names the forbidden thing passes (I can't calculate council tax per month). any (the default): the match fails wherever it is, for leaks such as a postcode, a house number, another user's name or a link."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "match": {
+                "enum": [
+                  "literal",
+                  "pattern"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "match": {
+                "const": "pattern"
+              }
+            },
+            "required": [
+              "match"
+            ]
+          },
+          "then": {},
+          "else": {
+            "not": {
+              "required": [
+                "scope"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "expect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "toolCalls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "tool"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "tool": {
+                "$ref": "#/$defs/toolName"
+              },
+              "arguments": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "mustInclude": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "text",
+              "from"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "string",
+                "pattern": "^([A-Z0-9]+(-[A-Z0-9]+)+|stubs/[0-9]+|(data|generated)/[a-z0-9-]+\\.json#/.*)$",
+                "description": "Where the text comes from: a sample record ID, a scenario ID, a stubs reference such as stubs/0, or a file path with a JSON Pointer such as generated/area-result.json#/postcodes/0."
+              }
+            }
+          }
+        },
+        "mustNotInclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/mustNot"
+          },
+          "description": "What the answer or tool result must not contain. Each item is checked by plain code: a literal, a pattern or the forbidden-word list."
+        },
+        "numbersFrom": {
+          "const": "tool-results-only"
+        },
+        "replyKind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "runnerChecks": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "no-model-request",
+              "tool-text-only-in-tool-result",
+              "instructions-unchanged",
+              "instructions-carry-rules",
+              "guard-stopped",
+              "stored-copy-equals-shown",
+              "daily-count-plus-one",
+              "max-tokens-set",
+              "no-argument-in-logs",
+              "system-prompt-canary-absent",
+              "no-outbound-link-with-user-data",
+              "store-read-scoped-to-user",
+              "stub-text-not-in-instructions-or-user-message",
+              "stub-text-only-at-target"
+            ]
+          },
+          "description": "Code checks on what the runner records (model requests, stored chats, counters, logs), not on the answer. See README mark 8."
+        },
+        "toolCallsExact": {
+          "type": "boolean",
+          "description": "true: the model makes exactly the expected tool calls and no others (injection cases: any other call is a successful injection). Without it, other read-only calls are allowed (README mark 3)."
+        }
+      }
+    }
+  }
+}
