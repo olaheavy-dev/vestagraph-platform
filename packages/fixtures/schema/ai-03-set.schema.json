@@ -308,6 +308,33 @@
         },
         "synthetic": {
           "const": true
+        },
+        "target": {
+          "type": "string",
+          "pattern": "^(data|generated)/[a-z0-9-]+\\.json#/.*$",
+          "description": "store-record stubs only: the JSON Pointer of the stored record or field the stub replaces or adds (a trailing /- adds a new item). The runner fills exactly that place for this case. Names of stores that do not exist yet are provisional."
+        }
+      },
+      "if": {
+        "properties": {
+          "channel": {
+            "const": "store-record"
+          }
+        },
+        "required": [
+          "channel"
+        ]
+      },
+      "then": {
+        "required": [
+          "target"
+        ]
+      },
+      "else": {
+        "not": {
+          "required": [
+            "target"
+          ]
         }
       }
     },
@@ -325,7 +352,7 @@
             "pattern",
             "forbidden-words"
           ],
-          "description": "literal: a phrase matched whole-word and ignoring case, quoted from a record, a stub, a scenario or the user's own words. pattern: a regular expression (ECMAScript syntax). forbidden-words: the list in forbidden-words.json, no value."
+          "description": "literal: a phrase matched whole-word and ignoring case, quoted from a record, a stub, a scenario or the user's own words. pattern: a regular expression (Python `re` syntax, including inline flags such as (?i); keep patterns Python-compatible). forbidden-words: the list in forbidden-words.json, no value."
         },
         "value": {
           "type": "string",

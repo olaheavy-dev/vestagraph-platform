@@ -6,6 +6,7 @@ schema to complain about that thing.
 
 import copy
 import json
+import re
 from pathlib import Path
 
 from fixtures_support import (
@@ -220,6 +221,39 @@ def test_validate_instance_ai03_set_tool_result_stub_in_tool_output_case_is_reje
 def test_validate_instance_ai03_set_store_record_stub_in_tool_output_case_is_accepted() -> None:
     document = _document()
     _case(document, "tool-output")["stubs"] = [
-        {"channel": "store-record", "text": "x", "synthetic": True}
+        {
+            "channel": "store-record",
+            "text": "x",
+            "synthetic": True,
+            "target": "data/postcode-area.json#/postcodes/-",
+        }
     ]
     assert _problems(document) == []
+
+
+def test_validate_instance_ai03_set_store_record_stub_without_target_is_rejected() -> None:
+    document = _document()
+    _case(document, "tool-output")["stubs"] = [
+        {"channel": "store-record", "text": "x", "synthetic": True}
+    ]
+    assert mentions(_problems(document), "target")
+
+
+def test_validate_instance_ai03_set_target_on_other_channel_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["stubs"] = [
+        {
+            "channel": "chat-title",
+            "text": "x",
+            "synthetic": True,
+            "target": "data/postcode-area.json#/postcodes/-",
+        }
+    ]
+    assert mentions(_problems(document), "target")
+
+
+def test_validate_instance_ai03_set_sums_pattern_passes_a_refusal_and_fails_a_total() -> None:
+    case = next(c for c in _document()["cases"] if c["id"] == "CHAT-NEVER-SUMS-01")
+    pattern = next(m["value"] for m in case["expect"]["mustNotInclude"] if m["match"] == "pattern")
+    assert re.search(pattern, "I can't give a total, but here are the monthly counts.") is None
+    assert re.search(pattern, "The total of the counts is 12.") is not None

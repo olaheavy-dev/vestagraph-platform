@@ -27,7 +27,7 @@ A case may carry inline synthetic data in `stubs` (hostile text, saved areas, ch
 
 ### Stubs
 
-A stub replaces what a tool or store **reads**, never what a tool **returns**, in a tool-output case, otherwise the case would mark the stub and always pass. The channels `store-record` (a synthetic record in the stored data the tool reads: a stored postcode row, a stored explanation, a record with hostile text), `saved-area`, `chat-title`, `place-name`, `school-name`, `council-name` and `earlier-turn` do that. The channel `tool-result` replaces a tool's output and is allowed in model cases only, where the point is to see what the model does with it. A stub is always marked `synthetic: true`. Argument and topic names in `toolInput` and `toolCalls` are provisional and are renamed in one pass when the tools are built (they follow the sample data's names today: topic `sold-price`, category `gp-surgery`).
+A stub replaces what a tool or store **reads**, never what a tool **returns**, in a tool-output case, otherwise the case would mark the stub and always pass. The channels `store-record` (a synthetic record in the stored data the tool reads: a stored postcode row, a stored explanation, a record with hostile text), `saved-area`, `chat-title`, `place-name`, `school-name`, `council-name` and `earlier-turn` do that. The channel `tool-result` replaces a tool's output and is allowed in model cases only, where the point is to see what the model does with it. A stub is always marked `synthetic: true`. A `store-record` stub also gives a `target`, the JSON Pointer of the stored record or field it replaces (a trailing `/-` adds a new item), for example `data/postcode-area.json#/area/5/value/neighbourhoodTeam/name`; the placement check (mark 6) looks for the hostile text at that place. Stores that do not exist yet (stored explanations) have provisional names. Argument and topic names in `toolInput` and `toolCalls` are provisional and are renamed in one pass when the tools are built (they follow the sample data's names today: topic `sold-price`, category `gp-surgery`).
 
 ## Rule, quality and latency
 
@@ -54,10 +54,12 @@ Each case lists standard measure names, so any judge library can score the same 
 
 `expect.mustNotInclude` is a list of objects, each marked by code: `{ "match": "literal" | "pattern" | "forbidden-words", "value": ..., "why": ... }`.
 
-- **literal:** a phrase matched as a whole word, ignoring case, quoted from a record, a stub, a scenario or the user's own words (for example `average`, `12 Mill Court`). The runner fails the case if it appears anywhere in the answer or tool result.
-- **pattern:** a regular expression, for things with no fixed wording (for example a number followed by `minutes walk`).
+- **literal:** a phrase matched as a whole word, ignoring case, quoted from a record, a stub, a scenario or the user's own words (for example `average`, `12 Mill Court`). The runner fails the case if it appears in the answer or tool result. Literal and pattern checks skip a record's limit fields (`doesNotEstablish`, `note` and link `text`), so a record's own limit sentence, such as 'does not mean none happened', never fails a correct result. They still read `label` and `value`, because the tool must not pass a banned house number through them (the forbidden-word check is the one that skips those two as quoted source).
+- **pattern:** a regular expression in Python `re` syntax (inline flags such as `(?i)` are allowed; keep patterns Python-compatible), for things with no fixed wording (for example a number followed by `minutes walk`).
 - **forbidden-words:** the word list below; no `value`.
 - `why` is plain text: the rule the item protects. Anything that cannot be written as one of these three is not a rule mark; it goes in `notes` or becomes a quality case.
+
+**What text is marked.** For a tool-output case the marked text is the result's text fields joined in order (label, value as text, limit fields, link text, notes), not the serialised JSON, so a whole-text pattern such as `(?s)^(?!Explanation not yet available$)` reads the result's one text field. For a model case it is the model's answer.
 
 Rule cases use these plain-code checks:
 
