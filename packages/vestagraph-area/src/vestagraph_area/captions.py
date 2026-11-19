@@ -235,7 +235,8 @@ def _percent_text(percent: Fraction) -> str:
     """The percent to one decimal place, without a sign (the direction says rose or fell).
 
     A change that is not zero but would print as ``0.0`` (under 0.05%) is ``less than 0.1``
-    instead, so a real rise or fall never reads as no change (proposed wording).
+    instead, so a real rise or fall never reads as no change (wording approved by the founder,
+    19 Nov 2026).
     """
     if percent != 0 and _scaled(abs(percent), 1) == 0:
         return LESS_THAN_A_TENTH

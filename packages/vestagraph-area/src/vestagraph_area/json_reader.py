@@ -1,6 +1,7 @@
 """Reads one JSON data file strictly, and checks the fields of its objects.
 
-Shared by the area readers (``records`` and ``council_records``). Decimals are read as exact
+Shared by the area readers (``records``, ``council_records`` and ``energy_certificate``) and
+the generator's energy reader. Decimals are read as exact
 ``Fraction`` values, so no ``float`` is ever made (AGENTS rule 2); ``NaN``, ``Infinity``, numbers
 with an exponent, duplicate keys, bad UTF-8 and JSON nested too deeply are refused. Anything
 refused is an ``InvalidAreaDataError``.

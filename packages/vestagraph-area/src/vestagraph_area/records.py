@@ -2,10 +2,8 @@
 
 The files are checked against their schemas by ``make validate``. Anything this reader does not
 understand, including the cross-references a schema cannot express, is an
-``InvalidAreaDataError`` rather than a guess; a missing file is an ``OSError``. Decimals are read
-as exact ``Fraction`` values, so no ``float`` is ever made (AGENTS rule 2); ``NaN``, ``Infinity``,
-numbers with an exponent, duplicate keys, bad UTF-8 and JSON nested too deeply are refused, as
-the cost generator's reader does.
+``InvalidAreaDataError`` rather than a guess; a missing file is an ``OSError``. The strict JSON
+reading itself (exact ``Fraction`` decimals, no ``float``, AGENTS rule 2) is in ``json_reader``.
 """
 
 from collections.abc import Sequence

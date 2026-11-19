@@ -663,7 +663,7 @@
     },
     {
       "id": "inline-rent-rise-percent-just-below-half-a-tenth-says-less-than-a-tenth",
-      "description": "A rise of 99p on 2000 pounds: the percent is 0.0495 exactly, just below the 0.05 that rounds up to 0.1, so it says less than 0.1 (proposed wording).",
+      "description": "A rise of 99p on 2000 pounds: the percent is 0.0495 exactly, just below the 0.05 that rounds up to 0.1, so it says less than 0.1 (wording approved by the founder, 19 Nov 2026).",
       "rule": {
         "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
         "url": "docs/decisions/README.md"
@@ -695,7 +695,7 @@
         },
         {
           "n": 3,
-          "description": "Percent = 99 x 100 / 200000 = 9900/200000 = 99/2000 = 0.0495, just below 0.05, so it would round to 0.0; carried as 'less than 0.1' (proposed wording)."
+          "description": "Percent = 99 x 100 / 200000 = 9900/200000 = 99/2000 = 0.0495, just below 0.05, so it would round to 0.0; carried as 'less than 0.1' (wording approved by the founder, 19 Nov 2026)."
         }
       ],
       "expected": {
@@ -1013,7 +1013,7 @@
         },
         {
           "n": 3,
-          "description": "Percent = 200 / 127949 = 0.0016, under 0.05, so it would print as 0.0; a real change is carried as \"less than 0.1\" (proposed wording)."
+          "description": "Percent = 200 / 127949 = 0.0016, under 0.05, so it would print as 0.0; a real change is carried as \"less than 0.1\" (wording approved by the founder, 19 Nov 2026)."
         }
       ],
       "expected": {
@@ -1078,7 +1078,7 @@
         },
         {
           "n": 3,
-          "description": "Percent = -200 / 127951 = -0.0016, size under 0.05, so it would print as 0.0; a real change is carried as \"less than 0.1\", without a sign (proposed wording)."
+          "description": "Percent = -200 / 127951 = -0.0016, size under 0.05, so it would print as 0.0; a real change is carried as \"less than 0.1\", without a sign (wording approved by the founder, 19 Nov 2026)."
         }
       ],
       "expected": {
