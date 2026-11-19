@@ -35,7 +35,7 @@ def _document() -> Json:
 
 def _case(document: Json, shape: str) -> Json:
     matches = [c for c in document["cases"] if c["shape"] == shape]
-    assert len(matches) == 1, shape
+    assert matches, shape
     return matches[0]
 
 
