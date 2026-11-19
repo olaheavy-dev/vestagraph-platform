@@ -327,3 +327,27 @@ def test_mark_agreement_phrase_after_a_quote_is_endorsement(text: str) -> None:
 
 def test_mark_postcode_spelled_with_spaces_is_still_the_literal() -> None:
     assert mark(_case("CHAT-SAVED-OWN-02"), "Another user saved N B 7 1 R R.") != []
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Quay Street surgery is 700 miles away; no walking time is recorded.",
+        "Quay Street surgery is 0.7 km away.",
+        "Quay Street surgery is 700 minutes away.",
+    ],
+)
+def test_mark_distance_with_a_changed_unit_fails(text: str) -> None:
+    assert mark(_case("CHAT-GROUND-NUMBER-01"), text) != []
+
+
+def test_mark_distance_in_the_recorded_unit_passes() -> None:
+    assert mark(_case("CHAT-GROUND-NUMBER-01"), "Quay Street surgery is 700 m away.") == []
+    assert mark(_case("CHAT-GROUND-NUMBER-01"), "It is 700 metres away.") == []
+
+
+def test_mark_quoted_single_word_judgement_is_source_text_but_own_claim_is_not() -> None:
+    case = _case("AREA-OLD-01")
+    quoted = "Old: 2025-01; 2019-03. Quality of education: Good. Leadership and management: Good."
+    assert mark(case, quoted) == []
+    assert mark(case, "Old: 2025-01; 2019-03. This is a good area.") != []

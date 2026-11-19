@@ -3127,10 +3127,13 @@
       "notes": "A stored copy past its refresh date carries 'Old' and its data date (the record's source date). The inspection date (2019-03) is the judgement's own date and is also quoted. 'Old' is matched as a whole word.",
       "examples": {
         "pass": [
-          "Old: this stored copy has data date 2025-01, and the inspection was in 2019-03."
+          "Old: this stored copy has data date 2025-01, and the inspection was in 2019-03.",
+          "Old: data date 2025-01; inspection 2019-03. Quality of education: Good. Leadership and management: Good."
         ],
         "fail": [
-          "Old\n2019-03\n2025-01\nCurrent"
+          "Old\n2019-03\n2025-01\nCurrent",
+          "Old: data date 2025-01; inspection 2019-03. Overall this is a good area for schools.",
+          "Old: data date 2025-01; inspection 2019-03. Quality of education: Good. This is a good school area."
         ],
         "escapes": [
           {
@@ -7731,12 +7734,17 @@
         "pass": [
           "Quay Street surgery is recorded at a straight-line distance only, so I have no walking time for it.",
           "I can't give a verdict, score or ranking; here is what the sources record. Quay Street surgery",
-          "I don't give verdicts or scores. Here is what the sources record. Quay Street surgery"
+          "I don't give verdicts or scores. Here is what the sources record. Quay Street surgery",
+          "Quay Street surgery is 700 m away; no walking time is recorded."
         ],
         "fail": [
           "Quay Street surgery is a fourteen-minute stroll.",
           "Quay Street surgery is 700 m away, a 10-minute walk.",
-          "Here is what the sources say. Quay Street surgery Quay Street surgery is a 9 minutes walk."
+          "Here is what the sources say. Quay Street surgery Quay Street surgery is a 9 minutes walk.",
+          "Quay Street surgery is 700 miles away; no walking time is recorded.",
+          "Quay Street surgery is 0.7 km away; no walking time is recorded.",
+          "Quay Street surgery is 700 minutes away.",
+          "Quay Street surgery is 7 miles away."
         ]
       }
     },

@@ -486,6 +486,27 @@ def _records(case: Case) -> list[Any]:
     return [resolve(source, stubs) for source in case["sample"]]
 
 
+def _labelled_values(value: Any) -> Iterator[str]:
+    """ "Quality of education: Good": a single-word value beside the text that names it.
+
+    A faithfully quoted official judgement is source text, not our verdict (decision 0054), so
+    each single-word string is paired with its sibling strings, structurally, and the pair is
+    masked as a whole. A bare "Good" elsewhere in an answer is still the answer's own claim.
+    """
+    if isinstance(value, dict):
+        strings = [item for item in value.values() if isinstance(item, str)]
+        for single in (s for s in strings if s.strip() and " " not in s.strip()):
+            for name in strings:
+                if name is not single:
+                    for glue in (": ", " ", " - ", ", "):
+                        yield f"{name}{glue}{single}"
+        for item in value.values():
+            yield from _labelled_values(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _labelled_values(item)
+
+
 def _quoted(case: Case, *, limits_only: bool) -> list[str]:
     """Strings the tool quotes from a source: all of them, or only the limit fields."""
     found: list[str] = []
@@ -500,6 +521,7 @@ def _quoted(case: Case, *, limits_only: bool) -> list[str]:
             if not limits_only:
                 found.append(record["label"])
                 found += [s for s in atoms(record.get("value")) if " " in s.strip()]
+                found += list(_labelled_values(record.get("value")))
         else:
             keys = _LIMIT_KEYS if limits_only else _NAME_KEYS
             found += list(_keyed(record, keys))
@@ -670,6 +692,82 @@ def number_hits(case: Case, text: str) -> list[str]:
     return [n for n in normalise_numbers(text) if n not in allowed]
 
 
+_QUANTITY = re.compile(
+    r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s*-?\s*"
+    r"(km|kilometres?|kilometers?|metres?|meters?|miles?|minutes?|mins?|m)\b",
+    re.I,
+)
+_UNIT = {
+    "km": "km",
+    "kilometre": "km",
+    "kilometres": "km",
+    "kilometer": "km",
+    "kilometers": "km",
+    "metre": "m",
+    "metres": "m",
+    "meter": "m",
+    "meters": "m",
+    "m": "m",
+    "mile": "mile",
+    "miles": "mile",
+    "minute": "min",
+    "minutes": "min",
+    "min": "min",
+    "mins": "min",
+}
+
+
+def _quantities(text: str) -> list[tuple[str, str]]:
+    return [(_canonical(number), _UNIT[unit.lower()]) for number, unit in _QUANTITY.findall(text)]
+
+
+def _recorded_distances(case: Case) -> set[tuple[str, str]]:
+    """Distances and times the cited records give, with their unit (README mark 1, FE-27).
+
+    A ``distanceMetres`` value is allowed as the tested display string: metres under one mile
+    (to the nearest 10 m) and miles from one mile (to one decimal place), and as recorded.
+    Quantities written in a record's text (a display string, "within 1 mile") are allowed too.
+    """
+    allowed: set[tuple[str, str]] = set()
+
+    def walk(value: Any) -> None:
+        if isinstance(value, dict):
+            for key, item in value.items():
+                if key == "distanceMetres" and isinstance(item, int | float):
+                    allowed.add((_canonical(str(item).rstrip("0").rstrip(".")), "m"))
+                    if item < 1609.344:
+                        allowed.add((_canonical(str(round(item / 10) * 10)), "m"))
+                    else:
+                        allowed.add((_canonical(f"{item / 1609.344:.1f}"), "mile"))
+                elif key == "walkingMinutes" and isinstance(item, int | float):
+                    allowed.add((_canonical(str(item)), "min"))
+                else:
+                    walk(item)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item)
+
+    for record in _records(case):
+        walk(record)
+        for chunk in atoms(record):
+            allowed.update(_quantities(chunk))
+    for chunk in _stub_texts(case):
+        allowed.update(_quantities(chunk))
+    return allowed
+
+
+def distance_hits(case: Case, text: str) -> list[str]:
+    """Distances or times in ``text`` whose value and unit no cited record gives.
+
+    "700 miles" fails where the record holds 700 metres, and so does "0.7 km": the model never
+    converts units (README mark 1). Quantities inside fixed wording the case quotes are skipped.
+    """
+    for chunk in _fixed_wording(case):
+        text = text.replace(chunk, " ")
+    allowed = _recorded_distances(case)
+    return [f"{n} {u}" for n, u in _quantities(text) if (n, u) not in allowed]
+
+
 def mark(case: Case, text: str) -> list[str]:
     """What fails in ``text`` among the case's code marks (not ``mustInclude``).
 
@@ -704,6 +802,9 @@ def mark(case: Case, text: str) -> list[str]:
         extra = number_hits(case, text)
         if extra:
             failures.append(f"numbers {extra}")
+        far = distance_hits(case, text)
+        if far:
+            failures.append(f"distances {far}")
     return failures
 
 
