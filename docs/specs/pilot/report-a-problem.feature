@@ -38,7 +38,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   Scenario: REPORT-02 each fact in a compare detail has "Report a problem" for its own postcode
     Given the visitor has compared "NB1 4XY" and "NB7 1RR" and opened the "Schools" detail
     When the visitor reads each postcode's facts in the detail
-    Then each fact has its own "Report a problem", and a report from one postcode's fact is about that fact only (COMPARE-30)
+    Then each fact has its own "Report a problem", and a report from one postcode's fact is about that fact only (COMPARE-35)
 
   @ui
   Scenario: REPORT-03 City Explorer's council page facts and council compare details have "Report a problem"
