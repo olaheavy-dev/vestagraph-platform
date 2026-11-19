@@ -200,6 +200,26 @@ def test_validate_instance_problem_report_counts_real_source_codes_are_accepted(
         assert not _problems(document), record_id
 
 
+def test_validate_instance_problem_report_counts_childcare_record_kind_is_rejected() -> None:
+    document = _document()
+    record = _record(document, "fact", "flood")
+    record["topic"] = "everyday-places"
+    record["recordKind"] = "childcare"
+    assert _problems(document)
+
+
+def test_validate_instance_problem_report_counts_unknown_record_kind_is_rejected() -> None:
+    document = _document()
+    _record(document, "fact", "flood")["recordKind"] = "home"
+    assert _problems(document)
+
+
+def test_validate_instance_problem_report_counts_record_kind_wrong_for_topic_is_rejected() -> None:
+    document = _document()
+    _record(document, "fact", "flood")["recordKind"] = "school"
+    assert _problems(document)
+
+
 def test_validate_instance_problem_report_counts_known_values_only_are_accepted() -> None:
     for field, value, shape, key in (
         ("figure", "12-high-street-flat-3-jane-doe", "councilFigure", "council"),

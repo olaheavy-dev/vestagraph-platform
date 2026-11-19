@@ -71,7 +71,8 @@
         "count",
         "topic",
         "factRecordId",
-        "localAuthority"
+        "localAuthority",
+        "recordKind"
       ],
       "additionalProperties": false,
       "properties": {
@@ -95,8 +96,100 @@
         },
         "localAuthority": {
           "$ref": "#/$defs/localAuthority"
+        },
+        "recordKind": {
+          "$ref": "#/$defs/recordKind"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "schools"
+              }
+            },
+            "required": [
+              "topic"
+            ]
+          },
+          "then": {
+            "properties": {
+              "recordKind": {
+                "enum": [
+                  "school"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "everyday-places"
+              }
+            },
+            "required": [
+              "topic"
+            ]
+          },
+          "then": {
+            "properties": {
+              "recordKind": {
+                "enum": [
+                  "gp-practice",
+                  "hospital",
+                  "pharmacy",
+                  "public-place"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "getting-around"
+              }
+            },
+            "required": [
+              "topic"
+            ]
+          },
+          "then": {
+            "properties": {
+              "recordKind": {
+                "enum": [
+                  "stop"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "flood"
+              }
+            },
+            "required": [
+              "topic"
+            ]
+          },
+          "then": {
+            "properties": {
+              "recordKind": {
+                "enum": [
+                  "flood-warning-area"
+                ]
+              }
+            }
+          }
+        }
+      ]
     },
     "areaCount": {
       "type": "object",
@@ -257,7 +350,7 @@
       "not": {
         "pattern": "[A-Z]{1,2}[0-9][A-Z0-9]?-?[0-9][A-Z]{2}"
       },
-      "description": "The SOURCE's own public identifier for that place or zone (a school URN such as 100001, a NaPTAN stop code such as 490000077E, a flood warning area code), never Vestagraph's record id (which holds the postcode), never a postcode or address. Upper-case letters, digits and single hyphens, at most 32 characters; an ID holding a postcode-shaped fragment (such as NB1-4XY) is refused. Checked against a school URN and a NaPTAN code; flood warning area codes (some have lower-case letters) are still to be checked at 5b (#346). The server also accepts only an ID it served on that page."
+      "description": "The SOURCE's own public identifier for that place or zone (a school URN such as 100001, a NaPTAN stop code such as 490000077E, a flood warning area code), never Vestagraph's record id (which holds the postcode), never a postcode or address. Upper-case letters, digits and single hyphens, at most 32 characters; an ID holding a postcode-shaped fragment (such as NB1-4XY) is refused. Checked against a school URN and a NaPTAN code; flood warning area codes (some have lower-case letters) are still to be checked at 5b (#346). The server stores only a record ID it served on that page; the schema's pattern and length are a backstop, not the guard."
     },
     "lsoaCode": {
       "$ref": "council-area.schema.json#/$defs/lsoaCode"
@@ -269,7 +362,7 @@
         "schools",
         "flood"
       ],
-      "description": "The only topics that may carry a factRecordId, because their records are public facilities or official zones (a stop, a school, a GP surgery or hospital, a flood warning area). Within them, a record that is worked out from a postcode (bus departures, flood risk by postcode) or that is a home-based service (childcare) is counted by topic and council only. Every other topic is counted by topic and council only. A test checks that each is a key in pilot-topics.json."
+      "description": "The only topics that may carry a factRecordId, because their records are public facilities or official zones (a stop, a school, a GP surgery or hospital, a flood warning area). Within them, a record that is worked out from a postcode (bus departures, flood risk by postcode) or that is a home-based service (childcare) is counted by topic and council only. Every other topic is counted by topic and council only. A test checks that each is a key in pilot-topics.json. The record kind (recordKind) says which kinds of record each may use."
     },
     "localAuthority": {
       "$ref": "#/$defs/councilCode",
@@ -277,6 +370,18 @@
         "pattern": "^[EWSN]0[01]"
       },
       "description": "A council's code. A neighbourhood (LSOA, E01) or output area (E00) code is refused, because it is far smaller than a council."
+    },
+    "recordKind": {
+      "enum": [
+        "school",
+        "gp-practice",
+        "hospital",
+        "pharmacy",
+        "public-place",
+        "stop",
+        "flood-warning-area"
+      ],
+      "description": "The kind of public record a fact count names. Never childcare (home-based). Which kinds each topic may use is set on factCount: schools, school; everyday-places, gp-practice, hospital, pharmacy or public-place; getting-around, stop; flood, flood-warning-area."
     }
   }
 }

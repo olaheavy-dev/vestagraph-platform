@@ -10,7 +10,8 @@
       "count": 2,
       "topic": "flood",
       "factRecordId": "SYNTHETIC-FWA-001",
-      "localAuthority": "E06999001"
+      "localAuthority": "E06999001",
+      "recordKind": "flood-warning-area"
     },
     {
       "date": "2026-11-19",

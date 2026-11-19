@@ -177,7 +177,8 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
     Given the page served the topic, the figure, the council or area code and the record IDs of the facts on it
     When a report arrives whose topic, source, figure, area code or record ID is not one the server served on that page, or whose topic is not a counted topic of the registry
     Then it is refused silently with the same wording as a failure ("Couldn't send. Try again.", REPORT-17), and nothing is stored or logged
-    And a value the client made up (an address, a name, a postcode, a very long ID) never reaches a count, because the count's contract allows known keys only (`problem-report-counts.schema.json`)
+    And a value the client made up (an address, a name, a postcode, a very long ID) never reaches a count, because the server stores only a record ID it served on that page; the schema's pattern and length are a backstop, not the guard (`problem-report-counts.schema.json`)
+    And the server stores a record ID only for the record kinds of REPORT-21, and drops it otherwise, counting the report by topic and council
 
   # ---- The three count shapes (design section 4; data contract of plan Task 1) ----
 
@@ -185,6 +186,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   # fixture needed: #349 (no sample record carries a source's own identifier; the sample's SYNTHETIC-FWA-001 is made up)
   # Only a topic whose records are public facilities or official zones may carry a record ID: getting-around (a stop; not bus departures), everyday-places (a GP surgery, a hospital, a pharmacy or another public place; not childcare, which is home-based), schools and flood (a flood warning area; not flood risk by postcode). Every other topic, and a record worked out from the postcode, is counted by topic and council only (REPORT-22). The ID is the source's own identifier, never Vestagraph's record `id`.
   Scenario: REPORT-21 a fact with a record ID that names a public place or zone is counted by topic, record and reason
+    # The count also names the kind of record (`recordKind`: school, gp-practice, hospital, pharmacy, public-place, stop or flood-warning-area), and the schema ties each topic to its kinds; childcare is never a kind.
     Then the problem report counts hold a fact count for topic "flood" with record "SYNTHETIC-FWA-001" and reason "out-of-date"
 
   # fixture: packages/fixtures/data/problem-report-counts.json (sold prices and planning point to one address or site). Every topic off REPORT-21's list (places of worship, crime, broadband, air quality, radon, council tax, affordability, deprivation, transport connectivity, green space) and a gap with no record have the same shape (design section 4), which the schema allows and the sample does not hold a separate count for; the step cannot tell them apart.
