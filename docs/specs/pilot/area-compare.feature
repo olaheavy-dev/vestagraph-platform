@@ -35,6 +35,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
   # The way in (design: from the result, this postcode first, as council compare CITY2-02). Heading and subtitle are proposed wording.
   @ui
   Scenario: COMPARE-01 "Compare with another postcode" on the area result opens compare with this postcode first
+    # ShareStates is the board that draws the result's header control until the AreaResult boards are redrawn (plan Task 7).
     Given the result for "NB1 4XY" is open
     When the visitor chooses "Compare with another postcode" (proposed wording)
     Then compare opens with "NB1 4XY" as the first postcode and an empty box for the second, which is never filled in for the visitor
