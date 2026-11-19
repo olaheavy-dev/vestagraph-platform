@@ -16,7 +16,7 @@
 - Compare is never sorted, ranked, totalled, coloured better or worse, and never shows a worked-out difference (rule 4).
 - Postcodes and priority limits never in a query string, a log, an error report or analytics; a shared link carries postcodes after the `#` only, never limits (0014, 0053, PRIO-16).
 - Nothing stored on the device until the visitor turns it on: "Remember postcodes on this device" is its own setting; the "Reported" marker lives in page memory only (PECR, 0014).
-- Report a problem: fixed reasons "Wrong", "Out of date", "Missing something"; no free text; daily counts only, three shapes (design §4), kept 90 days, internal only. On the area result, compare, City Explorer's council and neighbourhood pages and council compare; not on the energy page, the chat's area card or the ChatGPT and Claude widget.
+- Report a problem: fixed reasons "Wrong", "Out of date", "Missing something"; no free text; daily counts only, three shapes (design §4), kept 90 days, internal only. On the area result, compare, City Explorer's council and neighbourhood pages and council compare; not on the energy page, the chat's area card or compare table, or the ChatGPT and Claude widget; the signed-in chat's side panel shows the full area result, so its topic details get the link (agent's call, pre-push review, open to the founder).
 - Privacy and Accessibility pages: legal parts read "To be written before launch (SE-02)"; contact reads "Contact details to be added before launch"; Accessibility says the site has not been tested yet and never claims conformance (rule 1).
 - Missing is never zero, blank or clean; one side's gap reads "Not known" or "Unavailable" (rule 7). England only: "not yet covered" for other nations (rule 6).
 - Boards: pilot style (FE-29 to FE-33, FE-42), light first then dark twins (FE-31's slate ink; printouts have no dark twin), phone 390 px and desktop 1440 px, 44 px targets, "Sample data" on each board.
@@ -27,7 +27,7 @@
 ## Review Focus
 1. **A postcode in a shared compare link with spaces, lower case or one invalid side:** opening it runs both searches as typed would, and an invalid side shows the search's own error on that side only; Task 2's COMPARE scenarios pin it.
 2. **The same postcode on both sides:** compare works and says nothing odd (no "identical" verdict); Task 2 adds a scenario.
-3. **Report a problem on a sold-price or planning fact:** the count carries no record ID; Task 1's schema rejection test pins it.
+3. **Report a problem on a sold-price or planning fact (any fact whose record points to one address or property):** the count carries no record ID; Task 1's schema rejection test pins it.
 4. **Browser storage blocked while turning on Recent postcodes:** the setting says it can't be turned on here and the search still works; Task 2's RECENT scenario pins it.
 5. **A privacy or accessibility placeholder drawn so it reads like finished text:** the board shows each placeholder in the placeholder style; Task 6's PUBLIC scenarios assert the exact placeholder lines.
 
@@ -57,7 +57,7 @@
 **Interfaces:**
 - Produces: a document `{ "retentionDays": 90, "counts": [ ... ] }`; each count is one of three shapes, all with `date` (`YYYY-MM-DD`), `source`, `reason` (`"wrong" | "out-of-date" | "missing-something"`), `count` (integer ≥ 1), `additionalProperties: false`:
   - `fact`: `topic`, `factRecordId`, `localAuthority` (a council code);
-  - `area`: `topic`, `localAuthority`, no `factRecordId` (required for topics `sold-prices` and `planning`, and for gaps);
+  - `area`: `topic`, `localAuthority`, no `factRecordId` (required for any fact whose record points to one address or property, today topics `sold-nearby` and `planning-nearby`, and for gaps);
   - `councilFigure`: `figure`, `areaCode`, `areaLevel` (`"council" | "neighbourhood"`).
   Topic keys and council codes come from `pilot-topics.json` and `council-area.json`. The sample has at least one record of each shape for the NB1 4XY area and council E06999001.
 
@@ -67,13 +67,14 @@
   `..._time_field_is_rejected` (add `"time": "09:40"`);
   `..._unknown_reason_is_rejected` (`"reason": "offensive"`);
   `..._free_text_is_rejected` (add `"comment": "x"`);
-  `..._sold_prices_with_record_id_is_rejected` (topic `sold-prices` with `factRecordId`, mentions `factRecordId`);
-  `..._planning_with_record_id_is_rejected`;
+  `..._sold_prices_with_record_id_is_rejected` (topic `sold-nearby` with `factRecordId`, mentions `factRecordId`);
+  `..._planning_with_record_id_is_rejected` (topic `planning-nearby`);
+  `test_validate_instance_problem_report_counts_banned_topics_exist_in_registry` (each topic in the schema's no-record-ID list is a key in `pilot-topics.json`, so a renamed topic cannot silently reopen the ban);
   `..._zero_count_is_rejected` (`"count": 0`);
   `..._date_with_time_is_rejected` (`"date": "2026-11-19T09:40"`);
   `..._retention_not_90_is_rejected` (`"retentionDays": 365`).
 - [ ] **Step 2:** `uv run pytest packages/vestagraph-fixture-validator/tests/test_fixtures_problem_report_counts_schema_rejection.py -v`. Expected: FAIL (schema not found).
-- [ ] **Step 3:** Write the schema (`retentionDays` `const: 90`; the record-ID ban as `if topic in [sold-prices, planning] then not required factRecordId`, with the `area` shape) and the sample file.
+- [ ] **Step 3:** Write the schema (`retentionDays` `const: 90`; the record-ID ban as `if topic in [sold-nearby, planning-nearby] then not required factRecordId`, with the `area` shape) and the sample file.
 - [ ] **Step 4:** Run the tests, then `make validate`. Expected: PASS.
 - [ ] **Step 5:** Commit `test: Report a problem daily count contract (FE-74)`.
 
@@ -90,7 +91,7 @@
 
 - [ ] **Step 1:** `area-compare.feature`: a "Required states" header for every compare state in the design (empty second postcode, invalid, not England, unknown, source down on one side, topic missing on one side, offline, swapped, same postcode twice, priorities set and not set, shared link) and scenarios for: the way in from the result with this postcode first; At a glance quoted for each; every topic in the result's order with both summary lines quoted from `area-result.json` for NB1 4XY and NB7 1RR; tap opens both details with their own stamps; never sorted, ranked, totalled or a difference (one scenario checks no "more", "fewer", "better", "worse" or number difference appears); Swap; "Share this comparison" carries both postcodes after the `#` and never limits; postcodes never in a query string or log; keyboard, 44 px, no sideways scroll, dark twin. UI scenarios `@ui`.
 - [ ] **Step 2:** `area-share.feature`: SHARE (share sheet on phone, "Link copied" on desktop, copy failed with the link shown and selected, only the postcode after the `#`, opening a shared link searches as typed); RECENT (off by default with "Remember postcodes on this device" and "Turn on"; on with up to 5 newest first; checked, compared and shared-link postcodes added; Clear; Turn off deletes list and setting; storage unavailable; never sent to the server; separate from "Remember councils on this device").
-- [ ] **Step 3:** `report-a-problem.feature`: where it appears (topic detail, compare detail, council facts, neighbourhood facts, council compare) and where it does not (summary lines, energy page, chat card, widget); the three reasons and Cancel; sent ("Reported" until the page closes, nothing stored on the device); failed, offline, rate-limited (same wording as failed); gaps reportable; data scenarios quoting the Task 1 sample for each count shape, the sold-price and planning rule, no postcode, no time, 90 days.
+- [ ] **Step 3:** `report-a-problem.feature`: where it appears (topic detail, compare detail, council facts, neighbourhood facts, council compare) and where it does not (summary lines, energy page, chat card and compare table, widget; the chat's side panel does get it); the three reasons and Cancel; sent ("Reported" until the page closes, nothing stored on the device); failed, offline, rate-limited (same wording as failed); gaps reportable; data scenarios quoting the Task 1 sample for each count shape, the sold-price and planning rule, no postcode, no time, 90 days.
 - [ ] **Step 4:** Landing and pointer edits; data steps; open a `noticed` issue for each state with no sample record (for example a source "Unavailable" on one compare side) and cite it in the header.
 - [ ] **Step 5:** `make test`. Expected: PASS (`@ui` deselected; data scenarios pass).
 - [ ] **Step 6:** Commit `docs: compare, share, recent postcodes and report a problem specifications`.

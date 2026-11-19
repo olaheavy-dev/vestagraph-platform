@@ -20,7 +20,7 @@ Most rules are already decided (pilot design goal 7, decisions 0014, 0053, 0056,
 - The final privacy notice text (SE-02; founder chose placeholders, below) and the accessibility test results (no test has run).
 - The AI-03 evaluation set (its own brainstorm next, AI-14) and the council tools' `tenureShares` (a separate code task, audit P2-9).
 - The other #318 items (they become City Explorer build-ticket criteria, FE-72).
-- Comparing more than two postcodes, comparing a postcode with a council, or compare in the MCP tools or the chat (pilot design builder answer 7: the tools stay one postcode at a time).
+- Comparing more than two postcodes, comparing a postcode with a council, or compare in the MCP tools (one postcode at a time, pilot design builder answer 7); the signed-in chat's compare table (0058, WCHAT-52, 54, 86, 87) is already specified and unchanged.
 
 ## Anti-goals (a failure even if it works)
 - Compare works out a difference, ranks, sorts, totals or names a "better" area (rule 4, pilot design builder answer 7).
@@ -73,20 +73,20 @@ Phone, 390 px
 ┌──────────────────────────────┐
 │ Compare two areas            │
 │ NB1 4XY  ⇄  NB7 1RR          │
-│ At a glance  12 found · 3 ?  │
-│              8 found · 7 ?   │
+│ At a glance  n found · n ?   │
+│              n found · n ?   │
 │ Jump to: Schools ▾           │
 ├──────────────────────────────┤
 │ Schools                    › │
-│ A  3 primary within 1 mile   │
-│ B  1 primary within 1 mile   │
+│ A  <summary line>            │
+│ B  <summary line>            │
 ├──────────────────────────────┤
 │ Flood                      › │
-│ A  No warning at 09:40       │
+│ A  <summary line>            │
 │ B  Not known                 │
 └──────────────────────────────┘
 ```
-(Sketch only; the counts and lines on the boards are quoted from the sample data.)
+(Sketch only, with no figures: the counts and lines on the boards are quoted from the generated sample data.)
 
 ### 2. Share a link
 - "Share" in the area result's header (agent's call). On phone it opens the device's share sheet; on desktop it copies the link and says "Link copied". If copying fails: "Couldn't copy. Here's the link to copy yourself", with the link shown and selected.
@@ -103,12 +103,13 @@ Phone, 390 px
 
 ### 4. Report a problem with this fact
 - A small "Report a problem" link on each fact in a topic's detail (sheet or panel), not on the summary line (agent's call), on the area result, compare, and City Explorer's council and neighbourhood pages and council compare (founder's choice 5). Not on the energy certificate page, the chat's area card or the ChatGPT and Claude widget.
+- **The signed-in chat** (agent's call, pre-push review, open to the founder): the signed-in chat's side panel shows the full area result, so its topic details get the link; chat widgets (the area card and the compare table) do not.
 - It can also be used on a gap ("Not known", "Unavailable", "Not yet covered"), where "Missing something" is the natural reason (agent's call, builder check).
 - Tap opens three fixed choices: "Wrong", "Out of date", "Missing something" (founder's choice), plus Cancel. Choosing one sends it, behind the invisible bot check, and says: "Thanks. We count reports for each fact to see what needs checking. We can't reply." (agent's wording, for the founder's copy review).
 - **States:** sent ("Reported" on that fact until the page is closed; kept in the page's memory only, nothing stored on the device: agent's call, correcting the agent's earlier "already reported today on this device", which would need PECR consent); bot check failed or server error ("Couldn't send. Try again."); offline ("You're offline. Try again when you're back online."); rate limit reached (same wording as a failure, so it reveals nothing).
 - **What is stored** (pilot design goal 7, plus the reason): one daily count per date, source, topic, fact record ID, local authority and reason. Never the postcode, a per-report row, a time finer than the day, a client key or IP address. Kept 90 days. Part of FE-05. Three shapes (agent's call, builder check):
   - **A fact with a record ID that names no address** (a school, a GP, a bus stop, a flood warning area): as above.
-  - **A fact that points to one address** (sold prices, as goal 7 set, and planning applications, which also name one site) **or a gap with no record** ("Not known", "Unavailable", "Not yet covered"): per date, source, topic, local authority and reason, with no record ID.
+  - **A fact that points to one address** (any fact whose record points to one address or property; today sold prices, as goal 7 set, and planning applications, which also name one site) **or a gap with no record** ("Not known", "Unavailable", "Not yet covered"): per date, source, topic, local authority and reason, with no record ID.
   - **A City Explorer figure** (council or neighbourhood level): per date, source, the figure's name (for example council tax Band D, private rent, average price for flats), the council or neighbourhood code and reason. These codes are public area codes, never an address.
 - **The counts stay internal** (agent's call, builder check): never shown on the site or published, so no small-number suppression is needed; read only by the founder to decide what to check. If they are ever published, that needs its own decision (SE-05's small-number rules would apply).
 - The data contract (a JSON Schema for the count record, with a sample file) is written in pull request 1, so the build has one shape to follow.
@@ -117,7 +118,7 @@ Phone, 390 px
 Sections (agent's call, open to the founder's copy review): what Vestagraph is (facts about an area in England, each with its source and date); where the facts come from (link to About the data); what it never does (no verdicts, scores or "safe"; missing data never shown as zero); what "Not known" and the source stamp mean; Explain this is pre-written, reviewed text, not AI; Use in ChatGPT or Claude (link); Report a problem. Linked from the footer and the landing's "How it works" line. Plain, short, one illustration at most in the isometric style (FE-10), recorded in `docs/assets/README.md` if added.
 
 ### 6. Privacy page (`/privacy`)
-Every section the notice needs, filled with facts already decided and marked placeholders for the rest (founder's choice). Sections: who we are; what we collect and what we never collect (postcodes in the `#` or request body only, never logged, 0014, 0053); Recent postcodes and "Remember councils on this device" (only in your browser); Report a problem counts; the bot check (device signals, 0014 part 1); outbound links that may carry the postcode on a click (FE-11); using Vestagraph in ChatGPT or Claude (the host's terms, 0056, 0057); the energy certificate number (never stored, DA-09); signed-in accounts and chat (0058); your rights; contact ("Contact details to be added before launch": no contact route is decided, so none is invented; agent's call, builder check). Each legal part (lawful basis, retention wording, controller details, rights wording) reads "To be written before launch (SE-02)". The board shows the placeholders plainly, never as finished text.
+Every section the notice needs, filled with facts already decided and marked placeholders for the rest (founder's choice). Sections: who we are; what we collect and what we never collect (postcodes in the `#` or request body only, never logged, 0014, 0053); Recent postcodes and "Remember councils on this device" (only in your browser); Report a problem counts; the bot check (device signals, 0014 part 1); rate limits (an IP address held briefly in memory, never logged; DA-35, 0056); outbound links that may carry the postcode on a click (FE-11); using Vestagraph in ChatGPT or Claude (the host's terms, 0056, 0057); the energy certificate number (never stored, DA-09); signed-in accounts and chat (0058); your rights; contact ("Contact details to be added before launch": no contact route is decided, so none is invented; agent's call, builder check). Each legal part (lawful basis, retention wording, controller details, rights wording) reads "To be written before launch (SE-02)". The board shows the placeholders plainly, never as finished text.
 
 ### 7. Accessibility page (`/accessibility`)
 States the target, WCAG 2.2 level AA ([W3C](https://www.w3.org/TR/WCAG22/)); says the site has not been tested yet, with a placeholder for the test results and known issues ("To be completed after testing, before launch"); its contact route is the same placeholder as the privacy page's ("Contact details to be added before launch"). Never claims conformance before a test (rule 1).
