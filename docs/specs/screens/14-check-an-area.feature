@@ -256,6 +256,8 @@ Feature: Check an area
     When the user checks a complete postcode
     Then each outbound link that carries the postcode names its site and says that site will see the postcode
     And no outbound link sends a referrer, and nothing is sent until the user clicks it
+    # Examples (FE-11; audit P3, 19 Nov 2026): "Open in Google Maps ↗" and "Satellite view ↗" each carry the postcode and each says "Google will see this postcode"
+    And "Open in Google Maps ↗" and "Satellite view ↗" are two such links, each with "Google will see this postcode" beside it
 
   # Added 14 Nov 2026 (FE-34, one per page).
   # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)" and "I pick B but add the icons"): the section is a short note, not every topic's method and limits.

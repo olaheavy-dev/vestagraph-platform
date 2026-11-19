@@ -8,7 +8,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Fixtures to add (issue #302): a source with a newer edition than a stored widget (WCHAT-40), a tool that fails alone (WCHAT-31), a source that is Unavailable when a stored widget is updated (WCHAT-110) and a list of 20 saved areas (WCHAT-48, WCHAT-49), plus the chat lists WCHAT-46, WCHAT-98 and WCHAT-103 need (chats in several date groups, more than 15 chats, chats to search; #302 extended 19 Nov 2026); the test setup builds them, and the build adds any data they need.
   Where: the workspace page. On desktop (1440 px) a left sidebar (saved areas, past chats, New chat, the account link), the chat in the middle, and the full area result in a side panel on the right, a labelled region. On a phone (390 px) the sidebar is a drawer and "Open full result" opens the panel as a modal sheet. Boards: SignedInChatDesktop, SignedInChatPhone, SignedInChatCompare, SignedInChatComparePhone, SignedInChatFirstVisit, SignedInChatReturning, SignedInChatFirstVisitPhone, SignedInChatAskMore, SignedInChatStates, SignedInChatStates2 and FeedbackKit, each with its Dark twin, on the canvas page "Pilot · Signed-in chat".
   Entry and labels: the AI badge and the header line "Answers are written by AI from the sources below" (FE-13), with the disclaimer, which now says chats are saved for 12 months and can be deleted, and a link to the privacy notice. The display control (light, dark) sits in the chat header (FE-59). Sources show as the source's icon, name and link (FE-33); the limits sit in the page's one "How we got this" (FE-34). Every widget says "Sample data: a made-up town".
-  The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). Also AI-03 evaluation cases (they need the real model, so the evaluation set runs them as well as, or instead of, the fake-provider scenarios; backlog row 38f): WCHAT-19 to WCHAT-22, WCHAT-31, WCHAT-33, WCHAT-34, WCHAT-39, WCHAT-84 (their text depends on the model's words), and the guard scenarios WCHAT-67 to WCHAT-70 and WCHAT-78 to WCHAT-80 (the model must not produce what the guard stops).
+  The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). Also AI-03 evaluation cases (they need the real model, so the evaluation set runs them as well as, or instead of, the fake-provider scenarios; backlog row 38f): WCHAT-19 to WCHAT-22, WCHAT-31 to WCHAT-39, WCHAT-52, WCHAT-84, WCHAT-86, WCHAT-87 (their text depends on the model's words; WCHAT-32, WCHAT-35 to WCHAT-38 check that the model reports a failed source or a postcode we do not cover as the fixed wording says and asks no question about it; WCHAT-52, WCHAT-86 and WCHAT-87 check that a comparison quotes each side's tool result and adds no verdict), WCHAT-102 (the output guard against a figure that differs from the tool result), , and the guard scenarios WCHAT-67 to WCHAT-70 and WCHAT-78 to WCHAT-80 (the model must not produce what the guard stops).
   Fixed replies (register line AI-11): the "is it safe", score, advice and best-area questions are answered by text we wrote and reviewed, not the model (WCHAT-19).
   The ui tag also covers server checks (logs, server storage, refusals, counts, tokens): they run in the same playwright-bdd suite against the running stack (SP-03). Every scenario here is @ui.
   Limits: the message limit, the turn limit, the token limit per answer, the rate limits and the monthly cap (IN-05) are numbers chosen in the build; these scenarios name them, never their values. The numbers fixed by the founder are named by register line: 15 messages per account per day (0058), the warning at message 14 (FE-55), at most 20 saved areas (FE-53), 2 seconds and 6 seconds at the 95th percentile (OP-05), titles from the first words (FE-54), 12 months and 30 days (0058).
@@ -26,7 +26,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     the fixed reply to "is this area safe?" -> WCHAT-19
     text as data (prompt injection) -> WCHAT-20, WCHAT-21
     the model's rules: no scores, sums, advice or other places -> WCHAT-22
-    the daily cap: warning at 14, message 15, two tabs, midnight reset (summer time and the clock-change day), monthly state, unavailable -> WCHAT-23 to WCHAT-28, WCHAT-95
+    the daily cap: warning at 14, message 15, two tabs, midnight reset (summer time and both clock-change days), monthly state, unavailable -> WCHAT-23 to WCHAT-28, WCHAT-95, WCHAT-111
     rate limits and refusals with no model call -> WCHAT-29
     postcode outside England, Isle of Man, Channel Islands, ended postcode, two matching councils -> WCHAT-35 to WCHAT-39
     saved areas: save, 20, the 21st, duplicate, the tool's typed data (the signed-in user's own only), compare my two saved areas, deleted saved area -> WCHAT-47 to WCHAT-53, WCHAT-93
@@ -137,7 +137,7 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
   Scenario: WCHAT-14 the speed targets are met at the 95th percentile
     Given the chat is measured over a set of sample questions against the fake AI provider
     When the times are recorded
-    Then at the 95th percentile the first text or placeholder appears within 2 seconds and a complete widget within 6 seconds (OP-05); this measures our stack with the fake provider, and the real model's timing is reviewed after the AI-09 trial
+    Then at the 95th percentile the first text or placeholder appears within 2 seconds and a complete widget within 6 seconds (OP-05); this measures our stack with the fake provider; the real model's timing cannot be measured here, so it belongs to the AI-03 evaluation set or a later performance run, reviewed after the AI-09 trial (audit P3, 19 Nov 2026)
 
   @ui
   Scenario: WCHAT-15 Stop ends an answer and keeps the part already shown
@@ -229,6 +229,14 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Given a signed-in user used 15 messages on Saturday 24 October 2026 (the test sets the server's clock)
     When the user sends a message at 00:30 BST on Sunday 25 October 2026, which is 23:30 UTC on 24 October
     Then it is accepted and counted toward 25 October (Europe/London), not toward 24 October (UTC)
+
+  # Added 19 Nov 2026 (pilot gate audit P3): the clocks go forward at 01:00 UTC on Sunday 28 March 2027 (the last Sunday in March; https://www.gov.uk/when-do-the-clocks-change), so that day has 23 hours. Its London midnight is at 23:00 UTC, not 00:00 UTC.
+  @ui
+  Scenario: WCHAT-111 on the day the clocks go forward, the 23-hour day ends at London midnight and the count starts again
+    Given a signed-in user used 15 messages on Sunday 28 March 2027 (the test sets the server's clock)
+    When the user sends a message at 00:30 BST on Monday 29 March 2027, which is 23:30 UTC on 28 March
+    Then it is accepted and counted toward 29 March (Europe/London), not toward 28 March (UTC)
+    And the day that just ended was not stretched to 24 hours to wait for 00:00 UTC
 
   @ui
   Scenario: WCHAT-27 when the monthly cap is reached the chat shows its own paused state

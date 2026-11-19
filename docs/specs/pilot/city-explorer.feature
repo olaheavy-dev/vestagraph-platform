@@ -629,7 +629,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And the line is drawn as two parts with no line across the break
     And the text alternative says the parts "are measured differently and are not comparable", with each part's end points quoted from the data and no first-to-last pairing
 
-  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. No sample council produces a not-comparable caption, so this waits for a fixture (#340; the property-type method break is #288) (proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
+  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. CouncilStates frame 15 (Broken series) does draw the chart's own note "not comparable" (CITY-76, CITY-77), but no board draws this caption's "not comparable" or "not published" text and no sample council produces it, so this waits for a fixture (#340; the property-type method break is #288) (proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
   @ui
   Scenario: CITY-78 a change across a method break or with a missing earlier point shows no change figure
     Given a council whose latest two end points lie either side of a method break, or whose month 12 months earlier is not published

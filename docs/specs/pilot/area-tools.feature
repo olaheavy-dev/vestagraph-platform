@@ -5,7 +5,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   Fixtures: home WALES-1 (outside England); the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
     (NB1 4XY normal, NB7 1RR sparse, NB9 9ZZ unknown); figures: none (no tool calculates anything except the
     straight-line distance, which comes from the area tools' tested geometry module; design, Accuracy).
-    Council tools (TOOLS-44 to TOOLS-63 added 17 Nov 2026; TOOLS-64 to TOOLS-66, 19 Nov 2026 (audit P2-9)): councils by code in `packages/fixtures/data/council-area.json`
+    Council tools (TOOLS-44 to TOOLS-63 added 17 Nov 2026; TOOLS-64 to TOOLS-66, 19 Nov 2026 (audit P2-9); TOOLS-67 to TOOLS-72, 19 Nov 2026 (audit P2-10 and P3)): councils by code in `packages/fixtures/data/council-area.json`
     (inputs, each with its source) and `packages/fixtures/generated/council-result.json` (`search`); E06999001 Northbridge,
     E06999002 Southvale, E07999001 Eastmere (no published rent) and E07999002 Westmere (nothing recorded). Figures: none
     typed (rule 2); the council tools return the published figures held in `council-area.json`, quoted from the file.
@@ -33,8 +33,8 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     neighbourhood page's facts are not a tool in this file: the design lists council figures only.
   AI evaluation cases (register AI-03; backlog row 38f). The scenarios here test what our server returns and declares, not the
     host's model (above). For the council tools, the evaluation set also runs these with a real model, each checking that
-    the model's answer quotes only what the tool returned and adds no figure: TOOLS-47 (a name that matches two councils:
-    both are offered, none is chosen), TOOLS-55 (a figure with no record is said to have none, never given as zero or
+    the model's answer quotes only what the tool returned and adds no figure: TOOLS-47, TOOLS-68 and TOOLS-71 (a name that matches two councils, a shared name or a county, or nothing:
+    every match is offered and none is chosen, and no match returns no council and no guess), TOOLS-55 (a figure with no record is said to have none, never given as zero or
     guessed), TOOLS-66 (asked what share of homes are rented, the model quotes `tenureShares` and divides nothing), TOOLS-57 (no trend is described across a method break), TOOLS-58 (asked for a cost of buying or renting, the
     model says the tools do not provide one and works none out) and TOOLS-59 (asked which of two councils is cheaper or
     better, the model gives each council's own figures and picks none). TOOLS-21 and the guard words of the output rules
@@ -89,6 +89,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     council tools: published figures with source, edition and level; a field with no record; a method break -> TOOLS-52 to TOOLS-57
     council tools: no cost figure, no ranking, the same functions as the chat, no name in logs, the monthly cap, stored copies only -> TOOLS-58 to TOOLS-63
     council tools: tenure shares quoted from the generated file, never divided from counts (audit P2-9) -> TOOLS-64 to TOOLS-66
+    council tools: a shared name and a county, a former name, no match (audit P2-10) -> TOOLS-67 to TOOLS-71; no energy certificate tool, a certificate number refused (DA-32) -> TOOLS-72
 
   # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
   Scenario: TOOLS-01 a postcode outside England is not yet covered
@@ -460,6 +461,47 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     Given an assistant is connected to the area tools
     When it calls the council facts tool for council "E06999001" and again for council "E06999002"
     Then each result holds only its own council's figures, and neither result nor any description ranks, scores, totals or compares the two (decision 0054)
+
+  # Added 19 Nov 2026 (pilot gate audit P2-10): the find-council tool's four outcomes the council page already has (CITY-11 to CITY-21). Each is a data scenario, then an @mcp scenario; AI-03 runs the same four cases with a real model.
+  Scenario: TOOLS-67 a shared place name has two councils and a county has its districts
+    Then council search "Newbury (synthetic)" has kind "choose"
+    And council search "Newbury (synthetic)" lists council "E07999001"
+    And council search "Newbury (synthetic)" lists council "E06999002"
+    And council search "Westshire (synthetic)" has kind "choose"
+    And council search "Westshire (synthetic)" lists council "E07999001"
+    And council search "Westshire (synthetic)" lists council "E07999002"
+
+  @mcp
+  Scenario: TOOLS-68 a shared name or a county returns every match and picks none
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with "Newbury (synthetic)" and again with "Westshire (synthetic)"
+    Then the first result lists councils "E07999001" and "E06999002", each with its county as `search` in `council-result.json` labels it (TOOLS-67, CITY-11)
+    And the second lists the district councils "E07999001" and "E07999002" and says the figures are for one council, not the county (CITY-15, CITY-16)
+    And neither result chooses a council, and neither holds a figure
+
+  Scenario: TOOLS-69 a former council name leads to the current council with a note
+    Then council search "East Westshire Borough (synthetic)" lists council "E07999001" with note "former-name"
+
+  @mcp
+  Scenario: TOOLS-70 the find-council tool follows a former name to the current council and says so
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with "East Westshire Borough (synthetic)"
+    Then the result names council "E07999001" with the note that the name is a former one (TOOLS-69, CITY-17), and holds no figure
+
+  # No sample council or place is called "Midvale" (as CITY-21): the typed text is the assistant's own input, so no data scenario can check it.
+  @mcp
+  Scenario: TOOLS-71 a name that matches nothing returns no council and no guess
+    Given an assistant is connected to the area tools
+    When it calls the find-council tool with "Midvale"
+    Then the result says no council area, town or village in England matches, returns no council and no figure, and does not guess the nearest name (CITY-21)
+
+  # Added 19 Nov 2026 (pilot gate audit P3 list; DA-32, decision 0051 point 1).
+  @mcp
+  Scenario: TOOLS-72 the public server has no energy certificate tool and does not take a certificate number
+    Given an assistant is connected to the area tools
+    When it lists the server's tools
+    Then none is for an energy certificate (DA-32: the server holds public area data only, 0051)
+    And when it calls any tool with a certificate number as the input, the tool says it cannot take that and holds no certificate, rating or address (a certificate number is treated like a postcode, decision 0014)
 
   # Decision 0058, choice 8: the chat calls the tool functions directly; the public server's per-host caps do not limit signed-in users.
   @mcp

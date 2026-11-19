@@ -8,7 +8,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
   Where: compare opens from the council page's "Compare" (CITY-06); share and print from "Share" and from the compare page; what changed sits at the top of a council page under the council's name; About the data is linked from "How we got this" on the council and neighbourhood pages. Boards, on the canvas page "Pilot · City Explorer" (design canvas version 407): CouncilCompare (phone) and CouncilCompareDesktop; CouncilPrint (the A4 printout, light only, FE-50, no Dark twin); CouncilWhatChanged (phone, three states) and CouncilWhatChangedDesktop; CouncilAboutData. Every board other than CouncilPrint has its Dark twin.
   Rule 7: a missing figure is never shown as zero, a flat value, a favourable value or a clean result. A difference needs both sides.
   Rule 4 and 0054: compare shows two councils side by side in the order the visitor picked them. It never sorts, ranks or totals them, has no "cheaper" or winner label and no calculated difference between the two councils.
-  Wording status: the board texts quoted below are the canvas's. Not drawn on any board, so proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (issue #318 stays open until the boards are drawn), finalised before build: the council "Share a link" control and its confirmation (CITY2-30 to CITY2-32; the boards show only the buttons "Share" and "Share this comparison"), a compare page before a second council is picked (CITY2-05), a council with a gap picked in compare (CITY2-22, CITY2-24), the offline message in compare (CITY2-27) and the note for a replaced council's records (CITY2-57). The "was" figure, the newer edition's name and date and the "revised" label in what changed are placeholders on the boards, because no sample record has an earlier edition or a revision (CITY2-48, CITY2-49). The dates on the About the data board are quoted from the sources research (`docs/reviews/2026-11-16-city-explorer-sources.md`); the page quotes them from the sources' own records once the generator carries them. The Share control's address for a shared comparison (where the two councils go) is not decided in the design spec; CITY2-32 fixes only what the address never holds.
+  Wording status: the board texts quoted below are the canvas's. Not drawn on any board, so proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (issue #318 stays open until the boards are drawn), finalised before build: the council "Share a link" control and its confirmation (CITY2-30 to CITY2-32; the boards show only the buttons "Share" and "Share this comparison"), a compare page before a second council is picked (CITY2-05), a council with a gap picked in compare (CITY2-22, CITY2-24), the offline message in compare (CITY2-27) and the note for a replaced council's records (CITY2-57). The "was" figure, the newer edition's name and date and the "revised" label in what changed are placeholders on the boards, because no sample record has an earlier edition or a revision (CITY2-48, CITY2-49). The dates on the About the data board are quoted from the sources research (`docs/reviews/2026-11-16-city-explorer-sources.md`); the page quotes them from the sources' own records once the generator carries them. The Share control's address for a shared comparison is `/council/compare/<first>/<second>`, the two public council codes in the order picked (founder, 19 Nov 2026, FE-76; audit P2-11); CITY2-32 also fixes what the address never holds. The compare lists offer every council in England (founder, 19 Nov 2026, FE-77; audit P2-14), so a council with nothing recorded can be picked and shows its gaps (CITY2-03, CITY2-24).
   Data scenarios (no tag) check the facts in `council-area.json` and `council-result.json` with the council steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page or in the browser.
 
   Board-to-scenario map (each board has a Dark twin that shows the same states, except the printout; CITY2-29, CITY2-43):
@@ -68,7 +68,8 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
   Scenario: CITY2-03 each council is picked from a list of the sample councils, in the data's order
     Given the user has opened compare from the council page for council "E06999001"
     When the user opens the lists "First council" and "Second council"
-    Then each lists "Northbridge (sample)", "Southvale (sample)" and "Eastmere (sample)", in the data's order, not a ranking (the canvas boards CouncilCompare and CouncilCompareDesktop list these three; Westmere, with nothing recorded, is not drawn in a list)
+    Then each lists every council in England (FE-77); in the sample data that is "Northbridge (sample)", "Southvale (sample)", "Eastmere (sample)" and "Westmere (sample)", in the data's order, not a ranking (the canvas boards CouncilCompare and CouncilCompareDesktop draw the first three; Westmere, with nothing recorded, is offered in the same way and its gaps are CITY2-24)
+    And a council with nothing recorded is offered like any other and is never left out of a list for having no figures
     And no list is sorted or filtered by a figure
 
   @ui
@@ -207,7 +208,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
 
   @ui
   Scenario: CITY2-24 a council with no council tax has no side, no comparison and no zero in compare
-    Given the user has picked "Northbridge (sample)" and a council whose council tax is not recorded, as Westmere "E07999002" is (the board's lists do not offer Westmere; this holds if the lists come to offer it)
+    Given the user has picked "Northbridge (sample)" and a council whose council tax is not recorded, as Westmere "E07999002" is (the lists offer it, FE-77; the boards do not draw it)
     When the user reads the council tax and rent or buy rows
     Then that council's cells say what the council page says for a missing source (CITY-52, CITY-53; wording to be confirmed on a compare board)
     And no rent side, buy side, comparison or council tax figure is shown for that council, and nothing is shown as £0
@@ -269,7 +270,9 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     Given the user has picked "Northbridge (sample)" and "Southvale (sample)" and a band
     When the user chooses "Share this comparison"
     Then the link opens compare with those two councils, in that order, and nothing is stored to make it
-    And it holds no budget and no edited input, and no query string (the place of the two councils in the address is decided at build)
+    And the address is `/council/compare/<first>/<second>`, the two public council codes in the order picked (for example `/council/compare/E06999001/E06999002`; founder, 19 Nov 2026, FE-76), so it never reaches a log with anything the visitor typed
+    And it holds no band, no budget and no edited input, and no query string and no "#" part (the councils are public codes, not the visitor's own data, decision 0046)
+    And the council codes are never a council's name in the address, and a council page's own address stays `/council/<council-name>` (CITY-02)
 
   @ui
   Scenario: CITY2-33 Print on the compare page opens the printout of a council

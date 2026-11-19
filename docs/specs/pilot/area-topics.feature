@@ -37,6 +37,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
       the energy certificate of a home row, which opens its own page and shows no result -> TOPIC-41
       the map layers each topic draws -> TOPIC-40
     Report a problem on each fact in a topic's detail, and never on a summary line -> TOPIC-42 (the behaviour is `report-a-problem.feature`, REPORT-01 to REPORT-30)
+    the pilot extras (buses per route, school demand, green space, flood by postcode, council tax by band, air quality and connectivity; audit P2-1, 19 Nov 2026) -> TOPIC-43 to TOPIC-54
 
   @ui
   Scenario: TOPIC-01 every topic opens in the same order
@@ -211,7 +212,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
 
   # ---- Design pass, 16 Nov 2026: new topics and rows (canvas version 405) ----
 
-  # Radon (DA-23, DA-31, FE-69). Wording approved by the founder with the remedy examples dropped; the record's label ("Radon potential, the 1 km square around this postcode (synthetic)") stays proposed until the next wording review (DA-31 note).
+  # Radon (DA-23, DA-31, FE-69). Wording approved by the founder with the remedy examples dropped; DA-31 says the record's label ("Radon potential, the 1 km square around this postcode (synthetic)") stays proposed until the next wording review, but FE-69's 18 Nov 2026 approval says nothing on its list is still proposed and does not name the label; which is right is open to the founder (audit P3).
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY NB1-4XY-AREA-RADON-1, grid-square level of 1000 m)
   Scenario: TOPIC-26 the normal sample postcode has a recorded radon band for its 1 km square
     Then postcode record "NB1-4XY-AREA-RADON-1" has status "recorded"
@@ -348,3 +349,110 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     When the visitor opens a topic's detail
     Then each fact in the detail has "Report a problem" (REPORT-01), after the fact and before its source stamp, and the row's summary line has none (REPORT-06)
     And a gap ("Not known", "Not yet covered") has the link too (REPORT-11), and the energy certificate row of TOPIC-41 has none, because it opens its own page
+
+  # ---- The pilot extras (PD-16, DA-16, DA-18, 0054), added 19 Nov 2026 (pilot gate audit P2-1) ----
+  # One data scenario and one @ui scenario per extra. Every figure is read from `area-result.json` or the records in `postcode-area.json` by ID; none is typed (rule 2). All the sample records already exist, so no `# fixture needed` note is required.
+
+  # Buses (DA-18, FE-24): routes per stop, counted for two named hours; never a stop total.
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY bus departures 1 to 4) and `area-result.json` `busesPerHour`
+  Scenario: TOPIC-43 the sample postcode has bus counts per route at 8am and at midday
+    Then area result "NB1 4XY" counts buses for stop "NB1-4XY-AREA-TRANSPORT-STOP-1" on route "12" at hour 8
+    And area result "NB1 4XY" counts buses for stop "NB1-4XY-AREA-TRANSPORT-STOP-1" on route "12" at hour 12
+    And area result "NB1 4XY" counts buses for stop "NB1-4XY-AREA-TRANSPORT-STOP-3" on route "31" at hour 8
+    And area result "NB1 4XY" counts buses for stop "NB1-4XY-AREA-TRANSPORT-STOP-3" on route "31" at hour 12
+    And postcode record "NB7-1RR-AREA-BUS-DEPARTURES-1" has status "no-record-in-source"
+
+  @ui
+  Scenario: TOPIC-44 each bus stop lists its routes with the count at 8am and at midday, and no stop total
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Getting around"
+    Then each bus stop lists its routes, each with its number, where it goes (the record's destination) and how often on weekdays: "<n> an hour at 8am, <n> at midday", both counts quoted from `area-result.json` `busesPerHour` (DA-18)
+    And no stop total, no average and no "buses an hour" figure for the stop is shown
+    And the line says the count is of the timetable and does not say a bus runs on time (the record's limit)
+    And a stop with no recorded departures reads "No departure times recorded for <the stop's name>", never zero buses (rule 7, record "NB7-1RR-AREA-BUS-DEPARTURES-1")
+
+  # School demand (DA-16 family, PD-16): a past-year fact, never a chance of a place.
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY demand 1 and 2 recorded; NB7 1RR not covered)
+  Scenario: TOPIC-45 school admissions are recorded for the normal postcode and not covered for the sparse one
+    Then postcode record "NB1-4XY-AREA-SCHOOL-DEMAND-1" has status "recorded"
+    And postcode record "NB7-1RR-AREA-SCHOOL-DEMAND-1" has status "not-covered"
+
+  @ui
+  Scenario: TOPIC-46 school demand is shown as the past year's facts and never as a chance of a place
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Schools"
+    Then each school's admissions line names the admission year and quotes the applications, the places offered and the published place number from its record ("NB1-4XY-AREA-SCHOOL-DEMAND-1" and "-2"), as facts about a past year
+    And it says these figures describe a past year and do not establish a place or the chance of one
+    And no "chance", "likelihood", "likely", "good chance" or "competitive" label, no percentage and no ratio of applications to places is shown (rule 2, rule 4)
+    And a school whose admissions are not covered reads "Admissions figures not covered" with the school's name, never zero applications (record "NB7-1RR-AREA-SCHOOL-DEMAND-1")
+
+  # Green space (DA-16 point 2): the voluntary Accessible Greenspace Standard, measured from the postcode.
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY recorded; NB7 1RR not covered)
+  Scenario: TOPIC-47 the green space figure is recorded for the normal postcode and not covered for the sparse one
+    Then postcode record "NB1-4XY-AREA-GREEN-SPACE-1" has status "recorded"
+    And area result "NB1 4XY" has topic "green-space" with outcome "found"
+    And postcode record "NB7-1RR-AREA-GREEN-SPACE-1" has status "not-covered"
+    And area result "NB7 1RR" has topic "green-space" with outcome "not-covered"
+
+  @ui
+  Scenario: TOPIC-48 green space is the published voluntary standard, measured from the postcode
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Green space"
+    Then the fact quotes the published figure and edition from record "NB1-4XY-AREA-GREEN-SPACE-1" as published, with the area it covers named
+    And it says the Accessible Greenspace Standard is a voluntary standard, not a judgement
+    And it says the figure is measured from the postcode, not from the home
+    And no "good", "poor", "pass" or "fail" label and no score of ours is shown (decision 0054)
+    And an area the source does not cover reads "Not covered by this source", never zero green space (record "NB7-1RR-AREA-GREEN-SPACE-1", rule 7)
+
+  # Flood risk by postcode (DA-16 point 1, FE-25): counts as published, no single verdict.
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY recorded; NB7 1RR source-failed)
+  Scenario: TOPIC-49 the flood by postcode counts are recorded for the normal postcode and failed for the sparse one
+    Then postcode record "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1" has status "recorded"
+    And postcode record "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1" has status "source-failed"
+    And area result "NB7 1RR" has topic "flood" with outcome "not-known"
+
+  @ui
+  Scenario: TOPIC-50 flood by postcode is shown as published, with each flood type kept separate and no single verdict
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Flood"
+    Then the counts of properties by likelihood category and property type are quoted from record "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1" as published, with the flood type named
+    And no single band, "low risk", "high risk" or "safe" verdict for the postcode or the home is shown, and the types are not added together (DA-16)
+    And it says the counts are not a property-level result (the record's limit)
+    And a failed lookup reads "Not known right now" and says this is not the same as no risk (record "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1", TOPIC-25)
+
+  # Council tax by band (DA-16 family; the band itself comes from the user, `docs/references/data-sources.md`).
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY and NB7 1RR both recorded, each for its own council)
+  Scenario: TOPIC-51 council tax charges by band are recorded for both sample postcodes
+    Then postcode record "NB1-4XY-AREA-COUNCIL-TAX-1" has status "recorded"
+    And postcode record "NB7-1RR-AREA-COUNCIL-TAX-1" has status "recorded"
+    And area result "NB1 4XY" has topic "council-tax-by-band" with outcome "found"
+
+  @ui
+  Scenario: TOPIC-52 council tax by band is the council's charge for each band and may include parish charges
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Council tax by band"
+    Then the eight charges (bands A to H) are quoted from record "NB1-4XY-AREA-COUNCIL-TAX-1" with the tax year and the council's name
+    And the area it covers reads "Council area: " followed by the council's name (DA-14)
+    And it says the charges "may include parish charges", so a home's bill can be higher or lower
+    And it says the charges do not establish which band a home is in or the bill for it (the record's limit), and the band of a home is the "Check this" row of TOPIC-37
+    And no band is picked for the postcode and no bill is worked out here
+
+  # Air quality and connectivity (0054, DA-15, DA-17): two separate official facts, never combined.
+  # fixture: packages/fixtures/data/postcode-area.json (air quality 1 and 2, connectivity 1)
+  Scenario: TOPIC-53 air quality and connectivity are separate records and the sparse postcode keeps its gaps
+    Then postcode record "NB1-4XY-AREA-AIR-QUALITY-1" has status "recorded"
+    And postcode record "NB1-4XY-AREA-AIR-QUALITY-2" has status "recorded"
+    And postcode record "NB1-4XY-AREA-TRANSPORT-CONNECTIVITY-1" has status "recorded"
+    And postcode record "NB7-1RR-AREA-AIR-QUALITY-1" has status "no-record-in-source"
+    And postcode record "NB7-1RR-AREA-TRANSPORT-CONNECTIVITY-1" has status "source-failed"
+    And area result "NB1 4XY" has topic "air-quality" with outcome "found"
+    And area result "NB1 4XY" has topic "transport-connectivity" with outcome "found"
+
+  @ui
+  Scenario: TOPIC-54 air quality and connectivity are never combined into one score or ranking
+    Given the result for "NB1 4XY" is open
+    When the visitor opens "Air quality" and then "Transport connectivity"
+    Then Air quality quotes the pollutant, year, concentration and unit of records "NB1-4XY-AREA-AIR-QUALITY-1" and "-2" for the neighbourhood, and says a yearly average does not establish the air at this street
+    And Transport connectivity quotes the decile and edition of record "NB1-4XY-AREA-TRANSPORT-CONNECTIVITY-1" for the neighbourhood as the official position, and says it does not establish journey times or frequency
+    And the two are never added, averaged or merged into one score, grade or ranking of ours (decision 0054)
+    And a missing air quality figure reads "No air quality figure for this area in this source" and a failed connectivity lookup reads "Not known right now", never "clean", "good" or zero (rule 7)
