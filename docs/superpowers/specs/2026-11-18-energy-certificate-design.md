@@ -88,7 +88,7 @@ Plus the printout (like the area printout, ending with its sources page) and dar
 - **Code tables (from the builder check):** they are real official data, so they live in their own versioned reference folder with source URL and effective date (rule 3), not in `packages/fixtures/data/` (synthetic only). Before the gate they hold only the codes the samples use, marked partial; the full tables for every schema in scope are a 5b build task. They are words for codes, not tax, legal, tenancy or privacy rules, so they are not on the founder-merge list. *Agent's call.*
 - **The public MCP server** gets no certificate tool: 0051 limits it to area data. *Agent's call.*
 - **Adapter and page rules from the security review (19 Nov 2026), built at stage 5b:** the specification is ENERGY-53 to ENERGY-60 (real adapter against a fake register server; allow-list; no-store and no Cached label; autofill off and masked field; page title without the number; no-JavaScript form with `method="post"`; a per-visitor limit kept in memory by IP, number set at 5b; the privacy notice naming the register). *Agent's call.*
-- **Wording:** all page wording is proposed and goes to the founder's copy review before the gate.
+- **Wording:** all page wording was approved by the founder on 19 Nov 2026 (copy review, "Approve as written (Recommended)"; "Current" over "Now").
 - **Reused patterns:** source stamp (FE-33), How we got this (FE-34), About the data (one entry for the register), display settings, the feedback kit (FE-64), distances not used.
 
 ## Records this changes

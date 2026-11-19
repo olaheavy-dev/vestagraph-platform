@@ -6,7 +6,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
   Fixtures: the synthetic sample certificates in `packages/fixtures/data/energy-certificates.json` and the generated `packages/fixtures/generated/energy-certificate-result.json`, cited by sample number (all start 0000-0000-0000-0000-, an obviously synthetic number): 0001 a current flat (rating band E), 0002 more than 10 years old, 0003 replaced by a newer certificate, 0004 cancelled, 0005 a non-domestic certificate, 0006 a certificate for Wales, 0007 an older schema with facts missing, 0008 registered on 29 February 2016, so valid until 28 February 2026. The topic registry `packages/fixtures/data/pilot-topics.json` holds the "Check this" row that opens the page (TOPIC-41).
   Figures: none typed here (AGENTS.md rule 2). Ratings, scores, the certificate's own running-cost estimates, indicative improvement costs and typical savings are inputs recorded with their source in the sample file and quoted by the page. "Valid until" and "more than 10 years old" are calculated outputs of `energy-certificate-result.json`, written only for a current certificate (status "entered"): 10 years from the registration date (Energy Performance of Buildings (England and Wales) Regulations 2012, regulation 9(2)(a), "entered on the register no more than 10 years before the date on which it is made available"), worked out for the fixtures' snapshot date (the file's `today`). Regulation 9(2)(b) says a certificate is only valid if "no other energy performance certificate for the building has since been entered on the register", so a replaced (superseded) certificate is not valid, and for a cancelled one the regulation says nothing: neither shows a "valid until" date or an age (controller ruling, 19 Nov 2026). Their registration date is an input and still shows. A scenario never types a date, a rating or an amount.
   Rule 4: our own voice never calls a home, rating or improvement "good", "bad", "safe", "verified", "approved" or "recommended", and never turns the register's rating into a score of our own. Rule 6: a certificate for Wales shows "Wales is not yet covered." Rule 7: a fact an older certificate does not hold reads "Not on this certificate", never blank, zero or a favourable value.
-  Wording status: the page is drawn on the canvas (page "Pilot · public area check", section "Pilot 7 · Energy certificate", canvas version 413, 19 Nov 2026), and ALL of its wording is still proposed, for the founder's copy review before the pilot gate (the list is in the task report and the pull request description). Nothing here is approved wording. Finalised before build.
+  Wording status: the page is drawn on the canvas (page "Pilot · public area check", section "Pilot 7 · Energy certificate", canvas version 413, 19 Nov 2026; "Current" over "Now" drawn at version 414), and ALL of its wording was approved by the founder on 19 Nov 2026 (copy review, prompt window: every group "Approve as written (Recommended)"; the first column of the rating and running costs is labelled "Current", the register's own word, not "Now", "Current (Recommended)"). Finalised in the build.
   Address: the page is `/energy-certificate`. The certificate number is never in the path, the query string or the `#` fragment; the browser sends it to Vestagraph only in a POST body, and Vestagraph's server sends it to the register in the register's own query string (`GET /api/certificate?certificate_number=...`), a URL that is never logged, traced, cached or put in an error report (ENERGY-40; founder, 18 Nov 2026; decision 0014 treats a certificate number like a postcode). So a result can't be bookmarked or shared as a link; the printout is the way to keep it.
   No address or postcode, ever: the adapter keeps only an allow-list of fields, the ones in Vestagraph's normalised shape (`packages/fixtures/schema/energy-certificates.schema.json`), and drops everything else on receipt, including `address_line_*`, `post_town`, `postcode`, `uprn`, `uprn_source`, `tenure` and `transaction_type` (the data licence allows address use only for energy performance purposes; ENERGY-54), so the page never shows or implies an address, and never implies that the certificate belongs to a postcode searched before.
   Data scenarios (no tag) check the generated file with the energy certificate steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is driven from the page. Most browser tests fake the register with an adapter returning a sample, a missing number, an unavailable register or an over-limit answer. ENERGY-53 to ENERGY-55 are different: they run the real adapter against a fake register server at the HTTP level (not a fake adapter), still driven from the page, and are built at stage 5b because the adapter does not exist yet (there is no marker for adapter tests in `pyproject.toml`, so they carry `@ui`, which keeps them out of `make test`). Live-service tests stay out of the merge gate (decision 0029). This adapter's states are Live and Unavailable only; its fallback is the sample data when the register is not connected (ENERGY-13), and it never has a Cached state (ENERGY-55).
@@ -114,7 +114,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
 
   # Changed 19 Nov 2026 (plan Task 5 review): the register link goes to the search page, not the certificate's own page, whose address carries the number (ENERGY-39, decision 0014).
   @ui
-  Scenario: ENERGY-11 a current certificate shows its ratings now and potential, quoted
+  Scenario: ENERGY-11 a current certificate shows its current and potential ratings, quoted
     Given the visitor has searched for the sample number "0000-0000-0000-0000-0001"
     When the result is shown
     Then "Energy rating" shows the band and score of `currentRating` and, after an arrow, those of `potentialRating`, as in `energy-certificate-result.json`
@@ -252,7 +252,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
     Given the visitor has searched for the sample number "0000-0000-0000-0000-0006"
     When the result is shown
     Then the page reads "Wales is not yet covered." and shows no rating, cost or fact of that certificate (rule 6)
-    And it offers one action, the link "Find an energy certificate (gov.uk) ↗" (register line B22; proposed wording)
+    And it offers one action, the link "Find an energy certificate (gov.uk) ↗" (register line B22; wording approved 19 Nov 2026)
 
   # ---- State 9: not found ----
 
@@ -355,8 +355,8 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
     When the visitor opens "How we got this"
     Then it names the energy certificate register, its open government licence, the certificate's inspection date and valid-until date and that the figures are estimates from the certificate
     And it says what a certificate can't tell the visitor, and that we don't show or keep the address
-    And it says, in a proposed line, "We send the number to the government's energy certificate register to look it up; it doesn't go anywhere else." (ENERGY-60)
-    And it says "Valid until" is "10 years from the date the certificate was registered" (proposed wording), so that a certificate inspected a day before it was registered does not look to be off by a day
+    And it says, in the approved line, "We send the number to the government's energy certificate register to look it up; it doesn't go anywhere else." (ENERGY-60)
+    And it says "Valid until" is "10 years from the date the certificate was registered" (approved wording), so that a certificate inspected a day before it was registered does not look to be off by a day
 
   @ui
   Scenario: ENERGY-44 About the data has one entry for the register
@@ -383,7 +383,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
   Scenario: ENERGY-47 the printout ends with its sources page and the privacy line
     Given the visitor has chosen "Print or save as PDF" for the sample number "0000-0000-0000-0000-0001"
     When the visitor reads the last page
-    Then it is the sources page, with dates only (FE-33), and it says, in its own proposed line, "Vestagraph looked up this certificate for you and didn't keep the number. The number went to the government's energy certificate register to look it up." (not the area printout's "made in your browser" line, because the register needs Vestagraph's server, AREA-17 does not apply)
+    Then it is the sources page, with dates only (FE-33), and it says, in its own approved line, "Vestagraph looked up this certificate for you and didn't keep the number. The number went to the government's energy certificate register to look it up." (not the area printout's "made in your browser" line, because the register needs Vestagraph's server, AREA-17 does not apply)
     And the suggested file name of the PDF doesn't contain the certificate number
 
   # ---- Display, accessibility and layouts ----
@@ -471,5 +471,5 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
   Scenario: ENERGY-60 the privacy notice and the page say the number goes to the register
     Given the visitor opens the privacy notice's entry for this page (SE-02) and the page's "How we got this"
     When the visitor reads them
-    Then both say, in a proposed line, "We send the number to the government's energy certificate register to look it up; it doesn't go anywhere else." and name the register as the party that receives it under its own terms
+    Then both say, in the approved line, "We send the number to the government's energy certificate register to look it up; it doesn't go anywhere else." and name the register as the party that receives it under its own terms
     And neither says that "nobody" keeps the number
