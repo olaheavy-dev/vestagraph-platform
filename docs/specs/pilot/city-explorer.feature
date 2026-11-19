@@ -5,13 +5,13 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Added 17 Nov 2026 (PR C of the City Explorer plan, Task 14a; decisions 0053, 0054 and 0055; register lines FE-37, FE-43 to FE-45, FE-47, FE-48, FE-50, DA-21, BE-38, PD-19). The design is `docs/superpowers/specs/2026-11-15-city-explorer-design.md` (the council page sections); the neighbourhood result page is `city-explorer-neighbourhood.feature` (HOOD), and compare, share and print, what changed and About the data are `city-explorer-part-2.feature` (CITY2); they are written in `city-explorer-neighbourhood.feature` and `city-explorer-part-2.feature`, not here. The council tools for ChatGPT and Claude are in `area-tools.feature` (TOOLS-44 to TOOLS-63).
   Fixtures: councils by code in `packages/fixtures/data/council-area.json` (inputs, each with its source) and `packages/fixtures/generated/council-result.json` (every calculated figure). The sample councils: E06999001 Northbridge (complete, unitary, three neighbourhoods), E06999002 Southvale (price start point not published), E07999001 Eastmere (district, formed 2023-04-01 from "East Westshire Borough", no published rent, one property type with no record, a method break in the affordability series) and E07999002 Westmere (district, nothing recorded: no council tax, rent, price, ratio, tenure or connectivity). The data names read "(synthetic)"; the boards print the same names with "(sample)", and every scenario here quotes the board's text. The postcode SV2 3AB belongs to E06999002.
   Figures: none typed here (AGENTS.md rule 2). A scenario that needs a figure names the council code and the generated field (the figure map below); the page quotes the number from the file.
-  Where: the page for one council, titled with its name (for example "Northbridge Council area"; the boards show "Northbridge (sample)"). Boards, on the canvas page "Pilot · City Explorer" (design canvas version 407, each with its Dark twin): CouncilPage (phone), CouncilPageDesktop, CouncilBudgetValue (phone and desktop) and CouncilStates (26 states, phone width; the same messages sit in the desktop page's content area). The printout (CouncilPrint, FE-50), compare, what changed, About the data and the neighbourhood boards belong to the other City Explorer features.
+  Where: the page for one council, titled with its name (for example "Northbridge Council area"; the boards show "Northbridge (sample)"). Boards, on the canvas page "Pilot · City Explorer" (design canvas version 407 for boards not named below; current version 426; each with its Dark twin; the council page's button reads "Search" and its placeholder "Enter a postcode" since version 424, FE-70, FE-37): CouncilPage (phone), CouncilPageDesktop, CouncilBudgetValue (phone and desktop) and CouncilStates (26 states, phone width; the same messages sit in the desktop page's content area). Added in version 424 (19 Nov 2026), section "City Explorer 5": NeighbourhoodsMapSheet (the phone neighbourhoods map sheet, FE-72: Show map, the map and list, a neighbourhood chosen; CITY-25, CITY-87 to CITY-90) and CityShowMap (the Show map state of the council and neighbourhood maps; CITY-113, HOOD-43). The printout (CouncilPrint, FE-50), compare, what changed, About the data and the neighbourhood boards belong to the other City Explorer features.
   "The council search" (agent's call, 17 Nov 2026; approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")): no board draws a page of its own for searching councils. In these scenarios "the council search" is the landing page's one search box (FE-37, `01-landing.feature` LAND-14 to LAND-16), with the ambiguous, not-covered and not-found messages of CouncilStates shown where its result goes. "← Check another place" on a council page returns to the landing page with the box ready, and the landing footer's "Explore council areas" opens the same box (LAND-20).
   Rule 7: a missing figure is never shown as zero, a flat line, a favourable value or a clean result. A caption needs both end points. A difference needs both sides.
   Rule 4 and 0054: no ranking of councils, no "1st of N", no score drawn on a map, no combined score, no verdict words. The sentences under each chart are built by tested rules from the generated figures, never by AI.
   Sign-in: on this page the chat entry and Save lead to sign-in when signed out (AUTH-28 in `sign-in.feature` owns that scenario, for council E06999001; not repeated here).
   Wording status: the board texts quoted below are the canvas's. Three sentences have no board yet and are proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (issue #318 stays open until the boards are drawn), finalised before build: the "less" and the "about the same" patterns of the rent or buy sentence (DA-21 approved only the "more" pattern), and the "not comparable" caption for a change that spans a method break.
-  Still to draw or generate (the scenarios are written; each carries a comment): the phone sheets for the neighbourhoods map, who rents and who owns, and transport connectivity (FE-43: the boards are not drawn yet, so CITY-25 and its siblings are `@ui` and say so); the coverage line's generator field (FE-44, issue #292, CITY-32).
+  Still to draw or generate (the scenarios are written; each carries a comment): the phone sheets for who rents and who owns and transport connectivity (FE-43; the neighbourhoods map sheet is drawn since canvas version 424, board NeighbourhoodsMapSheet, FE-72; the rest are build-ticket criteria on #318, so CITY-25 for those rows is `@ui` and says so); the coverage line's generator field (FE-44, issue #292, CITY-32).
   Data scenarios (no tag) check the facts in `council-area.json` and `council-result.json` with the council steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page, or is a rule on typed input that the server works out (`vestagraph_area`, 0053) and no sample council records.
 
   Board-to-scenario map (each board has a Dark twin that shows the same states; CITY-108):
@@ -82,7 +82,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then council search "SV2 3AB" has kind "council-for-postcode"
     And council search "SV2 3AB" lists council "E06999002"
 
-  # Founder decision, 17 Nov 2026 (prompt window, FE-70): the council page's postcode button reads "Search", chosen over the agent's recommendation "Check". CouncilStates board 10 already draws "Search"; the CouncilPage board still draws "Check" and is to be redrawn (#318).
+  # Founder decision, 17 Nov 2026 (prompt window, FE-70): the council page's postcode button reads "Search", chosen over the agent's recommendation "Check". CouncilStates board 10 already draws "Search"; CouncilPage and CouncilPageDesktop were redrawn to read "Search" in canvas version 424 (#317).
   @ui
   Scenario: CITY-05 a postcode from another council says which council it is in and still opens
     Given the user has opened the council page for council "E06999001"
@@ -203,7 +203,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   @ui
   Scenario: CITY-22 the one search box sends a postcode to the area check and a place to a council page
     Given the user is on the landing page
-    When the user types a town or council name in the one box and chooses "Search"
+    When the user types a town or council name in the one box and chooses "Search" (the box is labelled "Postcode, town or city" on the landing page and inside City Explorer, FE-37, FE-80)
     Then a place that names one council opens that council's page
     And a place that names several councils asks the visitor to choose (CITY-10 to CITY-16)
     And a postcode typed in the same box opens the area check instead
@@ -226,9 +226,9 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And it has "Show as table" and the source stamp "UK House Price Index"
     And Escape or the phone's Back closes the sheet and returns focus to the row
 
-  # FE-43: the open House prices sheet is the one drawn (board CouncilPage). The sheets for Neighbourhoods and rent or buy in detail, Who rents, who owns and Transport connectivity are not drawn on the canvas yet; these scenarios wait for those boards and carry no wording beyond the row text above.
+  # FE-43: the open House prices sheet is the one drawn (board CouncilPage). The Neighbourhoods sheet is drawn (board NeighbourhoodsMapSheet, canvas version 424); the sheets for rent or buy in detail, Who rents, who owns and Transport connectivity are not drawn on the canvas yet; these scenarios wait for those boards and carry no wording beyond the row text above.
   @ui
-  Scenario: CITY-25 the other topic rows open sheets like House prices (boards still to draw)
+  Scenario: CITY-25 the other topic rows open sheets like House prices (Neighbourhoods drawn; the other sheets still to draw)
     Given the user has opened the council page for council "E06999001" on a phone (390 px wide)
     When the user taps the row "Who rents, who owns", "Transport connectivity", "Neighbourhoods" or "Rent or buy, in detail"
     Then a sheet opens with that topic's chart or map, its caption and its table or list, the same way as the House prices sheet (CITY-24)
@@ -629,7 +629,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And the line is drawn as two parts with no line across the break
     And the text alternative says the parts "are measured differently and are not comparable", with each part's end points quoted from the data and no first-to-last pairing
 
-  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. No sample council produces a not-comparable caption, so this waits for a fixture (#340; the property-type method break is #288) (proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
+  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. CouncilStates frame 15 (Broken series) does draw the chart's own note "not comparable" (CITY-76, CITY-77), but no board draws this caption's "not comparable" or "not published" text and no sample council produces it, so this waits for a fixture (#340; the property-type method break is #288) (proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
   @ui
   Scenario: CITY-78 a change across a method break or with a missing earlier point shows no change figure
     Given a council whose latest two end points lie either side of a method break, or whose month 12 months earlier is not published

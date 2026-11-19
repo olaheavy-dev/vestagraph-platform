@@ -68,6 +68,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     the full-screen view; the list of places with their icons stays in the answer.
   Icons (founder, 13 Nov 2026, typed: "we need to make sure icon logos are beside the text", FE-17): every
     place in a list, and the selected place, shows its category icon beside its name, the same icon as its pin.
+  Boards (canvas version 427, 19 Nov 2026, FE-71, FE-78, FE-81): the card inside the signed-in chat is drawn on the page "Pilot · Signed-in chat", section "Signed-in chat 9 · The area card in the chat", each with a Dark twin: SignedInChatAreaCard (desktop: the compact card with Expand and the actions "Compare with…", "Open full result" and "Print", and the expanded dialog over the chat; CARD-02, CARD-23, CARD-27, CARD-28, CARD-49) and SignedInChatAreaCardPhone (the preview with "Open map" and "Open full result", the full-screen view, focus returning to "Open map", and what a screen reader reads; CARD-31, CARD-36 to CARD-42, CARD-48). The widget for ChatGPT and Claude is on "Pilot · public area check" (AreaCardWidget, AreaCardWidgetFull, AreaCardWidgetFullPhone); the card, dialog and full-screen drawings are shared. The "Closest: <place>, <distance>" sentence (CARD-39) is proposed wording; the "Nearest place · <distance>" form (one place) is drawn only as the specification's pattern, since no sample result has one place.
   Copy: quoted messages are proposed wording, finalised in the build.
   Required states (design docs/superpowers/specs/2026-11-13-pilot-area-ai-design.md, "Isometric area card"
     and "Accuracy"; decision 0046's map rules; AGENTS.md rules 4 and 7):
@@ -82,7 +83,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     full screen in hosts that allow it, leaving it, and no Expand where it can't work -> CARD-25, CARD-26, CARD-29
     an icon beside every place name, matching its pin -> CARD-30
     on a phone, a closer expanded map that moves by dragging, by choosing a place or by Tab, and zooms, with every place still listed -> CARD-31 to CARD-35 (CARD-31 opens from our chat's preview; CARD-32 to CARD-35 start from the widget's full-screen view)
-    in the phone chat, a preview with Open map instead of a squeezed map -> CARD-36 to CARD-42 (in the workspace chat, 0058)
+    in the phone chat, a preview with Open map and Open full result instead of a squeezed map -> CARD-36 to CARD-42, CARD-48 (in the workspace chat, 0058; FE-78)
     at most 10 places, up to 5 km, the map fitted to them, also in a sparse area -> CARD-43, CARD-44
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
@@ -410,3 +411,21 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     Given an answer about nearby places in the workspace chat
     When the user chooses "Expand" on a 1440 px wide screen, and "Open map" on a 390 px wide screen
     Then it opens as a dialog over the chat and the side panel on the wide screen, and full screen on the phone, each with a "Close" button that returns to the chat
+
+  # Added 19 Nov 2026 (FE-78, founder: "Both buttons"): #303 item 3. Drawn on SignedInChatAreaCardPhone (canvas version 426).
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
+  @ui
+  Scenario: CARD-48 on a phone the preview also offers "Open full result"
+    Given an answer about nearby places in our chat on a 390 px wide screen
+    When the answer is shown
+    Then the preview has two full-width buttons, "Open map" and "Open full result"
+    And "Open map" opens the full-screen map (CARD-38), and "Open full result" opens the result as a modal sheet over the chat, as WCHAT-04 and WCHAT-05 set
+
+  # Added 19 Nov 2026 (FE-81, founder: "Yes, same as the widget"): #303 item 3, desktop. Drawn on SignedInChatAreaCard (canvas version 427).
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
+  @ui
+  Scenario: CARD-49 on desktop the compact card in the chat carries the widget's actions
+    Given an answer about nearby places in our chat on a 1440 px wide screen
+    When the card is shown
+    Then below the card there are the buttons "Compare with…", "Open full result" and "Print", as well as "Expand" on the card
+    And each behaves as it does on a widget in the chat (WCHAT-86, WCHAT-88, WCHAT-89)

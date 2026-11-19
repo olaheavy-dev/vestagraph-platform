@@ -17,7 +17,7 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
 
   @ui
   Scenario: SHARE-01 on a phone Share opens the device's share sheet
-    # ShareStates is the board that draws the result's header controls until the AreaResult boards are redrawn (plan Task 7).
+    # Drawn on ShareStates and, since 19 Nov 2026 (canvas version 424), in the header of the four Result · Check an area boards (AreaResult, AreaResultDesktop and their Dark twins).
     Given the result for "NB1 4XY" is open on a phone that offers a share sheet
     When the visitor chooses "Share" in the result's header
     Then the device's share sheet opens with the link to the result
