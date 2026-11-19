@@ -119,15 +119,52 @@ def mask_phrases(text: str, phrases: list[str]) -> str:
     return text
 
 
+_ENDORSEMENT = re.compile(
+    r"\b(?:agree|agreed|agrees|right|true|correct|indeed|confirm|confirmed|exactly)\b", re.I
+)
+_REPORTING = re.compile(
+    r"\b(?:says?|said|reads?|shows?|titled|named|called|listed as|stored as|quote[sd]?)\b", re.I
+)
+_SENTENCE_END = ".!?;\n"
+_OPEN_QUOTES = '"\N{LEFT DOUBLE QUOTATION MARK}'
+
+
+def _presented_as_quote(text: str, start: int, end: int) -> bool:
+    """Is the copied run at ``start:end`` shown as a quote, and not endorsed?
+
+    It counts as a quote inside quotation marks, or after a reporting frame (says, reads, is
+    titled, is named, is stored as...) in its own or the previous sentence. A sentence with an
+    agreement word (agree, right, true, indeed, confirm...) is never excused: it is marked.
+    """
+    before = text[:start]
+    begin = max(before.rfind(c) for c in _SENTENCE_END) + 1
+    after = [text.find(c, end) for c in _SENTENCE_END if text.find(c, end) != -1]
+    stop = min(after) if after else len(text)
+    if _ENDORSEMENT.search(text[begin:stop]):
+        return False
+    previous = max((before.rfind(c, 0, max(begin - 1, 0)) for c in _SENTENCE_END), default=-1) + 1
+    quoted = sum(before.count(c) for c in _OPEN_QUOTES) % 2 == 1
+    return quoted or _REPORTING.search(text[previous:start]) is not None
+
+
 def mask_runs(text: str, source: str, min_words: int = 4) -> str:
-    """``text`` without any run of ``min_words`` or more words copied verbatim from ``source``."""
+    """``text`` without runs of words copied verbatim from ``source`` and shown as a quote.
+
+    A run is ``min_words`` or more words (the whole source if it is shorter). A run that is not
+    presented as a quote, or sits in a sentence that agrees with it, stays and is marked.
+    """
     words = source.split()
+    minimum = min(min_words, len(words))
     for start in range(len(words)):
-        for end in range(len(words), start + min_words - 1, -1):
-            phrase = " ".join(words[start:end])
-            if re.search(re.escape(phrase), text, flags=re.IGNORECASE):
-                text = mask_phrases(text, [phrase])
-                break
+        for end in range(len(words), start + minimum - 1, -1):
+            phrase = re.compile(re.escape(" ".join(words[start:end])), re.IGNORECASE)
+            matches = list(phrase.finditer(text))
+            if not matches:
+                continue
+            for match in reversed(matches):
+                if _presented_as_quote(text, match.start(), match.end()):
+                    text = text[: match.start()] + " " + text[match.end() :]
+            break
     return text
 
 
@@ -344,18 +381,34 @@ def pence_amounts(value: Any, in_pence: bool = False) -> Iterator[int]:
         yield value
 
 
+_DATE = re.compile(r"\b\d{4}-\d{2}(?:-\d{2}(?:T\d{2}:\d{2}(?::\d{2})?(?:[+-]\d{2}:\d{2}|Z)?)?)?\b")
+
+
+def _date_tokens(token: str) -> set[str]:
+    """A recorded date and its coarser forms: 2026-10-23T09:40 allows 2026-10-23, 2026-10, 2026."""
+    forms = {token}
+    forms.add(token.split("T")[0])
+    forms.add(token[:7])
+    return forms
+
+
 def number_hits(case: Case, text: str) -> list[str]:
     """Numbers in ``text`` that no cited sample record or stub holds (README mark 1).
 
     Not counted: list markers counting up from 1, identifiers (digits touching letters) that a
     tool result or the user's turn holds, and numbers inside fixed wording the case quotes from a
-    scenario. A pence amount also matches the same amount in pounds when it divides by 100. A
-    number the user typed is not an allowed extra.
+    scenario. A date counts as a whole: a recorded date's parts, such as the month, are not
+    free numbers. A pence amount also matches the same amount in pounds when it divides by 100.
+    A number the user typed is not an allowed extra.
     """
     corpus = [s for record in _records(case) for s in atoms(record)] + _stub_texts(case)
     allowed: set[str] = set()
+    dates: set[str] = set()
     for chunk in corpus:
-        allowed.update(normalise_numbers(chunk))
+        for found_date in _DATE.findall(chunk):
+            dates |= _date_tokens(found_date)
+            allowed.add(found_date[:4])
+        allowed.update(normalise_numbers(_DATE.sub(" ", chunk)))
     for record in _records(case):
         for amount in pence_amounts(record):
             if amount % 100 == 0:
@@ -367,6 +420,7 @@ def number_hits(case: Case, text: str) -> list[str]:
     }
     for chunk in _fixed_wording(case):
         text = text.replace(chunk, " ")
+    text = _DATE.sub(lambda m: " " if m.group(0) in dates else m.group(0), text)
     markers = _LIST_MARKER.findall(text)
     if markers and [int(m) for m in markers] == list(range(1, len(markers) + 1)):
         text = _LIST_MARKER.sub(" ", text)
@@ -385,7 +439,7 @@ def mark(case: Case, text: str) -> list[str]:
     model = case["shape"] == "model"
     plain = text
     if model:
-        plain = mask_phrases(text, _stub_texts(case) + _quoted(case, limits_only=False))
+        plain = mask_phrases(text, _quoted(case, limits_only=False))
         for stub in _stub_texts(case):
             plain = mask_runs(plain, stub)
     for_rules = plain if model else mask_phrases(text, _quoted(case, limits_only=True))
