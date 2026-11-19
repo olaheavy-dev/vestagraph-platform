@@ -50,3 +50,5 @@ Finish every specification and pass the whole stage 3 gate first. Slowest; today
 *Note, 19 Nov 2026: condition 3 is met: the AI-03 set is written (`packages/fixtures/evaluation/ai-03-set.json`, 152 cases, AI-14 and AI-15), with the founder's spot-check of 10 cases approved; only the runner waits for stage 5b.*
 
 The gate is re-checked after the design batch, the AI-03 set, and the council tools returning tenure shares.
+
+**Note, 19 Nov 2026 (round 2 of the gate: [the round 2 audit](../reviews/2026-11-19-pilot-gate-audit-round-2.md)): the pilot gate has passed.** Three fresh read-only audits of `main` at b32d379 (one per track: area check and energy certificate, City Explorer, signed-in chat) found all four conditions met, no P1, one P2 and small P3 tidy-ups, all fixed in the same pull request. The founder, prompt window: "Pass the gate (Recommended)", and for the tidy-ups "Fix in this audit PR (Recommended)". Stage 5b's development tickets start next, with the stage 5b decisions (0046) and the app shell (#86). The tenure shares are specified (TOOLS-64 to TOOLS-66); the tool code is a stage 5b ticket.

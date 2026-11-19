@@ -69,7 +69,7 @@ Milestone "Python port (decision 0049)". Runs alongside the stage 3 gate (#71); 
 
 ## Stage 5: clickable prototype
 
-#86 may start once the pilot gate passes (decision 0052; earlier, the full stage 3 gate #71) and the .NET code is removed (P8, decision 0049), before the stage 4 gate (#84), and runs locally only until stage 5b. It starts from the founder's Next.js template in `frontend/`, with its `@ui` scenarios in playwright-bdd (0049); the rest of stage 5 waits for #84 (decision 0048). Stage 5 is never deployed: #81 to #83 (IN-01 to IN-05) moved to stage 5b, rows 38b.1 to 38b.3. Rows 18, 19, 20 and 22 are answered by 0048.
+#86 may start once the pilot gate passes (decision 0052; passed 19 Nov 2026, round 2; earlier, the full stage 3 gate #71) and the .NET code is removed (P8, decision 0049), before the stage 4 gate (#84), and runs locally only until stage 5b. It starts from the founder's Next.js template in `frontend/`, with its `@ui` scenarios in playwright-bdd (0049); the rest of stage 5 waits for #84 (decision 0048). Stage 5 is never deployed: #81 to #83 (IN-01 to IN-05) moved to stage 5b, rows 38b.1 to 38b.3. Rows 18, 19, 20 and 22 are answered by 0048.
 
 | # | Issue | Item |
 |---|---|---|

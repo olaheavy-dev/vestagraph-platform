@@ -11,7 +11,7 @@ Feature: Share a link and Recent postcodes (on an area result, compare and the l
 
   Required states (design "States to cover"; PECR and 0014):
     Share: share sheet on a phone -> SHARE-01; copied on desktop -> SHARE-02; copy failed with the link shown and selected -> SHARE-03; only the postcode in the link -> SHARE-04, SHARE-05; opening a shared link -> SHARE-06, SHARE-07
-    Recent postcodes: off by default -> RECENT-01, RECENT-02; on and empty -> RECENT-04; on with entries (up to 5, newest first) -> RECENT-05, RECENT-06; postcodes added from a check, compare and a shared link -> RECENT-07; cleared -> RECENT-08; older than 12 months dropped -> RECENT-14; turned off -> RECENT-09; storage unavailable -> RECENT-10; never sent to us -> RECENT-11; separate from councils -> RECENT-12; keyboard, size, dark twin -> RECENT-13
+    Recent postcodes: off by default -> RECENT-01, RECENT-02; turned on, asking nothing else and starting empty -> RECENT-03; on and empty -> RECENT-04; on with entries (up to 5, newest first) -> RECENT-05, RECENT-06; postcodes added from a check, compare and a shared link -> RECENT-07; cleared -> RECENT-08; older than 12 months dropped -> RECENT-14; turned off -> RECENT-09; storage unavailable -> RECENT-10; never sent to us -> RECENT-11; separate from councils -> RECENT-12; keyboard, size, dark twin -> RECENT-13
 
   # ---- Share a link (design section 2) ----
 
