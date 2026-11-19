@@ -8,6 +8,7 @@ function is plain code over plain data, so the runner can reuse them.
 import functools
 import json
 import re
+import unicodedata
 from collections.abc import Iterator
 from typing import Any
 
@@ -92,7 +93,7 @@ def number_words_to_digits(text: str) -> str:
 
 def _canonical(number: str) -> str:
     whole, _, fraction = number.replace(",", "").partition(".")
-    whole = str(int(whole))
+    whole = whole.lstrip("0") or "0"
     fraction = fraction.rstrip("0")
     return f"{whole}.{fraction}" if fraction else whole
 
@@ -122,19 +123,32 @@ def mask_phrases(text: str, phrases: list[str]) -> str:
 _ENDORSEMENT = re.compile(
     r"\b(?:agree|agreed|agrees|right|true|correct|indeed|confirm|confirmed|exactly)\b", re.I
 )
-_REPORTING = re.compile(
-    r"\b(?:says?|said|reads?|shows?|titled|named|called|listed as|stored as|quote[sd]?)\b", re.I
+_FRAME_COLON = re.compile(
+    r"\b(?:says?|said|reads?|shows?|titled|named|called|listed as|stored as|written as|quote[sd]?)"
+    r"\s*:\s*$",
+    re.I,
 )
 _SENTENCE_END = ".!?;\n"
-_OPEN_QUOTES = '"\N{LEFT DOUBLE QUOTATION MARK}'
+_CURLY = ("\N{LEFT DOUBLE QUOTATION MARK}", "\N{RIGHT DOUBLE QUOTATION MARK}")
+_SINGLE = ("\N{LEFT SINGLE QUOTATION MARK}", "\N{RIGHT SINGLE QUOTATION MARK}")
+
+
+def _inside_balanced_quotes(text: str, start: int, end: int) -> bool:
+    """Is ``start:end`` inside a balanced pair of quotes? An unclosed quote excuses nothing."""
+    before, after = text[:start], text[end:]
+    for opening, closing in (_CURLY, _SINGLE):
+        if before.count(opening) > before.count(closing) and closing in after:
+            return True
+    return before.count('"') % 2 == 1 and '"' in after
 
 
 def _presented_as_quote(text: str, start: int, end: int) -> bool:
     """Is the copied run at ``start:end`` shown as a quote, and not endorsed?
 
-    It counts as a quote inside quotation marks, or after a reporting frame (says, reads, is
-    titled, is named, is stored as...) in its own or the previous sentence. A sentence with an
-    agreement word (agree, right, true, indeed, confirm...) is never excused: it is marked.
+    A run is a quote when it lies inside balanced quotation marks (straight or curly), or when it
+    follows a reporting frame and a colon in its own sentence ("The place reads: ..."). A
+    sentence with an agreement word (agree, right, true, indeed, confirm...) is never excused,
+    and a frame without a colon ("As the record shows, ...") excuses nothing.
     """
     before = text[:start]
     begin = max(before.rfind(c) for c in _SENTENCE_END) + 1
@@ -142,9 +156,9 @@ def _presented_as_quote(text: str, start: int, end: int) -> bool:
     stop = min(after) if after else len(text)
     if _ENDORSEMENT.search(text[begin:stop]):
         return False
-    previous = max((before.rfind(c, 0, max(begin - 1, 0)) for c in _SENTENCE_END), default=-1) + 1
-    quoted = sum(before.count(c) for c in _OPEN_QUOTES) % 2 == 1
-    return quoted or _REPORTING.search(text[previous:start]) is not None
+    return (
+        _inside_balanced_quotes(text, start, end) or _FRAME_COLON.search(before[begin:]) is not None
+    )
 
 
 def mask_runs(text: str, source: str, min_words: int = 4) -> str:
@@ -168,6 +182,21 @@ def mask_runs(text: str, source: str, min_words: int = 4) -> str:
     return text
 
 
+_HOMOGLYPHS = str.maketrans("\u0455\u0430\u0435\u043e\u0440\u0441\u0456\u0443\u0445", "saeopciyx")
+_SPACED = re.compile(r"(?<![A-Za-z])(?:[A-Za-z][ \-.]){2,}[A-Za-z](?![A-Za-z])")
+
+
+def normalise_text(text: str) -> str:
+    """The answer as a reader sees it: NFKC, no format characters, Latin look-alikes, no spacing.
+
+    Zero-width characters are dropped, full-width and Cyrillic look-alike letters become Latin,
+    and letters spread out ("s a f e", "S-A-F-E") are joined, so a verdict cannot hide in them.
+    """
+    text = unicodedata.normalize("NFKC", text)
+    text = "".join(c for c in text if unicodedata.category(c) != "Cf").translate(_HOMOGLYPHS)
+    return _SPACED.sub(lambda m: re.sub(r"[ \-.]", "", m.group(0)), text)
+
+
 def forbidden_hits(text: str, where: str) -> list[str]:
     """The forbidden words or phrases in ``text``; none when ``where`` is an allowed place.
 
@@ -182,7 +211,7 @@ def forbidden_hits(text: str, where: str) -> list[str]:
     if where != "answer":
         message = f"Unknown place {where!r}: use 'answer' or one of {document['allowIn']}."
         raise ValueError(message)
-    text = mask_phrases(text, document.get("allowPhrases", []))
+    text = mask_phrases(normalise_text(text), document.get("allowPhrases", []))
     return [
         word
         for word in document["words"]
@@ -197,24 +226,36 @@ _NEGATION = re.compile(
     re.I,
 )
 _FRAME = re.compile(r"\b(?:whether|if)\b", re.I)
+_IDIOM = re.compile(
+    r"\b(?:no (?:question|doubt|denying|wonder|surprise|way around it|matter)|not only|never mind"
+    r"|if anything|without a doubt|no one can deny)\b",
+    re.I,
+)
+_SCOPE_END = re.compile(r"[,]|\b(?:and|so|but|because)\b|\bthat is why\b", re.I)
 
 
 def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
     """Forbidden words that no negation in the same clause governs (README mark 2).
 
-    A negation excuses only words after it in its own clause, within ``window`` words. A clause
-    ends at a full stop, ``;``, ``:``, a dash or a contrast word (but, though, however...), and a
-    ``whether`` or ``if`` frame ends at a comma. So "I can't say it is safe" and "Neither is
-    better or worse" pass, and "It isn't perfect, but the area is safe" fails.
+    A negation excuses only words after it, within ``window`` words, in its own clause. A clause
+    ends at a full stop, ``;``, ``:``, a dash or a contrast word (but, though, however...); the
+    negation's reach also ends at a comma, "and", "so" or "because", except that a list
+    of forbidden words continues it ("I won't call it safe, verified or the best"). A ``whether``
+    or ``if`` frame ends at a comma. Emphatic idioms never negate ("no question", "no doubt",
+    "not only", "if anything"). So "I can't say it is safe" passes, and "There is no warning, so
+    the area is safe" fails.
     """
-    pattern = re.compile(r"(?i)\b(" + "|".join(re.escape(w) for w in words) + r")\b")
+    alternation = "|".join(re.escape(w) for w in words)
+    pattern = re.compile(r"(?i)\b(" + alternation + r")\b")
+    listed = re.compile(r"(?i)(\b(?:" + alternation + r")\b)\s*(?:,|\band\b)")
     hits: list[str] = []
-    for clause in _CLAUSE.split(text):
+    for clause in _CLAUSE.split(normalise_text(text)):
         for match in pattern.finditer(clause or ""):
-            before = clause[: match.start()]
-            if _NEGATION.search(" ".join(before.split()[-window:])):
-                continue
+            before = _IDIOM.sub(" ", clause[: match.start()])
             if _FRAME.search(before.split(",")[-1]):
+                continue
+            reach = _SCOPE_END.split(listed.sub(r"\1", before))[-1]
+            if _NEGATION.search(" ".join(reach.split()[-window:])):
                 continue
             hits.append(match.group(1))
     return hits
@@ -345,6 +386,13 @@ def _stub_texts(case: Case) -> list[str]:
     return [stub["text"] for stub in case.get("stubs", [])]
 
 
+def _maskable_stub_texts(case: Case) -> list[str]:
+    """Stub texts the model may repeat as data: never another user's saved area."""
+    return [
+        s["text"] for s in case.get("stubs", []) if s.get("owner", "signed-in-user") != "other-user"
+    ]
+
+
 def _user_turns(case: Case) -> list[str]:
     return [t["text"] for t in case.get("conversation", []) if t["role"] == "user"]
 
@@ -392,7 +440,61 @@ def _date_tokens(token: str) -> set[str]:
     forms = {token}
     forms.add(token.split("T")[0])
     forms.add(token[:7])
+    if "T" in token:
+        forms.add(token[:16])
     return forms
+
+
+_MONTHS = {
+    name: index
+    for index, names in enumerate(
+        [
+            ("january", "jan"),
+            ("february", "feb"),
+            ("march", "mar"),
+            ("april", "apr"),
+            ("may",),
+            ("june", "jun"),
+            ("july", "jul"),
+            ("august", "aug"),
+            ("september", "sep", "sept"),
+            ("october", "oct"),
+            ("november", "nov"),
+            ("december", "dec"),
+        ],
+        start=1,
+    )
+    for name in names
+}
+_MONTH = "|".join(sorted(_MONTHS, key=len, reverse=True))
+_WRITTEN_DAY = re.compile(rf"\b(\d{{1,2}})(?:st|nd|rd|th)? ({_MONTH}),? (\d{{4}})\b", re.I)
+_WRITTEN_MONTH = re.compile(rf"\b({_MONTH}) (\d{{4}})\b", re.I)
+_CLOCK = re.compile(r"\b(\d{1,2})[:.](\d{2})(?:\s*(am|pm))?\b", re.I)
+_TIME = re.compile(r"T(\d{2}):(\d{2})")
+
+
+def _strip_recorded_dates(text: str, dates: set[str], times: set[str]) -> str:
+    """Remove dates and times a tool result holds, as ISO values or as people write them.
+
+    "23 October 2026", "October 2026", "09:40" and "9.40am" match a recorded ISO date or time
+    (README mark 1); a date or time the records do not hold is left, so its parts count.
+    """
+
+    def day(match: re.Match[str]) -> str:
+        iso = f"{match.group(3)}-{_MONTHS[match.group(2).lower()]:02d}-{int(match.group(1)):02d}"
+        return " " if iso in dates else match.group(0)
+
+    def month(match: re.Match[str]) -> str:
+        iso = f"{match.group(2)}-{_MONTHS[match.group(1).lower()]:02d}"
+        return " " if iso in dates else match.group(0)
+
+    def clock(match: re.Match[str]) -> str:
+        hour = int(match.group(1)) % 12 + (12 if (match.group(3) or "").lower() == "pm" else 0)
+        hour = int(match.group(1)) if not match.group(3) else hour
+        return " " if f"{hour:02d}:{match.group(2)}" in times else match.group(0)
+
+    text = _DATE.sub(lambda m: " " if m.group(0) in dates else m.group(0), text)
+    return _CLOCK.sub(clock, _WRITTEN_MONTH.sub(month, _WRITTEN_DAY.sub(day, text)))
 
 
 def number_hits(case: Case, text: str) -> list[str]:
@@ -407,13 +509,16 @@ def number_hits(case: Case, text: str) -> list[str]:
     corpus = [s for record in _records(case) for s in atoms(record)] + _stub_texts(case)
     allowed: set[str] = set()
     dates: set[str] = set()
+    times: set[str] = set()
     for chunk in corpus:
+        times.update(f"{h}:{m}" for h, m in _TIME.findall(chunk))
         for found_date in _DATE.findall(chunk):
             dates |= _date_tokens(found_date)
             allowed.add(found_date[:4])
         allowed.update(normalise_numbers(_DATE.sub(" ", chunk)))
-    for record in _records(case):
-        for amount in pence_amounts(record):
+    for source, record in zip(case["sample"], _records(case), strict=True):
+        marked = source.rsplit("/", 1)[-1] == "bands"
+        for amount in pence_amounts(record, marked):
             if amount % 100 == 0:
                 allowed.add(str(amount // 100))
     known = {
@@ -423,7 +528,7 @@ def number_hits(case: Case, text: str) -> list[str]:
     }
     for chunk in _fixed_wording(case):
         text = text.replace(chunk, " ")
-    text = _DATE.sub(lambda m: " " if m.group(0) in dates else m.group(0), text)
+    text = _strip_recorded_dates(text, dates, times)
     markers = _LIST_MARKER.findall(text)
     if markers and [int(m) for m in markers] == list(range(1, len(markers) + 1)):
         text = _LIST_MARKER.sub(" ", text)
@@ -440,20 +545,24 @@ def mark(case: Case, text: str) -> list[str]:
     """
     failures: list[str] = []
     model = case["shape"] == "model"
+    text = normalise_text(text)
     plain = text
     if model:
         plain = mask_phrases(text, _quoted(case, limits_only=False))
-        for stub in _stub_texts(case):
+        for stub in _maskable_stub_texts(case):
             plain = mask_runs(plain, stub)
     for_rules = plain if model else mask_phrases(text, _quoted(case, limits_only=True))
-    for_words = plain if model else mask_phrases(text, _quoted(case, limits_only=False))
+    for_words = plain
+    if not model:
+        stored = [s["text"] for s in case.get("stubs", []) if "target" in s]
+        for_words = mask_phrases(text, _quoted(case, limits_only=False) + stored)
     for item in case["expect"].get("mustNotInclude", []):
         if item["match"] == "forbidden-words":
             hits = forbidden_claim_hits(for_words) if model else forbidden_hits(for_words, "answer")
             if hits:
                 failures.append(f"forbidden words {hits}")
         elif item["match"] == "literal":
-            if literal_hit(for_rules, item["value"]):
+            if literal_hit(text if model else for_rules, item["value"]):
                 failures.append(f"literal {item['value']!r}")
         elif re.search(item["value"], for_rules):
             failures.append(f"pattern {item['value'][:40]!r}")
@@ -464,6 +573,17 @@ def mark(case: Case, text: str) -> list[str]:
     return failures
 
 
+def _date_present(text: str, token: str) -> bool:
+    """A recorded date or timestamp is in ``text`` as ISO or as people write it (README mark 1)."""
+    day = token[:10]
+    clock = re.search(r"T(\d{2}):(\d{2})", token)
+    day_ok = day in text or _strip_recorded_dates(text, {day, day[:7]}, set()) != text
+    if not clock:
+        return day_ok
+    hhmm = f"{clock.group(1)}:{clock.group(2)}"
+    return day_ok and (hhmm in text or _strip_recorded_dates(text, set(), {hhmm}) != text)
+
+
 def include_misses(case: Case, text: str) -> list[str]:
     """``mustInclude`` items missing from ``text`` (ignoring case; numbers by number rules)."""
     lowered = text.replace(_APOSTROPHE, "'").lower()
@@ -471,7 +591,9 @@ def include_misses(case: Case, text: str) -> list[str]:
     missing: list[str] = []
     for item in case["expect"].get("mustInclude", []):
         wanted = item["text"].replace(_APOSTROPHE, "'")
-        if re.fullmatch(_NUMBER, wanted):
+        if _DATE.fullmatch(wanted):
+            ok = _date_present(text, wanted)
+        elif re.fullmatch(_NUMBER, wanted):
             ok = _canonical(wanted) in present
         else:
             ok = wanted.lower() in lowered

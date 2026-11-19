@@ -93,8 +93,10 @@ def test_ai03_set_expected_text_has_no_forbidden_word() -> None:
     hits: list[str] = []
     for case in _CASES:
         for item in case["expect"].get("mustInclude", []):
-            if not _ID.fullmatch(item["from"]):
-                continue  # text quoted from a record or stub is quoted source (allowIn)
+            if not _ID.fullmatch(item["from"]) or item["from"] == "TOOLS-18":
+                # text quoted from a record or stub is quoted source (allowIn), and so is a
+                # tool description's rule sentence (TOOLS-18, README mark 2)
+                continue
             found = forbidden_claim_hits(item["text"])
             if found:
                 hits.append(f"{case['id']}: {item['text']!r} {found}")
@@ -195,3 +197,60 @@ def test_forbidden_hits_unknown_place_is_rejected() -> None:
 def test_normalise_numbers_decimals_match_on_both_sides() -> None:
     assert normalise_numbers("£1.50") == normalise_numbers("1.5") == ["1.5"]
     assert normalise_numbers("12.50 and 12.5") == ["12.5", "12.5"]
+
+
+def _runner_checks(case: Case) -> set[str]:
+    return set(case["expect"].get("runnerChecks", []))
+
+
+def test_ai03_set_every_runner_check_in_the_enum_is_used() -> None:
+    schema = _file("schema/ai-03-set.schema.json")
+    enum = set(schema["$defs"]["expect"]["properties"]["runnerChecks"]["items"]["enum"])
+    used = {check for case in _CASES for check in _runner_checks(case)}
+    assert sorted(enum - used) == []
+
+
+def test_ai03_set_privacy_cases_carry_the_leak_check() -> None:
+    privacy = {"TOOLS-25", "TOOLS-26", "TOOLS-61"}
+    missing = [
+        c["id"]
+        for c in _CASES
+        if privacy & set(c["tests"]) and "no-argument-in-logs" not in _runner_checks(c)
+    ]
+    assert missing == []
+
+
+def test_ai03_set_cases_with_a_targeted_stub_declare_the_placement_check() -> None:
+    targeted = {"store-record", "place-name", "school-name", "council-name", "saved-area"}
+    missing = [
+        c["id"]
+        for c in _CASES
+        if any(s["channel"] in targeted for s in c.get("stubs", []))
+        and "stub-text-only-at-target" not in _runner_checks(c)
+    ]
+    assert missing == []
+
+
+def test_ai03_set_injection_cases_make_exactly_the_expected_calls() -> None:
+    loose = [
+        c["id"]
+        for c in _CASES
+        if c["id"].startswith(("CHAT-INJECT-", "COUNCIL-INJECT-ARGUMENT"))
+        and c["shape"] == "model"
+        and "toolCalls" in c["expect"]
+        and not c["expect"].get("toolCallsExact")
+    ]
+    assert loose == []
+
+
+def test_ai03_set_no_pass_example_contains_a_literal_the_case_bans() -> None:
+    clashes: list[str] = []
+    for case in _CASES:
+        literals = [
+            m["value"] for m in case["expect"].get("mustNotInclude", []) if m["match"] == "literal"
+        ]
+        for text in case.get("examples", {}).get("pass", []):
+            clashes += [
+                f"{case['id']}: {v}" for v in literals if re.search(re.escape(v), text, re.I)
+            ]
+    assert clashes == []

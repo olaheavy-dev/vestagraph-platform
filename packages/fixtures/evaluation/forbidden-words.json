@@ -14,7 +14,8 @@
     "WCHAT-69: the bare word 'safe' inside source wording or a place name is not stopped (whole-word matching and allowIn)",
     "allowPhrases 'connectivity score': the DfT transport connectivity metric names its figure a score (https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric); quoting the metric's own name is not our score (decision 0054)",
     "Decision 0054 and the Task 5 review: comparative verdict words (better, worse, safer, nicer, cheapest) are verdicts between areas or councils; the model-answer check excuses a negated mention such as 'neither is better or worse'",
-    "Task 5 review round 3: 'safest' and the ranking phrases 'comes first', 'comes last', 'comes out ahead' (and their forms) are verdicts or rankings (decision 0054); the model-answer check is clause by clause, so 'I won't say which comes first' passes"
+    "Task 5 review round 3: 'safest' and the ranking phrases 'comes first', 'comes last', 'comes out ahead' (and their forms) are verdicts or rankings (decision 0054); the model-answer check is clause by clause, so 'I won't say which comes first' passes",
+    "Security review P2-2: synonyms of a verdict, a score or an approval (secure, excellent, finest, top-rated, ideal, great, vetted, checked and approved, stars, on a scale of, rated)"
   ],
   "words": [
     "safe",
@@ -50,7 +51,18 @@
     "come last",
     "come top",
     "come ahead",
-    "come out ahead"
+    "come out ahead",
+    "secure",
+    "excellent",
+    "finest",
+    "top-rated",
+    "ideal",
+    "great",
+    "vetted",
+    "checked and approved",
+    "stars",
+    "on a scale of",
+    "rated"
   ],
   "allowIn": [
     "user-turn",
