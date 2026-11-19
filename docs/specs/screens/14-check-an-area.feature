@@ -445,7 +445,7 @@ Feature: Check an area
     When the visitor looks for the sources City Explorer shows for a council
     Then the page lists only the area result's topics with their sources and data dates, and a source that only City Explorer uses (CITY2-58 to CITY2-68) is described on City Explorer's own About the data, not on this page
 
-  # The energy certificate register is a live lookup that keeps nothing (DA-09), so this entry carries no "Data from" date: there is no copy of the data to date. (The AboutData board still draws "Data from 23 October 2026" for it; the board needs that line removed before the gate.) The wording is proposed, copied from the AboutData board.
+  # The energy certificate register is a live lookup that keeps nothing (DA-09), so this entry carries no "Data from" date: there is no copy of the data to date. The board shows the proposed line "We look this up when you ask and keep no copy" in its place (canvas version 413). The wording is proposed, copied from the AboutData board.
   @ui
   Scenario: AREA-50 About the data lists the energy certificate register, its licence and what it can't tell you
     Given the user is on Check an area and has opened About the data
@@ -453,4 +453,4 @@ Feature: Check an area
     Then it names the register and links to it with the source stamp "EPC register ↗" (the register's search page on GOV.UK, which carries no certificate number)
     And it gives the licence "Open Government Licence v3.0" and says the register's address and postcode are dropped when a certificate arrives and nothing is kept
     And under "What it can't tell you" it says a certificate can't tell you what your own bills will be, or what has changed in the home since it was made, and that its cost lines, improvements and savings are estimates, not bills and not quotes
-    And the entry shows no "Data from" date, because Vestagraph holds no copy of this register's data
+    And the entry shows no "Data from" date, because Vestagraph holds no copy of this register's data, and says instead, in a proposed line, "We look this up when you ask and keep no copy"
