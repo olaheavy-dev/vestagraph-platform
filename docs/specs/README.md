@@ -21,7 +21,7 @@ The prototype specification lives here (decision [0043](../decisions/0043-specif
 | `pilot/report-a-problem.feature` | Report a problem with this fact: where it appears, the three reasons, the states and the daily count's shape (REPORT-01 onwards; FE-74; count contract `packages/fixtures/schema/problem-report-counts.schema.json`) | — |
 | `pilot/energy-certificate.feature` | The page "Check an energy certificate": look up one home certificate by its number, its states, the printout (ENERGY-01 onwards; design `docs/superpowers/specs/2026-11-18-energy-certificate-design.md`) | — |
 | `pilot/use-in-chatgpt-or-claude.feature` | The pilot's how-to page "Use in ChatGPT or Claude" (steps for ChatGPT and Claude, what an app sends and what is kept, 0056, 0057) and the landing's short section that links to it (HOWTO-01 to HOWTO-40); the council tools it describes are TOOLS-44 to TOOLS-63 in `pilot/area-tools.feature` | — |
-| `pilot/public-pages.feature` | The three public pages: How it works (HOW-01 to HOW-14), the Privacy notice with placeholders until SE-02 (PRIV-01 to PRIV-17) and Accessibility (A11Y-01 to A11Y-09); the landing links to them are LAND-30 and LAND-31 (SE-07; pilot design batch) | — |
+| `pilot/public-pages.feature` | The three public pages: How it works (HOW-01 to HOW-14), the Privacy notice with placeholders until SE-02 (PRIV-01 to PRIV-17) and Accessibility (A11Y-01 to A11Y-09); the landing links to them are LAND-25 and LAND-26 (SE-07; pilot design batch) | — |
 | `stories/buyer.feature`, `stories/renter.feature` | The step-by-step story scripts | #69, #70 |
 | `mcp-tools.feature` | The MCP tool surface for AI assistants | #117 |
 

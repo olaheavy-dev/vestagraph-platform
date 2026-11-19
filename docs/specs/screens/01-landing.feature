@@ -18,6 +18,7 @@ Feature: Landing
     the hero's wording, How it works and the FAQ answer for the one box -> LAND-17 to LAND-19
     the link to Check an energy certificate -> LAND-21
     Recent postcodes under the search box, off by default, on with its list, storage unavailable -> LAND-22 to LAND-24 (the behaviour is `pilot/area-share.feature`, RECENT-01 to RECENT-14)
+    the footer links to How it works, Privacy notice and Accessibility, and the How it works section's link -> LAND-25, LAND-26 (the pages are `pilot/public-pages.feature`)
     the "How to read a result" showcase and where "How we got this" is -> LAND-13
     A complete postcode hands over to Check an area (14-check-an-area.feature), which holds the
     loading, not found, source failed and outside England states.
@@ -193,16 +194,16 @@ Feature: Landing
     Then the setting says it can't be turned on here (RECENT-10) and no list is shown
     And the postcode search works exactly as before
 
-  # Added 19 Nov 2026 (pilot design batch, PR 2; `pilot/public-pages.feature`). LAND-22 to LAND-24 are taken by the area features pull request (#350), so these start at LAND-30. The boards draw the footer of How it works, About the data, Privacy and Accessibility (LAND-20's comment); this scenario only says where its three links go. Proposed wording, for the founder's copy review.
+  # Added 19 Nov 2026 (pilot design batch, PR 2; `pilot/public-pages.feature`). LAND-22 to LAND-24 are the area features pull request's (#350). The boards draw the footer of How it works, About the data, Privacy and Accessibility (LAND-20's comment); this scenario only says where its three links go. Proposed wording, for the founder's copy review.
   @ui
-  Scenario: LAND-30 the footer links How it works, Privacy notice and Accessibility to their pages
+  Scenario: LAND-25 the footer links How it works, Privacy notice and Accessibility to their pages
     Given the user is on the landing page
     When the user reaches the footer
     Then "How it works" opens "/how-it-works" (HOW-01), "Privacy notice" opens "/privacy" (PRIV-01) and "Accessibility" opens "/accessibility" (A11Y-01)
     And the links carry no postcode, no search text and no certificate number
 
   @ui
-  Scenario: LAND-31 the landing's How it works section links to the How it works page
+  Scenario: LAND-26 the landing's How it works section links to the How it works page
     Given the user is on the landing page
     When the user reads "How it works" (LAND-18)
     Then it offers a link "More on how it works" (proposed wording) that opens "/how-it-works" (HOW-01)
