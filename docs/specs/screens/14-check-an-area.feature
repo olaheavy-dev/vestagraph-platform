@@ -58,6 +58,7 @@ Feature: Check an area
     the "Ask about this area" entry with its AI badge and an active Save for the area, leading signed-out visitors to sign-in (0058) -> AUTH-15, AUTH-16, AUTH-17, AUTH-26 (sign-in.feature)
     the desktop result: place header with the map, At a glance as a row of facts, the counts line, the jump row, the right column, and an opened topic in place of the right column (FE-26, 16 Nov 2026) -> AREA-37 to AREA-43
     the place header's "About <council>" link to City Explorer -> AREA-48; About the data and City Explorer's own sources -> AREA-49
+    About the data's entry for the energy certificate register -> AREA-50
     About the data with the design pass's new sources, dates only -> AREA-44, AREA-45
     the sparse area's gaps and not-known rows for radon, broadband coverage and council rent -> AREA-46, AREA-47 (radon: TOPIC-29; questions: GLANCE-04)
     (each of these states gives its cause, a line of reassurance and one action, B22)
@@ -443,3 +444,13 @@ Feature: Check an area
     Given the user is on Check an area and has opened About the data
     When the visitor looks for the sources City Explorer shows for a council
     Then the page lists only the area result's topics with their sources and data dates, and a source that only City Explorer uses (CITY2-58 to CITY2-68) is described on City Explorer's own About the data, not on this page
+
+  # The energy certificate register is a live lookup that keeps nothing (DA-09), so this entry carries no "Data from" date: there is no copy of the data to date. (The AboutData board still draws "Data from 23 October 2026" for it; the board needs that line removed before the gate.) The wording is proposed, copied from the AboutData board.
+  @ui
+  Scenario: AREA-50 About the data lists the energy certificate register, its licence and what it can't tell you
+    Given the user is on Check an area and has opened About the data
+    When the visitor reads the entry "Energy certificate register"
+    Then it names the register and links to it with the source stamp "EPC register ↗" (the register's search page on GOV.UK, which carries no certificate number)
+    And it gives the licence "Open Government Licence v3.0" and says the register's address and postcode are dropped when a certificate arrives and nothing is kept
+    And under "What it can't tell you" it says a certificate can't tell you what your own bills will be, or what has changed in the home since it was made, and that its cost lines, improvements and savings are estimates, not bills and not quotes
+    And the entry shows no "Data from" date, because Vestagraph holds no copy of this register's data
