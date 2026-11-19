@@ -43,6 +43,7 @@ The design skills' working notes in `.design/<feature>/` (decision 0031) feed th
 6. **Tags decide when a scenario runs:**
    - `@ui`: browser steps, run with playwright-bdd from stage 5 (decision 0049).
    - `@mcp`: MCP server steps, run from #97.
+   - `@ai03`: a scenario the AI-03 evaluation set must cover (`packages/fixtures/evaluation/ai-03-set.json`; register AI-03). It combines with the tags above and does not change when the scenario runs; the coverage test reads it, and a case may not cite a `@withdrawn` scenario.
    - No tag: data steps (fixtures and `costs.json`), run by `make check` from stage 3.
 
    Tags are lower case; the filter is case-sensitive. Data scenarios (no tag) need no `When`: they check data, not an action, and may have only `Then` steps when no story position applies. `@ui` and `@mcp` scenarios always have a `When`.

@@ -188,7 +188,7 @@ Feature: Check an area
     And crime reads "within 1 mile", the stored values are in metres, and no distance is shown in kilometres
 
   # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1, source-failed)
-  @ui
+  @ui @ai03
   Scenario: AREA-14 a missing flood copy is not the same as no warning
     Given the user is on Check an area
     When the user checks a complete postcode and we hold no current copy of the flood warnings

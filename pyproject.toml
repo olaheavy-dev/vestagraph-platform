@@ -99,6 +99,7 @@ markers = [
   "ui: Gherkin tag, browser steps, not run by make test (decision 0043)",
   "mcp: Gherkin tag, MCP server steps, not run by make test (decision 0043)",
   "withdrawn: Gherkin tag, a scenario that is no longer needed, kept for its ID",
+  "ai03: Gherkin tag, a scenario the AI-03 evaluation set must cover",
 ]
 
 [tool.coverage.run]
