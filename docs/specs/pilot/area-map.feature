@@ -34,6 +34,7 @@ Feature: Area maps (the quiet 3D map on every area map)
       layer statuses and gap layers worded from status -> MAP-21, MAP-22, MAP-23
       the list as the accessible equivalent of the 2D map -> MAP-24
       no screen says whether a home or the postcode centre is inside an outline -> MAP-25
+    the basemap tiles failing: "map unavailable", the facts still shown (0059) -> MAP-27
 
   @ui
   Scenario: MAP-01 our places are full-colour 3D and other houses and trees fade
@@ -157,14 +158,14 @@ Feature: Area maps (the quiet 3D map on every area map)
     And choosing "2D" shows the flat street map and choosing "3D" returns to the 3D map with the same places and the same filters
     And the switch can be reached and operated by keyboard, and its target is at least 44 px
 
-  # DA-25: OpenStreetMap data, our own hosted tiles, never the public tile servers; ODbL attribution required.
+  # DA-25 amended by DA-37 (0059, 19 Nov 2026): OpenStreetMap data, tiles from OpenFreeMap's public servers (never the OpenStreetMap public tile servers); OpenMapTiles and OpenStreetMap attribution required.
   @ui
   Scenario: MAP-18 the 2D street map is OpenStreetMap-style and carries its attribution
     Given the Map screen is open in the 2D style
     When the map is shown
     Then a flat street map is drawn with the same place pins, the rings (MAP-14) and the postcode centre pin
-    And "© OpenStreetMap contributors" is shown on the map
-    And the tiles come from our own hosting, never from the OpenStreetMap public tile servers (DA-25)
+    And "© OpenMapTiles © OpenStreetMap contributors" is shown on the map (the attribution OpenFreeMap requires, as MapLibre renders it)
+    And the tiles come from OpenFreeMap's public servers (0059, DA-37), never from the OpenStreetMap public tile servers
 
   # Layers exist on the 2D map only (FE-68). Names are the approved labels.
   @ui
@@ -236,3 +237,36 @@ Feature: Area maps (the quiet 3D map on every area map)
     When the visitor reads the Road and rail noise entry
     Then road noise shows its Lden bands as recorded and the caption "Modelled for 2021, not measured"
     And no decibel figure or noise level is given for the postcode or a home (DA-27)
+
+  # Decision 0059 (DA-37): the basemap comes from OpenFreeMap's public servers, which have no SLA, so its failure is a state. Rule 7 and 0029.
+  @ui
+  Scenario: MAP-27 if the basemap tiles cannot be loaded, the map says it is unavailable and every fact still shows
+    Given the visitor has checked "NB1 4XY" and the basemap tiles cannot be loaded (the tile servers are down or the visitor is offline)
+    When the visitor opens a map
+    Then the map area says "Map unavailable right now" (proposed wording) and does not show an empty or broken map
+    And our places are still listed in the place list and the topic, each with its distance and source stamp, and nothing is shown as zero or as a clean result (rule 7)
+    And the rest of the page works as before, and "Try again" loads the tiles again once they are reachable (proposed wording)
+
+  # FE-75 (founder, 19 Nov 2026, "Load when opened"): maps load only on the visitor's tap. Added after MAP-27 so no ID moves. The boards do not yet draw "Show map" (plan Task 7).
+  @ui
+  Scenario: MAP-28 before the visitor chooses "Show map", nothing is requested from OpenFreeMap and the facts and list are complete
+    Given the visitor has checked "NB1 4XY" and has not chosen "Show map"
+    When the result is shown
+    Then no request goes to OpenFreeMap or any other tile server
+    And the map area shows a "Show map" control (proposed wording), at least 44 px tall and reachable by keyboard, in place of the map
+    And every place is still in the place list and the topic with its distance and source stamp, so no fact depends on the map (rule 7)
+
+  @ui
+  Scenario: MAP-29 choosing "Show map" loads the map
+    Given the visitor has checked "NB1 4XY" and the "Show map" control is shown
+    When the visitor chooses "Show map"
+    Then the tiles are requested from OpenFreeMap (0059) and the map is drawn with the same places, rings and filters as before
+    And if the tiles cannot be loaded, MAP-27 applies
+
+  # Agent's call, open to the founder: nothing is stored about the choice, so there is nothing to consent to under PECR. A later decision may add a remembered choice, with its consent wording.
+  @ui
+  Scenario: MAP-30 the choice to show the map is not remembered
+    Given the visitor has chosen "Show map" on one result
+    When the visitor checks another postcode or reloads the page
+    Then the map shows "Show map" again and nothing about the earlier choice is stored on the device or sent to us
+

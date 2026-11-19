@@ -714,7 +714,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then no neighbourhood is coloured by a score, rank or figure (0054)
     And the source line names the Office for National Statistics under the Open Government Licence v.3.0, the OS data attribution and the House of Commons Library MSOA names under the Open Parliament Licence
     And "Boundary and name sources, under How we got this ↓" links to those stamps
-    And the board's map drawing is a placeholder for our own street map tiles (FE-03, still to price)
+    And the board's map drawing is a placeholder for the street map tiles, which come from OpenFreeMap (0059, DA-37; this said "our own street map tiles (FE-03, still to price)" before 19 Nov 2026)
 
   @ui
   Scenario: CITY-90 "See this neighbourhood" opens the neighbourhood page with the code after the hash
@@ -832,11 +832,11 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then the address has no query string, and a postcode may use only the fragment as decision 0046 allows
 
   @ui
-  Scenario: CITY-104 no third party sees a page view
+  Scenario: CITY-104 no third party sees a page view except the map tiles
     Given the user has opened the council page for council "E06999001"
     When the page loads
-    Then the boundary files, map tiles, fonts and the chart library come from our own hosting
-    And the page makes no request to a third party (B28)
+    Then the boundary files, fonts and the chart library come from our own hosting
+    And the map tiles come from OpenFreeMap's public servers (0059, DA-37; changed 19 Nov 2026: this was "our own hosting", then B28 held for tiles too), and the page makes no other request to a third party (B28)
 
   @ui
   Scenario: CITY-105 the new endpoints carry the pilot's rate limits
@@ -883,3 +883,12 @@ Feature: City Explorer council page (one page per council: search, what it costs
     When the user reads each figure and fact in the sheet
     Then each has "Report a problem" (REPORT-03), and a report is counted by the figure's name and the council's code, with no postcode and no address (REPORT-23)
     And the cost summary's lines, the charts' captions and the printout carry no link (agent's call, open to the founder: the design names only summary lines on the area result)
+
+  # FE-75 (founder, 19 Nov 2026): the maps on the council and neighbourhood pages load only on a tap. The rules are `area-map.feature` MAP-28 to MAP-30. Added after CITY-112 so no ID moves.
+  @ui
+  Scenario: CITY-113 a council page's map loads only when the user chooses "Show map"
+    Given the user has opened the council page for council "E06999001"
+    When the page loads
+    Then the map area shows "Show map" and nothing is requested from OpenFreeMap until the user chooses it (FE-75; MAP-28 to MAP-30)
+    And the council's facts and the neighbourhood list are complete without the map
+
