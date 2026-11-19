@@ -214,7 +214,7 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     And the last page says "Privacy: this summary was made in your browser. Vestagraph didn't store your search." (AREA-17)
     And for the sample postcode it says that every place, figure and date is a made-up example from a made-up town
 
-  # Added 18 Nov 2026 (energy certificate design). All the wording of this row is proposed, for the founder's copy review. Its on-screen version is TOPIC-41.
+  # Added 18 Nov 2026 (energy certificate design). All the wording of this row was approved by the founder on 19 Nov 2026 (copy review, "Approve as written (Recommended)"). Its on-screen version is TOPIC-41.
   @ui
   Scenario: PRINT-21 the printout lists the energy certificate row under "Not yet covered here"
     Given the user has chosen "Print or save as PDF" for a sample postcode

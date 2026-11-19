@@ -331,7 +331,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And topic "noise" draws map layer "road-noise"
     And topic "noise" draws map layer "rail-noise"
 
-  # Added 18 Nov 2026 (energy certificate design, `docs/superpowers/specs/2026-11-18-energy-certificate-design.md`). All the wording of this row is proposed, for the founder's copy review. The page is specified in `energy-certificate.feature` (ENERGY); the registry row is `energy-certificate-home` in `packages/fixtures/data/pilot-topics.json`.
+  # Added 18 Nov 2026 (energy certificate design, `docs/superpowers/specs/2026-11-18-energy-certificate-design.md`). All the wording of this row was approved by the founder on 19 Nov 2026 (copy review, "Approve as written (Recommended)"). The page is specified in `energy-certificate.feature` (ENERGY); the registry row is `energy-certificate-home` in `packages/fixtures/data/pilot-topics.json`.
   @ui
   Scenario: TOPIC-41 the energy certificate row opens its own page and shows no result for the postcode
     Given the result for "NB1 4XY" is open

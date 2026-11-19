@@ -445,7 +445,7 @@ Feature: Check an area
     When the visitor looks for the sources City Explorer shows for a council
     Then the page lists only the area result's topics with their sources and data dates, and a source that only City Explorer uses (CITY2-58 to CITY2-68) is described on City Explorer's own About the data, not on this page
 
-  # The energy certificate register is a live lookup that keeps nothing (DA-09), so this entry carries no "Data from" date: there is no copy of the data to date. The board shows the proposed line "We look this up when you ask and keep no copy" in its place (canvas version 413). The wording is proposed, copied from the AboutData board.
+  # The energy certificate register is a live lookup that keeps nothing (DA-09), so this entry carries no "Data from" date: there is no copy of the data to date. The board shows the line "We look this up when you ask and keep no copy" in its place (canvas version 413). The wording was approved by the founder on 19 Nov 2026 (copy review, "Approve as written (Recommended)"), copied from the AboutData board.
   @ui
   Scenario: AREA-50 About the data lists the energy certificate register, its licence and what it can't tell you
     Given the user is on Check an area and has opened About the data

@@ -19,7 +19,7 @@
 - The number never appears in a URL, `#` fragment, query string or log (0014); the page address is `/energy-certificate`.
 - England only: a certificate whose country is Wales shows "Wales is not yet covered." (rule 6).
 - Test names `test_<method>_<condition>_<result>` (0039); pure functions over frozen dataclasses, I/O only in the generator (BE-39).
-- All page wording is proposed and listed for the founder's copy review in the pull request.
+- All page wording was proposed, then approved by the founder on 19 Nov 2026 (copy review, "Approve as written (Recommended)"; "Current" over "Now").
 - No new packages.
 
 ## Review Focus

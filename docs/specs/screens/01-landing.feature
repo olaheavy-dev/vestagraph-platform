@@ -16,7 +16,7 @@ Feature: Landing
     text the one box cannot search as a postcode -> LAND-14 (LAND-12, the postcode-only message, is withdrawn)
     a town, city or council name; a place outside England -> LAND-15, LAND-16
     the hero's wording, How it works and the FAQ answer for the one box -> LAND-17 to LAND-19
-    the link to Check an energy certificate (proposed wording) -> LAND-21
+    the link to Check an energy certificate -> LAND-21
     the "How to read a result" showcase and where "How we got this" is -> LAND-13
     A complete postcode hands over to Check an area (14-check-an-area.feature), which holds the
     loading, not found, source failed and outside England states.
@@ -162,7 +162,7 @@ Feature: Landing
     When the user reaches the footer of the landing page
     Then it links "Explore council areas", which opens the landing page's one search box, the council search (CITY-07 to CITY-22; no board draws a separate search page, agent's call, 17 Nov 2026; approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")), and "Use in ChatGPT or Claude", which opens that page (HOWTO-31)
 
-  # Added 18 Nov 2026 (energy certificate design: "the landing gets a link under the search box or in the footer (the boards decide)"). Drawn on the four landing boards (19 Nov 2026, canvas version 413), under the search box (the boards' call, agent's call open to the founder, DA-32); the wording is still proposed, for the founder's copy review, finalised in the build.
+  # Added 18 Nov 2026 (energy certificate design: "the landing gets a link under the search box or in the footer (the boards decide)"). Drawn on the four landing boards (19 Nov 2026, canvas version 413), under the search box (the boards' call, agent's call open to the founder, DA-32); the wording was approved by the founder on 19 Nov 2026 (copy review, "Approve as written (Recommended)"), finalised in the build; DA-32 is founder-approved too.
   @ui
   Scenario: LAND-21 the landing links to the energy certificate page
     Given the user is not signed in
