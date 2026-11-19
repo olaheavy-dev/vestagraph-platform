@@ -252,6 +252,7 @@ Feature: Check an energy certificate (one home's certificate, looked up by its n
     Given the visitor has searched for the sample number "0000-0000-0000-0000-0006"
     When the result is shown
     Then the page reads "Wales is not yet covered." and shows no rating, cost or fact of that certificate (rule 6)
+    And it offers one action, the link "Find an energy certificate (gov.uk) ↗" (register line B22; proposed wording)
 
   # ---- State 9: not found ----
 
