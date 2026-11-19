@@ -47,4 +47,6 @@ Finish every specification and pass the whole stage 3 gate first. Slowest; today
 - **AI-03:** "One set, brainstorm first (Recommended)": one versioned evaluation set for the area tools, the council tools and the signed-in chat (AI-14).
 - **#286** (earlier that day): "Fix now-items, move 5b items (Recommended)" (WW-21), with the caption "less than 0.1%" (DA-36; #338 closed #286).
 
+*Note, 19 Nov 2026: condition 3 is met: the AI-03 set is written (`packages/fixtures/evaluation/ai-03-set.json`, 143 cases, AI-14 and AI-15), with the founder's spot-check of 10 cases approved; only the runner waits for stage 5b.*
+
 The gate is re-checked after the design batch, the AI-03 set, and the council tools returning tenure shares.
