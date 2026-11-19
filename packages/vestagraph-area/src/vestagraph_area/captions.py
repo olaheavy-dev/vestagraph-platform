@@ -12,8 +12,9 @@ A provisional end point still allows a trend; provisional points in the latest t
 counted so the wording can say so. Money in ``values`` is whole pounds: each figure is rounded
 once (halves away from zero) and the shown amount is the difference of those two rounded figures
 (register line BE-14), so the numbers add up on screen; the percent is worked from the exact pence
-to one decimal place. A ratio is shown as published (two places) and its amount is exact. When
-there is no change, the latest figure is still carried in a ``missing`` caption.
+to one decimal place, or is ``less than 0.1`` when a real change would print as 0.0. A ratio is
+shown as published (two places) and its amount is exact. When there is no change,
+the latest figure is still carried in a ``missing`` caption.
 """
 
 from dataclasses import dataclass
@@ -35,6 +36,7 @@ from vestagraph_area.tenure import share_text, tenure_shares_for_fact
 Direction = Literal["rose", "fell", "unchanged"]
 CaptionKind = Literal["trend", "missing", "not-comparable", "single-point"]
 _PENCE_PER_POUND: Final = 100
+LESS_THAN_A_TENTH: Final = "less than 0.1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -224,9 +226,21 @@ def _trend_values(topic: str, change: Change) -> dict[str, str]:
         **figures,
     }
     if change.percent is not None and change.direction != "unchanged":
-        values["percent"] = _decimal_text(change.percent, 1)
+        values["percent"] = _percent_text(change.percent)
     values["provisionalPoints"] = str(change.provisional_points)
     return values
+
+
+def _percent_text(percent: Fraction) -> str:
+    """The percent to one decimal place, without a sign (the direction says rose or fell).
+
+    A change that is not zero but would print as ``0.0`` (under 0.05%) is ``less than 0.1``
+    instead, so a real rise or fall never reads as no change (wording approved by the founder,
+    19 Nov 2026).
+    """
+    if percent != 0 and _scaled(abs(percent), 1) == 0:
+        return LESS_THAN_A_TENTH
+    return _decimal_text(percent, 1)
 
 
 def _latest_values(series: Series, end: SeriesPoint) -> dict[str, str]:

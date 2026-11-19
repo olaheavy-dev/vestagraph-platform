@@ -533,6 +533,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   Scenario: CITY-62 the rent caption at Northbridge is a rise over 12 months
     Then council "E06999001" caption "rent" has pattern "trend-rose"
 
+  # Wording approved by the founder on 19 Nov 2026 (prompt window, issue #286: "less than 0.1%" (Recommended), over dropping the percent): when a real rise or fall is under 0.05% and would print as "0.0", `<percent>` is the text "less than 0.1" (so "(less than 0.1%)"), never "0.0"; a true zero change keeps the "unchanged" pattern and no percent. The same applies to every caption that quotes `<percent>` (CITY-63, CITY-64).
   @ui
   Scenario: CITY-63 private rents is a monthly line with its caption and the provisional months marked
     Given the user has opened the council page for council "E06999001" on desktop
