@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://vestagraph.invalid/schema/forbidden-words.schema.json",
   "title": "AI-03 forbidden-word list (evaluation/forbidden-words.json)",
-  "description": "The versioned list of verdict, score, ranking and approval words the chat's answers must never contain (AGENTS rule 4, decision 0004, WCHAT-67 to 80). A word matches whole words only, case-insensitively, so 'Safestore' and 'safety' do not match 'safe'. The list is not applied inside the places named in allowIn.",
+  "description": "The versioned list of verdict, score, ranking and approval words the chat's answers must never contain (AGENTS rule 4, decision 0004, WCHAT-67 to 80). A word matches whole words only, case-insensitively, so 'Safestore' and 'safety' do not match 'safe'. The list is not applied inside the places named in allowIn, and the phrases in allowPhrases are masked first.",
   "type": "object",
   "required": [
     "version",
@@ -47,6 +47,15 @@
           "quoted-source"
         ]
       }
+    },
+    "allowPhrases": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+( [a-z]+)*$"
+      },
+      "description": "Whole phrases masked before matching, because they are a source's own name for a metric (for example the DfT 'connectivity score'). Each phrase's source is cited in sources."
     }
   }
 }

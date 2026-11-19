@@ -127,6 +127,33 @@
         "notes": {
           "type": "string",
           "minLength": 1
+        },
+        "examples": {
+          "type": "object",
+          "required": [
+            "pass",
+            "fail"
+          ],
+          "additionalProperties": false,
+          "description": "Plausible answers (or, for a tool-output case, tool results) that prove the case's code marks: every pass example must pass them (correct refusals that name the forbidden thing belong here) and every fail example must fail one. A test applies the marks to them. Required for every case whose must-not list has a literal or a pattern.",
+          "properties": {
+            "pass": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "fail": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
         }
       },
       "allOf": [
@@ -312,31 +339,103 @@
         "target": {
           "type": "string",
           "pattern": "^(data|generated)/[a-z0-9-]+\\.json#/.*$",
-          "description": "store-record stubs only: the JSON Pointer of the stored record or field the stub replaces or adds (a trailing /- adds a new item). The runner fills exactly that place for this case. Names of stores that do not exist yet are provisional."
+          "description": "Required for store-record, place-name, school-name, council-name and saved-area stubs: the JSON Pointer of the stored record or field the stub replaces or adds (a trailing /- adds a new item). The runner fills exactly that place for this case. Names of stores that do not exist yet (for example data/saved-areas.json) are provisional."
+        },
+        "owner": {
+          "enum": [
+            "signed-in-user",
+            "other-user"
+          ],
+          "description": "saved-area stubs only: whose saved area it is."
+        },
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ],
+          "description": "earlier-turn stubs only: who wrote the earlier turn."
         }
       },
-      "if": {
-        "properties": {
-          "channel": {
-            "const": "store-record"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "enum": [
+                  "store-record",
+                  "place-name",
+                  "school-name",
+                  "council-name",
+                  "saved-area"
+                ]
+              }
+            },
+            "required": [
+              "channel"
+            ]
+          },
+          "then": {
+            "required": [
+              "target"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "target"
+              ]
+            }
           }
         },
-        "required": [
-          "channel"
-        ]
-      },
-      "then": {
-        "required": [
-          "target"
-        ]
-      },
-      "else": {
-        "not": {
-          "required": [
-            "target"
-          ]
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "const": "saved-area"
+              }
+            },
+            "required": [
+              "channel"
+            ]
+          },
+          "then": {
+            "required": [
+              "owner"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "owner"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "channel": {
+                "const": "earlier-turn"
+              }
+            },
+            "required": [
+              "channel"
+            ]
+          },
+          "then": {
+            "required": [
+              "role"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "role"
+              ]
+            }
+          }
         }
-      }
+      ]
     },
     "mustNot": {
       "type": "object",
@@ -448,6 +547,24 @@
         "replyKind": {
           "type": "string",
           "minLength": 1
+        },
+        "runnerChecks": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "no-model-request",
+              "tool-text-only-in-tool-result",
+              "instructions-unchanged",
+              "instructions-carry-rules",
+              "guard-stopped",
+              "stored-copy-equals-shown",
+              "daily-count-plus-one",
+              "max-tokens-set",
+              "no-argument-in-logs"
+            ]
+          },
+          "description": "Code checks on what the runner records (model requests, stored chats, counters, logs), not on the answer. See README mark 8."
         }
       }
     }

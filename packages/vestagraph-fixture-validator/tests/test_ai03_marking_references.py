@@ -66,3 +66,18 @@ def test_forbidden_hits_bare_word_inside_other_words_is_not_flagged(text: str) -
 @pytest.mark.parametrize("where", ["user-turn", "quoted-source"])
 def test_forbidden_hits_word_in_user_turn_or_quoted_source_is_allowed(where: str) -> None:
     assert forbidden_hits("Is it safe? The best area, they said.", where) == []
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [("£2,160.00 a year", ["2160"]), ("In 2026-07 there were 07 cases", ["2026", "7", "7"])],
+)
+def test_normalise_numbers_drops_leading_zeros_and_trailing_decimal_zeros(
+    text: str, expected: list[str]
+) -> None:
+    assert normalise_numbers(text) == expected
+
+
+def test_forbidden_hits_allowed_phrase_is_masked_but_other_scores_are_not() -> None:
+    assert forbidden_hits("The transport connectivity score is 71.4", "answer") == []
+    assert forbidden_hits("This area's score is high", "answer") == ["score"]

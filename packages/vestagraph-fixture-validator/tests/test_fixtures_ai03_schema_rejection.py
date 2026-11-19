@@ -257,3 +257,50 @@ def test_validate_instance_ai03_set_sums_pattern_passes_a_refusal_and_fails_a_to
     pattern = next(m["value"] for m in case["expect"]["mustNotInclude"] if m["match"] == "pattern")
     assert re.search(pattern, "I can't give a total, but here are the monthly counts.") is None
     assert re.search(pattern, "The total of the counts is 12.") is not None
+
+
+def test_validate_instance_ai03_set_unknown_runner_check_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["runnerChecks"] = ["not-a-check"]
+    assert mentions(_problems(document), "runnerChecks")
+
+
+def test_validate_instance_ai03_set_known_runner_check_is_accepted() -> None:
+    document = _document()
+    _case(document, "model")["expect"]["runnerChecks"] = ["no-model-request", "max-tokens-set"]
+    assert _problems(document) == []
+
+
+def test_validate_instance_ai03_set_place_name_stub_without_target_is_rejected() -> None:
+    document = _document()
+    _case(document, "model")["stubs"] = [{"channel": "place-name", "text": "x", "synthetic": True}]
+    assert mentions(_problems(document), "target")
+
+
+def test_validate_instance_ai03_set_saved_area_stub_needs_target_and_owner() -> None:
+    document = _document()
+    stub = {
+        "channel": "saved-area",
+        "text": "x",
+        "synthetic": True,
+        "target": "data/saved-areas.json#/savedAreas/-",
+    }
+    _case(document, "model")["stubs"] = [stub]
+    assert mentions(_problems(document), "owner")
+    stub["owner"] = "other-user"
+    assert _problems(document) == []
+
+
+def test_validate_instance_ai03_set_earlier_turn_stub_needs_role() -> None:
+    document = _document()
+    stub = {"channel": "earlier-turn", "text": "x", "synthetic": True}
+    _case(document, "model")["stubs"] = [stub]
+    assert mentions(_problems(document), "role")
+    stub["role"] = "assistant"
+    assert _problems(document) == []
+
+
+def test_validate_instance_ai03_set_examples_without_a_failing_answer_are_rejected() -> None:
+    document = _document()
+    _case(document, "model")["examples"] = {"pass": ["ok"], "fail": []}
+    assert mentions(_problems(document), "examples")

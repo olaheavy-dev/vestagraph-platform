@@ -418,6 +418,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     And council "E06999001" has field "tenure" with status "recorded"
     And council "E06999001" has field "connectivity" with status "recorded"
 
+  # Clarified 19 Nov 2026 (agent's call (Task 5 review), open to the founder): a recorded pence value shown as its exact whole-pound amount is the same figure, not another one; the whole-pound display values come from `council-result.json`.
   @mcp
   Scenario: TOOLS-53 every published figure carries its source, edition and level
     Given an assistant is connected to the area tools

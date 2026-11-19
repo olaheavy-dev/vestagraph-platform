@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/forbidden-words.schema.json",
-  "description": "Words and phrases that make a verdict, score, ranking, approval or recommendation. Marked by plain code on the model's answer only (never by another model). Whole words, case-insensitive. Official government ranks may be quoted with source, edition and level (decision 0054), so 'rank', 'decile' and 'index' are not listed; 'best' and 'worst' still are, because a quoted rank is not a verdict.",
+  "description": "Words and phrases that make a verdict, score, ranking, approval or recommendation. Marked by plain code on the model's answer and on the text a tool returns outside quoted-source fields (never by another model). Whole words, case-insensitive. Phrases in allowPhrases are masked first. Official government ranks may be quoted with source, edition and level (decision 0054), so 'rank', 'decile' and 'index' are not listed; 'best' and 'worst' still are, because a quoted rank is not a verdict.",
   "version": 1,
   "sources": [
     "AGENTS.md rule 4: never says a home is verified, safe or approved; AI never calculates numbers",
@@ -11,7 +11,8 @@
     "WCHAT-79: calls the area the best (best)",
     "WCHAT-80: a recommendation, 'you should buy here' (recommend, you should)",
     "WCHAT-68: a score such as '4 out of 10', stopped even when its numbers are in the tool results (score)",
-    "WCHAT-69: the bare word 'safe' inside source wording or a place name is not stopped (whole-word matching and allowIn)"
+    "WCHAT-69: the bare word 'safe' inside source wording or a place name is not stopped (whole-word matching and allowIn)",
+    "allowPhrases 'connectivity score': the DfT transport connectivity metric names its figure a score (https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric); quoting the metric's own name is not our score (decision 0054)"
   ],
   "words": [
     "safe",
@@ -34,5 +35,8 @@
   "allowIn": [
     "user-turn",
     "quoted-source"
+  ],
+  "allowPhrases": [
+    "connectivity score"
   ]
 }
