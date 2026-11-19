@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://vestagraph.invalid/schema/energy-certificates.schema.json",
   "title": "Sample energy certificates (data/energy-certificates.json)",
-  "description": "Synthetic energy certificates in Vestagraph's own normalised shape: what the page receives after the adapter has dropped the address fields (DA-09, design 2026-11-18). No address, postcode, post town or address line exists in this shape, and additionalProperties is false so any such field is rejected. Money is whole pence (decision 0036). A fact the certificate does not hold is {\"status\": \"missing\"}, never zero or blank (AGENTS.md rule 7). Certificate numbers are obviously synthetic (0000-0000-...).",
+  "description": "Synthetic energy certificates in Vestagraph's own normalised shape: what the page receives after the adapter has dropped the address fields (DA-09, design 2026-11-18). No address, postcode, post town or address line exists in this shape, and additionalProperties is false so any such field is rejected. Money is whole pence (decision 0036). A fact the certificate does not hold is {\"status\": \"missing\"}, never zero or blank (AGENTS.md rule 7). Certificate numbers are obviously synthetic (0000-0000-0000-0000-...).",
   "type": "object",
   "required": [
     "nation",
@@ -48,8 +48,8 @@
       "properties": {
         "number": {
           "type": "string",
-          "pattern": "^0000-0000-\\d{4}-\\d{4}-\\d{4}$",
-          "description": "Twenty digits in five groups, always starting 0000-0000- so a sample can never be a real certificate."
+          "pattern": "^0000-0000-0000-0000-\\d{4}$",
+          "description": "Twenty digits in five groups, always starting 0000-0000-0000-0000-, so it is obviously synthetic."
         },
         "schema": {
           "type": "string",

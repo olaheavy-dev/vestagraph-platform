@@ -146,7 +146,7 @@ def test_at_a_glance_route_only_topic_is_ignored() -> None:
     assert "route" not in glance.outcomes
 
 
-def test_glance_energy_route_only_not_counted() -> None:
+def test_at_a_glance_energy_route_only_topic_not_counted() -> None:
     data = fixtures_directory() / "data"
     registry = read_registry(data / "pilot-topics.json")
     area = read_postcode_area(data / "postcode-area.json")

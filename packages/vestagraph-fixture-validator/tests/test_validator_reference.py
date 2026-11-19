@@ -86,6 +86,7 @@ def test_validate_fixtures_fact_blank_instead_of_missing_fails() -> None:
 
 def test_validate_fixtures_certificate_number_not_synthetic_fails() -> None:
     certificate = _sample_a()
+    # A made-up number shaped like a real one, never looked up anywhere.
     certificate["number"] = "1234-5678-1234-5678-1234"
     assert mentions(_certificate_problems(_wrap(certificate)), "number")
 

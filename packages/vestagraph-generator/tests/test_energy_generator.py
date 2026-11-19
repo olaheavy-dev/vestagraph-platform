@@ -50,6 +50,41 @@ def test_generate_energy_sample_h_leap_day_valid_until_28_february() -> None:
     assert _result()[_number("H")]["validUntil"] == "2026-02-28"
 
 
+# Regulation 9(2) of the Energy Performance of Buildings (England and Wales) Regulations 2012
+# (https://www.legislation.gov.uk/uksi/2012/3118/regulation/9, checked 19 Nov 2026): "An energy
+# performance certificate is only valid for the purposes of this Part if- (a) it was entered on
+# the register no more than 10 years before the date on which it is made available; and (b) no
+# other energy performance certificate for the building has since been entered on the register."
+# Working: sample C (superseded) fails limb (b), because a newer certificate has since been
+# entered, so it is not valid on any date and has no "valid until" and no "more than 10 years
+# old" (that age only matters for a certificate that is otherwise valid). The regulation says
+# nothing about a cancelled certificate, so sample D shows no validity date either (the
+# controller's ruling, 19 Nov 2026). Their registration date (C 2022-09-12, D 2023-03-01) is a
+# plain input and still shown.
+def test_generate_energy_superseded_shows_no_validity_date() -> None:
+    sample = _result()[_number("C")]
+
+    assert "validUntil" not in sample
+    assert "moreThanTenYearsOld" not in sample
+    assert sample["registrationDate"] == "2022-09-12"
+
+
+def test_generate_energy_cancelled_shows_no_validity_date() -> None:
+    sample = _result()[_number("D")]
+
+    assert "validUntil" not in sample
+    assert "moreThanTenYearsOld" not in sample
+    assert sample["registrationDate"] == "2023-03-01"
+
+
+def test_generate_energy_current_certificates_show_registration_date_and_validity() -> None:
+    result = _result()
+
+    assert result[_number("A")]["registrationDate"] == "2025-04-04"
+    assert result[_number("B")]["registrationDate"] == "2014-06-10"
+    assert result[_number("H")]["registrationDate"] == "2016-02-29"
+
+
 def test_generate_energy_superseded_and_cancelled_have_a_status_line() -> None:
     result = _result()
 

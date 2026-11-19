@@ -333,3 +333,18 @@ def then_energy_certificate_improvements_in_order(data_steps: DataSteps, number:
 @then(parsers.parse('energy certificate "{number}" has an inspection date'))
 def then_energy_certificate_has_inspection_date(data_steps: DataSteps, number: str) -> None:
     data_steps.then_energy_certificate_has_inspection_date(number)
+
+
+@then(parsers.parse('energy certificate "{number}" has a registration date'))
+def then_energy_certificate_has_registration_date(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_has_registration_date(number)
+
+
+@then(parsers.parse('energy certificate "{number}" has a valid until date'))
+def then_energy_certificate_has_valid_until(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_has_valid_until(number, True)
+
+
+@then(parsers.parse('energy certificate "{number}" has no valid until date'))
+def then_energy_certificate_has_no_valid_until(data_steps: DataSteps, number: str) -> None:
+    data_steps.then_energy_certificate_has_valid_until(number, False)

@@ -69,9 +69,15 @@ def _shown(certificate: Certificate, tables: CodeTables, today: date) -> dict[st
         "number": certificate.number,
         "outcome": "shown",
         "inspectionDate": certificate.inspection_date.isoformat(),
-        "validUntil": valid_until(certificate.registration_date).isoformat(),
-        "moreThanTenYearsOld": is_more_than_ten_years_old(certificate.registration_date, today),
+        "registrationDate": certificate.registration_date.isoformat(),
     }
+    # Regulation 9(2)(b): a certificate is valid only while no other has since been entered, so
+    # only a current one ("entered") gets a validity date; a replaced or cancelled one gets none.
+    if certificate.status == "entered":
+        entry["validUntil"] = valid_until(certificate.registration_date).isoformat()
+        entry["moreThanTenYearsOld"] = is_more_than_ten_years_old(
+            certificate.registration_date, today
+        )
     if certificate.status in _STATUS_LINES:
         entry["statusLine"] = {
             "status": certificate.status,

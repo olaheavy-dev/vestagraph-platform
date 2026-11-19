@@ -409,6 +409,22 @@ class DataSteps:
             f'Energy certificate "{number}" has no validUntil date in {_ENERGY_RESULT}.'
         )
 
+    def then_energy_certificate_has_registration_date(self, number: str) -> None:
+        value = _require_energy_certificate(number).get("registrationDate")
+        assert isinstance(value, str), (
+            f'Energy certificate "{number}" has no registrationDate in {_ENERGY_RESULT}.'
+        )
+
+    def then_energy_certificate_has_valid_until(self, number: str, expected: bool) -> None:
+        # Regulation 9(2)(b): only a current certificate has a validity date, with its age.
+        certificate = _require_energy_certificate(number)
+        has_dates = "validUntil" in certificate or "moreThanTenYearsOld" in certificate
+        assert has_dates is expected, (
+            f'Energy certificate "{number}" '
+            f"{'has no' if expected else 'has a'} validUntil or moreThanTenYearsOld in "
+            f"{_ENERGY_RESULT}."
+        )
+
     def then_energy_certificate_has_inspection_date(self, number: str) -> None:
         value = _require_energy_certificate(number).get("inspectionDate")
         assert isinstance(value, str), (

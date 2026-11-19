@@ -7,6 +7,7 @@
       "number": "0000-0000-0000-0000-0001",
       "outcome": "shown",
       "inspectionDate": "2025-04-04",
+      "registrationDate": "2025-04-04",
       "validUntil": "2035-04-04",
       "moreThanTenYearsOld": false,
       "currentRating": {
@@ -91,6 +92,7 @@
       "number": "0000-0000-0000-0000-0002",
       "outcome": "shown",
       "inspectionDate": "2014-06-10",
+      "registrationDate": "2014-06-10",
       "validUntil": "2024-06-10",
       "moreThanTenYearsOld": true,
       "currentRating": {
@@ -153,8 +155,7 @@
       "number": "0000-0000-0000-0000-0003",
       "outcome": "shown",
       "inspectionDate": "2022-09-11",
-      "validUntil": "2032-09-12",
-      "moreThanTenYearsOld": false,
+      "registrationDate": "2022-09-12",
       "statusLine": {
         "status": "superseded",
         "text": "A newer certificate has replaced this one."
@@ -214,8 +215,7 @@
       "number": "0000-0000-0000-0000-0004",
       "outcome": "shown",
       "inspectionDate": "2023-02-27",
-      "validUntil": "2033-03-01",
-      "moreThanTenYearsOld": false,
+      "registrationDate": "2023-03-01",
       "statusLine": {
         "status": "cancelled",
         "text": "The register has cancelled this certificate."
@@ -283,6 +283,7 @@
       "number": "0000-0000-0000-0000-0007",
       "outcome": "shown",
       "inspectionDate": "2021-03-09",
+      "registrationDate": "2021-03-10",
       "validUntil": "2031-03-10",
       "moreThanTenYearsOld": false,
       "currentRating": {
@@ -329,6 +330,7 @@
       "number": "0000-0000-0000-0000-0008",
       "outcome": "shown",
       "inspectionDate": "2016-02-29",
+      "registrationDate": "2016-02-29",
       "validUntil": "2026-02-28",
       "moreThanTenYearsOld": true,
       "currentRating": {

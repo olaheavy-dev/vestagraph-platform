@@ -15,7 +15,8 @@ VALIDITY_YEARS: Final = 10
 def valid_until(start: date) -> date:
     """Last valid day: the same day and month ``VALIDITY_YEARS`` on.
 
-    ``start`` is the registration date (regulation 9(2)(a), 2012 Regulations).
+    ``start`` is the registration date (regulation 9(2)(a), 2012 Regulations). Limb (b), that no
+    newer certificate has since been entered, depends on the status; the caller applies it.
     29 February becomes 28 February when the target year has no such day.
     """
     year = start.year + VALIDITY_YEARS
@@ -189,6 +190,9 @@ def _improvements(raw: dict[str, Any], where: str) -> tuple[Improvement, ...] | 
 
 
 def _certificate(raw: dict[str, Any]) -> Certificate:
+    # The number is in every error message below. That is safe only because the fixtures are
+    # synthetic: a live normaliser must not reuse this, or must name a position (for example
+    # "the register's answer") so a visitor's number never reaches an exception or error report.
     where = f"certificate {raw.get('number')}"
     area = _fact(raw, "totalFloorAreaSquareMetres", where)
     if area is not None and (type(area) is bool or not isinstance(area, (int, Fraction))):
