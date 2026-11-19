@@ -2,7 +2,7 @@
 Feature: City Explorer council page (one page per council: search, what it costs, rent or buy, your budget, charts and their captions, states, privacy)
   Question it answers: "What does it cost to live in this council area each month, to rent or to buy, and how do I get from the council down to a postcode?"
   Modes: both (and anyone, with no account; decisions 0046 and 0055)
-  Added 17 Nov 2026 (PR C of the City Explorer plan, Task 14a; decisions 0053, 0054 and 0055; register lines FE-37, FE-43 to FE-45, FE-47, FE-48, FE-50, DA-21, BE-38, PD-19). The design is `docs/superpowers/specs/2026-11-15-city-explorer-design.md` (the council page sections); the neighbourhood result page is `city-explorer-neighbourhood.feature` (HOOD), and compare, share and print, what changed and the council tools are `city-explorer-part-2.feature` (CITY2); they are written in `city-explorer-neighbourhood.feature` and `city-explorer-part-2.feature`, not here.
+  Added 17 Nov 2026 (PR C of the City Explorer plan, Task 14a; decisions 0053, 0054 and 0055; register lines FE-37, FE-43 to FE-45, FE-47, FE-48, FE-50, DA-21, BE-38, PD-19). The design is `docs/superpowers/specs/2026-11-15-city-explorer-design.md` (the council page sections); the neighbourhood result page is `city-explorer-neighbourhood.feature` (HOOD), and compare, share and print, what changed and About the data are `city-explorer-part-2.feature` (CITY2); they are written in `city-explorer-neighbourhood.feature` and `city-explorer-part-2.feature`, not here. The council tools for ChatGPT and Claude are in `area-tools.feature` (TOOLS-44 to TOOLS-63).
   Fixtures: councils by code in `packages/fixtures/data/council-area.json` (inputs, each with its source) and `packages/fixtures/generated/council-result.json` (every calculated figure). The sample councils: E06999001 Northbridge (complete, unitary, three neighbourhoods), E06999002 Southvale (price start point not published), E07999001 Eastmere (district, formed 2023-04-01 from "East Westshire Borough", no published rent, one property type with no record, a method break in the affordability series) and E07999002 Westmere (district, nothing recorded: no council tax, rent, price, ratio, tenure or connectivity). The data names read "(synthetic)"; the boards print the same names with "(sample)", and every scenario here quotes the board's text. The postcode SV2 3AB belongs to E06999002.
   Figures: none typed here (AGENTS.md rule 2). A scenario that needs a figure names the council code and the generated field (the figure map below); the page quotes the number from the file.
   Where: the page for one council, titled with its name (for example "Northbridge Council area"; the boards show "Northbridge (sample)"). Boards, on the canvas page "Pilot · City Explorer" (design canvas version 407, each with its Dark twin): CouncilPage (phone), CouncilPageDesktop, CouncilBudgetValue (phone and desktop) and CouncilStates (26 states, phone width; the same messages sit in the desktop page's content area). The printout (CouncilPrint, FE-50), compare, what changed, About the data and the neighbourhood boards belong to the other City Explorer features.
@@ -628,7 +628,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And the line is drawn as two parts with no line across the break
     And the text alternative says the parts "are measured differently and are not comparable", with each part's end points quoted from the data and no first-to-last pairing
 
-  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. No sample council produces a not-comparable caption, so this waits for a fixture (proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
+  # Review Focus 4: a change whose month 12 months earlier is missing, or that spans a break. No sample council produces a not-comparable caption, so this waits for a fixture (#340; the property-type method break is #288) (proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")).
   @ui
   Scenario: CITY-78 a change across a method break or with a missing earlier point shows no change figure
     Given a council whose latest two end points lie either side of a method break, or whose month 12 months earlier is not published
@@ -755,7 +755,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And "Topics appear as they arrive; nothing is shown as empty in the meantime."
     And there is no action, as on the postcode result
 
-  # No sample record is stale, so the board shows no figure; this scenario waits for a stale fixture.
+  # No sample record is stale, so the board shows no figure; this scenario waits for a stale fixture (#340).
   @ui
   Scenario: CITY-95 an older edition says so and the figure stays readable
     Given a council whose stored copy of a source is older than it should be
@@ -764,7 +764,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And "About the data shows when each source was last updated."
     And the action is "About the data", and the source stamp has no status word or date (FE-33)
 
-  # No sample record holds a county figure or a county name for a council, so the board uses placeholders and draws no figure; this scenario waits for one.
+  # No sample record holds a county figure or a county name for a council, so the board uses placeholders and draws no figure; this scenario waits for one (#340).
   @ui
   Scenario: CITY-96 a figure published only for the county is labelled with its level and never presented as the council's
     Given a council whose figure the source publishes only for the county
@@ -773,7 +773,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And the label reads "County · <county> · <period>"
     And the figure is never presented as the council's own, and the action is "What the county figure covers →"
 
-  # No sample council has been replaced during the pilot; the board uses placeholders and draws no figure.
+  # No sample council has been replaced during the pilot; the board uses placeholders and draws no figure (waits for a fixture, #340).
   @ui
   Scenario: CITY-97 a council replaced during the pilot says so and links to the new one
     Given a council that was replaced by another council during the pilot
@@ -782,7 +782,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     And "Its “what changed” records are dropped, with a note saying so, rather than shown as if nothing happened."
     And the action is "Go to <new council>’s page →"
 
-  # No sample series starts at a council's formation date (Eastmere's formedOn is 2023-04-01 and none of its series starts then), so the board shows the message with a placeholder date and draws no figure; this scenario waits for one.
+  # No sample series starts at a council's formation date (Eastmere's formedOn is 2023-04-01 and none of its series starts then), so the board shows the message with a placeholder date and draws no figure; this scenario waits for one (#340).
   @ui
   Scenario: CITY-98 a series that starts at a council merger draws no line across the formation date
     Given a council formed by a merger whose series starts when it was formed

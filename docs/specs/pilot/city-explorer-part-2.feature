@@ -32,7 +32,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     tenure shares -> <code> / tenureShares
     the population -> `council-area.json` <code> / population
     the sources' editions, periods and statuses -> the `source` of each field in `council-area.json`
-    an earlier edition's figure, a revised month, the newer edition's name -> not in any record yet (CITY2-48, CITY2-49 wait for a fixture)
+    an earlier edition's figure, a revised month, the newer edition's name -> not in any record yet (CITY2-48, CITY2-49 wait for a fixture, #341)
     the compare choice, the band, a budget -> the visitor's own input, never a record
 
   Required states (doc 03 §5; AGENTS.md rules 1, 4, 6 and 7; plan Review Focus 1 to 7):
@@ -387,7 +387,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     When a newer edition of the average rent has been published since the last visit
     Then the panel shows "Average rent · Northbridge (sample)" and "£<newest figure> a month in <month> (provisional), was £<earlier figure> in <earlier month>", both quoted from the generated file
     And under it "Council area · newer edition: <the newer edition’s name and date>." and "The browser picks which published figures to quote; it does no arithmetic, so no difference is shown."
-    # Waits for a fixture: no sample record has an earlier edition, so the board draws the "was" figure and the newer edition's name and date as placeholders, not invented numbers.
+    # Waits for a fixture (#341): no sample record has an earlier edition, so the board draws the "was" figure and the newer edition's name and date as placeholders, not invented numbers.
 
   @ui
   Scenario: CITY2-49 a month revised since the last visit quotes the newest figure for both months and says revised
@@ -395,7 +395,7 @@ Feature: City Explorer part 2 (compare two councils, share and print, what chang
     When a month the user saw has been revised
     Then the panel shows "Average rent, <month> · Northbridge (sample)" with "Newest published figure £<figure> a month (provisional)" and the word "revised"
     And it quotes the newest published figure for both months, and shows no difference
-    # Waits for a fixture: the sample data has provisional months but no revision record; the board's "revised" label and earlier figure are placeholders.
+    # Waits for a fixture (#341): the sample data has provisional months but no revision record; the board's "revised" label and earlier figure are placeholders.
 
   @ui
   Scenario: CITY2-50 with the setting on, a list shows what is kept on this device

@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **As merged:** Checkboxes ticked on 19 Nov 2026 (pilot gate audit): the design pass is merged and done (status file, item 0b).
+
 **Goal:** Close the design gaps the 16 Nov 2026 benchmark found, so that the pilot is "way better" than the competitor before the pilot gate (0052), not only more honest.
 
 **Architecture:** Canvas work only, with no product code. The steps are:
@@ -69,8 +71,8 @@ Specifications for changed screens follow in the pilot specification files, in t
 ### Task 6a: Sample data for the new topics (before any board shows their figures)
 Added after Codex's review of #306 (rule 2: a figure on a board is quoted from the data files, never typed).
 - [x] (Built 16 Nov 2026, DA-31, branch feat/design-pass-topic-data) For each topic marked "add" (DA-22 flood outlines, DA-23 radon band, DA-24 listed buildings and conservation areas, DA-27 noise layer, DA-28 broadband by postcode, DA-29 council rent), add synthetic inputs to `packages/fixtures/data/` in the shape of the official source. Each input has its source labelled "Synthetic sample, shaped like <real source>", its level (1 km square, postcode, council), its period and its schema in `packages/fixtures/schemas/`.
-- [ ] Where a shown value is calculated, the generator produces it in the generated files, test-first.
-- [ ] Run `make check` (`generated-check` and `validate`). This is its own small code PR (Codex review) and comes before Task 6b.
+- [x] Where a shown value is calculated, the generator produces it in the generated files, test-first.
+- [x] Run `make check` (`generated-check` and `validate`). This is its own small code PR (Codex review) and comes before Task 6b.
 
 ### Task 6b: "Check this" rows and new topics on the boards
 - [x] For each topic the founder marked "check row" (DA-26 coal mining, DA-22's checker link, DA-24's Article 4 and tree orders, DA-28's mobile checker), add a row in the area result and the printout: what it is, why it matters, and a ↗ link to the official service, with no data and no implied result.
@@ -83,6 +85,6 @@ Added after Codex's review of #306 (rule 2: a figure on a board is quoted from t
 - [x] Draw the dark versions.
 - [x] Do a Chrome check at 390 and 1440.
 - [x] Re-run the benchmark table for the changed rows (12 better, 6 level, 2 worse; see the benchmark note).
-- [ ] Open the PR: the status file, the "As drawn" note and the register lines.
+- [x] Open the PR: the status file, the "As drawn" note and the register lines.
 
 **As drawn (16 Nov 2026), Task 7:** the founder's wording review was one prompt window with four questions, all taken as recommended (FE-69). Every screen board has a slate-ink dark twin (FE-31; the printout has none, by design): new twins for the two 2D map boards, all dark boards resized to match their light ones, and 14 boards and 4 notes moved down 1,517 px on the canvas to make room. A final visual review in Chrome found 2 Critical problems (the dark Priorities boards rendered light) and several clipping and overlap problems, all fixed; the phone result board was re-checked in Chrome at version 404, while the desktop result note, the topic panel lists, the desktop 2D map label and the compare phone composer (items 2 to 5 of the last check) were fixed but not yet re-checked in Chrome at version 405. The phone result board's design note kept clipping after three attempts, so the founder chose "Trim the note (Recommended)" (prompt window, 16 Nov 2026), and the result boards' design notes were shortened to a summary pointing to this plan. Canvas version 405. Proposed for the founder at that time: the added sentences in "How we got this", the "BGS and UKHSA" stamp name, the About the data source label pattern, the printout's Family view, route-only and method lines, and the NB7 gap wording. *18 Nov 2026: approved by the founder, with About the data's general noise line (AREA-45) (prompt window, "Approve as written (Recommended)", FE-69).* Specifications for the changed screens follow in their own PR.

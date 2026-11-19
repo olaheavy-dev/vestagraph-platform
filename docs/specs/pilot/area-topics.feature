@@ -185,6 +185,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Then "What to do next" lists the gap question
     And it lists every check-in-person item for the topic (FE-39)
 
+  # No sample explanation texts exist yet (one written, one missing): noticed issue #342.
   @ui
   Scenario: TOPIC-11 Explain this shows the reviewed text when it exists
     Given a topic with reviewed explanation text is open

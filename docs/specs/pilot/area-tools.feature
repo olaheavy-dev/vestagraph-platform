@@ -167,6 +167,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
 
   # Register line DA-13 (14 Nov 2026): street and property type only until the DA-05 licence check records the terms.
 
+  # No sample explanation texts exist yet (one written, one missing): noticed issue #342 (TOOLS-13, TOOLS-14).
   @mcp
   Scenario: TOOLS-13 the explain-source tool returns stored text and calls no AI model
     Given an assistant is connected to the area tools

@@ -48,6 +48,7 @@ Planned folders, added when their stage starts: `.design/<feature>/` at the repo
 | [Competitor report comparison, 13 Nov 2026](reviews/2026-11-13-competitor-report-comparison.md) | A competitor's reports, observed with a day pass; gaps in our specs; founder decisions D1 to D8 | Record |
 | [Pilot design review, 14 Nov 2026](reviews/2026-11-14-pilot-design-review.md) | The competitor benchmark checklist, a scorecard of the pilot specifications and boards, findings, and founder decisions on layering, units, flood age, sold prices, "Is it safe?" and priorities | Record |
 | [Pilot look-and-feel review, 14 Nov 2026](reviews/2026-11-14-pilot-look-and-feel-review.md) | What would elevate the pilot's look: what to keep, ranked elevations, quick wins, and founder decisions on surfaces, figures, dark mode, photos and sources | Record |
+| [Pilot gate audit, round 1, 19 Nov 2026](reviews/2026-11-19-pilot-gate-audit.md) | The pilot gate (0052) checked per track: coverage tables, ranked gaps, what remains, and what the AI-03 evaluation set must cover | Record |
 | [Best-practice audit, 23 Oct 2026](reviews/2026-10-23-best-practice-audit.md) | Gaps found and the practices planned for each stage | Record |
 | [Foundations review, 23 Oct 2026](reviews/2026-10-23-foundation-review.md) | Lessons from earlier projects, as inputs for stages 2, 4 and 6 | Record |
 | [Stage 2 mutation-testing report, 23 Oct 2026](reviews/2026-10-23-stage-2-mutation-report.md) | Stryker.NET scores before and after, and how each surviving mutant was handled | Record |

@@ -26,7 +26,7 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
     the neighbourhood tenure sentence -> not generated yet (issue #294); until then its percentage is the privateRented share above
     neighbourhood names and codes -> `council-result.json` <council code> / neighbourhoods (label, code)
     the council's population -> `council-area.json` <council code> / population
-    the At a glance counts -> not generated yet (noticed issue)
+    the At a glance counts -> not generated yet (noticed issue #339)
     the typed postcode -> the visitor's own input, never a record
 
   Required states (doc 03 §5; AGENTS.md rules 1, 4, 6 and 7):
@@ -81,7 +81,7 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
     Then two tiles read "Found" with "topics" and "See them →", and "Needs a postcode" with "topics" and "See them →"
     And no connectivity score, decile, deprivation rank or share is in a tile
 
-  # The counts have no generator field yet (a noticed issue, as FE-44, #292, for the council page), so no data step.
+  # The counts have no generator field yet (noticed issue #339, as FE-44, #292, for the council page), so no data step.
   @ui
   Scenario: HOOD-07 the At a glance line gives the counts and says each fact has its area and date
     Given the user has opened the neighbourhood page for neighbourhood "E01999011" of council "E06999001"

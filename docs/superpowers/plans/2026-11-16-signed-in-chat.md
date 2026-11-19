@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **As merged:** Checkboxes ticked on 19 Nov 2026 (pilot gate audit): the work merged as #298 and #304 (see each task's own notes).
+
 **Goal:** Draw the pilot's signed-in chat on the design canvas and write its executable specifications, ready for the pilot gate (0052).
 
 **Architecture:** This is stage 3 work, the same shape as City Explorer PRs B and C (#295, PR C):
@@ -109,7 +111,7 @@ All three are documentation and specifications. Each one runs `make check`, then
 - Modify: `docs/planning/status.md`
 - Create: this plan
 
-- [ ] **Step 1:** Add the register lines. Status is `Default`, and each line quotes the founder's choice:
+- [x] **Step 1:** Add the register lines. Status is `Default`, and each line quotes the founder's choice:
   - AI-13: sentence-by-sentence streaming, each sentence checked before it shows ("Sentence by sentence (Recommended)").
   - FE-51: past chats show the stored widget with its source date and Update ("Stored result, dated, Update button (Recommended)").
   - FE-52: one chat, with "Compare with…" on widgets ("One chat, Compare on widgets (Recommended)").
@@ -118,15 +120,15 @@ All three are documentation and specifications. Each one runs `make check`, then
   - FE-54: chat titles are the first words, editable ("First words, editable (Recommended)").
   - FE-55: "1 message left today" after message 14 ("Warn at 14 (Recommended)").
   - FE-56: after sign-in, return to the page and finish the action, with the postcode held only in the tab ("Back where they were (Recommended)").
-- [ ] **Step 2:** Add the agent's calls, open to the founder, as a "Builder notes" addition in the 0058 note:
+- [x] **Step 2:** Add the agent's calls, open to the founder, as a "Builder notes" addition in the 0058 note:
   - a returning user opens a new chat, with the last chat first in the sidebar;
   - an answer stopped by the guard counts toward the 15, and so does a regenerate;
   - a dropped connection on our side does not count;
   - the monthly IN-05 cap has its own state, "Chat is paused for this month, the area check still works";
   - deleting a saved area leaves past chats readable, with their stored widgets.
-- [ ] **Step 3:** Update the status file: the next steps follow this plan's PRs.
-- [ ] **Step 4:** Run `make check`. Expected: pass.
-- [ ] **Step 5:** Commit `docs: signed-in chat plan and the founder's answers (0058)`. Then the pre-push review, push, the pull request, Codex, and merge.
+- [x] **Step 3:** Update the status file: the next steps follow this plan's PRs.
+- [x] **Step 4:** Run `make check`. Expected: pass.
+- [x] **Step 5:** Commit `docs: signed-in chat plan and the founder's answers (0058)`. Then the pre-push review, push, the pull request, Codex, and merge.
 
 ### Task 2: Canvas, workspace boards (light)
 
@@ -253,7 +255,7 @@ Each feature's description follows `area-chat.feature`'s header shape:
 - which scenarios are also AI-03 evaluation cases;
 - a "Required states" map from every state in Tasks 2 to 4 to at least one scenario ID.
 
-- [ ] **Step 1: `sign-in.feature`:** one scenario per item, each with one observable outcome:
+- [x] **Step 1: `sign-in.feature`:** one scenario per item, each with one observable outcome:
   - the three sign-in methods;
   - the privacy line shown before the first message;
   - the bot check runs on sign-up and on each email-link request, not on chat messages (0058);
@@ -267,7 +269,7 @@ Each feature's description follows `area-chat.feature`'s header shape:
   - signing out sends `Cache-Control: no-store` and clears the sidebar from the page;
   - Sign out everywhere;
   - a revoked session's unexpired token is refused on a write.
-- [ ] **Step 2: `workspace-chat.feature`:**
+- [x] **Step 2: `workspace-chat.feature`:**
   - **Layout:** desktop, phone, the drawer, the panel as a region, the sheet as a modal.
   - **Visits:** first visit, returning user.
   - **Streaming:**
@@ -300,8 +302,8 @@ Each feature's description follows `area-chat.feature`'s header shape:
   - **"Ask more about this":** for everyone, and replaced by the pause line when the chat is paused for everyone (FE-58).
   - **Deleting while streaming:** delete a chat while it streams.
   - **Logs and traces:** no message text, postcode or tool argument in any ordinary log; a trace holds them for at most 30 days.
-- [ ] **Step 3:** Cite figures by ID only: area facts by postcode and topic from `area-result.json`, council figures by figure ID from `council-result.json`.
-- [ ] **Step 4:** Run `make check`. Expected: pass, with the new `@ui` scenarios collected and deselected and no duplicate ID error from `name_scenarios_by_id`.
+- [x] **Step 3:** Cite figures by ID only: area facts by postcode and topic from `area-result.json`, council figures by figure ID from `council-result.json`.
+- [x] **Step 4:** Run `make check`. Expected: pass, with the new `@ui` scenarios collected and deselected and no duplicate ID error from `name_scenarios_by_id`.
 
 ### Task 7: Specifications, the account page, and the withdrawn scenarios (PR 3)
 
@@ -310,7 +312,7 @@ Each feature's description follows `area-chat.feature`'s header shape:
 - Modify: `docs/specs/pilot/area-chat.feature` (header and tags)
 - Modify: `docs/specs/pilot/area-card.feature` (withdrawn CARD scenarios)
 
-- [ ] **Step 1: `account.feature`:**
+- [x] **Step 1: `account.feature`:**
   - saved areas, list and remove;
   - rename and delete one chat;
   - delete all chats;
@@ -322,21 +324,21 @@ Each feature's description follows `area-chat.feature`'s header shape:
   - deleting one chat or one saved area hides it at once with Undo, as 0058's board-review ruling says (the server commits after 10 seconds); "Delete all chats" confirms first;
   - the email-link method has no Remove;
   - retention: chats deleted 12 months after last use, traces after 30 days, idle accounts after 24 months, with "use" as defined in 0058 choice 6.
-- [ ] **Step 2: Review CHAT-01 to CHAT-53 and the withdrawn CARD scenarios** (CARD-02, 22, 23, 27, 28, 31, 36 to 42). Put the review table in the feature's description: ID, then keep, replace or retire, then the reason, then the new ID. Known outcomes from the design review:
+- [x] **Step 2: Review CHAT-01 to CHAT-53 and the withdrawn CARD scenarios** (CARD-02, 22, 23, 27, 28, 31, 36 to 42). Put the review table in the feature's description: ID, then keep, replace or retire, then the reason, then the new ID. Known outcomes from the design review:
   - **Replaced:** CHAT-04 ("Chats aren't saved"), CHAT-06 and CHAT-38 (drawer and dialog), CHAT-17 (current area only), CHAT-23 and CHAT-45 (bot check on each chat request), CHAT-25 and CHAT-26 (cleared on a new postcode or reload), CHAT-34 (no trace), CHAT-35 (no copy kept), CARD-22.
   - **Kept:** only scenarios whose text still holds word for word. A kept scenario loses `@withdrawn` and keeps its other tags.
   - **Retired:** anything only about the anonymous on-page chat; it stays `@withdrawn`.
   - **The header:** "Modes: anyone, with no account" becomes signed-in users only, pointing to 0058 and the new files.
-- [ ] **Step 3: "Ask more about this" (CHAT-52, CHAT-53, 0058's open item):** follow the founder's answer from Task 5. Keep or replace by the same rule as Step 2.
-- [ ] **Step 4:** Run `make check`. Expected: pass. Then `grep -cE '^\s+@.*\bwithdrawn\b' docs/specs/pilot/area-chat.feature` (tag lines only; the header also contains the word) equals the number of retired plus replaced rows in the table.
+- [x] **Step 3: "Ask more about this" (CHAT-52, CHAT-53, 0058's open item):** follow the founder's answer from Task 5. Keep or replace by the same rule as Step 2.
+- [x] **Step 4:** Run `make check`. Expected: pass. Then `grep -cE '^\s+@.*\bwithdrawn\b' docs/specs/pilot/area-chat.feature` (tag lines only; the header also contains the word) equals the number of retired plus replaced rows in the table.
 
 ### Task 8: Knock-on documents, review and merge (PR 3)
-- [ ] **`.design/prototype/INFORMATION_ARCHITECTURE.md`:**
+- [x] **`.design/prototype/INFORMATION_ARCHITECTURE.md`:**
   - routes `/sign-in`, `/chat`, `/account`, `/account/areas` and `/account/chats` (a postcode only after `#`);
   - the sidebar and side panel in "Layering";
   - the sign-in entry on the area result and the council page.
-- [ ] **`docs/specs/README.md`:** layout rows for the three new files and the `area-chat.feature` row.
-- [ ] **AI-03:** list the WCHAT scenarios that are evaluation cases in `workspace-chat.feature`'s description, and add a line to backlog row 38f.
-- [ ] **Pre-flight:** search for CHAT IDs, "Chats aren't saved", "anyone, with no account" and "drawer" in live documents, and fix anything stale.
-- [ ] **Map criteria to scenarios:** every state in Tasks 2 to 5 (including 4b), register lines FE-57 to FE-66 and SE-06, and every Review Focus line names its scenario ID. A state with no scenario is a gap; fix it before the review.
-- [ ] Run `make check`, the pre-push review (Code Review Rules), the status file update, the PR, Codex, then merge.
+- [x] **`docs/specs/README.md`:** layout rows for the three new files and the `area-chat.feature` row.
+- [x] **AI-03:** list the WCHAT scenarios that are evaluation cases in `workspace-chat.feature`'s description, and add a line to backlog row 38f.
+- [x] **Pre-flight:** search for CHAT IDs, "Chats aren't saved", "anyone, with no account" and "drawer" in live documents, and fix anything stale.
+- [x] **Map criteria to scenarios:** every state in Tasks 2 to 5 (including 4b), register lines FE-57 to FE-66 and SE-06, and every Review Focus line names its scenario ID. A state with no scenario is a gap; fix it before the review.
+- [x] Run `make check`, the pre-push review (Code Review Rules), the status file update, the PR, Codex, then merge.

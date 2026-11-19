@@ -2,6 +2,9 @@
 
 Status: **approved by the founder** (14 Nov 2026, prompt window: "Approve (Recommended)"). Status file item 1 (c); order from the [pilot design review](../../reviews/2026-11-14-pilot-design-review.md) ("Missing, in the design batches that follow").
 
+
+> **Note, 15 Nov 2026 ([0056](../../decisions/0056-no-on-page-chat-in-the-pilot.md)) and 16 Nov 2026 ([0058](../../decisions/0058-signed-in-chat-in-the-pilot.md)):** the on-page chat left the pilot, and its error and "Ask more about this" passages below (the "AI error" state, CHAT-19 to CHAT-24, CHAT-53, and "Explain this ... ending in 'Ask more about this'", CHAT-52) are kept as approved on 14 Nov 2026. Read them as follows: the public result has no chat error; a topic's missing explanation reads "Explanation not yet available" (TOPIC-24); "Ask more about this" lives in the signed-in chat (WCHAT-55); the CHAT IDs are withdrawn (`area-chat.feature`). The "AI error" frame on AreaStatesPilot is canvas work to remove (the pilot gate audit, [round 1](../../reviews/2026-11-19-pilot-gate-audit.md)).
+
 ## Intent
 The area result is the screen every pilot visitor sees after typing a postcode, and the [pilot design review](../../reviews/2026-11-14-pilot-design-review.md) found it the weakest: no At a glance, no topic detail, no desktop result. This batch draws it on the design canvas so it can pass the competitor benchmark checklist (founder, 13 Nov 2026: "our minimum now is to be way better than [the competitor]") and then be specified. Canvas first, then the specifications (#68 style feature files), then the build.
 
