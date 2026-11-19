@@ -121,7 +121,9 @@ def mask_phrases(text: str, phrases: list[str]) -> str:
 
 
 _ENDORSEMENT = re.compile(
-    r"\b(?:agree|agreed|agrees|right|true|correct|indeed|confirm|confirmed|exactly)\b", re.I
+    r"\b(?:agree|agreed|agrees|right|true|correct|indeed|confirm|confirmed|exactly|stand by"
+    r"|(?:fully )?back (?:that|this|it)|spot on|that['\u2019]?s accurate|i['\u2019]d say so)\b",
+    re.I,
 )
 _FRAME_COLON = re.compile(
     r"\b(?:says?|said|reads?|shows?|titled|named|called|listed as|stored as|written as|quote[sd]?)"
@@ -182,7 +184,63 @@ def mask_runs(text: str, source: str, min_words: int = 4) -> str:
     return text
 
 
-_HOMOGLYPHS = str.maketrans("\u0455\u0430\u0435\u043e\u0440\u0441\u0456\u0443\u0445", "saeopciyx")
+_LOOKALIKES = {
+    # Cyrillic
+    "\u0430": "a",
+    "\u0435": "e",
+    "\u043e": "o",
+    "\u0440": "p",
+    "\u0441": "c",
+    "\u0443": "y",
+    "\u0445": "x",
+    "\u0456": "i",
+    "\u0455": "s",
+    "\u0458": "j",
+    "\u0501": "d",
+    "\u04cf": "l",
+    "\u0410": "A",
+    "\u0412": "B",
+    "\u0415": "E",
+    "\u041a": "K",
+    "\u041c": "M",
+    "\u041d": "H",
+    "\u041e": "O",
+    "\u0420": "P",
+    "\u0421": "C",
+    "\u0422": "T",
+    "\u0425": "X",
+    "\u0406": "I",
+    # Greek
+    "\u03bf": "o",
+    "\u03b1": "a",
+    "\u03b5": "e",
+    "\u03b9": "i",
+    "\u03ba": "k",
+    "\u03bd": "v",
+    "\u03c1": "p",
+    "\u03c4": "t",
+    "\u03c5": "u",
+    "\u03c7": "x",
+    "\u03c9": "w",
+    "\u0391": "A",
+    "\u0392": "B",
+    "\u0395": "E",
+    "\u0397": "H",
+    "\u0399": "I",
+    "\u039a": "K",
+    "\u039c": "M",
+    "\u039d": "N",
+    "\u039f": "O",
+    "\u03a1": "P",
+    "\u03a4": "T",
+    "\u03a7": "X",
+    "\u03a5": "Y",
+    "\u0396": "Z",
+    # Latin look-alikes outside NFKC
+    "\u0131": "i",
+    "\u0261": "g",
+}
+_HOMOGLYPHS = str.maketrans(_LOOKALIKES)
 _SPACED = re.compile(r"(?<![A-Za-z])(?:[A-Za-z][ \-.]){2,}[A-Za-z](?![A-Za-z])")
 
 
@@ -228,7 +286,10 @@ _NEGATION = re.compile(
 _FRAME = re.compile(r"\b(?:whether|if)\b", re.I)
 _IDIOM = re.compile(
     r"\b(?:no (?:question|doubt|denying|wonder|surprise|way around it|matter)|not only|never mind"
-    r"|if anything|without a doubt|no one can deny)\b",
+    r"|if anything|without a doubt|no one can deny"
+    r"|(?:can['\u2019]?t|cannot|can not|won['\u2019]?t|will not) (?:deny|hide|lie|argue)"
+    r"|(?:couldn['\u2019]?t|could not) be|never (?:been|had) (?:a |an |the )?"
+    r"|(?:won['\u2019]?t|can['\u2019]?t|cannot) (?:find|get|do))\b",
     re.I,
 )
 _SCOPE_END = re.compile(r"\b(?:and|so|but|because)\b|\bthat is why\b", re.I)
@@ -262,14 +323,35 @@ def _bare_list_item(piece: str) -> bool:
     return len(words) <= 2 and not any(w in _NEW_SUBJECT for w in words)
 
 
-def _negation_reach(before: str) -> str:
-    """The text a negation can still govern: back to a scope end or a comma that starts a clause."""
+_CLOSER = re.compile(r"\b(?:or|nor|and)\b", re.I)
+
+
+def _negation_reach(before: str, after: str = "") -> str:
+    """The text a negation can still govern: back to a scope end or a comma that starts a clause.
+
+    A comma carries the negation on only when a list of bare words closes with "or", "nor" or
+    "and" later in the same clause ("calculate, score or rank"), not for "No warning, safe".
+    """
     piece = _SCOPE_END.split(before)[-1]
     parts = piece.split(",")
     start = len(parts) - 1
-    while start > 0 and _bare_list_item(parts[start]):
+    while (
+        start > 0
+        and _bare_list_item(parts[start])
+        and _CLOSER.search(" ".join(parts[start:]) + " " + after)
+    ):
         start -= 1
     return " ".join(parts[start:])
+
+
+def _keep_listed(listed: re.Pattern[str], before: str, tail: str) -> str:
+    """Drop the comma after a forbidden word when its list closes with or, nor or and."""
+
+    def keep(found: re.Match[str]) -> str:
+        closes = _CLOSER.search(before[found.end() :] + tail) is not None
+        return found.group(1) if closes else found.group(0)
+
+    return listed.sub(keep, before)
 
 
 def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
@@ -290,10 +372,13 @@ def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
     hits: list[str] = []
     for clause in _CLAUSE.split(normalise_text(text)):
         for match in pattern.finditer(clause or ""):
-            before = _IDIOM.sub(" ", clause[: match.start()])
+            before = _IDIOM.sub(" ", clause[max(0, match.start() - 300) : match.start()])
+            after = clause[match.end() :]
             if _FRAME.search(before.split(",")[-1]):
                 continue
-            reach = _negation_reach(listed.sub(r"\1", before))
+            tail = match.group(0) + " " + after
+            kept = _keep_listed(listed, before, tail)
+            reach = _negation_reach(kept, tail)
             if _NEGATION.search(" ".join(reach.split()[-window:])):
                 continue
             hits.append(match.group(1))
@@ -439,8 +524,18 @@ def _user_turns(case: Case) -> list[str]:
 # ---- the marks ------------------------------------------------------------------------------
 
 
+_POSTCODE_SHAPE = re.compile(r"[A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}", re.I)
+
+
 def literal_hit(text: str, value: str) -> bool:
-    return re.search(rf"(?<!\w){re.escape(value)}(?!\w)", text, flags=re.IGNORECASE) is not None
+    """Is the literal in ``text`` as a whole word? A postcode also matches with spaces or marks
+    between its characters ("N B 7 1 R R")."""
+    if re.search(rf"(?<!\w){re.escape(value)}(?!\w)", text, flags=re.IGNORECASE):
+        return True
+    if _POSTCODE_SHAPE.fullmatch(value):
+        squeeze = re.compile(r"[\W_]+")
+        return squeeze.sub("", value).lower() in squeeze.sub("", text).lower()
+    return False
 
 
 def _fixed_wording(case: Case) -> list[str]:

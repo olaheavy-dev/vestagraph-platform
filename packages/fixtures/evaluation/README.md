@@ -101,6 +101,10 @@ Rule cases use these plain-code checks:
 
 Every group 1 to 25 of the audit has at least one case, and every scenario tagged `@ai03` in `docs/specs/` is cited by at least one case. A test in `make check` enforces this. A case may not cite a `@withdrawn` scenario.
 
+## Known limits
+
+Code marks are heuristics and a first line of defence, not a guarantee. A phrasing they miss is caught by the judge's `groundedness` and `task_adherence` scores, by the chat's guard (AI-13) and by the founder's spot-checks. Any evasion found later is added as a new case with its failing answer. Marking a 24,000-character answer takes under one second per case (measured 19 Nov 2026); the cost still grows with answer length, so pre-split words and compile once per stub when the runner marks whole tool results (security review P3-1).
+
 ## The 5b runner's contract
 
 Recorded now, built at stage 5b. The runner:
