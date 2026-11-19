@@ -68,7 +68,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     the full-screen view; the list of places with their icons stays in the answer.
   Icons (founder, 13 Nov 2026, typed: "we need to make sure icon logos are beside the text", FE-17): every
     place in a list, and the selected place, shows its category icon beside its name, the same icon as its pin.
-  Boards (canvas version 426, 19 Nov 2026, FE-71, FE-78): the card inside the signed-in chat is drawn on the page "Pilot · Signed-in chat", section "Signed-in chat 9 · The area card in the chat", each with a Dark twin: SignedInChatAreaCard (desktop: the compact card with Expand, and the expanded dialog over the chat; CARD-02, CARD-23, CARD-27, CARD-28) and SignedInChatAreaCardPhone (the preview with "Open map" and "Open full result", the full-screen view, focus returning to "Open map", and what a screen reader reads; CARD-31, CARD-36 to CARD-42, CARD-48). The widget for ChatGPT and Claude is on "Pilot · public area check" (AreaCardWidget, AreaCardWidgetFull, AreaCardWidgetFullPhone); the card, dialog and full-screen drawings are shared. The "Closest: <place>, <distance>" sentence (CARD-39) is proposed wording; the "Nearest place · <distance>" form (one place) is drawn only as the specification's pattern, since no sample result has one place.
+  Boards (canvas version 427, 19 Nov 2026, FE-71, FE-78, FE-81): the card inside the signed-in chat is drawn on the page "Pilot · Signed-in chat", section "Signed-in chat 9 · The area card in the chat", each with a Dark twin: SignedInChatAreaCard (desktop: the compact card with Expand and the actions "Compare with…", "Open full result" and "Print", and the expanded dialog over the chat; CARD-02, CARD-23, CARD-27, CARD-28, CARD-49) and SignedInChatAreaCardPhone (the preview with "Open map" and "Open full result", the full-screen view, focus returning to "Open map", and what a screen reader reads; CARD-31, CARD-36 to CARD-42, CARD-48). The widget for ChatGPT and Claude is on "Pilot · public area check" (AreaCardWidget, AreaCardWidgetFull, AreaCardWidgetFullPhone); the card, dialog and full-screen drawings are shared. The "Closest: <place>, <distance>" sentence (CARD-39) is proposed wording; the "Nearest place · <distance>" form (one place) is drawn only as the specification's pattern, since no sample result has one place.
   Copy: quoted messages are proposed wording, finalised in the build.
   Required states (design docs/superpowers/specs/2026-11-13-pilot-area-ai-design.md, "Isometric area card"
     and "Accuracy"; decision 0046's map rules; AGENTS.md rules 4 and 7):
@@ -420,3 +420,12 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     When the answer is shown
     Then the preview has two full-width buttons, "Open map" and "Open full result"
     And "Open map" opens the full-screen map (CARD-38), and "Open full result" opens the result as a modal sheet over the chat, as WCHAT-04 and WCHAT-05 set
+
+  # Added 19 Nov 2026 (FE-81, founder: "Yes, same as the widget"): #303 item 3, desktop. Drawn on SignedInChatAreaCard (canvas version 427).
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
+  @ui
+  Scenario: CARD-49 on desktop the compact card in the chat carries the widget's actions
+    Given an answer about nearby places in our chat on a 1440 px wide screen
+    When the card is shown
+    Then below the card there are the buttons "Compare with…", "Open full result" and "Print", as well as "Expand" on the card
+    And each behaves as it does on a widget in the chat (WCHAT-86, WCHAT-88, WCHAT-89)

@@ -203,7 +203,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   @ui
   Scenario: CITY-22 the one search box sends a postcode to the area check and a place to a council page
     Given the user is on the landing page
-    When the user types a town or council name in the one box and chooses "Search"
+    When the user types a town or council name in the one box and chooses "Search" (the box is labelled "Postcode, town or city" on the landing page and inside City Explorer, FE-37, FE-80)
     Then a place that names one council opens that council's page
     And a place that names several councils asks the visitor to choose (CITY-10 to CITY-16)
     And a postcode typed in the same box opens the area check instead
