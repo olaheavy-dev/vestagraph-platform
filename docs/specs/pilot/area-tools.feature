@@ -33,7 +33,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     neighbourhood page's facts are not a tool in this file: the design lists council figures only.
   AI evaluation cases (register AI-03; backlog row 38f). The scenarios here test what our server returns and declares, not the
     host's model (above). For the council tools, the evaluation set also runs these with a real model, each checking that
-    the model's answer quotes only what the tool returned and adds no figure: TOOLS-47, TOOLS-68 and TOOLS-71 (a name that matches two councils, a shared name or a county, or nothing:
+    the model's answer quotes only what the tool returned and adds no figure: TOOLS-47, TOOLS-68, TOOLS-70 (a former name leads to the current council) and TOOLS-71 (a name that matches two councils, a shared name or a county, or nothing:
     every match is offered and none is chosen, and no match returns no council and no guess), TOOLS-55 (a figure with no record is said to have none, never given as zero or
     guessed), TOOLS-66 (asked what share of homes are rented, the model quotes `tenureShares` and divides nothing), TOOLS-57 (no trend is described across a method break), TOOLS-58 (asked for a cost of buying or renting, the
     model says the tools do not provide one and works none out) and TOOLS-59 (asked which of two councils is cheaper or
@@ -501,7 +501,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     Given an assistant is connected to the area tools
     When it lists the server's tools
     Then none is for an energy certificate (DA-32: the server holds public area data only, 0051)
-    And when it calls any tool with a certificate number as the input, the tool says it cannot take that and holds no certificate, rating or address (a certificate number is treated like a postcode, decision 0014)
+    And when it calls any tool with a certificate number as the input, the tool refuses it as it does a malformed postcode (TOOLS-04; the refusal wording is proposed) and holds no certificate, rating or address (a certificate number is treated like a postcode, decision 0014)
 
   # Decision 0058, choice 8: the chat calls the tool functions directly; the public server's per-host caps do not limit signed-in users.
   @mcp

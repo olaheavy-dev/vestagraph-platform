@@ -162,13 +162,15 @@
 
 **Files:** `docs/specs/pilot/area-topics.feature`, `docs/specs/pilot/area-tools.feature`, `docs/specs/pilot/city-explorer.feature`, `docs/specs/pilot/city-explorer-neighbourhood.feature`, `docs/specs/pilot/city-explorer-part-2.feature`, `docs/specs/screens/14-check-an-area.feature`, `docs/specs/pilot/workspace-chat.feature`, `.design/prototype/INFORMATION_ARCHITECTURE.md`, `docs/decisions/README.md`, `packages/specs/tests/specs_steps.py`
 
-- [ ] **Step 1:** Audit P2-1: one data and one `@ui` scenario per extra in `area-topics.feature`, quoting `area-result.json`: buses as routes per stop at 8am and midday, never a stop total (DA-18); school demand as past-year facts, never a chance of a place; green space as the voluntary standard measured from the postcode; flood by postcode as published, no single verdict (DA-16); council tax by band "may include parish charges"; air quality and connectivity never combined (0054). A missing sample value gets a `noticed` issue.
-- [ ] **Step 2:** Audit P2-10, P2-12, P2-13 and the P3 list as the design names them; P2-11 (shared council comparison's address) and P2-14 (compare list for a council with nothing recorded) are asked in one prompt window with the audit's suggested defaults first, then recorded as register lines with the founder's words. Edit #302's body (P2-15); comment on #99 and #102.
-- [ ] **Step 3:** `make test`. Expected: PASS.
-- [ ] **Step 4:** Commit `docs: extras scenarios and pilot gate audit small items`.
+- [x] **Step 1:** Audit P2-1: one data and one `@ui` scenario per extra in `area-topics.feature`, quoting `area-result.json`: buses as routes per stop at 8am and midday, never a stop total (DA-18); school demand as past-year facts, never a chance of a place; green space as the voluntary standard for the neighbourhood around the postcode (changed 19 Nov 2026 after the PR 3 review, DA-16); flood by postcode as published, no single verdict (DA-16); council tax by band "may include parish charges"; air quality and connectivity never combined (0054). A missing sample value gets a `noticed` issue.
+- [x] **Step 2:** Audit P2-10, P2-12, P2-13 and the P3 list as the design names them; P2-11 (shared council comparison's address) and P2-14 (compare list for a council with nothing recorded) are asked in one prompt window with the audit's suggested defaults first, then recorded as register lines with the founder's words. Edit #302's body (P2-15); comment on #99 and #102.
+- [x] **Step 3:** `make test`. Expected: PASS.
+- [x] **Step 4:** Commit `docs: extras scenarios and pilot gate audit small items`.
+
+**As built (19 Nov 2026), Task 8:** TOPIC-43 to TOPIC-54 (the six extras), TOOLS-67 to TOOLS-72, WCHAT-111, FE-76 and FE-77; the pre-push review's fixes followed (green space for the neighbourhood, DA-16).
 
 ### Task 9: Records and pull request 3
 
-- [ ] **Step 1:** `docs/planning/status.md`: the design batch done, next the AI-03 brainstorm, then gate round 2; pre-flight grep for FE-71, FE-72, #303, #317, #318, "AI error", "NearbySchools".
+- [x] **Step 1:** `docs/planning/status.md`: the design batch done, next the AI-03 brainstorm, then gate round 2; pre-flight grep for FE-71, FE-72, #303, #317, #318, "AI error", "NearbySchools".
 - [ ] **Step 2:** Map criteria to scenarios; `make check`; fresh-context review with `visual-reviewer`; fix findings.
 - [ ] **Step 3:** Push, PR with copy-review list, `@codex review`.

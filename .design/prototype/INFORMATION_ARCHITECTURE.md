@@ -40,7 +40,7 @@
 - **Prototype only** (private, decision 0045)
   - Example home `/example`: choose the buyer or renter example, then go to My move in that story.
   - Costs and comparison `/costs-and-comparison`: explains what Vestagraph works out and what it doesn't.
-  - Sign in: simulated, labelled as such. It shares the route `/sign-in` with the pilot's real sign-in (line 19); the pilot's real page wins that route, and the simulated prototype screen is at `/prototype/sign-in` wherever both exist (agent's call, 19 Nov 2026, audit P3; easy to change).
+  - Sign in: simulated, labelled as such. It shares the route `/sign-in` with the pilot's real sign-in (line 19); the pilot's real page wins that route, and the simulated prototype screen is at `/prototype/sign-in` wherever both exist (register line FE-79).
 - **Check a home**
   - Choose buying or renting, then search the address `/check`
   - Confirm the exact home `/check/confirm?q=…`: matching units, a map pin, or "can't find it" (manual entry).
