@@ -633,6 +633,13 @@ class DataSteps:
             f"{_COUNCIL_RESULT}; missing shares are never shown as zero (rule 7)."
         )
 
+    def then_council_has_tenure_shares(self, code: str) -> None:
+        shares = _require_council_result(code).get("tenureShares")
+        assert shares, (
+            f'Council "{code}" has no tenureShares in {_COUNCIL_RESULT}; missing shares are '
+            "never shown as zero (rule 7)."
+        )
+
     def then_council_lists_no_neighbourhoods(self, code: str) -> None:
         listed = _require_council_result(code)["neighbourhoods"]
         assert not listed, (

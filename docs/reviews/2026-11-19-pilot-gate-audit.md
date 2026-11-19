@@ -104,7 +104,7 @@ Required states: AUTH-01 to 28, WCHAT-01 to 110 and ACCT-01 to 42 all resolve; t
 6. **The first design batch design lacked dated 0056 and 0058 notes** (A), `2026-11-14-first-design-batch-design.md:45, 84, 96, 102`. Fixed in this change.
 7. **The public site's pages have no specification or board** (A): `/how-it-works`, `/privacy`, `/accessibility` (IA site map; doc 04 §9 stage 5b). Founder: design them (PD-21); the privacy notice's text waits for SE-02.
 8. **#318's items have no home in the build plan** (C), `city-explorer.feature:13-14`, `city-explorer-neighbourhood.feature:12`, `city-explorer-part-2.feature:11`. Founder: draw the phone map sheet now, rest become ticket criteria (FE-72).
-9. **The council tools return tenure as counts** (C), `area-tools.feature:20-27`: "what share rent?" invites the model to divide (rule 4, 0004). Fix: return `tenureShares` from `council-result.json` and add a scenario. **Separate code task.**
+9. **The council tools return tenure as counts** (C), `area-tools.feature:20-27`: "what share rent?" invites the model to divide (rule 4, 0004). Fix: return `tenureShares` from `council-result.json` and add a scenario. **Separate code task.** *Done 19 Nov 2026 in the specification: TOOLS-64 and TOOLS-65 (this fix); the tool code itself waits for stage 5b.*
 10. **The find-council tool lacks scenarios for four outcomes the page has** (C), `area-tools.feature:369-409`: a shared name (Newbury), a county (Westshire), a former name (East Westshire Borough) and no match (Midvale). Fix: data-plus-`@mcp` pairs mirroring CITY-11 to CITY-21 and the same cases in AI-03. **Open.**
 11. **The shared comparison's address is undecided** (C), `city-explorer-part-2.feature:11`. Needs a register line with a default (suggested path `/council/compare/<first>/<second>`, never the query string). **Open: ask in a prompt window.**
 12. **Neighbourhood states: board and spec disagree** (C): CouncilStates' last note vs `city-explorer-neighbourhood.feature:19` and HOOD-14 (`:132`). Fix: quote the board's wording in HOOD-14 and HOOD-38, or retitle the board. **Open.**
@@ -135,7 +135,7 @@ Open, small:
 1. Done: #338 merged (19 Nov) and #286 closed.
 2. The design batch (PD-21, FE-71, FE-72): a brainstorm, then boards and specifications for Report a problem, Share a link and Recent postcodes, Compare two postcodes, How it works, Privacy and Accessibility; the in-chat area card; the phone neighbourhoods map sheet; the extras' topic scenarios (P2-1); and the canvas fixes (remove the "AI error" frame; retire the old Nearby boards; "Check" to "Search" on the desktop council boards; the placeholder, #317).
 3. The AI-03 brainstorm and the one evaluation set (AI-14), from section 5.
-4. Code: the council tools return `tenureShares` (P2-9).
+4. Code: the council tools return `tenureShares` (P2-9; specified in TOOLS-64 and TOOLS-65, 19 Nov 2026).
 5. Small open items above (P2-10 to P2-14, P3 list) as part of the design batch or as tickets.
 6. Re-check the gate (round 2).
 
