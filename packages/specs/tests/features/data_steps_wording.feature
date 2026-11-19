@@ -51,3 +51,16 @@ Feature: Every data step wording runs against the real data (proof for issue #19
     And council "E06999001" lists neighbourhood "E01999011" with label "Northbridge Centre (synthetic) (011A)"
     And council "E06999001" neighbourhood "E01999011" has tenure shares
     And council "E07999002" lists no neighbourhoods
+
+  Scenario: WORD-07 the energy certificate steps accept the documented wording
+    Then topic "energy-certificate-home" is route-only and not counted
+    And topic "energy-certificate-home" opens the Vestagraph page "/energy-certificate"
+    And energy certificate "0000-0000-0000-0000-0001" has outcome "shown"
+    And energy certificate "0000-0000-0000-0000-0001" is not more than 10 years old
+    And energy certificate "0000-0000-0000-0000-0002" is more than 10 years old
+    And energy certificate "0000-0000-0000-0000-0003" has status line "superseded"
+    And energy certificate "0000-0000-0000-0000-0001" has status line "none"
+    And energy certificate "0000-0000-0000-0000-0007" shows "parts" as missing
+    And energy certificate "0000-0000-0000-0000-0005" shows no ratings, costs, parts or improvements
+    And energy certificate "0000-0000-0000-0000-0001" lists improvements in its own order with no total
+    And energy certificate "0000-0000-0000-0000-0001" has an inspection date

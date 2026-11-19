@@ -332,6 +332,23 @@
       "reviewStatus": "reviewed"
     },
     {
+      "key": "energy-certificate-home",
+      "name": "Energy certificate of a home",
+      "kind": "route-only",
+      "counted": false,
+      "recordTopics": [],
+      "checkInPerson": [
+        "Ask the owner or landlord for the energy certificate number, which is printed on the certificate.",
+        "Check the certificate on the official page, and look at its date."
+      ],
+      "officialRoute": {
+        "label": "Find an energy certificate (gov.uk)",
+        "url": "https://www.gov.uk/find-energy-certificate"
+      },
+      "vestagraphRoute": "/energy-certificate",
+      "reviewStatus": "draft"
+    },
+    {
       "key": "mobile-by-network",
       "name": "Mobile by network",
       "kind": "route-only",

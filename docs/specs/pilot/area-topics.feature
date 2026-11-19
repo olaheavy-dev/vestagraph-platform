@@ -34,6 +34,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
       Broadband as the gigabit-capable share of premises, no full-fibre claim -> TOPIC-30, TOPIC-31
       council-wide rent inside Housing affordability, from the council by link -> TOPIC-32 to TOPIC-34
       Check this rows (long-term flood risk, Article 4 and tree preservation orders, council tax band of a home, mobile, coal mining, noise), never implying a check -> TOPIC-35 to TOPIC-39
+      the energy certificate of a home row, which opens its own page and shows no result -> TOPIC-41
       the map layers each topic draws -> TOPIC-40
 
   @ui
@@ -329,3 +330,11 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And topic "planning-nearby" draws map layer "conservation-areas"
     And topic "noise" draws map layer "road-noise"
     And topic "noise" draws map layer "rail-noise"
+
+  # Added 18 Nov 2026 (energy certificate design, `docs/superpowers/specs/2026-11-18-energy-certificate-design.md`). All the wording of this row is proposed, for the founder's copy review. The page is specified in `energy-certificate.feature` (ENERGY); the registry row is `energy-certificate-home` in `packages/fixtures/data/pilot-topics.json`.
+  @ui
+  Scenario: TOPIC-41 the energy certificate row opens its own page and shows no result for the postcode
+    Given the result for "NB1 4XY" is open
+    When the visitor reads "Not yet covered here" and opens "Energy certificate of a home"
+    Then the row reads "Check this: we haven't checked it" with "The energy certificate of a home: its rating, the certificate's own running-cost estimates and suggested improvements. You need the certificate number." and the link "Check an energy certificate" opens "/energy-certificate", beside the official link "Find an energy certificate (gov.uk) ↗"
+    And no rating, cost, status or colour is shown on the row, the postcode is not sent to the page, and the row is left out of At a glance's counts and of the coverage total (GLANCE-05)

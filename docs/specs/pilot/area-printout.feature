@@ -36,6 +36,7 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     the Not known state example -> PRINT-14, PRINT-15
     print rules: 12 pt, greyscale, no arrows on printed stamps, footers -> PRINT-16, PRINT-17, PRINT-18, PRINT-19
     privacy and what is never printed -> PRINT-20
+    the energy certificate row listed under "Not yet covered here", with its page address printed in full -> PRINT-21
 
   # Cover (FE-21; AREA-12 and AREA-20 keep the "Sample data" and made-at rules for the example and for any other postcode).
   @ui
@@ -212,3 +213,11 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     Then it contains no score, band, ranking, "safe", "verified", "approved" or verdict about a home or the area, and no AI-written text
     And the last page says "Privacy: this summary was made in your browser. Vestagraph didn't store your search." (AREA-17)
     And for the sample postcode it says that every place, figure and date is a made-up example from a made-up town
+
+  # Added 18 Nov 2026 (energy certificate design). All the wording of this row is proposed, for the founder's copy review. Its on-screen version is TOPIC-41.
+  @ui
+  Scenario: PRINT-21 the printout lists the energy certificate row under "Not yet covered here"
+    Given the user has chosen "Print or save as PDF" for a sample postcode
+    When the user reads the "Not yet covered here" page
+    Then "Energy certificate of a home" is listed there, as "Check this: we haven't checked it", with the official address https://www.gov.uk/find-energy-certificate printed in full
+    And it prints no rating, cost or certificate number, and it is not counted in At a glance or in the coverage total

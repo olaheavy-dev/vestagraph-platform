@@ -25,6 +25,7 @@ _POSTCODE_AREA = "packages/fixtures/data/postcode-area.json"
 _MAP_LAYERS = "packages/fixtures/data/map-layers.json"
 _COUNCIL_AREA = "packages/fixtures/data/council-area.json"
 _COUNCIL_RESULT = "packages/fixtures/generated/council-result.json"
+_ENERGY_RESULT = "packages/fixtures/generated/energy-certificate-result.json"
 
 
 @dataclass(frozen=True)
@@ -51,6 +52,8 @@ class _Loaded:
     councils: dict[str, Json]
     council_results: dict[str, Json]
     council_searches: dict[str, Json]
+    energy_certificates: dict[str, Json]
+    topic_records: dict[str, Json]
 
 
 def repository_root() -> Path:
@@ -122,6 +125,8 @@ def _load() -> _Loaded:
         {item["code"]: item for item in _read(_COUNCIL_AREA)["councils"]},
         {item["code"]: item for item in council_result["councils"]},
         {item["query"]: item for item in council_result["search"]},
+        {item["number"]: item for item in _read(_ENERGY_RESULT)["certificates"]},
+        {item["key"]: item for item in topics},
     )
 
 
@@ -374,6 +379,102 @@ class DataSteps:
             f"it lists {sorted(layers)}."
         )
 
+    def then_topic_is_route_only(self, topic_key: str) -> None:
+        topic = _require_topic(topic_key)
+        message = f'Topic "{topic_key}" is not an uncounted route-only topic in {_PILOT_TOPICS}.'
+        assert topic.get("kind") == "route-only", message
+        assert topic.get("counted") is False, message
+
+    def then_topic_opens_vestagraph_page(self, topic_key: str, route: str) -> None:
+        actual = _require_topic(topic_key).get("vestagraphRoute")
+        assert actual == route, (
+            f'Topic "{topic_key}" has Vestagraph route "{actual}", not "{route}", '
+            f"in {_PILOT_TOPICS}."
+        )
+
+    def then_energy_certificate_has_outcome(self, number: str, outcome: str) -> None:
+        actual = _require_energy_certificate(number)["outcome"]
+        assert actual == outcome, (
+            f'Energy certificate "{number}" has outcome "{actual}", not "{outcome}", '
+            f"in {_ENERGY_RESULT}."
+        )
+
+    def then_energy_certificate_age(self, number: str, more_than_ten_years: bool) -> None:
+        certificate = _require_energy_certificate(number)
+        assert certificate.get("moreThanTenYearsOld") is more_than_ten_years, (
+            f'Energy certificate "{number}" has moreThanTenYearsOld '
+            f'"{certificate.get("moreThanTenYearsOld")}" in {_ENERGY_RESULT}.'
+        )
+        assert isinstance(certificate.get("validUntil"), str), (
+            f'Energy certificate "{number}" has no validUntil date in {_ENERGY_RESULT}.'
+        )
+
+    def then_energy_certificate_has_registration_date(self, number: str) -> None:
+        value = _require_energy_certificate(number).get("registrationDate")
+        assert isinstance(value, str), (
+            f'Energy certificate "{number}" has no registrationDate in {_ENERGY_RESULT}.'
+        )
+
+    def then_energy_certificate_has_valid_until(self, number: str, expected: bool) -> None:
+        # Regulation 9(2)(b): only a current certificate has a validity date, with its age.
+        certificate = _require_energy_certificate(number)
+        has_valid_until = "validUntil" in certificate
+        has_age = "moreThanTenYearsOld" in certificate
+        has_dates = (has_valid_until and has_age) if expected else (has_valid_until or has_age)
+        assert has_dates is expected, (
+            f'Energy certificate "{number}" '
+            f"{'lacks' if expected else 'has'} validUntil or moreThanTenYearsOld in "
+            f"{_ENERGY_RESULT}."
+        )
+
+    def then_energy_certificate_has_inspection_date(self, number: str) -> None:
+        value = _require_energy_certificate(number).get("inspectionDate")
+        assert isinstance(value, str), (
+            f'Energy certificate "{number}" has no inspectionDate in {_ENERGY_RESULT}.'
+        )
+
+    def then_energy_certificate_has_status_line(self, number: str, status: str) -> None:
+        line = _require_energy_certificate(number).get("statusLine")
+        actual = "none" if line is None else line.get("status")
+        assert actual == status, (
+            f'Energy certificate "{number}" has status line "{actual}", not "{status}", '
+            f"in {_ENERGY_RESULT}."
+        )
+
+    def then_energy_certificate_shows_missing(self, number: str, field: str) -> None:
+        value = _require_energy_certificate(number).get(field)
+        assert value == {"status": "missing", "text": "Not on this certificate"}, (
+            f'Energy certificate "{number}" field "{field}" is not marked missing with '
+            f'"Not on this certificate" in {_ENERGY_RESULT}.'
+        )
+
+    def then_energy_certificate_shows_no_facts(self, number: str) -> None:
+        certificate = _require_energy_certificate(number)
+        shown = [k for k in ("currentRating", "costs", "parts", "improvements") if k in certificate]
+        assert not shown, (
+            f'Energy certificate "{number}" carries {shown} in {_ENERGY_RESULT}; '
+            "a certificate that is not shown has no facts."
+        )
+
+    def then_energy_certificate_improvements_in_order_no_total(self, number: str) -> None:
+        certificate = _require_energy_certificate(number)
+        improvements = certificate.get("improvements")
+        message = f'Energy certificate "{number}" has no improvements in {_ENERGY_RESULT}.'
+        assert isinstance(improvements, list), message
+        assert improvements, message
+        sequence = [item["sequence"] for item in improvements]
+        assert sequence == sorted(sequence), (
+            f'Energy certificate "{number}" improvements are not in the certificate\'s '
+            f"order in {_ENERGY_RESULT}: {sequence}."
+        )
+        totals = [
+            k for k in certificate if "total" in k.lower() and k != "totalFloorAreaSquareMetres"
+        ]
+        assert not totals, (
+            f'Energy certificate "{number}" carries a total {totals} in {_ENERGY_RESULT}; '
+            "the page shows no total of costs, improvements or savings."
+        )
+
     def then_council_has_field_with_status(self, code: str, field: str, status: str) -> None:
         record = _require_council(code).get(field)
         assert isinstance(record, dict), (
@@ -589,6 +690,23 @@ def _require_priority(postcode: str, priority_id: str) -> Json:
         f'Area result "{postcode}" has no priority "{priority_id}" in {_AREA_RESULT}.'
     )
     return priority
+
+
+def _require_topic(topic_key: str) -> Json:
+    topic = _load().topic_records.get(topic_key)
+    assert topic is not None, (
+        f'Topic "{topic_key}" is not in {_PILOT_TOPICS}. Check the key for a typo.'
+    )
+    return topic
+
+
+def _require_energy_certificate(number: str) -> Json:
+    certificate = _load().energy_certificates.get(number)
+    assert certificate is not None, (
+        f'Energy certificate "{number}" is not in {_ENERGY_RESULT}. '
+        "Check the sample number against that file; numbers are cited as written there."
+    )
+    return certificate
 
 
 def _require_council(code: str) -> Json:

@@ -57,6 +57,7 @@ class Topic:
     check_in_person: tuple[str, ...]
     official_route: OfficialRoute | None
     review_status: str
+    vestagraph_route: str | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -234,6 +235,7 @@ def _topic(raw: dict[str, Any]) -> Topic:
         check_in_person=_strings(raw, "checkInPerson", where, required=True),
         official_route=route,
         review_status=_get(raw, "reviewStatus", str, where),
+        vestagraph_route=_optional_string(raw, "vestagraphRoute", where),
     )
 
 

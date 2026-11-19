@@ -1,0 +1,394 @@
+{
+  "$schema": "../schema/generated-energy-certificate-result.schema.json",
+  "formatVersion": 1,
+  "today": "2026-10-23",
+  "certificates": [
+    {
+      "number": "0000-0000-0000-0000-0001",
+      "outcome": "shown",
+      "inspectionDate": "2025-04-04",
+      "registrationDate": "2025-04-04",
+      "validUntil": "2035-04-04",
+      "moreThanTenYearsOld": false,
+      "currentRating": {
+        "band": "E",
+        "score": 50
+      },
+      "potentialRating": {
+        "band": "C",
+        "score": 72
+      },
+      "propertyType": "Flat",
+      "builtForm": "Mid-Terrace",
+      "totalFloorAreaSquareMetres": 55,
+      "costs": {
+        "heating": {
+          "currentPence": 36598,
+          "potentialPence": 25034
+        },
+        "hotWater": {
+          "currentPence": 20040,
+          "potentialPence": 18043
+        },
+        "lighting": {
+          "currentPence": 12345,
+          "potentialPence": 8423
+        }
+      },
+      "parts": [
+        {
+          "part": "walls",
+          "description": "Solid brick, as built, no insulation (assumed)",
+          "stars": 1
+        },
+        {
+          "part": "windows",
+          "description": "Fully double glazed",
+          "stars": 3
+        },
+        {
+          "part": "main-heating",
+          "description": "Boiler and radiators, mains gas",
+          "stars": 4
+        },
+        {
+          "part": "heating-controls",
+          "description": "Programmer, room thermostat and TRVs",
+          "stars": 4
+        },
+        {
+          "part": "hot-water",
+          "description": "From main system",
+          "stars": 4
+        },
+        {
+          "part": "lighting",
+          "description": "Low energy lighting in 50% of fixed outlets",
+          "stars": 4
+        }
+      ],
+      "improvements": [
+        {
+          "sequence": 1,
+          "description": "Low energy lighting for all fixed outlets",
+          "indicativeCost": "£220 - £250",
+          "typicalSavingPence": 13900
+        },
+        {
+          "sequence": 2,
+          "description": "Solar water heating",
+          "indicativeCost": "£4,000 - £7,000",
+          "typicalSavingPence": 4900
+        },
+        {
+          "sequence": 3,
+          "description": "Solar photovoltaic panels, 2.5 kWp",
+          "indicativeCost": "£8,000 - £10,000",
+          "typicalSavingPence": 28600
+        }
+      ]
+    },
+    {
+      "number": "0000-0000-0000-0000-0002",
+      "outcome": "shown",
+      "inspectionDate": "2014-06-10",
+      "registrationDate": "2014-06-10",
+      "validUntil": "2024-06-10",
+      "moreThanTenYearsOld": true,
+      "currentRating": {
+        "band": "D",
+        "score": 60
+      },
+      "potentialRating": {
+        "band": "C",
+        "score": 74
+      },
+      "propertyType": "House",
+      "builtForm": "End-Terrace",
+      "totalFloorAreaSquareMetres": 84,
+      "costs": {
+        "heating": {
+          "currentPence": 61200,
+          "potentialPence": 48800
+        },
+        "hotWater": {
+          "currentPence": 15500,
+          "potentialPence": 14100
+        },
+        "lighting": {
+          "currentPence": 9800,
+          "potentialPence": 6100
+        }
+      },
+      "parts": [
+        {
+          "part": "walls",
+          "description": "Cavity wall, as built, no insulation (assumed)",
+          "stars": 2
+        },
+        {
+          "part": "roof",
+          "description": "Pitched, 100 mm loft insulation",
+          "stars": 3
+        },
+        {
+          "part": "main-heating",
+          "description": "Boiler and radiators, mains gas",
+          "stars": 3
+        },
+        {
+          "part": "lighting",
+          "description": "Low energy lighting in 25% of fixed outlets",
+          "stars": 2
+        }
+      ],
+      "improvements": [
+        {
+          "sequence": 1,
+          "description": "Increase loft insulation to 270 mm",
+          "indicativeCost": "£100 - £350",
+          "typicalSavingPence": 4500
+        }
+      ]
+    },
+    {
+      "number": "0000-0000-0000-0000-0003",
+      "outcome": "shown",
+      "inspectionDate": "2022-09-11",
+      "registrationDate": "2022-09-12",
+      "statusLine": {
+        "status": "superseded",
+        "text": "A newer certificate has replaced this one."
+      },
+      "currentRating": {
+        "band": "D",
+        "score": 58
+      },
+      "potentialRating": {
+        "band": "B",
+        "score": 84
+      },
+      "propertyType": "Bungalow",
+      "builtForm": "Detached",
+      "totalFloorAreaSquareMetres": 70,
+      "costs": {
+        "heating": {
+          "currentPence": 52100,
+          "potentialPence": 39900
+        },
+        "hotWater": {
+          "currentPence": 17200,
+          "potentialPence": 15900
+        },
+        "lighting": {
+          "currentPence": 8700,
+          "potentialPence": 5200
+        }
+      },
+      "parts": [
+        {
+          "part": "walls",
+          "description": "Cavity wall, as built, partial insulation (assumed)",
+          "stars": 3
+        },
+        {
+          "part": "main-heating",
+          "description": "Boiler and radiators, mains gas",
+          "stars": 4
+        },
+        {
+          "part": "lighting",
+          "description": "Low energy lighting in 60% of fixed outlets",
+          "stars": 4
+        }
+      ],
+      "improvements": [
+        {
+          "sequence": 1,
+          "description": "Low energy lighting for all fixed outlets",
+          "indicativeCost": "£45 - £90",
+          "typicalSavingPence": 3100
+        }
+      ]
+    },
+    {
+      "number": "0000-0000-0000-0000-0004",
+      "outcome": "shown",
+      "inspectionDate": "2023-02-27",
+      "registrationDate": "2023-03-01",
+      "statusLine": {
+        "status": "cancelled",
+        "text": "The register has cancelled this certificate."
+      },
+      "currentRating": {
+        "band": "C",
+        "score": 71
+      },
+      "potentialRating": {
+        "band": "B",
+        "score": 85
+      },
+      "propertyType": "House",
+      "builtForm": "Semi-Detached",
+      "totalFloorAreaSquareMetres": 96,
+      "costs": {
+        "heating": {
+          "currentPence": 44300,
+          "potentialPence": 36500
+        },
+        "hotWater": {
+          "currentPence": 16100,
+          "potentialPence": 15200
+        },
+        "lighting": {
+          "currentPence": 7600,
+          "potentialPence": 5000
+        }
+      },
+      "parts": [
+        {
+          "part": "walls",
+          "description": "Cavity wall, as built, insulated (assumed)",
+          "stars": 4
+        },
+        {
+          "part": "main-heating",
+          "description": "Boiler and radiators, mains gas",
+          "stars": 4
+        },
+        {
+          "part": "lighting",
+          "description": "Low energy lighting in all fixed outlets",
+          "stars": 5
+        }
+      ],
+      "improvements": [
+        {
+          "sequence": 1,
+          "description": "Solar photovoltaic panels, 2.5 kWp",
+          "indicativeCost": "£8,000 - £10,000",
+          "typicalSavingPence": 22400
+        }
+      ]
+    },
+    {
+      "number": "0000-0000-0000-0000-0005",
+      "outcome": "not-domestic"
+    },
+    {
+      "number": "0000-0000-0000-0000-0006",
+      "outcome": "not-yet-covered"
+    },
+    {
+      "number": "0000-0000-0000-0000-0007",
+      "outcome": "shown",
+      "inspectionDate": "2021-03-09",
+      "registrationDate": "2021-03-10",
+      "validUntil": "2031-03-10",
+      "moreThanTenYearsOld": false,
+      "currentRating": {
+        "band": "C",
+        "score": 76
+      },
+      "potentialRating": {
+        "band": "B",
+        "score": 88
+      },
+      "propertyType": {
+        "status": "missing",
+        "text": "Not on this certificate"
+      },
+      "builtForm": {
+        "status": "missing",
+        "text": "Not on this certificate"
+      },
+      "totalFloorAreaSquareMetres": 62,
+      "costs": {
+        "heating": {
+          "currentPence": 30200,
+          "potentialPence": 27800
+        },
+        "hotWater": {
+          "currentPence": 13900,
+          "potentialPence": 13000
+        },
+        "lighting": {
+          "currentPence": 6400,
+          "potentialPence": 5100
+        }
+      },
+      "parts": {
+        "status": "missing",
+        "text": "Not on this certificate"
+      },
+      "improvements": {
+        "status": "missing",
+        "text": "Not on this certificate"
+      }
+    },
+    {
+      "number": "0000-0000-0000-0000-0008",
+      "outcome": "shown",
+      "inspectionDate": "2016-02-29",
+      "registrationDate": "2016-02-29",
+      "validUntil": "2026-02-28",
+      "moreThanTenYearsOld": true,
+      "currentRating": {
+        "band": "E",
+        "score": 45
+      },
+      "potentialRating": {
+        "band": "C",
+        "score": 70
+      },
+      "propertyType": "House",
+      "builtForm": "Mid-Terrace",
+      "totalFloorAreaSquareMetres": 76,
+      "costs": {
+        "heating": {
+          "currentPence": 70400,
+          "potentialPence": 52300
+        },
+        "hotWater": {
+          "currentPence": 21000,
+          "potentialPence": 17800
+        },
+        "lighting": {
+          "currentPence": 11200,
+          "potentialPence": 7300
+        }
+      },
+      "parts": [
+        {
+          "part": "walls",
+          "description": "Solid brick, as built, no insulation (assumed)",
+          "stars": 1
+        },
+        {
+          "part": "windows",
+          "description": "Fully double glazed",
+          "stars": 3
+        },
+        {
+          "part": "main-heating",
+          "description": "Boiler and radiators, mains gas",
+          "stars": 4
+        }
+      ],
+      "improvements": [
+        {
+          "sequence": 1,
+          "description": "Low energy lighting for all fixed outlets",
+          "indicativeCost": "£220 - £250",
+          "typicalSavingPence": 13900
+        },
+        {
+          "sequence": 2,
+          "description": "Solar water heating",
+          "indicativeCost": "£4,000 - £7,000",
+          "typicalSavingPence": 4900
+        }
+      ]
+    }
+  ]
+}

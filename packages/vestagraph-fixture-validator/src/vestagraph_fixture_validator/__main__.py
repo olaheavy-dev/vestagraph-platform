@@ -2,9 +2,9 @@
 
 Ported from the C# ``Program.cs``.
 
-Checks every file in ``packages/fixtures/data``, ``test-cases`` and ``generated`` against its JSON
-Schema. Exits 0 when every file is valid, 1 when something is wrong (each problem is printed on
-standard error), and 2 on a setup error (the repository cannot be found).
+Checks every file in ``packages/fixtures/data``, ``reference``, ``test-cases`` and ``generated``
+against its JSON Schema. Exits 0 when every file is valid, 1 when something is wrong (each problem
+is printed on standard error), and 2 on a setup error (the repository cannot be found).
 """
 
 import sys

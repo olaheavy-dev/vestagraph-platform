@@ -1,0 +1,49 @@
+{
+  "$schema": "../schema/energy-code-tables.schema.json",
+  "partial": true,
+  "tables": {
+    "propertyType": {
+      "0": "House",
+      "1": "Bungalow",
+      "2": "Flat"
+    },
+    "builtForm": {
+      "1": "Detached",
+      "2": "Semi-Detached",
+      "3": "End-Terrace",
+      "4": "Mid-Terrace"
+    },
+    "improvement": {
+      "5": "Increase loft insulation to 270 mm",
+      "19": "Solar water heating",
+      "34": "Solar photovoltaic panels, 2.5 kWp",
+      "35": "Low energy lighting for all fixed outlets"
+    }
+  },
+  "sources": [
+    {
+      "table": "propertyType",
+      "url": "https://raw.githubusercontent.com/communitiesuk/epb-data-warehouse/d7adc1103f8b3aa08f156b4e14b658f70f83c2f0/api/schemas/xml/RdSAP-Schema-21.0.1/RdSAP/UDT/SAP-Domains.xsd",
+      "effectiveDate": "as published",
+      "checked": "2026-11-18"
+    },
+    {
+      "table": "builtForm",
+      "url": "https://raw.githubusercontent.com/communitiesuk/epb-data-warehouse/d7adc1103f8b3aa08f156b4e14b658f70f83c2f0/api/schemas/xml/RdSAP-Schema-21.0.1/RdSAP/UDT/SAP-Domains.xsd",
+      "effectiveDate": "as published",
+      "checked": "2026-11-18"
+    },
+    {
+      "table": "improvement",
+      "url": "https://raw.githubusercontent.com/communitiesuk/epb-data-warehouse/d7adc1103f8b3aa08f156b4e14b658f70f83c2f0/api/schemas/xml/RdSAP-Schema-21.0.1/RdSAP/ExternalDefinitions.xml",
+      "effectiveDate": "2025-06-03",
+      "checked": "2026-11-18"
+    },
+    {
+      "table": "validity",
+      "url": "https://www.legislation.gov.uk/uksi/2012/3118/regulation/9",
+      "effectiveDate": "2013-01-09",
+      "checked": "2026-11-19"
+    }
+  ]
+}

@@ -14,10 +14,15 @@ from vestagraph_generator.__main__ import main
 from vestagraph_generator.costs_generator import run
 from vestagraph_generator.council_generator import _pence, generate_council
 
-NAMES = ("area-result.json", "costs.json", "council-result.json")
+NAMES = (
+    "area-result.json",
+    "costs.json",
+    "council-result.json",
+    "energy-certificate-result.json",
+)
 
 
-def test_run_writes_all_three_generated_files_and_keeps_them(tmp_path: Path) -> None:
+def test_run_writes_all_four_generated_files_and_keeps_them(tmp_path: Path) -> None:
     fixtures = copy_data_to(tmp_path)
     generated = fixtures / "generated"
     generated.mkdir()

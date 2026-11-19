@@ -133,6 +133,11 @@
           },
           "description": "Where to go officially. url is left out when no official URL is recorded in the repository."
         },
+        "vestagraphRoute": {
+          "type": "string",
+          "pattern": "^/[a-z-]+$",
+          "description": "A page of Vestagraph's own that the Check this row opens, instead of or beside the official route. Never holds a certificate number or any address."
+        },
         "note": {
           "type": "string",
           "minLength": 1

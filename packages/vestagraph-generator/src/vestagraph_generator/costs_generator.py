@@ -1,6 +1,6 @@
-"""Reads the fixture data and writes the three generated files: ``costs.json`` (every figure from
-the cost engine), ``area-result.json`` and ``council-result.json`` (every figure from
-``vestagraph_area``).
+"""Reads the fixture data and writes the four generated files: ``costs.json`` (every figure from
+the cost engine), ``area-result.json``, ``council-result.json`` and
+``energy-certificate-result.json`` (every figure from ``vestagraph_area``).
 
 Ported from the C# ``CostsGenerator``. Nothing in either file is typed by hand (AGENTS rule 2).
 All are made in memory first, so nothing is written if any cannot be generated. The output
@@ -50,6 +50,8 @@ from vestagraph_generator.costs_document import (
 )
 from vestagraph_generator.council_generator import FILE_NAME as COUNCIL_FILE_NAME
 from vestagraph_generator.council_generator import generate_council
+from vestagraph_generator.energy_generator import FILE_NAME as ENERGY_FILE_NAME
+from vestagraph_generator.energy_generator import generate_energy
 from vestagraph_generator.fixture_reader import (
     FixtureData,
     HomeData,
@@ -70,9 +72,10 @@ _ROUNDING = (
 
 
 def run(fixtures_directory: Path, error: TextIO) -> int:
-    """Generate ``costs.json``, ``area-result.json`` and ``council-result.json`` in ``generated/``.
+    """Generate the four result files (``costs.json``, ``area-result.json``, ``council-result.json``
+    and ``energy-certificate-result.json``) in ``generated/``.
 
-    All three documents are made in memory first, so nothing is written if any cannot be
+    All four documents are made in memory first, so nothing is written if any cannot be
     generated. Any other ``*.json`` in ``generated/`` is deleted. Returns the exit code: 0 for
     success, 1 when the engine or the data's story links report a problem (printed to ``error``
     with its code).
@@ -87,6 +90,7 @@ def run(fixtures_directory: Path, error: TextIO) -> int:
         return 1
     area_text = generate_area(fixtures_directory)
     council_text = generate_council(fixtures_directory)
+    energy_text = generate_energy(fixtures_directory)
 
     folder = fixtures_directory / "generated"
     folder.mkdir(parents=True, exist_ok=True)
@@ -94,11 +98,12 @@ def run(fixtures_directory: Path, error: TextIO) -> int:
     # Write each new file beside the old one and swap it in, so a failure never leaves a
     # half-written file. Only then remove the other *.json files. Bytes, so no platform
     # changes the line endings.
-    kept = {FILE_NAME, AREA_FILE_NAME, COUNCIL_FILE_NAME}
+    kept = {FILE_NAME, AREA_FILE_NAME, COUNCIL_FILE_NAME, ENERGY_FILE_NAME}
     for name, text in (
         (FILE_NAME, generated.value),
         (AREA_FILE_NAME, area_text),
         (COUNCIL_FILE_NAME, council_text),
+        (ENERGY_FILE_NAME, energy_text),
     ):
         temporary = folder / f"{name}.tmp"
         try:

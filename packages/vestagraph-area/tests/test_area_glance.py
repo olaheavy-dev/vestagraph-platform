@@ -146,6 +146,19 @@ def test_at_a_glance_route_only_topic_is_ignored() -> None:
     assert "route" not in glance.outcomes
 
 
+def test_at_a_glance_energy_route_only_topic_not_counted() -> None:
+    data = fixtures_directory() / "data"
+    registry = read_registry(data / "pilot-topics.json")
+    area = read_postcode_area(data / "postcode-area.json")
+
+    glance = at_a_glance(registry, area, "NB1 4XY")
+
+    counted = [t for t in registry.topics if t.counted]
+    assert "energy-certificate-home" not in glance.outcomes
+    assert glance.coverage_total == len(counted)
+    assert all(q.topic_key != "energy-certificate-home" for q in glance.questions)
+
+
 def test_at_a_glance_other_postcode_records_are_not_counted() -> None:
     registry = make_registry(make_topic("alpha"))
     area = make_area(

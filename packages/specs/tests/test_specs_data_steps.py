@@ -857,3 +857,105 @@ def test_find_entry_without_the_key_fails_naming_the_key_and_where() -> None:
 
     assert '"topic"' in str(failure.value)
     assert 'council "X1" captions' in str(failure.value)
+
+
+# Energy certificate steps (plan Task 4): a passing and a failing case per wording.
+_EPC_A = "0000-0000-0000-0000-0001"
+_EPC_B = "0000-0000-0000-0000-0002"
+_EPC_C = "0000-0000-0000-0000-0003"
+_EPC_E = "0000-0000-0000-0000-0005"
+_EPC_G = "0000-0000-0000-0000-0007"
+
+
+def test_then_topic_route_only_energy_row_passes(steps: DataSteps) -> None:
+    steps.then_topic_is_route_only("energy-certificate-home")
+    steps.then_topic_opens_vestagraph_page("energy-certificate-home", "/energy-certificate")
+
+
+def test_then_topic_route_only_counted_topic_fails_naming_the_topic(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_topic_is_route_only("flood")
+
+    assert "flood" in str(failure.value)
+
+
+def test_then_topic_opens_vestagraph_page_wrong_route_fails_naming_the_route(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_topic_opens_vestagraph_page("energy-certificate-home", "/elsewhere")
+
+    assert "/elsewhere" in str(failure.value)
+
+
+def test_then_energy_certificate_outcome_age_and_status_matching_passes(steps: DataSteps) -> None:
+    steps.then_energy_certificate_has_outcome(_EPC_A, "shown")
+    steps.then_energy_certificate_age(_EPC_A, more_than_ten_years=False)
+    steps.then_energy_certificate_age(_EPC_B, more_than_ten_years=True)
+    steps.then_energy_certificate_has_status_line(_EPC_C, "superseded")
+    steps.then_energy_certificate_has_status_line(_EPC_A, "none")
+
+
+def test_then_energy_certificate_wrong_outcome_fails_naming_the_number(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_energy_certificate_has_outcome(_EPC_A, "not-domestic")
+
+    assert _EPC_A in str(failure.value)
+
+
+def test_then_energy_certificate_unknown_number_fails_naming_the_number(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_energy_certificate_has_outcome("0000-0000-0000-0000-9999", "shown")
+
+    assert "0000-0000-0000-0000-9999" in str(failure.value)
+
+
+def test_then_energy_certificate_wrong_age_fails_naming_the_number(steps: DataSteps) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_energy_certificate_age(_EPC_A, more_than_ten_years=True)
+
+    assert _EPC_A in str(failure.value)
+
+
+def test_then_energy_certificate_missing_fact_marked_missing_passes(steps: DataSteps) -> None:
+    steps.then_energy_certificate_shows_missing(_EPC_G, "parts")
+
+
+def test_then_energy_certificate_recorded_fact_not_missing_fails_naming_the_field(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_energy_certificate_shows_missing(_EPC_A, "parts")
+
+    assert "parts" in str(failure.value)
+
+
+def test_then_energy_certificate_not_shown_has_no_facts_passes_and_shown_fails(
+    steps: DataSteps,
+) -> None:
+    steps.then_energy_certificate_shows_no_facts(_EPC_E)
+    with pytest.raises(AssertionError):
+        steps.then_energy_certificate_shows_no_facts(_EPC_A)
+
+
+def test_then_energy_certificate_improvements_in_order_passes_and_missing_list_fails(
+    steps: DataSteps,
+) -> None:
+    steps.then_energy_certificate_improvements_in_order_no_total(_EPC_A)
+    with pytest.raises(AssertionError) as failure:
+        steps.then_energy_certificate_improvements_in_order_no_total(_EPC_G)
+
+    assert _EPC_G in str(failure.value)
+
+
+def test_then_energy_certificate_inspection_date_shown_sample_passes(steps: DataSteps) -> None:
+    steps.then_energy_certificate_has_inspection_date(_EPC_A)
+
+
+def test_then_energy_certificate_inspection_date_not_shown_sample_fails_naming_the_number(
+    steps: DataSteps,
+) -> None:
+    with pytest.raises(AssertionError) as failure:
+        steps.then_energy_certificate_has_inspection_date(_EPC_E)
+
+    assert _EPC_E in str(failure.value)
