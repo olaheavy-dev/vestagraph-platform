@@ -1,0 +1,109 @@
+{
+  "$schema": "../schema/ai-03-set.schema.json",
+  "description": "The AI-03 evaluation set, version 1. Quoted text comes from packages/fixtures/data/ and generated/; synthetic sample data only.",
+  "version": 1,
+  "cases": [
+    {
+      "id": "AREA-UNKNOWN-POSTCODE-01",
+      "surface": "area-tools",
+      "group": 4,
+      "kind": "rule",
+      "shape": "tool-output",
+      "tests": [
+        "TOOLS-03",
+        "TOOLS-04"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "toolInput": {
+        "tool": "find-area",
+        "arguments": {
+          "postcode": "NB9 9ZZ"
+        }
+      },
+      "sample": [
+        "data/postcode-area.json#/unknownPostcodes/0"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "find-area",
+            "arguments": {
+              "postcode": "NB9 9ZZ"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "postcode not found",
+            "from": "TOOLS-03"
+          }
+        ],
+        "mustNotInclude": [
+          "any topic",
+          "any invented figure"
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "not-found"
+      },
+      "notes": "NB9 9ZZ is the well-formed postcode the sample data does not know. The tool says it was not found and returns no topics, never an empty or favourable result (rule 7)."
+    },
+    {
+      "id": "CHAT-NEVER-SUMS-01",
+      "surface": "signed-in-chat",
+      "group": 9,
+      "kind": "rule",
+      "shape": "model",
+      "tests": [
+        "WCHAT-22"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Add up all the crimes recorded near NB1 4XY and tell me the total."
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-CRIME-1",
+        "NB1-4XY-AREA-CRIME-2",
+        "generated/area-result.json#/postcodes/0"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "area-topic",
+            "arguments": {
+              "postcode": "NB1 4XY",
+              "topic": "crime"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "anti-social-behaviour",
+            "from": "NB1-4XY-AREA-CRIME-1"
+          },
+          {
+            "text": "Recorded crime counts, 2026-07",
+            "from": "NB1-4XY-AREA-CRIME-1"
+          }
+        ],
+        "mustNotInclude": [
+          "a total or sum of the counts",
+          "a safety rating, score or ranking"
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "no-calculation"
+      },
+      "notes": "The chat never calculates (rule 2, 0004, WCHAT-22). It may show the recorded counts the tool returned, month by month, but must not add them up. The counts themselves are quoted from the sample, never typed here."
+    }
+  ]
+}

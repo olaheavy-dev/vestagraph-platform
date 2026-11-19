@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vestagraph.invalid/schema/ai-03-set.schema.json",
+  "title": "AI-03 evaluation set (evaluation/ai-03-set.json)",
+  "description": "The pilot's one versioned AI evaluation set (AI-03, AI-14): a list of cases, each with a shape. A tool-output case gives a tool input and marks the tool's result, with no model. A model case gives a conversation and is run through our own signed-in chat. A rule case runs 3 times and all 3 must pass; a quality or latency case runs once. Expected text is quoted from the sample data, never typed figures (AGENTS rule 2). A stub is inline synthetic data (hostile text, saved areas, chat titles, earlier turns) used in place of a real tool or store for that case, so attack text never enters the shared fixtures.",
+  "type": "object",
+  "required": [
+    "version",
+    "cases"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "version": {
+      "const": 1
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/case"
+      }
+    }
+  },
+  "$defs": {
+    "case": {
+      "type": "object",
+      "required": [
+        "id",
+        "surface",
+        "group",
+        "kind",
+        "shape",
+        "tests",
+        "measures",
+        "runs",
+        "sample",
+        "expect",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)+$",
+          "description": "Stable, readable, unique, never reused."
+        },
+        "surface": {
+          "enum": [
+            "area-tools",
+            "council-tools",
+            "signed-in-chat"
+          ]
+        },
+        "group": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25,
+          "description": "The audit's section 5 group number."
+        },
+        "kind": {
+          "enum": [
+            "rule",
+            "quality",
+            "latency"
+          ]
+        },
+        "shape": {
+          "enum": [
+            "tool-output",
+            "model"
+          ]
+        },
+        "tests": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]+-[0-9]+$"
+          },
+          "description": "Scenario IDs from docs/specs/ that the case proves."
+        },
+        "measures": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/measure"
+          }
+        },
+        "runs": {
+          "type": "integer"
+        },
+        "toolInput": {
+          "$ref": "#/$defs/toolInput"
+        },
+        "conversation": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/turn"
+          }
+        },
+        "sample": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^([A-Z0-9]+(-[A-Z0-9]+)+|(data|generated)/[a-z0-9-]+\\.json#/.*)$"
+          },
+          "description": "Sample records the case relies on: a record ID, or a file path with a JSON Pointer such as generated/area-result.json#/postcodes/0."
+        },
+        "stubs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/stub"
+          }
+        },
+        "expect": {
+          "$ref": "#/$defs/expect"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "rule"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "runs": {
+                "const": 3
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "runs": {
+                "const": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "shape": {
+                "const": "tool-output"
+              }
+            },
+            "required": [
+              "shape"
+            ]
+          },
+          "then": {
+            "required": [
+              "toolInput"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "shape": {
+                "const": "model"
+              }
+            },
+            "required": [
+              "shape"
+            ]
+          },
+          "then": {
+            "required": [
+              "conversation"
+            ]
+          }
+        }
+      ]
+    },
+    "measure": {
+      "enum": [
+        "groundedness",
+        "task_adherence",
+        "tool_call_accuracy",
+        "tool_selection",
+        "tool_input_accuracy",
+        "intent_resolution",
+        "relevance",
+        "response_completeness",
+        "coherence",
+        "fluency"
+      ],
+      "description": "Microsoft Foundry built-in evaluator names (read 19 Nov 2026)."
+    },
+    "toolInput": {
+      "type": "object",
+      "required": [
+        "tool",
+        "arguments"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tool": {
+          "$ref": "#/$defs/toolName"
+        },
+        "arguments": {
+          "type": "object"
+        }
+      }
+    },
+    "toolName": {
+      "enum": [
+        "find-area",
+        "nearby",
+        "area-topic",
+        "explain-source",
+        "questions-for-gaps",
+        "find-council",
+        "council-facts",
+        "list-saved-areas"
+      ],
+      "description": "Tool job names until the build names them."
+    },
+    "turn": {
+      "type": "object",
+      "required": [
+        "role",
+        "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "stub": {
+      "type": "object",
+      "required": [
+        "channel",
+        "text",
+        "synthetic"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "enum": [
+            "tool-result",
+            "place-name",
+            "school-name",
+            "council-name",
+            "saved-area",
+            "chat-title",
+            "earlier-turn"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "synthetic": {
+          "const": true
+        }
+      }
+    },
+    "expect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "toolCalls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "tool"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "tool": {
+                "$ref": "#/$defs/toolName"
+              },
+              "arguments": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "mustInclude": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "text",
+              "from"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "text": {
+                "type": "string",
+                "minLength": 1
+              },
+              "from": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Where the text comes from: a sample record ID, a data or generated file pointer, or a scenario ID."
+              }
+            }
+          }
+        },
+        "mustNotInclude": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "numbersFrom": {
+          "const": "tool-results-only"
+        },
+        "replyKind": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
