@@ -499,4 +499,4 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
   Scenario: TOOLS-66 a share of homes rented is already in the tool result, with nothing to divide
     Given an assistant is connected to the area tools
     When it calls the council facts tool for council "E06999001" and the question is what share of homes are rented
-    Then the result carries the private rented and social rented shares from `tenureShares` with the rounding line, and leaves nothing to divide (the model's answer is an AI-03 case, TOOLS-66 above)
+    Then the result carries the private rented and social rented shares from `tenureShares` with the rounding line, and leaves nothing to divide (the model's answer is an AI-03 case, listed in this file's description)
