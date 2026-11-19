@@ -5,14 +5,14 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Added 19 Nov 2026 (pilot design batch, PR 2, plan Task 5; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, sections 5 to 7; decisions 0014, 0053, 0056, 0057, 0058; register lines DA-09, DA-35, FE-11, FE-74, SE-02, SE-07, SE-08, SE-09).
   Where: `/how-it-works`, `/privacy` and `/accessibility`, linked from the footer on every page and, for "How it works", from the landing's "How it works" section (LAND-25, LAND-26 in `screens/01-landing.feature`). The footer labels are the landing boards': "How it works", "About the data", "Privacy notice", "Accessibility" (HOWTO-31).
   Fixtures: none. The three pages are static text; they quote no figure (AGENTS.md rule 2).
-  Boards: on the canvas page "Pilot · public area check", section "Pilot 9 · Public pages" (design canvas version 421, version id 1795110030-aefc): HowItWorks (desktop, 1440 wide) and HowItWorksPhone (390), Privacy and PrivacyPhone, Accessibility and AccessibilityPhone, each with a Dark twin. Every string below that is not a quote from a record is the agent's proposed wording. Each placeholder is drawn in one style, a dashed, hatched slate box with a "Placeholder" label above its exact text (a "Draft" label for PRIV-11's draft line); where a scenario lists several placeholders in one sentence, the board draws one box for the group, labelled with what it covers. No illustration is drawn (HOW-11 allows at most one).
+  Boards: on the canvas page "Pilot · public area check", section "Pilot 9 · Public pages" (design canvas version 422, version id 1795110762-a77a): HowItWorks (desktop, 1440 wide) and HowItWorksPhone (390), Privacy and PrivacyPhone, Accessibility and AccessibilityPhone, each with a Dark twin. Every string below that is not a quote from a record is the agent's proposed wording. The Landing boards (Landing, LandingDark, LandingPhone, LandingPhoneDark) draw LAND-25 and LAND-26: the footer reads "How it works", "About the data", "Privacy notice", "Accessibility" and "Use in ChatGPT or Claude" (HOWTO-31), and the How it works section ends with the link "More on how it works". Each placeholder is drawn in one style, a dashed, hatched slate box with a "Placeholder" label above its exact text (a "Draft" label for PRIV-11's draft line); where a scenario lists several placeholders in one sentence, the board draws one box for the group, labelled with what it covers. No illustration is drawn (HOW-11 allows at most one).
   Wording status: the agent's proposed wording, for the founder's copy review before build. The facts on each page are quoted from their records (listed per scenario); the words around them are proposed. Two kinds of text are fixed by the founder's decision SE-07 and are never rewritten: the legal-part placeholder "To be written before launch (SE-02)" and the contact placeholder "Contact details to be added before launch". Accessibility's results placeholder "To be completed after testing, before launch" is from the design (section 7).
   Rule 1 and SE-07: no legal position is stated that no record decides (no lawful basis, no controller name, no retention wording of our own, no statement of rights). A placeholder is shown plainly as a placeholder, never styled as finished text. Rule 4 and 0054: no page calls an area, council or home "verified", "safe" or "approved", and none gives a score, rating or verdict.
   Facts still undecided, shown as placeholders and not invented: who the data controller is and how to contact them; the lawful basis for each kind of processing (0057 only proposes legitimate interests for ChatGPT call fields); the text of the rights section; the legal retention wording around the periods that are decided (FE-74's 90 days, 0057's totals with no end date, 0058's 12 months, 24 months and 30 days, SE-08 and SE-09's 12 months); which AI provider writes chat answers and how long it keeps chat text (0058 leaves it open until AI-01); the sign-in session cookies and their consent position (0058's PECR check is a launch blocker); who hosts or processes the bot check; the accessibility test method, date and results.
 
   Board-to-scenario map (each board has a Dark twin showing the same wording; HOW-14, PRIV-17, A11Y-09):
     HowItWorks (desktop) and HowItWorksPhone: header and sections -> HOW-01 to HOW-11; links -> HOW-04, HOW-08, HOW-09, HOW-12; layout -> HOW-13
-    Privacy and PrivacyPhone: header and the placeholder style -> PRIV-01, PRIV-02, PRIV-03; each section -> PRIV-04 to PRIV-14, PRIV-18; links -> PRIV-15; layout, keyboard -> PRIV-16
+    Privacy and PrivacyPhone: header and the placeholder style -> PRIV-01, PRIV-02, PRIV-03; each section -> PRIV-04 to PRIV-14, PRIV-18, PRIV-19; links -> PRIV-15; layout, keyboard -> PRIV-16
     Accessibility and AccessibilityPhone: A11Y-01 to A11Y-08
     Landing footer and "How it works" link -> LAND-25, LAND-26
 
@@ -136,10 +136,10 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     And a line under it says the notice is unfinished and that the parts marked "To be written before launch (SE-02)" are not yet written (proposed wording)
 
   @ui
-  Scenario: PRIV-02 the sections are in the design's order
+  Scenario: PRIV-02 the sections are in the design's order (with "Hosting and security", PRIV-19, added after "Signed-in accounts and chat")
     Given the user has opened "Privacy notice"
     When the user reads the page from the top
-    Then the section headings are, in this order: "Who we are", "What we collect and what we never collect", "Remembering things on your device", "Report a problem counts", "The bot check", "Rate limits", "Links to other sites", "Maps", "Using Vestagraph in ChatGPT or Claude", "Energy certificate numbers", "Signed-in accounts and chat", "Your rights" and "Contact"
+    Then the section headings are, in this order: "Who we are", "What we collect and what we never collect", "Remembering things on your device", "Report a problem counts", "The bot check", "Rate limits", "Links to other sites", "Maps", "Using Vestagraph in ChatGPT or Claude", "Energy certificate numbers", "Signed-in accounts and chat", "Hosting and security", "Your rights" and "Contact"
     And the headings are proposed wording; the topics and their order are the design's
 
   # SE-07: "The page never shows a placeholder as finished text."
@@ -147,7 +147,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Scenario: PRIV-03 every legal part reads exactly "To be written before launch (SE-02)", shown plainly as a placeholder
     Given the user has opened "Privacy notice"
     When the user looks for the controller details, the lawful basis, the retention wording and the rights wording
-    Then each of them reads exactly "To be written before launch (SE-02)", except that the decided periods quoted in their own sections (PRIV-06, PRIV-07, PRIV-11, PRIV-13) stay as quoted, and only the legal wording around them is the placeholder
+    Then each of them reads exactly "To be written before launch (SE-02)", except that the decided periods quoted in their own sections (PRIV-06, PRIV-07, PRIV-11, PRIV-13) stay as quoted, and only the legal wording around them is the placeholder (so each of those sections also carries a placeholder for its lawful basis, retention wording or consent position, as PRIV-06, PRIV-07, PRIV-11 and PRIV-13 say)
     And each is shown in a visibly different style from finished text (a labelled box, not body text) and is never worded as if it were final, and no legal position is stated anywhere that no record decides (rule 1)
 
   # Design section 6: who we are. No controller is decided.
@@ -176,7 +176,8 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     Given the user has opened "Privacy notice"
     When the user reads "Remembering things on your device"
     Then it names "Remember postcodes on this device", "Remember councils on this device" and "Remember these on this device" (the limits you set in priorities), each off until you turn it on, each its own choice (0014; 0053; PRIO-15, PRIO-19)
-    And it says the lists are kept only in your browser and are never sent to us, that you can clear or turn off a list at any time, and that an entry is kept at most 12 months, older entries being dropped automatically (SE-08 for postcodes, CITY2-54 for councils, SE-09 for limits, PRIO-20)
+    And it says the lists of postcodes and councils are kept only in your browser and are never sent to us, that remembered limits are also kept only in your browser and are sent only when you check, to work out the comparison, and are never stored or logged by us (0053; PRIO-17, PRIO-20), that you can clear or turn off a list at any time, and that an entry is kept at most 12 months, older entries being dropped automatically (SE-08 for postcodes, CITY2-54 for councils, SE-09 for limits, PRIO-20)
+    And the lawful basis and the consent position (PECR) read exactly "To be written before launch (SE-02)" (0014 leaves the PECR check to decide)
     And it names no other thing stored on your device, because theme and text size are stored nowhere (FE-23, DISP-05) and the sign-in session cookies are a separate section (PRIV-13)
 
   # FE-74: the reasons, the shapes and internal only; the never-stored list and the 90 days are the pilot design 2026-11-13 goal 7, the pilot design batch section 4 and REPORT-26, REPORT-28.
@@ -186,7 +187,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     When the user reads "Report a problem counts"
     Then it says a report is counted per day, with the source, the topic or the figure, the area or the fact's public record ID and the reason ("Wrong", "Out of date" or "Missing something"), and there is no free text (FE-74)
     And it says the postcode, a row for each report, a time finer than the day, and any client key or IP address are never stored, that the counts are kept 90 days (the pilot design batch, section 4; REPORT-26, REPORT-28), and that they are used only by us to see what needs checking and are never published (FE-74)
-    And the lawful basis reads exactly "To be written before launch (SE-02)"
+    And the lawful basis and the retention wording around the 90 days read exactly "To be written before launch (SE-02)"
 
   # The pilot design 2026-11-13 Abuse line: an invisible challenge reading device signals, to be named in the privacy notice and the PECR check; 0058 moves the sign-up bot check to account creation and each email-link request (AUTH-03, AUTH-04). 0014 part 1 lists the PECR check as still to decide, so no consent position is stated. The provider is not decided, so it is not named.
   @ui
@@ -198,10 +199,10 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
 
   # DA-35, 0056 and 0014: an IP address held briefly in memory, never logged.
   @ui
-  Scenario: PRIV-09 "Rate limits" says an IP address is held briefly in memory and never logged
+  Scenario: PRIV-09 "Rate limits" says requests are counted per anonymised client and the energy certificate lookup by IP address, in memory, never logged
     Given the user has opened "Privacy notice"
     When the user reads "Rate limits"
-    Then it says that to stop one visitor copying the whole dataset, we count your requests to the website using your IP address, held briefly in memory only and never written to a log (0014; DA-35; 0056)
+    Then it says that to stop one visitor copying the whole dataset, we count requests to the website per anonymised client key, kept briefly and never written to a log (0056; the pilot design 2026-11-13, Abuse line), and that the energy certificate lookup is counted by IP address, held in memory only (DA-35; 0014)
     And it says calls from ChatGPT or Claude are limited by an overall cap and a cap for each app, not for each person (0057, 0051)
     And it says an IP address can be personal data, and the lawful basis reads exactly "To be written before launch (SE-02)"
 
@@ -211,7 +212,8 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     Given the user has opened "Privacy notice"
     When the user reads "Links to other sites"
     Then it says some links in an area check carry the postcode to another site, that each link says so before you click, and that nothing is sent until you click (FE-11; 0014)
-    And it names the sites that receive the postcode when a link is clicked, as the area check's links do (AREA-18), including Google Maps and its satellite view, "Google will see this postcode" (FE-11)
+    And it names the sites that receive the postcode when a link is clicked, as the area check's links do (AREA-18), including Google Maps and its satellite view, "Google will see this postcode" (FE-11), and the page does not say "for example", as if Google were the only one
+    And the full list of sites that receive the postcode is a placeholder reading "To be written before launch (SE-02)" until the build fixes which links carry the postcode (FE-11 lets any site that accepts it)
     And it says the links open with no referrer (`rel="noreferrer"`) and never pass through our logs
 
   # 0056 decision 2 and 0057: the host's own terms; what hosts send; anonymous totals; the record is Proposed.
@@ -223,7 +225,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     And it says ChatGPT may send, with a tool call, an anonymised user ID and conversation ID, an anonymised organisation ID when there is one, a rough location, a device hint and your language, that we do not ask for these, and that Claude sends nothing documented beyond the question's details (0057)
     And it says we keep none of it, count calls per day by tool, host, outcome, city, region, country and language, and never keep what you asked (0057), with any daily total below 10 shown as "fewer than 10", and that the totals have no end date (0057)
     And the section carries a visible line that its wording is a draft to be confirmed before launch, because 0057 (SE-05) is still Proposed (proposed wording: "Draft wording, to be confirmed before launch (0057).")
-    And the lawful basis reads exactly "To be written before launch (SE-02)" (0057 only proposes legitimate interests and chooses none)
+    And the lawful basis and the retention wording around the totals read exactly "To be written before launch (SE-02)" (0057 only proposes legitimate interests and chooses none)
 
   # DA-09: never logged; open building fields only; the design says never stored. DA-35: the lookup limit is keyed by IP address, not by the certificate number.
   @ui
@@ -240,11 +242,11 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Scenario: PRIV-13 "Signed-in accounts and chat" quotes what 0058 decided and leaves the rest as placeholders
     Given the user has opened "Privacy notice"
     When the user reads "Signed-in accounts and chat"
-    Then it says that if you sign in we keep your account, the areas you save, and your chats, that an account holds an opaque user ID, your email, your name and your sign-in method, that a saved area holds only a postcode or a council name, and that anonymous visitors are unchanged (0058 point 4)
-    And it says a chat is deleted 12 months after it was last used, an account is deleted 24 months after you last used it while signed in (any request with a valid sign-in counts as use), chat records that include the words are kept 30 days and are seen only by the founder, and you can delete a chat or your account at any time, which also deletes its records (0058)
+    Then it says that if you sign in we keep your account, the areas you save, and your chats, that an account holds an opaque user ID, your email, your name and your sign-in method, that a saved area holds only a postcode or a council name, and that if you do not sign in, none of this is kept (proposed wording for "anonymous visitors are unchanged", 0058 point 4)
+    And it says a chat is deleted 12 months after it was last used, an account is deleted 24 months after you last used it while signed in (any request with a valid sign-in counts as use), chat records that include the words (drawn as "records of a chat that include what was written") are kept 30 days and are seen only by the founder, and you can delete a chat or your account at any time, which also deletes its records (0058)
     And it says the AI model that writes chat answers may not use your chats for training (0058 point 7)
     And which AI provider is used, how long it keeps chat text, which service sends sign-in emails and where chat records are stored each read exactly "To be written before launch (SE-02)" (0058 leaves them open until AI-01, AI-09 and IN-02)
-    And what the sign-in session cookies are, and the lawful basis, read exactly "To be written before launch (SE-02)" (0058 makes the cookie check a launch blocker, so no cookie fact is decided)
+    And what the sign-in session cookies are, the lawful basis and the retention wording around the periods read exactly "To be written before launch (SE-02)" (0058 makes the cookie check a launch blocker, so no cookie fact is decided)
 
   @ui
   Scenario: PRIV-14 "Your rights" and "Contact" are placeholders, and no contact route is invented
@@ -278,10 +280,18 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Scenario: PRIV-18 "Maps" says each map view sends your IP address and the map area to OpenFreeMap
     Given the user has opened "Privacy notice"
     When the user reads "Maps"
-    Then it says the map's background tiles come from OpenFreeMap, a map service run by a company other than us, and that each time a map is shown, your browser asks OpenFreeMap for the tiles for the area on screen, so OpenFreeMap receives your IP address and the area being viewed, under its own terms (0059)
-    And it says OpenFreeMap's page states it uses no cookies, no keys and no accounts (0059)
-    And it says nothing about how long OpenFreeMap keeps IP addresses, which its page does not state, and that line, the lawful basis and the retention wording read exactly "To be written before launch (SE-02)" (0059: terms and IP logging to be confirmed before launch)
+    Then it says the map's background tiles come from OpenFreeMap, a map service run by a company other than us, and that each time a map is shown, your browser asks OpenFreeMap for the tiles for the area on screen, which is the area around the postcode you checked, so OpenFreeMap receives your IP address and that area, under its own policy (0059)
+    And it says OpenFreeMap says it uses no cookies, no keys and no accounts, and its privacy policy (read 19 Nov 2026) says it does not store IP addresses in its access logs, that an error log may include the IP address and the address requested, that it may switch IP logging on for up to 30 days to fix a problem, and that server logs are deleted after 7 days (after at most 30 days for a security incident) (0059)
+    And it says OpenFreeMap's policy says it may use Cloudflare as a CDN, and that Cloudflare may collect certain information under its own privacy policy (0059)
+    And our own lawful basis and retention wording read exactly "To be written before launch (SE-02)" (0059: the policy and terms are read again before launch)
     And it says that if the map cannot load, the facts still show (MAP-27)
+
+  # Added after review (19 Nov 2026): 0014 says the notice covers what hosting and security services handle. Hosting (IN-02) is undecided, so this is a placeholder, not a fact. Added after PRIV-18 so no ID moves.
+  @ui
+  Scenario: PRIV-19 "Hosting and security" is a placeholder, so the list of recipients does not read as complete
+    Given the user has opened "Privacy notice"
+    When the user reads "Hosting and security", which sits after "Signed-in accounts and chat" (PRIV-02)
+    Then it reads exactly "To be written before launch (SE-02)", shown as a placeholder (PRIV-03), and names no host, security service or retention (hosting is not decided, IN-02)
 
   # ---- Accessibility (design section 7) ----
 

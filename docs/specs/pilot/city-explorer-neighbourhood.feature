@@ -228,7 +228,7 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
     When the user reads "Where it sits", headed "Neighbourhood level · inside Northbridge (sample) council area"
     Then a map shows the neighbourhood inside the council area
     And no area is coloured by a score, rank, decile or figure (0054)
-    And the line under it reads "Map drawing is a placeholder for our own street map tiles. It is not coloured by any figure." on the board only, the real map carrying our own tiles (FE-03)
+    And the line under it reads "Map drawing is a placeholder for our own street map tiles. It is not coloured by any figure." on the board only, the real map carrying OpenFreeMap tiles (0059, DA-37; these were "our own tiles (FE-03)" before 19 Nov 2026)
 
   @ui
   Scenario: HOOD-28 the map names its boundary and name sources
@@ -308,11 +308,11 @@ Feature: City Explorer neighbourhood page (facts published for one neighbourhood
 
   # Privacy and accessibility (design spec Constraints; decisions 0014, 0046, 0053).
   @ui
-  Scenario: HOOD-39 the typed postcode is never stored or logged and no third party sees a page view
+  Scenario: HOOD-39 the typed postcode is never stored or logged and no third party sees a page view except the map tiles
     Given the user has opened the neighbourhood page for neighbourhood "E01999011" of council "E06999001"
     When the user types a postcode in the box and chooses "Check"
     Then the postcode is not stored or written to any log, and analytics never records the box (FE-05)
-    And boundary files, map tiles, fonts and the chart library are served from our own hosting, so no third party sees the page view (B28)
+    And boundary files, fonts and the chart library are served from our own hosting, and the map tiles come from OpenFreeMap's public servers (0059, DA-37; changed 19 Nov 2026: tiles were "our own hosting"), so the page makes no other third-party request (B28)
 
   @ui
   Scenario: HOOD-40 the page works by keyboard with touch targets of at least 44 px and no sideways scrolling

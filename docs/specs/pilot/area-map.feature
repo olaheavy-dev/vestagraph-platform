@@ -30,11 +30,11 @@ Feature: Area maps (the quiet 3D map on every area map)
     design pass (FE-68, FE-42 dated note, DA-22 to DA-27, DA-31):
       3D by default, rings in view, pins at their recorded distances, badges beside pins -> MAP-14, MAP-15, MAP-16
       the 3D and 2D switch, the 2D street map and its attribution -> MAP-17, MAP-18
-    the basemap tiles failing: "map unavailable", the facts still shown (0059) -> MAP-27
       the layers control, its captions and the noise bands -> MAP-19, MAP-20, MAP-26
       layer statuses and gap layers worded from status -> MAP-21, MAP-22, MAP-23
       the list as the accessible equivalent of the 2D map -> MAP-24
       no screen says whether a home or the postcode centre is inside an outline -> MAP-25
+    the basemap tiles failing: "map unavailable", the facts still shown (0059) -> MAP-27
 
   @ui
   Scenario: MAP-01 our places are full-colour 3D and other houses and trees fade
@@ -164,8 +164,8 @@ Feature: Area maps (the quiet 3D map on every area map)
     Given the Map screen is open in the 2D style
     When the map is shown
     Then a flat street map is drawn with the same place pins, the rings (MAP-14) and the postcode centre pin
-    And "© OpenStreetMap contributors" is shown on the map
-    And the tiles come from our own hosting, never from the OpenStreetMap public tile servers (DA-25)
+    And "© OpenMapTiles © OpenStreetMap contributors" is shown on the map (the attribution OpenFreeMap requires, as MapLibre renders it)
+    And the tiles come from OpenFreeMap's public servers (0059, DA-37), never from the OpenStreetMap public tile servers
 
   # Layers exist on the 2D map only (FE-68). Names are the approved labels.
   @ui

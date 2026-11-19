@@ -137,10 +137,10 @@ Feature: Priorities (what matters to you, on an area result)
 
   # Founder's decision, 19 Nov 2026 (prompt window, "12 months, like the others (Recommended)", register line SE-09): the same limit as Recent postcodes (RECENT-14, SE-08) and City Explorer's councils (CITY2-54).
   @ui
-  Scenario: PRIO-20 remembered limits older than 12 months are dropped, and nothing is ever sent to us
+  Scenario: PRIO-20 remembered limits older than 12 months are dropped, and nothing is ever stored or logged by us
     Given "Remember these on this device" is on and limits were saved more than 12 months ago
     When the visitor opens any page that reads the remembered limits
-    Then limits older than 12 months are never shown or read, and are dropped from the browser on every read, and no remembered limit has been sent to us, in a request, a log or analytics
+    Then limits older than 12 months are never shown or read, and are dropped from the browser on every read, and no remembered limit has been stored or logged by us or sent to analytics (limits are sent only in the body of a check request, to be checked: PRIO-17, 0053)
     And the consent text says the limits are on this device, anyone using it can see them, and they are kept until cleared, at most 12 months (SE-09)
 
   @ui
