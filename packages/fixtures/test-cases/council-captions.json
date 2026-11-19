@@ -662,6 +662,71 @@
       }
     },
     {
+      "id": "inline-rent-rise-percent-just-below-half-a-tenth-says-less-than-a-tenth",
+      "description": "A rise of 99p on 2000 pounds: the percent is 0.0495 exactly, just below the 0.05 that rounds up to 0.1, so it says less than 0.1 (proposed wording).",
+      "rule": {
+        "source": "Percent change = (to - from) / from x 100, rounded half away from zero to one decimal place; money shown in whole pounds, pence rounded once, halves away from zero (decision 0021, 0034; register line BE-14: the shown amount is the difference of the two rounded figures, in docs/decisions/README.md); the two end points are twelve months apart (a year apart for a yearly series); provisional months counted among the latest twelve. Worked by hand from packages/fixtures/data/council-area.json or the inline points given.",
+        "url": "docs/decisions/README.md"
+      },
+      "inputs": {
+        "unit": "pence-per-month",
+        "points": [
+          {
+            "period": "2025-01",
+            "value": 200000,
+            "status": "recorded"
+          },
+          {
+            "period": "2026-01",
+            "value": 200099,
+            "status": "recorded"
+          }
+        ],
+        "latestPeriod": "2026-01"
+      },
+      "steps": [
+        {
+          "n": 1,
+          "description": "From 200000p = 2000 pounds; to 200099p = 2000.99, rounds to 2001."
+        },
+        {
+          "n": 2,
+          "description": "Shown amount = 2001 - 2000 = 1."
+        },
+        {
+          "n": 3,
+          "description": "Percent = 99 x 100 / 200000 = 9900/200000 = 99/2000 = 0.0495, just below 0.05, so it would round to 0.0; carried as 'less than 0.1' (proposed wording)."
+        }
+      ],
+      "expected": {
+        "change": {
+          "fromPeriod": "2025-01",
+          "toPeriod": "2026-01",
+          "fromValue": 200000,
+          "toValue": 200099,
+          "amount": 99,
+          "percent": "99/2000",
+          "direction": "rose",
+          "provisionalPoints": 0
+        },
+        "caption": {
+          "kind": "trend",
+          "values": {
+            "topic": "rent",
+            "pattern": "trend-rose",
+            "direction": "rose",
+            "fromPeriod": "2025-01",
+            "toPeriod": "2026-01",
+            "fromValue": "2000",
+            "toValue": "2001",
+            "amount": "1",
+            "percent": "less than 0.1",
+            "provisionalPoints": "0"
+          }
+        }
+      }
+    },
+    {
       "id": "inline-rent-fall-by-half-a-pound",
       "description": "A fall of exactly 50p: both figures round to 1000 pounds (999.5 rounds away from zero to 1000), so the shown amount is 0 and it is called unchanged; the percent is not shown.",
       "rule": {
@@ -948,7 +1013,7 @@
         },
         {
           "n": 3,
-          "description": "Percent = 200 / 127949 = 0.0016, shows 0.0."
+          "description": "Percent = 200 / 127949 = 0.0016, under 0.05, so it would print as 0.0; a real change is carried as \"less than 0.1\" (proposed wording)."
         }
       ],
       "expected": {
@@ -973,7 +1038,7 @@
             "fromValue": "1279",
             "toValue": "1280",
             "amount": "1",
-            "percent": "0.0",
+            "percent": "less than 0.1",
             "provisionalPoints": "0"
           }
         }
@@ -1013,7 +1078,7 @@
         },
         {
           "n": 3,
-          "description": "Percent = -200 / 127951 = -0.0016, size shows 0.0."
+          "description": "Percent = -200 / 127951 = -0.0016, size under 0.05, so it would print as 0.0; a real change is carried as \"less than 0.1\", without a sign (proposed wording)."
         }
       ],
       "expected": {
@@ -1038,7 +1103,7 @@
             "fromValue": "1280",
             "toValue": "1279",
             "amount": "1",
-            "percent": "0.0",
+            "percent": "less than 0.1",
             "provisionalPoints": "0"
           }
         }
