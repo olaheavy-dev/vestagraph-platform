@@ -47,36 +47,7 @@
       "description": "Topics whose records point to one address or property: never counted by record ID. Gaps are counted the same way. A test checks that each is a key in pilot-topics.json."
     },
     "councilCode": {
-      "type": "string",
-      "pattern": "^[EWSN]0[0-9]{7}$"
-    },
-    "areaCode": {
-      "type": "string",
-      "pattern": "^[EWSN]0[0-9]{7}$",
-      "description": "A public council or neighbourhood (LSOA) code, never an address."
-    },
-    "common": {
-      "type": "object",
-      "properties": {
-        "date": {
-          "$ref": "common.schema.json#/$defs/fullDate"
-        },
-        "source": {
-          "type": "string",
-          "minLength": 1
-        },
-        "reason": {
-          "enum": [
-            "wrong",
-            "out-of-date",
-            "missing-something"
-          ]
-        },
-        "count": {
-          "type": "integer",
-          "minimum": 1
-        }
-      }
+      "$ref": "council-area.schema.json#/$defs/councilCode"
     },
     "factCount": {
       "type": "object",
@@ -92,24 +63,22 @@
       "additionalProperties": false,
       "properties": {
         "date": {
-          "$ref": "common.schema.json#/$defs/fullDate"
+          "$ref": "#/$defs/date"
         },
         "source": {
-          "type": "string",
-          "minLength": 1
+          "$ref": "#/$defs/source"
         },
         "reason": {
-          "$ref": "#/$defs/common/properties/reason"
+          "$ref": "#/$defs/reason"
         },
         "count": {
-          "$ref": "#/$defs/common/properties/count"
+          "$ref": "#/$defs/count"
         },
         "topic": {
           "$ref": "#/$defs/topicKey"
         },
         "factRecordId": {
-          "type": "string",
-          "minLength": 1
+          "$ref": "#/$defs/factRecordId"
         },
         "localAuthority": {
           "$ref": "#/$defs/councilCode"
@@ -143,17 +112,16 @@
       "additionalProperties": false,
       "properties": {
         "date": {
-          "$ref": "common.schema.json#/$defs/fullDate"
+          "$ref": "#/$defs/date"
         },
         "source": {
-          "type": "string",
-          "minLength": 1
+          "$ref": "#/$defs/source"
         },
         "reason": {
-          "$ref": "#/$defs/common/properties/reason"
+          "$ref": "#/$defs/reason"
         },
         "count": {
-          "$ref": "#/$defs/common/properties/count"
+          "$ref": "#/$defs/count"
         },
         "topic": {
           "$ref": "#/$defs/topicKey"
@@ -161,7 +129,8 @@
         "localAuthority": {
           "$ref": "#/$defs/councilCode"
         }
-      }
+      },
+      "description": "Used for a fact whose record points to one address or property (topics sold-nearby and planning-nearby) and for gaps (Not known, Unavailable, Not yet covered). Counted by topic and council only."
     },
     "councilFigureCount": {
       "type": "object",
@@ -177,24 +146,22 @@
       "additionalProperties": false,
       "properties": {
         "date": {
-          "$ref": "common.schema.json#/$defs/fullDate"
+          "$ref": "#/$defs/date"
         },
         "source": {
-          "type": "string",
-          "minLength": 1
+          "$ref": "#/$defs/source"
         },
         "reason": {
-          "$ref": "#/$defs/common/properties/reason"
+          "$ref": "#/$defs/reason"
         },
         "count": {
-          "$ref": "#/$defs/common/properties/count"
+          "$ref": "#/$defs/count"
         },
         "figure": {
-          "type": "string",
-          "minLength": 1
+          "$ref": "#/$defs/figure"
         },
         "areaCode": {
-          "$ref": "#/$defs/areaCode"
+          "type": "string"
         },
         "areaLevel": {
           "enum": [
@@ -202,7 +169,61 @@
             "neighbourhood"
           ]
         }
-      }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "areaLevel": {
+              "const": "council"
+            },
+            "areaCode": {
+              "$ref": "#/$defs/councilCode"
+            }
+          }
+        },
+        {
+          "properties": {
+            "areaLevel": {
+              "const": "neighbourhood"
+            },
+            "areaCode": {
+              "$ref": "#/$defs/lsoaCode"
+            }
+          }
+        }
+      ]
+    },
+    "date": {
+      "$ref": "common.schema.json#/$defs/fullDate"
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "A kebab-case key for the data source (for example environment-agency), never free text."
+    },
+    "figure": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "A kebab-case key for a City Explorer figure (for example council-tax-band-d), never free text."
+    },
+    "reason": {
+      "enum": [
+        "wrong",
+        "out-of-date",
+        "missing-something"
+      ]
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "factRecordId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]+$",
+      "description": "A record ID, never a postcode or address."
+    },
+    "lsoaCode": {
+      "$ref": "council-area.schema.json#/$defs/lsoaCode"
     }
   }
 }

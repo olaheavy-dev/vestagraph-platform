@@ -4,7 +4,7 @@
   "counts": [
     {
       "date": "2026-11-19",
-      "source": "Environment Agency",
+      "source": "environment-agency",
       "reason": "out-of-date",
       "count": 2,
       "topic": "flood",
@@ -13,7 +13,7 @@
     },
     {
       "date": "2026-11-19",
-      "source": "HM Land Registry",
+      "source": "hm-land-registry",
       "reason": "wrong",
       "count": 1,
       "topic": "sold-nearby",
@@ -21,7 +21,7 @@
     },
     {
       "date": "2026-11-19",
-      "source": "Council planning register",
+      "source": "council-planning-register",
       "reason": "missing-something",
       "count": 3,
       "topic": "planning-nearby",
@@ -29,19 +29,19 @@
     },
     {
       "date": "2026-11-19",
-      "source": "Council tax records",
+      "source": "council-tax-records",
       "reason": "wrong",
       "count": 1,
-      "figure": "Council tax Band D",
+      "figure": "council-tax-band-d",
       "areaCode": "E06999001",
       "areaLevel": "council"
     },
     {
       "date": "2026-11-19",
-      "source": "Neighbourhood statistics",
+      "source": "neighbourhood-statistics",
       "reason": "out-of-date",
       "count": 1,
-      "figure": "Average price for flats",
+      "figure": "average-price-for-flats",
       "areaCode": "E01999011",
       "areaLevel": "neighbourhood"
     }
