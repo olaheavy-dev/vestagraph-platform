@@ -135,7 +135,7 @@
             "fail"
           ],
           "additionalProperties": false,
-          "description": "Plausible answers (or, for a tool-output case, tool results) that prove the case's code marks: every pass example must pass them (correct refusals that name the forbidden thing belong here) and every fail example must fail one. A test applies the marks to them. Required for every case whose must-not list has a literal or a pattern.",
+          "description": "Plausible answers (or, for a tool-output case, tool results) that prove the case's code marks: every pass example must pass them (correct refusals that name the forbidden thing belong here) and every fail example must fail one. A test applies the marks to them. Required for every case whose must-not list has a literal or a pattern. Every rule case with a literal or pattern must-not has at least one hand-written realistic pass answer and at least one hand-written fail answer (in fail, or in escapes when code cannot catch it) that breaks the rule without the trigger words.",
           "properties": {
             "pass": {
               "type": "array",
@@ -152,6 +152,32 @@
                 "type": "string",
                 "minLength": 1
               }
+            },
+            "escapes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "text",
+                  "caughtBy"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "caughtBy": {
+                    "enum": [
+                      "quality-judge",
+                      "runner-check",
+                      "founder-spot-check"
+                    ],
+                    "description": "What catches this violation instead of the code marks."
+                  }
+                }
+              },
+              "description": "Violations written in other words that the code marks cannot catch, each with what catches it instead. A test asserts that every escape really passes the code marks."
             }
           }
         }

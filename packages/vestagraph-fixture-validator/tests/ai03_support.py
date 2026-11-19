@@ -23,6 +23,73 @@ _LIMIT_KEYS = {"doesNotEstablish", "note"}
 _NAME_KEYS = {"label", "name", "areaName", "largerAreaName", "text", "note", "doesNotEstablish"}
 
 
+_ONES = {
+    "zero": 0,
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12,
+    "thirteen": 13,
+    "fourteen": 14,
+    "fifteen": 15,
+    "sixteen": 16,
+    "seventeen": 17,
+    "eighteen": 18,
+    "nineteen": 19,
+}
+_TENS = {
+    "twenty": 20,
+    "thirty": 30,
+    "forty": 40,
+    "fifty": 50,
+    "sixty": 60,
+    "seventy": 70,
+    "eighty": 80,
+    "ninety": 90,
+}
+_MEASURE = (
+    r"(?=[- ]?(?:minutes?|mins?|hours?|miles?|km|kilometres?|metres?|meters?|percent|per cent"
+    r"|pounds?|out of|years?)\b)"
+)
+_NUMBER_WORD = re.compile(
+    r"\b(?:("
+    + "|".join(_TENS)
+    + r")(?:[- ]("
+    + "|".join(list(_ONES)[1:10])
+    + r"))?|("
+    + "|".join(_ONES)
+    + r"))\b"
+    + _MEASURE,
+    re.IGNORECASE,
+)
+_HALF = re.compile(r"\bhalf(?= an? (?:mile|hour|kilometre|minute)\b)", re.IGNORECASE)
+
+
+def number_words_to_digits(text: str) -> str:
+    """Number words that state a measure or a score become digits (WCHAT-70).
+
+    "seven out of ten" is 7 out of ten and "a ten-minute stroll" is 10; a count in running prose
+    such as "two councils match" is left alone, so a correct list is not read as a figure.
+    """
+
+    def convert(match: re.Match[str]) -> str:
+        tens, ones, plain = match.group(1), match.group(2), match.group(3)
+        if plain:
+            return str(_ONES[plain.lower()])
+        value = _TENS[tens.lower()] + (_ONES[ones.lower()] if ones else 0)
+        return str(value)
+
+    return _HALF.sub("0.5", _NUMBER_WORD.sub(convert, text))
+
+
 def _canonical(number: str) -> str:
     whole, _, fraction = number.replace(",", "").partition(".")
     whole = str(int(whole))
@@ -36,7 +103,7 @@ def normalise_numbers(text: str) -> list[str]:
     No £, no thousands commas, no % or unit; leading zeros and a trailing ``.0`` or ``.00`` are
     dropped (``07`` is ``7``; ``2,160.00`` is ``2160``). Decimals are kept (``12.5``).
     """
-    return [_canonical(match) for match in _NUMBER.findall(text)]
+    return [_canonical(match) for match in _NUMBER.findall(number_words_to_digits(text))]
 
 
 def load_forbidden_words() -> dict[str, Any]:
@@ -49,6 +116,18 @@ def mask_phrases(text: str, phrases: list[str]) -> str:
     """``text`` with every occurrence of each phrase removed (case-insensitive, longest first)."""
     for phrase in sorted({p for p in phrases if len(p) >= 3}, key=len, reverse=True):
         text = re.sub(re.escape(phrase), " ", text, flags=re.IGNORECASE)
+    return text
+
+
+def mask_runs(text: str, source: str, min_words: int = 4) -> str:
+    """``text`` without any run of ``min_words`` or more words copied verbatim from ``source``."""
+    words = source.split()
+    for start in range(len(words)):
+        for end in range(len(words), start + min_words - 1, -1):
+            phrase = " ".join(words[start:end])
+            if re.search(re.escape(phrase), text, flags=re.IGNORECASE):
+                text = mask_phrases(text, [phrase])
+                break
     return text
 
 
@@ -69,6 +148,42 @@ def forbidden_hits(text: str, where: str) -> list[str]:
         for word in document["words"]
         if re.search(rf"\b{re.escape(word)}\b", text, flags=re.IGNORECASE)
     ]
+
+
+_CLAUSE = re.compile(r"[.!?;\n]+|\b(?:but|though|although|however|yet|whereas|while)\b|—|:", re.I)
+_NEGATION = re.compile(
+    r"\bno\b(?!,)|\b(?:not|never|neither|nor|no one|nobody|cannot|won't|can't|don't|doesn't"
+    r"|isn't|aren't|wouldn't|shouldn't)\b|n't\b|n\N{RIGHT SINGLE QUOTATION MARK}t\b",
+    re.I,
+)
+_FRAME = re.compile(r"\b(?:whether|if)\b", re.I)
+
+
+def claim_word_hits(text: str, words: list[str], window: int = 10) -> list[str]:
+    """Forbidden words that no negation in the same clause governs (README mark 2).
+
+    A negation excuses only words after it in its own clause, within ``window`` words. A clause
+    ends at a full stop, ``;``, ``:``, a dash or a contrast word (but, though, however...), and a
+    ``whether`` or ``if`` frame ends at a comma. So "I can't say it is safe" and "Neither is
+    better or worse" pass, and "It isn't perfect, but the area is safe" fails.
+    """
+    pattern = re.compile(r"(?i)\b(" + "|".join(re.escape(w) for w in words) + r")\b")
+    hits: list[str] = []
+    for clause in _CLAUSE.split(text):
+        for match in pattern.finditer(clause or ""):
+            before = clause[: match.start()]
+            if _NEGATION.search(" ".join(before.split()[-window:])):
+                continue
+            if _FRAME.search(before.split(",")[-1]):
+                continue
+            hits.append(match.group(1))
+    return hits
+
+
+def forbidden_claim_hits(text: str) -> list[str]:
+    """The forbidden-word list applied to a model answer: claims only, negations excused."""
+    document = load_forbidden_words()
+    return claim_word_hits(mask_phrases(text, document.get("allowPhrases", [])), document["words"])
 
 
 # ---- reading the case's sources -------------------------------------------------------------
@@ -209,6 +324,26 @@ def _fixed_wording(case: Case) -> list[str]:
     ]
 
 
+_PENCE_UNITS = {"pence", "pence-per-month"}
+
+
+def pence_amounts(value: Any, in_pence: bool = False) -> Iterator[int]:
+    """Whole numbers in pence fields: a series with a pence unit, ``bands`` and ``*Pence`` keys."""
+    if isinstance(value, dict):
+        in_pence = in_pence or value.get("unit") in _PENCE_UNITS
+        for key, item in value.items():
+            marked = in_pence or key == "bands" or key.endswith("Pence")
+            if isinstance(item, int) and not isinstance(item, bool) and marked and key != "unit":
+                yield item
+            else:
+                yield from pence_amounts(item, marked)
+    elif isinstance(value, list):
+        for item in value:
+            yield from pence_amounts(item, in_pence)
+    elif isinstance(value, int) and not isinstance(value, bool) and in_pence:
+        yield value
+
+
 def number_hits(case: Case, text: str) -> list[str]:
     """Numbers in ``text`` that no cited sample record or stub holds (README mark 1).
 
@@ -220,10 +355,11 @@ def number_hits(case: Case, text: str) -> list[str]:
     corpus = [s for record in _records(case) for s in atoms(record)] + _stub_texts(case)
     allowed: set[str] = set()
     for chunk in corpus:
-        for found in normalise_numbers(chunk):
-            allowed.add(found)
-            if "." not in found and int(found) >= 100 and int(found) % 100 == 0:
-                allowed.add(str(int(found) // 100))
+        allowed.update(normalise_numbers(chunk))
+    for record in _records(case):
+        for amount in pence_amounts(record):
+            if amount % 100 == 0:
+                allowed.add(str(amount // 100))
     known = {
         token.lower()
         for chunk in corpus + _user_turns(case)
@@ -247,14 +383,16 @@ def mark(case: Case, text: str) -> list[str]:
     """
     failures: list[str] = []
     model = case["shape"] == "model"
-    plain = (
-        mask_phrases(text, _stub_texts(case) + _quoted(case, limits_only=False)) if model else text
-    )
+    plain = text
+    if model:
+        plain = mask_phrases(text, _stub_texts(case) + _quoted(case, limits_only=False))
+        for stub in _stub_texts(case):
+            plain = mask_runs(plain, stub)
     for_rules = plain if model else mask_phrases(text, _quoted(case, limits_only=True))
     for_words = plain if model else mask_phrases(text, _quoted(case, limits_only=False))
     for item in case["expect"].get("mustNotInclude", []):
         if item["match"] == "forbidden-words":
-            hits = forbidden_hits(for_words, "answer")
+            hits = forbidden_claim_hits(for_words) if model else forbidden_hits(for_words, "answer")
             if hits:
                 failures.append(f"forbidden words {hits}")
         elif item["match"] == "literal":

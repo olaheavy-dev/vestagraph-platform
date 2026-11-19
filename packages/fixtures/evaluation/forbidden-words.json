@@ -12,7 +12,8 @@
     "WCHAT-80: a recommendation, 'you should buy here' (recommend, you should)",
     "WCHAT-68: a score such as '4 out of 10', stopped even when its numbers are in the tool results (score)",
     "WCHAT-69: the bare word 'safe' inside source wording or a place name is not stopped (whole-word matching and allowIn)",
-    "allowPhrases 'connectivity score': the DfT transport connectivity metric names its figure a score (https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric); quoting the metric's own name is not our score (decision 0054)"
+    "allowPhrases 'connectivity score': the DfT transport connectivity metric names its figure a score (https://www.gov.uk/government/publications/transport-connectivity-metric/transport-connectivity-metric); quoting the metric's own name is not our score (decision 0054)",
+    "Decision 0054 and the Task 5 review: comparative verdict words (better, worse, safer, nicer, cheapest) are verdicts between areas or councils; the model-answer check excuses a negated mention such as 'neither is better or worse'"
   ],
   "words": [
     "safe",
@@ -30,7 +31,12 @@
     "recommended",
     "recommendation",
     "you should",
-    "verdict"
+    "verdict",
+    "cheapest",
+    "safer",
+    "better",
+    "worse",
+    "nicer"
   ],
   "allowIn": [
     "user-turn",

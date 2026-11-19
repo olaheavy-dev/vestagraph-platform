@@ -74,3 +74,48 @@ def test_ai03_every_sample_and_must_include_quote_resolves() -> None:
             if item["text"] not in flat:
                 problems.append(f"{case['id']}: {item['text']!r} not in {item['from']}")
     assert problems == []
+
+
+@pytest.mark.parametrize("case", _WITH_EXAMPLES, ids=_ids(_WITH_EXAMPLES))
+def test_mark_escapes_really_pass_the_code_marks(case: Case) -> None:
+    for escape in case["examples"].get("escapes", []):
+        assert mark(case, escape["text"]) == [], escape["text"]
+
+
+def test_ai03_every_rule_case_with_examples_has_a_paraphrased_violation() -> None:
+    """A fail or escape answer that breaks the rule without any of the case's literal triggers."""
+    stock = "Here is what the sources say."
+    lacking: list[str] = []
+    for case in _CASES:
+        if case["kind"] != "rule" or "examples" not in case:
+            continue
+        literals = [
+            m["value"].lower()
+            for m in case["expect"].get("mustNotInclude", [])
+            if m["match"] == "literal"
+        ]
+        answers = case["examples"]["fail"] + [
+            e["text"] for e in case["examples"].get("escapes", [])
+        ]
+        if not any(
+            not a.startswith(stock) and not any(lit in a.lower() for lit in literals)
+            for a in answers
+        ):
+            lacking.append(case["id"])
+    assert lacking == []
+
+
+def test_ai03_every_rule_case_with_examples_has_a_full_sentence_pass_answer() -> None:
+    bare = [
+        c["id"]
+        for c in _CASES
+        if c["kind"] == "rule"
+        and "examples" in c
+        and not any(len(text.split()) >= 4 for text in c["examples"]["pass"])
+    ]
+    assert bare == []
+
+
+def test_ai03_escapes_are_listed_per_case() -> None:
+    listed = sum(len(c["examples"].get("escapes", [])) for c in _CASES if "examples" in c)
+    assert listed > 0
