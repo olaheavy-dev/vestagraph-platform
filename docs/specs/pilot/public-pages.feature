@@ -110,7 +110,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     Given the user has opened "How it works"
     When the user chooses "← Back to Vestagraph"
     Then the landing page opens
-    And "How it works" is in the footer of every page (HOWTO-31) and is reached from the landing's "How it works" section (LAND-30)
+    And "How it works" is in the footer of every page (HOWTO-31) and is reached from the landing's "How it works" section (LAND-25)
 
   @ui
   Scenario: HOW-13 the page works by keyboard, with 44 px targets, on a phone and on desktop
