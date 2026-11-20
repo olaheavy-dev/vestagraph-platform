@@ -3,11 +3,12 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   Question it answers: "What does the source say about this one topic, which area does it cover, and what is left for me to check?"
   Modes: both (and anyone, with no account; decision 0046)
   Fixtures: the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
-    (NB1 4XY normal, NB7 1RR sparse and failed flood); distances and walking times come from
+    (NB1 4XY normal, NB7 1RR sparse and failed flood risk lookup); distances and walking times come from
     `packages/fixtures/generated/area-result.json` (the tested `vestagraph_area` package, FE-38);
     figures: none typed here.
-  What it is: one anatomy for four kinds of topic (a list of places, figures for an area, an
-    official ranking or standard, and a warning; design spec, "The four kinds"); route-only topics show
+  What it is: one anatomy for three kinds of topic (a list of places, figures for an area, and an
+    official ranking or standard; the design spec's fourth kind, a warning, is gone: decision 0061 keeps no copy of
+    live flood warnings, and Flood is figures for an area); route-only topics show
     "Not yet covered" (TOPIC-12). A phone shows it as a bottom sheet, desktop as a panel beside the list in place of the
     map, one at a time (FE-26). Every topic opens in the same order (B29).
   Scenarios are grouped by topic, so IDs are not in numeric order.
@@ -76,9 +77,9 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
   Scenario: TOPIC-25 a topic whose stored source copy failed reads Not known right now
     Given the result for "NB7 1RR" is open
     When the visitor opens "Flood"
-    Then the facts read "Not known right now"
-    And it says this is not the same as no warning (DA-12)
-    And no warning status from an old copy is shown (AREA-07, FE-38)
+    Then the flood risk by postcode (record "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1", source-failed) reads "Not known right now"
+    And it says this is not the same as no flood risk (DA-12)
+    And no risk figure from an old copy is shown (AREA-07, FE-38)
 
   @ui
   # Changed 17 Nov 2026 (Codex review of the design-pass specifications): the desktop result keeps the map in its header, so an opened topic replaces the right column (AREA-43; FE-26 note, agent's call, approved by the founder on 18 Nov 2026: "Keep all (Recommended)").
@@ -148,10 +149,12 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     And it says it describes the neighbourhood, not this street or home (decision 0054, DA-17)
 
   @ui
-  Scenario: TOPIC-08 Flood warnings say when we last checked
+  # Changed 20 Nov 2026 (decision 0061; founder: "Reason + link (Recommended)"): no copy of live flood warnings is kept, so the row is a link row (AREA-21).
+  Scenario: TOPIC-08 Flood warnings are a link row, not a copy
     Given the result for "NB1 4XY" is open
     When the visitor opens "Flood"
-    Then the warnings from record "NB1-4XY-AREA-FLOOD-1" read "when we last checked, at" followed by the time of that check
+    Then it reads "Flood warnings change hour by hour, so we don't keep a copy." followed by the link "Check GOV.UK flood warnings ↗" to "https://check-for-flooding.service.gov.uk/"
+    And it shows no warning status and no check time
 
   @ui
   Scenario: TOPIC-17 Flood links to the long-term risk service

@@ -3,7 +3,7 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
   Question it answers: "Can I take this area check away on paper, and trust it as much as the screen?"
   Modes: both (and anyone, with no account; decision 0046)
   Fixtures: the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
-    (NB1 4XY normal, NB7 1RR sparse and failed flood and radon), the topic registry
+    (NB1 4XY normal, NB7 1RR sparse and failed flood risk lookup and radon), the topic registry
     `packages/fixtures/data/pilot-topics.json` and `packages/fixtures/generated/area-result.json`;
     figures: none typed here.
   What it is: the designed report of register line FE-21, made in the browser (FE-06; AREA-17): a cover, At a
@@ -136,18 +136,17 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
   Scenario: PRINT-11 "How we got this" gives each topic's method and limits after the topic pages
     Given the user has chosen "Print or save as PDF" for the sample postcode "NB1 4XY"
     When the user reads the "How we got this" pages
-    Then an opening paragraph says what is specific to this search: distances are straight-line from the postcode centre, when flood warnings were last checked and that the warning check is not a flood risk check, the wider areas named under each fact (the neighbourhood, the council area and the 1 km square for radon), that rows marked "Check this" link to an official service and this address has not been looked up there, that counts come from tested rules and never from AI, and that every place is a made-up example for the sample postcode
+    Then an opening paragraph says what is specific to this search: distances are straight-line from the postcode centre, the wider areas named under each fact (the neighbourhood, the council area and the 1 km square for radon), that rows marked "Check this" link to an official service and this address has not been looked up there, that counts come from tested rules and never from AI, and that every place is a made-up example for the sample postcode
     And each topic then prints its source names, its method line and its "Doesn't tell you" line, quoted from the topic's records and limits
     And a "Not yet covered here" block says which topics we hold no data for and, for Noise, that we hold only a modelled road-noise map layer, not shown in print, and that the source has no record of rail noise for this postcode, which does not mean there is no rail noise
     And Housing affordability's limits include "A council-wide average, not this street. It does not say what any one home would rent for."
 
-  # FE-33 (founder, 14 Nov 2026: "Dates only, no notes"): the sources page has dates and no status words. A source we hold no current copy of says "We hold no current copy" instead of a date; the flood source shows when we last checked (AREA-25).
+  # FE-33 (founder, 14 Nov 2026: "Dates only, no notes"): the sources page has dates and no status words. A source we hold no current copy of says "We hold no current copy" instead of a date (AREA-25).
   @ui
   Scenario: PRINT-12 Sources and credits gives each source's data date and no status word
     Given the user has chosen "Print or save as PDF" for the sample postcode "NB1 4XY"
     When the user reads the "Sources and credits" page
     Then it lists each source the printout used in a table of source, data date and credit, the dates quoted from the records named by ID in `postcode-area.json`
-    And the flood source reads its data date and "last checked at" with the time of the check, as About the data does (AREA-25)
     And no status word (Cached, Fallback, Old or Unavailable) appears, and a source we hold no current copy of reads "We hold no current copy" instead of a date
     And it lists the sources the design pass added, with their dates only: Ofcom's Connected Nations postcode data, the BGS and UKHSA Indicative Atlas of Radon and the ONS Price Index of Private Rents (AREA-44)
 
@@ -160,11 +159,11 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     And a source with no recorded credit line shows its own name only, and no credit is written for a source that is not in the list
     And the credits include the OpenStreetMap contributors line under the Open Database Licence where OpenStreetMap places are printed (DA-25)
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1 and NB7-1RR-AREA-RADON-1, source-failed)
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1 and NB7-1RR-AREA-RADON-1, source-failed)
   # The board's NB7 1RR example is a specimen page marked "State example, not part of the NB1 4XY printout".
-  Scenario: PRINT-14 the postcode with a failed flood lookup has its flood record as not known
+  Scenario: PRINT-14 the postcode with a failed flood risk lookup has its flood risk record as not known
     # Radon's failed record and outcome are checked once, in TOPIC-29.
-    Then postcode record "NB7-1RR-AREA-FLOOD-1" has status "source-failed"
+    Then postcode record "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1" has status "source-failed"
     And area result "NB7 1RR" has topic "flood" with outcome "not-known"
 
   @ui
@@ -172,7 +171,8 @@ Feature: Area summary printout (the designed report, "Print or save as PDF")
     Given the user has chosen "Print or save as PDF" for the sample postcode "NB7 1RR"
     When the user reads the Flood and Radon pages
     Then each prints "Not known right now", "We don't hold a current copy of this source." and "The lookup failed, so this is not known right now."
-    And Flood warnings add "This is not the same as no warning." and a link line to the GOV.UK long-term flood risk checker printed in full
+    And Flood adds "This is not the same as no flood risk." and a link line to the GOV.UK long-term flood risk checker printed in full
+    And the Flood page also prints "Flood warnings change hour by hour, so we don't keep a copy." and the GOV.UK flood warnings link "Check GOV.UK flood warnings" with its address in full, "https://check-for-flooding.service.gov.uk/" (decision 0061)
     And the "Doesn't tell you" line says a failed lookup does not mean there is no flood risk
     And the Questions to ask page includes the flood question and "Has radon been measured in the home, and what was the result?" (TOPIC-28)
     And nothing prints as zero, "none", a clean result or a favourable value (rule 7)

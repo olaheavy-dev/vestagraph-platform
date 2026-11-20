@@ -3,7 +3,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
   Question it answers: "How do these two postcodes line up, topic by topic, with each side's own source and gaps, and nothing worked out between them?"
   Modes: both (and anyone, with no account; decision 0046)
   Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, section "1. Compare two postcodes"; plan Task 2; decisions 0004, 0014, 0053, 0054; register lines FE-20, FE-22, FE-33, FE-34, FE-40, FE-41, FE-73, PD-21). Founder's choice, 19 Nov 2026: "Topic by topic (Recommended)". The way in is the area result (`area-glance.feature`, `area-topics.feature`); the council version is `city-explorer-part-2.feature` (CITY2-01 to CITY2-32), whose patterns this feature mirrors. Report a problem on compare's topic details is `report-a-problem.feature` (REPORT-01 onwards).
-  Fixtures: the postcode-level sample area data, `packages/fixtures/data/postcode-area.json` (NB1 4XY normal, NB7 1RR sparse, with a failed flood source, NB9 9ZZ unknown), `packages/fixtures/data/homes.json` (WALES-1 outside England), and the generated `packages/fixtures/generated/area-result.json` (NB1 4XY and NB7 1RR). The compare scenarios draw NB1 4XY first and NB7 1RR second, because the sparse postcode shows gaps well.
+  Fixtures: the postcode-level sample area data, `packages/fixtures/data/postcode-area.json` (NB1 4XY normal, NB7 1RR sparse, with a failed flood risk source, NB9 9ZZ unknown), `packages/fixtures/data/homes.json` (WALES-1 outside England), and the generated `packages/fixtures/generated/area-result.json` (NB1 4XY and NB7 1RR). The compare scenarios draw NB1 4XY first and NB7 1RR second, because the sparse postcode shows gaps well.
   Figures: none typed here (AGENTS.md rule 2). Every count, line and outcome is quoted by record path from `area-result.json`: <postcode> / glance / found, notKnown, coverageFound, coverageTotal; <postcode> / topics / <key> / outcome (the topics in the file's order, the registry order of `pilot-topics.json`). The summary line of each topic is the same text the area result shows (FE-20); `area-result.json` carries the outcome of each topic and the page builds the line from that topic's records, as it does on the area result, so compare adds no figure of its own. Compare works out nothing between the two postcodes.
   Rule 4 and 0054: compare shows the two postcodes in the order the visitor picked them. It never sorts, ranks or totals them, names no "better" or "worse" postcode, and works out no difference between them ("2 more schools"). The only words about the two sides are each side's own facts.
   Rule 7: a gap on one side is never blank, zero or a clean result. Three cases, each with the area result's own approved wording: a topic whose source holds no record reads that record's own gap line (TOPIC-09, AREA-47, for example "No sold prices nearby in this source"; the topic still counts as found); a topic whose source is down reads "Not known right now" (AREA-07); a topic outside the covered area reads "Not yet covered". "Not known" is the label of an outcome (a not-known count, a priority), never a replacement for a record's own gap line.
@@ -20,7 +20,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     invalid -> COMPARE-04
     not England -> COMPARE-05, COMPARE-06
     unknown -> COMPARE-07
-    a source down on one side -> COMPARE-24, COMPARE-25 (the failed flood source of NB7 1RR, a real sample record)
+    a source down on one side -> COMPARE-24, COMPARE-25 (the failed flood risk source of NB7 1RR, a real sample record)
     a topic missing on one side -> COMPARE-22, COMPARE-23, COMPARE-26, COMPARE-27 (no record in the source; not covered)
     offline -> COMPARE-32
     too many checks (rate limit) -> COMPARE-39
@@ -92,7 +92,7 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     And area result "NB7 1RR" has topic "radon" with outcome "not-known"
     And area result "NB7 1RR" has topic "transport-connectivity" with outcome "not-known"
     And area result "NB7 1RR" asks the gap question for record "NB7-1RR-AREA-BUS-DEPARTURES-1"
-    And area result "NB1 4XY" asks the gap question for record "NB1-4XY-AREA-FLOOD-1"
+    And area result "NB1 4XY" asks the gap question for record "NB1-4XY-AREA-AMENITY-6"
 
   @ui
   Scenario: COMPARE-09 At a glance is shown for each postcode with its own counts
@@ -213,9 +213,9 @@ Feature: Compare two postcodes (two area results side by side, topic by topic)
     And the topic still counts as found in "NB7 1RR"'s At a glance, and a topic whose outcome is not known (radon or transport connectivity of "NB7 1RR") reads "Not known right now" as COMPARE-25 says
     And nothing is shown as zero, blank or a clean result, and no sentence compares the two
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB7-1RR-AREA-FLOOD-1 source-failed)
-  Scenario: COMPARE-24 the failed flood source of the sparse sample is down for NB7 1RR only
-    Then postcode record "NB7-1RR-AREA-FLOOD-1" has status "source-failed"
+  # fixture: packages/fixtures/data/postcode-area.json (NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1 source-failed)
+  Scenario: COMPARE-24 the failed flood risk source of the sparse sample is down for NB7 1RR only
+    Then postcode record "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1" has status "source-failed"
     And area result "NB1 4XY" has topic "flood" with outcome "found"
     And area result "NB7 1RR" has topic "flood" with outcome "not-known"
     And area result "NB7 1RR" has topic "radon" with outcome "not-known"

@@ -122,7 +122,7 @@ Feature: Area maps (the quiet 3D map on every area map)
   Scenario: MAP-13 flood outlines are not part of the 3D places map
     Given the result for "NB1 4XY" is open
     When the visitor looks at the 3D places map
-    Then no flood outline or flood warning is drawn on it (FE-25, FE-68, B5)
+    Then no flood outline is drawn on it (FE-25, FE-68, B5)
     And the Map screen's 3D board says "Crime and flood are not on the 3D map; flood outlines are on the 2D map" with links to Recorded crime and Flood, and the desktop result's header map says "Crime and flood stay off the map."
 
   # ---- Design pass, 16 Nov 2026 (canvas version 405) ----

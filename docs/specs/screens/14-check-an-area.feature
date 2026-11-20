@@ -4,7 +4,7 @@ Feature: Check an area
   Modes: both (and anyone, with no account; decision 0046)
   Fixtures: home WALES-1 (outside England); inputs: area record "WALES-1-AREA-SCHOOL-1";
     the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
-    (NB1 4XY normal, NB7 1RR sparse and failed flood, NB9 9ZZ unknown); figures: none.
+    (NB1 4XY normal, NB7 1RR sparse and failed flood risk lookup, NB9 9ZZ unknown); figures: none.
   Route: /area#postcode=… (the postcode lives in the URL fragment, never the query string, so it
     never reaches a server, application or hosting log of ours; decisions 0014 and 0046). The one
     exception is an outbound link the visitor clicks, which may carry the postcode to that site and
@@ -42,7 +42,7 @@ Feature: Check an area
     postcode not found, never shown as empty topics -> AREA-05
     our stored copy of a source is missing or failed, not shown as a clean result -> AREA-07, AREA-14
     the visitor's own request to us failed, a different state with Try again -> AREA-19
-    flood warnings: the Environment Agency stamp as the official warnings link, the check time on the row but no label; About the data always shows the time we last checked (after 1 hour the copy is labelled Old in the data only, not on the page), and after 1 day the row says "Not known right now" -> AREA-21, AREA-22, AREA-23, AREA-25
+    flood warnings: one link row (reason and the GOV.UK flood warnings link), no copy of warnings and no check time (decision 0061) -> AREA-14, AREA-21
     a fact's stamp is its source's icon, name and link, with no status word and no date -> AREA-26
     the printout: the sample postcode says "Sample data", any other postcode its made-at time -> AREA-12, AREA-20
     distances in England: metres under 1 mile, miles from 1 mile, stored in metres -> AREA-24
@@ -187,38 +187,34 @@ Feature: Check an area
     And a distance of 1 mile or more reads in miles to one decimal, like "1.3 miles"
     And crime reads "within 1 mile", the stored values are in metres, and no distance is shown in kilometres
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1, source-failed)
+  # Changed 20 Nov 2026 (decision 0061, founder: "Reason + link (Recommended)"): the pilot keeps no copy of live flood warnings, so the flood topic always shows the link row, whatever we hold. A failed flood risk lookup is still "Not known right now" (TOPIC-25).
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1, source-failed)
   @ui @ai03
-  Scenario: AREA-14 a missing flood copy is not the same as no warning
+  Scenario: AREA-14 the flood topic shows the link row whatever we hold
     Given the user is on Check an area
-    When the user checks a complete postcode and we hold no current copy of the flood warnings
-    Then the flood topic shows "Not known right now", "We don't hold a current copy of this source", the link "Check GOV.UK flood warnings ↗" (DA-12's one exception, since there is no source stamp to tap) and "This is not the same as no warning", with no "Try again" and no status word or date on the row
+    When the user checks a complete postcode, whether or not we hold flood risk data for it
+    Then the flood topic shows "Flood warnings change hour by hour, so we don't keep a copy." and the link "Check GOV.UK flood warnings ↗" to "https://check-for-flooding.service.gov.uk/", and it never says or implies that there are no flood warnings
 
-  # Flood warnings (register line DA-12, 14 Nov 2026). The Environment Agency says its flood data is updated
-  # every 15 minutes, gives no service-level guarantee and is not for safety-critical use
-  # (https://environment.data.gov.uk/flood-monitoring/doc/reference, read 14 Nov 2026). The 1 hour and
-  # 1 day limits below are the founder's accepted default, not an Environment Agency rule.
-  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY NB1-4XY-AREA-FLOOD-1; the test sets the clock against checkedAt (AREA-22, AREA-23))
+  # Flood warnings (register line DA-12, 14 Nov 2026; changed 20 Nov 2026, decision 0061). The Environment Agency says its flood
+  # data changes every 15 minutes and is not for safety-critical use, so the pilot keeps no copy of warnings and links to
+  # GOV.UK's "Check for flooding in England" instead. Long-term flood risk (flood zones, surface water, risk by postcode) is unchanged.
+  # Changed 20 Nov 2026 (decision 0061; founder, prompt windows: "Reason + link (Recommended)" and "Remove that part (Recommended)"): there is no check time, no "last checked" and no "The warning check is not a flood risk check" note.
   @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): no status label on the flood row (founder: "No exceptions"); About the data shows it (AREA-25).
-  # Changed again 14 Nov 2026 (DA-12): the flood row keeps its check time (founder: "keep time for the flood"); its limit sits in the page's one "How we got this" (FE-34).
-  # Changed 14 Nov 2026 (FE-34, one per page): "This is not a flood risk check" is in the page's "How we got this" section, not under the flood topic.
-  # Changed 16 Nov 2026 (FE-69, founder: "Approve, printout flood wording (Recommended)"): the sentence now reads "The warning check is not a flood risk check", so it is clear it is the warning check, not flood risk, that is meant.
-  Scenario: AREA-21 the flood row's official warnings link is its source stamp, with the check time but no label
-    Given the user is on Check an area and our flood copy was refreshed within the last hour
+  Scenario: AREA-21 the flood row gives the reason and the GOV.UK flood warnings link
+    Given the user is on Check an area
     When the user views the flood row
-    Then it shows the warnings in force "when we last checked, at <time>", its official warnings link is the Environment Agency source stamp (DA-12: no separate GOV.UK warnings link), no status word, and the word "live" and any "clear" or "safe" label are not shown
-    And when our copy holds no warning for the area, the row says "No flood warnings right now (when we last checked, at <time>)" followed in the same fact by the link "Long-term flood risk ↗" (FE-25; founder, 14 Nov 2026: "Say it in the fact (Recommended)", so the fact cannot read as an all-clear), and "The warning check is not a flood risk check" sits in the short "How we got this" note at the bottom of the result, with no "How we got this" under the flood topic itself (FE-34)
+    Then it shows "Flood warnings change hour by hour, so we don't keep a copy." followed by the link "Check GOV.UK flood warnings ↗" to "https://check-for-flooding.service.gov.uk/", and the long-term link "Check the long-term flood risk for this area on GOV.UK" comes after it
+    And the row shows no warning status, no check time, and no "live", "clear" or "safe" label
 
-  @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): the check time is on About the data, with no "Old" word (founder: "Dates only, no notes").
+  # Withdrawn 20 Nov 2026 (decision 0061): no copy of warnings is kept, so there is no copy to age. Replaced by AREA-21; kept unedited for its ID.
+  @ui @withdrawn
   Scenario: AREA-22 a flood copy over 1 hour old shows its last-checked time on About the data
     Given our flood copy is more than 1 hour old and less than 1 day old
     When the user views the flood row and then About the data
     Then the flood row still shows the source's icon, name and link and "when we last checked, at <time>", but no label, and About the data shows the flood source with the time we last checked and no status word
 
-  @ui
-  # Changed 14 Nov 2026 (FE-33, DA-12): the row says "Not known right now" in its own text; About the data shows the time we last checked, with no "Unavailable" word.
+  # Withdrawn 20 Nov 2026 (decision 0061): no copy of warnings is kept, so there is no copy to age. Replaced by AREA-21; kept unedited for its ID.
+  @ui @withdrawn
   Scenario: AREA-23 a flood copy over 1 day old makes the row say "Not known right now"
     Given our flood copy is more than 1 day old
     When the user views the flood row and then About the data
@@ -232,7 +228,7 @@ Feature: Check an area
     Given the user is on Check an area and has checked a postcode
     When the user opens About the data
     Then About the data is one general page, the same for every postcode, listing every source the area check uses as a topic row with its icon, name, official link and the date of the data we hold, and no status word (Cached, Fallback, Old or Unavailable)
-    And a source we hold no current copy of says "We hold no current copy" instead of a date, and the flood source shows when we last checked
+    And a source we hold no current copy of says "We hold no current copy" instead of a date
     And each row opens to that topic's method, what it can't tell you and its coverage, and "How At a glance is counted" and "How priorities are checked" are rows at the top
     # Changed 16 Nov 2026 (design pass): the rows now include the new sources, AREA-44.
 
@@ -262,13 +258,14 @@ Feature: Check an area
   # Added 14 Nov 2026 (FE-34, one per page).
   # Changed 14 Nov 2026 (FE-34, FE-24 amended; founder: "General page + short note (Recommended)" and "I pick B but add the icons"): the section is a short note, not every topic's method and limits.
   # Changed 16 Nov 2026 (design pass): the note names the 1 km square for radon and says what the Check this rows are; the founder approved "The warning check is not a flood risk check" (FE-69), and the other added sentences were approved too on 18 Nov 2026 (FE-69, founder, "Approve as written (Recommended)"). The Check this rows are listed in the note with their official links.
+  # Changed 20 Nov 2026 (decision 0061; founder: "Remove that part (Recommended)"): the clause about when flood warnings were last checked, and that the warning check is not a flood risk check, is removed. The rest stays.
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY)
   @ui
   Scenario: AREA-27 the postcode result ends with a short "How we got this" and a link to About the data
     Given the user has checked a sample postcode in England
     When the results are shown
     Then no topic carries its own "How we got this", each topic ends with its source links only
-    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, when flood warnings were last checked and that the warning check is not a flood risk check, the wider areas some figures are published for (the neighbourhood and the council area, and the 1 km square around the postcode for radon), that rows marked "Check this" link to an official service and this address has not been looked up there, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
+    And a short "How we got this" sits at the bottom of the result, reachable by keyboard, with a short paragraph on what is specific to this search (distances are straight-line from the centre of this postcode, the wider areas some figures are published for (the neighbourhood and the council area, and the 1 km square around the postcode for radon), that rows marked "Check this" link to an official service and this address has not been looked up there, that counts and priority results come from tested rules and never AI, and a sample-data note where relevant)
     And it then shows one line per topic with its icon, name and source links (route-only and "Check this" topics show their official link), and the link "How each source works and what it can't tell you: About the data →"
 
   # Added 14 Nov 2026 (first design batch, B22): each state below gives its cause, a line of reassurance and one action.

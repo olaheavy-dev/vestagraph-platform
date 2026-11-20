@@ -138,7 +138,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     When it calls the area topic tool for a sample postcode
     Then each value carries its source, its data date, its label and its geographic level (from the postcode centre, within a radius, this postcode, this neighbourhood or the council)
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1, source-failed)
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1, source-failed)
   @mcp @ai03
   Scenario: TOOLS-09 a failed source is Unavailable, never empty or zero
     Given an assistant is connected to the area tools

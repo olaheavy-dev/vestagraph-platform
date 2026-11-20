@@ -170,7 +170,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     Then the answer says "Not known from our sources" and offers a question to ask instead
 
   # Replaced by WCHAT-32 (16 Nov 2026, 0058).
-  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR, NB7-1RR-AREA-FLOOD-1 (source-failed))
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR, NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1 (source-failed); the flood warning record was removed, decision 0061)
   @ui @withdrawn
   Scenario: CHAT-09 a topic whose source failed is Unavailable, never none or zero
     Given the user has opened "Ask about this area" for a sample postcode whose flood source failed
