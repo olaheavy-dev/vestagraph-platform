@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/ai-03-set.schema.json",
-  "description": "The AI-03 evaluation set, version 1. Quoted text comes from packages/fixtures/data/ and generated/; synthetic sample data only.",
+  "description": "The AI-03 evaluation set, version 2. Quoted text comes from packages/fixtures/data/ and generated/; synthetic sample data only.",
   "version": 2,
   "cases": [
     {

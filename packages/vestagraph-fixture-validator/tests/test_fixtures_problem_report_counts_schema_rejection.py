@@ -210,7 +210,7 @@ def test_problem_report_counts_flood_record_id_rejected() -> None:
     record["factRecordId"] = "100001"
     assert mentions(_problems(document), "flood")
     record["recordKind"] = "flood-warning-area"
-    assert _problems(document)
+    assert mentions(_problems(document), "flood-warning-area")
 
 
 def test_validate_instance_problem_report_counts_childcare_record_kind_is_rejected() -> None:
