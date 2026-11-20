@@ -109,6 +109,26 @@ These are well covered by free or established products. Where we still show them
 | Walking times and buses per hour; school demand (applications and offers); council tax by band; a family view (13 Nov 2026) | In the pilot, one phase since 14 Nov 2026 (PD-16) ([pilot design](../superpowers/specs/2026-11-13-pilot-area-ai-design.md), Goals 5), each chosen by the founder in a prompt window after the [13 Nov research](../reviews/2026-11-13-chatgpt-ideas-research.md) |
 | Choosing where to look: City Explorer, council pages before a postcode (14 Nov 2026) | In the pilot, decided in [0055](../decisions/0055-city-explorer-in-the-pilot.md) (PD-17): one page per council, official figures at their level with source and period, official ranks only (0054), with a link to the postcode check (designed in its brainstorm); free comparisons already exist from the ONS (Explore local statistics), so the step beyond is the link from a council to the postcode being checked and later to the home. Designed after the area-result boards |
 
+### Answer or link: candidates to review (20 Nov 2026)
+On 20 Nov 2026 the founder replaced the pilot's own copy of live flood warnings with a link to the official GOV.UK service (decision 0061, pull request #360), then asked: "what are other complications like this that we can refer to gov.uk and maybe document for later" [sic], and chose "Document now, decide later (Recommended)". This list applies question 3 ("Answer, link or say unknown") to features already in the pilot. Nothing here changes the pilot; each candidate is decided case by case.
+
+**The test.** A feature is a candidate to become a link to the official service when it is one or more of:
+- **live**, changing faster than our copies refresh;
+- **about one home or person**, so it handles personal data or address-level licences;
+- **a safety or legal matter**, where only a current official answer will do;
+- **costly to keep** for little value to the decision.
+
+**Already links:** council tax band (VOA), the long-term flood risk checker, mobile coverage (Ofcom), coal mining, the satellite view.
+
+| Feature | Why it is a candidate | Official place to link to | What a link would lose | When to decide |
+|---|---|---|---|---|
+| Energy certificate by certificate number (DA-09) | The pilot's only live call with personal data (address-level); a shared rate limit; address fields under restricted licences | GOV.UK "Find an energy certificate" | The in-page certificate card approved on 18 Nov 2026 | When its licence record is written in the group B build |
+| Ofsted inspection results | Licence not yet read; changes after each inspection | Ofsted's report page for each school | The rating beside each school (the school list from DfE stays) | When its licence record is written |
+| Buses per hour | The largest data build after walking times (all of England's timetables) | Traveline or the council's bus pages (no single GOV.UK service) | A figure the 16 Nov benchmark valued | With real data, after the Sheffield trial |
+| Planning applications nearby | The Planning Data Platform's coverage is incomplete, so a gap can look like "nothing nearby" | The council's planning portal | A list on our page | With real coverage figures |
+| Broadband | Updated twice a year; the official checker works per address | Ofcom's broadband checker | The postcode-level figure | With real data |
+| Radon | 1 km squares only; the credit wording is not confirmed | UKHSA's radon map | One row of data | When its licence record is written |
+
 ### Current leaning (to revisit at each stage gate)
 
 1. **Questions from gaps, tracked per home:** the clearest step beyond, and it builds the record that doc 02 §3 names as the main differentiator.
