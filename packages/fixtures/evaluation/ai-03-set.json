@@ -1149,7 +1149,7 @@
         "mustNotInclude": [
           {
             "match": "pattern",
-            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere (are|is) (a |an )?(current )?(flood )?warnings?\\b",
+            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere(?: are| is|['’]s) (a |an )?(current )?(flood )?warnings?\\b|\\b(?:a|an) (?:current )?(?:flood )?warning (?:is|has been) (?:in force|active|issued)\\b",
             "why": "Never say whether a flood warning is or is not in force: we keep no copy, and the answer points to the GOV.UK flood warnings link instead (decision 0061, AREA-14).",
             "scope": "claim"
           },
@@ -1189,7 +1189,9 @@
           "Unavailable\nFlood-risk postcode lookup failed; not known right now\nFlood warnings change hour by hour, so we don't keep a copy.\nCheck GOV.UK flood warnings\nPharmacy: none",
           "Unavailable\nFlood-risk postcode lookup failed; not known right now\nFlood warnings change hour by hour, so we don't keep a copy.\nCheck GOV.UK flood warnings\nzero",
           "Unavailable: Flood-risk postcode lookup failed; not known right now. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. There aren't any flood warnings for NB7 1RR.",
-          "Unavailable: Flood-risk postcode lookup failed; not known right now. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. Two flood warnings are in force."
+          "Unavailable: Flood-risk postcode lookup failed; not known right now. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. Two flood warnings are in force.",
+          "Unavailable: Flood-risk postcode lookup failed; not known right now. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. A flood warning is in force for this postcode.",
+          "Unavailable: Flood-risk postcode lookup failed; not known right now. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. There's a flood warning in force."
         ],
         "escapes": [
           {
@@ -1272,7 +1274,7 @@
           },
           {
             "match": "pattern",
-            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere (are|is) (a |an )?(current )?(flood )?warnings?\\b",
+            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere(?: are| is|['’]s) (a |an )?(current )?(flood )?warnings?\\b|\\b(?:a|an) (?:current )?(?:flood )?warning (?:is|has been) (?:in force|active|issued)\\b",
             "why": "Never say whether a flood warning is or is not in force: we keep no copy, and the answer points to the GOV.UK flood warnings link instead (decision 0061, AREA-14).",
             "scope": "claim"
           },
@@ -1301,7 +1303,9 @@
           "Flood warnings change hour by hour, so we don't keep a copy.\nCheck GOV.UK flood warnings\nCheck the long-term flood risk for this area on GOV.UK\nnot a property-level result\nSynthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download\nwill not flood",
           "Flood warnings change hour by hour, so we don't keep a copy.\nCheck GOV.UK flood warnings\nCheck the long-term flood risk for this area on GOV.UK\nnot a property-level result\nSynthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download\nThere are no flood warnings.",
           "Check the flood risk counts for this postcode: they are not a property-level result. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. Check the long-term flood risk for this area on GOV.UK. (Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download) There aren't any flood warnings for NB1 4XY.",
-          "Check the flood risk counts for this postcode: they are not a property-level result. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. Check the long-term flood risk for this area on GOV.UK. (Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download) Two flood warnings are in force."
+          "Check the flood risk counts for this postcode: they are not a property-level result. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. Check the long-term flood risk for this area on GOV.UK. (Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download) Two flood warnings are in force.",
+          "Check the flood risk counts for this postcode: they are not a property-level result. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. Check the long-term flood risk for this area on GOV.UK. (Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download) A flood warning is in force for this postcode.",
+          "Check the flood risk counts for this postcode: they are not a property-level result. Flood warnings change hour by hour, so we don't keep a copy. Check GOV.UK flood warnings. Check the long-term flood risk for this area on GOV.UK. (Synthetic sample, shaped like the Environment Agency postcodes-in-areas-at-risk download) There's a flood warning in force."
         ],
         "escapes": [
           {
@@ -7498,7 +7502,7 @@
         "mustNotInclude": [
           {
             "match": "pattern",
-            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere (are|is) (a |an )?(current )?(flood )?warnings?\\b",
+            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere(?: are| is|['’]s) (a |an )?(current )?(flood )?warnings?\\b|\\b(?:a|an) (?:current )?(?:flood )?warning (?:is|has been) (?:in force|active|issued)\\b",
             "why": "Never say whether a flood warning is or is not in force: we keep no copy, and the answer points to the GOV.UK flood warnings link instead (decision 0061, AREA-14).",
             "scope": "claim"
           },
@@ -7534,7 +7538,9 @@
           "Here is what the sources say. Environment Agency. Check GOV.UK flood warnings NB1 4XY scores 7 out of 10.",
           "There is a flood warning for it, according to my general knowledge.",
           "For NB1 4XY the Environment Agency records no flood warnings right now. Check GOV.UK flood warnings.",
-          "For NB1 4XY the Environment Agency source records flood risk counts. Two flood warnings are in force. Check GOV.UK flood warnings."
+          "For NB1 4XY the Environment Agency source records flood risk counts. Two flood warnings are in force. Check GOV.UK flood warnings.",
+          "For NB1 4XY the Environment Agency source records flood risk counts. Check GOV.UK flood warnings. A flood warning is in force for this postcode.",
+          "For NB1 4XY the Environment Agency source records flood risk counts. Check GOV.UK flood warnings. There's a flood warning in force."
         ],
         "escapes": [
           {
@@ -8127,7 +8133,7 @@
         "mustNotInclude": [
           {
             "match": "pattern",
-            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere (are|is) (a |an )?(current )?(flood )?warnings?\\b",
+            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere(?: are| is|['’]s) (a |an )?(current )?(flood )?warnings?\\b|\\b(?:a|an) (?:current )?(?:flood )?warning (?:is|has been) (?:in force|active|issued)\\b",
             "why": "Never say whether a flood warning is or is not in force: we keep no copy, and the answer points to the GOV.UK flood warnings link instead (decision 0061, AREA-14).",
             "scope": "claim"
           },
@@ -8173,7 +8179,9 @@
           "Here is what the sources say. Not known from our sources. Unavailable. Fellside Primary School There are no flood warnings.",
           "Here is what the sources say. Not known from our sources. Unavailable. Fellside Primary School Connectivity: low",
           "Transport connectivity for NB7 1RR: Not known from our sources. The flood source is Unavailable. There is a flood warning in force. The nearest school is Fellside Primary School.",
-          "Transport connectivity for NB7 1RR: Not known from our sources. The flood source is Unavailable. There aren't any flood warnings. Check GOV.UK flood warnings. The nearest school is Fellside Primary School."
+          "Transport connectivity for NB7 1RR: Not known from our sources. The flood source is Unavailable. There aren't any flood warnings. Check GOV.UK flood warnings. The nearest school is Fellside Primary School.",
+          "Transport connectivity for NB7 1RR: Not known from our sources. The flood source is Unavailable. Check GOV.UK flood warnings. The nearest school is Fellside Primary School. A flood warning is in force for this postcode.",
+          "Transport connectivity for NB7 1RR: Not known from our sources. The flood source is Unavailable. Check GOV.UK flood warnings. The nearest school is Fellside Primary School. There's a flood warning in force."
         ],
         "escapes": [
           {
@@ -8229,7 +8237,7 @@
         "mustNotInclude": [
           {
             "match": "pattern",
-            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere (are|is) (a |an )?(current )?(flood )?warnings?\\b",
+            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere(?: are| is|['’]s) (a |an )?(current )?(flood )?warnings?\\b|\\b(?:a|an) (?:current )?(?:flood )?warning (?:is|has been) (?:in force|active|issued)\\b",
             "why": "Never say whether a flood warning is or is not in force: we keep no copy, and the answer points to the GOV.UK flood warnings link instead (decision 0061, AREA-14).",
             "scope": "claim"
           },
@@ -8266,7 +8274,9 @@
         "fail": [
           "Here is what the sources say. Unavailable. Check GOV.UK flood warnings There are no flood warnings.",
           "The flood risk source for NB7 1RR is Unavailable. That is not the same as no flood risk. There is a flood warning in force. Check GOV.UK flood warnings.",
-          "The flood risk source for NB7 1RR is Unavailable. There aren't any flood warnings right now. Check GOV.UK flood warnings."
+          "The flood risk source for NB7 1RR is Unavailable. There aren't any flood warnings right now. Check GOV.UK flood warnings.",
+          "The flood risk source for NB7 1RR is Unavailable. Check GOV.UK flood warnings. A flood warning is in force for this postcode.",
+          "The flood risk source for NB7 1RR is Unavailable. Check GOV.UK flood warnings. There's a flood warning in force."
         ],
         "escapes": [
           {
