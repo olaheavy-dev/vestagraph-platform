@@ -78,7 +78,7 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     Given the result for "NB7 1RR" is open
     When the visitor opens "Flood"
     Then the flood risk by postcode (record "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1", source-failed) reads "Not known right now"
-    And it says this is not the same as no flood risk (DA-12)
+    And it says this is not the same as no flood risk (rule 7, AREA-14)
     And no risk figure from an old copy is shown (AREA-07, FE-38)
 
   @ui

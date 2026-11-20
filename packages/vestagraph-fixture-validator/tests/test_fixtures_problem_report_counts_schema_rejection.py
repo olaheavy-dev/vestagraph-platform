@@ -208,7 +208,7 @@ def test_problem_report_counts_flood_record_id_rejected() -> None:
     record = _record(document, "fact", "getting-around")
     record["topic"] = "flood"
     record["factRecordId"] = "100001"
-    assert mentions(_problems(document), "flood")
+    assert mentions(_problems(document), "'flood' is not one of")
     record["recordKind"] = "flood-warning-area"
     assert mentions(_problems(document), "flood-warning-area")
 

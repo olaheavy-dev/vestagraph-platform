@@ -196,8 +196,9 @@ Feature: Check an area
     Then the flood topic shows "Flood warnings change hour by hour, so we don't keep a copy." and the link "Check GOV.UK flood warnings ↗" to "https://check-for-flooding.service.gov.uk/", and it never says or implies that there are no flood warnings
 
   # Flood warnings (register line DA-12, 14 Nov 2026; changed 20 Nov 2026, decision 0061). The Environment Agency says its flood
-  # data changes every 15 minutes and is not for safety-critical use, so the pilot keeps no copy of warnings and links to
-  # GOV.UK's "Check for flooding in England" instead. Long-term flood risk (flood zones, surface water, risk by postcode) is unchanged.
+  # data is updated every 15 minutes, gives no service-level guarantee and is not for safety-critical use
+  # (https://environment.data.gov.uk/flood-monitoring/doc/reference, read 14 Nov 2026), so the pilot keeps no copy of
+  # warnings and links to GOV.UK's "Check for flooding in England" instead. Long-term flood risk (flood zones, surface water, risk by postcode) is unchanged.
   # Changed 20 Nov 2026 (decision 0061; founder, prompt windows: "Reason + link (Recommended)" and "Remove that part (Recommended)"): there is no check time, no "last checked" and no "The warning check is not a flood risk check" note.
   @ui
   Scenario: AREA-21 the flood row gives the reason and the GOV.UK flood warnings link

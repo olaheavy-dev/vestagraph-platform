@@ -95,6 +95,8 @@ Sketch only: `<n>` marks a count the boards take from the sample data, and the t
 | An official ranking or standard | Deprivation decile (needs the fixture record first) | Transport connectivity, green space standard |
 | A warning | Flood (a link to GOV.UK flood warnings, since 20 Nov 2026, 0061; long-term risk link; risk by postcode) | none yet |
 
+*Dated note, 20 Nov 2026 (decision 0061): the "A warning" kind is gone. The pilot keeps no copy of live flood warnings, so Flood shows its flood risk by postcode figures (kind `area-figures` in `pilot-topics.json`) with the GOV.UK flood warnings link; the row above is kept as the record of the first batch.*
+
 ### Boards (light first; dark versions after the founder approves the light ones)
 1. Check an area result, phone: header, At a glance, topic rows, the "Ask about this area" entry with its AI badge (FE-13; the pilot design review's first batch lists an entry to the chat from the phone result), the short "How we got this" note with its link to About the data.
 2. Check an area result, desktop: At a glance and topic list on the left, map on the right (FE-26).
