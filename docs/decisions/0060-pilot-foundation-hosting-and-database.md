@@ -50,3 +50,5 @@ The group A build plan is [`2026-11-20-stage-5b-group-a-foundation.md`](../super
 - **The server's address:** "Lock and proxy all apps" (over the agent's "Lock Vestagraph only"): Caddy answers Vestagraph only for requests from Cloudflare's address ranges, and the other apps move to proxied records too.
 - **Secrets after a reboot:** "Re-run after reboot (Recommended)": secrets reach the containers as files in a memory-only folder (Docker keeps environment variables in plain text on disk); the decryption key stays only on the founder's machine, so the secrets step is run again after each reboot.
 - **How to build:** "Subagent-driven (Recommended)".
+
+**Note, 20 Nov 2026 ([0063](0063-pilot-privacy-and-anonymous-chat-first.md), accepted by the founder):** sign-in leaves the pilot, so Better Auth's routes, tables and secrets are not part of the pilot's foundation; they return when sign-in opens.
