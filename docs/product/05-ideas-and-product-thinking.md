@@ -118,16 +118,16 @@ On 20 Nov 2026 the founder replaced the pilot's own copy of live flood warnings 
 - **a safety or legal matter**, where only a current official answer will do;
 - **costly to keep** for little value to the decision.
 
-**Already links:** council tax band (VOA), the long-term flood risk checker, mobile coverage (Ofcom), coal mining, the satellite view.
+**Already links:** council tax band (VOA), the long-term flood risk checker (DA-22), mobile coverage (Ofcom, DA-28), coal mining (DA-26), radon's official address report (DA-23), "check with the council" rows for Article 4 directions and tree preservation orders (DA-24), and FE-11's links to the council's planning search and to school and health pages. The satellite view is a link too, but to Google Maps, not an official service (FE-11).
 
 | Feature | Why it is a candidate | Official place to link to | What a link would lose | When to decide |
 |---|---|---|---|---|
-| Energy certificate by certificate number (DA-09) | The pilot's only live call with personal data (address-level); a shared rate limit; address fields under restricted licences | GOV.UK "Find an energy certificate" | The in-page certificate card approved on 18 Nov 2026 | When its licence record is written in the group B build |
-| Ofsted inspection results | Licence not yet read; changes after each inspection | Ofsted's report page for each school | The rating beside each school (the school list from DfE stays) | When its licence record is written |
-| Buses per hour | The largest data build after walking times (all of England's timetables) | Traveline or the council's bus pages (no single GOV.UK service) | A figure the 16 Nov benchmark valued | With real data, after the Sheffield trial |
-| Planning applications nearby | The Planning Data Platform's coverage is incomplete, so a gap can look like "nothing nearby" | The council's planning portal | A list on our page | With real coverage figures |
+| Energy certificate by certificate number (DA-09) | The pilot's only live call with personal data (address-level); a shared rate limit; the API's answers carry address fields under restricted licences, which the pilot must drop (it shows no address) | GOV.UK "Find an energy certificate" | The in-page certificate card (drawn after 18 Nov 2026, wording approved 19 Nov 2026). Link-only was weighed and not chosen on 13 Nov 2026 (DA-09: "Energy certificates in pilot") | When its licence record is written in the group B build |
+| Ofsted inspection results | Licence not yet read; changes after each inspection | Ofsted's report page for each school | The inspection results (framework and date) beside each school; there is no single overall grade (doc 02 §7). The school list from DfE stays | When its licence record is written |
+| Buses per hour | The largest data build after walking times (all of England's timetables). The founder chose to build it on 20 Nov 2026 ("Proceed with BODS for calculating scheduled buses per hour", decision 0061, #360) | Traveline or the council's bus pages (no single GOV.UK service) | Per-route counts at set times, which no single official link gives (DA-18, the founder's choice) | Only if the bus timetable build proves too costly in use |
+| Planning applications nearby (drop our data, keep the existing link) | The Planning Data Platform's coverage is reported incomplete (unverified, data-sources), so the guard text ("No record in this source" never means none, rule 7) carries the weight | The council's planning search (already linked, FE-11) | A list on our page | With real coverage figures |
 | Broadband | Updated twice a year; the official checker works per address | Ofcom's broadband checker | The postcode-level figure | With real data |
-| Radon | 1 km squares only; the credit wording is not confirmed | UKHSA's radon map | One row of data | When its licence record is written |
+| Radon (drop our data, keep the existing link) | 1 km squares only; the credit wording is not confirmed | UKHSA's official address report (already linked, DA-23) | One row of data | When its licence record is written |
 
 ### Current leaning (to revisit at each stage gate)
 
