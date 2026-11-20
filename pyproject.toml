@@ -14,7 +14,7 @@ members = ["packages/vestagraph-*"]
 
 [dependency-groups]
 dev = [
-  "coverage>=7.17,<8",
+  "coverage>=7.17.3,<8",
   "hypothesis>=6.170,<7",
   "mutmut>=3.8,<4",
   "mypy>=2.4,<3",
