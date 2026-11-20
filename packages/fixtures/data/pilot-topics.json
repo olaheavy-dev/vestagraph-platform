@@ -141,10 +141,9 @@
     {
       "key": "flood",
       "name": "Flood",
-      "kind": "warning",
+      "kind": "area-figures",
       "counted": true,
       "recordTopics": [
-        "flood",
         "flood-risk-postcode"
       ],
       "gapQuestionTemplate": "Has the home or the street ever flooded, and is there a flood history for the property?",

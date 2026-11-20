@@ -64,6 +64,11 @@ def _flood_item() -> Json:
     return item
 
 
+def test_postcode_area_flood_warning_topic_rejected() -> None:
+    # Decision 0061: the pilot keeps no copy of live flood warnings, so topic "flood" is not allowed.
+    assert mentions(_problems(_flood_item()), "flood")
+
+
 def test_validate_instance_postcode_area_valid_item_is_accepted() -> None:
     assert _problems(_valid_item()) == []
 
@@ -98,29 +103,7 @@ def test_validate_instance_postcode_area_neighbourhood_level_without_name_is_rej
     assert mentions(_problems(item), "areaName")
 
 
-def test_validate_instance_postcode_area_flood_without_checked_at_is_rejected() -> None:
-    assert mentions(_problems(_flood_item()), "checkedAt")
-
-
-def test_validate_instance_postcode_area_checked_at_without_offset_is_rejected() -> None:
-    item = _flood_item()
-    item["checkedAt"] = "2026-10-23T09:40:00"
-    assert mentions(_problems(item), "checkedAt")
-
-
-def test_validate_instance_postcode_area_flood_with_offset_time_is_accepted() -> None:
-    item = _flood_item()
-    item["checkedAt"] = "2026-10-23T09:40:00+01:00"
-    assert _problems(item) == []
-
-
-def test_validate_instance_postcode_area_failed_flood_without_checked_at_is_accepted() -> None:
-    item = _flood_item()
-    item["status"] = "source-failed"
-    assert _problems(item) == []
-
-
-def test_validate_instance_postcode_area_checked_at_on_other_topic_is_rejected() -> None:
+def test_validate_instance_postcode_area_checked_at_is_rejected_on_any_topic() -> None:
     item = _valid_item()
     item["checkedAt"] = "2026-10-23T09:40:00+01:00"
     assert mentions(_problems(item), "checkedAt")

@@ -229,30 +229,6 @@
       }
     },
     {
-      "id": "NB1-4XY-AREA-FLOOD-1",
-      "postcode": "NB1 4XY",
-      "topic": "flood",
-      "subtype": "rivers-and-sea",
-      "status": "no-record-in-source",
-      "label": "No current rivers and sea flood warning in this source",
-      "level": {
-        "kind": "postcode"
-      },
-      "checkedAt": "2026-10-23T09:40:00+01:00",
-      "coverage": "England only",
-      "doesNotEstablish": "No current warning in this source does not mean there is no flood risk. The long-term checker describes risk for an area, not the chance of this property flooding, and leaves out local causes such as blocked drains. Each flood type is kept separate. Warnings are not issued for surface water flooding; long-term surface-water risk is on the EA long-term risk checker (link only).",
-      "source": {
-        "origin": "official-dataset",
-        "label": "Synthetic sample, shaped like the Environment Agency flood-monitoring data",
-        "date": "2026-10-23",
-        "synthetic": true
-      },
-      "link": {
-        "url": "https://www.gov.uk/check-long-term-flood-risk",
-        "text": "Check the long-term flood risk for this area on GOV.UK"
-      }
-    },
-    {
       "id": "NB1-4XY-AREA-SOLD-PRICE-1",
       "postcode": "NB1 4XY",
       "topic": "sold-price",
@@ -1320,29 +1296,6 @@
         "label": "Synthetic sample, shaped like the police.uk crime data",
         "date": "2026-10-23",
         "synthetic": true
-      }
-    },
-    {
-      "id": "NB7-1RR-AREA-FLOOD-1",
-      "postcode": "NB7 1RR",
-      "topic": "flood",
-      "subtype": "rivers-and-sea",
-      "status": "source-failed",
-      "label": "Flood warning lookup failed; not known right now",
-      "level": {
-        "kind": "postcode"
-      },
-      "coverage": "England only",
-      "doesNotEstablish": "No current warning in this source does not mean there is no flood risk. The long-term checker describes risk for an area, not the chance of this property flooding, and leaves out local causes such as blocked drains. Each flood type is kept separate. Warnings are not issued for surface water flooding; long-term surface-water risk is on the EA long-term risk checker (link only).",
-      "source": {
-        "origin": "official-dataset",
-        "label": "Synthetic sample, shaped like the Environment Agency flood-monitoring data",
-        "date": "2026-10-23",
-        "synthetic": true
-      },
-      "link": {
-        "url": "https://www.gov.uk/check-long-term-flood-risk",
-        "text": "Check the long-term flood risk for this area on GOV.UK"
       }
     },
     {

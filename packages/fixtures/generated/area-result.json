@@ -13,10 +13,6 @@
           {
             "recordId": "NB1-4XY-AREA-AMENITY-6",
             "text": "Which childcare provider do people living here use, and how far away is it?"
-          },
-          {
-            "recordId": "NB1-4XY-AREA-FLOOD-1",
-            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           }
         ],
         "checkInPerson": [
@@ -515,7 +511,7 @@
             "text": "Which schools do children living here usually go to, and how are places decided?"
           },
           {
-            "recordId": "NB7-1RR-AREA-FLOOD-1",
+            "recordId": "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
             "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           },
           {

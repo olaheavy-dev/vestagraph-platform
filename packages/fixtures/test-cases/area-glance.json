@@ -37,7 +37,7 @@
         },
         {
           "n": 6,
-          "description": "flood: FLOOD-1 is no-record-in-source and FLOOD-RISK-POSTCODE-1 is recorded, found; FLOOD-1 gets a question."
+          "description": "flood: its only record, FLOOD-RISK-POSTCODE-1, is recorded, found, with no question (decision 0061: no record of live flood warnings is kept)."
         },
         {
           "n": 7,
@@ -45,7 +45,7 @@
         },
         {
           "n": 8,
-          "description": "found 16, not known 0, coverage 16 of 16. Questions: only the two no-record-in-source records, in registry then file order; their (topic, text) pairs differ, so de-duplication removes nothing. The recorded radon record adds none.",
+          "description": "found 16, not known 0, coverage 16 of 16. Questions: only the one no-record-in-source record (the childcare amenity, AMENITY-6); the recorded flood and radon records add none.",
           "value": 16
         },
         {
@@ -59,7 +59,7 @@
         },
         {
           "n": 11,
-          "description": "Ownership: every NB1 4XY record is read by exactly one counted topic (transport-stop and bus-departures: getting-around; amenity by subtype: everyday-places or places-of-worship; school, school-inspection, school-demand: schools; flood and flood-risk-postcode: flood; radon: radon; each other record topic: its one topic). family-view also reads school, school-demand and childcare and park amenities, but it is uncounted."
+          "description": "Ownership: every NB1 4XY record is read by exactly one counted topic (transport-stop and bus-departures: getting-around; amenity by subtype: everyday-places or places-of-worship; school, school-inspection, school-demand: schools; flood-risk-postcode: flood; radon: radon; each other record topic: its one topic). family-view also reads school, school-demand and childcare and park amenities, but it is uncounted."
         }
       ],
       "expected": {
@@ -90,11 +90,6 @@
             "topicKey": "everyday-places",
             "recordId": "NB1-4XY-AREA-AMENITY-6",
             "text": "Which childcare provider do people living here use, and how far away is it?"
-          },
-          {
-            "topicKey": "flood",
-            "recordId": "NB1-4XY-AREA-FLOOD-1",
-            "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           }
         ],
         "checkInPersonTopics": [
@@ -153,7 +148,7 @@
         },
         {
           "n": 5,
-          "description": "flood: FLOOD-1 and FLOOD-RISK-POSTCODE-1 are both source-failed: not known. Both are gaps, and the flood template has no slot, so both give the same text; de-duplicated by (flood, text), one question, keeping FLOOD-1 (first in file order)."
+          "description": "flood: its only record, FLOOD-RISK-POSTCODE-1, is source-failed: not known, one question."
         },
         {
           "n": 6,
@@ -169,7 +164,7 @@
         },
         {
           "n": 9,
-          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12 (broadband is found: no-record-in-source counts as found, FE-38). Not known = 3 (flood, radon, transport-connectivity). Coverage total 12 + 3 = 15. Gap records 13 (bus-departures 1, amenity 2, school-demand 1, flood 1, flood-risk-postcode 1, sold-price 1, broadband-coverage 1, air-quality 1, radon 1, affordability 1, council-rent 1, transport-connectivity 1, green-space 1). Two pairs share a (topic, text): the two flood records, and affordability with council-rent (one housing-affordability template, no slot, so the rent gap is deduplicated with the affordability gap, which comes first in file order and keeps its id). So 13 - 2 = 11 questions.",
+          "description": "Found: getting-around, everyday-places, places-of-worship, schools, planning-nearby, crime, sold-nearby, broadband, air-quality, council-tax-by-band, housing-affordability, deprivation = 12 (broadband is found: no-record-in-source counts as found, FE-38). Not known = 3 (flood, radon, transport-connectivity). Coverage total 12 + 3 = 15. Gap records 12 (bus-departures 1, amenity 1, school-demand 1, flood-risk-postcode 1, sold-price 1, broadband-coverage 1, air-quality 1, radon 1, affordability 1, council-rent 1, transport-connectivity 1, green-space 1). One pair shares a (topic, text): affordability with council-rent (one housing-affordability template, no slot, so the rent gap is deduplicated with the affordability gap, which comes first in file order and keeps its id). So 12 - 1 = 11 questions.",
           "value": 15
         },
         {
@@ -223,7 +218,7 @@
           },
           {
             "topicKey": "flood",
-            "recordId": "NB7-1RR-AREA-FLOOD-1",
+            "recordId": "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
             "text": "Has the home or the street ever flooded, and is there a flood history for the property?"
           },
           {
