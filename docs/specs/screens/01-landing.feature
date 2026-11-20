@@ -140,15 +140,15 @@ Feature: Landing
   Scenario: LAND-17 the hero's subline adds each council's published figures
     Given the user is not signed in
     When the user opens the landing page
-    Then on desktop the line under the headline reads "Schools, transport, shops, parks, health, places of worship, flood warnings and recorded crime for any postcode in England, and each council’s published figures. Free, no account, and every fact shows where it came from."
-    And on a phone it reads "Schools, transport, shops, parks, health, places of worship, flood warnings and recorded crime for any postcode in England, and each council’s published figures. Free, no account."
+    Then on desktop the line under the headline reads "Schools, transport, shops, parks, health, places of worship, flood risk and recorded crime for any postcode in England, and each council’s published figures. Free, no account, and every fact shows where it came from."
+    And on a phone it reads "Schools, transport, shops, parks, health, places of worship, flood risk and recorded crime for any postcode in England, and each council’s published figures. Free, no account."
 
   @ui
   Scenario: LAND-18 How it works says to type a postcode or town and separates the postcode from the town result
     Given the user is not signed in
     When the user reads "How it works"
     Then step 1 is titled "Type a postcode or town" with "Any postcode, town or city in England. No account, nothing to install."
-    And step 2, "See what’s around", reads "For a postcode: transport, shops, parks, health, schools, places of worship, flood warnings and recorded crime. For a town or city: its council’s published figures. Each with its source."
+    And step 2, "See what’s around", reads "For a postcode: transport, shops, parks, health, schools, places of worship, flood risk and recorded crime. For a town or city: its council’s published figures. Each with its source."
 
   # Founder's wording, 17 Nov 2026 (prompt window, FE-49 amended): the clause "unless you sign in and save an area" was added because signed-in users can save areas (0058). The landing FAQ boards still show the old answer and are to be redrawn (#318).
   @ui

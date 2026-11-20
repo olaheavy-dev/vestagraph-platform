@@ -73,6 +73,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     distances, bearings, sources, dates and labels; never "none"; a failed places source -> TOOLS-05, TOOLS-06, TOOLS-29, TOOLS-32
     the 5 km cap on every radius; bad radius or category refused -> TOOLS-07, TOOLS-30, TOOLS-31
     topics with level; Unavailable; Old; crime at 1 mile; sold prices as single sales, capped per call -> TOOLS-08 to TOOLS-12, TOOLS-35
+    flood warnings: the approved reason and the GOV.UK flood warnings link, no warning status (decision 0061, 20 Nov 2026) -> TOOLS-73
     places of worship never scored (PD-13) -> TOOLS-40
     nearby places listed nearest first, with the total within the radius -> TOOLS-42
     the nearest places of any kind, at most the number asked for, up to 5 km -> TOOLS-43
@@ -138,12 +139,21 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     When it calls the area topic tool for a sample postcode
     Then each value carries its source, its data date, its label and its geographic level (from the postcode centre, within a radius, this postcode, this neighbourhood or the council)
 
-  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-1, source-failed)
+  # fixture: packages/fixtures/data/postcode-area.json (NB7 1RR NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1, source-failed)
   @mcp @ai03
   Scenario: TOOLS-09 a failed source is Unavailable, never empty or zero
     Given an assistant is connected to the area tools
     When it calls the area topic tool for a topic whose source failed
     Then the result labels that topic "Unavailable", with no value, no "none" and no zero
+
+  # Added 20 Nov 2026 (decision 0061; founder-approved wording, the same as AREA-21): no copy of live flood warnings is kept.
+  # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1; NB7 1RR NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1)
+  @mcp @ai03
+  Scenario: TOOLS-73 the flood topic gives the reason and the GOV.UK flood warnings link, never a warning status
+    Given an assistant is connected to the area tools
+    When it calls the area topic tool for the flood topic
+    Then the result gives "Flood warnings change hour by hour, so we don't keep a copy." and the link "Check GOV.UK flood warnings ↗" to "https://check-for-flooding.service.gov.uk/"
+    And it gives no warning status: it never says whether a flood warning is or is not in force
 
   # fixture: packages/fixtures/data/postcode-area.json (NB1 4XY NB1-4XY-AREA-SCHOOL-INSPECTION-1, stale)
   @mcp @ai03

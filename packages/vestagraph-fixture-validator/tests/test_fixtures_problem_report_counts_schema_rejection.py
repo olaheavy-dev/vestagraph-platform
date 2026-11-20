@@ -53,7 +53,7 @@ def test_validate_instance_problem_report_counts_real_file_is_accepted() -> None
 
 def test_validate_instance_problem_report_counts_sample_has_every_shape() -> None:
     document = _document()
-    assert _record(document, "fact", "flood")
+    assert _record(document, "fact", "getting-around")
     assert _record(document, "area", "sold-nearby")
     assert _record(document, "councilFigure", "council")
     assert _record(document, "councilFigure", "neighbourhood")
@@ -67,13 +67,13 @@ def test_validate_instance_problem_report_counts_postcode_field_is_rejected() ->
 
 def test_validate_instance_problem_report_counts_time_field_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["time"] = "09:40"
+    _record(document, "fact", "getting-around")["time"] = "09:40"
     assert mentions(_problems(document), "time")
 
 
 def test_validate_instance_problem_report_counts_unknown_reason_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["reason"] = "offensive"
+    _record(document, "fact", "getting-around")["reason"] = "offensive"
     assert mentions(_problems(document), "reason")
 
 
@@ -117,7 +117,7 @@ def test_validate_instance_problem_report_counts_topic_enum_equals_counted_regis
 def test_validate_instance_problem_report_counts_record_id_off_the_allow_list_is_rejected() -> None:
     for topic in ("broadband", "crime", "places-of-worship", "transport-connectivity"):
         document = _document()
-        record = _record(document, "fact", "flood")
+        record = _record(document, "fact", "getting-around")
         record["topic"] = topic
         record["factRecordId"] = "100001"
         assert _problems(document), topic
@@ -125,13 +125,13 @@ def test_validate_instance_problem_report_counts_record_id_off_the_allow_list_is
 
 def test_validate_instance_problem_report_counts_zero_count_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["count"] = 0
+    _record(document, "fact", "getting-around")["count"] = 0
     assert mentions(_problems(document), "count")
 
 
 def test_validate_instance_problem_report_counts_date_with_time_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["date"] = "2026-11-19T09:40"
+    _record(document, "fact", "getting-around")["date"] = "2026-11-19T09:40"
     assert mentions(_problems(document), "date")
 
 
@@ -168,7 +168,7 @@ def test_validate_instance_problem_report_counts_council_with_neighbourhood_code
 
 def test_validate_instance_problem_report_counts_postcode_as_record_id_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["factRecordId"] = "NB1 4XY"
+    _record(document, "fact", "getting-around")["factRecordId"] = "NB1 4XY"
     assert mentions(_problems(document), "factRecordId")
 
 
@@ -180,7 +180,7 @@ def test_validate_instance_problem_report_counts_address_as_figure_is_rejected()
 
 def test_validate_instance_problem_report_counts_postcode_as_source_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["source"] = "NB1 4XY"
+    _record(document, "fact", "getting-around")["source"] = "NB1 4XY"
     assert mentions(_problems(document), "source")
 
 
@@ -194,15 +194,28 @@ def test_validate_instance_problem_report_counts_record_id_containing_postcode_i
 
 
 def test_validate_instance_problem_report_counts_real_source_codes_are_accepted() -> None:
-    for record_id in ("100001", "490000077E", "SYNTHETIC-FWA-001", "E06999001"):
+    for record_id in ("100001", "490000077E", "SYNTHETIC-STOP-001", "E06999001"):
         document = _document()
         _record(document, "fact")["factRecordId"] = record_id
         assert not _problems(document), record_id
 
 
+def test_problem_report_counts_flood_record_id_rejected() -> None:
+    schema = json.loads((schema_directory() / SCHEMA).read_text(encoding="utf-8"))
+    assert "flood" not in schema["$defs"]["recordIdTopics"]["enum"]
+    assert "flood-warning-area" not in schema["$defs"]["recordKind"]["enum"]
+    document = _document()
+    record = _record(document, "fact", "getting-around")
+    record["topic"] = "flood"
+    record["factRecordId"] = "100001"
+    assert mentions(_problems(document), "'flood' is not one of")
+    record["recordKind"] = "flood-warning-area"
+    assert mentions(_problems(document), "flood-warning-area")
+
+
 def test_validate_instance_problem_report_counts_childcare_record_kind_is_rejected() -> None:
     document = _document()
-    record = _record(document, "fact", "flood")
+    record = _record(document, "fact", "getting-around")
     record["topic"] = "everyday-places"
     record["recordKind"] = "childcare"
     assert _problems(document)
@@ -210,13 +223,13 @@ def test_validate_instance_problem_report_counts_childcare_record_kind_is_reject
 
 def test_validate_instance_problem_report_counts_unknown_record_kind_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["recordKind"] = "home"
+    _record(document, "fact", "getting-around")["recordKind"] = "home"
     assert _problems(document)
 
 
 def test_validate_instance_problem_report_counts_record_kind_wrong_for_topic_is_rejected() -> None:
     document = _document()
-    _record(document, "fact", "flood")["recordKind"] = "school"
+    _record(document, "fact", "getting-around")["recordKind"] = "school"
     assert _problems(document)
 
 
@@ -265,5 +278,5 @@ def test_validate_instance_problem_report_counts_neighbourhood_code_as_council_i
 ):
     for code in ("E01999011", "E00012345"):
         document = _document()
-        _record(document, "fact", "flood")["localAuthority"] = code
+        _record(document, "fact", "getting-around")["localAuthority"] = code
         assert mentions(_problems(document), "localAuthority"), code

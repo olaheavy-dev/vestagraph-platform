@@ -60,7 +60,6 @@
             "places",
             "area-figures",
             "official-rank",
-            "warning",
             "route-only"
           ]
         },
@@ -76,7 +75,6 @@
               "school",
               "school-inspection",
               "crime",
-              "flood",
               "sold-price",
               "amenity",
               "planning",

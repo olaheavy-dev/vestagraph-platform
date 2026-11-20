@@ -9,7 +9,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   0014: nothing is stored on the visitor's device; "Reported" lives in the page's memory only (REPORT-16).
   Boards: `ReportProblem` (phone cards and the desktop panel; area topic detail) with `ReportProblemDark`, in the canvas section 'Pilot 8 · Compare, share, report', and `CouncilReportProblem` with `CouncilReportProblemDark` on the page 'Pilot · City Explorer' (section City Explorer 4); canvas version 1795107206-3e0d, 19 Nov 2026. Compare's detail with its links is on `ComparePhone` and `CompareDesktop`. REPORT-04 (a neighbourhood fact) and REPORT-05 (the chat's side panel) follow REPORT-01's anatomy and have no board of their own.
   Wording status: approved by the founder (design, 19 Nov 2026): the reasons "Wrong", "Out of date", "Missing something" and "Report a problem". Proposed, for the founder's copy review before build: "Thanks. We count reports for each fact to see what needs checking. We can't reply." (REPORT-15), "What's wrong with this fact?" (the heading of the choices, REPORT-12), "Reported" (REPORT-16), "Couldn't send. Try again." (REPORT-17, REPORT-19) and "You're offline. Try again when you're back online." (REPORT-18), and "Cancel" on the choices (REPORT-14). The design marks these as the agent's wording.
-  One state needs a sample record that does not exist: the fact count (REPORT-21) is keyed by the SOURCE's own public identifier for a place or zone (a school URN, a NaPTAN stop code, a flood warning area code), and no sample record carries one; the sample uses a made-up code and the gap is tracked as `noticed` issue #349. Every other data scenario quotes the sample counts. A state with no sample (the failures) is a page behaviour, so it is `@ui`.
+  One state needs a sample record that does not exist: the fact count (REPORT-21) is keyed by the SOURCE's own public identifier for a place (a school URN, a NaPTAN stop code), and no sample record carries one; the sample uses a made-up code and the gap is tracked as `noticed` issue #349. Every other data scenario quotes the sample counts. A state with no sample (the failures) is a page behaviour, so it is `@ui`.
   Data scenarios (no tag) check the sample counts with the report steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page or in a request.
 
   Required states (design "States to cover"; AGENTS.md rule 7 and 0014):
@@ -170,7 +170,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
     Then the request body holds the source, the topic, the fact's record ID only where REPORT-21 allows one, the council and the reason, and nothing else
     And it holds no date: the server stamps the day itself (Europe/London) when it counts, so a client cannot back-date or future-date a count
     And it holds no postcode (the area is the council's code), is not in a query string, and is not written to a server, application, hosting or tracing log
-    And the record ID is the SOURCE's own public identifier for that place or zone (a school URN, a NaPTAN stop code, a flood warning area code), never Vestagraph's record `id`, which holds the postcode (agent's call, pre-push security review, open to the founder)
+    And the record ID is the SOURCE's own public identifier for that place (a school URN, a NaPTAN stop code), never Vestagraph's record `id`, which holds the postcode (agent's call, pre-push security review, open to the founder)
 
   @ui
   Scenario: REPORT-31 the server accepts only values it served on that page
@@ -182,12 +182,12 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
 
   # ---- The three count shapes (design section 4; data contract of plan Task 1) ----
 
-  # fixture: packages/fixtures/data/problem-report-counts.json (the fact count: a flood warning area, no address)
-  # fixture needed: #349 (no sample record carries a source's own identifier; the sample's SYNTHETIC-FWA-001 is made up)
-  # Only a topic whose records are public facilities or official zones may carry a record ID: getting-around (a stop; not bus departures), everyday-places (a GP surgery, a hospital, a pharmacy or another public place; not childcare, which is home-based), schools and flood (a flood warning area; not flood risk by postcode). Every other topic, and a record worked out from the postcode, is counted by topic and council only (REPORT-22). The ID is the source's own identifier, never Vestagraph's record `id`.
-  Scenario: REPORT-21 a fact with a record ID that names a public place or zone is counted by topic, record and reason
-    # The count also names the kind of record (`recordKind`: school, gp-practice, hospital, pharmacy, public-place, stop or flood-warning-area), and the schema ties each topic to its kinds; childcare is never a kind.
-    Then the problem report counts hold a fact count for topic "flood" with record "SYNTHETIC-FWA-001" and reason "out-of-date"
+  # fixture: packages/fixtures/data/problem-report-counts.json (the fact count: a stop, no address)
+  # fixture needed: #349 (no sample record carries a source's own identifier; the sample's SYNTHETIC-STOP-001 is made up)
+  # Only a topic whose records are public facilities may carry a record ID: getting-around (a stop; not bus departures), everyday-places (a GP surgery, a hospital, a pharmacy or another public place; not childcare, which is home-based), and schools. Flood has no record ID: the flood topic links to GOV.UK (decision 0061) and its flood risk by postcode records are worked out from the postcode. Every other topic, and a record worked out from the postcode, is counted by topic and council only (REPORT-22). The ID is the source's own identifier, never Vestagraph's record `id`.
+  Scenario: REPORT-21 a fact with a record ID that names a public place is counted by topic, record and reason
+    # The count also names the kind of record (`recordKind`: school, gp-practice, hospital, pharmacy, public-place, or stop), and the schema ties each topic to its kinds; childcare is never a kind.
+    Then the problem report counts hold a fact count for topic "getting-around" with record "SYNTHETIC-STOP-001" and reason "out-of-date"
 
   # fixture: packages/fixtures/data/problem-report-counts.json (sold prices and planning point to one address or site). Every topic off REPORT-21's list (places of worship, crime, broadband, air quality, radon, council tax, affordability, deprivation, transport connectivity, green space) and a gap with no record have the same shape (design section 4), which the schema allows and the sample does not hold a separate count for; the step cannot tell them apart.
   Scenario: REPORT-22 a fact that points to one address, or is not on the record ID list, is counted by topic and council with no record ID

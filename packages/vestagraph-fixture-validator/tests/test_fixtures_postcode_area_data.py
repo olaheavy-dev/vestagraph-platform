@@ -7,7 +7,6 @@ calculated.
 import copy
 import json
 import re
-from datetime import datetime, timedelta
 from typing import Any
 
 from fixtures_support import Json, area_items, load, number
@@ -17,7 +16,6 @@ _ALLOWED_TOPICS = {
     "school",
     "school-inspection",
     "crime",
-    "flood",
     "sold-price",
     "amenity",
     # "broadband" (the predicted-speed record) is left out: the postcode sample replaced it with
@@ -141,13 +139,6 @@ def test_postcode_area_sample_crime_radius_is_exactly_one_mile() -> None:
         assert item["level"]["radiusMetres"] == number(_ONE_MILE_METRES)
 
 
-def test_postcode_area_sample_flood_checked_at_is_09_40_british_summer_time() -> None:
-    floods = [i for i in _for_postcode("NB1 4XY") if i["topic"] == "flood"]
-    assert floods
-    for item in floods:
-        assert item["checkedAt"] == "2026-10-23T09:40:00+01:00"
-
-
 def test_postcode_area_ids_are_unique_across_area_files() -> None:
     ids = [i["id"] for i in area_items()] + [i["id"] for i in _items()]
     assert len(ids) == len(set(ids))
@@ -191,12 +182,13 @@ def test_postcode_area_sparse_distances_are_all_at_least_one_mile() -> None:
     assert all(d >= number(_ONE_MILE_METRES) for d in distances)
 
 
-def test_postcode_area_sparse_flood_is_source_failed_without_time() -> None:
-    floods = [i for i in _for_postcode("NB7 1RR") if i["topic"] == "flood"]
-    assert len(floods) == 1
-    assert floods[0]["status"] == "source-failed"
-    assert "checkedAt" not in floods[0]
-    assert "value" not in floods[0]
+def test_postcode_area_flood_risk_records_unchanged() -> None:
+    # Decision 0061: no record of live flood warnings is kept; only flood risk by postcode.
+    by_id = {i["id"]: i for i in _items()}
+    assert by_id["NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1"]["status"] == "recorded"
+    assert by_id["NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1"]["status"] == "source-failed"
+    assert not [i for i in _items() if i["topic"] == "flood"]
+    assert not [i for i in _items() if "checkedAt" in i]
 
 
 def test_postcode_area_every_item_postcode_is_listed() -> None:
@@ -228,16 +220,6 @@ def test_postcode_area_postcodes_are_all_fictional_nb_area() -> None:
     every = [p["postcode"] for p in data["postcodes"]] + list(data["unknownPostcodes"])
     assert every
     assert all(p.startswith("NB") for p in every)
-
-
-def test_postcode_area_checked_at_is_a_valid_offset_datetime() -> None:
-    stamps = [i["checkedAt"] for i in _items() if "checkedAt" in i]
-    assert stamps
-    for stamp in stamps:
-        parsed = datetime.fromisoformat(stamp)
-        assert parsed.tzinfo is not None
-        # 23 Oct 2026 is in British Summer Time, one hour ahead of UTC.
-        assert parsed.utcoffset() == timedelta(hours=1)
 
 
 # Radon (design pass Task 6a, register DA-23). Source: the BGS and UKHSA Indicative Atlas of Radon

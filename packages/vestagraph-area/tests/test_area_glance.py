@@ -187,9 +187,12 @@ def test_at_a_glance_gap_question_never_contains_the_record_label() -> None:
 
     glance = at_a_glance(registry, area, "NB7 1RR")
 
-    # 13 gap records; two pairs share a (topic, text): the flood records, and affordability with
-    # council-rent, so 13 - 2 = 11 questions (hand-worked in area-glance.json, nb7-1rr-sparse
-    # step 9).
+    # Worked by hand from postcode-area.json after the flood warning record was removed (0061):
+    # NB7 1RR has 12 gap records (not recorded and not stale): amenity 1, bus-departures 1,
+    # school-demand 1, flood-risk-postcode 1, sold-price 1, broadband-coverage 1, air-quality 1,
+    # radon 1, affordability 1, council-rent 1, transport-connectivity 1, green-space 1.
+    # One pair shares a (topic, text): affordability with council-rent, so 12 - 1 = 11 questions
+    # (hand-worked in area-glance.json, nb7-1rr-sparse step 9).
     assert len(glance.questions) == 11
     for question in glance.questions:
         assert labels[question.record_id] not in question.text

@@ -73,7 +73,9 @@ def test_read_postcode_area_committed_data_returns_postcodes_and_records() -> No
 
     assert area.postcodes == ("NB1 4XY", "NB7 1RR")
     assert area.unknown_postcodes == ("NB9 9ZZ",)
-    assert len(area.records) == 61
+    # Counted by hand: 61 records before decision 0061, less the two flood warning records
+    # (NB1-4XY-AREA-FLOOD-1 and NB7-1RR-AREA-FLOOD-1) = 59.
+    assert len(area.records) == 59
     childcare = next(r for r in area.records if r.id == "NB1-4XY-AREA-AMENITY-6")
     assert (childcare.subtype, childcare.status, childcare.value) == (
         "childcare",
@@ -393,10 +395,9 @@ def test_records_of_topic_without_subtypes_reads_every_record_of_its_record_topi
 
     found = records_of(flood, [r for r in area.records if r.postcode == "NB7 1RR"])
 
-    assert [r.id for r in found] == [
-        "NB7-1RR-AREA-FLOOD-1",
-        "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
-    ]
+    # By hand from postcode-area.json: NB7 1RR holds one record for the flood topic's one record
+    # topic (flood-risk-postcode); the flood warning record was removed (decision 0061).
+    assert [r.id for r in found] == ["NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1"]
 
 
 @pytest.mark.parametrize(

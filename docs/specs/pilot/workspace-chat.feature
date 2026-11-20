@@ -272,10 +272,12 @@ Feature: The workspace chat (the pilot's signed-in chat, saved areas and past ch
     Then the topic with no record says "Not known from our sources", the other parts are shown, and the failed part is marked Unavailable, never none or zero
 
   @ui @ai03
+  # Changed 20 Nov 2026 (decision 0061): the failed record is the flood risk by postcode record, as no copy of live flood warnings is kept.
   Scenario: WCHAT-32 a source that failed is Unavailable, not none and not zero
-    Given a signed-in user has opened sample postcode NB7 1RR, whose flood record "NB7-1RR-AREA-FLOOD-1" has status "source-failed"
-    When the user asks about flood warnings
-    Then the answer says the flood source is Unavailable and that this is not the same as no warning, with no "none" and no zero
+    Given a signed-in user has opened sample postcode NB7 1RR, whose flood risk record "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1" has status "source-failed"
+    When the user asks about flood risk and about flood warnings
+    Then the answer says the flood risk source is Unavailable and that this is not the same as no flood risk, with no "none" and no zero
+    And for flood warnings the answer points to the link "Check GOV.UK flood warnings" ("https://check-for-flooding.service.gov.uk/") and says nothing either way about whether any warning is in force (decision 0061)
 
   @ui @ai03
   Scenario: WCHAT-33 a fact published only for the council is shown with its level
