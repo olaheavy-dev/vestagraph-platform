@@ -123,7 +123,7 @@ Sources (read 19 Nov 2026): [Neon pricing](https://neon.com/pricing), [Neon regi
 ### Secrets (IN-04)
 - Vestagraph's live secrets (database connection string, Better Auth secret and keys, later the AI and email keys) are stored encrypted with SOPS and age in the private infrastructure repository and decrypted only at deploy.
 - No plain copies or `.env` backups are left in working folders.
-- The Vestagraph repository commits only `.env.example` with placeholder names.
+- The Vestagraph repository commits only `.env.example` with placeholder names. *(Correction, 20 Nov 2026, build plan: secrets reach the containers as files, so the repository commits `deploy/secrets.example`, names only.)*
 - Provider tokens used by the deploy job are scoped to the job and the `production` environment.
 
 ### Infrastructure as code (IN-03)
