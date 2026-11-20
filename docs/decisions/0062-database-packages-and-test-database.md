@@ -4,7 +4,7 @@
 **Status:** Accepted (founder, 20 Nov 2026, prompt windows)  
 **Date:** 2026-11-20  
 **Stage:** 5b (for the group B build, [0061](0061-pilot-data-pipeline-postcodes-and-walking-times.md); the API, #93, uses the same packages)  
-**Amends (older records get a dated status note, no other rewrite):** [0027](0027-stage-2-engineering-hardening.md)'s licence allow-list, with one named exception; [0049](0049-back-to-python-final.md)'s note that the FastAPI template's runtime packages are not pre-approved and are approved by the founder at #93: three of them are approved here, earlier, for the pipeline.
+**Amends (older records get a dated status note, no other rewrite):** [0027](0027-stage-2-engineering-hardening.md)'s licence allow-list, with one named exception (the three psycopg packages); [0049](0049-back-to-python-final.md)'s note that the FastAPI template's runtime packages are not pre-approved and are approved by the founder at #93: three of them are approved here, earlier, for the pipeline.
 
 ## Context
 The data pipeline (0061) stores every edition in PostgreSQL on Neon (0060), so it needs a PostgreSQL driver. The founder's FastAPI template, the API's starting point (0049), uses psycopg 3 under SQLAlchemy and Alembic. psycopg is licensed LGPL-3.0, which 0027's allow-list blocks unless the founder records an exception. The pipeline's switch-live and roll-back logic must also be tested against a real database, which `make check` (Python only) cannot do today.
