@@ -1,17 +1,17 @@
 {
   "$schema": "../schema/problem-report-counts.schema.json",
-  "description": "Sample counts. SYNTHETIC-FWA-001 is a made-up stand-in for a source's own flood warning area code (it has no postcode in it): the sample records carry no source identifiers, so no sample record backs a fact count (noticed issue #349). The sample postcodes' record IDs are never used because they hold the postcode. The neighbourhood count is for a figure the neighbourhood publishes (deprivation, in council-area.json).",
+  "description": "Sample counts. SYNTHETIC-STOP-001 is a made-up stand-in for a source's own NaPTAN stop code (it has no postcode in it): the sample records carry no source identifiers, so no sample record backs a fact count (noticed issue #349). The sample postcodes' record IDs are never used because they hold the postcode. The neighbourhood count is for a figure the neighbourhood publishes (deprivation, in council-area.json).",
   "retentionDays": 90,
   "counts": [
     {
       "date": "2026-11-19",
-      "source": "environment-agency",
+      "source": "naptan",
       "reason": "out-of-date",
       "count": 2,
-      "topic": "flood",
-      "factRecordId": "SYNTHETIC-FWA-001",
+      "topic": "getting-around",
+      "factRecordId": "SYNTHETIC-STOP-001",
       "localAuthority": "E06999001",
-      "recordKind": "flood-warning-area"
+      "recordKind": "stop"
     },
     {
       "date": "2026-11-19",
