@@ -1,7 +1,7 @@
 {
   "$schema": "../schema/forbidden-words.schema.json",
   "description": "Words and phrases that make a verdict, score, ranking, approval or recommendation. Marked by plain code on the model's answer and on the text a tool returns outside quoted-source fields (never by another model). Whole words, case-insensitive. Phrases in allowPhrases are masked first. Official government ranks may be quoted with source, edition and level (decision 0054), so 'rank', 'decile' and 'index' are not listed; 'best' and 'worst' still are, because a quoted rank is not a verdict.",
-  "version": 1,
+  "version": 2,
   "sources": [
     "AGENTS.md rule 4: never says a home is verified, safe or approved; AI never calculates numbers",
     "Decision 0004: the chat never says a home is safe or verified",

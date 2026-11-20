@@ -65,7 +65,7 @@ def _flood_item() -> Json:
 
 
 def test_postcode_area_flood_warning_topic_rejected() -> None:
-    # Decision 0061: the pilot keeps no copy of live flood warnings, so topic "flood" is not allowed.
+    # Decision 0061: no copy of live flood warnings is kept, so topic "flood" is not allowed.
     assert mentions(_problems(_flood_item()), "flood")
 
 
