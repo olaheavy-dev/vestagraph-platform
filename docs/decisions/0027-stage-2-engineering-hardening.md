@@ -1,7 +1,7 @@
 # 0027: Stage 2 engineering and security hardening
 
 **ID:** WW-09  
-**Status:** Accepted (partly superseded: founder merge for its named tools by [0035](0035-ways-of-working-v2.md); licence allow-list extended by register line WW-13 and by [0049](0049-back-to-python-final.md) (PSF-2.0); package licence exception by register line BE-08; the unlicensed-package check and its exemptions by register line BE-22; by [0049](0049-back-to-python-final.md): CodeQL adds Python, the test tools are pytest and mutmut, and `libcst` is a tool-only exemption again)  
+**Status:** Accepted (partly superseded: founder merge for its named tools by [0035](0035-ways-of-working-v2.md); licence allow-list extended by register line WW-13 and by [0049](0049-back-to-python-final.md) (PSF-2.0); package licence exception by register line BE-08; the unlicensed-package check and its exemptions by register line BE-22; by [0049](0049-back-to-python-final.md): CodeQL adds Python, the test tools are pytest and mutmut, and `libcst` is a tool-only exemption again) Licence exception for psycopg, psycopg-binary and psycopg-pool (LGPL-3.0) by [0062](0062-database-packages-and-test-database.md), 20 Nov 2026.
 **Date:** 2026-10-23  
 **Stage:** 2  
 **Supersedes:**
