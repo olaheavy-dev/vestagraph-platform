@@ -44,3 +44,9 @@ So:
 - **For group C (privacy):** Neon, Hetzner and Cloudflare are processors to name; check each one's terms, company location and any transfer outside the UK and EEA; Neon's 7-day history keeps deleted data for up to 7 days, so 0058's deletions complete after that.
 - Doc 04 §6's "PostgreSQL with PostGIS on the existing server before paying for a managed database" no longer applies to the pilot.
 - **Revisit if** Neon's monthly cost climbs well past the estimate (founder: "we can compare cost later if cost sky rockets"), a restore fails, or group C finds a transfer problem with a provider.
+
+## Dated note, 20 Nov 2026: the build plan
+The group A build plan is [`2026-11-20-stage-5b-group-a-foundation.md`](../superpowers/plans/2026-11-20-stage-5b-group-a-foundation.md). While writing it, the agent found that the founder's other apps use DNS-only Cloudflare records, so the server's address is already public and proxying Vestagraph alone does not hide it (the design said it would). The founder's choices (prompt window, 20 Nov 2026):
+- **The server's address:** "Lock and proxy all apps" (over the agent's "Lock Vestagraph only"): Caddy answers Vestagraph only for requests from Cloudflare's address ranges, and the other apps move to proxied records too.
+- **Secrets after a reboot:** "Re-run after reboot (Recommended)": secrets reach the containers as files in a memory-only folder (Docker keeps environment variables in plain text on disk); the decryption key stays only on the founder's machine, so the secrets step is run again after each reboot.
+- **How to build:** "Subagent-driven (Recommended)".
