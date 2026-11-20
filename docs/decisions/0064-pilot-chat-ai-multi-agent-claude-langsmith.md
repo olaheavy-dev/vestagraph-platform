@@ -21,6 +21,7 @@ The founder's choices, 20 Nov 2026, in prompt windows unless marked typed:
 7. **The AI-09 trial** builds this flow in both Microsoft Agent Framework and LangGraph with test conversations, and the founder chooses the framework from the results (AI-04).
 
 ## Consequences
+- **0051's provider safeguard** ("No training, short checks OK": inputs "kept only briefly for abuse checks") is met by Anthropic's no-training term and deletion within 30 days; flagged content kept up to 2 years is the one longer case, which the founder accepted with "Keep Claude (Recommended)" and the notice states.
 - Simple questions stay cheap; comparisons carry the multi-agent showcase and its cost, limited by the 3-message count, the 3-area limit and the £25 cap.
 - Chat text leaves the UK twice: to Anthropic (US or global) and to LangChain (Netherlands, with US billing data); both are named in the Privacy notice, the DPIA and the consent statement.
 - LangSmith's training position rests on an opt-out request until LangChain confirms; the founder accepted that over the agent's recommendation.
