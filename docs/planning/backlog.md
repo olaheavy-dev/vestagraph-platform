@@ -87,12 +87,12 @@ Decisions first, then the API and the area adapters, then the public site. Items
 | # | Issue | Item |
 |---|---|---|
 | 31 | #85 | Decision: privacy parts 1 and 2 (SE-02, decision 0014), analytics and feedback (FE-05) |
-| 38 | #92 | Decision: API architecture and contract (BE-02; BE-01 is decided by 0049: FastAPI); rules versioning (BE-03) stays at stage 6, before the cost engine expansion |
-| 38a | to open | Decisions: database and geospatial, ingestion and caching, source licences, postcode lookup (DA-03 to DA-06, postcode only); DA-08, the walking-time routing engine for the pilot (13 Nov 2026; before launch since one pilot phase, PD-16) |
+| 38 | #92 | Decision: API architecture and contract (BE-02, decided in 0060, 19 Nov 2026; BE-01 is decided by 0049: FastAPI); rules versioning (BE-03) stays at stage 6, before the cost engine expansion |
+| 38a | to open | Decisions: database and geospatial (DA-03 decided in 0060, 19 Nov 2026), ingestion and caching, source licences, postcode lookup (DA-03 to DA-06, postcode only); DA-08, the walking-time routing engine for the pilot (13 Nov 2026; before launch since one pilot phase, PD-16) |
 | 38b | — | Hosting for the public area check: rows 38b.1 to 38b.3 below, decided once (0048). #81's IN-02 becomes public hosting for 0046, and #82 adds the domain and secrets |
-| 38b.1 | #81 | Decision: prototype architecture, hosting, infrastructure as code (IN-01 to IN-03) |
-| 38b.2 | #82 | Decision: CI/CD and environments (IN-04) |
-| 38b.3 | #83 | Decision: budget cap and cost alerts (IN-05) |
+| 38b.1 | #81 | Decision: prototype architecture, hosting, infrastructure as code (IN-01 to IN-03): decided in 0060 (19 Nov 2026) |
+| 38b.2 | #82 | Decision: CI/CD and environments (IN-04): decided in 0060 (19 Nov 2026) |
+| 38b.3 | #83 | Decision: budget cap and cost alerts (IN-05); part 1 (alerts) decided in 0060, the monthly cap after the email service and AI provider |
 | 39 | #93 | FastAPI API skeleton from a one-time copy of the founder's template (decisions 0040, 0049; one area endpoint; the first cost endpoint waits for stage 6) |
 | 40 | #94 | Aspire app host in TypeScript and OpenTelemetry (decision 0049) |
 | 41 | #95 | Generated TypeScript types from the OpenAPI document |

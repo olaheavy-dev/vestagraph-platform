@@ -72,7 +72,7 @@ flowchart TB
         agents["Agents: workspace chat (chosen at 5b, decision 0056; 0058: in the pilot for signed-in users), home agents at stage 6 (decision 0023)<br/>Framework chosen by a trial at the start of 5b:<br/>Agent Framework or LangGraph, Python (0049)<br/>AG-UI endpoint on the API"]
         copilot["Chat route in the web app: workspace chat (not on the public pages, decision 0056; 0058: in the pilot for signed-in users), home chat at stage 6<br/>(decisions 0042, 0049)<br/>CopilotKit runtime route (open-source path)<br/>Streams AG-UI to and from the API"]
         aspire["Aspire app host and OpenTelemetry, stage 5b<br/>App host written in TypeScript (decision 0049)<br/>Runs the pieces locally and shows traces<br/>(decision 0025)"]
-        db[("Database<br/>UNDECIDED (DA-03)<br/>Homes, questions, replies, decisions")]
+        db[("Database<br/>Neon PostgreSQL + PostGIS (DA-03, 0060)<br/>Homes, questions, replies, decisions")]
     end
 
     generator -->|reads| data
@@ -139,7 +139,7 @@ flowchart TB
 | MCP server | 5b (public area tools, decision 0051), 6 (cost tools) | Built with the official `mcp` Python SDK. At 5b it exposes read-only public area tools without keys (decision 0051); at stage 6 it adds read-only cost tools behind 0038's keys (decisions 0037, 0038, 0049). |
 | Agents and chat | Framework chosen at 5b for the workspace chat (decisions 0051, 0056; no on-page chat for anonymous visitors; 0058: a signed-in chat in the pilot), 6 (home agents and chat) | Microsoft Agent Framework for Python or LangChain with LangGraph, chosen by a short trial at the start of the pilot's AI work at 5b (decisions 0023, 0049, 0051). The API streams agent replies over AG-UI; the web app talks to it through a CopilotKit runtime route, using the open-source path only (decision 0042). Agents quote only figures the engine supplied. |
 | Aspire and OpenTelemetry | 5b | Local app host, written in TypeScript, and trace dashboard for the pieces above (decisions 0025, 0049). |
-| Database | 6 | Not decided (DA-03). It would hold homes, questions, replies and decisions once there is real data; hosting follows decision 0022 (cost first). |
+| Database | 5b | PostgreSQL with PostGIS on Neon, Frankfurt (DA-03, decision 0060): accounts, chats and saved areas (0058) and the public area data, in separate schemas; later homes, questions, replies and decisions. |
 
 The planned pieces and their order are in the [ordered backlog](../planning/backlog.md). The built pieces above are all Python (the .NET code was removed in port step P8, decision 0049).
 

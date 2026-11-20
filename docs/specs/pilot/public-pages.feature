@@ -287,12 +287,12 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     And our own lawful basis and retention wording read exactly "To be written before launch (SE-02)" (0059: the policy and terms are read again before launch)
     And it says that if the map cannot load, the facts still show (MAP-27)
 
-  # Added after review (19 Nov 2026): 0014 says the notice covers what hosting and security services handle. Hosting (IN-02) is undecided, so this is a placeholder, not a fact. Added after PRIV-18 so no ID moves.
+  # Added after review (19 Nov 2026): 0014 says the notice covers what hosting and security services handle. Hosting (IN-02) was undecided then; 0060 (19 Nov 2026) chose Hetzner, Neon and a Cloudflare proxy, and the wording is written with the privacy work (SE-02), so this stays a placeholder until then. Added after PRIV-18 so no ID moves.
   @ui
   Scenario: PRIV-19 "Hosting and security" is a placeholder, so the list of recipients does not read as complete
     Given the user has opened "Privacy notice"
     When the user reads "Hosting and security", which sits after "Signed-in accounts and chat" (PRIV-02)
-    Then it reads exactly "To be written before launch (SE-02)", shown as a placeholder (PRIV-03), and names no host, security service or retention (hosting is not decided, IN-02)
+    Then it reads exactly "To be written before launch (SE-02)", shown as a placeholder (PRIV-03), and names no host, security service or retention (the wording waits for SE-02)
 
   # ---- Accessibility (design section 7) ----
 
