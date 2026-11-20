@@ -41,7 +41,7 @@
 
 ## Part 1: this repository (one pull request, founder merges)
 
-Branch `feat/group-a-placeholder-release`. Tasks 1 to 4 ship together; Task 5 is the founder's settings.
+Branch `feat/group-a-placeholder-release`. Tasks 1 to 4 ship together; Task 5 is the founder's settings, and its first part is a **condition for merging** that pull request.
 
 ### Task 1: The placeholder app
 
@@ -119,11 +119,13 @@ Branch `feat/group-a-placeholder-release`. Tasks 1 to 4 ship together; Task 5 is
 - [ ] **Step 1:** Write the workflow.
 - [ ] **Step 2: Verify:** run actionlint and zizmor the same way `workflow-lint.yml` does (the pinned actionlint image; zizmor locally or in the pull request): no findings.
 - [ ] **Step 3: Verify the pull request path:** on the pull request, `build` runs and passes; `publish` and `release` are skipped.
-- [ ] **Step 4:** Pre-flight (search for `GHCR`, `production`, `Watchtower`, `0060`, `IN-04`, `placeholder` and fix stale text), update `docs/planning/status.md`, run `make check`, then the pre-push Opus review with `code-security-reviewer`. **Commit** `feat: images workflow with an approved production release`. Open the pull request (founder merges: CI permissions).
+- [ ] **Step 4:** Pre-flight (search for `GHCR`, `production`, `Watchtower`, `0060`, `IN-04`, `placeholder` and fix stale text), update `docs/planning/status.md`, run `make check`, then the pre-push Opus review with `code-security-reviewer`. **Commit** `feat: images workflow with an approved production release`. Open the pull request (founder merges: CI permissions). It merges only after Task 5's environment check passes.
 
-### Task 5: The founder's settings (after the pull request merges)
-- [ ] The founder creates the GitHub environment `production`: required reviewer the founder, "Prevent self-review" off (the founder is the only reviewer), deployment branches `main` only. (Repository settings: founder only.)
-- [ ] After the first `publish` run (a new package starts private), the founder sets the `vestagraph-placeholder` package to **public**; GitHub says this cannot be undone ([package visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility)), which is fine because images hold no secrets, and links it to the repository (the design: public images, no secrets in them), or tells the agent to keep it private and add the server's pull credential instead.
+### Task 5: The founder's settings
+- [ ] **Before the Task 4 pull request merges** (its first push to `main` runs `release`, and GitHub creates a missing environment with no protection rules, [Managing environments](https://docs.github.com/en/actions/how-tos/deploy/configure-and-manage-deployments/manage-environments#creating-an-environment)): the founder creates the GitHub environment `production`: required reviewer the founder, "Prevent self-review" off (the founder is the only reviewer), deployment branches `main` only. (Repository settings: founder only.)
+- [ ] **Verify before merging:** `gh api repos/olaheavy-dev/vestagraph-platform/environments/production --jq '.protection_rules'` lists a `required_reviewers` rule naming the founder, and `--jq '.deployment_branch_policy'` is not null. If either check fails, the pull request does not merge.
+- [ ] **After the merge:**
+  after the first `publish` run (a new package starts private), the founder sets the `vestagraph-placeholder` package to **public**; GitHub says this cannot be undone ([package visibility](https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility)), which is fine because images hold no secrets, and links it to the repository (the design: public images, no secrets in them), or tells the agent to keep it private and add the server's pull credential instead.
 - [ ] **Verify:** `docker pull ghcr.io/olaheavy-dev/vestagraph-placeholder:sha-<commit>` works without logging in, and the first `release` run shows "Waiting for review".
 
 ## Part 2: the private infrastructure repository (agents merge there)
