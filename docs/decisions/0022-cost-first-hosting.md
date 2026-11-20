@@ -30,3 +30,5 @@ Founder's words: "we can host on the infra and just use only bits that we need, 
 - The budget cap (IN-05) covers all paid services, wherever they run, plus a share of the server's running cost.
 - AI providers (AI-01) follow the same rule: the cheapest provider that passes the evaluation suite.
 - Less Azure-specific learning than first planned; the portfolio story becomes cost-conscious engineering on mixed hosting.
+
+**Note, 19 Nov 2026 ([0060](0060-pilot-foundation-hosting-and-database.md), accepted by the founder):** for the pilot, the database goes to Neon (managed PostgreSQL with PostGIS, Frankfurt, pay per use) rather than the founder's server, because the founder wants one managed home for several projects with built-in undo; costs are compared again if they climb. The app, the API and the jobs stay on the founder's server, and this order still applies to everything else. Of the five problems above, 0060 makes all of them launch blockers for Vestagraph.

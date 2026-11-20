@@ -54,3 +54,5 @@ Fastest to something public, but it loses the design reference that 0045 exists 
 - **Revisit if** running costs exceed the IN-05 cap, a key source's licence rules out public use, or the study shows the area check isn't what draws people in.
 
 **Note, 16 Nov 2026 ([0058](0058-signed-in-chat-in-the-pilot.md), accepted by the founder 16 Nov 2026):** accounts (SE-01) arrive in the pilot, for the signed-in chat and saved areas (postcodes and councils) only. Saved homes, costs, questions, compare-homes and "what changed" for a home still wait for the home workspace.
+
+**Note, 19 Nov 2026 ([0060](0060-pilot-foundation-hosting-and-database.md), accepted by the founder):** Vestagraph's address is proxied through Cloudflare, which keeps its own request analytics with visitors' IP addresses (no postcodes, since they never travel in the URL path or query string) for about 31 days on the free plan. The founder chose "Accept, name it, keep none (Recommended)": the rule above covers our own server, Caddy and application logs, which stay free of IP addresses; Cloudflare is a named processor in the privacy notice, and we never export or copy its logs.

@@ -77,7 +77,7 @@ Hosting is **cost first** (decision 0022): free options first, then the founder'
 
 - Set **budget alerts** on every paid service before deploying anything, and a hard cap on model spend per day.
 - Host the fixture-only demo on a **free** option, and the API and workers on the **existing server** where possible; if a paid cloud service is needed, prefer one that scales to zero.
-- Run **PostgreSQL with PostGIS** on the existing server before paying for a managed database, and use **pgvector in PostgreSQL** before any paid search service, until needs justify more.
+- Run **PostgreSQL with PostGIS** on the existing server before paying for a managed database (*19 Nov 2026: for the pilot, the founder chose Neon, a managed database, decision [0060](../decisions/0060-pilot-foundation-hosting-and-database.md)*), and use **pgvector in PostgreSQL** before any paid search service, until needs justify more.
 - Pick the **cheapest model that passes the evaluation suite** for each task; cache extraction results per document version.
 - Use **open data and synthetic fixtures** first. Add a paid address or routing provider only when a slice needs it, and record its terms.
 - Run ingestion as **scheduled batch jobs**, not always-on services.

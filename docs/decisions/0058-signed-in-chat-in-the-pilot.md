@@ -167,3 +167,5 @@ Scenario IDs: the plan's rule replaces "keeping their IDs" in "What this changes
 - A dropped connection on our side does not count, and Retry counts only if the answer completes.
 - The 15 messages are counted in one atomic step per account.
 - *16 Nov 2026 (final review of the specifications):* a signed-out or revoked session is refused on every API request, reads as well as writes: the API checks that the session still exists, not only the token (AUTH-24, AUTH-25, AUTH-27; one database lookup per request); and an answer the user stops counts toward the 15, because the model was used (WCHAT-108). *18 Nov 2026: approved by the founder (prompt window, "Keep all (Recommended)").*
+
+- *19 Nov 2026 ([0060](0060-pilot-foundation-hosting-and-database.md), accepted by the founder):* hosting and the database are decided: the app on the founder's server in Germany, the database on Neon (Frankfurt), one database with separate schemas as above. Neon's 7-day history keeps deleted data for up to 7 days, so deletions complete after that (for the privacy work, SE-02).
