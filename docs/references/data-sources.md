@@ -50,6 +50,7 @@ OGL = Open Government Licence v3.0 (allows commercial reuse with attribution). R
 **Not established by any source here:** that a home is safe, sound or good value, or that a figure applies to one specific flat (rules 1, 4). Every card must show origin, date and coverage (doc 02 §6).
 
 ### postcodes.io
+- **Dated note, 20 Nov 2026:** the pilot does not use postcodes.io; it loads its own copy of the ONS Postcode Directory quarterly ([0061](../decisions/0061-pilot-data-pipeline-postcodes-and-walking-times.md), DA-06), so searches never leave our systems. The notes below are kept as the record of the earlier research.
 - Official: [licences](https://api.postcodes.io/docs/licences) (checked 11 Nov 2026). The `/about` page returned 404, so the fair-use text was not found; a search found no official numeric rate limit (unverified).
 - Code is MIT. GB data "may be used under the terms of the OS OpenData licence". Postcodes starting BT follow the ONSPD licence: "Non-commercial use is free. Commercial use requires a licence from NI Land & Property Services."
 - Attribution requested: Ordnance Survey, Royal Mail, National Statistics and NRS notices ("Contains Ordnance Survey data (c) Crown copyright and database right 2025", and similar).
@@ -193,7 +194,7 @@ The ranking is a planning judgement, not a measured fact, and the founder can re
 
 | # | Wave | What the customer gets | Source | Importance | Ease | Notes |
 |---|---|---|---|---|---|---|
-| 1 | 0 Foundation | Correct area for every lookup | postcodes.io (postcode to coordinates, council, area codes) | Prerequisite | Easy (fair-use limit unverified) | Needed by crime, schools, stops, flood and amenities |
+| 1 | 0 Foundation | Correct area for every lookup | Our own copy of the ONS Postcode Directory (postcode to coordinates, council, area codes; postcodes.io until 0061, 20 Nov 2026) | Prerequisite | Easy (fair-use limit unverified) | Needed by crime, schools, stops, flood and amenities |
 | 2 | 2 (needed for per-home data only) | The exact home ("Flat 5, not the building") | Licensed address provider (DA-06) | High | Hard (paid) | Not needed for area data: the first real release uses the postcode the user types (#1), and the user confirms their own unit. Needed for energy certificates, per-home sale history and autocomplete. England has free identifiers (OS Open UPRN) but no free address list |
 | 3 | 1 | Transport stops nearby | NaPTAN | High (both) | Easy | Stops only; journey times are #13 |
 | 4 | 1 | Schools nearby (type, phase) | DfE Get Information about Schools | High (families) | Easy (downloads) | Inspection results are #10 |
