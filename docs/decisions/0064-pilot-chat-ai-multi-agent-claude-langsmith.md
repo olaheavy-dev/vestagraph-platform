@@ -25,4 +25,4 @@ The founder's choices, 20 Nov 2026, in prompt windows unless marked typed:
 - Simple questions stay cheap; comparisons carry the multi-agent showcase and its cost, limited by the 3-message count, the 3-area limit and the £25 cap.
 - Chat text leaves the UK to Anthropic (US or global), named in the Privacy notice, the DPIA and the consent statement; LangChain (Netherlands, with US billing data) receives only words-free traces of real chats and is named as a processor.
 - A small table, a daily delete job and saved queries are added to the build for real chats' words.
-- **Revisit if** the AI-03 results show Haiku isn't good enough for a role, the cap is reached often, LangChain refuses the opt-out, or the trial shows the team adds no value over one agent.
+- **Revisit if** the AI-03 results show Haiku isn't good enough for a role, the cap is reached often, LangChain's terms change, or the trial shows the team adds no value over one agent.

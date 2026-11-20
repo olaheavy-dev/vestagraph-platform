@@ -120,7 +120,7 @@ The shared parts (classifier, tools, cost counter, scrubbing, code figure check,
 
 ## What this changes in the records
 - **New decision 0064 (AI-16).** Register: AI-01 (Anthropic), AI-04 (the flow's shape; framework still after AI-09), AI-09 (the trial task), AI-03 (runner, classifier cases), IN-05 (£25), a new line approving `anthropic` and `langsmith`.
-- **0063** is amended: traces are kept 14 days in LangSmith (Netherlands), not 30; the consent statement and Privacy notice name Anthropic (US or global processing, up to 30 days, flagged content up to 2 years) and LangChain (training wording until the opt-out is confirmed).
+- **0063** is amended: traces are kept 14 days, not 30: real chats' words in our own Neon table, words-free traces in LangSmith (Netherlands); the consent statement and Privacy notice name Anthropic (US or global processing, deleted within 30 days, flagged content up to 2 years) and LangChain as a processor of words-free trace data.
 - **Status file** updated.
 
 ## What is left
