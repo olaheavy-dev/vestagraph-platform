@@ -1,7 +1,7 @@
 # Stage 5b: the anonymous chat's design step: design
 
 **Date:** 21 Nov 2026  
-**Status:** Draft for the founder's approval  
+**Status:** Approved (founder, 21 Nov 2026, prompt window: "Approve (Recommended)")  
 **Follows:** [0063](../../decisions/0063-pilot-privacy-and-anonymous-chat-first.md) ("What is left": a design step for the anonymous chat's screens) and [0064](../../decisions/0064-pilot-chat-ai-multi-agent-claude-langsmith.md) (the chat's AI).  
 **Next:** the design review for UI work (`design-reviewer`, AGENTS.md step 1b), then the plan (`writing-plans`).
 
