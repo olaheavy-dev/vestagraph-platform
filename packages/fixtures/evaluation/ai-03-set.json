@@ -1,6 +1,6 @@
 {
   "$schema": "../schema/ai-03-set.schema.json",
-  "description": "The AI-03 evaluation set, version 2. Quoted text comes from packages/fixtures/data/ and generated/; synthetic sample data only.",
+  "description": "The AI-03 evaluation set, version 3. Quoted text comes from packages/fixtures/data/ and generated/; synthetic sample data only.",
   "version": 3,
   "cases": [
     {
@@ -11428,8 +11428,7 @@
       "kind": "quality",
       "shape": "model",
       "tests": [
-        "WCHAT-86",
-        "WCHAT-52"
+        "WCHAT-86"
       ],
       "measures": [
         "tool_call_accuracy",
@@ -11552,7 +11551,7 @@
         "numbersFrom": "tool-results-only",
         "replyKind": "compare"
       },
-      "notes": "Compare NB1 4XY, NB7 1RR and NB9 9ZZ. Three areas is the most the team takes (decision 0064, which counts the comparison as up to 3 messages, WCHAT-143). DATA GAP: the sample data holds only two covered postcodes, so the third is the unknown postcode; the answer compares the two found areas, says the third wasn't found (WCHAT-36) and shows no facts for it. A third covered postcode is a fixture to add."
+      "notes": "Compare NB1 4XY, NB7 1RR and NB9 9ZZ. Three areas is the most the team takes (decision 0064, its first point); no scenario states that limit yet, which the FE-87 follow-up issue adds. WCHAT-143 is cited only for the message count (a comparison counts as up to 3 messages). DATA GAP: the sample data holds only two covered postcodes, so the third is the unknown postcode; the answer compares the two found areas, says the third wasn't found (WCHAT-36) and shows no facts for it. A third covered postcode is a fixture to add."
     },
     {
       "id": "CHAT-COMPARE-COUNCILPAIR-01",
@@ -11619,7 +11618,7 @@
         "numbersFrom": "tool-results-only",
         "replyKind": "compare"
       },
-      "notes": "Compare Eastmere and Westmere councils side by side. A second council pair, from the district tier (the first pair is the unitary councils). Each side has its own level and source stamp; one council's population has no record in the source, so that side says so and is never shown as zero. No verdict words and no difference worked out."
+      "notes": "Compare Eastmere and Westmere councils side by side. A second council pair, from the district tier (the first pair is the unitary councils). Each side has its own level and source stamp; one council's population has no record in the source, so that side says so. No verdict words and no difference worked out."
     },
     {
       "id": "CHAT-COMPARE-SPARSE-01",
@@ -12150,7 +12149,7 @@
         ],
         "numbersFrom": "tool-results-only"
       },
-      "notes": "Compare NB1 4XY, NB7 1RR, NB9 9ZZ and ZZ4 4ZZ. Four areas is over the limit of 3 (decision 0064, point 1). The answer says at most 3 areas can be compared, asks which to keep, and makes no tool call and shows no facts, not even for the first three. DATA GAP: no scenario states the 3-area limit yet (WCHAT-54 still says a third area asks which side to replace and the table stays at two); the fixed wording of the refusal is not approved, so no mustInclude. To raise with the specification owner.",
+      "notes": "Compare NB1 4XY, NB7 1RR, NB9 9ZZ and ZZ4 4ZZ. Four areas is over the limit of 3 (decision 0064, its first point). The answer says at most 3 areas can be compared, asks which to keep, and makes no tool call and shows no facts, not even for the first three. DATA GAP: no scenario states the 3-area limit yet (WCHAT-54 still says a third area asks which side to replace and the table stays at two); the fixed wording of the refusal is not approved, so no mustInclude. Raised in the FE-87 follow-up issue, which redoes WCHAT-54 and the boards for up to three areas.",
       "examples": {
         "pass": [
           "I can compare at most three areas at a time. Please tell me which three of NB1 4XY, NB7 1RR, NB9 9ZZ and ZZ4 4ZZ you want.",
