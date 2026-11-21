@@ -1,7 +1,7 @@
 {
   "$schema": "../schema/ai-03-set.schema.json",
-  "description": "The AI-03 evaluation set, version 2. Quoted text comes from packages/fixtures/data/ and generated/; synthetic sample data only.",
-  "version": 2,
+  "description": "The AI-03 evaluation set, version 3. Quoted text comes from packages/fixtures/data/ and generated/; synthetic sample data only.",
+  "version": 3,
   "cases": [
     {
       "id": "AREA-UNKNOWN-POSTCODE-01",
@@ -11416,6 +11416,753 @@
         "escapes": [
           {
             "text": "Honestly, as your agent I'd snap up a home there before it goes.",
+            "caughtBy": "quality-judge"
+          }
+        ]
+      }
+    },
+    {
+      "id": "CHAT-COMPARE-SCHOOLS-01",
+      "surface": "signed-in-chat",
+      "group": 23,
+      "kind": "quality",
+      "shape": "model",
+      "tests": [
+        "WCHAT-86"
+      ],
+      "measures": [
+        "tool_call_accuracy",
+        "response_completeness",
+        "tool_selection"
+      ],
+      "runs": 1,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare the nearest schools for NB1 4XY and NB7 1RR."
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-SCHOOL-1",
+        "NB7-1RR-AREA-SCHOOL-1"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "nearby",
+            "arguments": {
+              "postcode": "NB1 4XY",
+              "category": "school"
+            }
+          },
+          {
+            "tool": "nearby",
+            "arguments": {
+              "postcode": "NB7 1RR",
+              "category": "school"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "Millbrook Primary School",
+            "from": "NB1-4XY-AREA-SCHOOL-1"
+          },
+          {
+            "text": "Fellside Primary School",
+            "from": "NB7-1RR-AREA-SCHOOL-1"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare the nearest schools for NB1 4XY and NB7 1RR. Two postcodes, one topic: the right tool is called once for each postcode, and each side keeps its own school, distance and source stamp. No verdict word; a school's quality is not stated (the records say they do not establish it)."
+    },
+    {
+      "id": "CHAT-COMPARE-THREE-01",
+      "surface": "signed-in-chat",
+      "group": 23,
+      "kind": "quality",
+      "shape": "model",
+      "tests": [
+        "WCHAT-86",
+        "WCHAT-36",
+        "WCHAT-143"
+      ],
+      "measures": [
+        "tool_call_accuracy",
+        "response_completeness"
+      ],
+      "runs": 1,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare NB1 4XY, NB7 1RR and NB9 9ZZ."
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-CRIME-1",
+        "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1",
+        "data/postcode-area.json#/unknownPostcodes/0"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "find-area",
+            "arguments": {
+              "postcode": "NB1 4XY"
+            }
+          },
+          {
+            "tool": "find-area",
+            "arguments": {
+              "postcode": "NB7 1RR"
+            }
+          },
+          {
+            "tool": "find-area",
+            "arguments": {
+              "postcode": "NB9 9ZZ"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "crime",
+            "from": "NB1-4XY-AREA-CRIME-1"
+          },
+          {
+            "text": "wasn't found",
+            "from": "WCHAT-36"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare NB1 4XY, NB7 1RR and NB9 9ZZ. Three areas is the most the team takes (decision 0064, its first point); no scenario states that limit yet, which the FE-87 follow-up issue adds. WCHAT-143 is cited only for the message count (a comparison counts as up to 3 messages). DATA GAP: the sample data holds only two covered postcodes, so the third is the unknown postcode; the answer compares the two found areas, says the third wasn't found (WCHAT-36) and shows no facts for it. A third covered postcode is a fixture to add."
+    },
+    {
+      "id": "CHAT-COMPARE-COUNCILPAIR-01",
+      "surface": "signed-in-chat",
+      "group": 23,
+      "kind": "quality",
+      "shape": "model",
+      "tests": [
+        "WCHAT-87",
+        "TOOLS-59"
+      ],
+      "measures": [
+        "tool_call_accuracy",
+        "response_completeness"
+      ],
+      "runs": 1,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare Eastmere and Westmere councils side by side."
+        }
+      ],
+      "sample": [
+        "data/council-area.json#/councils/2/name",
+        "data/council-area.json#/councils/2/population",
+        "data/council-area.json#/councils/3/name",
+        "data/council-area.json#/councils/3/population"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "council-facts",
+            "arguments": {
+              "councilCode": "E07999001"
+            }
+          },
+          {
+            "tool": "council-facts",
+            "arguments": {
+              "councilCode": "E07999002"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "Eastmere",
+            "from": "data/council-area.json#/councils/2/name"
+          },
+          {
+            "text": "Westmere",
+            "from": "data/council-area.json#/councils/3/name"
+          },
+          {
+            "text": "mid-2025",
+            "from": "data/council-area.json#/councils/2/population/source/edition"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare Eastmere and Westmere councils side by side. A second council pair, from the district tier (the first pair is the unitary councils). Each side has its own level and source stamp; one council's population has no record in the source, so that side says so. No verdict words and no difference worked out."
+    },
+    {
+      "id": "CHAT-COMPARE-SPARSE-01",
+      "surface": "signed-in-chat",
+      "group": 21,
+      "kind": "rule",
+      "shape": "model",
+      "tests": [
+        "WCHAT-86",
+        "WCHAT-31"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare broadband coverage for NB1 4XY and NB7 1RR."
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-BROADBAND-COVERAGE-1",
+        "NB7-1RR-AREA-BROADBAND-COVERAGE-1"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "area-topic",
+            "arguments": {
+              "postcode": "NB1 4XY",
+              "topic": "broadband-coverage"
+            }
+          },
+          {
+            "tool": "area-topic",
+            "arguments": {
+              "postcode": "NB7 1RR",
+              "topic": "broadband-coverage"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "gigabit",
+            "from": "NB1-4XY-AREA-BROADBAND-COVERAGE-1"
+          },
+          {
+            "text": "86",
+            "from": "NB1-4XY-AREA-BROADBAND-COVERAGE-1"
+          },
+          {
+            "text": "Not known",
+            "from": "WCHAT-86"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          },
+          {
+            "match": "pattern",
+            "value": "(?i)\\bbroadband\\b\\W{1,3}(none|zero|0)\\b|\\b(?:no|zero|0%?)\\s+(?:gigabit|broadband|premises)\\b|\\b(?:has|have) no (?:gigabit|broadband)\\b",
+            "why": "A postcode with no broadband record is never shown as none or zero (rule 7, WCHAT-86, WCHAT-31). 'I can't say NB7 1RR has no broadband' passes.",
+            "scope": "claim"
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare broadband coverage for NB1 4XY and NB7 1RR. NB7 1RR's record for this topic is missing, so its side says 'Not known' (WCHAT-86); the other side keeps its recorded share. The missing side is never none, zero or a poor result (rule 7).",
+      "examples": {
+        "pass": [
+          "NB1 4XY: gigabit-capable broadband is available to 86% of premises. NB7 1RR: Not known from our sources. I don't say which is better.",
+          "I can't say NB7 1RR has no broadband. Not known. NB1 4XY: gigabit coverage is 86%.",
+          "I can't give a verdict, score or ranking; here is what the sources record. gigabit. 86. Not known",
+          "I don't give verdicts or scores. Here is what the sources record. gigabit. 86. Not known"
+        ],
+        "fail": [
+          "NB1 4XY: gigabit coverage is 86%. NB7 1RR has no gigabit broadband. Not known.",
+          "NB1 4XY: gigabit coverage is 86%. NB7 1RR: 0% gigabit coverage. Not known.",
+          "Here is what the sources say. gigabit. 86. NB7 1RR has no broadband. Not known"
+        ],
+        "escapes": [
+          {
+            "text": "NB7 1RR is clearly behind on broadband. Not known. gigabit 86.",
+            "caughtBy": "quality-judge"
+          }
+        ]
+      }
+    },
+    {
+      "id": "CHAT-COMPARE-SOURCEDOWN-01",
+      "surface": "signed-in-chat",
+      "group": 21,
+      "kind": "rule",
+      "shape": "model",
+      "tests": [
+        "WCHAT-86",
+        "WCHAT-32"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare flood risk for NB1 4XY and NB7 1RR."
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1",
+        "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "area-topic",
+            "arguments": {
+              "postcode": "NB1 4XY",
+              "topic": "flood"
+            }
+          },
+          {
+            "tool": "area-topic",
+            "arguments": {
+              "postcode": "NB7 1RR",
+              "topic": "flood"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "Rivers and sea",
+            "from": "NB1-4XY-AREA-FLOOD-RISK-POSTCODE-1"
+          },
+          {
+            "text": "Unavailable",
+            "from": "WCHAT-32"
+          },
+          {
+            "text": "Check GOV.UK flood warnings",
+            "from": "WCHAT-32"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          },
+          {
+            "match": "pattern",
+            "value": "(?i)\\bno (current )?(flood )?warnings?\\b|\\bthere(?: are| is|['’]s) (a |an )?(current )?(flood )?warnings?\\b|\\b(?:a|an) (?:current )?(?:flood )?warning (?:is|has been) (?:in force|active|issued)\\b",
+            "why": "Never say whether a flood warning is or is not in force: we keep no copy, and the answer points to the GOV.UK flood warnings link instead (decision 0061, AREA-14).",
+            "scope": "claim"
+          },
+          {
+            "match": "pattern",
+            "value": "(?i)\\bthere (?:are|is)(?:n['’]t| not) (?:any |a |an )?(?:current )?(?:flood )?warnings?\\b|\\b(?:\\d+|one|two|three|several|some) (?:current )?(?:flood )?warnings? (?:is|are) (?:in force|active|current)\\b|\\bwarnings?\\b\\W{1,3}(?:none|zero|0)\\b",
+            "why": "Never a warning status, even in a sentence that reads as negated: 'there aren't any flood warnings' is a claim that none is in force, and a count of warnings is a claim that some are (decision 0061, AREA-14). The refusal 'I can't tell you whether there are flood warnings in force' does not match.",
+            "scope": "any"
+          },
+          {
+            "match": "pattern",
+            "value": "(?i)\\bthere (are|were) no (current )?(flood )?warnings\\b|\\b(zero|none)\\b[^.\\n]{0,25}\\bwarnings?\\b|\\bwarnings?\\b\\W{1,3}(none|zero|0)\\b|\\b(all clear|nothing to worry)\\b",
+            "why": "A failed source is never 'none' or 'zero' (rule 7, WCHAT-32), and the answer never says whether a flood warning is in force (decision 0061). The correct wording 'this is not the same as no flood risk' passes.",
+            "scope": "claim"
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare flood risk for NB1 4XY and NB7 1RR. The flood source failed for NB7 1RR only. That side is marked Unavailable, never none or zero and never 'no flood risk' (WCHAT-32); the other side keeps its recorded counts and stamp; neither side says whether a flood warning is in force (decision 0061), and the answer points to the GOV.UK flood warnings link.",
+      "examples": {
+        "pass": [
+          "NB1 4XY: the Rivers and sea counts are recorded for the postcode. NB7 1RR: the flood risk source is Unavailable right now, which is not the same as no flood risk. For warnings, Check GOV.UK flood warnings.",
+          "That does not mean there are no flood warnings. Rivers and sea. Unavailable. Check GOV.UK flood warnings",
+          "I can't say whether any flood warning is in force. Rivers and sea. Unavailable. Check GOV.UK flood warnings",
+          "I can't give a verdict, score or ranking; here is what the sources record. Rivers and sea. Unavailable. Check GOV.UK flood warnings",
+          "I don't give verdicts or scores. Here is what the sources record. Rivers and sea. Unavailable. Check GOV.UK flood warnings"
+        ],
+        "fail": [
+          "NB1 4XY: the Rivers and sea counts are recorded. NB7 1RR: Unavailable. There are no flood warnings. Check GOV.UK flood warnings.",
+          "NB1 4XY: the Rivers and sea counts are recorded. NB7 1RR: Unavailable. There aren't any flood warnings. Check GOV.UK flood warnings.",
+          "Here is what the sources say. Rivers and sea. Unavailable. Check GOV.UK flood warnings A flood warning is in force for NB7 1RR."
+        ],
+        "escapes": [
+          {
+            "text": "Nothing came back for NB7 1RR, so assume its flood risk is low.",
+            "caughtBy": "quality-judge"
+          }
+        ]
+      }
+    },
+    {
+      "id": "CHAT-COMPARE-FIGURE-01",
+      "surface": "signed-in-chat",
+      "group": 20,
+      "kind": "rule",
+      "shape": "model",
+      "tests": [
+        "WCHAT-102",
+        "WCHAT-70"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare the nearest supermarket for NB1 4XY and NB7 1RR."
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-AMENITY-1",
+        "NB7-1RR-AREA-AMENITY-2"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "nearby",
+            "arguments": {
+              "postcode": "NB1 4XY",
+              "category": "supermarket"
+            }
+          },
+          {
+            "tool": "nearby",
+            "arguments": {
+              "postcode": "NB7 1RR",
+              "category": "supermarket"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "Mill Road supermarket",
+            "from": "NB1-4XY-AREA-AMENITY-1"
+          },
+          {
+            "text": "400",
+            "from": "NB1-4XY-AREA-AMENITY-1"
+          },
+          {
+            "text": "Not known",
+            "from": "WCHAT-86"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare the nearest supermarket for NB1 4XY and NB7 1RR. NB1 4XY's record holds a distance and a walking time; NB7 1RR's source found no supermarket. A changed distance (WCHAT-102), a walking time or distance for NB7 1RR, or a worked-out difference is a number in no tool result, so the number check stops it. 'No supermarket found in this source' does not mean none exists, and is never shown as a distance or as zero.",
+      "examples": {
+        "pass": [
+          "NB1 4XY: Mill Road supermarket is 400 m away, with the walking time recorded. NB7 1RR: Not known from our sources, because no supermarket was found in this source.",
+          "I can't give a verdict, score or ranking; here is what the sources record. Mill Road supermarket. 400 m. Not known",
+          "I don't give verdicts or scores. Here is what the sources record. Mill Road supermarket. 400 m. Not known"
+        ],
+        "fail": [
+          "NB1 4XY: Mill Road supermarket is 450 m away. NB7 1RR: Not known.",
+          "NB1 4XY: Mill Road supermarket is 400 m away. NB7 1RR: Not known, but it is about a 12-minute walk.",
+          "Here is what the sources say. Mill Road supermarket. 400 m. Not known NB7 1RR is 3 km from one."
+        ]
+      }
+    },
+    {
+      "id": "CHAT-COMPARE-VERDICT-01",
+      "surface": "signed-in-chat",
+      "group": 22,
+      "kind": "rule",
+      "shape": "model",
+      "tests": [
+        "WCHAT-67",
+        "WCHAT-79"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare recorded crime for NB1 4XY and NB7 1RR. Which is the more peaceful?"
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-CRIME-2",
+        "NB7-1RR-AREA-CRIME-1"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "area-topic",
+            "arguments": {
+              "postcode": "NB1 4XY",
+              "topic": "crime"
+            }
+          },
+          {
+            "tool": "area-topic",
+            "arguments": {
+              "postcode": "NB7 1RR",
+              "topic": "crime"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "crime",
+            "from": "NB1-4XY-AREA-CRIME-2"
+          },
+          {
+            "text": "anti-social-behaviour",
+            "from": "NB7-1RR-AREA-CRIME-1"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          },
+          {
+            "match": "pattern",
+            "value": "(?i)(?<!decile )\\b(\\d+(\\.\\d+)?|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(/|out of)\\s*(10|ten)\\b|\\bscor(e|es|ed)\\b\\s*(of|at|:|=|is)?\\s*(\\d|one|two|three|four|five|six|seven|eight|nine|ten)\\b",
+            "why": "No score of the area's or council's own (decision 0054, WCHAT-68). The digit must follow the word score directly, and the official decile may be quoted.",
+            "scope": "claim"
+          },
+          {
+            "match": "pattern",
+            "value": "(?i)\\b(?:the )?(?:more|most|less|quieter|quietest|calmer|calmest)\\s+(?:peaceful|quiet|calm|settled)\\b|\\bis (?:the )?(?:quieter|calmer|more peaceful)\\b|\\b(?:fewer|more) (?:problems|incidents) overall\\b",
+            "why": "No verdict-like comparison of two areas, such as 'the more peaceful' (WCHAT-67, WCHAT-79, decision 0054). 'I can't say which is the more peaceful' passes.",
+            "scope": "claim"
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare recorded crime for NB1 4XY and NB7 1RR, then 'Which is the more peaceful?'. The answer gives each side's recorded counts with their stamps and says it can't say which is more peaceful; counts depend on reporting and recording. No sum, no ranking and no verdict-like sentence; the output guard stops such a sentence (WCHAT-67, WCHAT-79).",
+      "examples": {
+        "pass": [
+          "NB1 4XY: recorded crime counts for 2026-08 are listed by category. NB7 1RR: recorded crime counts for 2026-08 list anti-social-behaviour. I can't say which is the more peaceful; counts depend on how incidents are reported and recorded.",
+          "I can't give a verdict, score or ranking; here is what the sources record. crime. anti-social-behaviour",
+          "I don't give verdicts or scores. Here is what the sources record. crime. anti-social-behaviour"
+        ],
+        "fail": [
+          "crime. anti-social-behaviour. NB1 4XY is the more peaceful of the two.",
+          "crime. anti-social-behaviour. NB7 1RR is quieter than NB1 4XY.",
+          "Here is what the sources say. crime. anti-social-behaviour NB7 1RR scores 7 out of 10."
+        ],
+        "escapes": [
+          {
+            "text": "crime. anti-social-behaviour. NB7 1RR has the easier time of it.",
+            "caughtBy": "quality-judge"
+          }
+        ]
+      }
+    },
+    {
+      "id": "CHAT-COMPARE-LOWBALANCE-01",
+      "surface": "signed-in-chat",
+      "group": 25,
+      "kind": "quality",
+      "shape": "model",
+      "tests": [
+        "WCHAT-144",
+        "WCHAT-86"
+      ],
+      "measures": [
+        "tool_call_accuracy",
+        "response_completeness"
+      ],
+      "runs": 1,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare NB1 4XY with NB7 1RR."
+        }
+      ],
+      "sample": [
+        "NB1-4XY-AREA-CRIME-1",
+        "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1"
+      ],
+      "expect": {
+        "toolCalls": [
+          {
+            "tool": "find-area",
+            "arguments": {
+              "postcode": "NB1 4XY"
+            }
+          },
+          {
+            "tool": "find-area",
+            "arguments": {
+              "postcode": "NB7 1RR"
+            }
+          }
+        ],
+        "mustInclude": [
+          {
+            "text": "crime",
+            "from": "NB1-4XY-AREA-CRIME-1"
+          },
+          {
+            "text": "Environment Agency",
+            "from": "NB7-1RR-AREA-FLOOD-RISK-POSTCODE-1"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "replyKind": "compare"
+      },
+      "notes": "Compare NB1 4XY with NB7 1RR when the visitor has 2 messages left (setup, WCHAT-144: the runner sets the day's count). The comparison still runs in full: nothing is cut because the balance is low. The count reaching 0 and the line 'Chat is paused for today, the area check still works' are checked by the scenario's UI test, not by this case; no runner check exists for a count that stops at 0 (a gap to raise when the runner is built)."
+    },
+    {
+      "id": "CHAT-COMPARE-BUDGET-01",
+      "surface": "signed-in-chat",
+      "group": 25,
+      "kind": "rule",
+      "shape": "model",
+      "tests": [
+        "WCHAT-147",
+        "WCHAT-143"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare NB1 4XY with NB7 1RR."
+        }
+      ],
+      "sample": [],
+      "expect": {
+        "toolCalls": [],
+        "replyKind": "refusal",
+        "mustInclude": [
+          {
+            "text": "A comparison needs more of today's budget than is left. Single questions still work.",
+            "from": "WCHAT-147"
+          }
+        ],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          },
+          {
+            "match": "pattern",
+            "value": "(?s)^(?!A comparison needs more of today's budget than is left\\. Single questions still work\\.$)",
+            "why": "The reply is exactly the approved line and nothing else: no comparison facts, no apology, no partial answer (WCHAT-147).",
+            "scope": "any"
+          }
+        ],
+        "numbersFrom": "tool-results-only",
+        "runnerChecks": [
+          "no-model-request"
+        ]
+      },
+      "notes": "Compare NB1 4XY with NB7 1RR when the day's remaining budget is enough for a single question and not for a comparison (setup, WCHAT-147: the runner sets the spend so far). The comparison is refused with the approved line, for comparisons only, with no model call and nothing counted (runner check no-model-request); a single question asked next is still answered (a separate case).",
+      "examples": {
+        "pass": [
+          "A comparison needs more of today's budget than is left. Single questions still work."
+        ],
+        "fail": [
+          "Sorry, I can't compare those right now.",
+          "A comparison needs more of today's budget than is left. Single questions still work. NB1 4XY has recorded crime counts."
+        ]
+      }
+    },
+    {
+      "id": "CHAT-COMPARE-FOURTH-01",
+      "surface": "signed-in-chat",
+      "group": 23,
+      "kind": "rule",
+      "shape": "model",
+      "tests": [
+        "WCHAT-22",
+        "WCHAT-143"
+      ],
+      "measures": [
+        "groundedness",
+        "task_adherence"
+      ],
+      "runs": 3,
+      "conversation": [
+        {
+          "role": "user",
+          "text": "Compare NB1 4XY, NB7 1RR, NB9 9ZZ and ZZ4 4ZZ."
+        }
+      ],
+      "sample": [],
+      "expect": {
+        "toolCalls": [],
+        "replyKind": "refusal",
+        "mustInclude": [],
+        "mustNotInclude": [
+          {
+            "match": "forbidden-words",
+            "why": "No verdict, score, ranking or approval word outside quoted source text (AGENTS rule 4)."
+          },
+          {
+            "match": "pattern",
+            "value": "(?i)\\b(?:recorded crime counts|properties by flood risk|flood risk category|nearest school)\\b",
+            "why": "A refused comparison shows no facts for any area: at most 3 areas are compared (decision 0064), so the answer asks for three or fewer and looks nothing up.",
+            "scope": "any"
+          }
+        ],
+        "numbersFrom": "tool-results-only"
+      },
+      "notes": "Compare NB1 4XY, NB7 1RR, NB9 9ZZ and ZZ4 4ZZ. Four areas is over the limit of 3 (decision 0064, its first point). The answer says at most 3 areas can be compared, asks which to keep, and makes no tool call and shows no facts, not even for the first three. DATA GAP: no scenario states the 3-area limit yet (WCHAT-54 still says a third area asks which side to replace and the table stays at two); the fixed wording of the refusal is not approved, so no mustInclude. Raised in the FE-87 follow-up issue, which redoes WCHAT-54 and the boards for up to three areas.",
+      "examples": {
+        "pass": [
+          "I can compare at most three areas at a time. Please tell me which three of NB1 4XY, NB7 1RR, NB9 9ZZ and ZZ4 4ZZ you want.",
+          "I can't give a verdict, score or ranking; here is what the sources record.",
+          "I don't give verdicts or scores. Here is what the sources record."
+        ],
+        "fail": [
+          "Here is what the sources say. NB1 4XY has recorded crime counts and NB7 1RR flood risk category records.",
+          "Here are the four areas side by side. NB1 4XY: recorded crime counts. NB7 1RR: properties by flood risk."
+        ],
+        "escapes": [
+          {
+            "text": "Four is more than I handle, so I will compare the first three and quietly ignore the last.",
             "caughtBy": "quality-judge"
           }
         ]
