@@ -115,6 +115,7 @@ Calls made in the sort (not in the design's lists): WCHAT-01, 03, 08, 11, 28, 83
 - "New chat" confirmation (WCHAT-158): "Start a new chat? This one isn't kept.", "Start new chat", "Cancel" (plan Global Constraints).
 - Changed lines of approved wording (21 Nov 2026): WCHAT-89 now ends "...and not the header controls, the composer or other messages" (was "the sidebar"); WCHAT-92 lists three full-page states (no signed-out state, no "sign in" action); WCHAT-109's example label is "Comparing…" (was "Saving…").
 - LAND-19's approved FAQ line, "...unless you sign in and save an area", is untrue in the pilot (no sign-in or Save). LAND-19 is not edited here; proposed replacement: "No. What you type, a postcode or a place name, is only used to show your result. We don’t keep it or link it to you." The founder decides.
+- The phone message box's placeholder, "Ask about a postcode…" (shortened from "Ask about a postcode or a council", which truncates at 390 px; the desktop text stays).
 - "Privacy notice, opens in a new tab" (WCHAT-164), the header disclaimer (WCHAT-08: messages kept 14 days, no personal or health details) and "Comparing…" (WCHAT-109's example).
 
 *Step 6, AI-03.* `packages/fixtures/evaluation/ai-03-set.json` (schema `packages/fixtures/schema/ai-03-set.schema.json`, `version` const 2, `additionalProperties: false`) has no status or scope field, so the file is unchanged. Nine cases cite moved scenarios: CHAT-STALE-01 (WCHAT-42), CHAT-STALE-02 (WCHAT-110), CHAT-SAVED-OWN-01 and CHAT-SAVED-OWN-02 (WCHAT-51, 93), CHAT-TOOLS-SAVED-COMPARE-01 (WCHAT-51, 52), CHAT-COMPARE-POSTCODES-01 (WCHAT-52, with WCHAT-86), CHAT-INJECT-SAVEDAREA-01 (WCHAT-51, with WCHAT-20), CHAT-SAVED-OTHERUSER-01 and CHAT-INJECT-SAVED-OTHERUSER-01 (WCHAT-51, 93). A `noticed` issue is for the main session to open.
@@ -139,7 +140,7 @@ Calls made in the sort (not in the design's lists): WCHAT-01, 03, 08, 11, 28, 83
 - [ ] **Step 3:** Dark twins; move the signed-in boards; add the entry points to the existing boards.
 - [ ] **Step 4:** Visual review in Chrome at 390 and 1440 px (`visual-reviewer`) and the competitor benchmark checklist; fix; re-check; record the canvas version in `chat.feature`'s header and write "As drawn" under this task.
 
-**As drawn (21 Nov 2026, canvas version 438; steps 1 to 3 done, step 4 (the visual review) is open).**
+**As drawn (21 Nov 2026, canvas version 439 after the visual-review fixes; steps 1 to 3 done, step 4 is in progress).**
 
 *New page "Pilot · Anonymous chat"*, light boards with a Dark twin each (the dark ones 8000 px to the right, as on the other pages). Every board carries the "Sample data: a made-up town" badge, uses 44 px targets, and quotes its lines from `chat.feature` or the sample data (NB1 4XY and NB7 1RR in `postcode-area.json`; the "1.5 miles" and "2.9 miles" in the compare table are the earlier signed-in board's display of 2,400 m and 4,600 m). The "Required states" header of `chat.feature` now maps each state to its board and frame.
 - `AnonChatDesktop` (1504 wide): NB1 4XY loaded, an answer with its Nearby card and source stamps, header with the AI badge, display control and "New chat", the side panel as a region, no sidebar.
@@ -150,11 +151,13 @@ Calls made in the sort (not in the design's lists): WCHAT-01, 03, 08, 11, 28, 83
 
 *Moved:* every "Pilot · Signed-in chat" board and note is now on "Home workspace (later)", below the existing boards (y from 20000), unchanged (the page of that name is gone, since it is empty). The teal note there says why.
 
-*Entry points added* (light and dark): "Ask about this area" with its AI badge on `MapDesktop` (the Nearby list), `MapPhone` (a 44 px icon button in the header, named "Ask about this area, AI"), `TopicPanelSchools` and `TopicSheets` (Schools); "Ask about this council" beside Share on `CouncilPage` and `CouncilPageDesktop`; the chat link "Ask about an area in the chat" beside the postcode box on `Landing` and `LandingPhone`. `AreaResult` and `AreaResultDesktop` already carried "Ask about this area" (no sign-in wording), so they are unchanged.
+*Entry points added* (light and dark): "Ask about this area" with its AI badge on `MapDesktop` (the Nearby list), `MapPhone` (a labelled 44 px pill under the filter row, "Ask about this area" with its AI badge), `TopicPanelSchools` and `TopicSheets` (Schools); "Ask about this council" beside Share on `CouncilPage` and `CouncilPageDesktop`; the chat link "Ask about an area in the chat" beside the postcode box on `Landing` and `LandingPhone`. `AreaResult` and `AreaResultDesktop` already carried "Ask about this area" (no sign-in wording), so they are unchanged.
+
+*Review fixes (version 439):* the consent desktop frames are tall enough for the card, all the suggested starts and the box; the phone message box says "Ask about a postcode…" (the desktop text is unchanged); the rate-limit line breaks after the separator; the notes say desktop frames are the app at 1440 px inside a 1504 px board and phones are 390 px. A headless-Chrome render of the touched frames and of all the entry-point boards showed each entry point visible, unclipped and at least 44 px tall.
 
 *Not drawn, and why:* "Ask more about this" (WCHAT-55, 105, 106, 56, 76, 77) on a topic panel: no pilot board has it, so it stays for a later pass; the source-failed and tool-failed states (WCHAT-31, 32) are unchanged on the earlier signed-in board; the guard-stopped sentence is never shown, by design; the consent receipt, the re-check that passes and "New chat" keeping the count are behaviour, not screens. Frame 11's cause line and several state titles ("This chat has reached its limit", "The chat needs JavaScript", "Back to the area result") are proposed wording for the copy review.
 
-*Proposed wording for the copy review* (not approved): the card's words, "Took too long", "This browser can't run the check", the header disclaimer, the daily-cap line, the step names, the 2-left lines, "Ask about an area in the chat" and the lines named above.
+*Proposed wording for the copy review* (not approved): the card's words, "Took too long", "This browser can't run the check", the header disclaimer, the phone placeholder "Ask about a postcode…", the daily-cap line, the step names, the 2-left lines, "Ask about an area in the chat" and the lines named above.
 
 ### Task 7: Records and pull request C
 
