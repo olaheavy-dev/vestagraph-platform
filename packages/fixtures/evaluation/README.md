@@ -26,7 +26,7 @@ Files in this folder:
 
 The set, the word list and the number rules share one version. Today it is **3**. A change to a case, a mark, the word list or the number rules is reviewed like code, and a change in meaning raises the version and adds a line below. The runner's report records the version it used.
 
-- **3** (21 Nov 2026, AI-09 trial design): comparison cases for the team (design section 4b), each with examples. They add ten model cases, all `CHAT-COMPARE-` (the two earlier compare cases are unchanged):
+- **3** (21 Nov 2026, AI-09 trial design): comparison cases for the team (design section 4b), each with examples. They add ten model cases, all `CHAT-COMPARE-` (the two earlier compare cases are unchanged): The word list's version field moves to 3 with the set (the words are unchanged).
   - quality: two postcodes on schools (SCHOOLS-01), three areas with one not found (THREE-01), a council pair (COUNCILPAIR-01), a comparison with 2 messages left (LOWBALANCE-01);
   - rule: a topic missing on one side (SPARSE-01), a source down on one side (SOURCEDOWN-01), a figure in no tool result (FIGURE-01), a verdict-like sentence (VERDICT-01), a comparison that does not fit the day's budget, with no model call (BUDGET-01), and a fourth area refused (FOURTH-01).
   - No rule, mark or word-list change. The word list and the number rules are unchanged; the version is shared.

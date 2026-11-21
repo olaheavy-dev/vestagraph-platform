@@ -19,7 +19,7 @@
       "type": "string"
     },
     "version": {
-      "const": 2
+      "const": 3
     },
     "sources": {
       "type": "array",
