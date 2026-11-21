@@ -53,3 +53,5 @@ What this allows, and its limits:
 Founder, 13 Nov 2026, asked in a prompt window: "Trial first (Recommended)". AI-09's short trial (Microsoft Agent Framework for Python against LangChain with LangGraph) runs at the start of the pilot's AI work, and its winner builds the chat (AI-04). The other option was the provider's own SDK behind a small interface, with the trial at stage 6.
 
 **Note, 16 Nov 2026 ([0058](0058-signed-in-chat-in-the-pilot.md), accepted by the founder 16 Nov 2026):** the chat returns to the pilot for signed-in users only. This record's chat launch blockers apply to it again, except that the bot check moves from the chat to sign-up and the email-link request; and "nothing is stored by us" no longer holds for signed-in users' chats, which are kept for 12 months after last use.
+
+**Note, 20 Nov 2026 ([0064](0064-pilot-chat-ai-multi-agent-claude-langsmith.md), accepted by the founder):** the provider is Anthropic: no training on our content, inputs deleted within 30 days; content flagged for abuse may be kept up to 2 years, which the founder accepted ("Keep Claude (Recommended)") and the Privacy notice states.
