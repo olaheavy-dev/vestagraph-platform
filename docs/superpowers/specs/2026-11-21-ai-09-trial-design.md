@@ -1,7 +1,7 @@
 # Stage 5b: the AI-09 framework trial: design
 
 **Date:** 21 Nov 2026  
-**Status:** Draft for the founder's approval  
+**Status:** Approved (founder, 21 Nov 2026, prompt window: "Approve (Recommended)")  
 **Follows:** [0064](../../decisions/0064-pilot-chat-ai-multi-agent-claude-langsmith.md) (the flow; design section 7, the trial), [0049](../../decisions/0049-back-to-python-final.md) item 9 (the trial runs in the founder's template), register lines AI-09 and AI-04.  
 **Next:** the plan (`writing-plans`), then the trial, then the founder's choice of framework (AI-04) and the framework packages' approval (0035).
 
