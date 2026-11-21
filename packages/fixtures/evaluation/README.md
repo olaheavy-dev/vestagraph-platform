@@ -24,8 +24,12 @@ Files in this folder:
 
 ## Version and changelog
 
-The set, the word list and the number rules share one version. Today it is **2**. A change to a case, a mark, the word list or the number rules is reviewed like code, and a change in meaning raises the version and adds a line below. The runner's report records the version it used.
+The set, the word list and the number rules share one version. Today it is **3**. A change to a case, a mark, the word list or the number rules is reviewed like code, and a change in meaning raises the version and adds a line below. The runner's report records the version it used.
 
+- **3** (21 Nov 2026, AI-09 trial design): comparison cases for the team (design section 4b), each with examples. They add ten model cases, all `CHAT-COMPARE-` (the two earlier compare cases are unchanged):
+  - quality: two postcodes on schools (SCHOOLS-01), three areas with one not found (THREE-01), a council pair (COUNCILPAIR-01), a comparison with 2 messages left (LOWBALANCE-01);
+  - rule: a topic missing on one side (SPARSE-01), a source down on one side (SOURCEDOWN-01), a figure in no tool result (FIGURE-01), a verdict-like sentence (VERDICT-01), a comparison that does not fit the day's budget, with no model call (BUDGET-01), and a fourth area refused (FOURTH-01).
+  - No rule, mark or word-list change. The word list and the number rules are unchanged; the version is shared.
 - **2** (20 Nov 2026, decision 0061): the pilot keeps no copy of live flood warnings, so the flood cases quote the approved row text and the GOV.UK flood warnings link, forbid any statement that a flood warning is or is not in force (AREA-FLOOD-01, AREA-FLOOD-02 and the chat cases that ask about flood warnings: CHAT-UNAVAILABLE-01, CHAT-GROUND-STAMP-01 and CHAT-NOTKNOWN-01; a claim-scoped pattern plus an any-scoped one for negative and counted forms such as 'there aren't any flood warnings'), and the cases that used the warning records now use the flood risk by postcode records. The word list and the number rules are unchanged; the version is shared.
 - **1** (19 Nov 2026): first set.
   - Must-not items are objects marked by code; stub channel `store-record`; `tool-result` stubs only in model cases.
