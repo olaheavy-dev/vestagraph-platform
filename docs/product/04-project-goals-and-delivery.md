@@ -75,7 +75,7 @@ Each step is a vertical slice that leaves a working, demonstrable product. It se
 
 Hosting is **cost first** (decision 0022): free options first, then the founder's existing server, and Azure or another paid service only where neither meets the need. Cost discipline is part of the portfolio story:
 
-- Set **budget alerts** on every paid service before deploying anything, and a hard cap on model spend per day. *20 Nov 2026: for the pilot's chat this is a monthly cap of £25 plus 15 messages per IP address per day ([0064](../decisions/0064-pilot-chat-ai-multi-agent-claude-langsmith.md)).*
+- Set **budget alerts** on every paid service before deploying anything, and a hard cap on model spend per day. *20 Nov 2026: for the pilot's chat this is a monthly cap of £25 plus 15 messages per IP address per day ([0064](../decisions/0064-pilot-chat-ai-multi-agent-claude-langsmith.md)); 21 Nov 2026: and a daily cap of £2.50, after which the chat pauses until midnight (founder: "Daily cap: £2.50 (Recommended)").*
 - Host the fixture-only demo on a **free** option, and the API and workers on the **existing server** where possible; if a paid cloud service is needed, prefer one that scales to zero.
 - Run **PostgreSQL with PostGIS** on the existing server before paying for a managed database (*19 Nov 2026: for the pilot, the founder chose Neon, a managed database, decision [0060](../decisions/0060-pilot-foundation-hosting-and-database.md)*), and use **pgvector in PostgreSQL** before any paid search service, until needs justify more.
 - Pick the **cheapest model that passes the evaluation suite** for each task; cache extraction results per document version.
