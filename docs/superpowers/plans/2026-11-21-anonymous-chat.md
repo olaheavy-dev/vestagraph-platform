@@ -19,7 +19,7 @@
 - Nothing about the chat on the device: no cookies, local storage, session storage or IndexedDB; no postcode or question in any address (0063, WCHAT-66, WCHAT-75).
 - The founder's name appears **only** in PR B's files (0065, the PRIV scenario naming the controller, the Privacy board), never in PR A or PR C.
 - Pause precedence: unavailable, monthly cap, daily cap, the visitor's own 15, rate limit, turn limit. Daily cap pauses when a day's spend reaches £2.50 (0064 point 5); monthly at 95% of £25; the daily cap resets at midnight Europe/London.
-- Settled here (agent's calls, left to the plan by the design): ALTCHA re-checks every **5** messages; the consent statement's version is a whole number starting at **1**, raised whenever the card's words change; "New chat" asks "Start a new chat? This one isn't kept." with "Start new chat" and "Cancel" (copy review); the browser's own leave-page warning shows while a conversation has at least one answer.
+- Settled here (agent's calls, left to the plan by the design): ALTCHA re-checks after every **5 sends** (before the 6th, 11th and so on; a comparison is one send); the consent statement's version is a whole number starting at **1**, raised whenever the card's words change; "New chat" asks "Start a new chat? This one isn't kept." with "Start new chat" and "Cancel" (copy review); the browser's own leave-page warning shows while a conversation has at least one answer.
 - Boards: pilot style (FE-29 to FE-33, FE-42), light first then dark twins (FE-31's slate ink), phone 390 px and desktop 1440 px, 44 px targets, "Sample data" on each board, postcodes from `packages/fixtures/data/postcode-area.json` (NB1 4XY, NB7 1RR).
 - Dated records (reviews, earlier plans and designs) are not edited; live documents are.
 - Commit prefix `docs:`; no agent attribution. `make check` before every push; a fresh-context Opus review (Code Review Rules) before every push, plus `code-security-reviewer` on PR B and `visual-reviewer` on PR C.
@@ -92,6 +92,34 @@
 - [ ] **Step 7:** `make test`. Expected: PASS (the runner parses both files; `@ui` deselected).
 - [ ] **Step 8:** Commit `docs: the chat specification for the anonymous chat`.
 
+**As done (21 Nov 2026).**
+
+*Step 1, the sort.* 111 scenarios: **54 kept**, **32 rewritten** (same numbers), **25 moved** unchanged to `chat-signed-in-later.feature`; **53 new** (WCHAT-112 to WCHAT-164). Check (step 5): no number appears twice as a `Scenario:` across the two files, and WCHAT-01 to WCHAT-164 each appear once.
+
+| Sort | Scenarios | Why |
+|---|---|---|
+| Kept (only "a signed-in user" became "a visitor", and "workspace page" became "chat page") | WCHAT-02, WCHAT-04 to WCHAT-05, WCHAT-09 to WCHAT-10, WCHAT-12 to WCHAT-22, WCHAT-30 to WCHAT-39, WCHAT-54, WCHAT-58, WCHAT-60 to WCHAT-62, WCHAT-65, WCHAT-67 to WCHAT-73, WCHAT-76, WCHAT-78 to WCHAT-82, WCHAT-84, WCHAT-86 to WCHAT-88, WCHAT-90 to WCHAT-91, WCHAT-99, WCHAT-102, WCHAT-108 | Streaming, guards, sources, widgets, injection, logs, limits at the server, accessibility, the fixed reply and its count. WCHAT-02, 04, 05 (side panel, modal sheet) and WCHAT-54, 86 to 88, 99 (widget actions) also need no account. |
+| Rewritten, same number | WCHAT-01, WCHAT-03, WCHAT-06, WCHAT-08, WCHAT-11, WCHAT-23 to WCHAT-29, WCHAT-55 to WCHAT-56, WCHAT-59, WCHAT-63, WCHAT-66, WCHAT-74 to WCHAT-75, WCHAT-77, WCHAT-83, WCHAT-85, WCHAT-89, WCHAT-92, WCHAT-95 to WCHAT-97, WCHAT-105 to WCHAT-107, WCHAT-109, WCHAT-111 | WCHAT-01, 03: no sidebar. WCHAT-06: the consent card first. WCHAT-08: the disclaimer says 14 days and no personal details, adds "New chat". WCHAT-11: a reload no longer reopens a chat. WCHAT-23 to 26, 95, 111, 74, 77, 29, 85: the count is per IP address, in memory. WCHAT-27, 28, 56: the pause on arrival, the fail-closed cases. WCHAT-55, 105, 106, 66: no sign-in. WCHAT-59, 63: kept 14 days in Neon, words-free in LangSmith. WCHAT-75: nothing in any browser storage. WCHAT-83, 89, 92, 96, 97, 107, 109: Save, Update, sidebar, signed-out state or account wording removed (WCHAT-109's example is now "Comparing…", the label wording approved on 18 Nov 2026 stands). |
+| Moved unchanged (text identical, same `@ui` tags, no new tag) | WCHAT-07, WCHAT-40 to WCHAT-53, WCHAT-57, WCHAT-64, WCHAT-93 to WCHAT-94, WCHAT-98, WCHAT-100 to WCHAT-101, WCHAT-103 to WCHAT-104, WCHAT-110 | Need an account (WCHAT-07, 93, 94), saved areas (WCHAT-47 to 53), past chats and history (WCHAT-40 to 46, 57, 64, 98, 100, 101, 103, 104, 110). The same set as the design's list; the sort adds none. |
+
+Calls made in the sort (not in the design's lists): WCHAT-01, 03, 08, 11, 28, 83, 85, 89, 92, 96, 97, 107 and 109 were rewritten because they still said sidebar, sign-in, saved areas, a stored chat or a signed-out state; the design's list did not name them. WCHAT-27 was rewritten to show the pause in place of the consent card, as design section 3 says.
+
+*Steps 3 and 4, the new scenarios* are WCHAT-112 to WCHAT-164: the consent card and the tap (WCHAT-112 to WCHAT-113, WCHAT-114, WCHAT-115 to WCHAT-119), the re-check (WCHAT-120, WCHAT-121), the receipt (WCHAT-122), the pauses (WCHAT-123 to WCHAT-127), the 15 pairs of the pause order (WCHAT-128 to WCHAT-142), comparisons (WCHAT-143 to WCHAT-147), progress (WCHAT-148, WCHAT-149), entry points (WCHAT-150 to WCHAT-153), the empty panel (WCHAT-154), "New chat" (WCHAT-155 to WCHAT-158), reload and leave-page (WCHAT-159, WCHAT-160), Back (WCHAT-161), focus and announcements (WCHAT-162, WCHAT-163) and the Privacy notice link (WCHAT-164).
+
+*Proposed wording for the copy review* (every other quoted text is approved or already in a record):
+- The consent card's words (WCHAT-112): the facts of design section 7, first point; the button "Agree and start chat", then "Checking…", then "Try again" with a cause ("took too long"; "this browser can't run the check").
+- Daily cap line, for everyone (WCHAT-124): "The chat has reached today's limit for everyone and is paused until midnight. The area check still works" (design section 3).
+- A comparison that doesn't fit the day's budget (WCHAT-147): "A comparison needs more of today's budget than is left. Single questions still work."
+- Compare actions with 3 or fewer left (WCHAT-145): "Uses up to 3 · N left today"; the line above the message box (WCHAT-146): "N left today · a comparison uses up to 3" (design section 3).
+- Progress steps (WCHAT-148): "Looked up NB1 4XY", "Looked up NB7 1RR", "Writing the comparison…", "Checking the figures" (design section 4).
+- "New chat" confirmation (WCHAT-158): "Start a new chat? This one isn't kept.", "Start new chat", "Cancel" (plan Global Constraints).
+- Changed lines of approved wording (21 Nov 2026): WCHAT-89 now ends "...and not the header controls, the composer or other messages" (was "the sidebar"); WCHAT-92 lists three full-page states (no signed-out state, no "sign in" action); WCHAT-109's example label is "Comparing…" (was "Saving…").
+- LAND-19's approved FAQ line, "...unless you sign in and save an area", is untrue in the pilot (no sign-in or Save). LAND-19 is not edited here; proposed replacement: "No. What you type, a postcode or a place name, is only used to show your result. We don’t keep it or link it to you." The founder decides.
+- The phone message box's placeholder, "Ask about a postcode…" (shortened from "Ask about a postcode or a council", which truncates at 390 px; the desktop text stays).
+- "Privacy notice, opens in a new tab" (WCHAT-164), the header disclaimer (WCHAT-08: messages kept 14 days, no personal or health details) and "Comparing…" (WCHAT-109's example).
+
+*Step 6, AI-03.* `packages/fixtures/evaluation/ai-03-set.json` (schema `packages/fixtures/schema/ai-03-set.schema.json`, `version` const 2, `additionalProperties: false`) has no status or scope field, so the file is unchanged. Nine cases cite moved scenarios: CHAT-STALE-01 (WCHAT-42), CHAT-STALE-02 (WCHAT-110), CHAT-SAVED-OWN-01 and CHAT-SAVED-OWN-02 (WCHAT-51, 93), CHAT-TOOLS-SAVED-COMPARE-01 (WCHAT-51, 52), CHAT-COMPARE-POSTCODES-01 (WCHAT-52, with WCHAT-86), CHAT-INJECT-SAVEDAREA-01 (WCHAT-51, with WCHAT-20), CHAT-SAVED-OTHERUSER-01 and CHAT-INJECT-SAVED-OTHERUSER-01 (WCHAT-51, 93). A `noticed` issue is for the main session to open.
+
 ### Task 5: Entry points and stale documents
 
 **Files:**
@@ -101,6 +129,8 @@
 - [ ] **Step 2:** Headers and live docs that still describe the signed-in chat in the pilot.
 - [ ] **Step 3:** `make test`. Expected: PASS. Commit `docs: chat entry points and stale sign-in references`.
 
+**As done (21 Nov 2026).** New entry-point scenarios: LAND-27 and LAND-28 (landing link, shown when paused), AREA-51 to AREA-53 (Check an area), NEAR-17 (Nearby and Nearby > Schools), CITY-114 (council page); the chat's own are WCHAT-150 to WCHAT-153. Pointers and stale statements fixed in: `sign-in.feature` and `account.feature` (headers: kept for later, 0063), `area-topics.feature` (TOPIC-24 comment), `area-tools.feature`, `report-a-problem.feature` (REPORT-05, REPORT-08, header), `area-card.feature` and `area-chat.feature` (pointers only; withdrawn scenarios untouched), doc 04, `docs/architecture/README.md`, `docs/planning/backlog.md`, `docs/references/third-party.md` (Better Auth was already marked deferred), doc 05 and `.design/prototype/INFORMATION_ARCHITECTURE.md`. Not edited, left for the founder or another task: the landing FAQ answer LAND-19 (approved wording, "unless you sign in and save an area"), the landing's "Coming next, with a free account" section (LAND-05), and the Privacy notice scenarios in `public-pages.feature` (PR B). The status file is not edited here (Task 7).
+
 ### Task 6: Canvas boards
 
 **Files:** the design canvas: a new page "Pilot · Anonymous chat"; "Pilot · Signed-in chat" boards moved to "Home workspace (later)"; entry-point changes on the existing area result, Nearby, City Explorer and landing boards.
@@ -109,6 +139,25 @@
 - [ ] **Step 2:** Draw, light first: `AnonChatDesktop` and `AnonChatPhone` (NB1 4XY loaded, an answer with its widget and stamps); `AnonChatConsent` (the card on phone and desktop, its three button states, "Try again" with a cause, no area loaded); `AnonChatCompare` (NB1 4XY with NB7 1RR: the progress list mid-way, then the answer; the "Uses up to 3 · 2 left today" warning); `AnonChatStates` (each pause line in its place, arriving while paused, unavailable, JavaScript off, the empty panel). Every line quoted from Task 4's scenarios or the sample data.
 - [ ] **Step 3:** Dark twins; move the signed-in boards; add the entry points to the existing boards.
 - [ ] **Step 4:** Visual review in Chrome at 390 and 1440 px (`visual-reviewer`) and the competitor benchmark checklist; fix; re-check; record the canvas version in `chat.feature`'s header and write "As drawn" under this task.
+
+**As drawn (21 Nov 2026, canvas version 439 after the visual-review fixes; steps 1 to 3 done, step 4 is in progress).**
+
+*New page "Pilot · Anonymous chat"*, light boards with a Dark twin each (the dark ones 8000 px to the right, as on the other pages). Every board carries the "Sample data: a made-up town" badge, uses 44 px targets, and quotes its lines from `chat.feature` or the sample data (NB1 4XY and NB7 1RR in `postcode-area.json`; the "1.5 miles" and "2.9 miles" in the compare table are the earlier signed-in board's display of 2,400 m and 4,600 m). The "Required states" header of `chat.feature` now maps each state to its board and frame.
+- `AnonChatDesktop` (1504 wide): NB1 4XY loaded, an answer with its Nearby card and source stamps, header with the AI badge, display control and "New chat", the side panel as a region, no sidebar.
+- `AnonChatPhone` (924 wide, two 390 px frames, like the earlier compare boards): the chat, and "Open full result" as a modal sheet.
+- `AnonChatConsent` (1504 wide): the card on desktop (frame 1) and phone; the button ready, "Checking…" (a pulsing waiting dot, no spinner), "Try again" with "Took too long" and with "This browser can't run the check"; the no-area card with the empty panel (desktop and phone).
+- `AnonChatCompare` (1504 wide): NB1 4XY with NB7 1RR, the progress list mid-way (desktop and phone), the answer with the table, "Uses up to 3 · 2 left today" on "Compare another area" and "Compare with…", and "2 left today · a comparison uses up to 3" above the box.
+- `AnonChatStates` (1864 wide, 13 frames): "1 message left today"; the own-15 pause; the daily cap for everyone (the message stays in the box); the monthly cap and a shared connection at 15, both on arrival in place of the card with "Back to the area result"; unavailable; a comparison that doesn't fit the budget; JavaScript off; the turn limit; the rate limit; the failed re-check; the "New chat" confirmation; the empty panel on desktop with the suggested starts.
+
+*Moved:* every "Pilot · Signed-in chat" board and note is now on "Home workspace (later)", below the existing boards (y from 20000), unchanged (the page of that name is gone, since it is empty). The teal note there says why.
+
+*Entry points added* (light and dark): "Ask about this area" with its AI badge on `MapDesktop` (the Nearby list), `MapPhone` (a labelled 44 px pill under the filter row, "Ask about this area" with its AI badge), `TopicPanelSchools` and `TopicSheets` (Schools); "Ask about this council" beside Share on `CouncilPage` and `CouncilPageDesktop`; the chat link "Ask about an area in the chat" beside the postcode box on `Landing` and `LandingPhone`. `AreaResult` and `AreaResultDesktop` already carried "Ask about this area" (no sign-in wording), so they are unchanged.
+
+*Review fixes (version 439):* the consent desktop frames are tall enough for the card, all the suggested starts and the box; the phone message box says "Ask about a postcode…" (the desktop text is unchanged); the rate-limit line breaks after the separator; the notes say desktop frames are the app at 1440 px inside a 1504 px board and phones are 390 px. A headless-Chrome render of the touched frames and of all the entry-point boards showed each entry point visible, unclipped and at least 44 px tall.
+
+*Not drawn, and why:* "Ask more about this" (WCHAT-55, 105, 106, 56, 76, 77) on a topic panel: no pilot board has it, so it stays for a later pass; the source-failed and tool-failed states (WCHAT-31, 32) are unchanged on the earlier signed-in board; the guard-stopped sentence is never shown, by design; the consent receipt, the re-check that passes and "New chat" keeping the count are behaviour, not screens. Frame 11's cause line and several state titles ("This chat has reached its limit", "The chat needs JavaScript", "Back to the area result") are proposed wording for the copy review.
+
+*Proposed wording for the copy review* (not approved): the card's words, "Took too long", "This browser can't run the check", the header disclaimer, the phone placeholder "Ask about a postcode…", the daily-cap line, the step names, the 2-left lines, "Ask about an area in the chat" and the lines named above.
 
 ### Task 7: Records and pull request C
 

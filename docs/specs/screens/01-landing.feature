@@ -19,6 +19,7 @@ Feature: Landing
     the link to Check an energy certificate -> LAND-21
     Recent postcodes under the search box, off by default, on with its list, storage unavailable -> LAND-22 to LAND-24 (the behaviour is `pilot/area-share.feature`, RECENT-01 to RECENT-14)
     the footer links to How it works, Privacy notice and Accessibility, and the How it works section's link -> LAND-25, LAND-26 (the pages are `pilot/public-pages.feature`)
+    the chat link beside the postcode box, shown with the chat paused too -> LAND-27, LAND-28 (the chat itself is `pilot/chat.feature`; 0063 point 8, FE-85)
     the "How to read a result" showcase and where "How we got this" is -> LAND-13
     A complete postcode hands over to Check an area (14-check-an-area.feature), which holds the
     loading, not found, source failed and outside England states.
@@ -208,3 +209,17 @@ Feature: Landing
     When the user reads "How it works" (LAND-18)
     Then it offers a link "More on how it works" (proposed wording) that opens "/how-it-works" (HOW-01)
     And the link carries no postcode or search text
+
+  # 21 Nov 2026 (0063 point 8, FE-85): the chat is offered beside the postcode box, as well as the area check. The link's wording is proposed for the copy review.
+  @ui
+  Scenario: LAND-27 a link beside the postcode box opens the chat, empty, with no postcode in the address
+    Given the user is on the landing page
+    When the user chooses the chat link beside the postcode box
+    Then the chat page opens on its consent card with no area loaded (WCHAT-152), and no request carries the box's text in its URL path, query string or Referer header
+    And the postcode box itself still searches as before (LAND-01)
+
+  @ui
+  Scenario: LAND-28 the chat link still shows when the chat is paused or down
+    Given the chat is paused for everyone or is down
+    When the user is on the landing page
+    Then the link beside the postcode box is shown as usual, because the landing never asks the chat for its state, and the postcode search works (WCHAT-56)

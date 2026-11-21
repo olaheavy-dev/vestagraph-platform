@@ -19,6 +19,7 @@ Feature: Nearby
     narrow and mobile layouts with a list alternative to the map -> NEAR-11
     the limits on the general About the data page, never on a row, at the top of a sheet or under each topic; the result ends with a short "How we got this" note that links there -> NEAR-13
     basic/paid boundaries -> NEAR-16
+    the "Ask about this area" entry on Nearby and Nearby > Schools, opening the chat (0063) -> NEAR-17
   Free and paid (doc 02 §8): the Nearby map and list with straight-line distances are free; routed
     travel times to the household's own destinations are paid (routing is a metered third-party
     cost), so the prototype shows them only as a labelled, simulated boundary (NEAR-16). Walking times
@@ -121,3 +122,11 @@ Feature: Nearby
     Given home "B1" is at story step 1
     When the user opens getting around
     Then every distance is labelled straight-line, and routed travel time to the household's own destinations appears only as a labelled, simulated paid feature, never as a working control; walking times from the postcode centre to nearby places (pilot) are a separate free feature
+
+  # 21 Nov 2026 (0063 point 8, FE-85): the same entry as Check an area (AREA-51 to AREA-53), on the Nearby result and its Schools topic.
+  @ui
+  Scenario: NEAR-17 Nearby and Nearby > Schools show "Ask about this area" on a covered result, and it opens the chat with that area
+    Given the user has the Nearby result for a covered sample area open, and then its Schools topic
+    When the user chooses "Ask about this area" on each
+    Then the chat page opens each time with that area in the panel and no postcode in any address (WCHAT-150), and the entry is not shown on a not-yet-covered or not-found result (WCHAT-151)
+    And the entry is still shown when the chat is paused or down, because Nearby never asks the chat for its state, and the chat page shows the pause line on arrival (WCHAT-56, WCHAT-123)

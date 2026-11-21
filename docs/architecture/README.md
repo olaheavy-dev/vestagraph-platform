@@ -20,7 +20,7 @@ flowchart TB
     vestagraph["Vestagraph<br/>Home decision workspace.<br/>Today: synthetic sample data, a cost engine<br/>and its checks. No running app yet"]
 
     data["Official and open England data<br/>PLANNED: area data at stage 5b, per-home<br/>data at stage 6 (decision 0046). Sources not chosen<br/>(DA-04 to DA-06). Every value labelled<br/>Live, Cached, Fallback or Unavailable<br/>(decision 0029)"]
-    models["AI model providers<br/>PLANNED: stage 5b for the signed-in workspace chat (decisions 0051, 0056; the pilot makes no model calls for anonymous visitors; 0058: the signed-in chat in the pilot does), stage 6 for the rest. Provider chosen at 5b (AI-01);<br/>decision 0042 planned OpenAI and Anthropic<br/>behind Vestagraph's adapter.<br/>Explain and draft; never calculate<br/>(decisions 0004, 0023)"]
+    models["AI model providers<br/>PLANNED: stage 5b for the pilot's chat (decisions 0051, 0056; 0058 and 0063: the chat in the pilot makes model calls, now for anonymous visitors without sign-in; Claude, 0064), stage 6 for the rest. Provider chosen at 5b (AI-01);<br/>decision 0042 planned OpenAI and Anthropic<br/>behind Vestagraph's adapter.<br/>Explain and draft; never calculate<br/>(decisions 0004, 0023)"]
     portals["Listing portals and agent websites<br/>Never scraped or copied (decision 0028).<br/>The user supplies what they have"]
 
     user -.->|"PLANNED: enters their own listing details,<br/>documents and estimates; reads results"| vestagraph
@@ -69,8 +69,8 @@ flowchart TB
         web["Web app, stage 5 (decisions 0020, 0048, 0049)<br/>TypeScript, Next.js, React, in frontend/,<br/>from the founder's Next.js template<br/>First: reads the fixture and generated files"]
         api["API, stage 5b (decisions 0046, 0049)<br/>Python, FastAPI, from the founder's template<br/>OpenAPI document"]
         mcp["MCP server: public area tools at stage 5b (decision 0051), cost tools at stage 6<br/>official mcp Python SDK (decision 0049)<br/>read-only (decision 0037)"]
-        agents["Agents: workspace chat (chosen at 5b, decision 0056; 0058: in the pilot for signed-in users), home agents at stage 6 (decision 0023)<br/>Framework chosen by a trial at the start of 5b:<br/>Agent Framework or LangGraph, Python (0049)<br/>AG-UI endpoint on the API"]
-        copilot["Chat route in the web app: workspace chat (not on the public pages, decision 0056; 0058: in the pilot for signed-in users), home chat at stage 6<br/>(decisions 0042, 0049)<br/>CopilotKit runtime route (open-source path)<br/>Streams AG-UI to and from the API"]
+        agents["Agents: the chat (chosen at 5b, decision 0056; 0063: in the pilot for anonymous visitors), home agents at stage 6 (decision 0023)<br/>Framework chosen by a trial at the start of 5b:<br/>Agent Framework or LangGraph, Python (0049)<br/>AG-UI endpoint on the API"]
+        copilot["Chat route in the web app: the chat page `/chat` (decision 0056; 0063: in the pilot, with no sign-in), home chat at stage 6<br/>(decisions 0042, 0049)<br/>CopilotKit runtime route (open-source path)<br/>Streams AG-UI to and from the API"]
         aspire["Aspire app host and OpenTelemetry, stage 5b<br/>App host written in TypeScript (decision 0049)<br/>Runs the pieces locally and shows traces<br/>(decision 0025)"]
         db[("Database<br/>Neon PostgreSQL + PostGIS (DA-03, 0060)<br/>Homes, questions, replies, decisions")]
     end
@@ -137,9 +137,9 @@ flowchart TB
 | Web app (Next.js, React) | 5 | The clickable prototype, run locally only in stage 5 (decision 0048). It starts from a one-time copy of the founder's Next.js template in `frontend/` and reads the fixture and generated files with no backend until stage 5b (decisions 0048, 0049). |
 | API (Python, FastAPI) | 5b (area data), 6 (costs and questions) | Serves the public area check first (decision 0046), then costs and the questions workflow from the same engine. Starts from a one-time copy of the founder's FastAPI template (decisions 0040, 0049, #93); TypeScript types for the web app are generated from the API's OpenAPI document (decision 0042). |
 | MCP server | 5b (public area tools, decision 0051), 6 (cost tools) | Built with the official `mcp` Python SDK. At 5b it exposes read-only public area tools without keys (decision 0051); at stage 6 it adds read-only cost tools behind 0038's keys (decisions 0037, 0038, 0049). |
-| Agents and chat | Framework chosen at 5b for the workspace chat (decisions 0051, 0056; no on-page chat for anonymous visitors; 0058: a signed-in chat in the pilot), 6 (home agents and chat) | Microsoft Agent Framework for Python or LangChain with LangGraph, chosen by a short trial at the start of the pilot's AI work at 5b (decisions 0023, 0049, 0051). The API streams agent replies over AG-UI; the web app talks to it through a CopilotKit runtime route, using the open-source path only (decision 0042). Agents quote only figures the engine supplied. |
+| Agents and chat | Framework chosen at 5b for the chat (decisions 0051, 0056; no on-page chat; 0063: an anonymous chat page in the pilot), 6 (home agents and chat) | Microsoft Agent Framework for Python or LangChain with LangGraph, chosen by a short trial at the start of the pilot's AI work at 5b (decisions 0023, 0049, 0051). The API streams agent replies over AG-UI; the web app talks to it through a CopilotKit runtime route, using the open-source path only (decision 0042). Agents quote only figures the engine supplied. |
 | Aspire and OpenTelemetry | 5b | Local app host, written in TypeScript, and trace dashboard for the pieces above (decisions 0025, 0049). |
-| Database | 5b | PostgreSQL with PostGIS on Neon, Frankfurt (DA-03, decision 0060): accounts, chats and saved areas (0058) and the public area data, in separate schemas; later homes, questions, replies and decisions. |
+| Database | 5b | PostgreSQL with PostGIS on Neon, Frankfurt (DA-03, decision 0060): the public area data, and real chats' words for 14 days (0063, 0064; accounts, chats and saved areas, 0058, wait until sign-in opens), in separate schemas; later homes, questions, replies and decisions. |
 
 The planned pieces and their order are in the [ordered backlog](../planning/backlog.md). The built pieces above are all Python (the .NET code was removed in port step P8, decision 0049).
 

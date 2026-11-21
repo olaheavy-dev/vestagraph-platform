@@ -4,7 +4,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
   Modes: both (and anyone, with no account; decisions 0014 and 0046)
   Added 19 Nov 2026 (pilot design batch, PR 1; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, section "4. Report a problem with this fact"; plan Tasks 1 and 2; register lines FE-05 (amended), FE-74, DA-12; pilot design `2026-11-13-pilot-area-ai-design.md` goal 7; decisions 0014, 0053). Founder's choices, 19 Nov 2026: "Pick a reason (Recommended)" and "Also City Explorer". The count's data contract is `packages/fixtures/schema/problem-report-counts.schema.json` with the sample `packages/fixtures/data/problem-report-counts.json` (plan Task 1, FE-74).
   Fixtures: the sample counts `packages/fixtures/data/problem-report-counts.json` (the data scenarios quote it by topic, record ID and area code; no count is typed here), and for the gap scenario the sample's sparse postcode NB7 1RR (`area-result.json`). Rule 2: a count's value is never typed or shown in a scenario; the counts are internal and are not on any page (REPORT-28).
-  Where it appears (founder's choice 5, and the agent's call for the signed-in chat's side panel, open to the founder): on each fact in a topic's detail (sheet or panel) on the area result (REPORT-01), on compare (REPORT-02), on City Explorer's council page and council compare detail (REPORT-03) and neighbourhood page (REPORT-04), and in the signed-in chat's side panel, which shows the full area result (REPORT-05). Where it does not: summary lines (REPORT-06), the energy certificate page (REPORT-07), the area card and the compare table in the chat (REPORT-08) and the ChatGPT and Claude widget (REPORT-09).
+  Where it appears (founder's choice 5, and the agent's call for the chat's side panel, open to the founder): on each fact in a topic's detail (sheet or panel) on the area result (REPORT-01), on compare (REPORT-02), on City Explorer's council page and council compare detail (REPORT-03) and neighbourhood page (REPORT-04), and in the chat's side panel, which shows the full area result (REPORT-05). Where it does not: summary lines (REPORT-06), the energy certificate page (REPORT-07), the area card and the compare table in the chat (REPORT-08) and the ChatGPT and Claude widget (REPORT-09).
   Rule 7: a gap (the record's own gap line, "Not known right now", "Not yet covered") can be reported too, and "Missing something" is its natural reason (REPORT-11).
   0014: nothing is stored on the visitor's device; "Reported" lives in the page's memory only (REPORT-16).
   Boards: `ReportProblem` (phone cards and the desktop panel; area topic detail) with `ReportProblemDark`, in the canvas section 'Pilot 8 · Compare, share, report', and `CouncilReportProblem` with `CouncilReportProblemDark` on the page 'Pilot · City Explorer' (section City Explorer 4); canvas version 1795107206-3e0d, 19 Nov 2026. Compare's detail with its links is on `ComparePhone` and `CompareDesktop`. REPORT-04 (a neighbourhood fact) and REPORT-05 (the chat's side panel) follow REPORT-01's anatomy and have no board of their own.
@@ -54,11 +54,11 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
     Then each fact has "Report a problem", and a report is about that neighbourhood's fact, never an address
 
   @ui
-  Scenario: REPORT-05 the signed-in chat's side panel topic details have the link, because the side panel shows the full area result
-    Given a signed-in visitor has opened an area result in the chat's side panel (WCHAT)
+  Scenario: REPORT-05 the chat's side panel topic details have the link, because the side panel shows the full area result
+    Given a visitor has opened an area result in the chat's side panel (WCHAT-01)
     When the visitor opens a topic's detail in the panel
     Then each fact has "Report a problem" as on the area result (REPORT-01), and a report sent from the panel is counted as the same fact's (agent's call, open to the founder)
-    And a report from a signed-in visitor is counted exactly as an anonymous one: the account, session and cookie are not read for the count, not logged and not kept, and the rate limit does not key on the account beyond memory (agent's call, pre-push security review, open to the founder)
+    And a report from the chat's panel is counted exactly as one from the area result: no cookie or session is read for the count (the pilot has no account, 0063), nothing about the visitor is logged or kept, and the rate limit keeps its keys in memory only (agent's call, pre-push security review, open to the founder)
 
   # ---- Where it does not appear ----
 
@@ -76,7 +76,7 @@ Feature: Report a problem with this fact (a reason, counted per fact per day, ne
 
   @ui
   Scenario: REPORT-08 the area card and the compare table in the chat have no link
-    Given a signed-in visitor has an area card and a compare table in the chat
+    Given a visitor has an area card and a compare table in the chat
     When the visitor reads the card, its expanded dialog and the table
     Then none has "Report a problem" (the chat's widgets are compact cards, not the area result)
 

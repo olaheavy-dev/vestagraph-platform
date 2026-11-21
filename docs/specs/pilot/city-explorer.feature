@@ -9,7 +9,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
   "The council search" (agent's call, 17 Nov 2026; approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)")): no board draws a page of its own for searching councils. In these scenarios "the council search" is the landing page's one search box (FE-37, `01-landing.feature` LAND-14 to LAND-16), with the ambiguous, not-covered and not-found messages of CouncilStates shown where its result goes. "← Check another place" on a council page returns to the landing page with the box ready, and the landing footer's "Explore council areas" opens the same box (LAND-20). Council pages carry no place or council search of their own (their postcode box, CITY-03, CITY-05, FE-70, is separate and unchanged): the box drawn at the top of CouncilStates' frames is this same search, shown above its messages, and FE-80's label is its label (register line FE-84, pilot gate round 2).
   Rule 7: a missing figure is never shown as zero, a flat line, a favourable value or a clean result. A caption needs both end points. A difference needs both sides.
   Rule 4 and 0054: no ranking of councils, no "1st of N", no score drawn on a map, no combined score, no verdict words. The sentences under each chart are built by tested rules from the generated figures, never by AI.
-  Sign-in: on this page the chat entry and Save lead to sign-in when signed out (AUTH-28 in `sign-in.feature` owns that scenario, for council E06999001; not repeated here).
+  Chat: on this page "Ask about this council" opens the chat with the council in the panel, with no sign-in (0063, CITY-114; the chat page is `chat.feature`, WCHAT-153). There is no Save in the pilot. *16 Nov 2026 (0058): the entry led signed-out visitors to sign-in (AUTH-28); 21 Nov 2026 (0063) supersedes that, and AUTH-28 is kept for later in `sign-in.feature`.*
   Wording status: the board texts quoted below are the canvas's. Three sentences have no board yet and are proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)") (issue #318 stays open until the boards are drawn), finalised before build: the "less" and the "about the same" patterns of the rent or buy sentence (DA-21 approved only the "more" pattern), and the "not comparable" caption for a change that spans a method break.
   Still to draw or generate (the scenarios are written; each carries a comment): the phone sheets for who rents and who owns and transport connectivity (FE-43; the neighbourhoods map sheet is drawn since canvas version 424, board NeighbourhoodsMapSheet, FE-72; the rest are build-ticket criteria on #318, so CITY-25 for those rows is `@ui` and says so); the coverage line's generator field (FE-44, issue #292, CITY-32).
   Data scenarios (no tag) check the facts in `council-area.json` and `council-result.json` with the council steps in docs/specs/README.md. Every other scenario is `@ui`, because the outcome is on the page, or is a rule on typed input that the server works out (`vestagraph_area`, 0053) and no sample council records.
@@ -745,7 +745,7 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Given the user has opened the council page for council "E06999001"
     When the user reads the end of the page
     Then "Use in ChatGPT or Claude →" opens that page (decision 0056)
-    And the council page has no on-page AI chat (its "Ask about this area" entry goes to the signed-in workspace, AUTH-28)
+    And the council page has no on-page AI chat (its "Ask about this council" entry opens the chat page, CITY-114, WCHAT-153)
 
   # The remaining states (CouncilStates boards 1, 13, 14, 16, 8, 23, 24).
   @ui
@@ -892,3 +892,10 @@ Feature: City Explorer council page (one page per council: search, what it costs
     Then the map area shows "Show map" and nothing is requested from OpenFreeMap until the user chooses it (FE-75; MAP-28 to MAP-30)
     And the council's facts and the neighbourhood list are complete without the map
 
+  # 21 Nov 2026 (0063 point 8, FE-85): the chat already has the council tools (agent's call, anonymous chat design section 1). Added after CITY-113 so no ID moves.
+  @ui
+  Scenario: CITY-114 a council page shows "Ask about this council", which opens the chat with that council in the panel
+    Given the user has opened the council page for council "E06999001"
+    When the user chooses "Ask about this council"
+    Then the chat page opens on its consent card with the council in the panel, and no request carries the council's name or code in its URL path, query string or Referer header (WCHAT-153)
+    And the entry still shows when the chat is paused or down (WCHAT-56)
