@@ -170,7 +170,7 @@ None of these changes a founder decision; each follows from a decision or rule a
 - The bot check on the consent tap, and the button's "Checking…" and "Try again" states.
 - Section 7's edge cases (design review), and the card wording carrying the US, Anthropic's keeping and withdrawal.
 - Entry points always shown; the pause shown on the chat page on arrival, in place of the card.
-- Which pause line wins; the daily cap at 95% and London midnight; what counts as a comparison.
+- Which pause line wins; the daily cap pausing when a day's spend reaches £2.50 (0064 point 5) and resetting at London midnight; what counts as a comparison.
 - The progress list and its announcements.
 - 0065 in its own pull request.
 
