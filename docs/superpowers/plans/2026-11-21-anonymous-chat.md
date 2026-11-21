@@ -137,6 +137,23 @@ Calls made in the sort (not in the design's lists): WCHAT-01, 03, 08, 11, 28, 83
 - [ ] **Step 3:** Dark twins; move the signed-in boards; add the entry points to the existing boards.
 - [ ] **Step 4:** Visual review in Chrome at 390 and 1440 px (`visual-reviewer`) and the competitor benchmark checklist; fix; re-check; record the canvas version in `chat.feature`'s header and write "As drawn" under this task.
 
+**As drawn (21 Nov 2026, canvas version 438; steps 1 to 3 done, step 4 (the visual review) is open).**
+
+*New page "Pilot · Anonymous chat"*, light boards with a Dark twin each (the dark ones 8000 px to the right, as on the other pages). Every board carries the "Sample data: a made-up town" badge, uses 44 px targets, and quotes its lines from `chat.feature` or the sample data (NB1 4XY and NB7 1RR in `postcode-area.json`; the "1.5 miles" and "2.9 miles" in the compare table are the earlier signed-in board's display of 2,400 m and 4,600 m). The "Required states" header of `chat.feature` now maps each state to its board and frame.
+- `AnonChatDesktop` (1504 wide): NB1 4XY loaded, an answer with its Nearby card and source stamps, header with the AI badge, display control and "New chat", the side panel as a region, no sidebar.
+- `AnonChatPhone` (924 wide, two 390 px frames, like the earlier compare boards): the chat, and "Open full result" as a modal sheet.
+- `AnonChatConsent` (1504 wide): the card on desktop (frame 1) and phone; the button ready, "Checking…" (a pulsing waiting dot, no spinner), "Try again" with "Took too long" and with "This browser can't run the check"; the no-area card with the empty panel (desktop and phone).
+- `AnonChatCompare` (1504 wide): NB1 4XY with NB7 1RR, the progress list mid-way (desktop and phone), the answer with the table, "Uses up to 3 · 2 left today" on "Compare another area" and "Compare with…", and "2 left today · a comparison uses up to 3" above the box.
+- `AnonChatStates` (1864 wide, 13 frames): "1 message left today"; the own-15 pause; the daily cap for everyone (the message stays in the box); the monthly cap and a shared connection at 15, both on arrival in place of the card with "Back to the area result"; unavailable; a comparison that doesn't fit the budget; JavaScript off; the turn limit; the rate limit; the failed re-check; the "New chat" confirmation; the empty panel on desktop with the suggested starts.
+
+*Moved:* every "Pilot · Signed-in chat" board and note is now on "Home workspace (later)", below the existing boards (y from 20000), unchanged (the page of that name is gone, since it is empty). The teal note there says why.
+
+*Entry points added* (light and dark): "Ask about this area" with its AI badge on `MapDesktop` (the Nearby list), `MapPhone` (a 44 px icon button in the header, named "Ask about this area, AI"), `TopicPanelSchools` and `TopicSheets` (Schools); "Ask about this council" beside Share on `CouncilPage` and `CouncilPageDesktop`; the chat link "Ask about an area in the chat" beside the postcode box on `Landing` and `LandingPhone`. `AreaResult` and `AreaResultDesktop` already carried "Ask about this area" (no sign-in wording), so they are unchanged.
+
+*Not drawn, and why:* "Ask more about this" (WCHAT-55, 105, 106, 56, 76, 77) on a topic panel: no pilot board has it, so it stays for a later pass; the source-failed and tool-failed states (WCHAT-31, 32) are unchanged on the earlier signed-in board; the guard-stopped sentence is never shown, by design; the consent receipt, the re-check that passes and "New chat" keeping the count are behaviour, not screens. Frame 11's cause line and several state titles ("This chat has reached its limit", "The chat needs JavaScript", "Back to the area result") are proposed wording for the copy review.
+
+*Proposed wording for the copy review* (not approved): the card's words, "Took too long", "This browser can't run the check", the header disclaimer, the daily-cap line, the step names, the 2-left lines, "Ask about an area in the chat" and the lines named above.
+
 ### Task 7: Records and pull request C
 
 **Files:** `docs/decisions/README.md` (notes on FE-85 to FE-88 with the board names), `docs/planning/status.md`.

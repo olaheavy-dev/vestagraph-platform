@@ -16,37 +16,38 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   The ui tag also covers server checks (logs, server storage, refusals, counts, tokens): they run in the same playwright-bdd suite against the running stack (SP-03). Every scenario here is @ui.
   Limits: the message limit, the turn limit, the token limit per answer and the rate limits are numbers chosen in the build; these scenarios name them, never their values. The numbers fixed by the founder are named by register line: 15 messages per IP address per day (0063), the warning at message 14 (FE-55), a comparison as up to 3 (0064), the £2.50 daily and £25 monthly caps (0064 point 5; IN-05), the re-check every 5 messages (plan Global Constraints), 2 seconds and 6 seconds at the 95th percentile (OP-05), and 14 days for the kept words (0064 point 6).
   Copy: the fixed texts are FE-13's AI label, "1 message left today" (FE-55), "Chat is paused for today, the area check still works", "Chat is paused for this month, the area check still works." (FE-61), "Chat unavailable right now", "Not covered" (FE-60), "Compare another area" and "Compare with…" (FE-52, FE-57). Every other quoted message is proposed wording, finalised in the build and in the founder's copy review, except that the wording of WCHAT-89, WCHAT-92, WCHAT-99 and WCHAT-109 was approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)"; WCHAT-109's example was changed on 21 Nov 2026, the label wording stands).
+  Boards (plan Task 6): canvas version 438 (21 Nov 2026), page "Pilot · Anonymous chat": AnonChatDesktop, AnonChatPhone, AnonChatConsent, AnonChatCompare and AnonChatStates, each with a Dark twin. Each line below reads: state -> scenarios -> board. The canvas version is recorded again after the visual review if the boards change.
   Required states (plan Tasks 2 to 4 and 4b, Review Focus 1, 3, 4 and 5, AGENTS.md rules 1, 4 and 7):
-    desktop layout with the side panel as a region, no sidebar -> WCHAT-01, WCHAT-02
-    phone layout, the panel as a modal sheet -> WCHAT-03, WCHAT-04, WCHAT-05
-    the consent card first; the box and starts blocked until the tap -> WCHAT-06, WCHAT-112
-    the tap: "Checking…", the chat opens, one receipt; a double tap makes one -> WCHAT-113, WCHAT-114
-    the check failed, timed out, no Web Crypto, JavaScript off, no image-code fallback -> WCHAT-115, WCHAT-116, WCHAT-117, WCHAT-118, WCHAT-119
-    the re-check after every 5 messages, and failing -> WCHAT-120, WCHAT-121
-    the receipt sent with each message and written with each trace -> WCHAT-122
-    the AI label, disclaimer and display control -> WCHAT-08
-    sentence by sentence; the guard-stopped sentence -> WCHAT-09, WCHAT-10, WCHAT-11
-    the widget from the tool result's kind; its figures from the tool result; a differing figure in the text stopped -> WCHAT-12, WCHAT-13, WCHAT-102
+    desktop layout with the side panel as a region, no sidebar -> WCHAT-01, WCHAT-02 -> board: AnonChatDesktop
+    phone layout, the panel as a modal sheet -> WCHAT-03, WCHAT-04, WCHAT-05 -> board: AnonChatPhone
+    the consent card first; the box and starts blocked until the tap -> WCHAT-06, WCHAT-112 -> board: AnonChatConsent (frames 1, 2, 5, 6)
+    the tap: "Checking…", the chat opens, one receipt; a double tap makes one -> WCHAT-113, WCHAT-114 -> board: AnonChatConsent (frames 2, 3; the opened chat is AnonChatDesktop and AnonChatPhone)
+    the check failed, timed out, no Web Crypto, JavaScript off, no image-code fallback -> WCHAT-115, WCHAT-116, WCHAT-117, WCHAT-118, WCHAT-119 -> board: AnonChatConsent (frames 4, 7: failed or timed out, no Web Crypto; nothing else on screen), AnonChatStates (frame 8: JavaScript off)
+    the re-check after every 5 messages, and failing -> WCHAT-120, WCHAT-121 -> board: AnonChatStates (frame 11: failing; the passing re-check shows nothing)
+    the receipt sent with each message and written with each trace -> WCHAT-122 -> board: no board: not a screen
+    the AI label, disclaimer and display control -> WCHAT-08 -> board: AnonChatDesktop, AnonChatPhone
+    sentence by sentence; the guard-stopped sentence -> WCHAT-09, WCHAT-10, WCHAT-11 -> board: AnonChatCompare (the answer); a stopped sentence is never shown, so no frame
+    the widget from the tool result's kind; its figures from the tool result; a differing figure in the text stopped -> WCHAT-12, WCHAT-13, WCHAT-102 -> board: AnonChatDesktop, AnonChatPhone
     the speed targets -> WCHAT-14
     Stop, a dropped connection, Retry and Regenerate, and which of them count -> WCHAT-15, WCHAT-108, WCHAT-16, WCHAT-17, WCHAT-18, WCHAT-107
-    the sources' stamps; "Not known"; a source unavailable; a tool failed; council-level fact -> WCHAT-30 to WCHAT-34
+    the sources' stamps; "Not known"; a source unavailable; a tool failed; council-level fact -> WCHAT-30 to WCHAT-34 -> board: AnonChatDesktop, AnonChatPhone, AnonChatCompare ("Not known" in the table); a failed source or tool is drawn on the earlier signed-in board SignedInChatStates (Home workspace (later)), unchanged by 0063
     the fixed reply to "is this area safe?" -> WCHAT-19
     text as data (prompt injection) -> WCHAT-20, WCHAT-21
     the model's rules: no scores, sums, advice or other places -> WCHAT-22
-    the visitor's own 15: warning at 14, message 15, two tabs, midnight reset (summer time and both clock-change days) -> WCHAT-23 to WCHAT-26, WCHAT-95, WCHAT-111
-    the monthly state, unavailable, the daily cap and its reset -> WCHAT-27, WCHAT-28, WCHAT-124, WCHAT-125
-    arriving while paused or down; a shared connection already at 15; a pause reached mid-conversation -> WCHAT-123, WCHAT-126, WCHAT-127
-    which line wins, every pair of the six -> WCHAT-128 to WCHAT-142
-    rate limits and refusals with no model call -> WCHAT-29
+    the visitor's own 15: warning at 14, message 15, two tabs, midnight reset (summer time and both clock-change days) -> WCHAT-23 to WCHAT-26, WCHAT-95, WCHAT-111 -> board: AnonChatStates (frames 1, 2: the warning and the pause; the rest is behaviour)
+    the monthly state, unavailable, the daily cap and its reset -> WCHAT-27, WCHAT-28, WCHAT-124, WCHAT-125 -> board: AnonChatStates (frames 4, 5, 3)
+    arriving while paused or down; a shared connection already at 15; a pause reached mid-conversation -> WCHAT-123, WCHAT-126, WCHAT-127 -> board: AnonChatStates (frames 4, 6, 3)
+    which line wins, every pair of the six -> WCHAT-128 to WCHAT-142 -> board: AnonChatStates (the six lines are frames 5, 4, 3, 2, 10, 9; only one shows at a time)
+    rate limits and refusals with no model call -> WCHAT-29 -> board: AnonChatStates (frame 10)
     postcode outside England, Isle of Man, Channel Islands, ended postcode, two matching councils -> WCHAT-35 to WCHAT-39
-    "Compare another area" -> WCHAT-54
-    comparisons: what counts, a low balance, the warning on the actions and above the box, a comparison that does not fit the day's budget -> WCHAT-143, WCHAT-144, WCHAT-145, WCHAT-146, WCHAT-147
-    the progress list and Stop during a step -> WCHAT-148, WCHAT-149
-    entry points: "Ask about this area", none on a not-covered or not-found result, the landing link, "Ask about this council", "Ask more about this" -> WCHAT-150, WCHAT-151, WCHAT-152, WCHAT-153, WCHAT-55, WCHAT-105, WCHAT-106, WCHAT-56, WCHAT-76, WCHAT-77
-    no area loaded: the empty panel -> WCHAT-154
-    "New chat": confirmation, what it keeps and resets, a streaming answer, the area -> WCHAT-158, WCHAT-155, WCHAT-157, WCHAT-156
+    "Compare another area" -> WCHAT-54 -> board: AnonChatCompare (frame 2)
+    comparisons: what counts, a low balance, the warning on the actions and above the box, a comparison that does not fit the day's budget -> WCHAT-143, WCHAT-144, WCHAT-145, WCHAT-146, WCHAT-147 -> board: AnonChatCompare (frames 2, 4: the warning on the actions and above the box), AnonChatStates (frame 7: does not fit the budget)
+    the progress list and Stop during a step -> WCHAT-148, WCHAT-149 -> board: AnonChatCompare (frames 1, 3, with Stop in the composer)
+    entry points: "Ask about this area", none on a not-covered or not-found result, the landing link, "Ask about this council", "Ask more about this" -> WCHAT-150, WCHAT-151, WCHAT-152, WCHAT-153, WCHAT-55, WCHAT-105, WCHAT-106, WCHAT-56, WCHAT-76, WCHAT-77 -> board: on the existing boards: AreaResult and AreaResultDesktop (already drawn), MapDesktop, MapPhone, TopicPanelSchools and TopicSheets (Nearby and Schools), CouncilPage and CouncilPageDesktop, Landing and LandingPhone, each with its Dark twin; no "Ask about this area" on a not-covered or not-found result is its absence on AreaStatesPilot; "Ask more about this" (WCHAT-55, WCHAT-105, WCHAT-106, WCHAT-56, WCHAT-76, WCHAT-77) is not drawn on any pilot board yet (only the signed-in version, SignedInChatAskMore, on Home workspace (later))
+    no area loaded: the empty panel -> WCHAT-154 -> board: AnonChatConsent (frames 5, 6), AnonChatStates (frame 13)
+    "New chat": confirmation, what it keeps and resets, a streaming answer, the area -> WCHAT-158, WCHAT-155, WCHAT-157, WCHAT-156 -> board: AnonChatStates (frame 12: the confirmation; the rest is behaviour)
     reload or a new tab starts again; the leave-page warning; Back to the area result -> WCHAT-159, WCHAT-160, WCHAT-161
-    focus on arrival, the label change announced once, the Privacy notice in a new tab -> WCHAT-162, WCHAT-163, WCHAT-164
+    focus on arrival, the label change announced once, the Privacy notice in a new tab -> WCHAT-162, WCHAT-163, WCHAT-164 -> board: AnonChatConsent (the heading, the status and the link are in the frame notes)
     logs and traces -> WCHAT-58, WCHAT-59, WCHAT-63; the fixed reply counts -> WCHAT-65
     nothing in a request address, a log or any browser storage -> WCHAT-60, WCHAT-66, WCHAT-75, WCHAT-96, WCHAT-97; keyboard, screen reader and loading -> WCHAT-61, WCHAT-62
     the output guard's claim classes (good, verified or approved, the best, a recommendation), a score with numbers from the results, the bare word allowed, invented numbers -> WCHAT-67, WCHAT-78, WCHAT-79, WCHAT-80, WCHAT-68, WCHAT-69, WCHAT-70
@@ -55,7 +56,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     widget actions: Compare with… for two areas and two councils, Open full result on desktop, Print and its closing "How we got this" page -> WCHAT-86, WCHAT-87, WCHAT-88, WCHAT-89, WCHAT-99
     the feedback kit: skeletons, no spinners, reduced motion, a button's label change while it loads, notices, full-page states -> WCHAT-90, WCHAT-109, WCHAT-91, WCHAT-92
     the composer stays above the on-screen keyboard on a phone -> no scenario: keyboard overlap is not reliable to emulate in Playwright, so the visual review checks it at 390 px
-    the scenarios that need sign-in, saved areas, past chats or history -> chat-signed-in-later.feature (not part of the pilot)
+    the scenarios that need sign-in, saved areas, past chats or history -> chat-signed-in-later.feature (not part of the pilot) -> board: the SignedIn... boards, now on the page "Home workspace (later)"
 
   # Replaces CHAT-38 (desktop drawer) and CHAT-06 (phone sheet); the side panel is now part of the page. Rewritten 21 Nov 2026: no sidebar (design section 1).
   @ui
