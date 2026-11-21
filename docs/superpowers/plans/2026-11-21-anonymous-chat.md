@@ -92,6 +92,31 @@
 - [ ] **Step 7:** `make test`. Expected: PASS (the runner parses both files; `@ui` deselected).
 - [ ] **Step 8:** Commit `docs: the chat specification for the anonymous chat`.
 
+**As done (21 Nov 2026).**
+
+*Step 1, the sort.* 111 scenarios: **54 kept**, **32 rewritten** (same numbers), **25 moved** unchanged to `chat-signed-in-later.feature`; **53 new** (WCHAT-112 to WCHAT-164). Check (step 5): no number appears twice as a `Scenario:` across the two files, and WCHAT-01 to WCHAT-164 each appear once.
+
+| Sort | Scenarios | Why |
+|---|---|---|
+| Kept (only "a signed-in user" became "a visitor", and "workspace page" became "chat page") | WCHAT-02, WCHAT-04 to WCHAT-05, WCHAT-09 to WCHAT-10, WCHAT-12 to WCHAT-22, WCHAT-30 to WCHAT-39, WCHAT-54, WCHAT-58, WCHAT-60 to WCHAT-62, WCHAT-65, WCHAT-67 to WCHAT-73, WCHAT-76, WCHAT-78 to WCHAT-82, WCHAT-84, WCHAT-86 to WCHAT-88, WCHAT-90 to WCHAT-91, WCHAT-99, WCHAT-102, WCHAT-108 | Streaming, guards, sources, widgets, injection, logs, limits at the server, accessibility, the fixed reply and its count. WCHAT-02, 04, 05 (side panel, modal sheet) and WCHAT-54, 86 to 88, 99 (widget actions) also need no account. |
+| Rewritten, same number | WCHAT-01, WCHAT-03, WCHAT-06, WCHAT-08, WCHAT-11, WCHAT-23 to WCHAT-29, WCHAT-55 to WCHAT-56, WCHAT-59, WCHAT-63, WCHAT-66, WCHAT-74 to WCHAT-75, WCHAT-77, WCHAT-83, WCHAT-85, WCHAT-89, WCHAT-92, WCHAT-95 to WCHAT-97, WCHAT-105 to WCHAT-107, WCHAT-109, WCHAT-111 | WCHAT-01, 03: no sidebar. WCHAT-06: the consent card first. WCHAT-08: the disclaimer says 14 days and no personal details, adds "New chat". WCHAT-11: a reload no longer reopens a chat. WCHAT-23 to 26, 95, 111, 74, 77, 29, 85: the count is per IP address, in memory. WCHAT-27, 28, 56: the pause on arrival, the fail-closed cases. WCHAT-55, 105, 106, 66: no sign-in. WCHAT-59, 63: kept 14 days in Neon, words-free in LangSmith. WCHAT-75: nothing in any browser storage. WCHAT-83, 89, 92, 96, 97, 107, 109: Save, Update, sidebar, signed-out state or account wording removed (WCHAT-109's example is now "Comparing…", the label wording approved on 18 Nov 2026 stands). |
+| Moved unchanged (text identical, same `@ui` tags, no new tag) | WCHAT-07, WCHAT-40 to WCHAT-53, WCHAT-57, WCHAT-64, WCHAT-93 to WCHAT-94, WCHAT-98, WCHAT-100 to WCHAT-101, WCHAT-103 to WCHAT-104, WCHAT-110 | Need an account (WCHAT-07, 93, 94), saved areas (WCHAT-47 to 53), past chats and history (WCHAT-40 to 46, 57, 64, 98, 100, 101, 103, 104, 110). The same set as the design's list; the sort adds none. |
+
+Calls made in the sort (not in the design's lists): WCHAT-01, 03, 08, 11, 28, 83, 85, 89, 92, 96, 97, 107 and 109 were rewritten because they still said sidebar, sign-in, saved areas, a stored chat or a signed-out state; the design's list did not name them. WCHAT-27 was rewritten to show the pause in place of the consent card, as design section 3 says.
+
+*Steps 3 and 4, the new scenarios* are WCHAT-112 to WCHAT-164: the consent card and the tap (WCHAT-112 to WCHAT-113, WCHAT-114, WCHAT-115 to WCHAT-119), the re-check (WCHAT-120, WCHAT-121), the receipt (WCHAT-122), the pauses (WCHAT-123 to WCHAT-127), the 15 pairs of the pause order (WCHAT-128 to WCHAT-142), comparisons (WCHAT-143 to WCHAT-147), progress (WCHAT-148, WCHAT-149), entry points (WCHAT-150 to WCHAT-153), the empty panel (WCHAT-154), "New chat" (WCHAT-155 to WCHAT-158), reload and leave-page (WCHAT-159, WCHAT-160), Back (WCHAT-161), focus and announcements (WCHAT-162, WCHAT-163) and the Privacy notice link (WCHAT-164).
+
+*Proposed wording for the copy review* (every other quoted text is approved or already in a record):
+- The consent card's words (WCHAT-112): the facts of design section 7, first point; the button "Agree and start chat", then "Checking…", then "Try again" with a cause ("took too long"; "this browser can't run the check").
+- Daily cap line, for everyone (WCHAT-124): "The chat has reached today's limit for everyone and is paused until midnight. The area check still works" (design section 3).
+- A comparison that doesn't fit the day's budget (WCHAT-147): "A comparison needs more of today's budget than is left. Single questions still work."
+- Compare actions with 3 or fewer left (WCHAT-145): "Uses up to 3 · N left today"; the line above the message box (WCHAT-146): "N left today · a comparison uses up to 3" (design section 3).
+- Progress steps (WCHAT-148): "Looked up NB1 4XY", "Looked up NB7 1RR", "Writing the comparison…", "Checking the figures" (design section 4).
+- "New chat" confirmation (WCHAT-158): "Start a new chat? This one isn't kept.", "Start new chat", "Cancel" (plan Global Constraints).
+- "Privacy notice, opens in a new tab" (WCHAT-164), the header disclaimer (WCHAT-08: messages kept 14 days, no personal or health details) and "Comparing…" (WCHAT-109's example).
+
+*Step 6, AI-03.* `packages/fixtures/evaluation/ai-03-set.json` (schema `packages/fixtures/schema/ai-03-set.schema.json`, `version` const 2, `additionalProperties: false`) has no status or scope field, so the file is unchanged. Nine cases cite moved scenarios: CHAT-STALE-01 (WCHAT-42), CHAT-STALE-02 (WCHAT-110), CHAT-SAVED-OWN-01 and CHAT-SAVED-OWN-02 (WCHAT-51, 93), CHAT-TOOLS-SAVED-COMPARE-01 (WCHAT-51, 52), CHAT-COMPARE-POSTCODES-01 (WCHAT-52, with WCHAT-86), CHAT-INJECT-SAVEDAREA-01 (WCHAT-51, with WCHAT-20), CHAT-SAVED-OTHERUSER-01 and CHAT-INJECT-SAVED-OTHERUSER-01 (WCHAT-51, 93). A `noticed` issue is for the main session to open.
+
 ### Task 5: Entry points and stale documents
 
 **Files:**

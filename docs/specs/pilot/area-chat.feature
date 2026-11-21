@@ -1,7 +1,7 @@
 @screen @buying @renting
 Feature: Ask about this area (the pilot's area chat panel)
   Withdrawn for the pilot by decision 0056 (15 Nov 2026): the pilot has no on-page chat, and anonymous visitors get no AI calls.
-  16 Nov 2026, decision 0058: the chat returns to the pilot for signed-in users only, as the workspace chat (workspace-chat.feature, WCHAT-), with sign-in (sign-in.feature, AUTH-) and the account pages (account.feature, ACCT-). This file is kept for its IDs.
+  16 Nov 2026, decision 0058: the chat returns to the pilot for signed-in users only, as the workspace chat (chat.feature, WCHAT-), with sign-in (sign-in.feature, AUTH-) and the account pages (account.feature, ACCT-). This file is kept for its IDs.
   Review (16 Nov 2026, plan docs/superpowers/plans/2026-11-16-signed-in-chat.md, Task 7): a scenario whose text still holds word for word is kept and loses @withdrawn; a scenario whose meaning changed stays @withdrawn, unedited, and is replaced by a new ID (docs/specs/README.md rule 2); one only about the anonymous on-page chat is retired and stays @withdrawn. Kept 2, replaced 50, retired 1.
     ID | keep / replace / retire | reason | new ID
     CHAT-01 | keep | the data check still holds: a postcode outside England is not yet covered | —
@@ -59,7 +59,7 @@ Feature: Ask about this area (the pilot's area chat panel)
     CHAT-53 | replace | the pause is now for everyone (monthly cap, outage) or the user's own 15; no link where the explanation is not yet available | WCHAT-56, WCHAT-76, WCHAT-77
   Question it answers: "What do the sources say about this area, in plain words?"
   Modes: both; the chat is for signed-in users only (decision 0058). The two kept scenarios (CHAT-01, CHAT-02) are about Check an area, which stays open to anyone with no account (decisions 0046 and 0058)
-  From here on, the description is the on-page chat as specified before 0056, kept as the record of the withdrawn scenarios; the workspace chat's own description is in workspace-chat.feature.
+  From here on, the description is the on-page chat as specified before 0056, kept as the record of the withdrawn scenarios; the workspace chat's own description is in chat.feature.
   Fixtures: home WALES-1 (outside England); the postcode-level sample area data, `packages/fixtures/data/postcode-area.json`
     (NB1 4XY, NB7 1RR, NB9 9ZZ); figures: none (the chat never calculates; decision 0004).
   Where: on Check an area only (the landing has no result: it hands a complete postcode to Check an area,

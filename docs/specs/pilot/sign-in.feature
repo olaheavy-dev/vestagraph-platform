@@ -8,7 +8,7 @@ Feature: Sign in to chat and save areas (the pilot's sign-in)
   Where: the sign-in page (a full page on a phone and on desktop, FE-63), reached from "Ask about this area" (or "Ask more about this", FE-58) and Save when signed out, and from the chat's own entry. The email link, its states and the GitHub no-email state are drawn on the canvas page "Pilot · Signed-in chat" (SignedInSignIn, SignedInEmailStates, SignedInGitHubNoEmail, SignedInPublicEntry and their phone, desktop and Dark versions).
   Methods: Google, GitHub and "Email me a link" (decision 0058). The email link works once and lasts 5 minutes (SE-06).
   The server checks in these scenarios (logs, headers, tokens, sessions) are tagged @ui, as in area-chat.feature: they run in the same playwright-bdd suite against the running stack (SP-03).
-  Copy: quoted messages are proposed wording, finalised at board review and in the build. The fixed texts are "Check your email" (the same words for every address), "Send a new link" (the one action on the expired or used page) and the chat texts in workspace-chat.feature.
+  Copy: quoted messages are proposed wording, finalised at board review and in the build. The fixed texts are "Check your email" (the same words for every address), "Send a new link" (the one action on the expired or used page) and the chat texts in chat.feature.
   AI: no scenario here calls a model, so none is an AI-03 case.
   Required states (plan docs/superpowers/plans/2026-11-16-signed-in-chat.md, Tasks 3 and 6; Review Focus 2 and 3; AGENTS.md rules 4, 5 and 7):
     the three sign-in methods -> AUTH-01

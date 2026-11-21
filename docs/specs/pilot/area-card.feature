@@ -12,7 +12,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
     result, of the kinds asked for (any kind when none is named), nearest first, at most 10, looked up to 5 km (FE-12), and the map's scale fits the places shown, so a
     sparse area still gets a useful card; it is never a fixed radius such as 1 km.
   Two versions (founder, 13 Nov 2026: "Two versions", FE-15): a component in our own chat
-    (workspace-chat.feature, WCHAT-12; it replaced the withdrawn CHAT-31 to CHAT-33) and a widget for ChatGPT and Claude (the open MCP Apps
+    (chat.feature, WCHAT-12; it replaced the withdrawn CHAT-31 to CHAT-33) and a widget for ChatGPT and Claude (the open MCP Apps
     standard, a ui:// resource, decision 0037). A scenario tagged with both ui and mcp runs once per
     version: our chat component in the playwright-bdd suite (ui), the widget in the MCP suite (mcp).
     CARD-02 compares the two versions in one test and runs in the ui suite, which loads the widget
@@ -42,7 +42,7 @@ Feature: Area card (the isometric scene of the nearest places, in ChatGPT and Cl
   Pilot scope: decision 0056 (15 Nov 2026) took the on-page chat out of the pilot, so the scenarios that apply only inside our
     chat, or compare it with the widget (CARD-02, CARD-22, CARD-23, CARD-27, CARD-28, CARD-31 and the phone chat preview
     CARD-36 to CARD-42), were tagged @withdrawn. Decision 0058 (16 Nov 2026) brings our chat back for signed-in users as the
-    workspace chat (workspace-chat.feature; the card is its nearby widget, WCHAT-12, and the phone chat preview FE-18 applies
+    workspace chat (chat.feature; the card is its nearby widget, WCHAT-12, and the phone chat preview FE-18 applies
     to it), so both versions ship in the pilot and a scenario tagged ui and mcp runs in both suites again. CARD-32 to CARD-35
     start from the widget's full-screen view on a phone, and CARD-45 and CARD-46 give the widget its own keyboard and naming checks.
   Review of the withdrawn card scenarios (16 Nov 2026, plan docs/superpowers/plans/2026-11-16-signed-in-chat.md, Task 7): a
