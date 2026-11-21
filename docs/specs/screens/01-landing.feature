@@ -151,7 +151,7 @@ Feature: Landing
     Then step 1 is titled "Type a postcode or town" with "Any postcode, town or city in England. No account, nothing to install."
     And step 2, "See what’s around", reads "For a postcode: transport, shops, parks, health, schools, places of worship, flood risk and recorded crime. For a town or city: its council’s published figures. Each with its source."
 
-  # Founder's wording, 17 Nov 2026 (prompt window, FE-49 amended): the clause "unless you sign in and save an area" was added because signed-in users can save areas (0058). The landing FAQ boards still show the old answer and are to be redrawn (#318).
+  # Founder's wording, 17 Nov 2026 (prompt window, FE-49 amended): the clause "unless you sign in and save an area" was added because signed-in users can save areas (0058). The landing FAQ boards now carry the approved answer below (canvas version 440; formerly to be redrawn, #318).
   @ui
   Scenario: LAND-19 the FAQ answers "Do you keep my search?" for a postcode or a place name
     Given the user is not signed in
@@ -211,7 +211,7 @@ Feature: Landing
     Then it offers a link "More on how it works" (proposed wording) that opens "/how-it-works" (HOW-01)
     And the link carries no postcode or search text
 
-  # 21 Nov 2026 (0063 point 8, FE-85): the chat is offered beside the postcode box, as well as the area check. The link's wording is proposed for the copy review.
+  # 21 Nov 2026 (0063 point 8, FE-85): the chat is offered beside the postcode box, as well as the area check. The link's wording is approved (founder, 21 Nov 2026, copy review: "Approve both (Recommended)").
   @ui
   Scenario: LAND-27 a link beside the postcode box opens the chat, empty, with no postcode in the address
     Given the user is on the landing page
