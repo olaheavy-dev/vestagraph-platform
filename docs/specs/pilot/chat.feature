@@ -8,15 +8,15 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     Fixtures to add (issue #302): a tool that fails alone (WCHAT-31); the test setup builds it, and the build adds any data it needs. The fixtures the moved past-chat and saved-area scenarios need are listed in chat-signed-in-later.feature.
   Where: the chat page, `/chat`, with no sidebar. On desktop (1440 px) the chat is in the middle and the full area result for the area being discussed is in a side panel on the right, a labelled region; with no area loaded the panel shows an empty state. On a phone (390 px) the chat fills the width and "Open full result" opens the panel as a modal sheet. There is no history: the conversation lives in the tab's memory, so closing the tab ends it and consent is asked once per tab (0063). Boards: the anonymous chat boards on the canvas page "Pilot · Anonymous chat" (plan Task 6); the earlier signed-in boards (SignedInChat...) move to "Home workspace (later)".
   Entry points: "Ask about this area" on each covered area result (Check an area, Nearby, Nearby > Schools); a link beside the postcode box on the landing, which opens the chat empty with suggested starts; "Ask about this council" on each City Explorer council page; and "Ask more about this" under a topic's "Explain this". None carries the postcode, council or question in an address (WCHAT-66): the area is handed over in the page's memory. The entry points still show when the chat is paused or down, because the area pages never ask the chat for its state; the chat page shows the pause on arrival (WCHAT-56).
-  The consent card: the chat's first state. The message box and the suggested starts work after one tap on "Agree and start chat", where the bot check (ALTCHA, self-hosted, invisible) also runs. The button reads "Agree and start chat", then "Checking…", then the chat opens; a failed or timed-out check shows "Try again" with the cause. The tap makes one consent receipt (the time and the statement version) that the tab holds in memory and sends with each message (WCHAT-113, WCHAT-122). The card's words (proposed for the copy review) carry every fact in design section 7, first point.
+  The consent card: the chat's first state. The message box and the suggested starts work after one tap on "Agree and start chat", where the bot check (ALTCHA, self-hosted, invisible) also runs. The button reads "Agree and start chat", then "Checking…", then the chat opens; a failed or timed-out check shows "Try again" with the cause. The tap makes one consent receipt (the time and the statement version) that the tab holds in memory and sends with each message (WCHAT-113, WCHAT-122). The card's words are approved by the founder (21 Nov 2026, copy review, prompt windows: "As drafted (Recommended)", then "just say claude"): they carry every fact in design section 7, first point, name Vestagraph, name Claude, Anthropic's AI, and give no processing location (that stays in the Privacy notice, PRIV-13).
   The caps and their order: 15 messages per IP address per day, counted in memory and reset at midnight Europe/London (0063); a comparison counts as up to 3 (0064 point 2; with 1 or 2 left it runs and counts only what is left); the chat pauses for everyone when a day's spend reaches £2.50 (daily cap, 0064 point 5) and at 95% of £25 for the month (monthly cap, IN-05); it fails closed when the bot check or the limiter can't run. When several apply, the line shown is the first of: unavailable, the monthly cap, the daily cap, the visitor's own 15, the rate limit, the turn limit.
   No history, no storage: nothing about the chat is kept in cookies, local storage, session storage or IndexedDB, and no postcode or question is in any address (0063; WCHAT-66, WCHAT-75). A reload or a new tab starts again (WCHAT-159).
   The AI reply in @ui scenarios comes from a fake AI provider that returns a fixed stand-in reply (sentence by sentence, with stand-in tool results) and records what the server sent it, so these scenarios test the page, the server and the guards, not the model. Whether the real model follows the rules is tested by the AI evaluation set (AI-03). The scenarios tagged `@ai03` are also AI-03 evaluation cases (they need the real model, so the evaluation set runs them as well as, or instead of, the fake-provider scenarios; backlog row 38f), covered by packages/fixtures/evaluation/ai-03-set.json.
   Fixed replies (register line AI-11): the "is it safe", score, advice and best-area questions are answered by text we wrote and reviewed, not the model (WCHAT-19).
   The ui tag also covers server checks (logs, server storage, refusals, counts, tokens): they run in the same playwright-bdd suite against the running stack (SP-03). Every scenario here is @ui.
   Limits: the message limit, the turn limit, the token limit per answer and the rate limits are numbers chosen in the build; these scenarios name them, never their values. The numbers fixed by the founder are named by register line: 15 messages per IP address per day (0063), the warning at message 14 (FE-55), a comparison as up to 3 (0064), the £2.50 daily and £25 monthly caps (0064 point 5; IN-05), the re-check every 5 messages (plan Global Constraints), 2 seconds and 6 seconds at the 95th percentile (OP-05), and 14 days for the kept words (0064 point 6).
-  Copy: the fixed texts are FE-13's AI label, "1 message left today" (FE-55), "Chat is paused for today, the area check still works", "Chat is paused for this month, the area check still works." (FE-61), "Chat unavailable right now", "Not covered" (FE-60), "Compare another area" and "Compare with…" (FE-52, FE-57). Every other quoted message is proposed wording, finalised in the build and in the founder's copy review, except that the wording of WCHAT-89, WCHAT-92, WCHAT-99 and WCHAT-109 was approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)"). Three of those changed on 21 Nov 2026 and their changed lines are in the copy-review list in the plan, Task 4: WCHAT-89 ("the header controls" in place of "the sidebar"), WCHAT-92 (no signed-out state) and WCHAT-109 (the example is "Comparing…"; the label wording stands).
-  Boards (plan Task 6): canvas version 439 (21 Nov 2026), page "Pilot · Anonymous chat": AnonChatDesktop, AnonChatPhone, AnonChatConsent, AnonChatCompare and AnonChatStates, each with a Dark twin. Each line below reads: state -> scenarios -> board. The canvas version is recorded again after the visual review if the boards change.
+  Copy: the fixed texts are FE-13's AI label, "1 message left today" (FE-55), "Chat is paused for today, the area check still works", "Chat is paused for this month, the area check still works." (FE-61), "Chat unavailable right now", "Not covered" (FE-60), "Compare another area" and "Compare with…" (FE-52, FE-57). The wording of WCHAT-89, WCHAT-92, WCHAT-99 and WCHAT-109 was approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)"). Every other quoted text in this file is approved wording: the founder approved the anonymous chat's lines in the copy review of 21 Nov 2026 (prompt windows; the answers are listed in the plan, Task 4). The build may change a word only through a new copy review. Three of those changed on 21 Nov 2026 and their changed lines are in the copy-review list in the plan, Task 4: WCHAT-89 ("the header controls" in place of "the sidebar"), WCHAT-92 (no signed-out state) and WCHAT-109 (the example is "Comparing…"; the label wording stands); the founder approved these three changes on 21 Nov 2026 ("Approve the changes (Recommended)").
+  Boards (plan Task 6): canvas version 441 (21 Nov 2026, the copy review applied and the card sentences fixed; version 439 held the proposed wording), page "Pilot · Anonymous chat": AnonChatDesktop, AnonChatPhone, AnonChatConsent, AnonChatCompare and AnonChatStates, each with a Dark twin. Each line below reads: state -> scenarios -> board. The canvas version is recorded again if the boards change.
   Required states (plan Tasks 2 to 4 and 4b, Review Focus 1, 3, 4 and 5, AGENTS.md rules 1, 4 and 7):
     desktop layout with the side panel as a region, no sidebar -> WCHAT-01, WCHAT-02 -> board: AnonChatDesktop
     phone layout, the panel as a modal sheet -> WCHAT-03, WCHAT-04, WCHAT-05 -> board: AnonChatPhone
@@ -102,7 +102,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Scenario: WCHAT-08 the chat carries the AI label, the disclaimer and the display control
     Given a visitor who has started the chat is on the chat page
     When the page has loaded
-    Then the header shows the "AI" badge, "Answers are written by AI from the sources below", a disclaimer saying messages are kept for 14 days to fix problems and asking visitors not to share personal or health details, with a link to the Privacy notice, the light and dark control, and the "New chat" button
+    Then the header shows the "AI" badge, "Answers are written by AI from the sources below", the disclaimer "Messages are kept 14 days to fix problems. Please don't share personal or health details. Privacy notice ↗" (approved by the founder, 21 Nov 2026: "Short reminder (Recommended)"; the link is WCHAT-164), the light and dark control, and the "New chat" button
 
   # AI-13, Review Focus 5.
   @ui
@@ -426,7 +426,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Scenario: WCHAT-72 after the turn limit a chat takes no more messages
     Given a visitor has sent as many messages in one chat as the turn limit allows
     When the last answer has been shown
-    Then the message box is turned off, with a message saying this chat has reached its limit and offering one action, "New chat"
+    Then the message box is turned off, with the message "This chat has reached its limit" and one action, "New chat" (approved by the founder, 21 Nov 2026: "Approve as drafted (Recommended)")
 
   # Replaces CHAT-37.
   @ui @ai03
@@ -648,14 +648,15 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Scenario: WCHAT-112 the consent card is the first state and blocks the message box and the suggested starts
     Given a visitor opens the chat page in a tab where nobody has agreed yet, with the area for sample postcode NB1 4XY handed over
     When the page has loaded
-    Then the card titled for NB1 4XY is shown, and its words (proposed for the copy review) say that answers come from official sources and are written by AI (Anthropic's Claude), that messages, including any health or personal details typed, go to Anthropic (processed in the US or "global"), that Anthropic deletes them within 30 days (flagged content up to 2 years), that we keep them 14 days to fix problems, that the visitor should not share personal or health details, how to withdraw (stop using the chat and email privacy@vestagraph.co.uk to have the kept words deleted), and "15 messages a day. A comparison uses up to 3."
+    Then the card titled for NB1 4XY is shown, and its words, approved by the founder (21 Nov 2026: "As drafted (Recommended)", then "just say claude", then "Fix both (Recommended)" for the two sentences below; a pre-push review found that the first sentence read as if the AI deletes messages, and "to delete" promised more than 0063's case-by-case handling (UK GDPR Article 11(2))), are exactly: "Ask about NB1 4XY"; "Answers come from official sources, written by AI (Anthropic's Claude)."; "Your messages, including any health or personal details you type, go to Claude, Anthropic's AI. Anthropic deletes them within 30 days (flagged content up to 2 years). Vestagraph keeps them 14 days to fix problems."; "Please don't share personal or health details. You can withdraw: stop, and email privacy@vestagraph.co.uk and we'll delete what we can find. Privacy notice ↗"; and "15 messages a day. A comparison uses up to 3."
+    And the card names Vestagraph (the ICO's consent guidance asks for the organisation's name) and Claude, and gives no place where Anthropic processes messages; that stays in the Privacy notice (PRIV-13)
     And the message box and the suggested starts are turned off until the visitor taps "Agree and start chat", whose own label gives the agreement (0063 point 5), and nothing about the visitor is recorded before the tap
 
   @ui
   Scenario: WCHAT-113 one tap on "Agree and start chat" runs the check, opens the chat and makes one consent receipt
     Given the consent card is shown on a phone at 390 px
     When the visitor taps "Agree and start chat"
-    Then the button reads "Checking…" while the bot check runs with nothing extra on screen, then the chat opens with the message box ready and the suggested starts
+    Then the button reads "Checking…" (approved by the founder, 21 Nov 2026: "Approve as written (Recommended)") while the bot check runs with nothing extra on screen, then the chat opens with the message box ready and the suggested starts
     And exactly one consent receipt is made in the tab's memory, holding the time and the statement version shown (a whole number starting at 1, raised whenever the card's words change)
 
   # Review Focus 4. Added 21 Nov 2026 (FE-85 to FE-88).
@@ -670,28 +671,28 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Scenario: WCHAT-115 a failed bot check shows "Try again" with the cause and opens no chat
     Given the consent card is shown and the bot check will fail
     When the visitor taps "Agree and start chat"
-    Then the button reads "Checking…" and then "Try again" with a plain cause beside it, the chat stays closed, no message can be sent, and no consent receipt is made
+    Then the button reads "Checking…" and then "Try again" with the plain cause beside it ("Took too long" or "This browser can't run the check", WCHAT-116 and WCHAT-117), the chat stays closed, no message can be sent, and no consent receipt is made
 
   # Review Focus 4 (a slow phone). Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-116 a check that takes longer than ALTCHA's timeout of 90 seconds shows "Try again" with that cause
     Given the consent card is shown on a slow phone and the proof-of-work check will take longer than 90 seconds
     When the visitor taps "Agree and start chat" and the 90 seconds pass
-    Then the button shows "Try again" with the cause "took too long", the chat stays closed, and tapping "Try again" starts one new check and makes at most one receipt
+    Then the button shows "Try again" with the cause "Took too long", the chat stays closed, and tapping "Try again" starts one new check and makes at most one receipt
 
   # Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-117 a browser without Web Crypto shows "Try again" with that cause
     Given the consent card is shown in a browser that lacks Web Crypto
     When the visitor taps "Agree and start chat"
-    Then the button shows "Try again" with the cause that this browser can't run the check, the chat stays closed, no message is sent anywhere, and the area check is still reachable from the page
+    Then the button shows "Try again" with the cause "This browser can't run the check", the chat stays closed, no message is sent anywhere, and the area check is still reachable from the page
 
   # Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-118 with JavaScript off the page says the chat needs JavaScript and links back to the area check
     Given a visitor has JavaScript turned off
     When the visitor opens the chat page
-    Then the page says the chat needs JavaScript and links back to the area check, which works as before
+    Then the page says "The chat needs JavaScript" and links back with "Back to the area check", which works as before (approved by the founder, 21 Nov 2026: "Approve as drafted (Recommended)")
 
   # Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
@@ -729,12 +730,12 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     When a visitor opens the chat page from "Ask about this area"
     Then the pause line shows in place of the consent card, with a way back to the area result, no consent receipt is made, and no bot check runs
 
-  # The line is proposed wording for the copy review (design section 3). Added 21 Nov 2026 (FE-85 to FE-88).
+  # The line is approved wording (founder, 21 Nov 2026, copy review: "As drafted (Recommended)"; design section 3). Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-124 when a day's spend reaches £2.50 the chat pauses for everyone with its own line
     Given the day's AI spend has reached £2.50 (0064 point 5)
     When a visitor opens the chat or sends a message
-    Then the chat shows "The chat has reached today's limit for everyone and is paused until midnight. The area check still works", no model call is made, and the visitor's own count is unchanged
+    Then the chat shows "The chat has reached today's limit for everyone and is paused until midnight. The area check still works.", no model call is made, and the visitor's own count is unchanged
 
   # Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
@@ -770,7 +771,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     Given the chat is unavailable (the AI provider, the bot check or the limiter can't run)
     And the day's spend has reached £2.50
     When the visitor opens the chat page or sends a message
-    Then the chat shows "Chat unavailable right now", and not the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works"), with no model call
+    Then the chat shows "Chat unavailable right now", and not the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works."), with no model call
 
   @ui
   Scenario: WCHAT-130 when the chat is unavailable (the AI provider, the bot check or the limiter can't run) and the visitor's connection has used its own 15 messages today, only the first line shows
@@ -798,7 +799,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     Given the monthly cap has been reached
     And the day's spend has reached £2.50
     When the visitor opens the chat page or sends a message
-    Then the chat shows "Chat is paused for this month, the area check still works.", and not the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works"), with no model call
+    Then the chat shows "Chat is paused for this month, the area check still works.", and not the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works."), with no model call
 
   @ui
   Scenario: WCHAT-134 when the monthly cap has been reached and the visitor's connection has used its own 15 messages today, only the first line shows
@@ -826,21 +827,21 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     Given the day's spend has reached £2.50
     And the visitor's connection has used its own 15 messages today
     When the visitor opens the chat page or sends a message
-    Then the chat shows the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works"), and not "Chat is paused for today, the area check still works", with no model call
+    Then the chat shows the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works."), and not "Chat is paused for today, the area check still works", with no model call
 
   @ui
   Scenario: WCHAT-138 when the day's spend has reached £2.50 and the connection is over a rate limit, only the first line shows
     Given the day's spend has reached £2.50
     And the connection is over a rate limit
     When the visitor opens the chat page or sends a message
-    Then the chat shows the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works"), and not "Too many questions just now · Try again in a few minutes", with no model call
+    Then the chat shows the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works."), and not "Too many questions just now · Try again in a few minutes", with no model call
 
   @ui
   Scenario: WCHAT-139 when the day's spend has reached £2.50 and this chat has reached its turn limit, only the first line shows
     Given the day's spend has reached £2.50
     And this chat has reached its turn limit
     When the visitor opens the chat page or sends a message
-    Then the chat shows the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works"), and not the turn-limit message with its one action "New chat" (WCHAT-72), with no model call
+    Then the chat shows the daily cap's line ("The chat has reached today's limit for everyone and is paused until midnight. The area check still works."), and not the turn-limit message with its one action "New chat" (WCHAT-72), with no model call
 
   @ui
   Scenario: WCHAT-140 when the visitor's connection has used its own 15 messages today and the connection is over a rate limit, only the first line shows
@@ -877,7 +878,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     When the visitor asks for a comparison of "NB1 4XY" and "NB7 1RR" and its answer completes
     Then the comparison runs, the count for the day is 0, the count never shows below 0, and the chat then shows "Chat is paused for today, the area check still works"
 
-  # Founder, 21 Nov 2026, prompt window: "Show on compare (Recommended)" (FE-87). Wording is for the copy review. Added 21 Nov 2026 (FE-85 to FE-88).
+  # Founder, 21 Nov 2026, prompt window: "Show on compare (Recommended)" (FE-87). Wording approved by the founder, 21 Nov 2026, copy review ("Approve as drafted (Recommended)"). Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-145 with 3 or fewer messages left the compare actions say "Uses up to 3 · N left today"
     Given the visitor has 2 messages left today and a widget with "Compare with…" and "Compare another area"
@@ -891,14 +892,14 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     When the visitor looks at the message box
     Then the line "3 left today · a comparison uses up to 3" is shown above the box, so a visitor who types a comparison is warned too, and with 4 or more left the line is not shown
 
-  # Design section 3; the exact text is proposed for the copy review ("A comparison needs more of today's budget than is left. Single questions still work."). Added 21 Nov 2026 (FE-85 to FE-88).
+  # Design section 3; the text is approved by the founder, 21 Nov 2026, copy review ("Approve as drafted (Recommended)"): "A comparison needs more of today's budget than is left. Single questions still work.". Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-147 a comparison that does not fit the day's remaining budget gets its own line while single questions keep working
     Given the day's remaining budget (£2.50 less the spend so far, with the reserve-before-call guard) is enough for a single question and not for a comparison
     When the visitor asks for a comparison, and then asks a single question
-    Then the comparison is refused with a line for comparisons only, with no model call and nothing counted, and the single question is answered
+    Then the comparison is refused with the line "A comparison needs more of today's budget than is left. Single questions still work." for comparisons only, with no model call and nothing counted, and the single question is answered
 
-  # Design section 4 (0064 point 1); the step names are proposed for the copy review. Added 21 Nov 2026 (FE-85 to FE-88).
+  # Design section 4 (0064 point 1); the step names are approved by the founder, 21 Nov 2026, copy review ("Approve both (Recommended)"). Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-148 a comparison shows its steps as a list, each step announced once
     Given a visitor has asked for a comparison of "NB1 4XY" and "NB7 1RR"
@@ -932,6 +933,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     Given a visitor is on the landing page
     When the visitor chooses the chat link beside the postcode box and taps "Agree and start chat"
     Then the chat opens with no area, the suggested starts are shown, and the panel is the empty state (WCHAT-154)
+    And the link beside the box reads "Ask about an area in the chat" on the landing, and on a phone the message box's placeholder reads "Ask about a postcode…" (approved by the founder, 21 Nov 2026: "Approve both (Recommended)"; the desktop placeholder is unchanged)
 
   # Agent's call, design section 1: the chat already has the council tools. Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
@@ -968,7 +970,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     When the visitor chooses "New chat" and confirms
     Then the stream stops, the old conversation is cleared, and the stopped answer counts as WCHAT-108 says
 
-  # Proposed wording for the copy review (plan, Global Constraints). Added 21 Nov 2026 (FE-85 to FE-88).
+  # Approved wording (founder, 21 Nov 2026, copy review: "Approve both (Recommended)"; plan, Global Constraints). Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-158 "New chat" asks first and says nothing is kept
     Given a visitor has a conversation with at least one answer
@@ -994,7 +996,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Scenario: WCHAT-161 Back from the chat returns to the area result through the in-memory hand-over
     Given a visitor came from the area result for NB1 4XY with "Ask about this area"
     When the visitor uses the browser's Back
-    Then the area result for NB1 4XY is shown again, with no postcode read from any address or storage
+    Then the area result for NB1 4XY is shown again, with no postcode read from any address or storage, and the chat's own way back reads "Back to the area result" (approved by the founder, 21 Nov 2026: "Approve as drafted (Recommended)")
 
   # Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
@@ -1015,4 +1017,4 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Scenario: WCHAT-164 "Privacy notice" opens in a new tab, says so in its name and leaves the conversation as it was
     Given a visitor has the consent card open, or a conversation
     When the visitor chooses "Privacy notice"
-    Then it opens in a new tab and its accessible name says so ("Privacy notice, opens in a new tab"), and the first tab's card or conversation is as it was
+    Then it opens in a new tab and its accessible name says so ("Privacy notice, opens in a new tab"), while the visible text is "Privacy notice ↗" (approved by the founder, 21 Nov 2026: "Approve (Recommended)"), and the first tab's card or conversation is as it was

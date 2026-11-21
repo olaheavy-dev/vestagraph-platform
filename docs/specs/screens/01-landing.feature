@@ -151,12 +151,13 @@ Feature: Landing
     Then step 1 is titled "Type a postcode or town" with "Any postcode, town or city in England. No account, nothing to install."
     And step 2, "See what’s around", reads "For a postcode: transport, shops, parks, health, schools, places of worship, flood risk and recorded crime. For a town or city: its council’s published figures. Each with its source."
 
-  # Founder's wording, 17 Nov 2026 (prompt window, FE-49 amended): the clause "unless you sign in and save an area" was added because signed-in users can save areas (0058). The landing FAQ boards still show the old answer and are to be redrawn (#318).
+  # Founder's wording, 17 Nov 2026 (prompt window, FE-49 amended): the clause "unless you sign in and save an area" was added because signed-in users can save areas (0058). The landing FAQ boards now carry the approved answer below (canvas version 440; formerly to be redrawn, #318).
   @ui
   Scenario: LAND-19 the FAQ answers "Do you keep my search?" for a postcode or a place name
     Given the user is not signed in
     When the user opens "Do you keep my search?" in Questions
-    Then it reads "No. What you type, a postcode or a place name, is only used to show your result. We don’t keep it or link it to you, unless you sign in and save an area."
+    Then it reads "No. What you type, a postcode or a place name, is only used to show your result. We don’t keep it or link it to you."
+    # Replaced 21 Nov 2026: the earlier ending, "unless you sign in and save an area", is untrue in the pilot (no sign-in or Save). The founder approved the replacement in the chat copy review on 21 Nov 2026 (prompt window, "Proposed replacement (Recommended)").
 
   # The boards draw a footer of How it works, About the data, Privacy and Accessibility. The site plan's footer also lists "Explore council areas" (0055) and "Use in ChatGPT or Claude" (0056); neither is drawn on the landing boards, so this scenario is proposed wording, approved by the founder on 18 Nov 2026 (prompt window, "Keep all (Recommended)"), finalised in the build.
   @ui
@@ -210,12 +211,12 @@ Feature: Landing
     Then it offers a link "More on how it works" (proposed wording) that opens "/how-it-works" (HOW-01)
     And the link carries no postcode or search text
 
-  # 21 Nov 2026 (0063 point 8, FE-85): the chat is offered beside the postcode box, as well as the area check. The link's wording is proposed for the copy review.
+  # 21 Nov 2026 (0063 point 8, FE-85): the chat is offered beside the postcode box, as well as the area check. The link's wording is approved (founder, 21 Nov 2026, copy review: "Approve both (Recommended)").
   @ui
   Scenario: LAND-27 a link beside the postcode box opens the chat, empty, with no postcode in the address
     Given the user is on the landing page
     When the user chooses the chat link beside the postcode box
-    Then the chat page opens on its consent card with no area loaded (WCHAT-152), and no request carries the box's text in its URL path, query string or Referer header
+    Then the chat page opens on its consent card with no area loaded (WCHAT-152); the link reads "Ask about an area in the chat" (approved by the founder, 21 Nov 2026, copy review: "Approve both (Recommended)"), and no request carries the box's text in its URL path, query string or Referer header
     And the postcode box itself still searches as before (LAND-01)
 
   @ui
