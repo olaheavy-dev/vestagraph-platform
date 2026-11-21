@@ -5,10 +5,10 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Added 19 Nov 2026 (pilot design batch, PR 2, plan Task 5; design `docs/superpowers/specs/2026-11-19-pilot-design-batch-design.md`, sections 5 to 7; decisions 0014, 0053, 0056, 0057, 0058; register lines DA-09, DA-35, FE-11, FE-74, SE-02, SE-07, SE-08, SE-09).
   Where: `/how-it-works`, `/privacy` and `/accessibility`, linked from the footer on every page and, for "How it works", from the landing's "How it works" section (LAND-25, LAND-26 in `screens/01-landing.feature`). The footer labels are the landing boards': "How it works", "About the data", "Privacy notice", "Accessibility" (HOWTO-31).
   Fixtures: none. The three pages are static text; they quote no figure (AGENTS.md rule 2).
-  Boards: on the canvas page "Pilot · public area check", section "Pilot 9 · Public pages" (design canvas version 436, version id 1795257478-8656; the four Privacy boards redrawn on 21 Nov 2026 for the anonymous chat: the other boards were last drawn at version 425): HowItWorks (desktop, 1440 wide) and HowItWorksPhone (390), Privacy and PrivacyPhone, Accessibility and AccessibilityPhone, each with a Dark twin. Every string below that is not a quote from a record is the agent's proposed wording. The Landing boards (Landing, LandingDark, LandingPhone, LandingPhoneDark) draw LAND-25 and LAND-26: the footer reads "How it works", "About the data", "Privacy notice", "Accessibility" and "Use in ChatGPT or Claude" (HOWTO-31), and the How it works section ends with the link "More on how it works". Each placeholder is drawn in one style, a dashed, hatched slate box with a "Placeholder" label above its exact text (a "Draft" label for PRIV-11's draft line); where a scenario lists several placeholders in one sentence, the board draws one box for the group, labelled with what it covers. No illustration is drawn (HOW-11 allows at most one).
-  Launch blocker (design `docs/superpowers/specs/2026-11-21-anonymous-chat-design.md`, section 5; decisions 0063, 0064, 0065; register lines SE-10, SE-11): the chat does not go public until the Privacy notice states every fact in PRIV-04, PRIV-08, PRIV-13, PRIV-14, PRIV-20 and PRIV-21 (the controller, the purposes and lawful basis, the transfer to the US and its safeguard, the keeping periods, withdrawing consent, the right to complain to the ICO). PRIV-04 is the one scenario that names the controller (0065).
+  Boards: on the canvas page "Pilot · public area check", section "Pilot 9 · Public pages" (design canvas version 437, version id 1795257784-6087; the four Privacy boards redrawn on 21 Nov 2026 for the anonymous chat: the other boards were last drawn at version 425): HowItWorks (desktop, 1440 wide) and HowItWorksPhone (390), Privacy and PrivacyPhone, Accessibility and AccessibilityPhone, each with a Dark twin. Every string below that is not a quote from a record is the agent's proposed wording. The Landing boards (Landing, LandingDark, LandingPhone, LandingPhoneDark) draw LAND-25 and LAND-26: the footer reads "How it works", "About the data", "Privacy notice", "Accessibility" and "Use in ChatGPT or Claude" (HOWTO-31), and the How it works section ends with the link "More on how it works". Each placeholder is drawn in one style, a dashed, hatched slate box with a "Placeholder" label above its exact text (a "Draft" label for PRIV-11's draft line); where a scenario lists several placeholders in one sentence, the board draws one box for the group, labelled with what it covers. No illustration is drawn (HOW-11 allows at most one).
+  Launch blocker (design `docs/superpowers/specs/2026-11-21-anonymous-chat-design.md`, section 5; decisions 0063, 0064, 0065; register lines SE-10, SE-11): the chat does not go public until the Privacy notice states every fact in PRIV-04, PRIV-08, PRIV-13, PRIV-14, PRIV-20 and PRIV-21 (the controller, the purposes and lawful basis, the transfer to the US and its safeguard, the keeping periods, withdrawing consent, the right to complain to the ICO). PRIV-04 is the one scenario that names the controller (0065). Check PRIV-14's complaint wording against current law before launch: legislation.gov.uk's Article 13(2)(d) now reads "the Commission under section 165 of the 2018 Act" (the Data (Use and Access) Act 2025 may rename the ICO); unverified.
   Wording status: the agent's proposed wording, for the founder's copy review before build. The facts on each page are quoted from their records (listed per scenario); the words around them are proposed. Two kinds of text are fixed by the founder's decision SE-07 and are never rewritten: the legal-part placeholder "To be written before launch (SE-02)" and the contact placeholder "Contact details to be added before launch". Accessibility's results placeholder "To be completed after testing, before launch" is from the design (section 7).
-  Rule 1 and SE-07: no legal position is stated that no record decides (no lawful basis, no controller name, no retention wording of our own, no statement of rights). A placeholder is shown plainly as a placeholder, never styled as finished text. Rule 4 and 0054: no page calls an area, council or home "verified", "safe" or "approved", and none gives a score, rating or verdict.
+  Rule 1 and SE-07: no legal position is stated that no record decides. The controller, the lawful basis, the keeping periods, the rights, withdrawing consent and the right to complain are stated only where 0063, 0064 or 0065 decide them (PRIV-04, PRIV-13, PRIV-14, PRIV-20, PRIV-21); everything else stays a placeholder. A placeholder is shown plainly as a placeholder, never styled as finished text. Rule 4 and 0054: no page calls an area, council or home "verified", "safe" or "approved", and none gives a score, rating or verdict.
   Facts decided on 21 Nov 2026 for the anonymous chat (0063, 0064, 0065), no longer placeholders: who the controller is and how to contact them (PRIV-04); the lawful basis and purposes for the chat (PRIV-20); the AI provider and the keeping periods (PRIV-13, PRIV-21); the bot check (ALTCHA, PRIV-08); the rights, withdrawing consent and the right to complain (PRIV-14). Sign-in, accounts, saved areas and chat history wait until later (0063 point 2), so no sign-in cookie is in the pilot. Facts still undecided, shown as placeholders and not invented: the lawful basis for the other kinds of processing (0057 only proposes legitimate interests for ChatGPT call fields); the legal retention wording around the periods that are decided elsewhere (FE-74's 90 days, 0057's totals with no end date, SE-08 and SE-09's 12 months); hosting and security (PRIV-19); the accessibility test method, date and results.
 
   Board-to-scenario map (each board has a Dark twin showing the same wording; HOW-14, PRIV-17, A11Y-09):
@@ -117,7 +117,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Scenario: HOW-13 the page works by keyboard, with 44 px targets, on a phone and on desktop
     Given the user has opened "How it works" on a phone (390 px wide) and on desktop
     When the user works through the page by keyboard
-    Then every link can be reached and used in reading order, each at least 44 px tall, with the focus visible, and nothing scrolls sideways at 390 px
+    Then every link can be reached and used in reading order, each button and standalone link at least 44 px tall (a link inside a sentence is exempt, as WCAG 2.2 success criterion 2.5.8 allows for inline targets), with the focus visible, and nothing scrolls sideways at 390 px
     And the heading order is one level-1 heading and the seven sections as level-2 headings
 
   @ui
@@ -160,18 +160,46 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     And it names the controller as Sunkanmi Olawuwo, a private individual (0063 point 6, 0065)
     And it gives privacy@vestagraph.co.uk as the contact (0063 point 6, 0065; Article 13(1)(a))
     And it names no company and no postal address (none is decided)
+
+  # 0014 (starting position; keep nothing about anonymous visitors), 0053 (limits in the request body only, never logged, never stored), 0014's logs rule.
+  @ui
+  Scenario: PRIV-05 "What we collect and what we never collect" quotes the decided facts
+    Given the user has opened "Privacy notice"
+    When the user reads "What we collect and what we never collect"
+    Then it says that what you type, a postcode or a place name, is only used to show your result, and that it travels in the part of the link after the "#" or in the body of a request, never in a query string or an address that reaches a log (0014 for the search; the pilot design 2026-11-13 and the pilot design batch, section 6, for the "#" and the body)
+    And it says searches are not kept against you, and we keep only anonymous counts, for example the number of checks per day (0014)
+    And it says the limits you set in priorities are sent in the body of a request to work out the comparison, are not kept and are not logged (0053)
+    And it names the City Explorer inputs: the place name or postcode you type, your budget, the council tax band you pick, and the deposit, mortgage rate and term in the rent or buy section; it says none of them is stored or written to a server, application, hosting or tracing log, that analytics never records a form field, and that the amounts travel only in the request body, never in the address or its query string, and are not in a share link or a printout (CITY-101, CITY-59, CITY-103; 0055)
+    And it says IP addresses are dropped or anonymised before logs are written (0014)
+    And the lawful basis and the retention wording each read exactly "To be written before launch (SE-02)"
+
+  # SE-08 and SE-09: Recent postcodes and remembered priority limits at most 12 months; the councils' setting is the same (CITY2-46, CITY2-54). 0014 and 0053: off by default, PECR consent. Theme and text size are stored nowhere (FE-23, DISP-05).
+  @ui
+  Scenario: PRIV-06 "Remembering things on your device" names its three "remember on this device" choices, kept only in your browser
+    Given the user has opened "Privacy notice"
+    When the user reads "Remembering things on your device"
+    Then it names "Remember postcodes on this device", "Remember councils on this device" and "Remember these on this device" (the limits you set in priorities), each off until you turn it on, each its own choice (0014; 0053; PRIO-15, PRIO-19)
+    And it says the lists of postcodes and councils are kept only in your browser and are never sent to us, that remembered limits are also kept only in your browser and are sent only when you check, to work out the comparison, and are never stored or logged by us (0053; PRIO-17, PRIO-20), that you can clear or turn off a list at any time, and that an entry is kept at most 12 months, older entries being dropped automatically (SE-08 for postcodes, CITY2-54 for councils, SE-09 for limits, PRIO-20)
+    And the lawful basis and the consent position (PECR) read exactly "To be written before launch (SE-02)" (0014 leaves the PECR check to decide)
+    And it names no other thing stored on your device, because theme and text size are stored nowhere (FE-23, DISP-05) and the sign-in session cookies are a separate section (PRIV-13)
+
+  # FE-74: the reasons, the shapes and internal only; the never-stored list and the 90 days are the pilot design 2026-11-13 goal 7, the pilot design batch section 4 and REPORT-26, REPORT-28.
+  @ui
+  Scenario: PRIV-07 "Report a problem counts" says what is counted, for how long, and that nothing identifies you
+    Given the user has opened "Privacy notice"
+    When the user reads "Report a problem counts"
+    Then it says a report is counted per day, with the source, the topic or the figure, the area or the fact's public record ID and the reason ("Wrong", "Out of date" or "Missing something"), and there is no free text (FE-74)
     And it says the postcode, a row for each report, a time finer than the day, and any client key or IP address are never stored, that the counts are kept 90 days (the pilot design batch, section 4; REPORT-26, REPORT-28), and that they are used only by us to see what needs checking and are never published (FE-74)
     And the lawful basis and the retention wording around the 90 days read exactly "To be written before launch (SE-02)"
 
-  # 0063 point 4 and BE-42 (20 Nov 2026), FE-86 (21 Nov 2026): ALTCHA, self-hosted, runs on the consent tap. Replaces the 2026-11-13 wording ("an invisible check reads signals from your device", no provider), which is no longer true.
+  # 0063 point 4 and BE-42 (20 Nov 2026), FE-86 (21 Nov 2026): ALTCHA, self-hosted, runs on the chat's consent tap. Replaces the 2026-11-13 wording for the chat. Report a problem also sits behind the bot check (REPORT-13); ALTCHA is decided only for the chat, so the provider for Report a problem stays a placeholder unless a record decides it.
   @ui
-  Scenario: PRIV-08 "The bot check" says ALTCHA is a self-hosted proof-of-work check that runs when you start the chat
+  Scenario: PRIV-08 "The bot check" says ALTCHA runs on the chat's consent tap, and names the bot check for Report a problem
     Given the user has opened "Privacy notice"
     When the user reads "The bot check"
-    Then it says the check is ALTCHA, a proof-of-work check that your device runs and that is checked on our own server, so no outside company sees you (0063 point 4; BE-42)
-    And it says the check runs when you tap "Agree and start chat", and again after a set number of messages (FE-86)
-    And it says the check sets no cookies and stores nothing on your device (0063)
-    And it says it reads no signals from your device, such as location, history or account (proof of work reads none)
+    Then it says that for the chat the check is ALTCHA, a proof-of-work check that your device runs and that is checked on our own server, so no outside company sees you (0063 point 4; BE-42)
+    And it says the chat's check runs when you tap "Agree and start chat", and again after a set number of messages (FE-86), sets no cookies and stores nothing on your device (0063)
+    And it says that when you report a problem a bot check also runs (REPORT-13), and its provider reads exactly "To be written before launch (SE-02)" unless a record decides it
     And the retention wording, if the check keeps anything beyond used proofs until they expire (BE-42), reads exactly "To be written before launch (SE-02)"
 
   # DA-35, 0056 and 0014: an IP address held briefly in memory, never logged.
@@ -220,13 +248,13 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     Given the user has opened "Privacy notice"
     When the user reads "The chat"
     Then it says there is no sign-in in the pilot: no account, saved area or chat history is kept, and the chat works without one (0063 point 2)
-    And it says your messages, including any health or similar details you type, go to Anthropic, which processes them in the US or, in its words, "globally", deletes them within 30 days, and keeps content its systems flag for up to 2 years (0064; the DPA's UK Addendum is the safeguard for the transfer, Article 13(1)(f))
+    And it says your messages, including any health or similar details you type, go to Anthropic, which processes them in the US or "global", deletes them within 30 days, and keeps content its systems flag for up to 2 years (0064; the DPA's UK Addendum is the safeguard for the transfer, Article 13(1)(f))
     And it says the words of real chats are kept 14 days in our own Neon database (Frankfurt), with the identifier filter and the consent receipt, then deleted, and gone from Neon's 7-day history a week later (0064, 0063 point 5)
     And it says traces without the words go to LangSmith (LangChain) in its EU region (the Netherlands), as a processor of trace data only (0064)
     And it says the IP address is used in memory for the day's count of 15 messages and is never stored (0063 point 3)
     And it says special category details, such as health details, are handled only on your explicit consent, given when you tap "Agree and start chat" (0063 point 5; UK GDPR Article 9(2)(a))
     And it says the chat sets no cookies and stores nothing on your device (0063)
-    And it says the AI model that writes chat answers may not use your chats for training (0058 point 7, kept by AI-01)
+    And it says the AI model that writes chat answers may not use your chats for training (0064 point 3, "No training on our content")
 
   # Design sections 5 and 7: Article 7(3) and 13(2)(c) (withdrawing consent), 13(2)(d) (the right to complain), UK GDPR Article 11(2) (acting when the trace can be found). Source: https://www.legislation.gov.uk/eur/2016/679/article/13, read 21 Nov 2026. The other rights (access, deletion, objection) wait for SE-02.
   @ui
@@ -290,8 +318,8 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
   Scenario: PRIV-21 the chat's keeping periods are stated
     Given the user has opened "Privacy notice"
     When the user reads "The chat"
-    Then it states each keeping period (Article 13(2)(a)): Anthropic deletes within 30 days and keeps flagged content up to 2 years; our Neon table keeps the words 14 days and Neon's history 7 days more; LangSmith keeps its traces, which have no words, 14 days (0064); the IP address is not kept (PRIV-13); the daily counts are kept 90 days (PRIV-04)
-    And it names no period that no record decides (rule 1)
+    Then it states each keeping period (Article 13(2)(a)): Anthropic deletes within 30 days and keeps flagged content up to 2 years; our Neon table keeps the words 14 days and Neon's history 7 days more; LangSmith keeps its traces, which have no words, 14 days (0064); the IP address is not kept (PRIV-13)
+    And it names no period that no record decides (rule 1), and gives no keeping period for the chat's daily totals (none is decided); Report a problem's 90 days are PRIV-07's
 
   # ---- Accessibility (design section 7) ----
 

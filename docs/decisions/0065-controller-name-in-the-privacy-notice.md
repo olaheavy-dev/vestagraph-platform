@@ -21,9 +21,9 @@ The founder's answers, 21 Nov 2026, in prompt windows:
 - **Name:** the founder's full name as on their commits ("(Recommended)"): **Sunkanmi Olawuwo**.
 - **Contact:** **privacy@vestagraph.co.uk** ("privacy@vestagraph.co.uk (Recommended)"; IN-06 registered both domains).
 
-Rule 5 gains one clause: "except the controller's name in the Privacy notice (decision 0065)".
+Rule 5 gains one clause, on real personal data: "except the controller's name in the files decision 0065 lists".
 
 ## Consequences
 - **The name stays in the public history for good**, even if later removed from the files.
-- **Only these files may carry the name:** this record, the PRIV scenario or scenarios that name the controller in `docs/specs/pilot/public-pages.feature`, and the Privacy notice board on the design canvas, plus the built Privacy notice page when it is made. It is not written in `AGENTS.md`, the register, the status file, commit messages or pull requests.
+- **Only these files may carry the name:** this record, the PRIV scenario that names the controller in `docs/specs/pilot/public-pages.feature`, and the Privacy notice boards on the design canvas, plus the built Privacy notice page when it is made. It is not written in `AGENTS.md`, the register, the status file, commit messages or pull requests.
 - **Revisit if the controller changes**, for example if a company takes over, the project starts trading (0063 point 7) or the founder asks for the name to be removed.
