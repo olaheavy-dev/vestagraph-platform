@@ -203,7 +203,8 @@ Feature: Topic sheet and panel (one topic of an area result, opened from its row
     When the visitor looks at Explain this
     Then it reads "Explanation not yet available"
     # No "Ask more about this" link in the pilot: there is no chat to open (AI-12, decision 0056, 15 Nov 2026).
-    # 16 Nov 2026 (0058, FE-58): the chat is back for signed-in users and "Ask more about this" returns for everyone, except under an explanation that is not yet available (WCHAT-55, WCHAT-76, WCHAT-105).
+    # 16 Nov 2026 (0058, FE-58): the chat is back and "Ask more about this" returns for everyone, except under an explanation that is not yet available (WCHAT-55, WCHAT-76, WCHAT-105).
+    # 21 Nov 2026 (0063): there is no sign-in; "Ask more about this" opens the chat page on the consent card and then on the topic (WCHAT-55, WCHAT-105, WCHAT-106), and still shows when the chat is paused, where the chat page shows the pause line (WCHAT-56, WCHAT-77).
 
   # Changed 16 Nov 2026 (design pass, FE-69): these rows now read "Check this: we haven't checked it" with what the thing is, why it matters and the official link (TOPIC-35 to TOPIC-39); the Noise row also says road noise is a map layer (TOPIC-38). They sit under the heading "Not yet covered here".
   @ui

@@ -1,7 +1,7 @@
 @screen @buying @renting
 Feature: Ask about this area (the pilot's area chat panel)
   Withdrawn for the pilot by decision 0056 (15 Nov 2026): the pilot has no on-page chat, and anonymous visitors get no AI calls.
-  16 Nov 2026, decision 0058: the chat returns to the pilot for signed-in users only, as the workspace chat (chat.feature, WCHAT-), with sign-in (sign-in.feature, AUTH-) and the account pages (account.feature, ACCT-). This file is kept for its IDs.
+  16 Nov 2026, decision 0058: the chat returns to the pilot for signed-in users only, as the workspace chat (chat.feature, WCHAT-); 21 Nov 2026, 0063: that chat is now the anonymous chat, still in chat.feature under the same numbers, and the scenarios that need sign-in are in chat-signed-in-later.feature, with sign-in (sign-in.feature, AUTH-) and the account pages (account.feature, ACCT-). This file is kept for its IDs.
   Review (16 Nov 2026, plan docs/superpowers/plans/2026-11-16-signed-in-chat.md, Task 7): a scenario whose text still holds word for word is kept and loses @withdrawn; a scenario whose meaning changed stays @withdrawn, unedited, and is replaced by a new ID (docs/specs/README.md rule 2); one only about the anonymous on-page chat is retired and stays @withdrawn. Kept 2, replaced 50, retired 1.
     ID | keep / replace / retire | reason | new ID
     CHAT-01 | keep | the data check still holds: a postcode outside England is not yet covered | —

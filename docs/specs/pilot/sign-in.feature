@@ -1,5 +1,6 @@
 @screen @buying @renting
 Feature: Sign in to chat and save areas (the pilot's sign-in)
+  Kept for when sign-in opens (0063 point 2); not part of the pilot. Written 16 Nov 2026 for decision 0058; sign-in, accounts, saved areas and chat history left the pilot on 20 Nov 2026 (0063), and the pilot's chat is anonymous (chat.feature). These scenarios stay as they are until sign-in opens and a decision brings them back.
   Added 16 Nov 2026 (decision 0058, register lines SE-06, FE-56, FE-60). Anonymous visitors still use the public pages with no account (decisions 0046 and 0051); signing in is needed only to chat and to save areas.
   Question it answers: "How do I sign in, and what happens to where I was and what I was doing?"
   Modes: both

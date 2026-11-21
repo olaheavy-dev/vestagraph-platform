@@ -11,7 +11,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     typed (rule 2); the council tools return the published figures held in `council-area.json`, quoted from the file.
   What it is: a public, read-only MCP server with no key or sign-in, for public area data only
     (decision 0051 point 1). The same area tools serve the Check an area page and, in the pilot, ChatGPT and Claude only: the
-    on-page chat left the pilot (decision 0056, 15 Nov 2026) and will use them in the signed-in workspace (design, goal 1). The tools read only our stored copies of each source, never the live source on a
+    on-page chat left the pilot (decision 0056, 15 Nov 2026) and will use them in the chat (design, goal 1; the pilot's chat is anonymous, 0063). The tools read only our stored copies of each source, never the live source on a
     visitor's request (design, builder check answer 1). Tool names and exact signatures are chosen in the
     build (design, "Left to the builder"); these scenarios name each tool by its job:
     the find-area tool, the nearby places tool, the area topic tool, the explain-source tool and the
@@ -29,7 +29,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     call) and an AI never calculates a figure (0004). They read only our stored copies (TOOLS-22), carry the same rule in
     every description (TOOLS-18), and share the server's read-only, key-free, limit, monthly-cap and no-log rules, which
     already say "every tool" (TOOLS-16, TOOLS-17, TOOLS-23 to TOOLS-28, TOOLS-37; extended for the council tools in
-    TOOLS-61 and TOOLS-62; the tenure shares, TOOLS-64 to TOOLS-66). The signed-in chat calls the same tool functions inside the API (0058, choice 8; TOOLS-60). The
+    TOOLS-61 and TOOLS-62; the tenure shares, TOOLS-64 to TOOLS-66). The chat calls the same tool functions inside the API (0058, choice 8; TOOLS-60). The
     neighbourhood page's facts are not a tool in this file: the design lists council figures only.
   AI evaluation cases (register AI-03; backlog row 38f): the scenarios tagged `@ai03`, covered by
     packages/fixtures/evaluation/ai-03-set.json. The scenarios here test what our server returns and declares, not the
@@ -57,7 +57,7 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
       work in every host.
   Kept 14 Nov 2026 (FE-33, DA-12): the tools' outputs are data, not the page. Every scenario here keeps each
     value's source, data date and label, even though the page shows only the source's icon, name and link
-    and puts only each source's date (no status word) on About the data (FE-33 amended 14 Nov 2026), so MCP hosts (and the later workspace chat) can say when a fact dates from.
+    and puts only each source's date (no status word) on About the data (FE-33 amended 14 Nov 2026), so MCP hosts (and the chat) can say when a fact dates from.
   Labels: every value carries Cached or Fallback (decision 0029), or Unavailable when its source failed,
     and "Old" when its stored copy is past its refresh date. The tools never read a live source, so no
     value is labelled Live.
@@ -513,10 +513,10 @@ Feature: Area tools for ChatGPT and Claude (the pilot's public MCP server)
     Then none is for an energy certificate (DA-32: the server holds public area data only, 0051)
     And when it calls any tool with a certificate number as the input, the tool refuses it as it does a malformed postcode (TOOLS-04; the refusal wording is proposed) and holds no certificate, rating or address (a certificate number is treated like a postcode, decision 0014)
 
-  # Decision 0058, choice 8: the chat calls the tool functions directly; the public server's per-host caps do not limit signed-in users.
+  # Decision 0058, choice 8: the chat calls the tool functions directly; the public server's per-host caps do not limit the chat, which has its own limits (15 messages per IP address per day, 0063).
   @mcp
-  Scenario: TOOLS-60 the signed-in chat and the public server return the same council result
-    Given the public server and the signed-in chat's tool call use the same tool package
+  Scenario: TOOLS-60 the chat and the public server return the same council result
+    Given the public server and the chat's tool call use the same tool package
     When both ask the council facts tool for council "E06999001"
     Then the two results are identical, and the chat's call is not counted against the public server's per-host limit
 

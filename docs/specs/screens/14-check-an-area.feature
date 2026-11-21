@@ -21,7 +21,7 @@ Feature: Check an area
     no status word and no date; a fact whose source is unavailable says "Not known right now" in its own
     text. About the data shows each source's link and the date of the data we hold, with no status word
     (founder, 14 Nov 2026: "Dates only, no notes"); a source we hold no current copy of says "We hold no
-    current copy" instead of a date (AREA-25); the stored data, the area tools (and the later workspace chat's grounding) keep
+    current copy" instead of a date (AREA-25); the stored data, the area tools (and the chat's grounding) keep
     the Cached, Old and Unavailable labels (area-tools.feature).
   Changed 14 Nov 2026 (FE-34, FE-24): each source's method, limits and coverage live on one general About
     the data page, the same for every postcode (AREA-25); each result ends with a short "How we got this"
@@ -55,7 +55,7 @@ Feature: Check an area
     every source unavailable, the rows stay, one line to About the data -> AREA-31, AREA-34
     a search that crosses the border, places across it may be missing (B9) -> AREA-32, AREA-35
     a sparse area, the map opens on its places, the outer ring labelled with the search distance (FE-42) -> AREA-33, AREA-36
-    the "Ask about this area" entry with its AI badge and an active Save for the area, leading signed-out visitors to sign-in (0058) -> AUTH-15, AUTH-16, AUTH-17, AUTH-26 (sign-in.feature)
+    the "Ask about this area" entry with its AI badge, opening the chat with no sign-in (0063): shown on a covered result, not on a not-covered or not-found one, still shown when the chat is paused -> AREA-51 to AREA-53 (the chat page: `pilot/chat.feature`, WCHAT-150, WCHAT-151)
     the desktop result: place header with the map, At a glance as a row of facts, the counts line, the jump row, the right column, and an opened topic in place of the right column (FE-26, 16 Nov 2026) -> AREA-37 to AREA-43
     the place header's "About <council>" link to City Explorer -> AREA-48; About the data and City Explorer's own sources -> AREA-49
     About the data's entry for the energy certificate register -> AREA-50
@@ -64,8 +64,9 @@ Feature: Check an area
     (each of these states gives its cause, a line of reassurance and one action, B22)
   Free and paid: the area check is free and needs no account. Saving a home needs an account that
     doesn't exist yet, so it appears only as "Coming next · not available yet" (AREA-11; decision 0046).
-    16 Nov 2026 (0058): saving an area is live: Save on the result and "Ask about this area" lead signed-out
-    visitors to sign-in and back (AUTH-15 to AUTH-17, AUTH-26); saving a home still waits.
+    16 Nov 2026 (0058) made saving an area and "Ask about this area" lead signed-out visitors to sign-in; 21 Nov 2026
+    (0063) supersedes that: the pilot has no sign-in or Save, and "Ask about this area" opens the chat directly
+    (AREA-51 to AREA-53); saving a home still waits.
 
   # Home "WALES-1" still stands in for a postcode outside England: postcode-area.json is England only (rule 6).
   Scenario: AREA-01 a postcode outside England is not yet covered
@@ -454,3 +455,22 @@ Feature: Check an area
     And it gives the licence "Open Government Licence v3.0" and says the register's address and postcode are dropped when a certificate arrives and nothing is kept
     And under "What it can't tell you" it says a certificate can't tell you what your own bills will be, or what has changed in the home since it was made, and that its cost lines, improvements and savings are estimates, not bills and not quotes
     And the entry shows no "Data from" date, because Vestagraph holds no copy of this register's data, and says instead, in its approved line, "We look this up when you ask and keep no copy"
+
+  # 21 Nov 2026 (0063 point 8, FE-85): the entry point on a result. Check an area, Nearby and Nearby > Schools all carry it.
+  @ui
+  Scenario: AREA-51 a covered result shows "Ask about this area", which opens the chat with that area in the panel
+    Given the user has a covered result for sample postcode NB1 4XY open
+    When the user chooses "Ask about this area"
+    Then the chat page opens on its consent card titled for NB1 4XY, the full result for NB1 4XY is in the panel, and no request carries the postcode in its URL path, query string or Referer header (WCHAT-150)
+
+  @ui
+  Scenario: AREA-52 a "not yet covered" or "not found" result does not show "Ask about this area"
+    Given the user has the result for the postcode of home "WALES-1" ("Not yet covered") open, and then the result for "NB9 9ZZ" (not found)
+    When the user looks for the entry
+    Then neither result shows "Ask about this area", because there is nothing to ask about (WCHAT-151)
+
+  @ui
+  Scenario: AREA-53 "Ask about this area" still shows when the chat is paused or down
+    Given the chat is paused for everyone or is down, and the user has a covered result for NB1 4XY open
+    When the user looks at the result
+    Then "Ask about this area" is shown as usual, the result and its topics work, and the chat page shows the pause line on arrival (WCHAT-56, WCHAT-123)

@@ -126,6 +126,8 @@ Calls made in the sort (not in the design's lists): WCHAT-01, 03, 08, 11, 28, 83
 - [ ] **Step 2:** Headers and live docs that still describe the signed-in chat in the pilot.
 - [ ] **Step 3:** `make test`. Expected: PASS. Commit `docs: chat entry points and stale sign-in references`.
 
+**As done (21 Nov 2026).** New entry-point scenarios: LAND-27 and LAND-28 (landing link, shown when paused), AREA-51 to AREA-53 (Check an area), NEAR-17 (Nearby and Nearby > Schools), CITY-114 (council page); the chat's own are WCHAT-150 to WCHAT-153. Pointers and stale statements fixed in: `sign-in.feature` and `account.feature` (headers: kept for later, 0063), `area-topics.feature` (TOPIC-24 comment), `area-tools.feature`, `report-a-problem.feature` (REPORT-05, REPORT-08, header), `area-card.feature` and `area-chat.feature` (pointers only; withdrawn scenarios untouched), doc 04, `docs/architecture/README.md`, `docs/planning/backlog.md`, `docs/references/third-party.md` (Better Auth was already marked deferred), doc 05 and `.design/prototype/INFORMATION_ARCHITECTURE.md`. Not edited, left for the founder or another task: the landing FAQ answer LAND-19 (approved wording, "unless you sign in and save an area"), the landing's "Coming next, with a free account" section (LAND-05), and the Privacy notice scenarios in `public-pages.feature` (PR B). The status file is not edited here (Task 7).
+
 ### Task 6: Canvas boards
 
 **Files:** the design canvas: a new page "Pilot · Anonymous chat"; "Pilot · Signed-in chat" boards moved to "Home workspace (later)"; entry-point changes on the existing area result, Nearby, City Explorer and landing boards.

@@ -1,5 +1,6 @@
 @screen @buying @renting
 Feature: Your account (the pilot's account pages: saved areas, chats, sign-in methods and deleting)
+  Kept for when sign-in opens (0063 point 2); not part of the pilot. Written 16 Nov 2026 for decision 0058; accounts, saved areas and chat history left the pilot on 20 Nov 2026 (0063). The scenarios the chat page shared with these pages (renaming, the sidebar's list, saving, deleting a chat) are in chat-signed-in-later.feature. These scenarios stay as they are until sign-in opens and a decision brings them back.
   Added 16 Nov 2026 (decision 0058 choices 1 and 6, its Builder notes and its 16 Nov board-review note; register lines FE-53, FE-65, FE-66 and SE-06).
   Question it answers: "What does Vestagraph keep about me, and how do I change or delete it?"
   Modes: both. Signed in only: anyone not signed in goes through sign-in first (sign-in.feature, FE-56).
@@ -13,7 +14,7 @@ Feature: Your account (the pilot's account pages: saved areas, chats, sign-in me
   The server checks in these scenarios (database rows, deletion jobs, refusals, logs) are tagged @ui, as in chat.feature: they run in the same playwright-bdd suite against the running stack (SP-03). Time-based scenarios set the server's clock in the test; they never wait.
   Copy: the fixed texts are the chat texts in chat.feature. Every quoted message here, including "Undo available for 10 seconds" and "An email link always reaches your account at this verified address. To stop it, delete your account.", was proposed wording from the boards (drawn at the board review); these two texts were approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)"). Other messages here are finalised in the build.
   AI: no scenario here calls a model, so none is an AI-03 case.
-  Elsewhere: renaming a chat from the sidebar is WCHAT-44, the sidebar's own chat list is WCHAT-46, WCHAT-98, WCHAT-103 and WCHAT-104, saving an area and the 20 limit are WCHAT-47 to WCHAT-50, a deleted saved area's past chats are WCHAT-53, a chat deleted while it streams is WCHAT-57, WCHAT-100 and WCHAT-101, its traces are WCHAT-64; Sign out and Sign out everywhere are AUTH-22 to AUTH-25 and AUTH-27.
+  Elsewhere: (these WCHAT scenarios are in chat-signed-in-later.feature) renaming a chat from the sidebar is WCHAT-44, the sidebar's own chat list is WCHAT-46, WCHAT-98, WCHAT-103 and WCHAT-104, saving an area and the 20 limit are WCHAT-47 to WCHAT-50, a deleted saved area's past chats are WCHAT-53, a chat deleted while it streams is WCHAT-57, WCHAT-100 and WCHAT-101, its traces are WCHAT-64; Sign out and Sign out everywhere are AUTH-22 to AUTH-25 and AUTH-27.
   Required states (plan docs/superpowers/plans/2026-11-16-signed-in-chat.md Task 3 and Task 7 step 1; Review Focus 2; FE-53, FE-65, FE-66; AGENTS.md rules 5 and 7):
     the /account overview with its own pages -> ACCT-01
     saved areas: the list of up to 20 and its limit line, remove with Undo -> ACCT-02, ACCT-22, ACCT-03
