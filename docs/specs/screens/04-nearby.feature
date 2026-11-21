@@ -129,3 +129,4 @@ Feature: Nearby
     Given the user has the Nearby result for a covered sample area open, and then its Schools topic
     When the user chooses "Ask about this area" on each
     Then the chat page opens each time with that area in the panel and no postcode in any address (WCHAT-150), and the entry is not shown on a not-yet-covered or not-found result (WCHAT-151)
+    And the entry is still shown when the chat is paused or down, because Nearby never asks the chat for its state, and the chat page shows the pause line on arrival (WCHAT-56, WCHAT-123)

@@ -15,7 +15,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Fixed replies (register line AI-11): the "is it safe", score, advice and best-area questions are answered by text we wrote and reviewed, not the model (WCHAT-19).
   The ui tag also covers server checks (logs, server storage, refusals, counts, tokens): they run in the same playwright-bdd suite against the running stack (SP-03). Every scenario here is @ui.
   Limits: the message limit, the turn limit, the token limit per answer and the rate limits are numbers chosen in the build; these scenarios name them, never their values. The numbers fixed by the founder are named by register line: 15 messages per IP address per day (0063), the warning at message 14 (FE-55), a comparison as up to 3 (0064), the £2.50 daily and £25 monthly caps (0064 point 5; IN-05), the re-check every 5 messages (plan Global Constraints), 2 seconds and 6 seconds at the 95th percentile (OP-05), and 14 days for the kept words (0064 point 6).
-  Copy: the fixed texts are FE-13's AI label, "1 message left today" (FE-55), "Chat is paused for today, the area check still works", "Chat is paused for this month, the area check still works." (FE-61), "Chat unavailable right now", "Not covered" (FE-60), "Compare another area" and "Compare with…" (FE-52, FE-57). Every other quoted message is proposed wording, finalised in the build and in the founder's copy review, except that the wording of WCHAT-89, WCHAT-92, WCHAT-99 and WCHAT-109 was approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)"; WCHAT-109's example was changed on 21 Nov 2026, the label wording stands).
+  Copy: the fixed texts are FE-13's AI label, "1 message left today" (FE-55), "Chat is paused for today, the area check still works", "Chat is paused for this month, the area check still works." (FE-61), "Chat unavailable right now", "Not covered" (FE-60), "Compare another area" and "Compare with…" (FE-52, FE-57). Every other quoted message is proposed wording, finalised in the build and in the founder's copy review, except that the wording of WCHAT-89, WCHAT-92, WCHAT-99 and WCHAT-109 was approved by the founder on 18 Nov 2026 (prompt window, "Approve as written (Recommended)"). Three of those changed on 21 Nov 2026 and their changed lines are in the copy-review list in the plan, Task 4: WCHAT-89 ("the header controls" in place of "the sidebar"), WCHAT-92 (no signed-out state) and WCHAT-109 (the example is "Comparing…"; the label wording stands).
   Boards (plan Task 6): canvas version 438 (21 Nov 2026), page "Pilot · Anonymous chat": AnonChatDesktop, AnonChatPhone, AnonChatConsent, AnonChatCompare and AnonChatStates, each with a Dark twin. Each line below reads: state -> scenarios -> board. The canvas version is recorded again after the visual review if the boards change.
   Required states (plan Tasks 2 to 4 and 4b, Review Focus 1, 3, 4 and 5, AGENTS.md rules 1, 4 and 7):
     desktop layout with the side panel as a region, no sidebar -> WCHAT-01, WCHAT-02 -> board: AnonChatDesktop
@@ -23,7 +23,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     the consent card first; the box and starts blocked until the tap -> WCHAT-06, WCHAT-112 -> board: AnonChatConsent (frames 1, 2, 5, 6)
     the tap: "Checking…", the chat opens, one receipt; a double tap makes one -> WCHAT-113, WCHAT-114 -> board: AnonChatConsent (frames 2, 3; the opened chat is AnonChatDesktop and AnonChatPhone)
     the check failed, timed out, no Web Crypto, JavaScript off, no image-code fallback -> WCHAT-115, WCHAT-116, WCHAT-117, WCHAT-118, WCHAT-119 -> board: AnonChatConsent (frames 4, 7: failed or timed out, no Web Crypto; nothing else on screen), AnonChatStates (frame 8: JavaScript off)
-    the re-check after every 5 messages, and failing -> WCHAT-120, WCHAT-121 -> board: AnonChatStates (frame 11: failing; the passing re-check shows nothing)
+    the re-check before the 6th, 11th, 16th send and so on (every 5 sends), and failing -> WCHAT-120, WCHAT-121 -> board: AnonChatStates (frame 11: failing; the passing re-check shows nothing)
     the receipt sent with each message and written with each trace -> WCHAT-122 -> board: no board: not a screen
     the AI label, disclaimer and display control -> WCHAT-08 -> board: AnonChatDesktop, AnonChatPhone
     sentence by sentence; the guard-stopped sentence -> WCHAT-09, WCHAT-10, WCHAT-11 -> board: AnonChatCompare (the answer); a stopped sentence is never shown, so no frame
@@ -120,10 +120,11 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
 
   # Replaces CHAT-26 (a reload started an empty chat), with WCHAT-75. Rewritten 21 Nov 2026: no chat is kept, so a reload starts again (WCHAT-30).
   @ui @ai03
-  Scenario: WCHAT-11 a guard-stopped answer is shown as stopped and counts toward the day's 15
+  Scenario: WCHAT-11 a guard-stopped answer is shown as stopped, is kept with the stopped sentence marked, and counts toward the day's 15
     Given an answer stopped partway by the output guard (WCHAT-10)
-    When the chat is read, before any reload
-    Then it shows only the sentences that were shown and the notice, and the count for the visitor's connection for the day has gone up by one
+    When the chat is read, before any reload, and the founder reads the kept words for that chat (0063 point 5, 0064 point 6)
+    Then the chat shows only the sentences that were shown and the notice, and the count for the visitor's connection for the day has gone up by one
+    And the kept words (Neon, 14 days) hold the sentences that were shown and the guard-stopped sentence marked as stopped, in the same founder-only record
 
   # Replaces CHAT-31 to CHAT-33 (the area card), with WCHAT-84, CARD-01, CARD-07 and CARD-08.
   @ui @ai03
@@ -699,18 +700,19 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
     When the visitor taps "Agree and start chat" and the check runs, whatever its result
     Then no image code, puzzle or other widget appears on the page at any point, only the button's own label changes
 
-  # 0063; the interval of 5 is the plan's call. Added 21 Nov 2026 (FE-85 to FE-88).
+  # 0063; the interval of 5 sends is the plan's call (a comparison is one send). The check runs before the 6th, 11th, 16th send and so on. Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
-  Scenario: WCHAT-120 the bot check runs again, invisibly, after every 5 messages
-    Given a visitor has sent 4 messages in the chat
-    When the visitor sends the 5th message
-    Then a new check runs with nothing extra on screen, the message is sent when it passes, and it counts as one of the day's 15
+  Scenario: WCHAT-120 the bot check runs again, invisibly, before the 6th send and after every 5 sends
+    Given a visitor has sent 5 messages in the chat, and then 5 more
+    When the visitor sends the 6th, and later the 11th
+    Then before each of those sends a new check runs with nothing extra on screen, and the message is sent when it passes and counts as usual
+    And before the 7th send no check runs
 
   # Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
   Scenario: WCHAT-121 a re-check that fails keeps the message in the box, sends nothing and offers "Try again"
-    Given a visitor has sent 5 messages and the next re-check will fail
-    When the visitor types a 6th message and sends it
+    Given a visitor has sent 10 messages and the re-check before the 11th send will fail
+    When the visitor types an 11th message and sends it
     Then the message is not sent, it stays in the box, "Try again" is offered with the cause, the fake AI provider received no request, and the count for the day is unchanged
 
   # Design section 2: the tab holds the receipt in memory and sends it with each message. Added 21 Nov 2026 (FE-85 to FE-88).
@@ -866,7 +868,7 @@ Feature: The chat (the pilot's anonymous chat: its own page, one tap of consent,
   Scenario: WCHAT-143 a comparison counts as up to 3 messages, whether it comes from the classifier, a button or Regenerate
     Given a visitor has 10 messages left today
     When the visitor gets a comparison by asking for one in words, by "Compare with…", by "Compare another area", or by Regenerate on a comparison
-    Then each comparison, once its answer completes, takes up to 3 off the count for the day
+    Then each comparison, once its answer completes, takes up to 3 off the count for the day, so after one comparison 7 are left, and after a second 4
 
   # Founder, 21 Nov 2026, prompt window: "Allow, use what's left" (amends 0064 point 2 for a low balance). Added 21 Nov 2026 (FE-85 to FE-88).
   @ui
