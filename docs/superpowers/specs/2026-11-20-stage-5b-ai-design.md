@@ -95,10 +95,10 @@ Checked against Anthropic's own pages:
 - Estimate (agent's, on assumed sizes, not a quote): about $20 a month for 3,000 simple questions and 500 comparisons. The token sizes per call were not recorded, so this cannot be recalculated; the AI-09 trial measures real token counts and replaces it.
 
 ### 5. Monthly cap: £25 (IN-05; founder: "£25 a month (Recommended)")
-- **Our app** adds up each request's cost from its token counts and pauses the chat at 95% of the cap ("Chat is paused for this month, the area check still works", 0058); the area pages keep working (agent's call).
-- **Anthropic's spend limit** is set at the cap as a second guard, in US dollars at the nearest equivalent (agent's call).
+- **Our app** reserves each model call's worst-case cost against both the daily and the monthly remaining budget before the call (an atomic step, so parallel workers and concurrent chats can't overspend), refuses the call if either is short, and settles the reservation to the real cost from the token counts afterwards, as 0023 keeps from the template (Codex review, 21 Nov 2026). It pauses the chat at 95% of the cap ("Chat is paused for this month, the area check still works", 0058); the area pages keep working (agent's call).
+- **Anthropic's spend limits** are the second guard, in US dollars at the nearest equivalent (agent's call): the visitor workspace's limit is set at the cap; the test workspace has its own small limit; and the organisation limit covers both, because "Organization-wide limits always apply, even if workspace limits add up to more" ([rate limits](https://platform.claude.com/docs/en/api/rate-limits), checked 21 Nov 2026; Codex review).
 - **Daily cap: £2.50** (founder, 21 Nov 2026: "Daily cap: £2.50 (Recommended)"): when a day's spend reaches a tenth of the monthly cap, the chat pauses until midnight, so one busy day cannot use the month.
-- AI-03 test runs and the AI-09 trial use a **separate workspace or key with its own small limit**, so tests never use visitors' budget (agent's call; the limit is set in the plan).
+- AI-03 test runs and the AI-09 trial use a **separate workspace with its own small spend limit** (not just a separate key), so tests never use visitors' budget (agent's call; the limit is set in the plan).
 
 ### 6. Tracing: LangSmith, EU, free plan
 - Traces go to LangSmith's EU instance (words of real chats excepted, below). Base traces are kept **14 days** (shorter than 0063's 30), with **no automation rules**, so no trace moves to extended retention. A request to delete a trace is done by API (usually within 6 hours); some metadata may be kept indefinitely, as LangChain's docs say.
