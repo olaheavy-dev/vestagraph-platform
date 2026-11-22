@@ -134,7 +134,7 @@ Decisions first, then the API and the area adapters, then the public site. Items
 | 45 | #99 | **Epic:** accounts, households and the questions workflow |
 | 46 | #100 | AI evaluation harness and model provider choice (AI-03, AI-01); the set itself is written (row 38f), this row is the runner and the provider |
 | 47 | #101 | AI gateway: short trial of Agent Framework and LangGraph in the founder's template, then a second recorded import (decision 0049, AI-09); the trial now runs at 5b (row 38e, decision 0051), and this row keeps the gateway import; *22 Nov 2026, 0066: the trial chose LangGraph, so the import is of LangGraph if the template needs it, not the Agent Framework gateway* |
-| 48 | #102 | Agent chat over AG-UI (CopilotKit), on the framework AI-09 chose (*22 Nov 2026, 0066: LangGraph, `ag-ui-langgraph`*); the on-page area chat left the pilot (decision 0056) and this row covers the workspace chat (in the pilot for signed-in users, 0058) and then the home chat; *21 Nov 2026, 0063: the pilot's chat is anonymous* |
+| 48 | #102 | Agent chat over AG-UI (CopilotKit), on the framework AI-09 chose (*22 Nov 2026, 0066: LangGraph, `ag-ui-langgraph`, for the pilot chat only; the workspace and home chats revisit the choice*); the on-page area chat left the pilot (decision 0056) and this row covers the workspace chat (in the pilot for signed-in users, 0058) and then the home chat; *21 Nov 2026, 0063: the pilot's chat is anonymous* |
 | 49 | #103 | Document investigation workflow with human approval |
 | 50 | #104 | **Epic:** entitlements and payments (CO-01) |
 | 51 | #105 | **Epic:** monitoring, scheduling and notifications (OP-01, OP-02) |
