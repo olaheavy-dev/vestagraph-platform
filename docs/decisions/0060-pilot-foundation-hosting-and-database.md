@@ -52,3 +52,5 @@ The group A build plan is [`2026-11-20-stage-5b-group-a-foundation.md`](../super
 - **How to build:** "Subagent-driven (Recommended)".
 
 **Note, 20 Nov 2026 ([0063](0063-pilot-privacy-and-anonymous-chat-first.md), accepted by the founder):** sign-in leaves the pilot, so Better Auth's routes, tables and secrets are not part of the pilot's foundation; they return when sign-in opens.
+
+**Note, 22 Nov 2026 (group A build, founder: "Separate live image (Recommended)", then "A. Build at release (Recommended)"):** the release does not move a tag on a commit-tagged image, and there is no first package. After the founder approves, the `release` job checks the commit is on `main`, builds the image from it and writes one live image, `vestagraph-placeholder-live` (`sha-<commit>` and `production`), with a token held as the `production` environment's secret, so a workflow on another branch cannot move what the server runs; a rollback rebuilds an earlier commit. Dependabot's base-image updates in `deploy/` are founder merges ("You merge them (Recommended)"). See the [group A plan](../superpowers/plans/2026-11-20-stage-5b-group-a-foundation.md).

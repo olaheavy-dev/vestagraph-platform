@@ -1,0 +1,10 @@
+[project]
+name = "vestagraph-placeholder"
+version = "0.0.0"
+description = "A tiny standard-library placeholder app (a health page only) that proves the hosting foundation before the real app exists. It never logs requests."
+requires-python = ">=3.14"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14"]
+build-backend = "uv_build"

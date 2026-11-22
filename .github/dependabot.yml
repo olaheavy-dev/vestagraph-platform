@@ -56,3 +56,17 @@ updates:
       actions-major:
         update-types:
           - "major"
+
+  - package-ecosystem: "docker"
+    # Reads deploy/placeholder.Dockerfile: dependabot-core matches any file name containing "dockerfile" (checked 22 Nov 2026).
+    # compose.yml needs the separate "docker-compose" ecosystem; it holds only our own :production image, so it is not added.
+    directory: "/deploy"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
