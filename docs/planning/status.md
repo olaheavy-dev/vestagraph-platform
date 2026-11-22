@@ -276,6 +276,7 @@ Domains `vestagraph.com` and `vestagraph.co.uk` were bought on 12 Nov 2026 (regi
 
 | To-do | Why | How | When |
 |---|---|---|---|
+| Merge the two founder-merge pull requests: the release runs only on image changes, and the placeholder image on Python 3.15 | Both touch `deploy/` or `images.yml` (AGENTS.md founder-merge list); founder asked for them on 22 Nov 2026 | Review and merge on GitHub, or tell the agent to merge | Next session or now |
 | Pick a quiet hour to retry the server resize to 4 vCPU / 8 GB (+$4.20 a month incl. VAT, the account's console price) | It failed on 22 Nov 2026 because the provider had no capacity for that older-hardware size ("limited availability"); founder, 22 Nov 2026: "Retry CX33 later (Recommended)". A failed resize switches the server off, so the agent stays ready to power it on and restore the placeholder's in-memory secret at once | Tell the agent the time; it retries from the console and checks every site after | Before the next apps move onto the server |
 | Renew the older Cloudflare DNS token ("Edit zone DNS") before **31 Dec 2026** | It expires then; the private infrastructure repository's main Terraform runs (DNS and the firewall) would fail | The agent drives the dashboard; you approve | Before 31 Dec 2026 |
 | Add the weekly `cron` line to the Cloudflare ranges check, from your own account | Failure emails go to whoever last changed that line | The agent gives you the one-line change for the private infrastructure repository | Any time |

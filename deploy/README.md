@@ -16,7 +16,7 @@ Compose mounts each secret at `/run/secrets/<name>`, so the app reads `/run/secr
 
 ## One image
 
-The server runs `vestagraph-placeholder-live:production`. Only the approved release job writes that package: after the founder approves, it builds the image from the approved `main` commit and pushes `sha-<commit>` and `production` with a token held by the `production` environment. To roll back, run the Images workflow by hand with an earlier `main` commit; it rebuilds that commit.
+The server runs `vestagraph-placeholder-live:production`. Only the approved release job writes that package: after the founder approves, it builds the image from the approved `main` commit and pushes `sha-<commit>` and `production` with a token held by the `production` environment. To roll back, run the Images workflow by hand with an earlier `main` commit; it rebuilds that commit. A merge to `main` starts a release only when it changes the placeholder package, `deploy/`, `.dockerignore`, `tools/release_check.py` or the Images workflow itself (22 Nov 2026); a documentation-only merge queues nothing.
 
 ## Where the server copy lives
 
