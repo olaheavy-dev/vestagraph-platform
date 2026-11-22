@@ -5,6 +5,7 @@ import http.client
 import json
 import os
 import pathlib
+import socket
 import threading
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -139,3 +140,49 @@ def test_load_secret_check_present_returns_value(tmp_path: pathlib.Path) -> None
     present = tmp_path / "secret_check"
     present.write_text("the-value\n")
     assert app.load_secret_check(present) == "the-value"
+
+
+def raw_status(port: int, raw: bytes) -> tuple[int, bytes]:
+    with socket.create_connection(("127.0.0.1", port), timeout=5) as sock:
+        sock.sendall(raw)
+        data = b""
+        while chunk := sock.recv(4096):
+            data += chunk
+    head, _, body = data.partition(b"\r\n\r\n")
+    assert b"cache-control: no-store" in head.lower()
+    return int(head.split(b" ")[1]), body
+
+
+@pytest.mark.parametrize("length", ["-5", "abc"])
+def test_area_check_post_with_bad_content_length_returns_400(
+    length: str, capfd: pytest.CaptureFixture[str]
+) -> None:
+    raw = f"POST /api/area-check HTTP/1.1\r\nContent-Length: {length}\r\n\r\n".encode()
+    with running_server(app.make_handler("abc123")) as port:
+        status, body = raw_status(port, raw)
+    captured = capfd.readouterr()
+    assert status == 400
+    assert body == b""
+    assert captured.out + captured.err == ""
+
+
+def test_unsupported_method_returns_501_empty_no_store_and_logs_nothing(
+    capfd: pytest.CaptureFixture[str],
+) -> None:
+    raw = b"PUT /healthz?postcode=ZZ99 HTTP/1.1\r\nContent-Length: 0\r\n\r\n"
+    with running_server(app.make_handler("abc123")) as port:
+        status, body = raw_status(port, raw)
+    captured = capfd.readouterr()
+    assert status == 501
+    assert body == b""
+    assert captured.out + captured.err == ""
+
+
+def test_load_secret_check_non_utf8_file_exits_without_value(
+    tmp_path: pathlib.Path,
+) -> None:
+    bad = tmp_path / "secret_check"
+    bad.write_bytes(b"\xff\xfe\xfa")
+    with pytest.raises(SystemExit) as caught:
+        app.load_secret_check(bad)
+    assert str(bad) in str(caught.value)

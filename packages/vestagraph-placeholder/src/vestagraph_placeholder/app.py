@@ -36,7 +36,7 @@ def load_secret_check(path: pathlib.Path) -> str:
         value = path.read_text().strip()
     except FileNotFoundError:
         raise SystemExit(f"secret check file is missing: {path}") from None
-    except OSError:
+    except OSError, UnicodeDecodeError:
         raise SystemExit(f"secret check file cannot be read: {path}") from None
     if not value:
         raise SystemExit(f"secret check file is empty: {path}")
@@ -52,6 +52,13 @@ def make_handler(commit: str) -> type[BaseHTTPRequestHandler]:
 
         def log_error(self, format: str, *args: object) -> None:
             """Log nothing, for the same reason."""
+
+        def send_error(
+            self, code: int, message: str | None = None, explain: str | None = None
+        ) -> None:
+            """Send the status with an empty body: the default HTML page echoes input."""
+            self.close_connection = True
+            self._respond(code)
 
         def _respond(self, status: int, body: bytes = b"", content_type: str | None = None) -> None:
             self.send_response(status)
@@ -72,7 +79,12 @@ def make_handler(commit: str) -> type[BaseHTTPRequestHandler]:
         def do_POST(self) -> None:
             if self.path == "/api/area-check":
                 # Read and discard the body: it stands in for a postcode search.
-                self.rfile.read(int(self.headers.get("Content-Length", "0")))
+                length = self.headers.get("Content-Length", "0")
+                if not (length.isascii() and length.isdigit()):
+                    self.close_connection = True
+                    self._respond(400)
+                    return
+                self.rfile.read(int(length))
                 self._respond(204)
             else:
                 self._respond(404)
