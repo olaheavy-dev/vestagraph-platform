@@ -10,6 +10,8 @@
 
 **Spec:** [`docs/superpowers/specs/2026-11-19-stage-5b-foundation-design.md`](../specs/2026-11-19-stage-5b-foundation-design.md), decision [0060](../../decisions/0060-pilot-foundation-hosting-and-database.md).
 
+**Amended 22 Nov 2026 ([0063](../../decisions/0063-pilot-privacy-and-anonymous-chat-first.md)):** Better Auth and its secret leave this plan (Task 6's secrets list); nothing else in it named sign-in.
+
 **When:** written 20 Nov 2026; **built once groups B to D are decided** (0046: decisions first; design, "Building starts once groups B to D are decided"). Task 1 to Task 4 may be built earlier only if the founder says so.
 
 ## Founder's choices on this plan (20 Nov 2026, prompt window)
@@ -134,7 +136,7 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 
 ### Task 6: Retire the app being wound down, then secrets with SOPS and age (blockers 1 and 2)
 - [ ] Show the founder exactly what will be deleted (containers, volumes, data, DNS records, keys at outside providers), **ask once more in a prompt window**, then delete; revoke the app's outside keys. Record it in the wiki.
-- [ ] Add SOPS with age: the founder makes the age key pair on their machine (the private key never goes on the server, as for the backups). Vestagraph's secrets file (`secret_check` now; `DATABASE_URL` from Task 10; later Better Auth, AI and email keys) is committed only encrypted.
+- [ ] Add SOPS with age: the founder makes the age key pair on their machine (the private key never goes on the server, as for the backups). Vestagraph's secrets file (`secret_check` now; `DATABASE_URL` from Task 10; later the AI keys. No Better Auth secret or keys and no email key: sign-in waits until later, [0063](../../decisions/0063-pilot-privacy-and-anonymous-chat-first.md)) is committed only encrypted.
 - [ ] An Ansible play decrypts on the operator machine and writes each secret as its own file, **owned by user `10001`, mode `0400`**, into a **memory-only (tmpfs) folder** on the server that the Compose file mounts as `secrets:`. Ansible normally copies content through temporary files on disk, so the task uses `no_log: true`, `diff: false` and SSH pipelining, and writes through standard input (for example `install -o 10001 -m 0400 /dev/stdin <dest>` with `stdin:`) or sets `remote_tmp` to a memory-only folder; confirm against the Ansible documentation for the version in use. *Agent's call*, because Docker stores environment variables in each container's configuration on disk (Review Focus 5).
 - [ ] Add "run the secrets play" to the reboot runbook (Review Focus 3).
 - [ ] **Verify:** `grep` the server's app folder, Ansible's temporary folders and the operator's working folder for the secret's value: no match; the play's output with `-v` shows no value; the container's stored configuration (`docker inspect`) has no secret value.
