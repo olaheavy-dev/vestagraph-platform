@@ -16,6 +16,7 @@ members = [
     "vestagraph-engine",
     "vestagraph-fixture-validator",
     "vestagraph-generator",
+    "vestagraph-placeholder",
 ]
 
 [manifest.dependency-groups]
@@ -1038,3 +1039,8 @@ requires-dist = [
     { name = "vestagraph-area", editable = "packages/vestagraph-area" },
     { name = "vestagraph-engine", editable = "packages/vestagraph-engine" },
 ]
+
+[[package]]
+name = "vestagraph-placeholder"
+version = "0.0.0"
+source = { editable = "packages/vestagraph-placeholder" }
