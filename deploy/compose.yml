@@ -2,7 +2,7 @@
 # Replace <CADDY_NETWORK> and <SECRETS_DIR> on the server. The server copy lives in the private infrastructure repository.
 services:
   placeholder:
-    image: ghcr.io/olaheavy-dev/vestagraph-placeholder:production
+    image: ghcr.io/olaheavy-dev/vestagraph-placeholder-live:production
     restart: unless-stopped
     read_only: true
     security_opt:

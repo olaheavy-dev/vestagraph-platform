@@ -16,10 +16,13 @@ on:
         required: true
         type: string
 
+# Two packages: `publish` writes sha tags to the placeholder image with GITHUB_TOKEN; only `release` writes the live image,
+# with the production environment's own token, so no other branch can move it (plan, founder's choice of 22 Nov 2026).
 permissions: {}
 
 env:
   IMAGE: ghcr.io/olaheavy-dev/vestagraph-placeholder
+  LIVE_IMAGE: ghcr.io/olaheavy-dev/vestagraph-placeholder-live
 
 jobs:
   build:
@@ -102,9 +105,9 @@ jobs:
     concurrency:
       group: release-production
       cancel-in-progress: false
+    # No packages: write here. The live image is written with the environment's own token.
     permissions:
       contents: read
-      packages: write
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -120,22 +123,44 @@ jobs:
             exit 1
           fi
 
-      - name: Log in to GHCR
+      - name: Check the release token is set
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TOKEN: ${{ secrets.GHCR_RELEASE_TOKEN }}
+        run: |
+          if [ -z "$RELEASE_TOKEN" ]; then
+            echo "The production environment has no secret GHCR_RELEASE_TOKEN. Nothing was released." >&2
+            exit 1
+          fi
+
+      - name: Log in to GHCR with the release token
+        env:
+          RELEASE_TOKEN: ${{ secrets.GHCR_RELEASE_TOKEN }}
           ACTOR: ${{ github.actor }}
-        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
+        run: echo "$RELEASE_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
 
       - name: Check the image for the commit exists
         env:
           COMMIT: ${{ inputs.commit || github.sha }}
         run: docker buildx imagetools inspect "${IMAGE}:sha-${COMMIT}"
 
-      # --prefer-index=false keeps the source manifest format, so both tags should share one digest (confirmed at the first release).
-      - name: Move the production tag
+      # --prefer-index=false keeps the source manifest format. The next step checks the two digests really match.
+      - name: Write the live image
         env:
           COMMIT: ${{ inputs.commit || github.sha }}
-        run: docker buildx imagetools create --prefer-index=false -t "${IMAGE}:production" "${IMAGE}:sha-${COMMIT}"
+        run: docker buildx imagetools create --prefer-index=false -t "${LIVE_IMAGE}:production" "${IMAGE}:sha-${COMMIT}"
+
+      - name: Check the live image has the same digest
+        env:
+          COMMIT: ${{ inputs.commit || github.sha }}
+        run: |
+          source_digest=$(docker buildx imagetools inspect --format '{{.Manifest.Digest}}' "${IMAGE}:sha-${COMMIT}")
+          live_digest=$(docker buildx imagetools inspect --format '{{.Manifest.Digest}}' "${LIVE_IMAGE}:production")
+          echo "source: $source_digest"
+          echo "live:   $live_digest"
+          if [ -z "$source_digest" ] || [ "$source_digest" != "$live_digest" ]; then
+            echo "The digests differ. The live image is not the published image." >&2
+            exit 1
+          fi
 
       - name: Log out of GHCR
         if: ${{ always() }}
