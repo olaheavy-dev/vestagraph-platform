@@ -76,6 +76,18 @@ jobs:
         if: ${{ always() }}
         run: docker logout ghcr.io
 
+  wrong-branch:
+    name: manual run must use main
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Fail so the run does not look successful
+        run: |
+          echo "A manual release must run from the main branch. Nothing was released." >&2
+          exit 1
+
   release:
     name: release
     needs: publish
@@ -86,6 +98,7 @@ jobs:
     # The founder approves this environment before the job starts.
     environment: production
     # A newer release waits in the queue and replaces an older waiting one (which shows as cancelled).
+    # Two quick pushes can queue an older commit last (it replaces the newer waiting one): check the commit on the approval screen before approving.
     concurrency:
       group: release-production
       cancel-in-progress: false
@@ -118,7 +131,7 @@ jobs:
           COMMIT: ${{ inputs.commit || github.sha }}
         run: docker buildx imagetools inspect "${IMAGE}:sha-${COMMIT}"
 
-      # --prefer-index=false keeps the source manifest as it is, so both tags share one digest.
+      # --prefer-index=false keeps the source manifest format, so both tags should share one digest (confirmed at the first release).
       - name: Move the production tag
         env:
           COMMIT: ${{ inputs.commit || github.sha }}
