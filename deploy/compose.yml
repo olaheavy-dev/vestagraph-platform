@@ -13,6 +13,8 @@ services:
     mem_limit: 128m
     pids_limit: 64
     labels:
+      # The server's Watchtower updates only containers marked enable=true, within its own scope.
+      - "com.centurylinklabs.watchtower.enable=true"
       - "com.centurylinklabs.watchtower.scope=vestagraph"
     networks:
       - caddy
