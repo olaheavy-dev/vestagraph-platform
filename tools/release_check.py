@@ -50,7 +50,7 @@ def wait_for_commit(
 ) -> bool:
     """Poll `url` until it reports `commit`; False if `timeout_s` passes first.
 
-    Always polls at least once. A failed or cut-off request (OSError, HTTPException) counts as "not live yet".
+    Always polls at least once. A failed or cut-off request counts as "not live yet".
     """
     deadline = time.monotonic() + timeout_s
     while True:

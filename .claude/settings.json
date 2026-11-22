@@ -106,7 +106,9 @@
       "Bash(git push * --tags*)",
       "Bash(git push *:*)",
       "Bash(git push origin * *)",
-      "Bash(git push -u origin * *)"
+      "Bash(git push -u origin * *)",
+      "Bash(gh api *pending_deployments*)",
+      "Bash(gh api */deployments*)"
     ]
   }
 }

@@ -135,6 +135,7 @@ Claude Code may merge a pull request (squash merge) only when **all** of these a
 - Changes to `LICENSE`, repository settings, CI permissions, agent permission settings (`.claude/settings.json`) or these merge rules.
 - New or changed tax, legal, tenancy or privacy rule tables.
 - Infrastructure, cloud resources or anything that changes running costs.
+- Changes to `.github/workflows/images.yml` or `deploy/`: a merged workflow runs with `packages: write` and could move the `production` tag. Agents never approve a release (the `production` environment).
 - Adding a package that isn't on the pre-approved list in decision 0035 with the additions in 0042, 0043, 0048 and 0049, or a later register line.
 - Any pull request where Claude Code disputes a finding as wrong (not merely defers it). The founder decides whether the finding stands.
 

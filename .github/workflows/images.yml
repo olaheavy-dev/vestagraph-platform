@@ -1,0 +1,134 @@
+name: Images
+
+# Builds the placeholder image, publishes it to GHCR and, after the founder approves the `production`
+# environment, moves the `production` tag that the server's Watchtower pulls (stage 5b group A).
+#   pull_request:      build only (nothing is pushed)
+#   push to main:      build, publish sha-<commit>, then release (waits for approval)
+#   workflow_dispatch: release only, for a re-release or a rollback to an already published commit
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: "Full commit SHA (40 hex characters) whose published image becomes production"
+        required: true
+        type: string
+
+permissions: {}
+
+env:
+  IMAGE: ghcr.io/olaheavy-dev/vestagraph-placeholder
+
+jobs:
+  build:
+    name: build
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Build the image
+        env:
+          COMMIT: ${{ github.sha }}
+        run: docker build -f deploy/placeholder.Dockerfile --build-arg "VESTAGRAPH_COMMIT=${COMMIT}" -t "${IMAGE}:sha-${COMMIT}" .
+
+  publish:
+    name: publish
+    needs: build
+    if: ${{ github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Builds again from the same commit instead of passing an artifact or a cache (no caches in a publishing workflow).
+      - name: Build the image
+        env:
+          COMMIT: ${{ github.sha }}
+        run: docker build -f deploy/placeholder.Dockerfile --build-arg "VESTAGRAPH_COMMIT=${COMMIT}" -t "${IMAGE}:sha-${COMMIT}" .
+
+      - name: Log in to GHCR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
+
+      - name: Push the image
+        env:
+          COMMIT: ${{ github.sha }}
+        run: docker push "${IMAGE}:sha-${COMMIT}"
+
+      - name: Log out of GHCR
+        if: ${{ always() }}
+        run: docker logout ghcr.io
+
+  release:
+    name: release
+    needs: publish
+    # On a push this waits for publish. On a manual run publish is skipped, so release runs alone (main only).
+    if: ${{ !cancelled() && ((github.event_name == 'push' && needs.publish.result == 'success') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # The founder approves this environment before the job starts.
+    environment: production
+    # A newer release waits in the queue and replaces an older waiting one (which shows as cancelled).
+    concurrency:
+      group: release-production
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check the commit is a full SHA
+        env:
+          COMMIT: ${{ inputs.commit || github.sha }}
+        run: |
+          if ! printf '%s' "$COMMIT" | grep -Eq '^[0-9a-f]{40}$'; then
+            echo "The commit must be 40 lowercase hex characters." >&2
+            exit 1
+          fi
+
+      - name: Log in to GHCR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.actor }}
+        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
+
+      - name: Check the image for the commit exists
+        env:
+          COMMIT: ${{ inputs.commit || github.sha }}
+        run: docker buildx imagetools inspect "${IMAGE}:sha-${COMMIT}"
+
+      # --prefer-index=false keeps the source manifest as it is, so both tags share one digest.
+      - name: Move the production tag
+        env:
+          COMMIT: ${{ inputs.commit || github.sha }}
+        run: docker buildx imagetools create --prefer-index=false -t "${IMAGE}:production" "${IMAGE}:sha-${COMMIT}"
+
+      - name: Log out of GHCR
+        if: ${{ always() }}
+        run: docker logout ghcr.io
+
+      - name: Wait for the live health page to report the commit
+        env:
+          COMMIT: ${{ inputs.commit || github.sha }}
+        run: python3 tools/release_check.py --url https://vestagraph.com/healthz --commit "$COMMIT"
