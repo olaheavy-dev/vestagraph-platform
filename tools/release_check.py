@@ -57,7 +57,7 @@ def wait_for_commit(
         try:
             if is_live(fetch(url), commit):
                 return True
-        except OSError, http.client.HTTPException:
+        except (OSError, http.client.HTTPException):
             pass
         remaining = deadline - time.monotonic()
         if remaining <= 0:

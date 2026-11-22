@@ -1,7 +1,9 @@
 """Tests for tools/release_check.py (stage 5b group A, task 3). No test touches the network."""
 
+import ast
 import http.client
 import json
+from pathlib import Path
 
 import pytest
 import release_check
@@ -75,3 +77,9 @@ def test_main_not_live_returns_one_with_rollback_message(
         f"{URL} did not report {COMMIT} within 5 s; "
         "to roll back, run the Images workflow with an earlier commit"
     )
+
+
+def test_release_check_source_python_312_parses() -> None:
+    # The runner uses Python 3.12; ast rejects 3.14-only forms (`except A, B:`) for that version.
+    source = Path(release_check.__file__).read_text(encoding="utf-8")
+    ast.parse(source, feature_version=(3, 12))

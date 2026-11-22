@@ -30,6 +30,8 @@ target-version = "py314"
 # Markdown files hold code samples that are not part of the packages; `ruff format` would check them too (ruff 0.17).
 extend-exclude = ["*.md"]
 line-length = 100
+# The release workflow runs tools/release_check.py on the runner's Python 3.12, so ruff must not rewrite it with 3.14-only syntax.
+per-file-target-version = { "tools/release_check.py" = "py312" }
 
 [tool.ruff.lint]
 # Explicit list, never "ALL", so a ruff update cannot switch new rules on silently (decision 0039 section 2).
