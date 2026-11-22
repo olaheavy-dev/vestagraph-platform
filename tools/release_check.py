@@ -6,6 +6,7 @@ does not happen within the timeout. Standard library only.
 """
 
 import argparse
+import http.client
 import json
 import sys
 import time
@@ -49,18 +50,19 @@ def wait_for_commit(
 ) -> bool:
     """Poll `url` until it reports `commit`; False if `timeout_s` passes first.
 
-    Always polls at least once. A failed request (OSError) counts as "not live yet".
+    Always polls at least once. A failed or cut-off request (OSError, HTTPException) counts as "not live yet".
     """
     deadline = time.monotonic() + timeout_s
     while True:
         try:
             if is_live(fetch(url), commit):
                 return True
-        except OSError:
+        except OSError, http.client.HTTPException:
             pass
-        if time.monotonic() >= deadline:
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
             return False
-        time.sleep(interval_s)
+        time.sleep(max(0.0, min(interval_s, remaining)))
 
 
 def main(argv: Sequence[str] | None = None) -> int:

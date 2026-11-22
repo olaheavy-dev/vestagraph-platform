@@ -1,5 +1,6 @@
 """Tests for tools/release_check.py (stage 5b group A, task 3). No test touches the network."""
 
+import http.client
 import json
 
 import pytest
@@ -50,6 +51,18 @@ def test_wait_for_commit_fetch_errors_until_timeout_returns_false() -> None:
         raise OSError("connection refused")
 
     assert release_check.wait_for_commit(URL, COMMIT, 0, 0, fetch) is False
+
+
+def test_wait_for_commit_dropped_connection_then_live_returns_true() -> None:
+    results: list[bytes | Exception] = [http.client.IncompleteRead(b""), _body()]
+
+    def fetch(url: str) -> bytes:
+        result = results.pop(0)
+        if isinstance(result, Exception):
+            raise result
+        return result
+
+    assert release_check.wait_for_commit(URL, COMMIT, 60, 0, fetch) is True
 
 
 def test_main_not_live_returns_one_with_rollback_message(
