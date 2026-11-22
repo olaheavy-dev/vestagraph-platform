@@ -3,13 +3,23 @@ name: Images
 # Builds the placeholder image and, after the founder approves the `production` environment, builds it
 # again from the approved commit and writes it as the live image (`vestagraph-placeholder-live`) that the
 # server's Watchtower pulls (stage 5b group A).
-#   pull_request:      build only (nothing is pushed)
-#   push to main:      build, then release (waits for approval)
+#   pull_request:      build only (nothing is pushed), when an image or release path changes
+#   push to main:      build, then release (waits for approval), when an image or release path changes
 #   workflow_dispatch: release only, from main, for a re-release or a rollback: it rebuilds the earlier commit
+# Runs only when something that goes into the image or the release changes (founder, 22 Nov 2026:
+# "run release only when the app or deploy/ changes"), so a documentation-only merge no longer queues a
+# release for approval. A re-release or rollback is still the manual run below.
 on:
   pull_request:
+    paths: &image-paths
+      - "packages/vestagraph-placeholder/**"
+      - "deploy/**"
+      - ".dockerignore"
+      - "tools/release_check.py"
+      - ".github/workflows/images.yml"
   push:
     branches: [main]
+    paths: *image-paths
   workflow_dispatch:
     inputs:
       commit:
