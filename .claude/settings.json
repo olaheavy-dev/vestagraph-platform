@@ -109,7 +109,7 @@
       "Bash(git push -u origin * *)",
       "Bash(gh api *pending_deployments*)",
       "Bash(gh api */deployments*)",
-      "Bash(gh api graphql*eployment*)"
+      "Bash(gh api *graphql*eployment*)"
     ]
   }
 }

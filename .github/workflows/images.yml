@@ -1,7 +1,7 @@
 name: Images
 
 # Builds the placeholder image, publishes it to GHCR and, after the founder approves the `production`
-# environment, moves the `production` tag that the server's Watchtower pulls (stage 5b group A).
+# environment, writes the live image's `production` tag (`vestagraph-placeholder-live`) that the server's Watchtower pulls (stage 5b group A).
 #   pull_request:      build only (nothing is pushed)
 #   push to main:      build, publish sha-<commit>, then release (waits for approval)
 #   workflow_dispatch: release only, for a re-release or a rollback to an already published commit

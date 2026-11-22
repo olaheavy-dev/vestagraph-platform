@@ -112,7 +112,7 @@ Sources (read 19 Nov 2026): [Neon pricing](https://neon.com/pricing), [Neon regi
 *Agent's call (after the builder check: the server's firewall rightly blocks GitHub's runners from logging in, so the server pulls rather than GitHub pushing):*
 1. A pull request builds and tests the images (no push).
 2. A merge to `main` builds the images and pushes them to GitHub's container registry (GHCR, public: the repository is public and the images hold no secrets), tagged with the commit (`sha-<commit>`), never `latest`.
-3. A release job waits on a protected GitHub environment (`production`) for the founder's approval, then adds the tag `production` to that exact image. It needs only the repository's own token; no server access and no decryption key live in the public repository.
+3. A release job waits on a protected GitHub environment (`production`) for the founder's approval, then adds the tag `production` to that exact image. It needs only the repository's own token; *(Note, 22 Nov 2026: changed to a separate live image `vestagraph-placeholder-live` written with a token held as the `production` environment's secret, so a workflow on another branch cannot move it; see the group A plan.)* no server access and no decryption key live in the public repository.
 4. On the server, Watchtower watches **only** the `production` tag of Vestagraph's images and pulls it (it never follows `main`). A check of `/healthz` (reporting the commit) after the pull confirms the release.
 5. Rollback is moving `production` back to an earlier commit's image through the same approved job.
 6. Database schema changes run when the new container starts, before it serves traffic (the migration tool is a build choice).
