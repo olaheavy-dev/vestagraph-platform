@@ -106,7 +106,7 @@ Decisions first, then the API and the area adapters, then the public site. Items
 | 44.10 | #135 | School inspection results (Ofsted) |
 | 44.11 | #136 | Broadband and mobile coverage (Ofcom) |
 | 44.14 | #139 | Planning applications nearby |
-| 38e | to open | Pilot AI (decision 0051): the AI-09 framework trial, then the model provider (AI-01) and orchestration (AI-04) |
+| 38e | to open | Pilot AI (decision 0051): the AI-09 framework trial, then the model provider (AI-01) and orchestration (AI-04); *22 Nov 2026, 0066: the trial is done and chose LangGraph* |
 | 38f | written (19 Nov 2026, branch docs/ai-03-evaluation-design: 152 cases, set version 1 (version 3 on 21 Nov 2026: 162 cases), `packages/fixtures/evaluation/ai-03-set.json`, README and marking rules AI-15; the scenarios tagged `@ai03` are its coverage list; the runner is a stage 5b task) | Pilot AI evaluation set (AI-03): questions the tools' outputs and descriptions must answer or refuse; the chat's cases wait for the workspace chat (decision 0056); *0058: they return for the pilot's signed-in chat; its evaluation cases are the scenarios tagged `@ai03` (19 Nov 2026: the prose lists moved to the tag; set in `packages/fixtures/evaluation/ai-03-set.json`)*; *19 Nov 2026 (AI-14): one set covers the area tools, the council tools and the signed-in chat, after a brainstorm; the combined list is in [the pilot gate audit](../reviews/2026-11-19-pilot-gate-audit.md), section 5; TOOLS-66 (a share asked for is quoted from `tenureShares`, never divided) joins the council tools' cases* |
 | 38g | to open | Area tools package shared by the API, the public MCP server and, later, the workspace chat (decision 0056; *0058: the pilot's chat calls these functions directly; 21 Nov 2026, 0063: the chat is anonymous*) |
 | 38h | to open | Public read-only MCP server for the area tools (no key; global and per-host caps; spec `docs/specs/pilot/area-tools.feature`), then the area card widget (FE-15 to FE-19, `area-card.feature`) |
@@ -133,8 +133,8 @@ Decisions first, then the API and the area adapters, then the public site. Items
 | 44.17 | #142 | Deferred: NHS services, air quality, rail and TfL, radon |
 | 45 | #99 | **Epic:** accounts, households and the questions workflow |
 | 46 | #100 | AI evaluation harness and model provider choice (AI-03, AI-01); the set itself is written (row 38f), this row is the runner and the provider |
-| 47 | #101 | AI gateway: short trial of Agent Framework and LangGraph in the founder's template, then a second recorded import (decision 0049, AI-09); the trial now runs at 5b (row 38e, decision 0051), and this row keeps the gateway import |
-| 48 | #102 | Agent chat over AG-UI (CopilotKit), on the framework AI-09 chooses; the on-page area chat left the pilot (decision 0056) and this row covers the workspace chat (in the pilot for signed-in users, 0058) and then the home chat; *21 Nov 2026, 0063: the pilot's chat is anonymous* |
+| 47 | #101 | AI gateway: short trial of Agent Framework and LangGraph in the founder's template, then a second recorded import (decision 0049, AI-09); the trial now runs at 5b (row 38e, decision 0051), and this row keeps the gateway import; *22 Nov 2026, 0066: the trial chose LangGraph, so the import is of LangGraph if the template needs it, not the Agent Framework gateway* |
+| 48 | #102 | Agent chat over AG-UI (CopilotKit), on the framework AI-09 chose (*22 Nov 2026, 0066: LangGraph, `ag-ui-langgraph`*); the on-page area chat left the pilot (decision 0056) and this row covers the workspace chat (in the pilot for signed-in users, 0058) and then the home chat; *21 Nov 2026, 0063: the pilot's chat is anonymous* |
 | 49 | #103 | Document investigation workflow with human approval |
 | 50 | #104 | **Epic:** entitlements and payments (CO-01) |
 | 51 | #105 | **Epic:** monitoring, scheduling and notifications (OP-01, OP-02) |

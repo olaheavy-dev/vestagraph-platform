@@ -135,3 +135,5 @@ Then #86 (from the Next.js template, with the `@ui` harness in playwright-bdd), 
 - That pytest-bdd puts the scenario ID in test names, handles `Rule:` blocks and reads feature files from `docs/specs/` (P6 proves them).
 - That playwright-bdd's tag filtering and `@axe-core/playwright` run together with the template's light, dark and phone projects (#86 proves it).
 - The template's exact package list and TypeScript patch version (recorded at import in #86 and #93).
+
+**Note, 22 Nov 2026 ([0066](0066-pilot-chat-on-langgraph.md)):** item 9's trial ran on 21 Nov 2026 ([results](../reviews/2026-11-22-ai-09-trial.md)); the founder chose LangGraph.
