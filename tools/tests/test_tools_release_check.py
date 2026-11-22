@@ -79,6 +79,15 @@ def test_main_not_live_returns_one_with_rollback_message(
     )
 
 
+def test_main_live_returns_zero_with_message(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    monkeypatch.setattr(release_check, "wait_for_commit", lambda *a, **k: True)
+    code = release_check.main(["--url", URL, "--commit", COMMIT])
+    assert code == 0
+    assert capsys.readouterr().out.strip() == f"{URL} reports {COMMIT}"
+
+
 def test_release_check_source_python_312_parses() -> None:
     # The runner uses Python 3.12; ast rejects 3.14-only forms (`except A, B:`) for that version.
     source = Path(release_check.__file__).read_text(encoding="utf-8")

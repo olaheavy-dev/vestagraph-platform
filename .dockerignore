@@ -1,0 +1,4 @@
+# The build context is the repository root. Send only what deploy/placeholder.Dockerfile copies.
+*
+!packages/vestagraph-placeholder/src/
+**/__pycache__

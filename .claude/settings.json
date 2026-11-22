@@ -72,7 +72,8 @@
       "Bash(gh api --method PUT *)",
       "Bash(gh api --method POST *)",
       "Bash(gh api --method DELETE *)",
-      "Bash(gh repo edit *)"
+      "Bash(gh repo edit *)",
+      "Bash(gh api *environments*)"
     ],
     "deny": [
       "Bash(cat *.env*)",
@@ -109,7 +110,11 @@
       "Bash(git push -u origin * *)",
       "Bash(gh api *pending_deployments*)",
       "Bash(gh api */deployments*)",
-      "Bash(gh api *graphql*eployment*)"
+      "Bash(gh api *graphql*eployment*)",
+      "Bash(gh auth token*)",
+      "Bash(gh secret *)",
+      "Bash(gh variable *)",
+      "Bash(curl *api.github.com*)"
     ]
   }
 }

@@ -14,9 +14,9 @@ Create one file for each name in `secrets.example`, inside `<SECRETS_DIR>`. Each
 
 Compose mounts each secret at `/run/secrets/<name>`, so the app reads `/run/secrets/secret_check`.
 
-## Two images
+## One image
 
-The build workflow publishes `sha-<commit>` tags to `vestagraph-placeholder`. The server runs `vestagraph-placeholder-live:production`. Only the approved release job writes that live package, with a token held by the `production` environment.
+The server runs `vestagraph-placeholder-live:production`. Only the approved release job writes that package: after the founder approves, it builds the image from the approved `main` commit and pushes `sha-<commit>` and `production` with a token held by the `production` environment. To roll back, run the Images workflow by hand with an earlier `main` commit; it rebuilds that commit.
 
 ## Where the server copy lives
 

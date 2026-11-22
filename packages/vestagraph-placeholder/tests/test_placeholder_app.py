@@ -186,3 +186,81 @@ def test_load_secret_check_non_utf8_file_exits_without_value(
     with pytest.raises(SystemExit) as caught:
         app.load_secret_check(bad)
     assert str(bad) in str(caught.value)
+
+
+def test_area_check_post_with_too_large_content_length_returns_413_empty_and_logs_nothing(
+    capfd: pytest.CaptureFixture[str],
+) -> None:
+    raw = b"POST /api/area-check HTTP/1.1\r\nContent-Length: 16385\r\n\r\n"
+    with running_server(app.make_handler("abc123")) as port:
+        status, body = raw_status(port, raw)
+    captured = capfd.readouterr()
+    assert status == 413
+    assert body == b""
+    assert captured.out + captured.err == ""
+
+
+def test_area_check_post_at_the_size_limit_returns_204() -> None:
+    body = b"x" * app.MAX_BODY_BYTES
+    with running_server(app.make_handler("abc123")) as port:
+        status, _, _ = request(port, "POST", "/api/area-check", body)
+    assert status == 204
+
+
+def test_area_check_post_with_huge_digit_string_returns_413_and_logs_nothing(
+    capfd: pytest.CaptureFixture[str],
+) -> None:
+    raw = b"POST /api/area-check HTTP/1.1\r\nContent-Length: " + b"9" * 5000 + b"\r\n\r\n"
+    with running_server(app.make_handler("abc123")) as port:
+        status, body = raw_status(port, raw)
+    captured = capfd.readouterr()
+    assert status == 413
+    assert body == b""
+    assert captured.out + captured.err == ""
+
+
+def test_response_server_header_does_not_name_python() -> None:
+    with running_server(app.make_handler("abc123")) as port:
+        _, headers, _ = request(port, "GET", "/healthz")
+    assert "Python" not in headers["Server"]
+    assert headers["Server"] == "vestagraph"
+
+
+def test_handler_has_a_connection_timeout() -> None:
+    handler = app.make_handler("abc123")
+    assert handler.timeout == 10
+
+
+def test_malformed_request_line_gets_no_body_and_logs_nothing(
+    capfd: pytest.CaptureFixture[str],
+) -> None:
+    # A single word is read as an HTTP/0.9 request: the standard library sends the 400 without
+    # headers, so the raw reply is empty or a bare 400 status line with no body.
+    with (
+        running_server(app.make_handler("abc123")) as port,
+        socket.create_connection(("127.0.0.1", port), timeout=5) as sock,
+    ):
+        sock.sendall(b"GARBAGE\r\n\r\n")
+        data = b""
+        while chunk := sock.recv(4096):
+            data += chunk
+    captured = capfd.readouterr()
+    assert data == b"" or data.startswith(b"HTTP/1.0 400")
+    assert b"<" not in data
+    assert captured.out + captured.err == ""
+
+
+def test_main_missing_secret_exits_before_binding_the_server(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: pathlib.Path
+) -> None:
+    created: list[object] = []
+
+    class Spy:
+        def __init__(self, *args: object, **kwargs: object) -> None:
+            created.append(args)
+
+    monkeypatch.setattr(app, "PlaceholderServer", Spy)
+    monkeypatch.setenv("VESTAGRAPH_SECRET_CHECK_FILE", str(tmp_path / "missing"))
+    with pytest.raises(SystemExit):
+        app.main()
+    assert created == []

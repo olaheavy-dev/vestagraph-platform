@@ -9,6 +9,9 @@ services:
       - no-new-privileges:true
     cap_drop:
       - ALL
+    # Small caps so one misbehaving service cannot starve the shared server.
+    mem_limit: 128m
+    pids_limit: 64
     labels:
       - "com.centurylinklabs.watchtower.scope=vestagraph"
     networks:

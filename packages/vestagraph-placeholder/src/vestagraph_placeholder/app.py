@@ -13,6 +13,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 DEFAULT_SECRET_CHECK_PATH = "/run/secrets/secret_check"  # noqa: S105 (a path, not a secret)
 DEFAULT_PORT = 8080
+MAX_BODY_BYTES = 16 * 1024  # 16 KiB: far more than a postcode search needs
+CONNECTION_TIMEOUT_S = 10
 
 
 class PlaceholderServer(ThreadingHTTPServer):
@@ -47,6 +49,14 @@ def make_handler(commit: str) -> type[BaseHTTPRequestHandler]:
     """Build the request handler that reports the given commit."""
 
     class Handler(BaseHTTPRequestHandler):
+        timeout = CONNECTION_TIMEOUT_S  # a slow client cannot hold a thread for ever
+        server_version = "vestagraph"
+        sys_version = ""
+
+        def version_string(self) -> str:
+            """The Server header: our name only, never the Python version."""
+            return self.server_version
+
         def log_message(self, format: str, *args: object) -> None:
             """Log nothing: a request line holds the path and client address."""
 
@@ -83,6 +93,11 @@ def make_handler(commit: str) -> type[BaseHTTPRequestHandler]:
                 if not (length.isascii() and length.isdigit()):
                     self.close_connection = True
                     self._respond(400)
+                    return
+                # Compare the digit string's length first, so a huge number is never converted.
+                if len(length) > 6 or int(length) > MAX_BODY_BYTES:
+                    self.close_connection = True
+                    self._respond(413)
                     return
                 self.rfile.read(int(length))
                 self._respond(204)

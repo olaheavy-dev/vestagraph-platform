@@ -17,8 +17,8 @@ from typing import TextIO
 REQUEST_TIMEOUT_S = 10
 
 
-def _say(message: str, stream: TextIO = sys.stdout) -> None:
-    stream.write(message + "\n")
+def _say(message: str, stream: TextIO | None = None) -> None:
+    (stream or sys.stdout).write(message + "\n")
 
 
 def is_live(body: bytes, commit: str) -> bool:

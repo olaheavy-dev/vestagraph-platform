@@ -1,10 +1,11 @@
 name: Images
 
-# Builds the placeholder image, publishes it to GHCR and, after the founder approves the `production`
-# environment, writes the live image's `production` tag (`vestagraph-placeholder-live`) that the server's Watchtower pulls (stage 5b group A).
+# Builds the placeholder image and, after the founder approves the `production` environment, builds it
+# again from the approved commit and writes it as the live image (`vestagraph-placeholder-live`) that the
+# server's Watchtower pulls (stage 5b group A).
 #   pull_request:      build only (nothing is pushed)
-#   push to main:      build, publish sha-<commit>, then release (waits for approval)
-#   workflow_dispatch: release only, for a re-release or a rollback to an already published commit
+#   push to main:      build, then release (waits for approval)
+#   workflow_dispatch: release only, from main, for a re-release or a rollback: it rebuilds the earlier commit
 on:
   pull_request:
   push:
@@ -12,16 +13,15 @@ on:
   workflow_dispatch:
     inputs:
       commit:
-        description: "Full commit SHA (40 hex characters) whose published image becomes production"
+        description: "Full commit SHA (40 hex characters) on main that is built and becomes production"
         required: true
         type: string
 
-# Two packages: `publish` writes sha tags to the placeholder image with GITHUB_TOKEN; only `release` writes the live image,
-# with the production environment's own token, so no other branch can move it (plan, founder's choice of 22 Nov 2026).
+# One package, written only by the approved release with the production environment's own token, so no
+# other branch can move it (plan, founder's choices of 22 Nov 2026). No job here has `packages: write`.
 permissions: {}
 
 env:
-  IMAGE: ghcr.io/olaheavy-dev/vestagraph-placeholder
   LIVE_IMAGE: ghcr.io/olaheavy-dev/vestagraph-placeholder-live
 
 jobs:
@@ -30,6 +30,7 @@ jobs:
     if: ${{ github.event_name != 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # Read-only: this job pushes nothing.
     permissions:
       contents: read
     steps:
@@ -41,49 +42,14 @@ jobs:
       - name: Build the image
         env:
           COMMIT: ${{ github.sha }}
-        run: docker build -f deploy/placeholder.Dockerfile --build-arg "VESTAGRAPH_COMMIT=${COMMIT}" -t "${IMAGE}:sha-${COMMIT}" .
-
-  publish:
-    name: publish
-    needs: build
-    if: ${{ github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
-      # Builds again from the same commit instead of passing an artifact or a cache (no caches in a publishing workflow).
-      - name: Build the image
-        env:
-          COMMIT: ${{ github.sha }}
-        run: docker build -f deploy/placeholder.Dockerfile --build-arg "VESTAGRAPH_COMMIT=${COMMIT}" -t "${IMAGE}:sha-${COMMIT}" .
-
-      - name: Log in to GHCR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ACTOR: ${{ github.actor }}
-        run: echo "$GITHUB_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
-
-      - name: Push the image
-        env:
-          COMMIT: ${{ github.sha }}
-        run: docker push "${IMAGE}:sha-${COMMIT}"
-
-      - name: Log out of GHCR
-        if: ${{ always() }}
-        run: docker logout ghcr.io
+        run: docker build -f deploy/placeholder.Dockerfile --build-arg "VESTAGRAPH_COMMIT=${COMMIT}" -t "vestagraph-placeholder:build" .
 
   wrong-branch:
     name: manual run must use main
     if: ${{ github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    # No permissions: this job only fails.
     permissions: {}
     steps:
       - name: Fail so the run does not look successful
@@ -93,9 +59,9 @@ jobs:
 
   release:
     name: release
-    needs: publish
-    # On a push this waits for publish. On a manual run publish is skipped, so release runs alone (main only).
-    if: ${{ !cancelled() && ((github.event_name == 'push' && needs.publish.result == 'success') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')) }}
+    needs: build
+    # On a push this waits for build. On a manual run build is skipped, so release runs alone (main only).
+    if: ${{ !cancelled() && ((github.event_name == 'push' && needs.build.result == 'success') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     # The founder approves this environment before the job starts.
@@ -105,23 +71,37 @@ jobs:
     concurrency:
       group: release-production
       cancel-in-progress: false
-    # No packages: write here. The live image is written with the environment's own token.
+    # Read-only on the repository. The live image is written with the environment's own token, not GITHUB_TOKEN.
     permissions:
       contents: read
+    env:
+      COMMIT: ${{ inputs.commit || github.sha }}
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
       - name: Check the commit is a full SHA
-        env:
-          COMMIT: ${{ inputs.commit || github.sha }}
         run: |
           if ! printf '%s' "$COMMIT" | grep -Eq '^[0-9a-f]{40}$'; then
             echo "The commit must be 40 lowercase hex characters." >&2
             exit 1
           fi
+
+      - name: Check out the full history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Keep the main branch's own copy of the release check: the commit being released may be an old one.
+      - name: Keep this run's release check
+        run: cp tools/release_check.py "$RUNNER_TEMP/release_check.py"
+
+      - name: Check the commit is on main
+        run: |
+          git fetch --no-tags origin main
+          if ! git merge-base --is-ancestor "$COMMIT" origin/main; then
+            echo "Commit $COMMIT is not on main. Nothing was released." >&2
+            exit 1
+          fi
+          git checkout --detach "$COMMIT"
 
       - name: Check the release token is set
         env:
@@ -132,33 +112,33 @@ jobs:
             exit 1
           fi
 
+      - name: Build the image from the approved commit
+        run: docker build -f deploy/placeholder.Dockerfile --build-arg "VESTAGRAPH_COMMIT=${COMMIT}" -t "${LIVE_IMAGE}:sha-${COMMIT}" -t "${LIVE_IMAGE}:production" .
+
       - name: Log in to GHCR with the release token
         env:
           RELEASE_TOKEN: ${{ secrets.GHCR_RELEASE_TOKEN }}
           ACTOR: ${{ github.actor }}
         run: echo "$RELEASE_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
 
-      - name: Check the image for the commit exists
-        env:
-          COMMIT: ${{ inputs.commit || github.sha }}
-        run: docker buildx imagetools inspect "${IMAGE}:sha-${COMMIT}"
-
-      # --prefer-index=false keeps the source manifest format. The next step checks the two digests really match.
-      - name: Write the live image
-        env:
-          COMMIT: ${{ inputs.commit || github.sha }}
-        run: docker buildx imagetools create --prefer-index=false -t "${LIVE_IMAGE}:production" "${IMAGE}:sha-${COMMIT}"
-
-      - name: Check the live image has the same digest
-        env:
-          COMMIT: ${{ inputs.commit || github.sha }}
+      - name: Push the live image
+        id: push
         run: |
-          source_digest=$(docker buildx imagetools inspect --format '{{.Manifest.Digest}}' "${IMAGE}:sha-${COMMIT}")
+          docker push "${LIVE_IMAGE}:sha-${COMMIT}"
+          docker push "${LIVE_IMAGE}:production"
+          digest=$(docker buildx imagetools inspect --format '{{.Manifest.Digest}}' "${LIVE_IMAGE}:sha-${COMMIT}")
+          echo "pushed digest: $digest"
+          echo "digest=$digest" >> "$GITHUB_OUTPUT"
+
+      - name: Check the production tag has the pushed digest
+        env:
+          PUSHED_DIGEST: ${{ steps.push.outputs.digest }}
+        run: |
           live_digest=$(docker buildx imagetools inspect --format '{{.Manifest.Digest}}' "${LIVE_IMAGE}:production")
-          echo "source: $source_digest"
+          echo "pushed: $PUSHED_DIGEST"
           echo "live:   $live_digest"
-          if [ -z "$source_digest" ] || [ "$source_digest" != "$live_digest" ]; then
-            echo "The digests differ. The live image is not the published image." >&2
+          if [ -z "$PUSHED_DIGEST" ] || [ "$PUSHED_DIGEST" != "$live_digest" ]; then
+            echo "The production tag does not hold the pushed image." >&2
             exit 1
           fi
 
@@ -167,6 +147,4 @@ jobs:
         run: docker logout ghcr.io
 
       - name: Wait for the live health page to report the commit
-        env:
-          COMMIT: ${{ inputs.commit || github.sha }}
-        run: python3 tools/release_check.py --url https://vestagraph.com/healthz --commit "$COMMIT"
+        run: python3 "$RUNNER_TEMP/release_check.py" --url https://vestagraph.com/healthz --commit "$COMMIT"
