@@ -187,10 +187,10 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 ## Part 4: Prove it end to end
 
 ### Task 12: First release, rollback and the log check (blockers 3 and 4)
-- [ ] Tell the founder first: a newer release waiting for approval replaces an older waiting one. Merge any small change to `main` (commit A), the founder approves `release`: the job passes and `/healthz` reports A.
-- [ ] Merge a second change (commit B), approve: `/healthz` reports B.
-- [ ] Run the Images workflow by hand with `commit` = A, approve: the job rebuilds A, and `/healthz` reports A again (the rollback works), then re-release B.
-- [ ] **The branch test (founder's choice of 22 Nov 2026):** on a throwaway branch that is never merged, a workflow run on `pull_request` with `packages: write` tries to push a test tag to `vestagraph-placeholder-live` with `GITHUB_TOKEN`: the push is refused. A second job on that branch with `environment: production` is refused by the deployment branch rule and gets no `GHCR_RELEASE_TOKEN`. Delete the branch, its runs' test tags (if any were created) and the pull request. Record both results in the launch-blockers review.
+- [x] Tell the founder first: a newer release waiting for approval replaces an older waiting one. Merge any small change to `main` (commit A), the founder approves `release`: the job passes and `/healthz` reports A.
+- [x] Merge a second change (commit B), approve: `/healthz` reports B. (A: #395, B: #396, 23 Nov 2026.)
+- [x] Run the Images workflow by hand with `commit` = A, approve: the job rebuilds A, and `/healthz` reports A again (the rollback works), then re-release B. (Done 23 Nov 2026: runs 45241160556 and 45277152906, both founder-approved.)
+- [x] **The branch test (founder's choice of 22 Nov 2026):** on a throwaway branch that is never merged, a workflow run on `pull_request` with `packages: write` tries to push a test tag to `vestagraph-placeholder-live` with `GITHUB_TOKEN`: the push is refused. A second job on that branch with `environment: production` is refused by the deployment branch rule and gets no `GHCR_RELEASE_TOKEN`. Delete the branch, its runs' test tags (if any were created) and the pull request. Record both results in the launch-blockers review. (Results: #398, 23 Nov 2026; still to be copied into the launch-blockers review.)
 - [ ] **The log check, failure path:** stop the placeholder container, then `curl "https://vestagraph.com/?postcode=ZZ99%209ZZ"` (a 502); start it again. Caddy's log: no `ZZ99`, no client address, no `Cf-Connecting-Ip` value.
 - [ ] **The log check, healthy path:** from the founder's network, `curl -X POST https://vestagraph.com/api/area-check -d '{"postcode":"ZZ99 9ZZ"}'` and `curl "https://vestagraph.com/?postcode=ZZ99%209ZZ"`. Then:
   - `docker logs` of the placeholder and of Caddy, over the last hour: no `ZZ99`, no client address (the founder's public address, looked up at the time and never written down);
