@@ -12,7 +12,7 @@
 
 **Amended 22 Nov 2026 ([0063](../../decisions/0063-pilot-privacy-and-anonymous-chat-first.md)):** Better Auth and its secret leave this plan (Task 6's secrets list); nothing else in it named sign-in.
 
-**Amended 23 Nov 2026 ([0067](../../decisions/0067-own-server-in-london-and-neon-london.md)):** the app moves to its own OVHcloud VPS-2 in London, and Neon is created in London. OVH had no Linux stock on 23 Nov 2026, so the app stays on the Hetzner server until a stock watch reports it; Task 12 runs on the Hetzner server now, and Tasks 10 and 11 (Neon and the restore drill) move to the start of the group B build (founder, 23 Nov 2026: "At the start of group B (Recommended)", because the first real-app deploy uses no database); the checks are repeated on the new server, whose move is planned in the private infrastructure repository (Phase 22). The Hetzner cost-alert step also covers OVH.
+**Amended 23 Nov 2026 ([0067](../../decisions/0067-own-server-in-london-and-neon-london.md)):** the app moves to its own OVHcloud VPS-2 in London, and Neon is created in London. OVH had no Linux stock on 23 Nov 2026; [0068](../../decisions/0068-shared-server-on-digitalocean-london.md) then chose a DigitalOcean Droplet in London (created the same day, shared with one other project), so the app stays on the Hetzner server until the Phase 22 move; Task 12 runs on the Hetzner server now, and Tasks 10 and 11 (Neon and the restore drill) move to the start of the group B build (founder, 23 Nov 2026: "At the start of group B (Recommended)", because the first real-app deploy uses no database); the checks are repeated on the new server, whose move is planned in the private infrastructure repository (Phase 22). The Hetzner cost-alert step also covers DigitalOcean (0068).
 
 **When:** written 20 Nov 2026; **built once groups B to D are decided** (0046: decisions first; design, "Building starts once groups B to D are decided"). Task 1 to Task 4 may be built earlier only if the founder says so.
 
@@ -162,7 +162,7 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 
 ### Task 9: Uptime, spending and documentation checks (blockers 6 and 8, part)
 - [ ] Add `https://vestagraph.com/healthz` to the infrastructure repository's scheduled uptime workflow (GitHub's failure email reaches the founder).
-- [ ] Hetzner and OVHcloud (0067): check whether each console offers a cost alert; set it if so, otherwise record that, use the monthly invoice check in the maintenance runbook, and update register line IN-05 and 0060 with a dated note (they say "a Hetzner billing alert now").
+- [ ] Hetzner and DigitalOcean (0067, 0068): check whether each console offers a cost alert; set it if so, otherwise record that, use the monthly invoice check in the maintenance runbook, and update register line IN-05 and 0060 with a dated note (they say "a Hetzner billing alert now").
 - [ ] Add a check to that repository's check scripts that fails on an IPv4 or IPv6 address in its tracked documentation, apart from documentation ranges (`192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`, `2001:db8::/32`) and private ranges; fix what it finds.
 - [ ] Memory and disk check after the retirement (`free -m`, `df -h`, `docker stats --no-stream`); resize only with the founder's approval (running cost).
 
@@ -200,4 +200,4 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 
 ## After this plan
 - When #86 and #93 ship, they replace the placeholder: the `vestagraph-placeholder` app, its Dockerfile, its Compose service and its `vestagraph-placeholder-live` GHCR package are removed in the same pull request (clean up what you replace), and the release workflow builds `vestagraph-web` and `vestagraph-api` instead. The OpenAPI contract (BE-02) and OpenTelemetry (0025) arrive with #93.
-- Group C names Neon, Hetzner (0067: OVHcloud instead of Hetzner once the London server runs) and Cloudflare as processors and states Neon's 7-day history in the retention text (design, "For group C").
+- Group C names Neon, Hetzner (0068: DigitalOcean instead of Hetzner once the London server runs) and Cloudflare as processors and states Neon's 7-day history in the retention text (design, "For group C").
