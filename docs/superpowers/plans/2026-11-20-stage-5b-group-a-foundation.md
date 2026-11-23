@@ -12,7 +12,7 @@
 
 **Amended 22 Nov 2026 ([0063](../../decisions/0063-pilot-privacy-and-anonymous-chat-first.md)):** Better Auth and its secret leave this plan (Task 6's secrets list); nothing else in it named sign-in.
 
-**Amended 23 Nov 2026 ([0067](../../decisions/0067-own-server-in-london-and-neon-london.md)):** the app moves to its own OVHcloud VPS-2 in London, and Neon is created in London. OVH had no Linux stock on 23 Nov 2026, so the app stays on the Hetzner server until a stock watch reports it; Tasks 10 to 12 run on the Hetzner server now and their checks are repeated on the new server, whose move is planned in the private infrastructure repository (Phase 22). The Hetzner cost-alert step also covers OVH.
+**Amended 23 Nov 2026 ([0067](../../decisions/0067-own-server-in-london-and-neon-london.md)):** the app moves to its own OVHcloud VPS-2 in London, and Neon is created in London. OVH had no Linux stock on 23 Nov 2026, so the app stays on the Hetzner server until a stock watch reports it; Task 12 runs on the Hetzner server now, and Tasks 10 and 11 (Neon and the restore drill) move to the start of the group B build (founder, 23 Nov 2026: "At the start of group B (Recommended)", because the first real-app deploy uses no database); the checks are repeated on the new server, whose move is planned in the private infrastructure repository (Phase 22). The Hetzner cost-alert step also covers OVH.
 
 **When:** written 20 Nov 2026; **built once groups B to D are decided** (0046: decisions first; design, "Building starts once groups B to D are decided"). Task 1 to Task 4 may be built earlier only if the founder says so.
 
