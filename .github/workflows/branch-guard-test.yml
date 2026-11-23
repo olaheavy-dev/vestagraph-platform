@@ -1,0 +1,46 @@
+name: Branch guard test (throwaway, never merged)
+
+# Group A plan Task 12, "the branch test": proves that a branch other than main cannot write the
+# live image. Job 1 tries a push to the live package with GITHUB_TOKEN (expected: refused). Job 2
+# asks for the production environment (expected: refused by the deployment branch rule, so it gets
+# no GHCR_RELEASE_TOKEN). The founder must NOT approve anything this workflow asks for.
+on:
+  pull_request:
+
+permissions: {}
+
+jobs:
+  push-with-github-token:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      packages: write
+    steps:
+      - name: Try to push a test tag to the live image (expected to be refused)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACTOR: ${{ github.actor }}
+          SHA: ${{ github.sha }}
+        run: |
+          docker pull hello-world
+          tag="ghcr.io/olaheavy-dev/vestagraph-placeholder-live:branch-test-${SHA}"
+          docker tag hello-world "$tag"
+          echo "$GH_TOKEN" | docker login ghcr.io -u "$ACTOR" --password-stdin
+          if docker push "$tag"; then
+            echo "UNEXPECTED: the push was accepted" >&2
+            exit 1
+          fi
+          echo "EXPECTED: the push was refused"
+
+  production-environment:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: production
+    permissions: {}
+    steps:
+      - name: Report whether the release token is visible (never its value)
+        env:
+          RELEASE_TOKEN: ${{ secrets.GHCR_RELEASE_TOKEN }}
+        run: |
+          if [ -n "$RELEASE_TOKEN" ]; then echo "UNEXPECTED: token visible" >&2; exit 1; fi
+          echo "token not visible"
