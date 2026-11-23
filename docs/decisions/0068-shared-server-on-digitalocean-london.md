@@ -48,7 +48,7 @@ So:
 - **Shared:** Vestagraph and one of the founder's other projects run on it. Each keeps its database in its own Neon project, not on the server. The Hetzner server keeps the founder's remaining projects.
 - **The setup** is planned in the private infrastructure repository: a Cloud Firewall managed by Terraform (TCP 443 from Cloudflare's ranges only, the WireGuard port, SSH closed once the VPN works), a memory alert, and the existing Ansible plays. The Terraform token is scoped to droplets (read), firewalls, monitoring and tags, expires after 90 days, and is held only as a GitHub secret.
 - **Two layers in front of the app:** the Cloud Firewall lets only Cloudflare reach TCP 443, and the Caddy origin lock from 0060 stays as the second layer; a host firewall on the Droplet is optional.
-- **The OVH stock watch** in the infrastructure repository is removed in the Phase 22 work.
+- **The OVH stock watch** in the infrastructure repository is removed in the Phase 23 work.
 
 ## Consequences
 - **Running cost:** $28.80 a month including VAT from 23 Nov 2026, on top of the Hetzner server. Daily backups would add 30% if they are ever wanted.
