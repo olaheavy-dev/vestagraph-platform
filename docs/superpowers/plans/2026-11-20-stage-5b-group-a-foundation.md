@@ -12,7 +12,7 @@
 
 **Amended 22 Nov 2026 ([0063](../../decisions/0063-pilot-privacy-and-anonymous-chat-first.md)):** Better Auth and its secret leave this plan (Task 6's secrets list); nothing else in it named sign-in.
 
-**Amended 23 Nov 2026 ([0067](../../decisions/0067-own-server-in-london-and-neon-london.md)):** the app moves to its own OVHcloud VPS-2 in London, and Neon is created in London. The move is planned in the private infrastructure repository (Phase 22): the placeholder moves first and Tasks 10 to 12 run against the new server. The Hetzner cost-alert step also covers OVH.
+**Amended 23 Nov 2026 ([0067](../../decisions/0067-own-server-in-london-and-neon-london.md)):** the app moves to its own OVHcloud VPS-2 in London, and Neon is created in London. OVH had no Linux stock on 23 Nov 2026, so the app stays on the Hetzner server until a stock watch reports it; Tasks 10 to 12 run on the Hetzner server now and their checks are repeated on the new server, whose move is planned in the private infrastructure repository (Phase 22). The Hetzner cost-alert step also covers OVH.
 
 **When:** written 20 Nov 2026; **built once groups B to D are decided** (0046: decisions first; design, "Building starts once groups B to D are decided"). Task 1 to Task 4 may be built earlier only if the founder says so.
 
@@ -200,4 +200,4 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 
 ## After this plan
 - When #86 and #93 ship, they replace the placeholder: the `vestagraph-placeholder` app, its Dockerfile, its Compose service and its `vestagraph-placeholder-live` GHCR package are removed in the same pull request (clean up what you replace), and the release workflow builds `vestagraph-web` and `vestagraph-api` instead. The OpenAPI contract (BE-02) and OpenTelemetry (0025) arrive with #93.
-- Group C names Neon, Hetzner (0067: OVHcloud, not Hetzner) and Cloudflare as processors and states Neon's 7-day history in the retention text (design, "For group C").
+- Group C names Neon, Hetzner (0067: OVHcloud instead of Hetzner once the London server runs) and Cloudflare as processors and states Neon's 7-day history in the retention text (design, "For group C").
