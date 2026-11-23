@@ -289,3 +289,22 @@ def test_respond_rejected_area_check_sends_nosniff_header(length: str, expected:
         status, head, _ = raw_response(port, raw)
     assert status == expected
     assert b"x-content-type-options: nosniff" in head
+
+
+@pytest.mark.parametrize(
+    ("method", "path"),
+    [("GET", "/healthz"), ("GET", "/missing"), ("POST", "/api/area-check"), ("DELETE", "/")],
+)
+def test_respond_any_route_sends_no_referrer_header(method: str, path: str) -> None:
+    with running_server(app.make_handler("abc123")) as port:
+        _, headers, _ = request(port, method, path, body=b"" if method == "POST" else None)
+    assert headers["Referrer-Policy"] == "no-referrer"
+
+
+@pytest.mark.parametrize(("length", "expected"), [("abc", 400), ("99999999", 413)])
+def test_respond_rejected_area_check_sends_no_referrer_header(length: str, expected: int) -> None:
+    raw = f"POST /api/area-check HTTP/1.1\r\nContent-Length: {length}\r\n\r\n".encode()
+    with running_server(app.make_handler("abc123")) as port:
+        status, head, _ = raw_response(port, raw)
+    assert status == expected
+    assert b"referrer-policy: no-referrer" in head
