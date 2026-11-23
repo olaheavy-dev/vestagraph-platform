@@ -142,15 +142,21 @@ def test_load_secret_check_present_returns_value(tmp_path: pathlib.Path) -> None
     assert app.load_secret_check(present) == "the-value"
 
 
-def raw_status(port: int, raw: bytes) -> tuple[int, bytes]:
+def raw_response(port: int, raw: bytes) -> tuple[int, bytes, bytes]:
+    """Send raw bytes; return the status, the lower-cased header block and the body."""
     with socket.create_connection(("127.0.0.1", port), timeout=5) as sock:
         sock.sendall(raw)
         data = b""
         while chunk := sock.recv(4096):
             data += chunk
     head, _, body = data.partition(b"\r\n\r\n")
-    assert b"cache-control: no-store" in head.lower()
-    return int(head.split(b" ")[1]), body
+    return int(head.split(b" ")[1]), head.lower(), body
+
+
+def raw_status(port: int, raw: bytes) -> tuple[int, bytes]:
+    status, head, body = raw_response(port, raw)
+    assert b"cache-control: no-store" in head
+    return status, body
 
 
 @pytest.mark.parametrize("length", ["-5", "abc"])
@@ -264,3 +270,22 @@ def test_main_missing_secret_exits_before_binding_the_server(
     with pytest.raises(SystemExit):
         app.main()
     assert created == []
+
+
+@pytest.mark.parametrize(
+    ("method", "path"),
+    [("GET", "/healthz"), ("GET", "/missing"), ("POST", "/api/area-check"), ("DELETE", "/")],
+)
+def test_respond_any_route_sends_nosniff_header(method: str, path: str) -> None:
+    with running_server(app.make_handler("abc123")) as port:
+        _, headers, _ = request(port, method, path, body=b"" if method == "POST" else None)
+    assert headers["X-Content-Type-Options"] == "nosniff"
+
+
+@pytest.mark.parametrize(("length", "expected"), [("abc", 400), ("99999999", 413)])
+def test_respond_rejected_area_check_sends_nosniff_header(length: str, expected: int) -> None:
+    raw = f"POST /api/area-check HTTP/1.1\r\nContent-Length: {length}\r\n\r\n".encode()
+    with running_server(app.make_handler("abc123")) as port:
+        status, head, _ = raw_response(port, raw)
+    assert status == expected
+    assert b"x-content-type-options: nosniff" in head
