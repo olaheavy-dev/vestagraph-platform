@@ -249,7 +249,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     When the user reads "The chat"
     Then it says there is no sign-in in the pilot: no account, saved area or chat history is kept, and the chat works without one (0063 point 2)
     And it says your messages, including any health or similar details you type, go to Anthropic, which processes them in the US or "global", deletes them within 30 days, and keeps content its systems flag for up to 2 years (0064; the DPA's UK Addendum is the safeguard for the transfer, Article 13(1)(f))
-    And it says the words of real chats are kept 14 days in our own Neon database (Frankfurt), with the identifier filter and the consent receipt, then deleted, and gone from Neon's 7-day history a week later (0064, 0063 point 5)
+    And it says the words of real chats are kept 14 days in our own Neon database (London), with the identifier filter and the consent receipt, then deleted, and gone from Neon's 7-day history a week later (0064, 0063 point 5)
     And it says traces without the words go to LangSmith (LangChain) in its EU region (the Netherlands), as a processor of trace data only (0064)
     And it says the IP address is used in memory for the day's count of 15 messages and is never stored (0063 point 3)
     And it says special category details, such as health details, are handled only on your explicit consent, given when you tap "Agree and start chat" (0063 point 5; UK GDPR Article 9(2)(a))
@@ -298,7 +298,7 @@ Feature: How it works, Privacy and Accessibility (the pilot's three public pages
     And our own lawful basis and retention wording read exactly "To be written before launch (SE-02)" (0059: the policy and terms are read again before launch)
     And it says that if the map cannot load, the facts still show (MAP-27)
 
-  # Added after review (19 Nov 2026): 0014 says the notice covers what hosting and security services handle. Hosting (IN-02) was undecided then; 0060 (19 Nov 2026) chose Hetzner, Neon and a Cloudflare proxy, and the wording is written with the privacy work (SE-02), so this stays a placeholder until then. Added after PRIV-18 so no ID moves.
+  # Added after review (19 Nov 2026): 0014 says the notice covers what hosting and security services handle. Hosting (IN-02) was undecided then; 0060 (19 Nov 2026) chose Hetzner, Neon and a Cloudflare proxy (0067, 23 Nov 2026: an OVHcloud server and Neon, both in London), and the wording is written with the privacy work (SE-02), so this stays a placeholder until then. Added after PRIV-18 so no ID moves.
   @ui
   Scenario: PRIV-19 "Hosting and security" is a placeholder, so the list of recipients does not read as complete
     Given the user has opened "Privacy notice"

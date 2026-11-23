@@ -12,6 +12,8 @@
 
 **Amended 22 Nov 2026 ([0063](../../decisions/0063-pilot-privacy-and-anonymous-chat-first.md)):** Better Auth and its secret leave this plan (Task 6's secrets list); nothing else in it named sign-in.
 
+**Amended 23 Nov 2026 ([0067](../../decisions/0067-own-server-in-london-and-neon-london.md)):** the app moves to its own OVHcloud VPS-2 in London, and Neon is created in London. The move is planned in the private infrastructure repository (Phase 22): the placeholder moves first and Tasks 10 to 12 run against the new server. The Hetzner cost-alert step also covers OVH.
+
 **When:** written 20 Nov 2026; **built once groups B to D are decided** (0046: decisions first; design, "Building starts once groups B to D are decided"). Task 1 to Task 4 may be built earlier only if the founder says so.
 
 ## Founder's choices on this plan (20 Nov 2026, prompt window)
@@ -28,7 +30,7 @@
 - Images are tagged `sha-<full commit>` and `production` only. Never `latest`, never `main`.
 - A merged change reaches the live site only after the founder approves the `production` environment.
 - No new packages and no new third-party actions: the placeholder uses the standard library only; the workflow uses `actions/checkout` (already pinned), the runner's own `python3` and the `docker` command line. FastAPI and its packages wait for #93 (0049). The new images (the `python:3.14-slim` base image here; Watchtower and Caddy on the server) are recorded with their licences in `docs/references/third-party.md`.
-- Neon: Frankfurt region, Launch plan, one Vestagraph project, autoscaling capped at 0.25 compute units, history window 7 days, PostGIS installed, TLS connections only.
+- Neon: London region (AWS `aws-eu-west-2`, [0067](../../decisions/0067-own-server-in-london-and-neon-london.md); was Frankfurt), Launch plan, one Vestagraph project, autoscaling capped at 0.25 compute units, history window 7 days, PostGIS installed, TLS connections only.
 - Spending alert at Neon about $25 a month for Vestagraph (design, "Monitoring and spending").
 - Live address `vestagraph.com`; `vestagraph.co.uk` redirects to it. Environments: the founder's laptop and live only.
 - Test names follow `test_<method>_<condition>_<result>` (0039). `make check` passes before every push.
@@ -160,7 +162,7 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 
 ### Task 9: Uptime, spending and documentation checks (blockers 6 and 8, part)
 - [ ] Add `https://vestagraph.com/healthz` to the infrastructure repository's scheduled uptime workflow (GitHub's failure email reaches the founder).
-- [ ] Hetzner: check whether the console offers a cost alert; set it if so, otherwise record that, use the monthly invoice check in the maintenance runbook, and update register line IN-05 and 0060 with a dated note (they say "a Hetzner billing alert now").
+- [ ] Hetzner and OVHcloud (0067): check whether each console offers a cost alert; set it if so, otherwise record that, use the monthly invoice check in the maintenance runbook, and update register line IN-05 and 0060 with a dated note (they say "a Hetzner billing alert now").
 - [ ] Add a check to that repository's check scripts that fails on an IPv4 or IPv6 address in its tracked documentation, apart from documentation ranges (`192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`, `2001:db8::/32`) and private ranges; fix what it finds.
 - [ ] Memory and disk check after the retirement (`free -m`, `df -h`, `docker stats --no-stream`); resize only with the founder's approval (running cost).
 
@@ -168,7 +170,7 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 
 ### Task 10: The Neon project (blocker 8, part)
 - [ ] **Founder:** create the Neon account on the Launch plan with their payment card (running cost). Then the agent, in the console, with each setting written down in the infrastructure repository (the official Terraform provider `neondatabase/neon` is still a beta `0.x` release, so by hand for now, as the design allows; revisit when it leaves beta):
-  - project `vestagraph`, region AWS Europe (Frankfurt), the newest PostgreSQL major Neon offers with PostGIS;
+  - project `vestagraph`, region AWS Europe (London) (0067; check that PostGIS and the Launch plan's prices match before creating it, and stop and ask if not), the newest PostgreSQL major Neon offers with PostGIS;
   - autoscaling minimum and maximum 0.25 compute units; scale to zero on (the default);
   - history (restore) window 7 days;
   - `CREATE EXTENSION postgis;` and the schemas `personal` and `area` (0058: personal and public data apart), owned by a role `vestagraph_app` that is not the project owner;
@@ -198,4 +200,4 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 
 ## After this plan
 - When #86 and #93 ship, they replace the placeholder: the `vestagraph-placeholder` app, its Dockerfile, its Compose service and its `vestagraph-placeholder-live` GHCR package are removed in the same pull request (clean up what you replace), and the release workflow builds `vestagraph-web` and `vestagraph-api` instead. The OpenAPI contract (BE-02) and OpenTelemetry (0025) arrive with #93.
-- Group C names Neon, Hetzner and Cloudflare as processors and states Neon's 7-day history in the retention text (design, "For group C").
+- Group C names Neon, Hetzner (0067: OVHcloud, not Hetzner) and Cloudflare as processors and states Neon's 7-day history in the retention text (design, "For group C").

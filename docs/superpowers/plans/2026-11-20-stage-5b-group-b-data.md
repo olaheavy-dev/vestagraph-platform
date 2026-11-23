@@ -148,7 +148,7 @@ Founder: "Automatic, own workflow (Recommended)" (20 Nov 2026).
 - [ ] **Step 1:** `test_tools_publish_odbl_release_notes_contain_licence_and_credit`. **Step 2:** fail. **Step 3:** implement. **Step 4:** pass. **Step 5:** Commit `feat: publish OpenStreetMap-derived tables under ODbL`. Founder merge.
 
 ### Task 9: Dagster (stop point: the memory check)
-**Stop point:** start only when group A's Task 9 has measured at least about 1.5 GB free on the server. Otherwise do not build this task: tell the founder, and plan the fallback (systemd timers and a VPN-only admin page, with a canvas board and specification first).
+**Stop point:** start only when group A's Task 9 has measured at least about 1.5 GB free on the server (0067, 23 Nov 2026: Vestagraph's own OVHcloud server in London, measured there). Otherwise do not build this task: tell the founder, and plan the fallback (systemd timers and a VPN-only admin page, with a canvas board and specification first).
 
 **Files:** Create `packages/vestagraph-dagster/` (`definitions.py`, `assets.py`, `schedules.py`, `jobs.py`, `sensors.py`), `deploy/dagster.Dockerfile`, a `dagster` service in `deploy/compose.yml` (its port published on `<WIREGUARD_ADDRESS>`, a placeholder filled in the private infrastructure repository); Modify `dependency-review.yml` (`pkg:pypi/vestagraph-dagster`), the package's `pyproject.toml` and `uv.lock` (dagster, dagster-webserver), `docs/references/third-party.md`; Test `packages/vestagraph-dagster/tests/test_dagster_definitions.py`.
 

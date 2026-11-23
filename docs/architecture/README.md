@@ -139,7 +139,7 @@ flowchart TB
 | MCP server | 5b (public area tools, decision 0051), 6 (cost tools) | Built with the official `mcp` Python SDK. At 5b it exposes read-only public area tools without keys (decision 0051); at stage 6 it adds read-only cost tools behind 0038's keys (decisions 0037, 0038, 0049). |
 | Agents and chat | Framework chosen at 5b for the chat (decisions 0051, 0056; no on-page chat; 0063: an anonymous chat page in the pilot), 6 (home agents and chat) | LangGraph (*22 Nov 2026, decision 0066: chosen over Microsoft Agent Framework by the AI-09 trial; decisions 0023, 0049 and 0051 led to the trial*). The API streams agent replies over AG-UI; the web app talks to it through a CopilotKit runtime route, using the open-source path only (decision 0042). Agents quote only figures the engine supplied. |
 | Aspire and OpenTelemetry | 5b | Local app host, written in TypeScript, and trace dashboard for the pieces above (decisions 0025, 0049). |
-| Database | 5b | PostgreSQL with PostGIS on Neon, Frankfurt (DA-03, decision 0060): the public area data, and real chats' words for 14 days (0063, 0064; accounts, chats and saved areas, 0058, wait until sign-in opens), in separate schemas; later homes, questions, replies and decisions. |
+| Database | 5b | PostgreSQL with PostGIS on Neon, London (DA-03, decisions 0060 and 0067): the public area data, and real chats' words for 14 days (0063, 0064; accounts, chats and saved areas, 0058, wait until sign-in opens), in separate schemas; later homes, questions, replies and decisions. |
 
 The planned pieces and their order are in the [ordered backlog](../planning/backlog.md). The built pieces above are all Python (the .NET code was removed in port step P8, decision 0049).
 
