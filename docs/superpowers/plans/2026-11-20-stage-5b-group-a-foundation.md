@@ -60,7 +60,7 @@ Branch `feat/group-a-placeholder-release`. Tasks 1 to 4 ship together; Task 5 is
 
 **Interfaces:**
 - Produces: `load_secret_check(path: pathlib.Path) -> str` (raises `SystemExit` with a message naming the path, never the value, if the path is missing, a directory, unreadable or empty); `make_handler(commit: str) -> type[http.server.BaseHTTPRequestHandler]`; `main() -> None` reading `VESTAGRAPH_COMMIT` (default `"unknown"`), `VESTAGRAPH_SECRET_CHECK_FILE` (default `/run/secrets/secret_check`) and `PORT` (default `8080`), serving on `0.0.0.0` with `http.server.ThreadingHTTPServer`.
-- Routes: `GET /healthz` → `200`, `application/json`, body `{"status": "ok", "commit": "<commit>"}`; `POST /api/area-check` → reads and discards the body (the log test's "test search"), `204`; anything else → `404` with an empty body. Response header `Cache-Control: no-store` on every response.
+- Routes: `GET /healthz` → `200`, `application/json`, body `{"status": "ok", "commit": "<commit>"}`; `POST /api/area-check` → reads and discards the body (the log test's "test search"), `204`; anything else → `404` with an empty body. Response header `Cache-Control: no-store` on every response (and, since Task 12's release A, `X-Content-Type-Options: nosniff`).
 
 - [ ] **Step 1: Write the failing tests** (start a real server on port 0 in a thread; capture `sys.stderr` and the `logging` root output)
   - `test_healthz_get_returns_status_and_commit`: body equals `{"status": "ok", "commit": "abc123"}`, status 200, `Cache-Control` is `no-store`.
