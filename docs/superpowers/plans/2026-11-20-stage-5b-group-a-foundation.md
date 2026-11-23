@@ -195,7 +195,7 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 - [ ] **The log check, healthy path:** from the founder's network, `curl -X POST https://vestagraph.com/api/area-check -d '{"postcode":"ZZ99 9ZZ"}'` and `curl "https://vestagraph.com/?postcode=ZZ99%209ZZ"`. Then:
   - `docker logs` of the placeholder and of Caddy, over the last hour: no `ZZ99`, no client address (the founder's public address, looked up at the time and never written down);
   - Cloudflare's security analytics for the hour: the requests show paths `/api/area-check` and `/` with no postcode in the path; note that the `?postcode=` request **does** show a query string there, which is why the real app must never put a postcode in a query string (0046).
-- [ ] Write `docs/reviews/<date>-group-a-launch-blockers.md` on a `docs/` branch with its own pull request: each of the eight blockers, its evidence (dates, commands, results; no addresses or IDs) and "closed" or "open". Record in it that the log check is **repeated with the real app** once #86 and #93 replace the placeholder, and add that to their issues.
+- [x] Write `docs/reviews/<date>-group-a-launch-blockers.md` on a `docs/` branch with its own pull request: each of the eight blockers, its evidence (dates, commands, results; no addresses or IDs) and "closed" or "open". Record in it that the log check is **repeated with the real app** once #86 and #93 replace the placeholder, and add that to their issues. (Written 23 Nov 2026: [review](../../reviews/2026-11-23-group-a-launch-blockers.md); no blocker fully closed yet. Noted on #86 and #93.)
 - [ ] Update `docs/planning/status.md` and the register lines IN-01 to IN-05.
 
 ## After this plan
