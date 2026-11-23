@@ -73,6 +73,8 @@ def make_handler(commit: str) -> type[BaseHTTPRequestHandler]:
         def _respond(self, status: int, body: bytes = b"", content_type: str | None = None) -> None:
             self.send_response(status)
             self.send_header("Cache-Control", "no-store")
+            # Browsers must not guess a response's type from its content (MIME sniffing).
+            self.send_header("X-Content-Type-Options", "nosniff")
             if content_type is not None:
                 self.send_header("Content-Type", content_type)
             self.send_header("Content-Length", str(len(body)))

@@ -264,3 +264,13 @@ def test_main_missing_secret_exits_before_binding_the_server(
     with pytest.raises(SystemExit):
         app.main()
     assert created == []
+
+
+@pytest.mark.parametrize(
+    ("method", "path"),
+    [("GET", "/healthz"), ("GET", "/missing"), ("POST", "/api/area-check"), ("DELETE", "/")],
+)
+def test_every_response_sends_nosniff(method: str, path: str) -> None:
+    with running_server(app.make_handler("abc123")) as port:
+        _, headers, _ = request(port, method, path, body=b"" if method == "POST" else None)
+    assert headers["X-Content-Type-Options"] == "nosniff"
