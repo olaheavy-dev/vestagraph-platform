@@ -19,7 +19,7 @@ from typing import Annotated, Any, Literal
 
 from fastapi import APIRouter, Request, Response
 from fastapi.routing import APIRoute
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, WithJsonSchema
 from vestagraph_area.area_check import check_postcode, postcode_result
 from vestagraph_area.records import (
     PostcodeArea,
@@ -30,7 +30,14 @@ from vestagraph_area.records import (
     read_sample_priorities,
 )
 
-from vestagraph_api.problems import Problem
+from vestagraph_api.problems import (
+    MEDIA_TYPE,
+    Problem,
+    ProblemDetails,
+    ValidationProblem,
+    problem_schema,
+)
+from vestagraph_api.schemas import definition
 
 
 @dataclass(frozen=True, slots=True)
@@ -59,12 +66,22 @@ class AreaCheckRequest(BaseModel):
     postcode: str = Field(min_length=1, max_length=16)
 
 
+# The shapes come from the fixtures' JSON Schemas (the single source), for the OpenAPI description
+# only: at run time the values pass through as they are.
+AreaResult = Annotated[
+    dict[str, Any], WithJsonSchema(definition("generated-area-result.schema.json", "postcode"))
+]
+AreaRecord = Annotated[
+    dict[str, Any], WithJsonSchema(definition("postcode-area.schema.json", "postcodeAreaItem"))
+]
+
+
 class Found(BaseModel):
     state: Literal["found"]
     postcode: str
     nation: Literal["england"]
-    result: dict[str, Any]
-    records: list[dict[str, Any]]
+    result: AreaResult
+    records: list[AreaRecord]
 
 
 class NotFound(BaseModel):
@@ -103,7 +120,16 @@ router = APIRouter(prefix="/api", tags=["area"], route_class=ClosedUntilOpen)
 @router.post(
     "/area-check",
     response_model=AreaCheckResponse,
-    responses={503: {"description": "The area check is not open yet"}},
+    responses={
+        422: {
+            "description": "The request is not valid: says where and why, never the value.",
+            "content": {MEDIA_TYPE: {"schema": problem_schema(ValidationProblem)}},
+        },
+        503: {
+            "description": "The area check is not open yet (title: Not available yet).",
+            "content": {MEDIA_TYPE: {"schema": problem_schema(ProblemDetails)}},
+        },
+    },
 )
 async def area_check(body: AreaCheckRequest, request: Request) -> Found | NotFound | NotCovered:
     data: AreaData = request.app.state.area

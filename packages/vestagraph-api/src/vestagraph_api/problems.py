@@ -15,6 +15,7 @@ import structlog
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from pydantic import BaseModel
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
@@ -22,6 +23,48 @@ from vestagraph_api.log import REQUEST_ID_HEADER
 
 MEDIA_TYPE = "application/problem+json"
 log = structlog.get_logger()
+
+
+class ProblemDetails(BaseModel):
+    """The body of every error response (RFC 9457), as problem_response builds it. For the
+    OpenAPI description only."""
+
+    type: str
+    title: str
+    status: int
+    detail: str | None = None
+    instance: str | None = None
+
+
+class ErrorItem(BaseModel):
+    loc: list[str | int]
+    msg: str
+    type: str
+
+
+class ValidationProblem(ProblemDetails):
+    """A 422: where and why, never the submitted values."""
+
+    errors: list[ErrorItem]
+
+
+def problem_schema(model: type[BaseModel]) -> dict[str, Any]:
+    """The model's JSON Schema with its references inlined, so a route's ``responses`` entry
+    is self-contained."""
+    schema = model.model_json_schema(mode="serialization")
+    defs: dict[str, Any] = schema.pop("$defs", {})
+
+    def inline(node: Any) -> Any:
+        if isinstance(node, list):
+            return [inline(item) for item in node]
+        if not isinstance(node, dict):
+            return node
+        if "$ref" in node:
+            return inline(defs[str(node["$ref"]).rsplit("/", 1)[1]])
+        return {k: inline(v) for k, v in node.items()}
+
+    inlined: dict[str, Any] = inline(schema)
+    return inlined
 
 
 # Members RFC 9457 defines; an extension may not reuse their names.

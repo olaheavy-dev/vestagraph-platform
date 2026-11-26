@@ -1,0 +1,2042 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/health/live": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Live",
+        "operationId": "live_health_live_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Live Health Live Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Ready",
+        "operationId": "ready_health_ready_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "503": {
+            "description": "A dependency isn't ready"
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Healthz",
+        "operationId": "healthz_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Healthz Healthz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/area-check": {
+      "post": {
+        "tags": [
+          "area"
+        ],
+        "summary": "Area Check",
+        "operationId": "area_check_api_area_check_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AreaCheckRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/Found"
+                    },
+                    {
+                      "$ref": "#/components/schemas/NotFound"
+                    },
+                    {
+                      "$ref": "#/components/schemas/NotCovered"
+                    }
+                  ],
+                  "title": "Response Area Check Api Area Check Post",
+                  "discriminator": {
+                    "propertyName": "state",
+                    "mapping": {
+                      "found": "#/components/schemas/Found",
+                      "notFound": "#/components/schemas/NotFound",
+                      "notCovered": "#/components/schemas/NotCovered"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The request is not valid: says where and why, never the value.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "title": "Type"
+                    },
+                    "title": {
+                      "type": "string",
+                      "title": "Title"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "title": "Status"
+                    },
+                    "detail": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Detail"
+                    },
+                    "instance": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Instance"
+                    },
+                    "errors": {
+                      "items": {
+                        "properties": {
+                          "loc": {
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
+                              ]
+                            },
+                            "type": "array",
+                            "title": "Loc"
+                          },
+                          "msg": {
+                            "type": "string",
+                            "title": "Msg"
+                          },
+                          "type": {
+                            "type": "string",
+                            "title": "Type"
+                          }
+                        },
+                        "type": "object",
+                        "required": [
+                          "loc",
+                          "msg",
+                          "type"
+                        ],
+                        "title": "ErrorItem"
+                      },
+                      "type": "array",
+                      "title": "Errors"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "errors"
+                  ],
+                  "title": "ValidationProblem",
+                  "description": "A 422: where and why, never the submitted values."
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The area check is not open yet (title: Not available yet).",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "title": "Type"
+                    },
+                    "title": {
+                      "type": "string",
+                      "title": "Title"
+                    },
+                    "status": {
+                      "type": "integer",
+                      "title": "Status"
+                    },
+                    "detail": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Detail"
+                    },
+                    "instance": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Instance"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "type",
+                    "title",
+                    "status"
+                  ],
+                  "title": "ProblemDetails",
+                  "description": "The body of every error response (RFC 9457), as problem_response builds it. For the\nOpenAPI description only."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AreaCheckRequest": {
+        "properties": {
+          "postcode": {
+            "type": "string",
+            "maxLength": 16,
+            "minLength": 1,
+            "title": "Postcode"
+          }
+        },
+        "type": "object",
+        "required": [
+          "postcode"
+        ],
+        "title": "AreaCheckRequest"
+      },
+      "Found": {
+        "properties": {
+          "state": {
+            "type": "string",
+            "const": "found",
+            "title": "State"
+          },
+          "postcode": {
+            "type": "string",
+            "title": "Postcode"
+          },
+          "nation": {
+            "type": "string",
+            "const": "england",
+            "title": "Nation"
+          },
+          "result": {
+            "properties": {
+              "postcode": {
+                "type": "string",
+                "minLength": 1
+              },
+              "glance": {
+                "properties": {
+                  "found": {
+                    "type": "integer",
+                    "minimum": 0.0
+                  },
+                  "notKnown": {
+                    "type": "integer",
+                    "minimum": 0.0
+                  },
+                  "coverageFound": {
+                    "type": "integer",
+                    "minimum": 0.0
+                  },
+                  "coverageTotal": {
+                    "type": "integer",
+                    "minimum": 0.0
+                  },
+                  "questions": {
+                    "items": {
+                      "properties": {
+                        "recordId": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "text": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "required": [
+                        "recordId",
+                        "text"
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "checkInPerson": {
+                    "items": {
+                      "properties": {
+                        "topicKey": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "text": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "additionalProperties": false,
+                      "type": "object",
+                      "required": [
+                        "topicKey",
+                        "text"
+                      ]
+                    },
+                    "type": "array"
+                  }
+                },
+                "additionalProperties": false,
+                "type": "object",
+                "required": [
+                  "found",
+                  "notKnown",
+                  "coverageFound",
+                  "coverageTotal",
+                  "questions",
+                  "checkInPerson"
+                ]
+              },
+              "topics": {
+                "items": {
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "outcome": {
+                      "enum": [
+                        "found",
+                        "not-known",
+                        "not-covered"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "key",
+                    "outcome"
+                  ]
+                },
+                "type": "array"
+              },
+              "distances": {
+                "items": {
+                  "properties": {
+                    "recordId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "metres": {
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^-?[0-9]+\\.[0-9]+$"
+                        }
+                      ]
+                    },
+                    "walkingMinutes": {
+                      "oneOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "string",
+                          "pattern": "^-?[0-9]+\\.[0-9]+$"
+                        }
+                      ]
+                    },
+                    "display": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "recordId",
+                    "metres",
+                    "display"
+                  ]
+                },
+                "type": "array"
+              },
+              "busesPerHour": {
+                "items": {
+                  "properties": {
+                    "stopItemId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "routeNumber": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "destination": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "hour": {
+                      "enum": [
+                        8,
+                        12
+                      ]
+                    },
+                    "count": {
+                      "type": "integer",
+                      "minimum": 0.0
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "stopItemId",
+                    "routeNumber",
+                    "destination",
+                    "hour",
+                    "count"
+                  ]
+                },
+                "type": "array"
+              },
+              "priorities": {
+                "items": {
+                  "properties": {
+                    "priorityId": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "outcome": {
+                      "enum": [
+                        "meets",
+                        "misses",
+                        "not-known",
+                        "not-known-beyond-search"
+                      ]
+                    },
+                    "nearestRecordId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "priorityId",
+                    "outcome",
+                    "nearestRecordId"
+                  ]
+                },
+                "type": "array"
+              }
+            },
+            "additionalProperties": false,
+            "type": "object",
+            "required": [
+              "postcode",
+              "glance",
+              "topics",
+              "distances",
+              "busesPerHour",
+              "priorities"
+            ],
+            "title": "Result"
+          },
+          "records": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "recorded",
+                          "stale"
+                        ]
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "value"
+                    ]
+                  },
+                  "else": {
+                    "properties": {
+                      "value": false
+                    }
+                  },
+                  "description": "Only recorded and stale items carry a value; every gap status must not (rule 7: a gap is never zero, none or clean)."
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "transport-stop"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "stopName": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "stopType": {
+                            "enum": [
+                              "bus-stop",
+                              "rail-station",
+                              "tram-stop"
+                            ]
+                          },
+                          "distanceMetres": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Metres. A synthetic INPUT, never calculated by code (AGENTS.md rule 2)."
+                          },
+                          "distanceMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the distance was measured, for example 'straight-line distance, synthetic'. Required with every distance; a distance is never a walking time."
+                          },
+                          "walkingMinutes": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Walking minutes, a synthetic INPUT, never calculated by code (AGENTS.md rule 2, register DA-18). Optional; missing is never shown as zero. A walking time is not a distance: it must carry its walkingMethod."
+                          },
+                          "walkingMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the walking time was produced, for example 'walking route, synthetic'. Required with walkingMinutes."
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "stopName",
+                          "stopType",
+                          "distanceMetres",
+                          "distanceMethod"
+                        ],
+                        "dependentRequired": {
+                          "walkingMethod": [
+                            "walkingMinutes"
+                          ],
+                          "walkingMinutes": [
+                            "walkingMethod"
+                          ]
+                        },
+                        "description": "A stop location (doc 02 section 7). A stop point is not a timetable, frequency, fare or journey time."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "school"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "phase": {
+                            "enum": [
+                              "primary",
+                              "secondary",
+                              "all-through"
+                            ]
+                          },
+                          "schoolType": {
+                            "enum": [
+                              "state-funded",
+                              "independent"
+                            ]
+                          },
+                          "distanceMetres": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Metres. A synthetic INPUT, never calculated by code (AGENTS.md rule 2)."
+                          },
+                          "distanceMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the distance was measured, for example 'straight-line distance, synthetic'. Required with every distance; a distance is never a walking time."
+                          },
+                          "walkingMinutes": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Walking minutes, a synthetic INPUT, never calculated by code (AGENTS.md rule 2, register DA-18). Optional; missing is never shown as zero. A walking time is not a distance: it must carry its walkingMethod."
+                          },
+                          "walkingMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the walking time was produced, for example 'walking route, synthetic'. Required with walkingMinutes."
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "phase",
+                          "schoolType",
+                          "distanceMetres",
+                          "distanceMethod"
+                        ],
+                        "dependentRequired": {
+                          "walkingMethod": [
+                            "walkingMinutes"
+                          ],
+                          "walkingMinutes": [
+                            "walkingMethod"
+                          ]
+                        },
+                        "description": "A school from a register: type, phase and location only. Never a quality grade or an admissions promise."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "school-inspection"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "schoolItemId": {
+                            "type": "string",
+                            "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*$",
+                            "description": "Stable upper-case identifier such as B1 or B1-SC-LISTING."
+                          },
+                          "schoolName": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "framework": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "The inspection framework the outcomes belong to. Outcomes under different frameworks are not comparable."
+                          },
+                          "inspectionDate": {
+                            "type": "string",
+                            "pattern": "^\\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\\d|3[01]))?)?$",
+                            "description": "YYYY, YYYY-MM or YYYY-MM-DD, so a source that only states a year is not given an invented month or day."
+                          },
+                          "outcomes": {
+                            "items": {
+                              "properties": {
+                                "area": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "judgement": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              },
+                              "additionalProperties": false,
+                              "type": "object",
+                              "required": [
+                                "area",
+                                "judgement"
+                              ]
+                            },
+                            "type": "array",
+                            "minItems": 1
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "schoolName",
+                          "framework",
+                          "inspectionDate",
+                          "outcomes"
+                        ],
+                        "description": "Inspection outcomes per area with their framework and date. There is no single overall grade field (doc 02 section 7)."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "crime"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "month": {
+                            "type": "string",
+                            "pattern": "^\\d{4}-(0[1-9]|1[0-2])$",
+                            "description": "YYYY-MM"
+                          },
+                          "counts": {
+                            "items": {
+                              "properties": {
+                                "category": {
+                                  "enum": [
+                                    "anti-social-behaviour",
+                                    "bicycle-theft",
+                                    "burglary",
+                                    "criminal-damage-arson",
+                                    "drugs",
+                                    "other-theft",
+                                    "possession-of-weapons",
+                                    "public-order",
+                                    "robbery",
+                                    "shoplifting",
+                                    "theft-from-the-person",
+                                    "vehicle-crime",
+                                    "violent-crime",
+                                    "other-crime"
+                                  ]
+                                },
+                                "count": {
+                                  "type": "integer",
+                                  "minimum": 1.0,
+                                  "description": "Recorded incidents. At least 1: a category with none recorded is left out, never written as zero (rule 7)."
+                                }
+                              },
+                              "additionalProperties": false,
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "count"
+                              ]
+                            },
+                            "type": "array",
+                            "minItems": 1,
+                            "uniqueItems": true,
+                            "description": "Counts by category. uniqueItems rejects exact duplicates only; that each category appears once is enforced by AreaDataTests.Area_crimeCategories_areUniqueWithinEachItem."
+                          },
+                          "neighbourhoodTeam": {
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "force": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "additionalProperties": false,
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "force"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "month",
+                          "counts"
+                        ],
+                        "description": "Recorded crime as counts by category for one month. No rating, score or level of any kind can be stored: additionalProperties is false (rule 4)."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "sold-price"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "addressText": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "pricePence": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Whole pence. Decimals are rejected; zero is rejected."
+                          },
+                          "saleDate": {
+                            "type": "string",
+                            "pattern": "^\\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\\d|3[01]))?)?$",
+                            "description": "YYYY, YYYY-MM or YYYY-MM-DD, so a source that only states a year is not given an invented month or day."
+                          },
+                          "propertyType": {
+                            "enum": [
+                              "detached",
+                              "semi-detached",
+                              "terraced",
+                              "flat",
+                              "other"
+                            ]
+                          },
+                          "tenure": {
+                            "enum": [
+                              "freehold",
+                              "leasehold"
+                            ]
+                          },
+                          "distanceMetres": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Metres. A synthetic INPUT, never calculated by code (AGENTS.md rule 2)."
+                          },
+                          "distanceMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the distance was measured, for example 'straight-line distance, synthetic'. Required with every distance; a distance is never a walking time."
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "addressText",
+                          "pricePence",
+                          "saleDate",
+                          "propertyType",
+                          "tenure",
+                          "distanceMetres",
+                          "distanceMethod"
+                        ],
+                        "description": "A past sale. Price is whole pence, once. Not a current valuation."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "amenity"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "distanceMetres": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Metres. A synthetic INPUT, never calculated by code (AGENTS.md rule 2)."
+                          },
+                          "distanceMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the distance was measured, for example 'straight-line distance, synthetic'. Required with every distance; a distance is never a walking time."
+                          },
+                          "religion": {
+                            "enum": [
+                              "christian",
+                              "muslim",
+                              "jewish",
+                              "sikh",
+                              "hindu",
+                              "buddhist",
+                              "jain",
+                              "multifaith",
+                              "other",
+                              "not-recorded"
+                            ],
+                            "description": "Places of worship only, mapped from the source's religion tag (OpenStreetMap `religion=*`; 'multifaith' covers shared prayer rooms, 'other' any faith not listed, 'not-recorded' when the source has no tag). Every faith is shown alike, as the nearest places by distance; never counts, densities or an area's religious makeup (register PD-13)."
+                          },
+                          "walkingMinutes": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Walking minutes, a synthetic INPUT, never calculated by code (AGENTS.md rule 2, register DA-18). Optional; missing is never shown as zero. A walking time is not a distance: it must carry its walkingMethod."
+                          },
+                          "walkingMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the walking time was produced, for example 'walking route, synthetic'. Required with walkingMinutes."
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "distanceMetres",
+                          "distanceMethod"
+                        ],
+                        "dependentRequired": {
+                          "walkingMethod": [
+                            "walkingMinutes"
+                          ],
+                          "walkingMinutes": [
+                            "walkingMethod"
+                          ]
+                        },
+                        "description": "A place (the subtype is on the item). A location is not opening hours, availability or whether a surgery accepts new patients. Places of worship also carry 'religion'; no other amenity does."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "planning"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "reference": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "description": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "applicationStatus": {
+                            "enum": [
+                              "received",
+                              "granted",
+                              "refused",
+                              "withdrawn"
+                            ]
+                          },
+                          "receivedDate": {
+                            "type": "string",
+                            "pattern": "^\\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\\d|3[01]))?)?$",
+                            "description": "YYYY, YYYY-MM or YYYY-MM-DD, so a source that only states a year is not given an invented month or day."
+                          },
+                          "distanceMetres": {
+                            "type": "integer",
+                            "minimum": 1.0,
+                            "description": "Metres. A synthetic INPUT, never calculated by code (AGENTS.md rule 2)."
+                          },
+                          "distanceMethod": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "How the distance was measured, for example 'straight-line distance, synthetic'. Required with every distance; a distance is never a walking time."
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "reference",
+                          "description",
+                          "applicationStatus",
+                          "receivedDate",
+                          "distanceMetres",
+                          "distanceMethod"
+                        ],
+                        "description": "A planning application near the home. Absence of a record is not the absence of an application."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "bus-departures"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "stopItemId": {
+                            "type": "string",
+                            "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*$",
+                            "description": "Stable upper-case identifier such as B1 or B1-SC-LISTING."
+                          },
+                          "routeNumber": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "destination": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "serviceDay": {
+                            "const": "weekday"
+                          },
+                          "departures": {
+                            "items": {
+                              "type": "string",
+                              "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+                            },
+                            "type": "array",
+                            "minItems": 1
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "stopItemId",
+                          "routeNumber",
+                          "destination",
+                          "serviceDay",
+                          "departures"
+                        ],
+                        "description": "One bus route at one stop: the weekday departure times as published (register DA-18). Times are inputs, never worked out. The reader checks that stopItemId names a transport-stop record."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "deprivation-rank"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "decile": {
+                            "type": "integer",
+                            "maximum": 10.0,
+                            "minimum": 1.0
+                          },
+                          "rank": {
+                            "type": "integer",
+                            "minimum": 1.0
+                          },
+                          "ofAreas": {
+                            "type": "integer",
+                            "minimum": 1.0
+                          },
+                          "edition": {
+                            "const": "2025"
+                          },
+                          "domain": {
+                            "enum": [
+                              "overall",
+                              "income",
+                              "employment",
+                              "education",
+                              "health",
+                              "crime",
+                              "barriers-to-housing-and-services",
+                              "living-environment"
+                            ]
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "decile",
+                          "rank",
+                          "ofAreas",
+                          "edition",
+                          "domain"
+                        ],
+                        "description": "An official deprivation rank for one neighbourhood area (register DA-14, decision 0054). A published position, never a verdict on the area."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "transport-connectivity"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "measure": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "edition": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "decile": {
+                            "type": "integer",
+                            "maximum": 10.0,
+                            "minimum": 1.0
+                          },
+                          "rank": {
+                            "type": "integer",
+                            "minimum": 1.0
+                          },
+                          "ofAreas": {
+                            "type": "integer",
+                            "minimum": 1.0
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "measure",
+                          "edition"
+                        ],
+                        "dependentRequired": {
+                          "rank": [
+                            "ofAreas"
+                          ]
+                        },
+                        "description": "A published transport connectivity measure for an area, as a position in the published ranking. Not a journey time or a service promise."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "green-space"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "standardName": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "publishedFigure": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "The figure as published, with its own wording and unit."
+                          },
+                          "edition": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "standardName",
+                          "publishedFigure",
+                          "edition"
+                        ],
+                        "description": "The published access figure for the Accessible Greenspace Standard, recorded as an input exactly as published. Never a 'meets the standard' result worked out by us (register DA-16)."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "air-quality"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "pollutant": {
+                            "enum": [
+                              "no2",
+                              "pm25",
+                              "pm10"
+                            ]
+                          },
+                          "year": {
+                            "type": "integer",
+                            "maximum": 2100.0,
+                            "minimum": 2000.0
+                          },
+                          "concentration": {
+                            "type": "string",
+                            "pattern": "^[0-9]+(\\.[0-9]+)?$",
+                            "description": "Decimal string, as published."
+                          },
+                          "unit": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "pollutant",
+                          "year",
+                          "concentration",
+                          "unit"
+                        ],
+                        "description": "A published annual mean concentration for one pollutant in one year. A figure, not a rating."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "council-tax"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "authorityName": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "taxYear": {
+                            "type": "string",
+                            "pattern": "^\\d{4}-\\d{2}$",
+                            "description": "For example 2026-27."
+                          },
+                          "bands": {
+                            "items": {
+                              "properties": {
+                                "band": {
+                                  "enum": [
+                                    "A",
+                                    "B",
+                                    "C",
+                                    "D",
+                                    "E",
+                                    "F",
+                                    "G",
+                                    "H"
+                                  ]
+                                },
+                                "annualCharge": {
+                                  "type": "string",
+                                  "pattern": "^[0-9]+(\\.[0-9]+)?$",
+                                  "description": "Pounds per year as published, a decimal string."
+                                }
+                              },
+                              "additionalProperties": false,
+                              "type": "object",
+                              "required": [
+                                "band",
+                                "annualCharge"
+                              ]
+                            },
+                            "type": "array",
+                            "minItems": 1
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "authorityName",
+                          "taxYear",
+                          "bands"
+                        ],
+                        "description": "Published council tax charges by band for one local authority and year. The band of a particular home is not known from this."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "affordability"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "areaName": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "year": {
+                            "type": "integer",
+                            "maximum": 2100.0,
+                            "minimum": 2000.0
+                          },
+                          "measure": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "What the ratio compares, as published."
+                          },
+                          "ratio": {
+                            "type": "string",
+                            "pattern": "^[0-9]+(\\.[0-9]+)?$",
+                            "description": "Decimal string, as published."
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "areaName",
+                          "year",
+                          "measure",
+                          "ratio"
+                        ],
+                        "description": "A published housing affordability ratio for one area and year. Not a statement about any one home or person."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "flood-risk-postcode"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "source": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "Which flood source the dataset row is for, as published."
+                          },
+                          "counts": {
+                            "items": {
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The likelihood category as published."
+                                },
+                                "propertyType": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "description": "The property type as published."
+                                },
+                                "properties": {
+                                  "type": "integer",
+                                  "minimum": 0.0,
+                                  "description": "The published number of properties: an input, never calculated."
+                                }
+                              },
+                              "additionalProperties": false,
+                              "type": "object",
+                              "required": [
+                                "category",
+                                "propertyType",
+                                "properties"
+                              ]
+                            },
+                            "type": "array",
+                            "minItems": 1
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "source",
+                          "counts"
+                        ],
+                        "description": "The published counts of properties in this postcode at risk of flooding from one source, by likelihood category and property type (DA-16), shown as published and never as a single verdict or a yes/no. Category and property type names are as published (to confirm from the download). A postcode breakdown is not a property-level result."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "school-demand"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "schoolName": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "phase": {
+                            "enum": [
+                              "primary",
+                              "secondary",
+                              "all-through"
+                            ]
+                          },
+                          "admissionYear": {
+                            "type": "string",
+                            "pattern": "^\\d{4}-\\d{2}$"
+                          },
+                          "applications": {
+                            "type": "integer",
+                            "minimum": 0.0
+                          },
+                          "placesOffered": {
+                            "type": "integer",
+                            "minimum": 0.0
+                          },
+                          "publishedPlaceNumber": {
+                            "type": "integer",
+                            "minimum": 0.0
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "schoolName",
+                          "phase",
+                          "admissionYear"
+                        ],
+                        "description": "Published admissions figures for one school and entry year. Not a promise or a forecast of a place."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "radon"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "classLabel": {
+                            "type": "string",
+                            "minLength": 1,
+                            "description": "The class as published (class names to be confirmed from the download)."
+                          },
+                          "edition": {
+                            "type": "string",
+                            "pattern": "^\\d{4}$"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "classLabel",
+                          "edition"
+                        ],
+                        "description": "The published radon potential class for the 1 km grid square around a postcode, as published (register DA-23). Indicative, not a measurement of any home: there is no measured-level or per-home field."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "broadband-coverage"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "gigabitCapablePercent": {
+                            "type": "string",
+                            "pattern": "^[0-9]+(\\.[0-9]+)?$",
+                            "description": "Decimal string, as published."
+                          },
+                          "premises": {
+                            "enum": [
+                              "all",
+                              "residential"
+                            ]
+                          },
+                          "snapshot": {
+                            "type": "string",
+                            "pattern": "^\\d{4}-\\d{2}$",
+                            "description": "The data month, for example 2026-01."
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "gigabitCapablePercent",
+                          "premises",
+                          "snapshot"
+                        ],
+                        "description": "The share of premises in a postcode where providers say gigabit-capable broadband is available, as published (register DA-28). Not a speed, not full fibre and not a measured connection."
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "topic": {
+                        "const": "council-rent"
+                      }
+                    },
+                    "required": [
+                      "topic"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "value": {
+                        "properties": {
+                          "councilCode": {
+                            "type": "string",
+                            "pattern": "^[EWSN]0[0-9]{7}$"
+                          }
+                        },
+                        "additionalProperties": false,
+                        "type": "object",
+                        "required": [
+                          "councilCode"
+                        ],
+                        "description": "A link from a postcode to its council, whose private rent caption lives in council-area.json and council-result.json (register DA-29, DA-30). A link only: no pence, period or figure is copied here."
+                      }
+                    }
+                  }
+                }
+              ],
+              "properties": {
+                "id": {
+                  "allOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*$",
+                      "description": "Stable upper-case identifier such as B1 or B1-SC-LISTING."
+                    },
+                    {
+                      "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*-AREA(-[A-Z]+)+-[0-9]+$"
+                    }
+                  ],
+                  "description": "POSTCODE-AREA-TOPIC-N, for example NB1-4XY-AREA-SCHOOL-1."
+                },
+                "postcode": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{1,2}[0-9][A-Z0-9]? [0-9][A-Z]{2}$",
+                  "description": "UK postcode format, upper case, with the space."
+                },
+                "topic": {
+                  "enum": [
+                    "transport-stop",
+                    "school",
+                    "school-inspection",
+                    "crime",
+                    "sold-price",
+                    "amenity",
+                    "planning",
+                    "deprivation-rank",
+                    "transport-connectivity",
+                    "green-space",
+                    "air-quality",
+                    "council-tax",
+                    "affordability",
+                    "flood-risk-postcode",
+                    "school-demand",
+                    "bus-departures",
+                    "radon",
+                    "broadband-coverage",
+                    "council-rent"
+                  ]
+                },
+                "level": {
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "kind": {
+                            "const": "radius"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "radiusMetres"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "neighbourhood",
+                              "local-authority"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "areaName"
+                        ]
+                      }
+                    },
+                    {
+                      "if": {
+                        "properties": {
+                          "kind": {
+                            "const": "grid-square"
+                          }
+                        },
+                        "required": [
+                          "kind"
+                        ]
+                      },
+                      "then": {
+                        "required": [
+                          "sideMetres"
+                        ]
+                      }
+                    }
+                  ],
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "from-postcode-centre",
+                        "named-place",
+                        "radius",
+                        "postcode",
+                        "neighbourhood",
+                        "local-authority",
+                        "grid-square"
+                      ]
+                    },
+                    "radiusMetres": {
+                      "type": "number",
+                      "exclusiveMinimum": 0.0
+                    },
+                    "areaName": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sideMetres": {
+                      "type": "integer",
+                      "minimum": 1.0,
+                      "description": "The length of the grid square's side in metres (1000 for a 1 km square), not its area."
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ]
+                },
+                "subtype": {
+                  "enum": [
+                    "supermarket",
+                    "shop",
+                    "park",
+                    "pharmacy",
+                    "police-station",
+                    "hospital",
+                    "gp-surgery",
+                    "clinic",
+                    "dentist",
+                    "childcare",
+                    "place-of-worship",
+                    "rivers-and-sea",
+                    "groundwater"
+                  ]
+                },
+                "status": {
+                  "enum": [
+                    "recorded",
+                    "no-record-in-source",
+                    "stale",
+                    "not-covered",
+                    "source-failed"
+                  ],
+                  "description": "'no-record-in-source' never means none exists. 'stale' keeps the old value and says so. 'not-covered' means the source does not cover the location. 'source-failed' means the lookup failed. Never 'none' or zero."
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "coverage": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "What the source covers (nation, kind of place), shown with every card."
+                },
+                "doesNotEstablish": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "The limit of the real source, in plain words, shown next to the value."
+                },
+                "link": {
+                  "properties": {
+                    "url": {
+                      "type": "string",
+                      "pattern": "^https://\\S+$"
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "url",
+                    "text"
+                  ],
+                  "description": "Where the user can check further, for example the long-term flood risk checker."
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "value": true,
+                "source": {
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "origin": {
+                            "const": "synthetic"
+                          }
+                        },
+                        "required": [
+                          "origin"
+                        ]
+                      },
+                      "then": {
+                        "properties": {
+                          "synthetic": {
+                            "const": true
+                          }
+                        }
+                      },
+                      "description": "Data marked 'synthetic' as its origin must also carry synthetic: true."
+                    }
+                  ],
+                  "if": {
+                    "properties": {
+                      "origin": {
+                        "const": "document"
+                      }
+                    },
+                    "required": [
+                      "origin"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "documentType"
+                    ]
+                  },
+                  "properties": {
+                    "origin": {
+                      "enum": [
+                        "listing-claim",
+                        "document",
+                        "official-dataset",
+                        "user-entered",
+                        "synthetic",
+                        "plan"
+                      ],
+                      "description": "'plan' marks a value set by the stage 2 plan itself (for example 'not calculated in this version'), not taken from a data source."
+                    },
+                    "label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "documentType": {
+                      "enum": [
+                        "listing",
+                        "management-pack",
+                        "lease",
+                        "written-statement-of-terms",
+                        "revised-written-statement",
+                        "agent-statement",
+                        "energy-certificate",
+                        "council-tax-charges",
+                        "council-tax-band",
+                        "user-estimate",
+                        "user-entry",
+                        "official-guidance",
+                        "not-applicable",
+                        "plan-scope"
+                      ]
+                    },
+                    "documentId": {
+                      "type": "string",
+                      "pattern": "^[A-Z0-9]+(-[A-Z0-9]+)*$",
+                      "description": "Stable upper-case identifier such as B1 or B1-SC-LISTING."
+                    },
+                    "date": {
+                      "type": "string",
+                      "pattern": "^\\d{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[12]\\d|3[01]))?)?$",
+                      "description": "YYYY, YYYY-MM or YYYY-MM-DD, so a source that only states a year is not given an invented month or day."
+                    },
+                    "synthetic": {
+                      "type": "boolean"
+                    },
+                    "citationUrl": {
+                      "type": "string",
+                      "pattern": "^https://\\S+$"
+                    },
+                    "citedText": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "additionalProperties": false,
+                  "type": "object",
+                  "required": [
+                    "origin",
+                    "label",
+                    "date",
+                    "synthetic"
+                  ],
+                  "dependentRequired": {
+                    "citedText": [
+                      "citationUrl"
+                    ]
+                  },
+                  "description": "Where a value came from (decisions 0028, 0030). 'label' is the plain-language wording shown to the user."
+                }
+              },
+              "additionalProperties": false,
+              "type": "object",
+              "required": [
+                "id",
+                "postcode",
+                "topic",
+                "status",
+                "label",
+                "level",
+                "coverage",
+                "doesNotEstablish",
+                "source"
+              ]
+            },
+            "type": "array",
+            "title": "Records"
+          }
+        },
+        "type": "object",
+        "required": [
+          "state",
+          "postcode",
+          "nation",
+          "result",
+          "records"
+        ],
+        "title": "Found"
+      },
+      "NotCovered": {
+        "properties": {
+          "state": {
+            "type": "string",
+            "const": "notCovered",
+            "title": "State"
+          },
+          "nation": {
+            "type": "string",
+            "title": "Nation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "state",
+          "nation"
+        ],
+        "title": "NotCovered"
+      },
+      "NotFound": {
+        "properties": {
+          "state": {
+            "type": "string",
+            "const": "notFound",
+            "title": "State"
+          }
+        },
+        "type": "object",
+        "required": [
+          "state"
+        ],
+        "title": "NotFound"
+      }
+    }
+  }
+}
