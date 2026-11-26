@@ -1,0 +1,18 @@
+[project]
+name = "vestagraph-api"
+version = "0.0.0"
+description = "The pilot API: a FastAPI app (health, problem details, body limit, security headers, JSON logs without request data), from the founder's house-template-fastapi v0.11.1 web layer."
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi[standard-no-fastapi-cloud-cli]>=0.162.0,<0.163",
+    "pydantic-settings>=2.16.1",
+    "structlog>=26.1.0",
+    "vestagraph-area",
+]
+
+[tool.uv.sources]
+vestagraph-area = { workspace = true }
+
+[build-system]
+requires = ["uv_build>=0.13.8,<0.14"]
+build-backend = "uv_build"

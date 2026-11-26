@@ -56,7 +56,12 @@
           "$ref": "#/$defs/postcode"
         },
         "nation": {
-          "const": "england"
+          "enum": [
+            "england",
+            "wales",
+            "scotland",
+            "northern-ireland"
+          ]
         },
         "placeName": {
           "type": "string",

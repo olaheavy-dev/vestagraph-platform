@@ -4,6 +4,7 @@
 
 ARTIFACTS     := .artifacts
 GENERATED     := packages/fixtures/generated
+OPENAPI       := packages/vestagraph-api/openapi.json packages/vestagraph-api/src/vestagraph_api/contract_schemas.json
 
 PYTEST_XML    := $(ARTIFACTS)/test-results/python/coverage.xml
 
@@ -52,8 +53,10 @@ validate: restore
 SPEC_MARKERS := not ui and not mcp and not withdrawn
 
 # Python lint (ruff, explicit rule list in pyproject.toml; decision 0039 section 2).
+# Then import-linter checks the architecture rule (pyproject.toml [tool.importlinter]).
 lint: restore
 	uv run --locked ruff check
+	uv run --locked lint-imports
 
 # pytest stops after 5 failures (register line BE-30); CI's job timeout is the only time limit.
 test: build
@@ -62,9 +65,11 @@ test: build
 check: restore build format-check generated-check validate lint test
 
 # Runs the Python generator (vestagraph_generator, decision 0049 step P4): it reads packages/fixtures/data and writes
-# packages/fixtures/generated/costs.json and area-result.json. Commit the result. The generator deletes any other *.json in generated/.
+# packages/fixtures/generated/costs.json, area-result.json, council-result.json and energy-certificate-result.json, then writes the API's resolved contract schemas (package data, contract_schemas.json) and its contract (packages/vestagraph-api/openapi.json). Commit the result. The generator deletes any other *.json in generated/.
 generate: restore
 	uv run --locked python -m vestagraph_generator
+	uv run --locked python -m vestagraph_api.schemas
+	uv run --locked python -m vestagraph_api.openapi_file
 
 # Regenerates, then fails if anything under packages/fixtures/generated/ differs from what is committed: a hand edit, an extra
 # file, a deleted file or a stale costs.json (stage 2 plan, task 4b). It reads git status, so run it in a git checkout, and
@@ -78,6 +83,14 @@ generated-check: generate
 		exit 1; \
 	fi
 	@echo "Generated files: up to date."
+	@changes="$$(git status --porcelain --untracked-files=all -- $(OPENAPI))"; \
+	if [ -n "$$changes" ]; then \
+		echo "The API's openapi.json or contract_schemas.json is out of date: run 'make generate' and commit it."; \
+		echo "$$changes"; \
+		git --no-pager diff --stat -- $(OPENAPI); \
+		exit 1; \
+	fi
+	@echo "openapi.json and contract_schemas.json: up to date."
 
 # Mutation testing of the Python cost engine (decision 0049 item 11b, register line BE-33): mutmut changes the engine's code in
 # small ways (a `<` becomes `<=`, a string is altered, a line is removed) and checks that a test fails each time. Slow (about a

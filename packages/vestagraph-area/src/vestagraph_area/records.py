@@ -6,7 +6,7 @@ understand, including the cross-references a schema cannot express, is an
 reading itself (exact ``Fraction`` decimals, no ``float``, AGENTS rule 2) is in ``json_reader``.
 """
 
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from fractions import Fraction
 from pathlib import Path
@@ -24,6 +24,7 @@ from vestagraph_area.json_reader import (
     InvalidAreaDataError as InvalidAreaDataError,
 )
 
+KNOWN_NATIONS = frozenset({"england", "wales", "scotland", "northern-ireland"})
 KNOWN_STATUSES = frozenset(
     {"recorded", "stale", "no-record-in-source", "source-failed", "not-covered"}
 )
@@ -89,6 +90,7 @@ class PostcodeArea:
     postcodes: tuple[str, ...]
     unknown_postcodes: tuple[str, ...]
     records: tuple[AreaRecord, ...]
+    nations: Mapping[str, str]
 
 
 @dataclass(frozen=True, slots=True)
@@ -219,10 +221,15 @@ def read_postcode_area(path: Path) -> PostcodeArea:
     """Read ``postcode-area.json``."""
     data = load_json_object(path)
     where = path.name
-    postcodes = tuple(
-        get_field(p, "postcode", str, "postcode entry")
-        for p in object_list(data, "postcodes", where)
-    )
+    entries = object_list(data, "postcodes", where)
+    postcodes = tuple(get_field(p, "postcode", str, "postcode entry") for p in entries)
+    nations: dict[str, str] = {}
+    for entry, postcode in zip(entries, postcodes, strict=True):
+        nation = get_field(entry, "nation", str, f"postcode entry '{postcode}'")
+        if nation not in KNOWN_NATIONS:
+            message = f"postcode entry '{postcode}': unknown nation '{nation}'."
+            raise InvalidAreaDataError(message)
+        nations[postcode] = nation
     records = tuple(_record(raw) for raw in object_list(data, "area", where))
     ids = [r.id for r in records]
     if len(set(ids)) != len(ids):
@@ -233,6 +240,7 @@ def read_postcode_area(path: Path) -> PostcodeArea:
         postcodes=postcodes,
         unknown_postcodes=string_list(data, "unknownPostcodes", where, required=True),
         records=records,
+        nations=nations,
     )
 
 

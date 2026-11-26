@@ -1,4 +1,19 @@
-# The build context is the repository root. Send only what deploy/placeholder.Dockerfile copies.
+# The build context is the repository root. Send only what deploy/api.Dockerfile copies: the workspace
+# members (uv needs all of them to check uv.lock) without their tests, and the fixture data.
 *
-!packages/vestagraph-placeholder/src/
+!pyproject.toml
+!uv.lock
+!packages/
+packages/*
+!packages/vestagraph-*/
+!packages/fixtures/
+packages/fixtures/*
+!packages/fixtures/data/
+**/tests
 **/__pycache__
+**/.venv
+**/mutants
+**/.env*
+**/.*_cache
+**/.artifacts
+**/.hypothesis

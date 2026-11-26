@@ -66,7 +66,12 @@ def _inputs(inputs: dict[str, Any]) -> tuple[Registry, PostcodeArea, str]:
         Registry(
             nation="england", subtype_names=dict(inputs.get("subtypeNames", {})), topics=topics
         ),
-        PostcodeArea(postcodes=("ZZ1 1AA",), unknown_postcodes=(), records=records),
+        PostcodeArea(
+            postcodes=("ZZ1 1AA",),
+            unknown_postcodes=(),
+            records=records,
+            nations={"ZZ1 1AA": "england"},
+        ),
         "ZZ1 1AA",
     )
 
@@ -207,7 +212,7 @@ def test_at_a_glance_gap_question_subject_uses_subtype_name_then_topic_name() ->
     )
     with_subtype = AreaRecord("R1", "ZZ1 1AA", "a", "gp-surgery", "no-record-in-source", "L1", None)
     without = AreaRecord("R2", "ZZ1 1AA", "a", None, "source-failed", "L2", None)
-    area = PostcodeArea(("ZZ1 1AA",), (), (with_subtype, without))
+    area = make_area(with_subtype, without)
 
     glance = at_a_glance(registry, area, "ZZ1 1AA")
 
@@ -236,7 +241,7 @@ def test_at_a_glance_record_of_an_unlisted_subtype_raises_invalid_area_data() ->
     bakery = AreaRecord("R2", "ZZ1 1AA", "amenity", "bakery", "recorded", "L2", None)
 
     with pytest.raises(InvalidAreaDataError, match="R2"):
-        at_a_glance(registry, PostcodeArea(("ZZ1 1AA",), (), (park, bakery)), "ZZ1 1AA")
+        at_a_glance(registry, make_area(park, bakery), "ZZ1 1AA")
 
 
 def test_at_a_glance_record_read_by_two_counted_topics_raises_invalid_area_data() -> None:

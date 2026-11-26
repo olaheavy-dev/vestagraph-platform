@@ -55,6 +55,8 @@ The group A build plan is [`2026-11-20-stage-5b-group-a-foundation.md`](../super
 
 **Note, 22 Nov 2026 (group A build, founder: "Separate live image (Recommended)", then "A. Build at release (Recommended)"):** the release does not move a tag on a commit-tagged image, and there is no first package. After the founder approves, the `release` job checks the commit is on `main`, builds the image from it and writes one live image, `vestagraph-placeholder-live` (`sha-<commit>` and `production`), with a token held as the `production` environment's secret, so a workflow on another branch cannot move what the server runs; a rollback rebuilds an earlier commit. Dependabot's base-image updates in `deploy/` are founder merges ("You merge them (Recommended)"). See the [group A plan](../superpowers/plans/2026-11-20-stage-5b-group-a-foundation.md).
 
+**Note, 26 Nov 2026 (#93):** the live image becomes `vestagraph-api-live` at the cut-over; the placeholder package `vestagraph-placeholder-live` is deleted at cut-over step 6. The 22 Nov 2026 note above names the placeholder package as it was then.
+
 **Note, 23 Nov 2026 ([0067](0067-own-server-in-london-and-neon-london.md), accepted by the founder):** the app moves to its own OVHcloud VPS-2 in London when Linux stock allows (on Hetzner until then), and the Neon project is created in London (AWS `aws-eu-west-2`), not Frankfurt. The Hetzner server in Germany keeps the founder's other projects. Everything else in this record stands.
 
 **Note, 23 Nov 2026 ([0068](0068-shared-server-on-digitalocean-london.md), accepted by the founder):** the London server is a DigitalOcean Droplet shared with one of the founder's other projects, not an OVHcloud VPS-2.

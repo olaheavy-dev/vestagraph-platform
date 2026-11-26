@@ -64,4 +64,9 @@ def make_registry(*topics: Topic, subtype_names: dict[str, str] | None = None) -
 
 
 def make_area(*records: AreaRecord) -> PostcodeArea:
-    return PostcodeArea(postcodes=("ZZ1 1AA",), unknown_postcodes=(), records=records)
+    return PostcodeArea(
+        postcodes=("ZZ1 1AA",),
+        unknown_postcodes=(),
+        records=records,
+        nations={"ZZ1 1AA": "england"},
+    )
