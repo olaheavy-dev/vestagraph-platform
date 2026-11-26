@@ -22,8 +22,11 @@ members = [
 
 [manifest.dependency-groups]
 dev = [
+    { name = "asgi-lifespan", specifier = ">=2.1.0" },
     { name = "coverage", specifier = ">=7.17.3,<8" },
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "hypothesis", specifier = ">=6.170,<7" },
+    { name = "import-linter", specifier = ">=2.15" },
     { name = "mutmut", specifier = ">=3.8,<4" },
     { name = "mypy", specifier = ">=2.4,<3" },
     { name = "pytest", specifier = ">=9.2,<10" },
@@ -1891,26 +1894,12 @@ dependencies = [
     { name = "vestagraph-area" },
 ]
 
-[package.dev-dependencies]
-test = [
-    { name = "asgi-lifespan" },
-    { name = "httpx" },
-    { name = "import-linter" },
-]
-
 [package.metadata]
 requires-dist = [
     { name = "fastapi", extras = ["standard-no-fastapi-cloud-cli"], specifier = ">=0.162.0,<0.163" },
     { name = "pydantic-settings", specifier = ">=2.16.1" },
     { name = "structlog", specifier = ">=26.1.0" },
     { name = "vestagraph-area", editable = "packages/vestagraph-area" },
-]
-
-[package.metadata.requires-dev]
-test = [
-    { name = "asgi-lifespan", specifier = ">=2.1.0" },
-    { name = "httpx", specifier = ">=0.28.1" },
-    { name = "import-linter", specifier = ">=2.15" },
 ]
 
 [[package]]

@@ -14,8 +14,11 @@ members = ["packages/vestagraph-*"]
 
 [dependency-groups]
 dev = [
+  "asgi-lifespan>=2.1.0",
   "coverage>=7.17.3,<8",
+  "httpx>=0.28.1",
   "hypothesis>=6.170,<7",
+  "import-linter>=2.15",
   "mutmut>=3.8,<4",
   "mypy>=2.4,<3",
   "pytest>=9.2,<10",
