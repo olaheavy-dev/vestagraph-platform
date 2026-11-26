@@ -11,7 +11,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -36,7 +36,8 @@ class Settings(BaseSettings):
     vestagraph_commit: str = "unknown"
     # Where the fixture data lives; the default is the repository's packages/fixtures.
     fixtures_dir: Path = Path(__file__).resolve().parents[3] / "fixtures"
-    # The area check stays off until the launch guard allows it (it answers 503 while off).
+    # The area check answers 503 while off. Only the founder turns it on, together with the
+    # Privacy notice that covers typed postcodes (decision 0014); the launch guard never does.
     area_check_open: bool = False
     # Interactive API docs at /docs. Unset means on everywhere except production. The schema at
     # /openapi.json stays on in every environment.
@@ -47,6 +48,13 @@ class Settings(BaseSettings):
     cors_origins: list[str] = []
     # Host headers the API answers to, e.g. ["api.example.com"]; ["*"] accepts any.
     allowed_hosts: list[str] = ["*"]
+
+    @field_validator("cors_origins")
+    @classmethod
+    def _no_wildcard_origin(cls, origins: list[str]) -> list[str]:
+        if "*" in origins:
+            raise ValueError("CORS_ORIGINS must list origins one by one, never '*'")
+        return origins
 
     @property
     def docs_on(self) -> bool:

@@ -1,7 +1,7 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "FastAPI",
+    "title": "Vestagraph API",
     "version": "0.1.0"
   },
   "paths": {
@@ -153,17 +153,6 @@
                       ],
                       "title": "Detail"
                     },
-                    "instance": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ],
-                      "title": "Instance"
-                    },
                     "errors": {
                       "items": {
                         "properties": {
@@ -243,17 +232,6 @@
                         }
                       ],
                       "title": "Detail"
-                    },
-                    "instance": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ],
-                      "title": "Instance"
                     }
                   },
                   "type": "object",
@@ -2013,6 +1991,11 @@
           },
           "nation": {
             "type": "string",
+            "enum": [
+              "wales",
+              "scotland",
+              "northern-ireland"
+            ],
             "title": "Nation"
           }
         },

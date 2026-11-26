@@ -103,6 +103,12 @@ async def test_area_check_wales_returns_not_covered(client: httpx.AsyncClient) -
     assert response.json() == {"state": "notCovered", "nation": "wales"}
 
 
+def test_openapi_not_covered_nation_is_one_of_the_other_nations() -> None:
+    app = create_app(Settings(_env_file=None, app_env="test"))
+    nation = app.openapi()["components"]["schemas"]["NotCovered"]["properties"]["nation"]
+    assert nation["enum"] == ["wales", "scotland", "northern-ireland"]
+
+
 @pytest.mark.parametrize(
     "content",
     [b"not json at all QWERTY", b'{"postcode": 12}', b"{}", b'{"postcode": "ABCDEFGHIJKLMNOPQ"}'],
@@ -140,6 +146,51 @@ async def test_area_check_closed_returns_503_and_logs_no_postcode(
         assert response.json()["title"] == "Not available yet"
         assert "NB1 4XY" not in response.text
     assert "NB1 4XY" not in capsys.readouterr().out + caplog.text
+
+
+async def test_area_check_closed_problem_type_is_under_our_domain_and_has_no_instance() -> None:
+    app = create_app(Settings(_env_file=None, app_env="test"))
+    async for client in _client(app):
+        body = (await client.post("/api/area-check", json={"postcode": "NB1 4XY"})).json()
+        assert body["type"] == "https://vestagraph.com/problems/not-available-yet"
+        assert "instance" not in body
+
+
+@pytest.mark.parametrize("log_json", [True, False], ids=["json", "console"])
+async def test_area_check_crash_with_postcode_in_message_logs_no_postcode(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    caplog: pytest.LogCaptureFixture,
+    log_json: bool,
+) -> None:
+    def explode(*_args: object) -> dict[str, Any]:
+        try:
+            raise KeyError("inner NB1 4XY")
+        except KeyError as inner:
+            raise RuntimeError("no record for postcode NB1 4XY") from inner
+
+    monkeypatch.setattr("vestagraph_api.area.postcode_result", explode)
+    app = create_app(
+        Settings(_env_file=None, app_env="test", area_check_open=True, log_json=log_json)
+    )
+    async for client in _client(app):
+        response = await client.post("/api/area-check", json={"postcode": "NB1 4XY"})
+        assert response.status_code == 500
+        assert response.headers["content-type"].startswith("application/problem+json")
+        assert "NB1 4XY" not in response.text
+    logged = capsys.readouterr().out + caplog.text
+    assert "NB1 4XY" not in logged
+    assert "no record for postcode" not in logged
+    # What stays: the exception types and where they were raised.
+    assert "RuntimeError" in logged
+    assert "KeyError" in logged
+    assert "explode" in logged
+
+
+async def test_validation_problem_has_no_instance(client: httpx.AsyncClient) -> None:
+    response = await client.post("/api/area-check", json={})
+    assert response.status_code == 422
+    assert "instance" not in response.json()
 
 
 async def test_area_check_closed_ignores_the_body() -> None:

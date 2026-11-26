@@ -33,7 +33,6 @@ class ProblemDetails(BaseModel):
     title: str
     status: int
     detail: str | None = None
-    instance: str | None = None
 
 
 class ErrorItem(BaseModel):
@@ -69,6 +68,7 @@ def problem_schema(model: type[BaseModel]) -> dict[str, Any]:
 
 # Members RFC 9457 defines; an extension may not reuse their names.
 RESERVED = frozenset({"type", "title", "status", "detail", "instance"})
+# `instance` is never sent: it would echo the request path, which can hold a typed value (0014).
 
 
 class Problem(Exception):  # noqa: N818 - the template's name, kept so the founder's other projects read the same
@@ -102,7 +102,6 @@ def problem_response(
     detail: str | None = None,
     type_: str = "about:blank",
     title: str | None = None,
-    instance: str | None = None,
     headers: Mapping[str, str] | None = None,
     **extensions: Any,
 ) -> JSONResponse:
@@ -114,8 +113,6 @@ def problem_response(
     }
     if detail:
         body["detail"] = detail
-    if instance:
-        body["instance"] = instance
     body.update({k: v for k, v in extensions.items() if k not in RESERVED})
     return JSONResponse(body, status_code=status, media_type=MEDIA_TYPE, headers=headers)
 
@@ -127,7 +124,6 @@ async def _problem(request: Request, exc: Exception) -> JSONResponse:
         detail=exc.detail,
         type_=exc.type,
         title=exc.title,
-        instance=request.url.path,
         headers=exc.headers,
         **exc.extensions,
     )
@@ -143,7 +139,6 @@ async def _http_error(request: Request, exc: Exception) -> JSONResponse:
     return problem_response(
         exc.status_code,
         detail=shown,
-        instance=request.url.path,
         headers=exc.headers,
         **extra,
     )
@@ -153,9 +148,7 @@ async def _validation_error(request: Request, exc: Exception) -> JSONResponse:
     assert isinstance(exc, RequestValidationError)  # noqa: S101
     # Echo where and why, never the submitted values: they may hold personal data.
     errors = [{"loc": list(e["loc"]), "msg": e["msg"], "type": e["type"]} for e in exc.errors()]
-    return problem_response(
-        422, detail="The request is not valid.", instance=request.url.path, errors=errors
-    )
+    return problem_response(422, detail="The request is not valid.", errors=errors)
 
 
 async def _unexpected(request: Request, exc: Exception) -> JSONResponse:
@@ -163,7 +156,7 @@ async def _unexpected(request: Request, exc: Exception) -> JSONResponse:
     # The route template, never the raw path or query string (decision 0014).
     route = request.scope.get("route")
     log.exception("unhandled_error", route=getattr(route, "path", None))
-    response = problem_response(500, instance=request.url.path)
+    response = problem_response(500)
     request_id = getattr(request.state, "request_id", None)
     if request_id:
         response.headers[REQUEST_ID_HEADER] = request_id

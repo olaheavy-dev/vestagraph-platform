@@ -1,19 +1,20 @@
 """Structured logging with structlog, one JSON line per event in production.
 
-Every request gets a request id (from the X-Request-ID header when a proxy sets one, otherwise
-new), bound to all log lines for that request and echoed in the response header, and one access
-line when it ends. Logs from the standard library (uvicorn, httpx) go
-through the same renderer, so production output is JSON throughout.
+Every request gets a new request id (a client's X-Request-ID header is never used: it could
+carry personal data), bound to all log lines for that request and echoed in the response header,
+and one access line when it ends. Exception messages are never logged (decision 0014).
+Logs from the standard library (uvicorn, httpx) go through the same renderer, so production
+output is JSON throughout.
 """
 
 from __future__ import annotations
 
 import logging
-import re
 import sys
 import time
 import uuid
 from collections.abc import Awaitable, Callable
+from typing import Any, TextIO
 
 import structlog
 from fastapi import Request, Response
@@ -23,24 +24,58 @@ from vestagraph_api.settings import Settings
 
 REQUEST_ID_HEADER = "X-Request-ID"
 log = structlog.get_logger()
-# Accept a caller's id only if it looks like an id, so a header can't inject log content.
-_SAFE_ID = re.compile(r"^[A-Za-z0-9._-]{1,128}$")
+
+
+def _scrub(stacks: Any) -> Any:
+    # Keep each exception's type and its frames (file, line, function); drop the message, the
+    # notes and a SyntaxError's source line, which can all hold request data. Exception groups
+    # nest further lists of stacks.
+    if isinstance(stacks, list):
+        return [_scrub(item) for item in stacks]
+    if isinstance(stacks, dict):
+        cleaned = {k: _scrub(v) for k, v in stacks.items() if k not in ("exc_value", "exc_notes")}
+        cleaned["exc_value"] = ""
+        cleaned["exc_notes"] = []
+        if "syntax_error" in cleaned:
+            cleaned["syntax_error"] = None
+        return cleaned
+    return stacks
+
+
+class _NoMessageTransformer(ExceptionDictTransformer):
+    """The structured traceback without any exception message, for the whole exception chain.
+    `show_locals` is off for the same reason: locals can hold request data or credentials."""
+
+    def __init__(self) -> None:
+        super().__init__(show_locals=False)
+
+    def __call__(self, exc_info: Any) -> list[dict[str, Any]]:
+        scrubbed: list[dict[str, Any]] = _scrub(super().__call__(exc_info))
+        return scrubbed
+
+
+def _console_traceback(sio: TextIO, exc_info: Any) -> None:
+    def write(stacks: list[dict[str, Any]], indent: str) -> None:
+        for stack in stacks:
+            sio.write(f"{indent}{stack['exc_type']}\n")
+            for frame in stack["frames"]:
+                sio.write(f"{indent}  {frame['filename']}:{frame['lineno']} in {frame['name']}\n")
+            for group in stack.get("exceptions", []):
+                write(group, indent + "    ")
+
+    write(_NoMessageTransformer()(exc_info), "")
 
 
 def configure_logging(settings: Settings) -> None:
-    # JSON lines carry tracebacks as structured data; the console renderer formats them itself.
-    # Neither shows frame locals: they can hold request data or credentials (both default to on).
+    # JSON lines carry tracebacks as structured data, the console as plain text. Both keep the
+    # exception types and frame locations and drop the messages (_NoMessageTransformer).
     rendering: list[structlog.types.Processor] = (
         [
-            structlog.processors.ExceptionRenderer(ExceptionDictTransformer(show_locals=False)),
+            structlog.processors.ExceptionRenderer(_NoMessageTransformer()),
             structlog.processors.JSONRenderer(),
         ]
         if settings.log_json
-        else [
-            structlog.dev.ConsoleRenderer(
-                exception_formatter=structlog.dev.RichTracebackFormatter(show_locals=False)
-            )
-        ]
+        else [structlog.dev.ConsoleRenderer(exception_formatter=_console_traceback)]
     )
     shared: list[structlog.types.Processor] = [
         structlog.contextvars.merge_contextvars,
@@ -94,8 +129,7 @@ def _route_stdlib_logging(
 async def request_context(
     request: Request, call_next: Callable[[Request], Awaitable[Response]]
 ) -> Response:
-    incoming = request.headers.get(REQUEST_ID_HEADER, "")
-    request_id = incoming if _SAFE_ID.match(incoming) else uuid.uuid4().hex
+    request_id = uuid.uuid4().hex
     structlog.contextvars.clear_contextvars()
     structlog.contextvars.bind_contextvars(request_id=request_id)
     # Kept on the request too: the 500 handler runs outside this middleware and adds it itself.

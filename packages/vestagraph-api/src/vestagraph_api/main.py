@@ -1,4 +1,4 @@
-"""The FastAPI app; `fastapi dev` and `fastapi run` find it through [tool.fastapi].
+"""The FastAPI app. uvicorn runs it with --factory (no app is built at import).
 
 create_app builds a fresh app (tests build one per test); resources that live as long as the
 process are opened and closed in lifespan.
@@ -44,6 +44,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     configure_logging(settings)
     docs = settings.docs_on
     app = FastAPI(
+        title="Vestagraph API",
+        version="0.1.0",
         lifespan=lifespan,
         docs_url="/docs" if docs else None,
         redoc_url=None,
@@ -65,7 +67,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.add_middleware(
             CORSMiddleware,
             allow_origins=settings.cors_origins,
-            allow_credentials=True,
+            allow_credentials=False,
             allow_methods=["*"],
             allow_headers=["*"],
             expose_headers=[REQUEST_ID_HEADER, "Retry-After"],
@@ -76,6 +78,3 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(health.root_router)
     app.include_router(area.router)
     return app
-
-
-app = create_app()

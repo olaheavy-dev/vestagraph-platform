@@ -74,6 +74,63 @@ async def test_access_log_has_route_not_path(
     assert "testclient" not in out
 
 
+async def test_request_id_from_client_header_is_never_used(
+    client: httpx.AsyncClient, capsys: pytest.CaptureFixture[str]
+) -> None:
+    response = await client.get("/healthz", headers={"X-Request-ID": "SW1A1AA"})
+    sent_back = response.headers["x-request-id"]
+    assert sent_back != "SW1A1AA"
+    assert len(sent_back) == 32
+    assert sent_back in capsys.readouterr().out
+    assert "SW1A1AA" not in response.text
+
+
+async def test_not_found_problem_has_no_instance(client: httpx.AsyncClient) -> None:
+    response = await client.get("/nowhere/NB1-4XY")
+    assert response.status_code == 404
+    assert "instance" not in response.json()
+    assert "NB1-4XY" not in response.text
+
+
+async def test_cors_preflight_does_not_allow_credentials() -> None:
+    app = create_app(
+        Settings(_env_file=None, app_env="test", cors_origins=["https://app.example.com"])
+    )
+    async for client in _client(app):
+        response = await client.options(
+            "/healthz",
+            headers={
+                "Origin": "https://app.example.com",
+                "Access-Control-Request-Method": "GET",
+            },
+        )
+        assert response.headers["access-control-allow-origin"] == "https://app.example.com"
+        assert "access-control-allow-credentials" not in response.headers
+
+
+def test_settings_cors_origins_wildcard_is_refused() -> None:
+    with pytest.raises(ValueError, match="CORS_ORIGINS"):
+        Settings(_env_file=None, cors_origins=["https://ok.example.com", "*"])
+
+
+def test_settings_allowed_hosts_read_from_a_json_list_in_the_environment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("ALLOWED_HOSTS", '["vestagraph.com","127.0.0.1"]')
+    assert Settings(_env_file=None).allowed_hosts == ["vestagraph.com", "127.0.0.1"]
+
+
+def test_main_module_has_no_import_time_app() -> None:
+    import vestagraph_api.main as main
+
+    assert not hasattr(main, "app")
+
+
+def test_openapi_info_is_the_apis_own() -> None:
+    app = create_app(Settings(_env_file=None, app_env="test"))
+    assert app.openapi()["info"] == {"title": "Vestagraph API", "version": "0.1.0"}
+
+
 async def test_create_app_telemetry_cannot_be_switched_on_by_environment(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

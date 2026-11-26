@@ -86,7 +86,7 @@ class NotFound(BaseModel):
 
 class NotCovered(BaseModel):
     state: Literal["notCovered"]
-    nation: str
+    nation: Literal["wales", "scotland", "northern-ireland"]
 
 
 AreaCheckResponse = Annotated[Found | NotFound | NotCovered, Field(discriminator="state")]
@@ -102,7 +102,7 @@ class ClosedUntilOpen(APIRoute):
             if not request.app.state.settings.area_check_open:
                 raise Problem(
                     503,
-                    type_="https://vestagraph.invalid/problems/not-available-yet",
+                    type_="https://vestagraph.com/problems/not-available-yet",
                     title="Not available yet",
                 )
             return await handler(request)
