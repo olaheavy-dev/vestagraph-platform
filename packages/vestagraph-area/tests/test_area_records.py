@@ -71,7 +71,7 @@ def test_read_registry_radon_topic_is_reviewed_with_the_approved_check_in_lines(
 def test_read_postcode_area_committed_data_returns_postcodes_and_records() -> None:
     area = read_postcode_area(DATA / "postcode-area.json")
 
-    assert area.postcodes == ("NB1 4XY", "NB7 1RR")
+    assert area.postcodes == ("NB1 4XY", "NB7 1RR", "ZZ1 0AA")
     assert area.unknown_postcodes == ("NB9 9ZZ",)
     # Counted by hand: 61 records before decision 0061, less the two flood warning records
     # (NB1-4XY-AREA-FLOOD-1 and NB7-1RR-AREA-FLOOD-1) = 59.

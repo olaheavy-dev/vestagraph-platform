@@ -215,11 +215,12 @@ def test_postcode_area_instruction_like_text_is_only_in_its_test_record() -> Non
 
 
 def test_postcode_area_postcodes_are_all_fictional_nb_area() -> None:
-    # NB is not a UK postcode area, so a real postcode cannot slip into this public file.
+    # NB and ZZ are not UK postcode areas, so a real postcode cannot slip into this public file.
+    # ZZ1 0AA is the Welsh synthetic postcode of the WALES-1 home (homes.json).
     data = load("postcode-area")
     every = [p["postcode"] for p in data["postcodes"]] + list(data["unknownPostcodes"])
     assert every
-    assert all(p.startswith("NB") for p in every)
+    assert all(p.startswith(("NB", "ZZ1 ")) for p in every)
 
 
 # Radon (design pass Task 6a, register DA-23). Source: the BGS and UKHSA Indicative Atlas of Radon

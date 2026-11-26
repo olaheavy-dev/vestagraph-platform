@@ -99,7 +99,7 @@ def generate_area(fixtures_directory: Path) -> str:
     topics = {t.key: t for t in registry.topics}
 
     postcodes: list[dict[str, Any]] = []
-    for postcode in sorted(area.postcodes):
+    for postcode in sorted(p for p in area.postcodes if area.nations[p] == "england"):
         records = [r for r in area.records if r.postcode == postcode]
         glance = at_a_glance(registry, area, postcode)
         postcode_priorities: list[dict[str, Any]] = []

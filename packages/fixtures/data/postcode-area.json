@@ -14,6 +14,13 @@
       "placeName": "Northbridge Fells (synthetic)",
       "role": "test",
       "synthetic": true
+    },
+    {
+      "postcode": "ZZ1 0AA",
+      "nation": "wales",
+      "placeName": "Afonbryn (synthetic)",
+      "role": "test",
+      "synthetic": true
     }
   ],
   "unknownPostcodes": [
