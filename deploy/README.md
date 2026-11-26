@@ -16,7 +16,9 @@ Compose mounts each secret at `/run/secrets/<name>`, so the app reads `/run/secr
 
 ## One image
 
-The server runs `vestagraph-placeholder-live:production`. Only the approved release job writes that package: after the founder approves, it builds the image from the approved `main` commit and pushes `sha-<commit>` and `production` with a token held by the `production` environment. To roll back, run the Images workflow by hand with an earlier `main` commit; it rebuilds that commit. A merge to `main` starts a release only when it changes the placeholder package, `deploy/`, `.dockerignore`, `tools/release_check.py` or the Images workflow itself (22 Nov 2026); a documentation-only merge queues nothing.
+The server runs `vestagraph-placeholder-live:production`. Only the approved release job writes that package: after the founder approves, it builds the image from the approved `main` commit and pushes `sha-<commit>` and `production` with a token held by the `production` environment. To roll back, run the Images workflow by hand with an earlier `main` commit; it rebuilds that commit. A merge to `main` starts a release only when it changes the placeholder package, `deploy/`, `.dockerignore`, `tools/release_check.py`, the launch guard (`tools/launch_guard.py`, `tools/launch_placeholders.json`) or the Images workflow itself (22 Nov 2026; the launch guard files since 26 Nov 2026); a documentation-only merge queues nothing.
+
+After the approval and the build, and before the push, the **launch guard** (OP-06) starts the new image on the runner and reads its pages. If a page holds a draft string such as "To be written before launch (SE-02)", or a page cannot be read, the release stops and nothing is pushed; the log names each page and string. The fix is to write the missing text, or, for a rollback, to choose a commit without draft text. The guard uses `main`'s copy of its list, so a rollback to a commit with drafts stops too.
 
 ## Where the server copy lives
 

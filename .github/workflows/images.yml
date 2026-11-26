@@ -16,6 +16,8 @@ on:
       - "deploy/**"
       - ".dockerignore"
       - "tools/release_check.py"
+      - "tools/launch_guard.py"
+      - "tools/launch_placeholders.json"
       - ".github/workflows/images.yml"
   push:
     branches: [main]
@@ -100,9 +102,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      # Keep the main branch's own copy of the release check: the commit being released may be an old one.
-      - name: Keep this run's release check
-        run: cp tools/release_check.py "$RUNNER_TEMP/release_check.py"
+      # Keep the main branch's own copies of the release check and the launch guard with its list: the
+      # commit being released may be an old one, and a rollback to a commit with draft text must also stop.
+      - name: Keep this run's release check and launch guard
+        run: cp tools/release_check.py tools/launch_guard.py tools/launch_placeholders.json "$RUNNER_TEMP/"
 
       - name: Check the commit is on main
         run: |
@@ -124,6 +127,37 @@ jobs:
 
       - name: Build the image from the approved commit
         run: docker build -f deploy/placeholder.Dockerfile --build-arg "VESTAGRAPH_COMMIT=${COMMIT}" -t "${LIVE_IMAGE}:sha-${COMMIT}" -t "${LIVE_IMAGE}:production" .
+
+      # Launch guard (OP-06; design docs/superpowers/specs/2026-11-26-launch-guard-design.md): run the new
+      # image on the runner and fail, before anything is pushed, while its pages hold draft text such as
+      # "To be written before launch (SE-02)", or while a page cannot be read. The secret is a throwaway
+      # value: the app only needs the file to exist to start.
+      - name: Check the new image's pages for draft text (launch guard, OP-06)
+        run: |
+          secret_dir="$(mktemp -d)"
+          # Clean up however the step ends, including a failed docker run.
+          trap 'docker rm -f launch-guard > /dev/null 2>&1 || true; rm -rf "$secret_dir"' EXIT
+          printf 'launch-guard-throwaway\n' > "$secret_dir/secret_check"
+          chmod 755 "$secret_dir"
+          chmod 644 "$secret_dir/secret_check"
+          # The same limits as deploy/compose.yml, where they apply on the runner.
+          docker run -d --name launch-guard --read-only --cap-drop ALL \
+            --security-opt no-new-privileges:true --memory 128m --pids-limit 64 \
+            -p 127.0.0.1:8080:8080 \
+            -v "$secret_dir/secret_check:/run/secrets/secret_check:ro" \
+            "${LIVE_IMAGE}:sha-${COMMIT}"
+          status=0
+          python3 "$RUNNER_TEMP/launch_guard.py" --base-url http://127.0.0.1:8080 \
+            --strings "$RUNNER_TEMP/launch_placeholders.json" || status=$?
+          if [ "$status" -ne 0 ]; then
+            echo "The container's own output:" >&2
+            # Stop GitHub reading workflow commands (::error:: and so on) from the image's output.
+            stop_token="$(openssl rand -hex 16)"
+            echo "::stop-commands::${stop_token}"
+            docker logs launch-guard >&2 || true
+            echo "::${stop_token}::"
+          fi
+          exit "$status"
 
       - name: Log in to GHCR with the release token
         env:
