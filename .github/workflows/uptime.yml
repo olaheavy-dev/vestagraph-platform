@@ -1,0 +1,60 @@
+# Public uptime check for https://vestagraph.com (launch blocker 8,
+# docs/reviews/2026-11-23-group-a-launch-blockers.md; founder, 26 Nov 2026:
+# "Vestagraph repo, you merge (Recommended)"). It runs here because Actions minutes are free
+# for public repositories; the private infrastructure repository would use most of the
+# organisation's shared private minutes.
+#
+# A failed scheduled run makes GitHub email the account that added this file to main, then
+# whoever last changes the `cron` line or re-enables the workflow: keep that the founder.
+#
+# It proves the public route only (Cloudflare, the origin lock, Caddy, the app answering
+# /healthz). It checks the reply's shape, not which commit is live: that is the release
+# workflow's job.
+name: Uptime
+
+on:
+  schedule:
+    # Off the hour: GitHub delays, and may drop, scheduled runs at the start of each hour.
+    - cron: "4,19,34,49 * * * *"
+  workflow_dispatch:
+  # Runs on the pull request that changes this file, so the check is proven before merge.
+  pull_request:
+    paths:
+      - .github/workflows/uptime.yml
+
+permissions: {}
+
+concurrency:
+  group: uptime-${{ github.event_name }}
+  cancel-in-progress: false
+
+jobs:
+  healthz:
+    name: vestagraph.com/healthz
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    permissions: {}
+    steps:
+      - name: Check https://vestagraph.com/healthz
+        run: |
+          set -euo pipefail
+          url="https://vestagraph.com/healthz"
+          # Two retries so one network blip does not send a failure email; no -L, so a
+          # redirect fails; no-cache so Cloudflare cannot answer for a down origin.
+          status="$(curl -sS -o "$RUNNER_TEMP/healthz.json" -w '%{http_code}' \
+            --connect-timeout 10 --max-time 20 --retry 2 --retry-delay 5 --retry-all-errors \
+            -H 'Cache-Control: no-cache' -A 'vestagraph-uptime' "$url")"
+          if [ "$status" != "200" ]; then
+            echo "$url returned HTTP $status, expected 200." >&2
+            exit 1
+          fi
+          python3 -I - "$RUNNER_TEMP/healthz.json" <<'PY'
+          import json, re, sys
+          with open(sys.argv[1], encoding="utf-8") as f:
+              body = json.load(f)
+          if body.get("status") != "ok":
+              sys.exit(f"/healthz status is {body.get('status')!r}, expected 'ok'.")
+          if not re.fullmatch(r"[0-9a-f]{40}", str(body.get("commit", ""))):
+              sys.exit("/healthz has no full commit id.")
+          print(f"ok: /healthz answered for commit {body['commit'][:7]}")
+          PY
