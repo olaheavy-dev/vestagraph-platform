@@ -33,7 +33,12 @@ jobs:
           # Vestagraph's own packages (all rights reserved; register line BE-22): GitHub's uv.lock parser lists the
           # repository-local uv projects as PyPI dependencies with no licence. Each new package of ours (the API at #93,
           # the MCP server at #97, the area package (FE-38)) needs an entry here.
-          allow-dependencies-licenses: pkg:pypi/typing-extensions, pkg:pypi/libcst, pkg:pypi/vestagraph-engine, pkg:pypi/vestagraph-generator, pkg:pypi/vestagraph-fixture-validator, pkg:pypi/vestagraph-area, pkg:pypi/vestagraph-api
+          # Recorded exception (register line BE-45, founder, 26 Nov 2026: "Allow these two by name (Recommended)"):
+          # grimp (via import-linter, dev only), BSD-2-Clause AND BSD-2-Clause-Views AND BSD-3-Clause per GitHub (its
+          # LICENSE is BSD-2-Clause); protobuf (via the standard bundle's OTLP exporter, unused: telemetry is off),
+          # BSD-3-Clause AND LicenseRef-scancode-protobuf per GitHub (Google's BSD-3 text plus a note that generated
+          # code belongs to the input's owner). Both permissive; the allow-list itself is unchanged.
+          allow-dependencies-licenses: pkg:pypi/grimp, pkg:pypi/protobuf, pkg:pypi/typing-extensions, pkg:pypi/libcst, pkg:pypi/vestagraph-engine, pkg:pypi/vestagraph-generator, pkg:pypi/vestagraph-fixture-validator, pkg:pypi/vestagraph-area, pkg:pypi/vestagraph-api
 
 
       # The action prints packages with no detectable licence but does not fail on them (issue #30). Decision 0027 does
