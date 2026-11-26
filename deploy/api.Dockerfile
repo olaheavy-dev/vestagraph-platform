@@ -31,7 +31,6 @@ ENV VESTAGRAPH_COMMIT=$VESTAGRAPH_COMMIT \
 WORKDIR /app
 COPY --from=build /app/.venv /app/.venv
 COPY packages/fixtures/data/ /app/fixtures/data/
-COPY packages/fixtures/schema/ /app/fixtures/schema/
 
 USER 10001:10001
 EXPOSE 8080

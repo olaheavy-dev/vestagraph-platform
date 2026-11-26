@@ -65,7 +65,7 @@ test: build
 check: restore build format-check generated-check validate lint test
 
 # Runs the Python generator (vestagraph_generator, decision 0049 step P4): it reads packages/fixtures/data and writes
-# packages/fixtures/generated/costs.json and area-result.json, then writes the API's resolved contract schemas (package data) and its contract, packages/vestagraph-api/openapi.json. Commit the result. The generator deletes any other *.json in generated/.
+# packages/fixtures/generated/costs.json, area-result.json, council-result.json and energy-certificate-result.json, then writes the API's resolved contract schemas (package data, contract_schemas.json) and its contract (packages/vestagraph-api/openapi.json). Commit the result. The generator deletes any other *.json in generated/.
 generate: restore
 	uv run --locked python -m vestagraph_generator
 	uv run --locked python -m vestagraph_api.schemas

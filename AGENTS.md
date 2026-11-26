@@ -83,7 +83,7 @@ Haiku may do clearly mechanical subtasks (renaming across files, reformatting a 
 - Commit messages: `feat:`, `fix:`, `docs:`, `chore:`, `test:`, `refactor:`.
 - Pull request description: what changed and why, how it was tested, **any assumptions you made**, "Noticed, not changed", the pre-flight check done, and whether `docs/planning/status.md` was updated (or why not).
 - **Pre-flight check:** search the repository for every term, decision ID, rule and figure the change touches, and fix any contradiction or stale statement in the same pull request. Check new facts against their sources.
-- **Run `make check` before pushing.** It runs every automated check the same way as CI, the same checks in the same order (Python only: mypy, ruff, the generated-file check, the fixture validator, pytest).
+- **Run `make check` before pushing.** It runs every automated check the same way as CI, the same checks in the same order (Python only: mypy, ruff, the generated-file check, the fixture validator, pytest, import-linter).
 - **Map criteria to tests:** before the pre-push review, name the test (file and test name) that proves each acceptance criterion and edge case. A criterion with no test is a gap to fix.
 - **Pre-push review:** before pushing, run a fresh-context Opus review using "Code Review Rules" below, with `code-security-reviewer` (and `visual-reviewer` for UI changes), and fix its findings first.
 - **Keep the handover current:** any pull request that changes what is done, open or next, a decision, a plan or the backlog updates `docs/planning/status.md` in the same pull request (agent-workflows house rules v0.6.0, founder: "Habit only").

@@ -12,6 +12,7 @@ name: Images
 on:
   pull_request:
     paths: &image-paths
+      - "pyproject.toml"
       - "packages/vestagraph-api/**"
       - "packages/vestagraph-area/**"
       - "packages/vestagraph-engine/**"

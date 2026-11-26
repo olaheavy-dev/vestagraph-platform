@@ -33,7 +33,7 @@ jobs:
           # Vestagraph's own packages (all rights reserved; register line BE-22): GitHub's uv.lock parser lists the
           # repository-local uv projects as PyPI dependencies with no licence. Each new package of ours (the API at #93,
           # the MCP server at #97, the area package (FE-38)) needs an entry here.
-          allow-dependencies-licenses: pkg:pypi/typing-extensions, pkg:pypi/libcst, pkg:pypi/vestagraph-engine, pkg:pypi/vestagraph-generator, pkg:pypi/vestagraph-fixture-validator, pkg:pypi/vestagraph-area
+          allow-dependencies-licenses: pkg:pypi/typing-extensions, pkg:pypi/libcst, pkg:pypi/vestagraph-engine, pkg:pypi/vestagraph-generator, pkg:pypi/vestagraph-fixture-validator, pkg:pypi/vestagraph-area, pkg:pypi/vestagraph-api
 
 
       # The action prints packages with no detectable licence but does not fail on them (issue #30). Decision 0027 does

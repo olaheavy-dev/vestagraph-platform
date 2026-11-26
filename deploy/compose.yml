@@ -8,6 +8,8 @@ services:
     environment:
       APP_ENV: production
       LOG_JSON: "true"
+      # The hosts that reach the app (a JSON list): the public names, and the health check and launch guard.
+      ALLOWED_HOSTS: '["vestagraph.com","vestagraph.co.uk","127.0.0.1","localhost"]'
     restart: unless-stopped
     read_only: true
     security_opt:

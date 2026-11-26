@@ -1,5 +1,5 @@
 # The build context is the repository root. Send only what deploy/api.Dockerfile copies: the workspace
-# members (uv needs all of them to check uv.lock) without their tests, and the fixture data and schemas.
+# members (uv needs all of them to check uv.lock) without their tests, and the fixture data.
 *
 !pyproject.toml
 !uv.lock
@@ -9,8 +9,11 @@ packages/*
 !packages/fixtures/
 packages/fixtures/*
 !packages/fixtures/data/
-!packages/fixtures/schema/
 **/tests
 **/__pycache__
 **/.venv
 **/mutants
+**/.env*
+**/.*_cache
+**/.artifacts
+**/.hypothesis
