@@ -15,7 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.telemetry import TelemetryConfig
 
-from vestagraph_api import health
+from vestagraph_api import area, health
 from vestagraph_api.limits import BodyLimit, SecurityHeaders
 from vestagraph_api.log import REQUEST_ID_HEADER, configure_logging, request_context
 from vestagraph_api.problems import UnhandledErrors, install_problem_handlers
@@ -24,6 +24,7 @@ from vestagraph_api.settings import Settings, get_settings
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+    app.state.area = area.load_area_data(app.state.settings.fixtures_dir)
     yield
 
 
@@ -73,6 +74,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_hosts)
     app.include_router(health.router)
     app.include_router(health.root_router)
+    app.include_router(area.router)
     return app
 
 
