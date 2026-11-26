@@ -32,6 +32,7 @@ DEFAULT_PAGE_LIMIT = 200
 DEFAULT_START_TIMEOUT_S = 60
 DEFAULT_PAGE_TIMEOUT_S = 10
 START_INTERVAL_S = 1.0
+MAX_REDIRECTS = 10  # hops in one redirect chain; more counts as a page that could not be read
 MAX_BODY_BYTES = 5 * 1024 * 1024  # 5 MB: far more than any page; a bigger answer fails the guard
 
 # (status, content type, body, Location header or ""). Redirects are returned, never followed.
@@ -42,6 +43,51 @@ Fetch = Callable[[str], Response]
 _WHITESPACE = re.compile(r"\s+")
 # Characters a browser does not show between letters: soft hyphen, zero-width spaces and joiners.
 _INVISIBLE = dict.fromkeys(map(ord, "\u00ad\u200b\u200c\u200d\u2060\ufeff"))
+# Elements a browser shows on their own line: text on either side never runs together.
+_BREAKING_TAGS = frozenset(
+    [
+        "address",
+        "article",
+        "aside",
+        "blockquote",
+        "br",
+        "dd",
+        "details",
+        "dialog",
+        "div",
+        "dl",
+        "dt",
+        "fieldset",
+        "figcaption",
+        "figure",
+        "footer",
+        "form",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "header",
+        "hr",
+        "li",
+        "main",
+        "nav",
+        "ol",
+        "p",
+        "pre",
+        "section",
+        "summary",
+        "table",
+        "tbody",
+        "td",
+        "tfoot",
+        "th",
+        "thead",
+        "tr",
+        "ul",
+    ]
+)
 _CHARSET = re.compile(r"charset=[\"']?([\w.:-]+)", re.IGNORECASE)
 
 
@@ -114,7 +160,11 @@ def decode(body: bytes, content_type: str = "") -> str:
 
 
 class _PageParser(HTMLParser):
-    """Collects link targets and the text between tags (comments are left out)."""
+    """Collects link targets and the text between tags (comments are left out).
+
+    Inline tags (`<em>`) and comments (React's `<!-- -->`) join the text either side directly; a
+    line break or block element (`<br>`, `<p>`, `<div>`) adds a space, as the browser shows one.
+    """
 
     def __init__(self) -> None:
         super().__init__()
@@ -122,10 +172,16 @@ class _PageParser(HTMLParser):
         self.text: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag in _BREAKING_TAGS:
+            self.text.append(" ")
         if tag in ("a", "link"):
             for name, value in attrs:
                 if name == "href" and value:
                     self.hrefs.append(value)
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in _BREAKING_TAGS:
+            self.text.append(" ")
 
     def handle_data(self, data: str) -> None:
         self.text.append(data)
@@ -199,6 +255,48 @@ class ScanResult:
         return not self.findings and not self.errors and not self.limit_reached
 
 
+@dataclass(frozen=True)
+class _Followed:
+    """Where one redirect chain ended: the final page's answer, or why it could not be read."""
+
+    requests: int
+    url: str
+    response: Response | None = None
+    error: str | None = None
+
+
+def _follow(url: str, fetch: Fetch, seen: set[str]) -> _Followed:
+    """Fetch `url`, following same-site redirects to the page they end at.
+
+    Off-site redirects and redirects to a page already read or queued end the chain with no page
+    to check here. A loop, or more than MAX_REDIRECTS hops, is an error: the page was never read.
+    """
+    chain = [url]
+    requests = 0
+    while True:
+        try:
+            response = fetch(url)
+        except (OSError, http.client.HTTPException, ValueError) as error:
+            return _Followed(requests, url, error=f"could not be read ({error})")
+        requests += 1
+        status, _, _, location = response
+        if not 300 <= status < 400:
+            return _Followed(requests, url, response)
+        # A redirect is followed only when it stays on the site (never to the live site).
+        target = _same_site(url, location) if location else None
+        if target is None:
+            return _Followed(requests, url)
+        if target in chain or len(chain) > MAX_REDIRECTS:
+            return _Followed(
+                requests, chain[0], error=f"redirect loop or more than {MAX_REDIRECTS} redirects"
+            )
+        if target in seen:
+            return _Followed(requests, url)
+        seen.add(target)
+        chain.append(target)
+        url = target
+
+
 def scan_site(
     base_url: str, paths: Sequence[str], strings: Sequence[str], fetch: Fetch, page_limit: int
 ) -> ScanResult:
@@ -218,19 +316,15 @@ def scan_site(
     errors: list[tuple[str, str]] = []
     pages_read = 0
     while queue and pages_read < page_limit:
-        url = queue.popleft()
-        try:
-            status, content_type, body, location = fetch(url)
-        except (OSError, http.client.HTTPException, ValueError) as error:
-            errors.append((url, f"could not be read ({error})"))
+        followed = _follow(queue.popleft(), fetch, seen)
+        pages_read += followed.requests
+        if followed.error is not None:
+            errors.append((followed.url, followed.error))
             continue
-        pages_read += 1
-        if 300 <= status < 400:
-            # A redirect is followed only when it stays on the site (never to the live site).
-            target = _same_site(url, location) if location else None
-            if target is not None:
-                add(target)
+        if followed.response is None:
             continue
+        url = followed.url
+        status, content_type, body, _ = followed.response
         if status not in (200, 404):
             errors.append((url, f"answered {status}"))
             continue

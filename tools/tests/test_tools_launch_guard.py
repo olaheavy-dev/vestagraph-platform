@@ -422,3 +422,53 @@ def test_fetch_url_redirect_is_not_followed(local_server: str) -> None:
 def test_fetch_url_body_over_limit_raises(local_server: str) -> None:
     with pytest.raises(OSError, match="larger than"):
         launch_guard.fetch_url(local_server + "/huge")
+
+
+# ---- Codex review fixes (26 Nov 2026) ----
+
+
+def test_find_strings_br_between_words_returns_match() -> None:
+    body = b"<p>To be written<br>before launch (SE-02)</p>"
+    assert launch_guard.find_strings(body, [DRAFT]) == [DRAFT]
+
+
+def test_find_strings_block_elements_between_words_returns_match() -> None:
+    body = b"<div>To be written</div><div>before launch (SE-02)</div>"
+    assert launch_guard.find_strings(body, [DRAFT]) == [DRAFT]
+
+
+def test_scan_site_self_redirect_is_reported() -> None:
+    pages: dict[str, launch_guard.Response] = {f"{BASE}/privacy": (302, "", b"", "/privacy")}
+    result = launch_guard.scan_site(BASE, ["/privacy"], [DRAFT], _fake(pages), page_limit=200)
+    assert [url for url, _ in result.errors] == [f"{BASE}/privacy"]
+    assert "redirect loop" in result.errors[0][1]
+    assert result.ok is False
+
+
+def test_scan_site_two_page_redirect_cycle_is_reported() -> None:
+    pages: dict[str, launch_guard.Response] = {
+        f"{BASE}/privacy": (301, "", b"", "/privacy/"),
+        f"{BASE}/privacy/": (301, "", b"", "/privacy"),
+    }
+    result = launch_guard.scan_site(BASE, ["/privacy"], [DRAFT], _fake(pages), page_limit=200)
+    assert result.errors
+    assert all("redirect loop" in reason for _, reason in result.errors)
+    assert result.ok is False
+
+
+def test_scan_site_long_redirect_chain_is_reported() -> None:
+    pages: dict[str, launch_guard.Response] = {
+        f"{BASE}/r{i}": (302, "", b"", f"/r{i + 1}") for i in range(launch_guard.MAX_REDIRECTS + 2)
+    }
+    result = launch_guard.scan_site(BASE, ["/r0"], [DRAFT], _fake(pages), page_limit=200)
+    assert [url for url, _ in result.errors] == [f"{BASE}/r0"]
+    assert result.ok is False
+
+
+def test_scan_site_redirect_to_page_already_read_is_ok() -> None:
+    pages: dict[str, launch_guard.Response] = {
+        f"{BASE}/": (200, HTML, b"<p>Done.</p>", ""),
+        f"{BASE}/home": (302, "", b"", "/"),
+    }
+    result = launch_guard.scan_site(BASE, ["/", "/home"], [DRAFT], _fake(pages), page_limit=200)
+    assert result.ok is True
