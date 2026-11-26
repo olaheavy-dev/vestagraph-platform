@@ -44,6 +44,8 @@ select = ["E", "W", "F", "I", "B", "UP", "S", "C4", "SIM", "RUF", "PT", "TID", "
 [tool.mypy]
 # Test files have a unique name per package (test_<package>_*.py): mypy reports "Duplicate module" for identical names.
 strict = true
+# Understands pydantic models and pydantic-settings (the template does the same); only vestagraph-api uses them.
+plugins = ["pydantic.mypy"]
 warn_unreachable = true
 enable_error_code = [
   "redundant-expr",
@@ -60,6 +62,7 @@ mypy_path = [
   "packages/vestagraph-fixture-validator/src",
   "packages/vestagraph-area/src",
   "packages/vestagraph-placeholder/src",
+  "packages/vestagraph-api/src",
   "packages/specs/tests",
   "tools",
 ]
@@ -74,6 +77,8 @@ files = [
   "packages/vestagraph-area/tests",
   "packages/vestagraph-placeholder/src",
   "packages/vestagraph-placeholder/tests",
+  "packages/vestagraph-api/src",
+  "packages/vestagraph-api/tests",
   "packages/specs/tests",
   "tools",
 ]
@@ -89,6 +94,7 @@ pythonpath = [
   "packages/vestagraph-generator/tests",
   "packages/vestagraph-fixture-validator/tests",
   "packages/vestagraph-area/tests",
+  "packages/vestagraph-api/tests",
   "packages/specs/tests",
   "tools",
 ]
@@ -109,5 +115,5 @@ markers = [
 
 [tool.coverage.run]
 branch = true
-source_pkgs = ["vestagraph_engine", "vestagraph_generator", "vestagraph_fixture_validator", "vestagraph_area", "vestagraph_placeholder"]
+source_pkgs = ["vestagraph_engine", "vestagraph_generator", "vestagraph_fixture_validator", "vestagraph_area", "vestagraph_placeholder", "vestagraph_api"]
 # Report only: no fail_under (decision 0039 section 4).

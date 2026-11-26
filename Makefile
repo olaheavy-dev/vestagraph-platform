@@ -18,7 +18,7 @@ help:
 # Locked mode: fails if uv.lock is out of date.
 restore:
 	@command -v uv >/dev/null || { echo "uv is missing: install uv 0.13.x (https://docs.astral.sh/uv/)"; exit 1; }
-	uv sync --locked --all-packages
+	uv sync --locked --all-packages --all-groups
 
 # OPTIONAL, not part of `check` (register line BE-23): a pip-format export of uv.lock, kept as the fallback in case dependency
 # review stops reading uv.lock. The 9 Nov 2026 proof (PRs #50, #51) showed it reads uv.lock directly;
