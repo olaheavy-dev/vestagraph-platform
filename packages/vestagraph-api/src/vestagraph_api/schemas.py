@@ -1,9 +1,10 @@
-"""The fixtures' JSON Schemas, made self-contained for the OpenAPI description.
+"""Generation time only: the fixtures' JSON Schemas, made self-contained, written to package data.
 
 The schemas in ``packages/fixtures/schema/`` stay the single source of the shapes. This module
-loads them and replaces every ``$ref`` with the schema it points to, so the OpenAPI document
-has no reference to a file on disk (the web app's types are generated from it, #95). Nothing
-is copied by hand.
+loads them and replaces every ``$ref`` with the schema it points to, then writes the two the
+API describes to ``contract_schemas.json`` (``python -m vestagraph_api.schemas``, run by
+``make generate``). At run time the API reads that file (``contract_schemas.py``) and never the
+fixtures' schema folder, which the API image does not have. Nothing is copied by hand.
 """
 
 from __future__ import annotations
@@ -48,3 +49,18 @@ def definition(file_name: str, name: str) -> dict[str, Any]:
     document = _load(file_name)
     resolved: dict[str, Any] = _inline(document["$defs"][name], document, file_name)
     return resolved
+
+
+CONTRACT_FILE = Path(__file__).resolve().parent / "contract_schemas.json"
+
+
+def render() -> str:
+    schemas = {
+        "result": definition("generated-area-result.schema.json", "postcode"),
+        "record": definition("postcode-area.schema.json", "postcodeAreaItem"),
+    }
+    return json.dumps(schemas, indent=2, ensure_ascii=False) + "\n"
+
+
+if __name__ == "__main__":
+    CONTRACT_FILE.write_text(render(), encoding="utf-8")

@@ -30,6 +30,7 @@ from vestagraph_area.records import (
     read_sample_priorities,
 )
 
+from vestagraph_api.contract_schemas import RECORD_SCHEMA, RESULT_SCHEMA
 from vestagraph_api.problems import (
     MEDIA_TYPE,
     Problem,
@@ -37,7 +38,6 @@ from vestagraph_api.problems import (
     ValidationProblem,
     problem_schema,
 )
-from vestagraph_api.schemas import definition
 
 
 @dataclass(frozen=True, slots=True)
@@ -68,12 +68,8 @@ class AreaCheckRequest(BaseModel):
 
 # The shapes come from the fixtures' JSON Schemas (the single source), for the OpenAPI description
 # only: at run time the values pass through as they are.
-AreaResult = Annotated[
-    dict[str, Any], WithJsonSchema(definition("generated-area-result.schema.json", "postcode"))
-]
-AreaRecord = Annotated[
-    dict[str, Any], WithJsonSchema(definition("postcode-area.schema.json", "postcodeAreaItem"))
-]
+AreaResult = Annotated[dict[str, Any], WithJsonSchema(RESULT_SCHEMA)]
+AreaRecord = Annotated[dict[str, Any], WithJsonSchema(RECORD_SCHEMA)]
 
 
 class Found(BaseModel):

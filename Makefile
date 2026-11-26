@@ -4,7 +4,7 @@
 
 ARTIFACTS     := .artifacts
 GENERATED     := packages/fixtures/generated
-OPENAPI       := packages/vestagraph-api/openapi.json
+OPENAPI       := packages/vestagraph-api/openapi.json packages/vestagraph-api/src/vestagraph_api/contract_schemas.json
 
 PYTEST_XML    := $(ARTIFACTS)/test-results/python/coverage.xml
 
@@ -65,9 +65,10 @@ test: build
 check: restore build format-check generated-check validate lint test
 
 # Runs the Python generator (vestagraph_generator, decision 0049 step P4): it reads packages/fixtures/data and writes
-# packages/fixtures/generated/costs.json and area-result.json, then writes the API's contract, packages/vestagraph-api/openapi.json. Commit the result. The generator deletes any other *.json in generated/.
+# packages/fixtures/generated/costs.json and area-result.json, then writes the API's resolved contract schemas (package data) and its contract, packages/vestagraph-api/openapi.json. Commit the result. The generator deletes any other *.json in generated/.
 generate: restore
 	uv run --locked python -m vestagraph_generator
+	uv run --locked python -m vestagraph_api.schemas
 	uv run --locked python -m vestagraph_api.openapi_file
 
 # Regenerates, then fails if anything under packages/fixtures/generated/ differs from what is committed: a hand edit, an extra
@@ -84,12 +85,12 @@ generated-check: generate
 	@echo "Generated files: up to date."
 	@changes="$$(git status --porcelain --untracked-files=all -- $(OPENAPI))"; \
 	if [ -n "$$changes" ]; then \
-		echo "The API's openapi.json is out of date: run 'make generate' and commit it."; \
+		echo "The API's openapi.json or contract_schemas.json is out of date: run 'make generate' and commit it."; \
 		echo "$$changes"; \
 		git --no-pager diff --stat -- $(OPENAPI); \
 		exit 1; \
 	fi
-	@echo "openapi.json: up to date."
+	@echo "openapi.json and contract_schemas.json: up to date."
 
 # Mutation testing of the Python cost engine (decision 0049 item 11b, register line BE-33): mutmut changes the engine's code in
 # small ways (a `<` becomes `<=`, a string is altered, a line is removed) and checks that a test fails each time. Slow (about a
