@@ -1,8 +1,13 @@
-# Placeholder service for the hosting foundation (stage 5b group A).
-# Replace <CADDY_NETWORK> and <SECRETS_DIR> on the server. The server copy lives in the private infrastructure repository.
+# The pilot API service (#93). It replaced the placeholder service of stage 5b group A.
+# Replace <CADDY_NETWORK> on the server. The server copy lives in the private infrastructure repository.
 services:
-  placeholder:
-    image: ghcr.io/olaheavy-dev/vestagraph-placeholder-live:production
+  api:
+    image: ghcr.io/olaheavy-dev/vestagraph-api-live:production
+    # VESTAGRAPH_COMMIT comes from the image. The area check stays closed (AREA_CHECK_OPEN is not set)
+    # until the founder opens it with the Privacy notice (decision 0014).
+    environment:
+      APP_ENV: production
+      LOG_JSON: "true"
     restart: unless-stopped
     read_only: true
     security_opt:
@@ -18,8 +23,6 @@ services:
       - "com.centurylinklabs.watchtower.scope=vestagraph"
     networks:
       - caddy
-    secrets:
-      - secret_check
     healthcheck:
       test:
         - CMD
@@ -40,7 +43,3 @@ networks:
   caddy:
     name: <CADDY_NETWORK>
     external: true
-
-secrets:
-  secret_check:
-    file: <SECRETS_DIR>/secret_check

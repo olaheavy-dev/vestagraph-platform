@@ -58,7 +58,7 @@ updates:
           - "major"
 
   - package-ecosystem: "docker"
-    # Reads deploy/placeholder.Dockerfile: dependabot-core matches any file name containing "dockerfile" (checked 22 Nov 2026).
+    # Reads deploy/api.Dockerfile: dependabot-core matches any file name containing "dockerfile" (checked 22 Nov 2026).
     # compose.yml needs the separate "docker-compose" ecosystem; it holds only our own :production image, so it is not added.
     directory: "/deploy"
     schedule:
