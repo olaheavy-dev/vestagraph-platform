@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator
+from pathlib import Path
 
 import httpx
 import pytest
@@ -69,3 +70,31 @@ async def test_access_log_has_route_not_path(
     out = capsys.readouterr().out
     assert "/healthz" in out
     assert "secret" not in out
+    assert "127.0.0.1" not in out
+    assert "testclient" not in out
+
+
+async def test_create_app_telemetry_cannot_be_switched_on_by_environment(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("FASTAPI_OTEL_AUTO_CONFIGURE", "true")
+    monkeypatch.setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4318")
+    seen: list[bool] = []
+
+    def record(config: dict[str, object]) -> None:
+        seen.append(bool(config["auto_configure"]))
+
+    monkeypatch.setattr("fastapi.telemetry._runtime._configure_from_environment", record)
+    app = create_app(Settings(_env_file=None, app_env="test"))
+    async for client in _client(app):
+        await client.get("/healthz")
+    assert seen == [False]
+
+
+def test_settings_env_file_empty_ignores_dotenv_in_working_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / ".env").write_text("VESTAGRAPH_COMMIT=from-dotenv\n")
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv("VESTAGRAPH_COMMIT", raising=False)
+    assert Settings().vestagraph_commit == "unknown"

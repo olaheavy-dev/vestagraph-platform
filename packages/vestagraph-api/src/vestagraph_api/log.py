@@ -87,7 +87,7 @@ def _route_stdlib_logging(
         logger.propagate = True
     logging.getLogger("uvicorn.access").disabled = True
     # A line per outgoing HTTP request is noise at INFO.
-    for name in ("httpx", "httpx2", "httpcore", "urllib3"):
+    for name in ("httpx", "httpcore", "urllib3"):
         logging.getLogger(name).setLevel(max(level, logging.WARNING))
 
 
@@ -103,7 +103,7 @@ async def request_context(
     started = time.perf_counter()
     response = await call_next(request)
     response.headers[REQUEST_ID_HEADER] = request_id
-    # The route's template (/courses/{course_id}), not the path: ids and other values in URLs
+    # The route's template (/api/area-check), not the path: ids and other values in URLs
     # stay out of the logs. Unhandled errors are logged by the 500 handler instead.
     route = request.scope.get("route")
     log.info(

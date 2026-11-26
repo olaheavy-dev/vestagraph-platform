@@ -29,7 +29,7 @@ RESERVED = frozenset({"type", "title", "status", "detail", "instance"})
 
 
 class Problem(Exception):  # noqa: N818 - the template's name, kept so the founder's other projects read the same
-    """An expected failure the client should see, e.g. Problem(404, detail="No such course").
+    """An expected failure the client should see, e.g. Problem(503, title="Not available yet").
     `headers` go on the response (Retry-After on a 503 or 429, say)."""
 
     def __init__(

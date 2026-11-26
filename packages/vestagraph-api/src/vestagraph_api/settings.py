@@ -17,7 +17,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     # ENV_FILE="" turns the file off: the tests set it before any app code loads, so a
-    # developer's backend/.env (real keys included) never reaches them.
+    # developer's .env (real keys included) never reaches them (tests/conftest.py does this).
     # hide_input_in_errors: a validation error must never echo the raw input, which may hold a key.
     model_config = SettingsConfigDict(
         env_file=os.environ.get("ENV_FILE", ".env") or None,

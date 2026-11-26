@@ -28,25 +28,17 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 
 
 def _not_health(scope: MutableMapping[str, Any]) -> bool:
-    # Probes hit /health every few seconds; their spans and metrics would drown the real traffic.
-    return str(scope.get("path", "")).startswith("/health/")
+    # Probes hit the health routes every few seconds; their spans would drown the real traffic.
+    path = str(scope.get("path", ""))
+    return path == "/healthz" or path.startswith("/health/")
 
 
-def telemetry_config(
-    settings: Settings, overrides: TelemetryConfig | None = None
-) -> TelemetryConfig:
-    """FastAPI's native OpenTelemetry: request spans, HTTP metrics and exception logs. Nothing is
-    exported until FASTAPI_OTEL_AUTO_CONFIGURE=true and OTEL_EXPORTER_OTLP_ENDPOINT are set (or a
-    provider is passed in); tests never export."""
-    config: TelemetryConfig = {"exclude": _not_health}
-    if settings.app_env == "test":
-        config["auto_configure"] = False
-    return {**config, **(overrides or {})}
+# Always off, whatever the environment says (an explicit value beats FASTAPI_OTEL_AUTO_CONFIGURE):
+# exported spans carry the URL path and query, and no request data may leave the process (0014).
+TELEMETRY: TelemetryConfig = {"auto_configure": False, "exclude": _not_health}
 
 
-def create_app(
-    settings: Settings | None = None, *, telemetry: TelemetryConfig | None = None
-) -> FastAPI:
+def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or get_settings()
     configure_logging(settings)
     docs = settings.docs_on
@@ -55,7 +47,7 @@ def create_app(
         docs_url="/docs" if docs else None,
         redoc_url=None,
         openapi_url="/openapi.json",
-        telemetry=telemetry_config(settings, telemetry),
+        telemetry=TELEMETRY,
     )
     app.state.settings = settings
     app.state.readiness_checks = {}
