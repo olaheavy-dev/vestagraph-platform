@@ -162,7 +162,7 @@ Founder: "Automatic, own workflow (Recommended)" (20 Nov 2026).
 Written as a phase plan in that repository, under its own rules; nothing from it comes back here.
 - [ ] The R2 bucket (EU) and a token limited to it; the GitHub fine-grained token (this repository, Actions read and write, with an expiry and a reminder to the founder before it expires); both in SOPS. Note the token's limits: it can also dispatch `images.yml`, but a release still waits for the founder's approval in the `production` environment (0060), and it can cancel runs and delete artifacts.
 - [ ] The Dagster container on the WireGuard interface only; checked from outside the VPN, directly and through Cloudflare, that it cannot be reached (launch blocker 6).
-- [ ] The uptime workflow checks `/healthz/data` and alerts on `late` or `failing`; a deliberately late source has raised an alert (launch blocker 3).
+- [ ] The uptime workflow (`.github/workflows/uptime.yml`) checks `/healthz/data` and alerts on `late` or `failing`; a deliberately late source has raised an alert (launch blocker 3).
 
 ## After this plan
 Each other pilot source is its own ticket in Task 6's pattern, from `docs/references/data-sources.md` and the register, starting with the bus timetable inputs (a GitHub build like Task 8). The API (#93) serves `/healthz/data` and About the data from the register and the live editions (0061); its container image must carry psycopg's licence texts (0062).

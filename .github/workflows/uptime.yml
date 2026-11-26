@@ -1,11 +1,14 @@
 # Public uptime check for https://vestagraph.com (launch blocker 8,
 # docs/reviews/2026-11-23-group-a-launch-blockers.md; founder, 26 Nov 2026:
-# "Vestagraph repo, you merge (Recommended)"). It runs here because Actions minutes are free
-# for public repositories; the private infrastructure repository would use most of the
-# organisation's shared private minutes.
+# "Vestagraph repo, you merge (Recommended)": the founder merges it). It runs here because
+# Actions minutes are free for public repositories; the private infrastructure repository
+# would use most of the organisation's shared private minutes.
 #
-# A failed scheduled run makes GitHub email the account that added this file to main, then
-# whoever last changes the `cron` line or re-enables the workflow: keep that the founder.
+# A failed scheduled run makes GitHub email the account that committed this file, then
+# whoever later changes the `cron` line or re-enables the workflow: keep that the founder's
+# account, with Actions email notifications on (GitHub, Settings, Notifications, Actions).
+# GitHub disables scheduled workflows in a public repository after 60 days with no repository
+# activity, and then no email comes: re-enable it from the Actions tab (as the founder).
 #
 # It proves the public route only (Cloudflare, the origin lock, Caddy, the app answering
 # /healthz). It checks the reply's shape, not which commit is live: that is the release

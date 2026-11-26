@@ -161,8 +161,8 @@ The agent writes this part as one phase plan in that repository's `wiki/plan/`, 
 - [ ] Record in that repository's wiki that the server's address was public before this change, so it may still sit in old DNS history; a new address would need a server rebuild, which is not planned.
 
 ### Task 9: Uptime, spending and documentation checks (blockers 6 and 8, part)
-- [ ] Add `https://vestagraph.com/healthz` to the infrastructure repository's scheduled uptime workflow (GitHub's failure email reaches the founder).
-- [ ] Hetzner and DigitalOcean (0067, 0068): check whether each console offers a cost alert; set it if so, otherwise record that, use the monthly invoice check in the maintenance runbook, and update register line IN-05 and 0060 with a dated note (they say "a Hetzner billing alert now").
+- [x] Add `https://vestagraph.com/healthz` to a scheduled uptime workflow (GitHub's failure email reaches the founder). **Done 26 Nov 2026:** `.github/workflows/uptime.yml` in this public repository, not the infrastructure repository, whose private Actions minutes it would use up (founder: "Vestagraph repo, you merge (Recommended)").
+- [ ] Hetzner and DigitalOcean (0067, 0068): check whether each console offers a cost alert; set it if so, otherwise record that, use the monthly invoice check in the maintenance runbook, and update register line IN-05 and 0060 with a dated note (they say "a Hetzner billing alert now"). **26 Nov 2026:** DigitalOcean offers spend alerts; the founder chose a $35 budget with alerts at 80% and 100% and creates it (dated note on 0060). Hetzner no longer runs Vestagraph, so it needs no alert here.
 - [ ] Add a check to that repository's check scripts that fails on an IPv4 or IPv6 address in its tracked documentation, apart from documentation ranges (`192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`, `2001:db8::/32`) and private ranges; fix what it finds.
 - [ ] Memory and disk check after the retirement (`free -m`, `df -h`, `docker stats --no-stream`); resize only with the founder's approval (running cost).
 
