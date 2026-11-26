@@ -32,28 +32,54 @@ DEFAULT_PAGE_LIMIT = 200
 DEFAULT_START_TIMEOUT_S = 60
 DEFAULT_PAGE_TIMEOUT_S = 10
 START_INTERVAL_S = 1.0
+MAX_BODY_BYTES = 5 * 1024 * 1024  # 5 MB: far more than any page; a bigger answer fails the guard
 
-# (status, content type, body). Raises OSError or http.client.HTTPException
-# if the page cannot be read.
-Fetch = Callable[[str], tuple[int, str, bytes]]
+# (status, content type, body, Location header or ""). Redirects are returned, never followed.
+Response = tuple[int, str, bytes, str]
+# Raises OSError, http.client.HTTPException or ValueError if the page cannot be read.
+Fetch = Callable[[str], Response]
 
 _WHITESPACE = re.compile(r"\s+")
+# Characters a browser does not show between letters: soft hyphen, zero-width spaces and joiners.
+_INVISIBLE = dict.fromkeys(map(ord, "\u00ad\u200b\u200c\u200d\u2060\ufeff"))
+_CHARSET = re.compile(r"charset=[\"']?([\w.:-]+)", re.IGNORECASE)
 
 
 def _say(message: str, stream: TextIO | None = None) -> None:
     (stream or sys.stdout).write(message + "\n")
 
 
-def fetch_url(url: str, timeout_s: int = DEFAULT_PAGE_TIMEOUT_S) -> tuple[int, str, bytes]:
-    """Fetch a page. An HTTP error status (404, 500) is returned, not raised."""
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    """Return a redirect as the answer, so the guard never leaves the site on its own."""
+
+    def redirect_request(self, *args: object, **kwargs: object) -> None:
+        return None
+
+
+_OPENER = urllib.request.build_opener(_NoRedirect)
+
+
+def _read_capped(response: http.client.HTTPResponse | urllib.error.HTTPError) -> bytes:
+    body: bytes = response.read(MAX_BODY_BYTES + 1)
+    if len(body) > MAX_BODY_BYTES:
+        raise OSError(f"the page is larger than {MAX_BODY_BYTES} bytes")
+    return body
+
+
+def fetch_url(url: str, timeout_s: int = DEFAULT_PAGE_TIMEOUT_S) -> Response:
+    """Fetch a page. An HTTP error or redirect status (404, 500, 302) is returned, not raised."""
     request = urllib.request.Request(  # noqa: S310 - the URL comes from the workflow, not a user
         url, headers={"User-Agent": "vestagraph-launch-guard"}
     )
     try:
-        with urllib.request.urlopen(request, timeout=timeout_s) as response:  # noqa: S310
-            return response.status, response.headers.get("Content-Type", ""), response.read()
+        with _OPENER.open(request, timeout=timeout_s) as response:
+            headers = response.headers
+            return response.status, headers.get("Content-Type", ""), _read_capped(response), ""
     except urllib.error.HTTPError as error:
-        return error.code, error.headers.get("Content-Type", ""), error.read()
+        with error:
+            headers = error.headers
+            body = _read_capped(error)
+        return error.code, headers.get("Content-Type", ""), body, headers.get("Location", "")
 
 
 def load_strings(path: Path) -> list[str]:
@@ -72,20 +98,28 @@ def load_strings(path: Path) -> list[str]:
 
 
 def normalise(text: str) -> str:
-    """Decode HTML entities and turn every run of whitespace (including &nbsp;) into one space."""
-    return _WHITESPACE.sub(" ", html.unescape(text)).strip()
+    """Decode HTML entities, drop invisible characters, and make each whitespace run one space."""
+    return _WHITESPACE.sub(" ", html.unescape(text).translate(_INVISIBLE)).strip()
 
 
-def find_strings(body: bytes, strings: Sequence[str]) -> list[str]:
-    """Return the listed strings that appear in the body, in list order."""
-    text = normalise(body.decode("utf-8", errors="replace"))
-    return [string for string in strings if normalise(string) in text]
+def decode(body: bytes, content_type: str = "") -> str:
+    """Decode with the charset the Content-Type declares, or UTF-8 if it names none or a bad one."""
+    match = _CHARSET.search(content_type)
+    if match:
+        try:
+            return body.decode(match.group(1), errors="replace")
+        except LookupError:
+            pass
+    return body.decode("utf-8", errors="replace")
 
 
-class _LinkParser(HTMLParser):
+class _PageParser(HTMLParser):
+    """Collects link targets and the text between tags (comments are left out)."""
+
     def __init__(self) -> None:
         super().__init__()
         self.hrefs: list[str] = []
+        self.text: list[str] = []
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         if tag in ("a", "link"):
@@ -93,20 +127,49 @@ class _LinkParser(HTMLParser):
                 if name == "href" and value:
                     self.hrefs.append(value)
 
+    def handle_data(self, data: str) -> None:
+        self.text.append(data)
+
+
+def _parse(text: str) -> _PageParser:
+    parser = _PageParser()
+    parser.feed(text)
+    parser.close()
+    return parser
+
+
+def find_strings(body: bytes, strings: Sequence[str], content_type: str = "") -> list[str]:
+    """Return the listed strings in the body, in list order.
+
+    Searches both the raw body and its text with tags and comments taken out, so a string that
+    markup splits (React's `<!-- -->` between text parts, or `<em>`) is still found.
+    """
+    raw = decode(body, content_type)
+    texts = (normalise(raw), normalise("".join(_parse(raw).text)))
+    return [s for s in strings if any(normalise(s) in text for text in texts)]
+
 
 def same_site_links(page_url: str, html_text: str) -> list[str]:
     """Links on the page to the same scheme and host, without fragments, in first-seen order."""
-    parser = _LinkParser()
-    parser.feed(html_text)
-    parser.close()
-    page = urlsplit(page_url)
     links: list[str] = []
-    for href in parser.hrefs:
-        url = urldefrag(urljoin(page_url, href.strip())).url
-        target = urlsplit(url)
-        if (target.scheme, target.netloc) == (page.scheme, page.netloc) and url not in links:
+    for href in _parse(html_text).hrefs:
+        url = _same_site(page_url, href)
+        if url is not None and url not in links:
             links.append(url)
     return links
+
+
+def _same_site(page_url: str, href: str) -> str | None:
+    """The link resolved against the page, without its fragment, or None if it leaves the site.
+
+    A link that is not a valid URL (`http://[bad`) is None too: it cannot be a page.
+    """
+    try:
+        url = urldefrag(urljoin(page_url, href.strip())).url
+        page, target = urlsplit(page_url), urlsplit(url)
+    except ValueError:
+        return None
+    return url if (target.scheme, target.netloc) == (page.scheme, page.netloc) else None
 
 
 def wait_until_up(base_url: str, timeout_s: int, interval_s: float, fetch: Fetch) -> bool:
@@ -157,17 +220,23 @@ def scan_site(
     while queue and pages_read < page_limit:
         url = queue.popleft()
         try:
-            status, content_type, body = fetch(url)
-        except (OSError, http.client.HTTPException) as error:
+            status, content_type, body, location = fetch(url)
+        except (OSError, http.client.HTTPException, ValueError) as error:
             errors.append((url, f"could not be read ({error})"))
             continue
         pages_read += 1
+        if 300 <= status < 400:
+            # A redirect is followed only when it stays on the site (never to the live site).
+            target = _same_site(url, location) if location else None
+            if target is not None:
+                add(target)
+            continue
         if status not in (200, 404):
             errors.append((url, f"answered {status}"))
             continue
-        findings.extend((url, found) for found in find_strings(body, strings))
+        findings.extend((url, found) for found in find_strings(body, strings, content_type))
         if status == 200 and content_type.lower().startswith("text/html"):
-            for link in same_site_links(url, body.decode("utf-8", errors="replace")):
+            for link in same_site_links(url, decode(body, content_type)):
                 add(link)
     return ScanResult(pages_read, findings, errors, limit_reached=bool(queue))
 
@@ -185,7 +254,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     strings = load_strings(args.strings)
     base_url = args.base_url.rstrip("/")
 
-    def fetch(url: str) -> tuple[int, str, bytes]:
+    def fetch(url: str) -> Response:
         return fetch_url(url, args.page_timeout)
 
     if not wait_until_up(base_url, args.start_timeout, START_INTERVAL_S, fetch):

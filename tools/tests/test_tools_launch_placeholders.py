@@ -11,7 +11,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 LIST_PATH = REPO_ROOT / "tools" / "launch_placeholders.json"
 SPECS_DIR = REPO_ROOT / "docs" / "specs"
-QUOTED_BEFORE_LAUNCH = re.compile(r'"([^"\n]*before launch[^"\n]*)"')
+QUOTED_BEFORE_LAUNCH = re.compile(r'"([^"\n]*before launch[^"\n]*)"', re.IGNORECASE)
 
 
 def _load_list() -> list[str]:
@@ -48,3 +48,9 @@ def test_list_entries_are_unique_non_empty_strings() -> None:
     assert data
     assert all(isinstance(entry, str) and entry.strip() for entry in data)
     assert len(set(data)) == len(data)
+
+
+def test_pattern_capital_before_launch_is_matched() -> None:
+    assert QUOTED_BEFORE_LAUNCH.findall('says "Before launch, to be written"') == [
+        "Before launch, to be written"
+    ]

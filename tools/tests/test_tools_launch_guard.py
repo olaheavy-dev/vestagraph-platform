@@ -1,8 +1,10 @@
 """Tests for tools/launch_guard.py (OP-06). No test touches the network: a fake serves the pages."""
 
 import ast
+import http.server
 import json
-from collections.abc import Mapping
+import threading
+from collections.abc import Iterator, Mapping
 from pathlib import Path
 
 import launch_guard
@@ -15,15 +17,20 @@ HTML = "text/html; charset=utf-8"
 Page = tuple[int, str, bytes]
 
 
-def _fake(pages: Mapping[str, Page], calls: list[str] | None = None) -> launch_guard.Fetch:
-    """A fetch that serves `pages`; any other URL cannot be read."""
+def _fake(
+    pages: Mapping[str, Page | launch_guard.Response], calls: list[str] | None = None
+) -> launch_guard.Fetch:
+    """A fetch that serves `pages` (no Location unless given); any other URL cannot be read."""
 
-    def fetch(url: str) -> Page:
+    def fetch(url: str) -> launch_guard.Response:
         if calls is not None:
             calls.append(url)
         if url not in pages:
             raise OSError(f"connection refused: {url}")
-        return pages[url]
+        page = pages[url]
+        if len(page) == 3:
+            return (page[0], page[1], page[2], "")
+        return page
 
     return fetch
 
@@ -123,9 +130,9 @@ def test_same_site_links_link_tag_is_followed() -> None:
 
 
 def test_wait_until_up_answers_on_second_try_returns_true() -> None:
-    answers: list[Page | None] = [None, (200, "application/json", b"{}")]
+    answers: list[launch_guard.Response | None] = [None, (200, "application/json", b"{}", "")]
 
-    def fetch(url: str) -> Page:
+    def fetch(url: str) -> launch_guard.Response:
         assert url == f"{BASE}/healthz"
         answer = answers.pop(0)
         if answer is None:
@@ -265,11 +272,11 @@ def test_main_default_paths_are_the_four_pages(
     calls: list[str] = []
     fetch = _fake({f"{BASE}/healthz": _UP}, calls)
 
-    def fake_fetch_url(url: str, timeout_s: int = 10) -> Page:
+    def fake_fetch_url(url: str, timeout_s: int = 10) -> launch_guard.Response:
         try:
             return fetch(url)
         except OSError:
-            return (404, "", b"")
+            return (404, "", b"", "")
 
     monkeypatch.setattr(launch_guard, "fetch_url", fake_fetch_url)
     code = launch_guard.main(
@@ -301,3 +308,117 @@ def test_launch_guard_source_parses_as_python_312() -> None:
     # The runner uses Python 3.12; ast rejects 3.14-only forms (`except A, B:`) for that version.
     source = Path(launch_guard.__file__).read_text(encoding="utf-8")
     ast.parse(source, feature_version=(3, 12))
+
+
+# ---- review fixes (26 Nov 2026) ----
+
+
+def test_find_strings_split_by_react_comments_returns_match() -> None:
+    body = b"<p>To be written before launch (<!-- -->SE-02<!-- -->)</p>"
+    assert launch_guard.find_strings(body, [DRAFT]) == [DRAFT]
+
+
+def test_find_strings_split_by_inline_tag_returns_match() -> None:
+    body = b"<p>To be written <em>before</em> launch (SE-02)</p>"
+    assert launch_guard.find_strings(body, [DRAFT]) == [DRAFT]
+
+
+def test_find_strings_soft_hyphen_and_zero_width_returns_match() -> None:
+    body = "<p>To be writ&shy;ten be​fore launch (SE-02)</p>".encode()
+    assert launch_guard.find_strings(body, [DRAFT]) == [DRAFT]
+
+
+def test_find_strings_declared_charset_is_used() -> None:
+    body = f"<p>{DRAFT}</p>".encode("utf-16")
+    assert launch_guard.find_strings(body, [DRAFT], "text/html; charset=utf-16") == [DRAFT]
+
+
+def test_find_strings_unknown_charset_falls_back_to_utf8() -> None:
+    body = DRAFT.encode()
+    assert launch_guard.find_strings(body, [DRAFT], "text/html; charset=nonsense") == [DRAFT]
+
+
+def test_same_site_links_invalid_url_is_skipped() -> None:
+    html = '<a href="http://[bad">X</a><a href="/kept">K</a>'
+    assert launch_guard.same_site_links(f"{BASE}/", html) == [f"{BASE}/kept"]
+
+
+def test_scan_site_fetch_value_error_is_reported() -> None:
+    def fetch(url: str) -> launch_guard.Response:
+        raise UnicodeEncodeError("ascii", url, 0, 1, "not ascii")
+
+    result = launch_guard.scan_site(BASE, ["/café"], [DRAFT], fetch, page_limit=200)
+    assert [url for url, _ in result.errors] == [f"{BASE}/café"]
+
+
+def test_scan_site_same_site_redirect_is_followed() -> None:
+    pages: dict[str, launch_guard.Response] = {
+        f"{BASE}/old": (302, "", b"", "/privacy"),
+        f"{BASE}/privacy": (200, HTML, DRAFT.encode(), ""),
+    }
+    result = launch_guard.scan_site(BASE, ["/old"], [DRAFT], _fake(pages), page_limit=200)
+    assert result.findings == [(f"{BASE}/privacy", DRAFT)]
+    assert result.errors == []
+
+
+def test_scan_site_other_site_redirect_is_not_followed() -> None:
+    calls: list[str] = []
+    pages: dict[str, launch_guard.Response] = {
+        f"{BASE}/privacy": (301, "", b"", "https://vestagraph.com/privacy"),
+    }
+    result = launch_guard.scan_site(BASE, ["/privacy"], [DRAFT], _fake(pages, calls), 200)
+    assert calls == [f"{BASE}/privacy"]
+    assert result.ok is True
+
+
+# ---- fetch_url against a real local server ----
+
+
+class _Handler(http.server.BaseHTTPRequestHandler):
+    def do_GET(self) -> None:
+        routes: dict[str, tuple[int, dict[str, str], bytes]] = {
+            "/ok": (200, {"Content-Type": HTML}, b"hello"),
+            "/missing": (404, {"Content-Type": HTML}, b"no page"),
+            "/moved": (302, {"Location": "https://vestagraph.com/elsewhere"}, b""),
+            "/huge": (200, {"Content-Type": HTML}, b"x" * (launch_guard.MAX_BODY_BYTES + 1)),
+        }
+        status, headers, body = routes.get(self.path, (500, {}, b""))
+        self.send_response(status)
+        for name, value in headers.items():
+            self.send_header(name, value)
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, format: str, *args: object) -> None:
+        pass
+
+
+@pytest.fixture
+def local_server() -> Iterator[str]:
+    server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), _Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        yield f"http://127.0.0.1:{server.server_address[1]}"
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_fetch_url_200_returns_status_type_and_body(local_server: str) -> None:
+    assert launch_guard.fetch_url(local_server + "/ok") == (200, HTML, b"hello", "")
+
+
+def test_fetch_url_404_is_returned_not_raised(local_server: str) -> None:
+    assert launch_guard.fetch_url(local_server + "/missing") == (404, HTML, b"no page", "")
+
+
+def test_fetch_url_redirect_is_not_followed(local_server: str) -> None:
+    status, _, _, location = launch_guard.fetch_url(local_server + "/moved")
+    assert (status, location) == (302, "https://vestagraph.com/elsewhere")
+
+
+def test_fetch_url_body_over_limit_raises(local_server: str) -> None:
+    with pytest.raises(OSError, match="larger than"):
+        launch_guard.fetch_url(local_server + "/huge")

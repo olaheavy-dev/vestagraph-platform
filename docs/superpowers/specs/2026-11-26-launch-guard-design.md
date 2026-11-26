@@ -39,6 +39,10 @@ The pilot's pages show unfinished text on purpose (SE-07): the Privacy notice's 
 4. **The release step** in `.github/workflows/images.yml`, after "Build the image from the approved commit" and before "Log in to GHCR": write a throwaway secret file, start the image with `docker run` (read-only, with that file at `/run/secrets/secret_check`, port 8080 published on the runner's localhost only), run main's copy of the guard against it (copied before the checkout, as the release check is), then stop and remove the container. `tools/launch_guard.py` and `tools/launch_placeholders.json` join the workflow's paths. Using main's copy means a rollback to an older commit whose pages still hold drafts is also stopped.
 5. **Records:** OP-06's register line gains the "where, when and how" above; `deploy/README.md` and the deployment notes say a release can fail at the guard and what to do; the status file is updated.
 
+## Review fixes (26 Nov 2026)
+
+The pre-push reviews found that markup can split a draft string (React's server rendering puts `<!-- -->` between joined text parts; `<em>` does the same), so the guard also searches each page's text with tags and comments taken out, and ignores soft hyphens and zero-width characters. Redirects are no longer followed automatically: one is followed only when it stays on the site, so the guard never reads the live site instead of the new image. A page over 5 MB, or a link that is not a valid URL, is reported, not a crash. Pages are decoded with the charset they declare. The step now cleans up with a `trap`, uses `deploy/compose.yml`'s memory and process limits, and stops the image's own output from sending workflow commands. Note for #86: `<link href>` targets (stylesheets, preloads, icons) are read too, and count towards the 200-page limit.
+
 ## Left to the builder
 
 - The page limit (proposed 200) and the timeouts (proposed: 60 s for the app to start, 10 s per page).

@@ -135,11 +135,15 @@ jobs:
       - name: Check the new image's pages for draft text (launch guard, OP-06)
         run: |
           secret_dir="$(mktemp -d)"
+          # Clean up however the step ends, including a failed docker run.
+          trap 'docker rm -f launch-guard > /dev/null 2>&1 || true; rm -rf "$secret_dir"' EXIT
           printf 'launch-guard-throwaway\n' > "$secret_dir/secret_check"
           chmod 755 "$secret_dir"
           chmod 644 "$secret_dir/secret_check"
+          # The same limits as deploy/compose.yml, where they apply on the runner.
           docker run -d --name launch-guard --read-only --cap-drop ALL \
-            --security-opt no-new-privileges:true -p 127.0.0.1:8080:8080 \
+            --security-opt no-new-privileges:true --memory 128m --pids-limit 64 \
+            -p 127.0.0.1:8080:8080 \
             -v "$secret_dir/secret_check:/run/secrets/secret_check:ro" \
             "${LIVE_IMAGE}:sha-${COMMIT}"
           status=0
@@ -147,10 +151,12 @@ jobs:
             --strings "$RUNNER_TEMP/launch_placeholders.json" || status=$?
           if [ "$status" -ne 0 ]; then
             echo "The container's own output:" >&2
+            # Stop GitHub reading workflow commands (::error:: and so on) from the image's output.
+            stop_token="$(openssl rand -hex 16)"
+            echo "::stop-commands::${stop_token}"
             docker logs launch-guard >&2 || true
+            echo "::${stop_token}::"
           fi
-          docker rm -f launch-guard > /dev/null
-          rm -rf "$secret_dir"
           exit "$status"
 
       - name: Log in to GHCR with the release token
